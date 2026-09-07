@@ -1,0 +1,53 @@
+'use strict';
+const RARITIES = {
+ C:{name:'COMMON',label:'コモン',color:'#a7c5df'},
+ B:{name:'RARE',label:'レア',color:'#79e1c5'},
+ A:{name:'EPIC',label:'エピック',color:'#d2a0ff'},
+ S:{name:'LEGENDARY',label:'レジェンダリー',color:'#ffdb78'}
+};
+const characters = [
+ {name:'リナ',role:'ガンナー',note:'HP8・速度205。パルス3回、装填は10%遅い。',color:'#f5a7ce',cell:0,hp:8,speed:205,reload:1.1,dodge:1.65,blanks:3},
+ {name:'ソラ',role:'スカウト',note:'HP8・速度215。装填15%短縮、回避は1.8秒。',color:'#98c7ff',cell:1,hp:8,speed:215,reload:.85,dodge:1.8,blanks:2},
+ {name:'コハク',role:'トリックスター',note:'HP7・速度235。回避1.4秒、耐久力は控えめ。',color:'#ffd28e',cell:2,hp:7,speed:235,reload:1,dodge:1.4,blanks:2},
+ {name:'ボルト',role:'ガードロボット',note:'HP10・速度190。頑丈だけど回避は2秒。',color:'#96e5d5',cell:3,hp:10,speed:190,reload:1,dodge:2,blanks:2},
+ {name:'メイ',role:'メカニック',note:'HP8・速度210。装填20%短縮、回避2秒。',color:'#e8b457',cell:4,hp:8,speed:210,reload:.8,dodge:2,blanks:2},
+ {name:'ルナ',role:'アルカニスト',note:'HP7・速度205。パルス3回、装填10%短縮。',color:'#a69ad9',cell:5,hp:7,speed:205,reload:.9,dodge:1.65,blanks:3},
+ {name:'ラトル',role:'ガンスリンガー',note:'HP8・速度220。回避1.5秒、装填15%遅延。',color:'#d78063',cell:6,hp:8,speed:220,reload:1.15,dodge:1.5,blanks:2},
+ {name:'クロウ',role:'ヘビーガンナー',note:'HP9・速度200。装填10%短縮、回避1.9秒。',color:'#8aa0ac',cell:7,hp:9,speed:200,reload:.9,dodge:1.9,blanks:2}
+];
+const guns = [
+ {name:'P-12 サイドアーム',glyph:'✦',rarity:'C',type:'PISTOL',desc:'標準型セミオートピストル。扱いやすい弾速と連射性能。',rate:.29,speed:510,damage:1,mag:12,stock:60,color:'#dce9ff'},
+ {name:'跳弾キャンディ',glyph:'⌁',rarity:'B',type:'RICOCHET',desc:'壁で2回跳ねるキャンディ弾。隠れた相手へ、甘いご挨拶。',rate:.34,speed:390,damage:1,mag:12,stock:48,color:'#86efdd',bounce:2},
+ {name:'ファイアワークス',glyph:'✳',rarity:'A',type:'FIREWORK',desc:'0.68秒で8方向に咲く花火。分裂する距離で相手を包み込もう。',rate:.95,speed:250,damage:1,mag:4,stock:16,color:'#ffb8d8',split:true},
+ {name:'ハニービー',glyph:'⁙',rarity:'B',type:'SWARM',desc:'3匹のハチ弾がゆるく追尾。1回の射撃で使う弾は1発。',rate:.64,speed:270,damage:.55,mag:8,stock:32,color:'#e8ed9a',count:3,homing:true},
+ {name:'ダブルバック',glyph:'⋔',rarity:'C',type:'SHOTGUN',desc:'5発の散弾を発射。近距離で強力、遠距離では拡散する。',rate:.78,speed:430,damage:.55,mag:6,stock:30,color:'#ffaec1',count:5,spread:.16},
+ {name:'ムーンリーパー',glyph:'☽',rarity:'B',type:'BOOMERANG',desc:'障害物を通り、持ち主へ戻る月の刃。往復で2回のチャンス。',rate:.75,speed:390,damage:1,mag:7,stock:28,color:'#ceb0ff',boomerang:true},
+ {name:'アークレール',glyph:'ϟ',rarity:'A',type:'RAIL',desc:'高速の光が2ダメージ。撃った後の隙には気をつけて。',rate:1.1,speed:950,damage:2,mag:4,stock:16,color:'#b4e9ff',rail:true},
+ {name:'ヘリックス',glyph:'❀',rarity:'B',type:'HELIX',desc:'双子の弾がくるくる踊る。うねる軌道で逃げ道をふさぐ。',rate:.42,speed:340,damage:.65,mag:12,stock:36,color:'#aaecc6',helix:true,count:2},
+ {name:'プリズムバースト',glyph:'✧',rarity:'S',type:'PRISM',desc:'5色の高速光弾が大きく広がる。まぶしい弾幕で一気に主導権を。',rate:1.05,speed:710,damage:.85,mag:3,stock:9,color:'#fff0ae',count:5,spread:.12,prism:true,rail:true},
+ {name:'コメットランチャー',glyph:'★',rarity:'S',type:'COMET',desc:'ゆるく追尾する大きな星。着弾時は爆風と12方向の星くず！',rate:1.45,speed:245,damage:1.5,mag:2,stock:6,color:'#ffcc87',comet:true,homing:true},
+ {name:'ブラックホール・ティー',glyph:'◉',rarity:'S',type:'GRAVITY',desc:'着弾地点に2秒の重力渦。敵と敵弾を吸い寄せ、中心で継続ダメージ。',rate:1.8,speed:230,damage:.5,mag:2,stock:6,color:'#d7aaff',gravity:true},
+ {name:'シードマイン',glyph:'♧',rarity:'B',type:'SEED',desc:'種を投げ、0.6秒後に止まる。最大3秒の待ち伏せ弾。近接で除去可能。',rate:1.1,speed:270,damage:1.2,mag:4,stock:16,color:'#b1ee99',seed:true},
+ {name:'ロケットペンシル',glyph:'➤',rarity:'B',type:'BOOST',desc:'出足はゆっくり、徐々に加速して最高760。早めの回避を誘おう。',rate:.65,speed:130,damage:1.1,mag:6,stock:24,color:'#ffe49a',boost:true},
+ {name:'バブルクロック',glyph:'◌',rarity:'A',type:'BUBBLE',desc:'浮かぶ泡が1秒後に照準方向へ走る。遅れて届く3発で時間差攻撃。',rate:1.15,speed:60,damage:.55,mag:4,stock:16,color:'#a6efff',bubble:true,count:3,spread:.23},
+ {name:'クローバースプリッター',glyph:'♣',rarity:'B',type:'CLOVER',desc:'進む四つ葉が0.8秒で十字に開く。分裂後は短射程。',rate:.9,speed:250,damage:.6,mag:5,stock:20,color:'#97edba',clover:true},
+ {name:'プラネタリウム',glyph:'✺',rarity:'S',type:'CONSTELLATION',desc:'12方向に星を放つ全周弾幕。1発0.4ダメージ、連射と弾持ちは控えめ。',rate:1.4,speed:290,damage:.4,mag:3,stock:9,color:'#d4c3ff',radial:true,count:12},
+ {name:'レシートリピーター',glyph:'≋',rarity:'B',type:'BANK',desc:'伝票弾は2回反射。反射ごとに威力+0.25。直撃0.65、最大1.15。',rate:.45,speed:370,damage:.65,mag:8,stock:32,color:'#f3dea2',bounce:2,bank:true},
+ {name:'着払いキャノン',glyph:'▣',rarity:'A',type:'PARCEL',desc:'通常は荷札、最後の1発は小包。小包は着弾で5方向へ破片を散らす。',rate:.6,speed:340,damage:.85,mag:5,stock:20,color:'#f4a55e',parcel:true},
+ {name:'スイッチスパナ',glyph:'⚒',rarity:'B',type:'SWITCH',desc:'実弾を装填するたびに単発と3連散弾を切替。装填中断では変形しない。',rate:.65,speed:490,damage:1.1,mag:6,stock:30,color:'#b4d9eb',switcher:true},
+ {name:'エコードラム',glyph:'◎',rarity:'A',type:'ECHO',desc:'同じ方向へ0.24秒差で2発。1回の射撃で弾薬1、各0.65ダメージ。',rate:.85,speed:400,damage:.65,mag:6,stock:24,color:'#ceb2ec',echo:true}
+];
+const relics = [
+ {name:'フェザー',glyph:'➶',color:'#a9e7de',desc:'移動速度が12%アップ。回避中の速度は変わらない。',key:'feather'},
+ {name:'クイックギア',glyph:'⋈',color:'#ffb8d8',desc:'リロード時間を35%短縮。弾切れの隙を小さく。',key:'ribbon'},
+ {name:'プリズムレンズ',glyph:'◇',color:'#b5c4ff',desc:'通常・散弾・追尾・螺旋・レール弾の壁反射を1回追加。',key:'lens'},
+ {name:'ガードベル',glyph:'♧',color:'#ffe2a0',desc:'敵の攻撃を1回防ぐ。12秒で再び使える。危険地帯には無効。',key:'bell'},
+ {name:'ライフアンプ',glyph:'♥',color:'#ffa7bd',desc:'最大HPが2増え、その場でHPを2回復。',key:'heart'},
+ {name:'ドッジノヴァ',glyph:'✶',color:'#d8b4ff',desc:'ドッジ開始時、6方向へ小さな星弾を放つ。',key:'comet'},
+ {name:'ヘビーコア',glyph:'⬟',color:'#e8b776',desc:'発射弾の威力+15%、弾速-20%。遅い弾を当てる工夫が必要。',key:'heavy'},
+ {name:'スターターセル',glyph:'ϟ',color:'#a5d7f2',desc:'満タンの弾倉から撃つ最初の1射だけ、発射弾の威力+20%。',key:'starter'},
+ {name:'予備マガジン',glyph:'▤',color:'#b7cca6',desc:'武器切替時、しまう武器へ予備弾から1発装填。再使用1.5秒。',key:'holster'},
+ {name:'パルスリレー',glyph:'⊕',color:'#b8a5eb',desc:'パルス使用時に6方向へ低速弾。各0.35ダメージ、追加パルスなし。',key:'relay'},
+ {name:'パリィダイナモ',glyph:'⌁',color:'#efc386',desc:'近接で敵弾を消すと回避の残り待ち時間を0.3秒短縮。1振り1回。',key:'dynamo'},
+ {name:'リバウンドテープ',glyph:'↗',color:'#95d8c9',desc:'反射する弾の最初の反射後に弾速+20%。反射回数は増えない。',key:'rebound'}
+];
