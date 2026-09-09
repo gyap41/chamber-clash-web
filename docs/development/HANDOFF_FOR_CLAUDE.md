@@ -4,7 +4,7 @@
 
 ---
 
-`C:\GameCreate\chamber-clash` のGodotゲーム開発を引き継いでください。最初に調査し、実装済みの内容を再実装しないでください。今回は現状レビューと次の作業の整理から開始し、P3の実装はユーザーの依頼があってから進めてください。
+`C:\GameCreate\chamber-clash` のGodotゲーム開発を引き継いでください。最初に調査し、実装済みの内容を再実装しないでください。今回はP3の実装を進めてください。
 
 ## 最初に読むもの
 
@@ -74,6 +74,8 @@ powershell -ExecutionPolicy Bypass -File run_tests.ps1 -IncludeRender
 
 ローカルの現在状態を保存する際には、先行セッションのフォルダー整理とP0〜P2実装が一緒に必要。`.local/`、`.godot/`、`web-build/`はGit対象外。Webは`export_presets.cfg`の`Web`プリセットで再生成する。
 
-この引き継ぎ作成開始時点ではremote未設定だった。送信先や公開方法を推測せず、引き継ぎ時点の`git remote -v`とユーザー指定を確認すること。ソースのpush、ビルド作成、サイト公開完了を区別して報告する。
+`C:\GameCreate\chamber-clash` 本体には2026-09-09時点でも `remote` が設定されていない（ローカルのみ）。送信先や公開方法を推測せず、作業開始時点の`git remote -v`とユーザー指定を確認すること。
+
+Web版（`web-build/`、本体とは別の独立git管理）は `gyap41/chamber-clash-web` へ2026-09-09にP0〜P2実装反映済みでpush・GitHub Pages公開済み（コミット`dee57a8`、`https://gyap41.github.io/chamber-clash-web/`で実機確認済み。タイトル・キャラ選択・新準備画面・日本語表示・コンソールエラー無しを確認）。P3実装後に再公開する場合も、Godotで`--export-release "Web" web-build/index.html`書き出し→`web-build`側でcommit/pushの手順を踏襲し、ソースのpush、ビルド作成、サイト公開完了を区別して報告する。
 
 作業開始時には、最新実装と資料を照合し、残る受入確認と次の着手候補を簡潔に報告してください。
