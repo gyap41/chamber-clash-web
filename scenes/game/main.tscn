@@ -1,0 +1,14 @@
+[gd_scene load_steps=6 format=3]
+[ext_resource type="Script" path="res://scripts/game/main.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/world/arena.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/ui/preparation.tscn" id="4"]
+[ext_resource type="Script" path="res://scripts/audio/sound.gd" id="5"]
+[node name="Game" type="Node2D"]
+script = ExtResource("1")
+[node name="Arena" parent="." instance=ExtResource("2")]
+[node name="Sound" type="Node" parent="."]
+script = ExtResource("5")
+[node name="HUD" parent="." instance=ExtResource("3")]
+
+[node name="Preparation" parent="." instance=ExtResource("4")]

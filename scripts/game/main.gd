@@ -1,0 +1,294 @@
+extends Node2D
+const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
+const Catalog = preload("res://scripts/catalog/game_catalog.gd")
+const CpuAI = preload("res://scripts/ai/cpu_ai.gd")
+@export var pulse_effect_scene: PackedScene = preload("res://scenes/combat/pulse_effect.tscn")
+@export var round_duration: float = 90.0
+@export var projectile_scene: PackedScene = preload("res://scenes/combat/projectile.tscn")
+@export var gravity_well_scene: PackedScene = preload("res://scenes/combat/gravity_well.tscn")
+@onready var arena = $Arena
+@onready var players: Array = [$Arena/Players/P1,$Arena/Players/P2]
+@onready var hud = $HUD
+var fighters: Array = [] # State views retained for the original regression API.
+var shots: Array = []
+var wells: Array = []
+var pulse_effects: Array = []
+var remaining: float
+var result := ""
+var paused := false
+var mouse_fire_held := false
+var catalog: Dictionary
+const MatchState = preload("res://scripts/game/match_state.gd")
+const RunLog = preload("res://scripts/game/run_log.gd")
+var match_state
+var telemetry
+var supply_generator
+var phase := "prepare"
+var scores := [0, 0]
+var delayed_shots: Array = []
+var volley_counter := 0
+var origin_counter := 0
+@onready var preparation = $Preparation
+@onready var supplies = $Arena/Supplies
+@onready var combat_visuals = $Arena/CombatVisuals
+@onready var sound = $Sound
+func _ready() -> void:
+	catalog = Catalog.data
+	supplies.game = self
+	preparation.game = self
+	for player in players:
+		player.burst_requested.connect(combat_visuals.burst)
+		player.ring_requested.connect(combat_visuals.ring)
+		player.shake_requested.connect(combat_visuals.shake)
+		player.sound_requested.connect(sound.play_sound)
+	var seed_value := -1
+	for argument in OS.get_cmdline_user_args():
+		if argument.begins_with("--seed="): seed_value = int(argument.trim_prefix("--seed="))
+	new_match(seed_value)
+func new_match(seed_value: int = -1) -> void:
+	match_state = MatchState.new(seed_value if seed_value >= 0 else Time.get_ticks_usec())
+	supply_generator = MatchState.Generator.new(match_state.seed_value ^ 0x51A7)
+	telemetry = RunLog.new(match_state.seed_value)
+	scores = match_state.scores
+	result = ""
+	volley_counter = 0
+	origin_counter = 0
+	reset_round(false)
+func reset_round(check_new: bool = true) -> void:
+	if check_new and (match_state == null or result == "" or scores.max() >= 3):
+		new_match()
+		return
+	var replay: bool = result == "DRAW"
+	combat_visuals.clear()
+	arena.get_node("CombatCamera").offset = Vector2.ZERO
+	mouse_fire_held = false
+	# Audio preferences belong to the session, not the build.
+	supplies.reset()
+	for effect in pulse_effects:
+		effect.get_parent().remove_child(effect)
+		effect.queue_free()
+	pulse_effects.clear()
+	for well in wells:
+		well.get_parent().remove_child(well)
+		well.queue_free()
+	wells.clear()
+	for b in shots:
+		b.get_parent().remove_child(b)
+		b.queue_free()
+	shots.clear()
+	delayed_shots.clear()
+	fighters.clear()
+	for i in range(2):
+		players[i].reset(arena.get_node("Spawns/P%d" % [i+1]).position)
+		players[i].telemetry = telemetry
+		players[i].apply_build(match_state.builds[i],match_state.capacity())
+		fighters.append(players[i].state)
+	remaining = round_duration
+	arena.get_node("DangerZone").refresh(0.0)
+	result = ""
+	paused = false
+	phase = "prepare"
+	preparation.begin()
+	if replay: launch_round()
+	hud.refresh(players,remaining,paused,result,scores,phase)
+# Release is observed before GUI handling; presses start fire only outside UI.
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
+		mouse_fire_held = false
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		mouse_fire_held = phase == "play" and not paused and result == ""
+	# P1's melee is a right-click (mouse-driven control scheme, 2026-09-08) rather than a
+	# keyboard key; it does not go through handle_key()/_unhandled_key_input at all.
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+		if phase == "play" and not paused and result == "" and not players[0].is_cpu:
+			players[0].try_melee(0,shots,players[1],arena)
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT: mouse_fire_held = false
+func _unhandled_key_input(event: InputEvent) -> void:
+	if not event is InputEventKey or not event.pressed or event.echo: return
+	if event.keycode == KEY_ENTER and result != "":
+		reset_round()
+		return
+	if phase != "play": return
+	if event.keycode == KEY_ESCAPE:
+		paused = not paused
+		mouse_fire_held = false
+	if paused or result != "": return
+	for i in range(2):
+		# CPU-controlled players ignore all discrete key input (dodge/melee/reload/switch/
+		# pulse/interact) exactly like legacy gates P2's key bindings behind mode==='local'.
+		if players[i].is_cpu: continue
+		if players[i].handle_key(event.keycode,i,shots,players[1-i],arena):
+			for n in range(6):
+				spawn_shot(i,0,n*TAU/6,{"kind":"dodge_nova","speed":250.0,"damage":.35,"life":1.2,"radius":4.0,"color":"#ecc5ff","can_lens":false})
+		if event.keycode == [KEY_G,KEY_H][i]: supplies.interact(i)
+		if event.keycode == [KEY_Q,KEY_O][i]: use_pulse(i)
+func use_pulse(index: int) -> bool:
+	if index < 0 or index >= players.size() or phase != "play" or paused or result != "": return false
+	var p: Dictionary = players[index].state
+	if p.hp <= 0 or p.pulses <= 0: return false
+	p.pulses -= 1
+	telemetry.record("pulse",{"player":index,"remaining":p.pulses})
+	combat_visuals.shake(5.0)
+	sound.play_sound("boom",0)
+	p.last_volley = -1
+	p.inv = maxf(p.inv,players[index].pulse_invulnerability)
+	delayed_shots = delayed_shots.filter(func(shot): return shot.owner == index)
+	for collection in [shots,wells]:
+		for n in range(collection.size()-1,-1,-1):
+			if collection[n].state.owner != index:
+				var node = collection.pop_at(n)
+				node.get_parent().remove_child(node)
+				node.queue_free()
+	var effect = pulse_effect_scene.instantiate()
+	arena.get_node("Effects").add_child(effect)
+	effect.position = p.pos
+	effect.modulate = Color("f39545") if index == 0 else Color("64b5ee")
+	pulse_effects.append(effect)
+	if 9 in players[index].relics:
+		for n in range(6):
+			spawn_shot(index,0,n*TAU/6,{"kind":"pulse_relay","speed":200.0,"damage":.35,"life":1.2,"can_lens":false})
+	supplies.announce("P%d：パルス！ 敵弾・敵重力場・敵の追射予約を消去" % (index+1))
+	hud.refresh(players,remaining,paused,result,scores,phase)
+	return true
+func fire(index: int) -> void:
+	if phase != "play" or paused or result != "" or not players[index].can_fire(): return
+	var player = players[index]
+	var g: Dictionary = player.definition()
+	var w: Dictionary = player.weapon()
+	var scatter: bool = g.get("switcher", false) and w.mode == 1
+	var count: int = 3 if scatter else int(g.get("count", 1))
+	var first_shot: bool = w.clip == int(g.mag)
+	var shot_damage: float = (.5 if scatter else g.damage) * (1.2 if first_shot and 7 in player.relics else 1.0)
+	volley_counter += 1
+	origin_counter += 1
+	telemetry.record("fire",{"player":index,"weapon":w.id,"root":origin_counter,"volley":volley_counter,"pellets":count})
+	for i in range(count):
+		var angle: float = player.state.angle + (i-(count-1)/2.0) * (.16 if scatter else float(g.get("spread", .11)))
+		if g.get("radial", false): angle = player.state.angle + i*TAU/count
+		var opts := {"root":origin_counter,"phase":1 if i % 2 else -1,"damage":shot_damage,"volley":volley_counter,"parcel":g.get("parcel",false) and w.clip == 1}
+		if g.get("prism", false): opts.color = ["#ff9bbd","#ffe99b","#98efd0","#a4d9ff","#dfafff"][i % 5]
+		spawn_shot(index, w.id, angle, opts)
+	if g.get("echo", false):
+		delayed_shots.append({"root":origin_counter,"owner":index,"gun":w.id,"angle":player.state.angle,"delay":.24,"volley":volley_counter,"damage":shot_damage})
+	player.consume_shot()
+	if g.get("comet",false) or g.get("prism",false): combat_visuals.shake(3.0)
+	combat_visuals.burst(player.state.pos+Vector2.from_angle(player.state.angle)*26,Color(g.color),12 if g.get("prism",false) else 4)
+	sound.play_sound("shot",w.id)
+func spawn_shot(index: int, id: int, angle: float, opts: Dictionary = {}) -> void:
+	opts = opts.duplicate()
+	if not opts.has("root"):
+		origin_counter += 1
+		opts.root = origin_counter
+	var bullet = projectile_scene.instantiate()
+	arena.get_node("Projectiles").add_child(bullet)
+	bullet.launch(players[index],index,id,angle,opts)
+	bullet.set_meta("origin",opts.root)
+	bullet.burst_requested.connect(combat_visuals.burst)
+	bullet.weapon_effect_requested.connect(combat_visuals.weapon_effect)
+	shots.append(bullet)
+	telemetry.record("projectile",{"player":index,"weapon":id,"root":opts.get("root",opts.get("volley",-1)),"kind":opts.get("kind","shot"),"volley":opts.get("volley",-1)})
+func spawn_well(pos: Vector2, owner_index: int):
+	var well = gravity_well_scene.instantiate()
+	arena.get_node("Wells").add_child(well)
+	well.launch(pos,owner_index)
+	wells.append(well)
+	sound.play_sound("gravity",0)
+	return well
+func launch_round() -> void:
+	if phase != "prepare" or not match_state.ready.all(func(value): return value): return
+	mouse_fire_held = false
+	phase = "play"
+	for i in range(2):
+		players[i].reset(arena.get_node("Spawns/P%d" % [i+1]).position)
+		players[i].apply_build(match_state.builds[i],match_state.capacity(),true)
+		fighters[i] = players[i].state
+	match_state.start_round()
+	telemetry.record("round_start",{"stage":match_state.stage,"builds":match_state.previous})
+	supplies.launch()
+	preparation.refresh()
+func equip_slot(index: int, slot: int) -> void:
+	if phase == "play" and not paused and result == "": players[index].equip_slot(slot)
+# Danger zone: the safe area starts shrinking 60s into the round (7px/sec, capped at 195px
+# inset from each wall) and never shrinks back. Matches the legacy web version's arenaInset().
+func arena_inset() -> float:
+	var elapsed: float = round_duration - remaining
+	return 0.0 if elapsed <= 60.0 else minf(195.0,(elapsed-60.0)*7.0)
+func move_fighter(p: Dictionary, delta: Vector2) -> void:
+	arena.move_fighter(p,delta)
+func _physics_process(dt: float) -> void:
+	if phase == "play" and not paused and result == "":
+		remaining -= dt
+		combat_visuals.step(dt)
+		for n in range(pulse_effects.size()-1,-1,-1):
+			if pulse_effects[n].step(dt):
+				var effect = pulse_effects.pop_at(n)
+				effect.get_parent().remove_child(effect)
+				effect.queue_free()
+		for n in range(delayed_shots.size()-1,-1,-1):
+			var delayed: Dictionary = delayed_shots[n]
+			delayed.delay -= dt
+			if delayed.delay <= 0:
+				spawn_shot(delayed.owner,delayed.gun,delayed.angle,{"volley":delayed.volley,"damage":delayed.damage,"kind":"echo","root":delayed.get("root",delayed.volley)})
+				combat_visuals.weapon_effect(3,players[delayed.owner].state.pos+Vector2.from_angle(delayed.angle)*34,delayed.angle)
+				delayed_shots.remove_at(n)
+		for i in range(2):
+			var ai: Dictionary = CpuAI.decide(self,players[i],players[1-i],dt) if players[i].is_cpu else {}
+			if players[i].step(dt,i,players[1-i],arena,mouse_fire_held,ai): fire(i)
+			if players[i].state.roll > 0: combat_visuals.dodge_trail(players[i].state.pos,players[i].visual_color())
+			var inset: float = arena_inset()
+			if inset > 0.0:
+				var pos: Vector2 = players[i].state.pos
+				if pos.x < inset+25 or pos.x > 1120-inset-25 or pos.y < inset*.58+25 or pos.y > 600-inset*.58-25:
+					players[i].hurt(.16,-1,true)
+		supplies.step(dt)
+		for b in shots.duplicate(): b.step(dt,arena,players[1-b.state.owner])
+		for n in range(shots.size()-1,-1,-1):
+			var b = shots[n]
+			if b.state.dead or b.state.life <= 0:
+				if not b.state.dead:
+					if b.state.parcel: combat_visuals.weapon_effect(1,b.state.pos)
+					if b.state.parcel: combat_visuals.ring(b.state.pos,Color(b.state.color),55.0)
+					if b.state.gravity: combat_visuals.ring(b.state.pos,Color(b.state.color),100.0)
+					if b.state.split or b.state.clover or b.state.comet:
+						combat_visuals.burst(b.state.pos,Color(b.state.color),32 if b.state.comet else 20)
+						combat_visuals.ring(b.state.pos,Color(b.state.color),95.0 if b.state.comet else 45.0)
+					if b.state.comet:
+						var enemy = players[1-b.state.owner]
+						if b.state.pos.distance_to(enemy.state.pos) < b.comet_blast_radius and not arena.line_blocked(b.state.pos,enemy.state.pos): enemy.hurt(b.comet_blast_damage)
+						combat_visuals.shake(5.0)
+					if b.state.gravity: spawn_well(b.state.pos,b.state.owner)
+				var fragments: Dictionary = b.fragments()
+				if not fragments.is_empty():
+					for shard in range(fragments.count):
+						spawn_shot(b.state.owner,0,shard*TAU/fragments.count,{"kind":"fragment","root":b.get_meta("origin",-1),"pos":b.state.pos,"speed":fragments.speed,"damage":fragments.damage,"life":fragments.life,"color":fragments.color,"radius":4.0,"can_lens":false})
+				shots.remove_at(n)
+				b.get_parent().remove_child(b)
+				b.queue_free()
+		for well in wells: well.step(dt,arena,players,shots)
+		for n in range(wells.size()-1,-1,-1):
+			if wells[n].state.life <= 0:
+				var well = wells.pop_at(n)
+				well.get_parent().remove_child(well)
+				well.queue_free()
+		# Absorption removes enemy shots without impact effects or new wells.
+		for n in range(shots.size()-1,-1,-1):
+			if shots[n].state.dead:
+				var shot = shots.pop_at(n)
+				shot.get_parent().remove_child(shot)
+				shot.queue_free()
+		if remaining <= 0 or fighters[0].hp <= 0 or fighters[1].hp <= 0:
+			var ratio1: float = fighters[0].hp/fighters[0].max_hp
+			var ratio2: float = fighters[1].hp/fighters[1].max_hp
+			result = "DRAW" if absf(ratio1-ratio2) < .001 else ("P1 WINS" if ratio1 > ratio2 else "P2 WINS")
+			phase = "result"
+			match_state.finish(-1 if result == "DRAW" else (0 if result == "P1 WINS" else 1),players)
+			telemetry.record("round_end",{"result":result,"seconds":round_duration-remaining,"scores":scores})
+	arena.get_node("DangerZone").refresh(arena_inset() if phase in ["play","result"] else 0.0)
+	arena.get_node("CombatCamera").offset = -combat_visuals.shake_offset
+	hud.refresh(players,remaining,paused,result,scores,phase)
+
+func _process(dt: float) -> void:
+	if phase == "play" and not paused and result == "" and telemetry != null:
+		telemetry.frame(dt,shots.size())

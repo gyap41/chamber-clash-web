@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/world/wall.gd" id="1"]
+[node name="Wall" type="ColorRect"]
+offset_right = 80.0
+offset_bottom = 85.0
+mouse_filter = 2
+color = Color(0.522,0.537,0.459,1)
+script = ExtResource("1")
