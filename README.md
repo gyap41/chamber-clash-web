@@ -1,6 +1,6 @@
 # CHAMBER CLASH
 
-Godot / GDScript / Compatibilityで開発中の2D対戦ゲームです。タイトルからCPU対戦を開始できます。20武器・12レリック・8キャラクター、試合内成長と装備整理、フィールド補給、危険地帯、視覚演出・合成効果音を実装しています。
+Godot / GDScript / Compatibilityで開発中の2D対戦ゲームです。タイトルからCPU対戦を開始できます。20武器・18レリック・8キャラクター、試合内成長と装備整理、フィールド補給、危険地帯、視覚演出・合成効果音を実装しています。P4の100ms先行入力・終盤火力調整・危険弾表示を反映済みです。
 
 ## 起動
 
@@ -28,7 +28,7 @@ Godotで `project.godot` をインポートし、F5で起動します。起動�
 
 ## 開発の入口
 
-- [Claude向け引き継ぎプロンプト](docs/development/HANDOFF_FOR_CLAUDE.md)：現在地・検証・P3への注意点。
+- [Claude向け引き継ぎプロンプト](docs/development/HANDOFF_FOR_CLAUDE.md)：現在地・検証・次の受入確認。
 - [資料索引](docs/README.md)：仕様・エディタ調整・検証・今後の課題。
 - [構成ガイド](docs/development/ARCHITECTURE.md)：コードとシーンの責務、共通処理、拡張時の配置。
 - [アセット一覧](assets/README.md)：採用素材・比較用素材・追加ルール。

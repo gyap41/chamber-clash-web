@@ -35,7 +35,7 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 			if int(slot.clip)+int(slot.reserve) > 0:
 				switch_index = n
 				break
-		if switch_index >= 0: player.equip_slot(switch_index)
+		if switch_index >= 0: player.request_switch(switch_index)
 
 	# Pick the closest pickup the CPU actually wants; S-rarity weapons are weighted as if 35%
 	# closer so the CPU will detour further to grab one.
@@ -95,10 +95,10 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 		dx += -(threat.state.pos.y-p.pos.y)/65.0
 		dy += (threat.state.pos.x-p.pos.x)/65.0
 		p.ai_cd -= dt
-		if p.ai_cd < 0.0:
+		if p.ai_cd < 0.0 and p.dodge <= 0.0 and p.roll <= 0.0:
 			if player.handle_key(KEY_SHIFT,1,game.shots,enemy,arena):
 				for n in range(6):
-					game.spawn_shot(1,0,n*TAU/6,{"kind":"dodge_nova","speed":250.0,"damage":.35,"life":1.2,"radius":4.0,"color":"#ecc5ff","can_lens":false})
+					game.spawn_shot(1,0,n*TAU/6,{"kind":"dodge_nova","speed":250.0,"damage":.35,"life":1.2,"radius":4.0,"color":"#ecc5ff","can_lens":false,"depth":1})
 			p.ai_cd = randf_range(.35,.75)
 
 	# Panic-pulse when swarmed by more than 5 of the enemy's own bullets within 120px.

@@ -99,18 +99,24 @@ func reset_round(check_new: bool = true) -> void:
 	hud.refresh(players,remaining,paused,result,scores,phase)
 # Release is observed before GUI handling; presses start fire only outside UI.
 func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.keycode == KEY_L and not event.pressed:
+		players[1].keyboard_fire_held = false
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
 		mouse_fire_held = false
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		mouse_fire_held = phase == "play" and not paused and result == ""
+		if mouse_fire_held and not players[0].is_cpu: players[0].request_fire()
 	# P1's melee is a right-click (mouse-driven control scheme, 2026-09-08) rather than a
 	# keyboard key; it does not go through handle_key()/_unhandled_key_input at all.
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
 		if phase == "play" and not paused and result == "" and not players[0].is_cpu:
 			players[0].try_melee(0,shots,players[1],arena)
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_APPLICATION_FOCUS_OUT: mouse_fire_held = false
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT: clear_action_inputs()
+func clear_action_inputs() -> void:
+	mouse_fire_held = false
+	for player in players: player.clear_action_inputs()
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed or event.echo: return
 	if event.keycode == KEY_ENTER and result != "":
@@ -119,8 +125,11 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if phase != "play": return
 	if event.keycode == KEY_ESCAPE:
 		paused = not paused
-		mouse_fire_held = false
+		clear_action_inputs()
 	if paused or result != "": return
+	if event.keycode == KEY_L and not players[1].is_cpu:
+		players[1].keyboard_fire_held = true
+		players[1].request_fire()
 	for i in range(2):
 		# CPU-controlled players ignore all discrete key input (dodge/melee/reload/switch/
 		# pulse/interact) exactly like legacy gates P2's key bindings behind mode==='local'.
@@ -188,7 +197,8 @@ func fire(index: int) -> void:
 	# 帰還バッテリー: a charge armed by the *previous* weapon switch boosts this volley once,
 	# then clears itself; it cannot re-arm until another boomerang recovery + switch happens.
 	if 14 in player.relics and player.state.get("return_battery_armed", false):
-		shot_damage += float(Relics.definition(14).get("battery_bonus",.45))
+		# One charge belongs to the shot, shared across pellets rather than multiplied by count.
+		shot_damage += float(Relics.definition(14).get("battery_bonus",.45))/count
 		player.state.return_battery_armed = false
 	volley_counter += 1
 	origin_counter += 1
@@ -251,7 +261,7 @@ func launch_round() -> void:
 	supplies.launch()
 	preparation.refresh()
 func equip_slot(index: int, slot: int) -> void:
-	if phase == "play" and not paused and result == "": players[index].equip_slot(slot)
+	if phase == "play" and not paused and result == "" and not players[index].is_cpu: players[index].request_switch(slot)
 # Danger zone: the safe area starts shrinking 60s into the round (7px/sec, capped at 195px
 # inset from each wall) and never shrinks back. Matches the legacy web version's arenaInset().
 func arena_inset() -> float:
@@ -343,6 +353,7 @@ func _physics_process(dt: float) -> void:
 			var ratio2: float = fighters[1].hp/fighters[1].max_hp
 			result = "DRAW" if absf(ratio1-ratio2) < .001 else ("P1 WINS" if ratio1 > ratio2 else "P2 WINS")
 			phase = "result"
+			clear_action_inputs()
 			match_state.finish(-1 if result == "DRAW" else (0 if result == "P1 WINS" else 1),players)
 			telemetry.record("round_end",{"result":result,"seconds":round_duration-remaining,"scores":scores})
 	arena.get_node("DangerZone").refresh(arena_inset() if phase in ["play","result"] else 0.0)

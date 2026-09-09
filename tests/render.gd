@@ -44,6 +44,12 @@ func run() -> void:
 	game.spawn_shot(0,10,0,{"pos":Vector2(350,440)})
 	game._physics_process(.01)
 	await capture("-legendary")
+	game.players[1].relic_capacity = 6
+	assert(game.players[1].acquire_temporary(12))
+	game.players[1].sync_visual()
+	game.spawn_shot(1,0,0,{"pos":Vector2(730,410),"depth":1,"speed":0.0,"damage":.4})
+	game.hud.refresh(game.players,game.remaining,game.paused,game.result,game.scores,game.phase)
+	await capture("-p4-danger-temporary")
 	game.use_pulse(1)
 	game._physics_process(.12)
 	await capture("-pulse")

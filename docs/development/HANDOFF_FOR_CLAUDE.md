@@ -1,81 +1,41 @@
-# Claude向け引き継ぎプロンプト
+# 開発引き継ぎ
 
-以下をClaudeへそのまま渡してください。
+`C:\GameCreate\chamber-clash` のGodotゲーム開発を引き継いでください。適用されるAGENTS.md / CLAUDE.md、実装計画、現行仕様、構成ガイド、検証記録、ロードマップ、最新Git差分を確認してください。P0〜P4はコード実装済みです。次はP4の実プレイ受入評価です。P5の武器改造は未着手です。
 
----
+## 現在地
 
-`C:\GameCreate\chamber-clash` のGodotゲーム開発を引き継いでください。最初に調査し、実装済みの内容を再実装しないでください。今回はP3の実装を進めてください。
+20武器・18レリック・8キャラクター。P0〜P2ではシード付き報酬抽選・試合状態・3〜6装備枠・8個所持庫・同数無料報酬・主力継承・仮装備・CPU準備を実装。P3では6種のレリックと発動条件、派生深さ・適用済み効果を追加しました。
 
-## 最初に読むもの
+P4では回避終了前100msの射撃・切替を保持します。単発と長押しを区別し、切替は最後の指定1件。停止・フォーカス離脱・決着・リセットで破棄。CPUは実回避クールダウン中に判断待ちを再抽選せず、ドッジノヴァの派生深さを1にします。
 
-1. 適用される `AGENTS.md` / `CLAUDE.md` があればそれら。
-2. `docs/planning/ROGUELIKE_PVP_PLAN.md`
-3. `docs/design/GAME_RULES.md`
-4. `docs/development/ARCHITECTURE.md`
-5. `docs/development/TESTING.md`
-6. `docs/planning/ROADMAP.md`
-7. `git status`、最新コミットと差分、現在の実装。
+プリズムの各弾は0.75、帰還バッテリーの0.45は一射撃全体に分配。ヘビーコア＋スターターセル＋帰還バッテリーのプリズム全弾命中は8.4525から5.6925へ低下。全員HP増加・共通ダメージ上限・回避2ストックは導入していません。
 
-## 目的と現在地
+所有者色の弾外周、危険弾の黄色二重輪、仮装備プレイヤーの[仮]、仮装備所持者の派生弾の紫破線、レリック効果ツールチップを追加しています。
 
-ローグライク×対人シューティングとして、一試合の中で武器・レリックを育て、組み合わせと相手への対策を楽しめるようにする。Enter the Gungeonの装備の豊富さ、Wizard of Legendのスピード感、Slay the Spireの戦略的選択が参考。
+## 実装の入口と維持するルール
 
-P0〜P2のコードを実装済み。既存20武器・12レリック・8キャラクターを維持した。P3以降は未実装。Godotプロジェクトが原本で、`legacy-web/` は比較資料。Gitの古い履歴には移動前の原型が残っているので、それで現在のコードを上書きしないこと。
+- `scripts/game/match_state.gd` / `reward_generator.gd`：試合の永続状態と候補生成。
+- `scripts/game/main.gd`：入力、予約破棄、射撃生成、試合進行。
+- `scripts/combat/player.gd`：先行入力、ビルド適用、発動条件。`request_switch()`は操作用、`equip_slot()`は実際の装備更新用です。
+- `scripts/combat/projectile.gd`：派生制限、衝突、危険弾描画。
+- `scripts/ai/cpu_ai.gd`、`scripts/ui/hud.gd`、`scripts/ui/preparation.gd`。
+- `data/catalog.json`：定義。既存IDを並べ替えない。
+- `tests/helpers/battle.gd`：ランダムな初期レリックを持たない戦闘テストを作る。ID除去だけでは追射予約・フラグが残るため、プレイヤー状態も初期化する。
 
-### 実装済みのルール
+起点IDのrootは計測用、volleyは被弾無敵用、depthは派生制限用として区別してください。近接・パルスによる弾消去から爆発・分裂を生まないこと。キャラクターと音声設定は試合内成長と分離します。
 
-- 3本先取、一試合が一つのラン。90秒・危険地帯を維持。
-- 初期はサイドアーム＋共通B/B/A候補から主力1丁、共通レリック3候補から2個。
-- 成長段階1〜5で装備枠3/4/5/6/6。装備中を含む所持庫8個、同一ID重複不可。準備中に着脱・破棄可能。
-- 試合が続く決着後、両者に同数のレリック報酬1回。共通基礎候補から所持品を除外して補充。候補不足にも対応。
-- 主力1丁を継承し、開始時にHP・弾薬・パルス・各種タイマー・変形モードをリセット。HPレリック着脱で回復を稼げない。
-- フィールドレリックはG/Hの明示操作、1人1ラウンド1個の仮装備。装備上限に算入し、永続化は通常報酬1回を消費。固定フェザー配置は撤去。
-- 引き分けでは報酬・段階を増やさず、仮取得を破棄して確定ビルドで再戦。
-- 旧ドラフト・ショップを無料報酬・装備整理・主力指定の準備画面へ置換。相手の前ラウンド開始時の確定ビルドを表示。
-- CPUも同じ状態APIで取得・装備・確定。武器特性との簡易相性評価を使い、取得できないレリックを追わない。
-- キャラと音声ON/OFFは成長状態と分離。試合終了時は永続ビルド・報酬を消去し、結果用の得点と戦場を残す。Enterで新規試合にリセット。
+論理画面1120×800（戦場600＋HUD）を維持し、1120×600ウィンドウへ比率を保って縮小します。日本語フォントは`assets/fonts/ipag.ttf`。原本はこのGodotプロジェクト、`legacy-web/`は比較資料です。
 
-### 実装の入口
+## 検証と残る受入
 
-- `scripts/game/match_state.gd`：試合内の永続データと取得・確定ルール。
-- `scripts/game/reward_generator.gd`：固定シード付き抽選。補給と報酬の乱数列は分離。
-- `scripts/game/main.gd`：新規試合・準備・開始・決着の接続。
-- `scripts/game/run_log.gd`：`user://run-logs/`へのJSONL。外部送信なし。
-- `scripts/combat/player.gd`：ビルド適用・最大HP再計算・仮レリック。
-- `scripts/ui/preparation.gd`：3列の成長画面とCPU準備。`ready_shop()`という名前だけ残るが購入処理ではない。
-- `scripts/ui/hud.gd`、`scripts/world/supplies.gd`、`scripts/world/pickup.gd`、`scripts/ai/cpu_ai.gd`。
-- `data/catalog.json`：既存定義。IDの並べ替え禁止。
+`powershell -ExecutionPolicy Bypass -File run_tests.ps1`で全headlessテストを実行します。`tests/action_buffer.gd`と`tests/endgame_balance.gd`がP4用。描画は`tests/render.gd`で確認し、`CHAMBER_SCREENSHOT`で画像の保存先を指定できます。具体的な成功ログはTESTING.mdのP4節を参照。
 
-論理画面は既存1120×800（戦場600＋下部HUD）。ウィンドウ1120×600へ比率を保って縮小する。戦場の座標を不用意に600pxの表示全体へ詰めないこと。Webの日本語には同梱`assets/fonts/ipag.ttf`を使用。
+既存テストのランダム失敗について、P3時点ではシード未指定と判断されていましたが、P4で初期の残響ホルスターが予約した追射の残留を再現・修正しました。シード固定だけで解決したとは扱わないでください。
 
-## 検証済みと未確認を区別する
+残る確認：人間による100ms先行入力の操作感、20〜30試合と対人公平性、最大弾幕の長時間負荷、効果音の聴取、Web/Windows配布版。自動テストと静止画の成功を実プレイ評価の完了とは扱わないでください。
 
-- 変更前21本、変更後25本のheadlessテスト全件成功。描画テスト1本も成功。
-- `match_progression.gd`、`build_inventory.gd`、`reward_generation.gd`、`run_logging.gd`を追加。
-- 3対0・3対2・引き分け・二重確定・同数報酬・所持庫境界・HP着脱・S主力継承・消耗リセット等を検証。
-- Windows Compatibilityで初期準備・8個所持庫・6レリックHUDを目視確認。
-- ローカルWeb版を通常速度でタイトルから0対3まで実操作で完走。着脱、パルス、CPU仮取得、新規試合へのリセットを確認。ただしP1は主に静止状態で、楽しさ・対人公平性の評価ではない。
-- 未確認：Webの最大6装備状態の直接操作、Windows配布版、音の聴取、操作全体の網羅的な実プレイ、20〜30試合の比較、人間同士の対策・公平性、最大構成の長時間負荷。
+## Git・公開
 
-```powershell
-& ./.local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --editor --quit
-powershell -ExecutionPolicy Bypass -File run_tests.ps1
-$env:CHAMBER_SCREENSHOT = "$PWD/.local/logs/claude-render.png"
-powershell -ExecutionPolicy Bypass -File run_tests.ps1 -IncludeRender
-```
+2026-09-09のP4開始時HEADは`3ca14d1`。現在の本体remoteは`https://github.com/gyap41/chamber-clash-web.git`です。古い「本体remoteなし」「web-buildだけを別リポジトリへpush」の手順は現状に合いません。
 
-ツールは`.local/tools/`を確認。環境のログ保存先・証明書アクセスエラーとゲームの不具合を区別するが、エラーが出た実行を成功扱いにしない。ログ名・画像は`TESTING.md`を参照。`.local/`はGit対象外なので別環境では再検証が必要。
-
-## 次のP3への注意
-
-まず成長試合の評価を行う。P3は共通発動条件と6種のシナジーレリック、派生深さ・適用済み効果・再帰生成禁止・倍率の整理。P0の`root`は計測用で、被弾無敵用`volley`ともP3の派生制限機構とも別。弾消去から爆発・分裂を発生させない既存仕様を維持する。P4の先行入力、P5の武器改造や大量追加を勝手に混ぜない。
-
-## Git・配布
-
-ローカルの現在状態を保存する際には、先行セッションのフォルダー整理とP0〜P2実装が一緒に必要。`.local/`、`.godot/`、`web-build/`はGit対象外。Webは`export_presets.cfg`の`Web`プリセットで再生成する。
-
-`C:\GameCreate\chamber-clash` 本体には2026-09-09時点でも `remote` が設定されていない（ローカルのみ）。送信先や公開方法を推測せず、作業開始時点の`git remote -v`とユーザー指定を確認すること。
-
-Web版（`web-build/`、本体とは別の独立git管理）は `gyap41/chamber-clash-web` へ2026-09-09にP0〜P2実装反映済みでpush・GitHub Pages公開済み（コミット`dee57a8`、`https://gyap41.github.io/chamber-clash-web/`で実機確認済み。タイトル・キャラ選択・新準備画面・日本語表示・コンソールエラー無しを確認）。P3実装後に再公開する場合も、Godotで`--export-release "Web" web-build/index.html`書き出し→`web-build`側でcommit/pushの手順を踏襲し、ソースのpush、ビルド作成、サイト公開完了を区別して報告する。
-
-作業開始時には、最新実装と資料を照合し、残る受入確認と次の着手候補を簡潔に報告してください。
+`.github/workflows/deploy-pages.yml`等、実際のワークフローファイルを確認してください。現在はmainへのpushを起点にGodotでWebを書き出してGitHub Pagesへ配置する設定があります。今回のP4はローカルコミットとして保存し、push・公開は行っていません。今後の作業でも、コード変更・ビルド生成・公開の完了を分けて報告してください。`.local/`、`.godot/`、`web-build/`は生成物として扱います。

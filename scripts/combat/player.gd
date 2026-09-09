@@ -22,6 +22,11 @@ signal delayed_shot_requested(data: Dictionary)
 @export var reload_duration: float = 1.15
 @export var dodge_duration: float = 0.26
 @export var dodge_cooldown: float = 1.65
+@export_range(0.0, 0.2) var input_buffer_duration: float = 0.1
+var buffered_fire := 0.0
+var buffered_switch := 0.0
+var buffered_slot := -1
+var keyboard_fire_held := false
 # Legacy roll()/damage() keep invincibility (p.inv) separate from the roll animation timer
 # (p.roll=.26): p.inv=Math.max(p.inv,.31) is set independently and is what damage() actually
 # gates on, so a dodge is invincible for .31s even though the roll animation itself is .26s.
@@ -65,6 +70,7 @@ func set_character(id: int) -> void:
 		state.pulses = initial_pulses
 	$Sprite.frame = int(c.cell)
 func reset(spawn: Vector2) -> void:
+	clear_action_inputs()
 	$Animation.reset()
 	relics.clear()
 	owned_relics.clear()
@@ -105,8 +111,8 @@ func visual_color() -> Color:
 func handle_key(key: int, i: int, shots: Array, enemy, arena) -> bool:
 	var p = state
 	var dodge_nova := false
-	if key == [KEY_E,KEY_K][i]: equip_slot((int(p.gun)+1) % inventory.size())
-	if i == 0 and key >= KEY_1 and key <= KEY_4: equip_slot(key-KEY_1)
+	if key == [KEY_E,KEY_K][i]: request_switch((int(p.gun)+1) % inventory.size())
+	if i == 0 and key >= KEY_1 and key <= KEY_4: request_switch(key-KEY_1)
 	if key == [KEY_R,KEY_P][i]: start_reload()
 	if key == [KEY_SPACE,KEY_SHIFT][i] and p.dodge <= 0:
 		p.last_volley = -1
@@ -152,7 +158,16 @@ func try_melee(i: int, shots: Array, enemy, arena) -> void:
 	if offset.length() < melee_range and absf(wrapf(offset.angle()-p.angle,-PI,PI)) <= PI/3 and not arena.line_blocked(p.pos,enemy.state.pos): enemy.hurt(melee_damage)
 func step(dt: float, i: int, enemy, arena, mouse_shooting: bool = false, ai: Dictionary = {}) -> bool:
 	var p = state
+	var fire_pending := buffered_fire > 0.0 and dt <= buffered_fire + 0.000001
+	var switch_pending := buffered_switch > 0.0 and dt <= buffered_switch + 0.000001
+	buffered_fire = maxf(0.0, buffered_fire-dt)
+	buffered_switch = maxf(0.0, buffered_switch-dt)
 	for timer in ["shot","roll","dodge","slash","melee","inv","shield","holster","echo_holster_cd"]: p[timer] = maxf(0,p[timer]-dt)
+	if p.roll <= 0 and switch_pending:
+		var slot := buffered_slot
+		buffered_switch = 0.0
+		buffered_slot = -1
+		equip_slot(slot)
 	if p.reload > 0:
 		p.reload = maxf(0,p.reload-dt)
 		if p.reload == 0:
@@ -177,9 +192,27 @@ func step(dt: float, i: int, enemy, arena, mouse_shooting: bool = false, ai: Dic
 	arena.move_fighter(p,p.dir*roll_speed*dt if p.roll > 0 else axis*effective_move_speed()*dt,radius)
 	$Animation.advance(dt,axis.length() > 0)
 	sync_visual()
-	var shooting: bool = ai.shoot if not ai.is_empty() else (mouse_shooting if i == 0 else Input.is_physical_key_pressed(KEY_L))
+	var shooting: bool = ai.shoot if not ai.is_empty() else ((mouse_shooting if i == 0 else keyboard_fire_held) or fire_pending)
 	if shooting and weapon().clip == 0: start_reload()
-	return shooting and can_fire()
+	var ready := shooting and can_fire()
+	if ready: buffered_fire = 0.0
+	return ready
+func clear_action_inputs() -> void:
+	buffered_fire = 0.0
+	buffered_switch = 0.0
+	buffered_slot = -1
+	keyboard_fire_held = false
+func request_fire() -> void:
+	if state.roll > 0.0 and state.roll <= input_buffer_duration:
+		buffered_fire = input_buffer_duration
+func request_switch(index: int) -> void:
+	if index < 0 or index >= inventory.size(): return
+	if state.roll > 0.0:
+		if state.roll <= input_buffer_duration:
+			buffered_slot = index
+			buffered_switch = input_buffer_duration
+		return
+	equip_slot(index)
 func can_fire() -> bool:
 	return state.shot <= 0 and state.reload <= 0 and state.roll <= 0 and weapon().clip > 0
 func consume_shot() -> void:
@@ -189,7 +222,8 @@ func consume_shot() -> void:
 func sync_visual() -> void:
 	position = state.pos
 	$Aim.rotation = state.angle
-	$Identity.text = str(name)
+	$Identity.text = str(name) + (" [仮]" if temporary_relic >= 0 else "")
+	$Identity.tooltip_text = Relics.definition(temporary_relic).desc if temporary_relic >= 0 else ""
 	$Weapon.rotation = state.angle
 	$Weapon/Sprite.flip_v = cos(state.angle) < 0
 	$Slash.visible = state.slash > 0

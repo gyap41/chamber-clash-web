@@ -10,8 +10,11 @@ static func start(game, gun: int = 1) -> void:
 		assert(game.match_state.confirm(i))
 	game.launch_round()
 	assert(game.phase == "play")
-	for player in game.players:
-		player.relics.clear()
-		player.owned_relics.clear()
-		player.state.max_hp = player.max_hp
-		player.state.hp = player.max_hp
+	# Initial random relics can reserve holster shots during launch_round(). Removing only
+	# the IDs leaves those reservations and trigger flags alive in combat-only tests.
+	game.delayed_shots.clear()
+	for i in range(2):
+		var player = game.players[i]
+		player.reset(player.state.pos)
+		player.apply_build({"owned":[],"equipped":[],"main":gun if i == 0 else 1},3,true)
+		game.fighters[i] = player.state

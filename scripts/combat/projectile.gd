@@ -52,6 +52,18 @@ func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionar
 	$Art.configure(id,bool(opts.get("parcel",false)),bool(opts.get("shard",false)))
 	$Art.refresh(state.age,state.velocity)
 	$Visual.visible = not $Art.visible
+	queue_redraw()
+func danger_marked() -> bool:
+	return damage >= 1.5 or state.comet or state.gravity or state.seed or state.split or state.clover or state.depth > 0
+func _draw() -> void:
+	if state == null or state.is_empty(): return
+	# Owner colors stay readable even when the weapon sprite uses a different palette.
+	var owner_color := Color("64b5ee") if state.owner == 1 else Color("f39545")
+	draw_arc(Vector2.ZERO,radius+3,0,TAU,24,owner_color,1.5,true)
+	if danger_marked():
+		draw_arc(Vector2.ZERO,radius+6,0,TAU,24,Color("fff3b0"),1.5,true)
+	if source_player != null and source_player.temporary_relic >= 0 and state.depth > 0:
+		for n in range(4): draw_arc(Vector2.ZERO,radius+9,n*PI/2,n*PI/2+PI/4,6,Color("e6a0ff"),2.0,true)
 func step(dt: float, arena, enemy) -> void:
 	var b = state
 	var bounds: Rect2 = arena.projectile_bounds
@@ -122,6 +134,7 @@ func step(dt: float, arena, enemy) -> void:
 				b.life = 0.0
 	position = b.pos
 	$Art.refresh(b.age,b.velocity)
+	queue_redraw()
 
 # Explicit removal (melee/reset) must never trigger impact/expiry fragments.
 func fragments() -> Dictionary:

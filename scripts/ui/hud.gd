@@ -2,6 +2,7 @@ extends CanvasLayer
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 var slots: Array = []
 func _ready() -> void:
+	$Root/Status.tooltip_text = "弾の外周：橙=P1、青=P2。黄色の二重輪=高威力・設置・分裂・派生弾。紫の破線=仮装備を持つ相手の派生弾。レリック欄にカーソルを重ねると効果を確認できます。"
 	for i in range(2):
 		var row: Array = []
 		for n in range(4):
@@ -64,6 +65,11 @@ func refresh(players: Array, remaining: float, paused: bool, result: String, sco
 			if id == 3 and players[i].state.shield > 0: rname += "（%ds）" % ceili(players[i].state.shield)
 			names.append(("[仮] " if id == players[i].temporary_relic else "")+rname)
 		get_node("Root/Relics/P%d" % (i+1)).text = "P%d レリック %d/%d\n%s" % [i+1,names.size(),players[i].relic_capacity,"\n".join([" / ".join(names.slice(0,3))," / ".join(names.slice(3,6))]) if not names.is_empty() else "なし"]
+		var descriptions: Array[String] = []
+		for id in players[i].relics:
+			var relic: Dictionary = players[i].Relics.definition(id)
+			descriptions.append(("[仮] " if id == players[i].temporary_relic else "") + str(relic.name) + ": " + str(relic.desc))
+		get_node("Root/Relics/P%d" % (i+1)).tooltip_text = "\n".join(descriptions)
 		for n in range(4):
 			var button: Button = slots[i][n]
 			var player = players[i]
