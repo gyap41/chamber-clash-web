@@ -7,6 +7,11 @@ signal shake_requested(strength: float)
 # dodge/slash). main.gd's fire()/use_pulse()/spawn_well() call sound.play_sound() directly
 # since they already have the relevant weapon id / kind in scope there.
 signal sound_requested(kind: String, id: int)
+# P3 synergy relic (残響ホルスター) reserves a delayed follow-up shot from the *outgoing*
+# weapon at the moment of a switch. Player has no back-reference to main.gd's delayed_shots/
+# origin_counter, so it asks via signal instead, matching the burst/ring/shake/sound pattern
+# above; main.gd owns the actual spawn timing and pulse-clearing behavior.
+signal delayed_shot_requested(data: Dictionary)
 @export_range(0,4) var initial_pulses: int = 2
 @export var pulse_invulnerability := .65
 @export var max_hp: float = 8.0
@@ -66,7 +71,13 @@ func reset(spawn: Vector2) -> void:
 	temporary_relic = -1
 	# ai_cd: CPU-only dodge-roll cooldown (legacy makePlayer()'s p.ai=rnd(.25,.6); unused by
 	# human players). Decremented only while a bullet threat is present, see cpu_ai.gd.
-	state = {"pulses":initial_pulses,"pos":spawn,"hp":max_hp,"max_hp":max_hp,"angle":0.0,"shot":0.0,"roll":0.0,"dodge":0.0,"slash":0.0,"melee":0.0,"inv":0.0,"reload":0.0,"reload_slot":-1,"last_volley":-1,"blocked_volley":-1,"shield":0.0,"holster":0.0,"dir":Vector2.RIGHT,"gun":0,"ai_cd":randf_range(.25,.6)}
+	# P3 synergy state (all reset every round, same as the timers above): reload_started_empty
+	# tracks whether the *current* reload attempt began from a fully empty clip (空薬莢の祝福);
+	# empty_casing_charge/residual_heat_charge/return_battery_charge are one-shot "next fire()
+	# gets a bonus" flags; return_battery_armed distinguishes "charged" from "switched while
+	# charged, next shot is boosted"; echo_holster_cd is a plain cooldown timer (decremented
+	# alongside the other timers in step()); phase_load_used resets at the start of each dodge.
+	state = {"pulses":initial_pulses,"pos":spawn,"hp":max_hp,"max_hp":max_hp,"angle":0.0,"shot":0.0,"roll":0.0,"dodge":0.0,"slash":0.0,"melee":0.0,"inv":0.0,"reload":0.0,"reload_slot":-1,"last_volley":-1,"blocked_volley":-1,"shield":0.0,"holster":0.0,"dir":Vector2.RIGHT,"gun":0,"ai_cd":randf_range(.25,.6),"reload_started_empty":false,"empty_casing_charge":false,"residual_heat_charge":false,"return_battery_charge":false,"return_battery_armed":false,"echo_holster_cd":0.0,"phase_load_used":false}
 	inventory = [Weapons.new_inventory_entry(0)]
 	update_weapon_art()
 	sync_visual()
@@ -102,6 +113,7 @@ func handle_key(key: int, i: int, shots: Array, enemy, arena) -> bool:
 		p.roll = dodge_duration
 		p.dodge = dodge_cooldown
 		p.inv = maxf(p.inv,dodge_invulnerability)
+		p.phase_load_used = false # すり抜け装填: fresh one-per-dodge opportunity
 		burst_requested.emit(p.pos,visual_color(),8)
 		sound_requested.emit("dodge",0)
 		if 5 in relics: dodge_nova = true
@@ -132,11 +144,15 @@ func try_melee(i: int, shots: Array, enemy, arena) -> void:
 			burst_requested.emit(b.pos,Color(b.color),6)
 			removed += 1
 	if removed > 0 and 10 in relics: p.dodge = maxf(0,p.dodge-.3)
+	# 余熱コンデンサ: melee that clears at least one bullet charges a bonus pellet for the next
+	# shot. removed>0 can only become true once per try_melee() call, so this is naturally
+	# "once per swing"; the flag itself caps the charge at one (no stacking).
+	if removed > 0 and 15 in relics: p.residual_heat_charge = true
 	var offset: Vector2 = enemy.state.pos-p.pos
 	if offset.length() < melee_range and absf(wrapf(offset.angle()-p.angle,-PI,PI)) <= PI/3 and not arena.line_blocked(p.pos,enemy.state.pos): enemy.hurt(melee_damage)
 func step(dt: float, i: int, enemy, arena, mouse_shooting: bool = false, ai: Dictionary = {}) -> bool:
 	var p = state
-	for timer in ["shot","roll","dodge","slash","melee","inv","shield","holster"]: p[timer] = maxf(0,p[timer]-dt)
+	for timer in ["shot","roll","dodge","slash","melee","inv","shield","holster","echo_holster_cd"]: p[timer] = maxf(0,p[timer]-dt)
 	if p.reload > 0:
 		p.reload = maxf(0,p.reload-dt)
 		if p.reload == 0:
@@ -200,6 +216,28 @@ func equip_slot(index: int) -> void:
 			old.clip += 1
 			old.reserve -= 1
 			state.holster = 1.5
+	# 残響ホルスター: on a genuine switch (guarded by the same index==state.gun no-op check
+	# above), reserve a weak follow-up shot from the *outgoing* weapon while it is still
+	# `weapon()`. Consumes 1 round from the outgoing weapon's own ammo (clip first, then
+	# reserve); an outgoing weapon with no ammo left simply misfires ("空なら不発") but the
+	# cooldown still starts, so rapid switching cannot spam the request. main.gd turns this
+	# into a delayed_shots entry (depth 1, no volley, can't re-trigger further generation) and
+	# already clears the *enemy's* delayed shots on pulse via the existing owner filter, so a
+	# pulse also removes any echo-holster shot the pulsing player had reserved against them.
+	if 16 in relics and state.echo_holster_cd <= 0:
+		var outgoing := weapon()
+		var outgoing_def := Weapons.definition(outgoing.id)
+		var relic16 := Relics.definition(16)
+		state.echo_holster_cd = float(relic16.get("holster_cooldown",2.5))
+		if int(outgoing.clip)+int(outgoing.reserve) > 0:
+			if outgoing.clip > 0: outgoing.clip -= 1
+			else: outgoing.reserve -= 1
+			delayed_shot_requested.emit({"gun":outgoing.id,"angle":state.angle,"delay":.22,"damage":float(outgoing_def.damage)*float(relic16.get("holster_ratio",.5)),"kind":"echo_holster","can_lens":false,"depth":1})
+	# 帰還バッテリー: a stored charge arms on the switch itself; the bonus is spent by the
+	# *next* fire() call (see main.gd), not by this switch.
+	if 14 in relics and state.return_battery_charge:
+		state.return_battery_charge = false
+		state.return_battery_armed = true
 	state.gun = index
 	state.reload = 0.0
 	state.reload_slot = -1
@@ -210,6 +248,10 @@ func start_reload() -> void:
 	if state.reload > 0 or weapon().clip >= definition().mag or weapon().reserve <= 0: return
 	state.reload = effective_reload_duration()
 	state.reload_slot = state.gun
+	# 空薬莢の祝福 only cares about a reload that began from a *fully* empty clip; partial
+	# top-ups never reach here anyway (guarded above), but this keeps the "empty" distinction
+	# explicit and independent of that guard's exact bounds.
+	state.reload_started_empty = weapon().clip == 0
 	sound_requested.emit("reload",0)
 func finish_reload() -> void:
 	if state.reload_slot != state.gun: return
@@ -218,6 +260,12 @@ func finish_reload() -> void:
 	w.clip += amount
 	w.reserve -= amount
 	if amount > 0 and definition().get("switcher", false): w.mode = 1-w.mode
+	# 空薬莢の祝福: only a reload that both started from empty AND actually completed here
+	# (not interrupted — an interrupted reload never reaches finish_reload(), see the
+	# reload_slot guard above, and 予備マガジン's 1-round top-up never goes through
+	# start_reload()/finish_reload() at all) charges the next full-magazine shot.
+	if state.reload_started_empty and 13 in relics: state.empty_casing_charge = true
+	state.reload_started_empty = false
 	state.reload_slot = -1
 func update_weapon_art() -> void:
 	$Weapon/Sprite.texture = Weapons.art(weapon().id)

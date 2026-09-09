@@ -1,6 +1,7 @@
 extends Node2D
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const Catalog = preload("res://scripts/catalog/game_catalog.gd")
+const Relics = preload("res://scripts/catalog/relic_catalog.gd")
 const CpuAI = preload("res://scripts/ai/cpu_ai.gd")
 @export var pulse_effect_scene: PackedScene = preload("res://scenes/combat/pulse_effect.tscn")
 @export var round_duration: float = 90.0
@@ -36,11 +37,16 @@ func _ready() -> void:
 	catalog = Catalog.data
 	supplies.game = self
 	preparation.game = self
-	for player in players:
+	for i in range(players.size()):
+		var player = players[i]
 		player.burst_requested.connect(combat_visuals.burst)
 		player.ring_requested.connect(combat_visuals.ring)
 		player.shake_requested.connect(combat_visuals.shake)
 		player.sound_requested.connect(sound.play_sound)
+		# 残響ホルスター: Player has no back-reference to main.gd, so it asks for a delayed
+		# shot via signal instead; bind the owning index since the signal itself only carries
+		# the spawn data.
+		player.delayed_shot_requested.connect(_on_delayed_shot_requested.bind(i))
 	var seed_value := -1
 	for argument in OS.get_cmdline_user_args():
 		if argument.begins_with("--seed="): seed_value = int(argument.trim_prefix("--seed="))
@@ -121,7 +127,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		if players[i].is_cpu: continue
 		if players[i].handle_key(event.keycode,i,shots,players[1-i],arena):
 			for n in range(6):
-				spawn_shot(i,0,n*TAU/6,{"kind":"dodge_nova","speed":250.0,"damage":.35,"life":1.2,"radius":4.0,"color":"#ecc5ff","can_lens":false})
+				spawn_shot(i,0,n*TAU/6,{"kind":"dodge_nova","speed":250.0,"damage":.35,"life":1.2,"radius":4.0,"color":"#ecc5ff","can_lens":false,"depth":1})
 		if event.keycode == [KEY_G,KEY_H][i]: supplies.interact(i)
 		if event.keycode == [KEY_Q,KEY_O][i]: use_pulse(i)
 func use_pulse(index: int) -> bool:
@@ -148,10 +154,28 @@ func use_pulse(index: int) -> bool:
 	pulse_effects.append(effect)
 	if 9 in players[index].relics:
 		for n in range(6):
-			spawn_shot(index,0,n*TAU/6,{"kind":"pulse_relay","speed":200.0,"damage":.35,"life":1.2,"can_lens":false})
+			spawn_shot(index,0,n*TAU/6,{"kind":"pulse_relay","speed":200.0,"damage":.35,"life":1.2,"can_lens":false,"depth":1})
 	supplies.announce("P%d：パルス！ 敵弾・敵重力場・敵の追射予約を消去" % (index+1))
 	hud.refresh(players,remaining,paused,result,scores,phase)
 	return true
+# 残響ホルスター: turn a Player-requested delayed follow-up into an actual delayed_shots
+# entry. Reuses the existing echo-companion queue/processing wholesale (see _physics_process
+# below), which is also how it gets pulse-clearing "for free" - use_pulse() already drops any
+# delayed_shots entry the pulsing player does not own.
+func _on_delayed_shot_requested(data: Dictionary, owner_index: int) -> void:
+	origin_counter += 1
+	var entry := data.duplicate()
+	entry.owner = owner_index
+	entry.root = origin_counter
+	if not entry.has("volley"): entry.volley = -1
+	delayed_shots.append(entry)
+# Dispatch for projectile.gd's derived_shot_requested (currently only 反響の種, id 12): keeps
+# the relic's numeric tuning in the catalog / here, not duplicated inside combat/projectile.gd.
+func _on_projectile_derived_shot(owner_index: int, pos: Vector2, relic_id: int) -> void:
+	var relic := Relics.definition(relic_id)
+	match relic_id:
+		12:
+			spawn_shot(owner_index,0,0.0,{"kind":"echo_seed","pos":pos,"damage":float(relic.get("seed_damage",.4)),"speed":0.0,"life":float(relic.get("seed_life",1.2)),"radius":float(relic.get("seed_radius",5.0)),"color":relic.color,"can_lens":false,"depth":1})
 func fire(index: int) -> void:
 	if phase != "play" or paused or result != "" or not players[index].can_fire(): return
 	var player = players[index]
@@ -161,17 +185,34 @@ func fire(index: int) -> void:
 	var count: int = 3 if scatter else int(g.get("count", 1))
 	var first_shot: bool = w.clip == int(g.mag)
 	var shot_damage: float = (.5 if scatter else g.damage) * (1.2 if first_shot and 7 in player.relics else 1.0)
+	# 帰還バッテリー: a charge armed by the *previous* weapon switch boosts this volley once,
+	# then clears itself; it cannot re-arm until another boomerang recovery + switch happens.
+	if 14 in player.relics and player.state.get("return_battery_armed", false):
+		shot_damage += float(Relics.definition(14).get("battery_bonus",.45))
+		player.state.return_battery_armed = false
 	volley_counter += 1
 	origin_counter += 1
 	telemetry.record("fire",{"player":index,"weapon":w.id,"root":origin_counter,"volley":volley_counter,"pellets":count})
 	for i in range(count):
 		var angle: float = player.state.angle + (i-(count-1)/2.0) * (.16 if scatter else float(g.get("spread", .11)))
 		if g.get("radial", false): angle = player.state.angle + i*TAU/count
-		var opts := {"root":origin_counter,"phase":1 if i % 2 else -1,"damage":shot_damage,"volley":volley_counter,"parcel":g.get("parcel",false) and w.clip == 1}
+		var opts := {"root":origin_counter,"phase":1 if i % 2 else -1,"damage":shot_damage,"volley":volley_counter,"parcel":g.get("parcel",false) and w.clip == 1,"depth":0}
 		if g.get("prism", false): opts.color = ["#ff9bbd","#ffe99b","#98efd0","#a4d9ff","#dfafff"][i % 5]
 		spawn_shot(index, w.id, angle, opts)
 	if g.get("echo", false):
-		delayed_shots.append({"root":origin_counter,"owner":index,"gun":w.id,"angle":player.state.angle,"delay":.24,"volley":volley_counter,"damage":shot_damage})
+		delayed_shots.append({"root":origin_counter,"owner":index,"gun":w.id,"angle":player.state.angle,"delay":.24,"volley":volley_counter,"damage":shot_damage,"kind":"echo","depth":1})
+	# 空薬莢の祝福: only the next *first* shot (full magazine) after an empty-clip reload
+	# consumes the charge, matching "次の初射"; 余熱コンデンサ has no such qualifier and is
+	# spent by the very next fire() call regardless of magazine state. Both are one-shot bonus
+	# pellets, depth 1, can't re-trigger any further P3 generation.
+	if 13 in player.relics and first_shot and player.state.get("empty_casing_charge", false):
+		player.state.empty_casing_charge = false
+		var relic13 := Relics.definition(13)
+		spawn_shot(index,0,player.state.angle,{"kind":"empty_casing","damage":float(relic13.get("casing_damage",.5)),"speed":g.speed*float(relic13.get("casing_speed_ratio",.75)),"life":1.6,"radius":4.0,"color":relic13.color,"can_lens":false,"depth":1})
+	if 15 in player.relics and player.state.get("residual_heat_charge", false):
+		player.state.residual_heat_charge = false
+		var relic15 := Relics.definition(15)
+		spawn_shot(index,0,player.state.angle,{"kind":"residual_heat","damage":float(relic15.get("heat_damage",.4)),"speed":g.speed*float(relic15.get("heat_speed_ratio",.85)),"life":1.6,"radius":4.0,"color":relic15.color,"can_lens":false,"depth":1})
 	player.consume_shot()
 	if g.get("comet",false) or g.get("prism",false): combat_visuals.shake(3.0)
 	combat_visuals.burst(player.state.pos+Vector2.from_angle(player.state.angle)*26,Color(g.color),12 if g.get("prism",false) else 4)
@@ -187,6 +228,7 @@ func spawn_shot(index: int, id: int, angle: float, opts: Dictionary = {}) -> voi
 	bullet.set_meta("origin",opts.root)
 	bullet.burst_requested.connect(combat_visuals.burst)
 	bullet.weapon_effect_requested.connect(combat_visuals.weapon_effect)
+	bullet.derived_shot_requested.connect(_on_projectile_derived_shot)
 	shots.append(bullet)
 	telemetry.record("projectile",{"player":index,"weapon":id,"root":opts.get("root",opts.get("volley",-1)),"kind":opts.get("kind","shot"),"volley":opts.get("volley",-1)})
 func spawn_well(pos: Vector2, owner_index: int):
@@ -230,13 +272,31 @@ func _physics_process(dt: float) -> void:
 			var delayed: Dictionary = delayed_shots[n]
 			delayed.delay -= dt
 			if delayed.delay <= 0:
-				spawn_shot(delayed.owner,delayed.gun,delayed.angle,{"volley":delayed.volley,"damage":delayed.damage,"kind":"echo","root":delayed.get("root",delayed.volley)})
+				spawn_shot(delayed.owner,delayed.gun,delayed.angle,{"volley":delayed.get("volley",-1),"damage":delayed.damage,"kind":delayed.get("kind","echo"),"root":delayed.get("root",delayed.get("volley",-1)),"depth":delayed.get("depth",1),"can_lens":delayed.get("can_lens",true)})
 				combat_visuals.weapon_effect(3,players[delayed.owner].state.pos+Vector2.from_angle(delayed.angle)*34,delayed.angle)
 				delayed_shots.remove_at(n)
 		for i in range(2):
 			var ai: Dictionary = CpuAI.decide(self,players[i],players[1-i],dt) if players[i].is_cpu else {}
 			if players[i].step(dt,i,players[1-i],arena,mouse_fire_held,ai): fire(i)
 			if players[i].state.roll > 0: combat_visuals.dodge_trail(players[i].state.pos,players[i].visual_color())
+			# すり抜け装填: while actively dodging, an enemy bullet passing within phase_radius loads 1
+			# round into the current weapon from reserve (once per dodge; resets when a new dodge starts,
+			# see handle_key()). Deliberately bypasses start_reload()/finish_reload() entirely, so it can
+			# never itself charge 空薬莢の祝福 - "装填完了の効果は発動しない".
+			if players[i].state.roll > 0 and 17 in players[i].relics and not players[i].state.get("phase_load_used",false):
+				var phase_triggered := false
+				var phase_radius: float = float(Relics.definition(17).get("phase_radius",42.0))
+				for b in shots:
+					if b.state.owner != i and not b.state.dead and b.state.pos.distance_to(players[i].state.pos) < phase_radius:
+						phase_triggered = true
+						break
+				if phase_triggered:
+					players[i].state.phase_load_used = true
+					var phase_weapon: Dictionary = players[i].weapon()
+					var phase_def: Dictionary = Weapons.definition(phase_weapon.id)
+					if phase_weapon.reserve > 0 and phase_weapon.clip < int(phase_def.mag):
+						phase_weapon.clip += 1
+						phase_weapon.reserve -= 1
 			var inset: float = arena_inset()
 			if inset > 0.0:
 				var pos: Vector2 = players[i].state.pos
@@ -262,7 +322,7 @@ func _physics_process(dt: float) -> void:
 				var fragments: Dictionary = b.fragments()
 				if not fragments.is_empty():
 					for shard in range(fragments.count):
-						spawn_shot(b.state.owner,0,shard*TAU/fragments.count,{"kind":"fragment","root":b.get_meta("origin",-1),"pos":b.state.pos,"speed":fragments.speed,"damage":fragments.damage,"life":fragments.life,"color":fragments.color,"radius":4.0,"can_lens":false})
+						spawn_shot(b.state.owner,0,shard*TAU/fragments.count,{"kind":"fragment","root":b.get_meta("origin",-1),"pos":b.state.pos,"speed":fragments.speed,"damage":fragments.damage,"life":fragments.life,"color":fragments.color,"radius":4.0,"can_lens":false,"depth":1})
 				shots.remove_at(n)
 				b.get_parent().remove_child(b)
 				b.queue_free()

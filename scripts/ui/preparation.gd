@@ -51,6 +51,12 @@ func affinity(id: int, gun: int, equipped: Array = []) -> int:
 	if id == 7: return 3 if int(g.mag) <= 6 else 1
 	if id == 1: return 3 if int(g.mag) <= 6 else 2
 	if id == 6: return 3 if int(g.get("count",1)) > 1 else 2
+	# P3 additions: only give the two relics with an obvious weapon-tag correlation (bounce
+	# for 反響の種, boomerang for 帰還バッテリー) a non-default score, same simple heuristic
+	# style as above; the other four (13/15/16/17) apply to any build about equally, so they
+	# keep the generic fallback score of 2 rather than a fabricated preference.
+	if id == 12: return 4 if int(g.get("bounce",0)) > 0 or (2 in equipped and affinity(2,gun) > 0) else 1
+	if id == 14: return 4 if g.get("boomerang",false) else 1
 	return 2
 func auto_prepare(i: int) -> void:
 	var state = game.match_state

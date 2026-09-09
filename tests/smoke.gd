@@ -7,7 +7,7 @@ func run() -> void:
 	game.set_physics_process(false)
 	start_combat(game)
 	assert(game.catalog.guns.size() == 20)
-	assert(game.catalog.relics.size() == 12)
+	assert(game.catalog.relics.size() == 18) # P3 added 6 relics (12-17)
 	game.fighters[0].pos = Vector2(60,82)
 	game.move_fighter(game.fighters[0],Vector2(-100,-100))
 	assert(game.fighters[0].pos == Vector2(60,82))

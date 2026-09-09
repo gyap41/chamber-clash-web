@@ -375,6 +375,59 @@
       "color": "#95d8c9",
       "desc": "反射する弾の最初の反射後に弾速+20%。反射回数は増えない。",
       "key": "rebound"
+    },
+    {
+      "name": "反響の種",
+      "glyph": "❈",
+      "color": "#8fd6c9",
+      "desc": "弾が壁に最初に当たって跳ね返ると、その場に短命な停止弾を残す。一射撃につき1回、停止弾自体は新たな種を残さない。",
+      "key": "echo_seed",
+      "seed_damage": 0.4,
+      "seed_life": 1.2,
+      "seed_radius": 5.0
+    },
+    {
+      "name": "空薬莢の祝福",
+      "glyph": "⊚",
+      "color": "#e0d29a",
+      "desc": "空の弾倉から装填が完了すると、次の初弾（満タンからの1射目）に小さな追加弾が加わる。途中装填や切替時の1発装填では発動しない。",
+      "key": "empty_casing",
+      "casing_damage": 0.5,
+      "casing_speed_ratio": 0.75
+    },
+    {
+      "name": "帰還バッテリー",
+      "glyph": "⌬",
+      "color": "#a0c9ff",
+      "desc": "帰還する弾を持ち主が回収すると充電される（最大1つ）。武器切替の後、次の1射に追加ダメージを付与する。命中や寿命切れは回収扱いにしない。",
+      "key": "return_battery",
+      "battery_bonus": 0.45
+    },
+    {
+      "name": "余熱コンデンサ",
+      "glyph": "♨",
+      "color": "#ffb37a",
+      "desc": "近接攻撃で敵弾を1発以上消すと、次の射撃に追加弾が加わる。1振りにつき1回、蓄積は1つまで。",
+      "key": "residual_heat",
+      "heat_damage": 0.4,
+      "heat_speed_ratio": 0.85
+    },
+    {
+      "name": "残響ホルスター",
+      "glyph": "⟲",
+      "color": "#c7a6e6",
+      "desc": "武器を切り替えると、しまう武器の弾を1発消費して弱い追射を予約する。再使用には待ち時間があり、弾が空なら不発。",
+      "key": "echo_holster",
+      "holster_ratio": 0.5,
+      "holster_cooldown": 2.5
+    },
+    {
+      "name": "すり抜け装填",
+      "glyph": "⇌",
+      "color": "#9adbb0",
+      "desc": "回避中に敵弾が近くを通過すると、装備中の武器へ予備弾から1発装填する。1回の回避につき1回まで。装填完了の効果は発動しない。",
+      "key": "phase_load",
+      "phase_radius": 42.0
     }
   ],
   "characters": [

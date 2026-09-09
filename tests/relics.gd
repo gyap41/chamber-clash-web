@@ -29,9 +29,10 @@ func run() -> void:
 	assert(not game.supplies.acquire(0,item))
 	assert(game.supplies.acquire(0,item,true) and p.relics.size() == 3)
 	assert(not p.add_relic(0) and not p.add_relic(4) and p.state.max_hp == 10)
-	# All 12 catalog relics are supported now, so id 2 no longer exercises the "unsupported"
-	# rejection path; id 12 is out of the catalog range and still hits the same guard.
-	assert(not p.add_relic(12) and game.supplies.put_item("relic",12,Vector2(200,100)) == null)
+	# All 18 catalog relics (P3 added ids 12-17) are supported now, so id 2 no longer exercises
+	# the "unsupported" rejection path; id 18 is out of the catalog range and still hits the
+	# same guard.
+	assert(not p.add_relic(18) and game.supplies.put_item("relic",18,Vector2(200,100)) == null)
 	game.supplies.step(.01)
 	item = game.supplies.put_item("relic",0,p.state.pos)
 	item.age = .6

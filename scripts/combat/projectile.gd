@@ -1,6 +1,10 @@
 extends Node2D
 signal burst_requested(pos: Vector2, color: Color, count: int)
 signal weapon_effect_requested(row: int, pos: Vector2, angle: float)
+# P3 synergy relic (反響の種): fired at most once per bullet, only from a depth-0 (directly
+# fired, non-derived) bullet's first wall bounce. main.gd owns the numeric relic definition and
+# turns this into an actual spawn_shot() call, keeping this script relic-number-agnostic.
+signal derived_shot_requested(owner_index: int, pos: Vector2, relic_id: int)
 var switcher := false
 var gun_id := 0
 var speed: float = 420.0
@@ -34,7 +38,14 @@ func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionar
 	var special: bool = g.get("split",false) or g.get("comet",false) or g.get("gravity",false) or g.get("boomerang",false) or g.get("seed",false) or g.get("bubble",false) or g.get("clover",false)
 	var can_lens: bool = opts.get("can_lens", true)
 	var bounce: int = int(g.get("bounce",0)) + (1 if (not special and can_lens and 2 in player.relics) else 0)
-	state = {"comet":g.get("comet",false),"gravity":g.get("gravity",false),"split":g.get("split",false),"clover":g.get("clover",false),"boomerang":g.get("boomerang",false),"helix":g.get("helix",false),"phase":opts.get("phase",1),"hits":[],"color":opts.get("color",g.color),"age":0.0,"seed":g.get("seed",false),"boost":g.get("boost",false),"bubble":g.get("bubble",false),"homing":g.get("homing",false),"launched":false,"pos":opts.get("pos",p.pos+Vector2.from_angle(angle)*24),"velocity":Vector2.from_angle(angle)*speed,"owner":index,"life":lifetime,"bounce":bounce,"rebounds":0,"dead":false,"bank":g.get("bank",false),"parcel":opts.get("parcel",false),"volley":opts.get("volley",-1)}
+	# depth: 0 for a bullet fired directly by fire()/handle_key()/etc.; >=1 for anything spawned
+	# as a consequence of another bullet or effect (fragments, echo companion, dodge nova, pulse
+	# relay, and every P3 synergy bonus below). applied_effects is a small audit trail of which
+	# one-shot bonuses this specific bullet has already consumed, so a given bullet can't trigger
+	# the same generation effect twice (e.g. a bullet that somehow bounces more than once still
+	# only ever spawns one Echo Seed pool). Derived (depth>0) bullets are excluded from every P3
+	# synergy trigger below on purpose — "派生効果は原則さらに別の生成効果を発動しない".
+	state = {"comet":g.get("comet",false),"gravity":g.get("gravity",false),"split":g.get("split",false),"clover":g.get("clover",false),"boomerang":g.get("boomerang",false),"helix":g.get("helix",false),"phase":opts.get("phase",1),"hits":[],"color":opts.get("color",g.color),"age":0.0,"seed":g.get("seed",false),"boost":g.get("boost",false),"bubble":g.get("bubble",false),"homing":g.get("homing",false),"launched":false,"pos":opts.get("pos",p.pos+Vector2.from_angle(angle)*24),"velocity":Vector2.from_angle(angle)*speed,"owner":index,"life":lifetime,"bounce":bounce,"rebounds":0,"dead":false,"bank":g.get("bank",false),"parcel":opts.get("parcel",false),"volley":opts.get("volley",-1),"depth":int(opts.get("depth",0)),"applied_effects":opts.get("applied_effects",[]).duplicate()}
 	position = state.pos
 	$Visual.modulate = Color(opts.get("color",g.color))
 	$Visual.scale = Vector2.ONE * radius/4.0
@@ -63,7 +74,12 @@ func step(dt: float, arena, enemy) -> void:
 	if b.boomerang and b.age > .65:
 		var offset: Vector2 = source_player.state.pos-b.pos
 		b.velocity += (Vector2.from_angle(offset.angle())*470.0-b.velocity)*dt*4.0
-		if offset.length() < 20.0: b.life = 0.0
+		if offset.length() < 20.0:
+			b.life = 0.0
+			# 帰還バッテリー: only the bullet actually returning to its owner counts as
+			# "recovery" — a hit (see b.hits handling below) or the life timer simply
+			# running out never reaches this branch, so neither charges the battery.
+			if b.depth == 0 and 14 in source_player.relics: source_player.state.return_battery_charge = true
 	var motion: Vector2 = b.velocity
 	if b.helix:
 		motion += Vector2(-b.velocity.y,b.velocity.x)/speed*cos(b.age*14.0)*90.0*b.phase
@@ -79,6 +95,13 @@ func step(dt: float, arena, enemy) -> void:
 				if b.bank: weapon_effect_requested.emit(0,previous,(-b.velocity).angle()+PI/4)
 				if b.bank: damage += .25
 				if b.rebounds == 1 and 11 in source_player.relics: b.velocity *= 1.2
+				# 反響の種: the *first* bounce of a directly-fired bullet drops a short-lived
+				# stationary pool at the bounce point. "echo_seed" in applied_effects makes this
+				# resilient even if rebounds==1 could somehow be re-entered; b.depth==0 keeps the
+				# pool itself (and any other derived bullet) from ever chaining another one.
+				if b.rebounds == 1 and b.depth == 0 and 12 in source_player.relics and "echo_seed" not in b.applied_effects:
+					b.applied_effects.append("echo_seed")
+					derived_shot_requested.emit(b.owner,previous,12)
 				if b.pos.x < bounds.position.x or b.pos.x > bounds.end.x or arena.solid(Vector2(b.pos.x,previous.y),radius): b.velocity.x *= -1
 				else: b.velocity.y *= -1
 				b.pos = previous

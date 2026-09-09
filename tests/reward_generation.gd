@@ -8,8 +8,10 @@ func _initialize() -> void:
 		a.generate_rewards()
 		b.generate_rewards()
 		assert(a.rewards == b.rewards)
-	assert(a.generator.candidates([0,1,2],range(11)) == [11])
-	assert(a.generator.candidates([0,1,2],range(12)).is_empty())
+	# P3 added relic ids 12-17 (Relics.SUPPORTED now runs 0-17, 18 total): the "one short of the
+	# full pool" / "fully owned" bounds below shift from 11/12 to 17/18 accordingly.
+	assert(a.generator.candidates([0,1,2],range(17)) == [17])
+	assert(a.generator.candidates([0,1,2],range(18)).is_empty())
 	a.rewards = [[0,1,2],[0,1,2]]
 	assert(a.claim(0,0) and a.claim(1,0))
 	assert(not a.claim(0,0) and not a.claim(0,-1))
