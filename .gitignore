@@ -10,3 +10,5 @@ assets/reference/
 Thumbs.db
 *.tmp
 *.swp
+
+Claude outputs/
