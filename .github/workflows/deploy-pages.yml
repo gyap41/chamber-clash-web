@@ -30,6 +30,9 @@ jobs:
       - name: Verify Godot version
         run: godot --version
 
+      - name: Prepare output directory
+        run: mkdir -p web-build
+
       - name: Export Web build
         run: godot --headless --path . --export-release "Web" web-build/index.html
 
