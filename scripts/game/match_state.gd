@@ -27,20 +27,21 @@ func _init(value: int = 1) -> void:
 	weapons = [choices.duplicate(),choices.duplicate()]
 	generate_rewards()
 func capacity() -> int:
-	return [3,4,5,6,6][stage-1]
-# P8 バックパックグリッド配置（配置基盤）。既存の段階制容量（上のcapacity()）は「装備できる
-# 個数の上限」としてそのまま維持する——大量の既存テスト・CPU準備ロジック（auto_prepare）が
-# この個数上限に依存しているため、着脱の可否そのものはここでは変えない。グリッドは各装備
-# レリックが占有するマス（配置パズル・将来の隣接シナジー用の見た目レイヤー）を追加で管理する
-# だけの層で、「面積そのものを着脱の制約にする」のは次段階（P8b/P8c）で改めて検討する。
-# 段階別マス数は現行の個数上限3/4/5/6/6に対して余裕を持たせた仮の値（要playtest調整、
-# claude/backpack-inventory-idea.md「段階1=3×2〜段階5=4×4程度」の叩き台をそのまま採用）。
+	var size := grid_size()
+	return size.x * size.y
+# P8x グリッド拡張基盤：容量モデルをグリッドの面積そのものに統合した（P8時点の「個数上限は
+# 変更しない」という設計判断を撤回）。capacity()は「グリッドの総マス数」を返す補助関数に
+# なり、着脱可否そのものはplace()/toggle()/claim()がfits()/auto_place()（実際にその形状が
+# 収まる空きマスがあるか）だけで判定する。個数がいくつであっても、装備中レリックの形状の
+# 合計占有マスがグリッドに収まる限り装備できる——強いレリックほど複数マスを取るぶん、結果的
+# に「数」を圧迫する。段階別マス数はP8時点の仮値をそのまま流用（要playtest調整、
+# claude/backpack-inventory-idea.md「段階1=3×2〜段階5=4×4程度」の叩き台）。
 const GRID_SIZES := [Vector2i(3,2),Vector2i(4,2),Vector2i(4,3),Vector2i(4,4),Vector2i(4,4)]
 func grid_size() -> Vector2i:
 	return GRID_SIZES[stage-1]
 # 現在装備中のレリックが占有しているマスを {Vector2i(セル): レリックid} で返す。position未記録
-# の装備品（例：テストがbuilds[i]を直接書き換えて構築した場合）は無視する——配置レイヤーは
-# あくまで「置ければ置く」ベストエフォートの上乗せで、個数上限の判定には関与しない。
+# の装備品は無視する——place()/toggle()/claim()を経由して装備したものは必ずpositionsに記録
+# されるため、この経路を通らずにbuilds[i]を直接書き換えるコード（テスト等）だけが対象になる。
 func occupied_cells(i: int, exclude_id: int = -1) -> Dictionary:
 	var cells := {}
 	var positions: Dictionary = builds[i].get("positions",{})
@@ -59,8 +60,8 @@ func fits(i: int, id: int, anchor: Vector2i, exclude_id: int = -1) -> bool:
 		if cells.has(cell): return false
 	return true
 # 読み順（左上→右下）で最初に空いている配置先を返す。CPU準備、および人間側のドラッグ操作を
-# 経ない自動装備（報酬即時装備・フィールド仮装備相当）の見た目位置決めに使う。置き場がなけれ
-# ば Vector2i(-1,-1)（この場合も装備自体は個数上限のみで成立し、位置は単に記録されない）。
+# 経ない自動装備（報酬即時装備）の位置決めに使う。置き場がなければVector2i(-1,-1)——P8xでは
+# これがそのまま「装備できない（グリッド満杯）」の判定にもなる（_equip_if_fits()参照）。
 func auto_place(i: int, id: int) -> Vector2i:
 	var size := grid_size()
 	for y in range(size.y):
@@ -68,15 +69,13 @@ func auto_place(i: int, id: int) -> Vector2i:
 			var anchor := Vector2i(x,y)
 			if fits(i,id,anchor): return anchor
 	return Vector2i(-1,-1)
-# ドラッグ＆ドロップなど、置き場所を明示的に指定する経路。既装備品の移動にも使う（この場合は
-# 個数上限を再チェックしない）。位置が収まらなければ何もせずfalseを返す。
+# ドラッグ＆ドロップなど、置き場所を明示的に指定する経路。既装備品の移動にも使う。P8xにより
+# 着脱可否はfits()（実際にその位置へ収まるか）だけで決まる——個数上限は撤廃済み。
 func place(i: int, id: int, anchor: Vector2i) -> bool:
 	if ready[i] or id not in builds[i].owned: return false
 	var already: bool = id in builds[i].equipped
 	if not fits(i,id,anchor,id if already else -1): return false
-	if not already:
-		if builds[i].equipped.size() >= capacity(): return false
-		builds[i].equipped.append(id)
+	if not already: builds[i].equipped.append(id)
 	if not builds[i].has("positions"): builds[i]["positions"] = {}
 	builds[i].positions[id] = anchor
 	return true
@@ -128,29 +127,26 @@ func claim(i: int, id) -> bool:
 		builds[i].mods[parsed.weapon_id] = parsed.mod_key
 	else:
 		builds[i].owned.append(id)
-		if builds[i].equipped.size() < capacity():
-			builds[i].equipped.append(id)
-			_auto_position(i,id)
+		_equip_if_fits(i,id)
 	remaining[i] -= 1
 	if not initial: reward_counts[i] += 1
 	return true
-# claim()の即時装備・toggle()の装備側で共通の「置ければ置く」ベストエフォート位置決め。
-# auto_place()が置き場を見つけられなくても装備自体は成立済みなので、位置は単に記録しない
-# （見た目上は未配置のまま——個数上限だけで着脱可否が決まる設計はfits()/place()のコメント参照）。
-func _auto_position(i: int, id: int) -> void:
+# claim()の即時装備・toggle()の装備側で共通の「収まるなら装備する」処理。P8xでグリッドの
+# 空きマスが実際の制約になったため、旧来の「置き場がなくても個数上限内なら装備は成立する」
+# という抜け道は廃止した——装備が成立する＝実際にグリッドへ置ける、という一本の基準に統一する。
+func _equip_if_fits(i: int, id: int) -> bool:
 	var anchor := auto_place(i,id)
-	if anchor.x < 0: return
+	if anchor.x < 0: return false
+	builds[i].equipped.append(id)
 	if not builds[i].has("positions"): builds[i]["positions"] = {}
 	builds[i].positions[id] = anchor
+	return true
 func toggle(i: int, id: int) -> bool:
 	if ready[i] or id not in builds[i].owned: return false
 	if id in builds[i].equipped:
 		builds[i].equipped.erase(id)
 		builds[i].get("positions",{}).erase(id)
-	elif builds[i].equipped.size() < capacity():
-		builds[i].equipped.append(id)
-		_auto_position(i,id)
-	else: return false
+	elif not _equip_if_fits(i,id): return false
 	return true
 func discard(i: int, id: int) -> bool:
 	if ready[i] or id not in builds[i].owned: return false

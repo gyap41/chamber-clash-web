@@ -5,11 +5,17 @@ const RelicCard = preload("res://scripts/ui/relic_card.gd")
 var slots: Array = []
 var relic_cards: Array = []
 const RELIC_HINTS := ["移動 +12%", "装填時間 -35%", "壁反射 +1回", "攻撃を1回防ぐ", "最大HP +2", "回避で6方向弾", "威力+15% / 弾速-20%", "満タン初射 +20%", "切替で1発装填", "パルスで6方向弾", "弾消しで回避短縮", "初反射で弾速+20%", "反射地点に停止弾", "空から装填で追加弾", "帰還→切替で威力増", "近接で消すと追加弾", "切替で弱い追射", "回避で予備弾を装填"]
+# P8x：容量モデルがグリッド面積（match_state.gdのGRID_SIZES、最大4×4＝16マス）に統合された
+# ため、戦闘中HUDのレリック枠も最大値ぶん確保しておく（そうしないと7個目以降を装備した際に
+# HUD上から表示が消えてしまう）。表示自体はrefresh_relics()側でその時点のrelic_capacity分
+# だけに絞るため、常に16枚すべてが見えるわけではない。段階が進むと横に長くなりうるが、これは
+# P10（UIテーマ・見た目の作り込み）での調整を前提とした割り切り。
+const MAX_RELIC_CAPACITY := 16
 func _ready() -> void:
 	$Root/Status.tooltip_text = "弾の外周：橙=P1、青=P2。黄色の二重輪=高威力・設置・分裂・派生弾。紫の破線=仮装備を持つ相手の派生弾。レリック欄にカーソルを重ねると効果を確認できます。"
 	for i in range(2):
 		var cards: Array = []
-		for n in range(6):
+		for n in range(MAX_RELIC_CAPACITY):
 			var card := RelicCard.new()
 			card.custom_minimum_size = Vector2(0,36)
 			card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -105,8 +111,13 @@ func refresh(players: Array, remaining: float, paused: bool, result: String, sco
 
 func refresh_relics(index: int, player) -> void:
 	get_node("Root/Relics/P%d/Heading" % (index+1)).text = "P%d 装備中レリック %d/%d  · カーソルで詳細" % [index+1,player.relics.size(),player.relic_capacity]
-	for slot in range(6):
+	# P8x：容量＝グリッド面積になり段階ごとに増減するため、カードは常にrelic_capacity分だけ
+	# 表示し、残り（MAX_RELIC_CAPACITY-relic_capacity）は非表示にする。「未解放」表示は撤廃——
+	# 今の容量モデルでは「そもそもそのマスがまだ存在しない」ので、非表示にするのが素直な対応。
+	for slot in range(MAX_RELIC_CAPACITY):
 		var card: PanelContainer = relic_cards[index][slot]
+		card.visible = slot < player.relic_capacity
+		if not card.visible: continue
 		var title: Label = card.get_child(0).get_child(0)
 		var hint: Label = card.get_child(0).get_child(1)
 		var id: int = player.relics[slot] if slot < player.relics.size() else -1
@@ -124,8 +135,8 @@ func refresh_relics(index: int, player) -> void:
 			style.content_margin_right = 3
 			card.add_theme_stylebox_override("panel",style)
 		if id < 0:
-			title.text = "空き枠" if slot < player.relic_capacity else "未解放"
-			hint.text = "準備画面で装備" if slot < player.relic_capacity else "成長で解放"
+			title.text = "空き枠"
+			hint.text = "準備画面で装備"
 			card.tooltip_text = title.text
 			card.modulate = Color(1,1,1,.4)
 			continue

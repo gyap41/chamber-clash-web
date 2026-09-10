@@ -1,4 +1,10 @@
 extends SceneTree
+# P8x：容量モデルをグリッドの面積に統合したことに伴い、このテストが前提にしていた「装備6個
+# ちょうどで個数上限に達する」という挙動（旧stage4の固定capacity()==6）はなくなった。面積
+# ベースでは同じ6個（id2・id4が複数マス）でもグリッドに空きがある限り装備でき、グリッドが
+# 本当に満杯かどうかはtests/relic_grid.gdの専用ケースで検証している。ここでは「所持庫8個の
+# 上限」「入れ替え・破棄」「重複・仮装備ガード」「回復抜け防止」「主力Sの装備・ラウンド
+# リセット」という、容量モデルの具体的な数値には依存しない部分を検証する。
 func _initialize() -> void:
 	call_deferred("run")
 func run() -> void:
@@ -7,29 +13,35 @@ func run() -> void:
 	game.set_physics_process(false)
 	var m = game.match_state
 	m.stage = 4
-	m.builds[0] = {"owned":[0,1,2,3,4,5,6,7],"equipped":[0,1,2,3,4,5],"main":1}
+	m.builds[0] = {"owned":[0,1,2,3,4,5,6,7],"equipped":[],"main":1}
+	for id in [0,1,2,3,4,5]: assert(m.place(0,id,m.auto_place(0,id))) # 実際にグリッドへ置いて装備させる（占有マスを正しく記録するため）
 	m.rewards[0] = [8,9,10]
 	m.remaining[0] = 1
-	assert(not m.claim(0,8) and not m.toggle(0,6))
-	assert(m.toggle(0,5) and m.toggle(0,6))
+	assert(not m.claim(0,8)) # 所持庫8個で満杯：グリッドの空き（stage4は4×4=16マス、まだ7マス空き）に関係なく弾かれる
+	assert(m.toggle(0,6) and 6 in m.builds[0].equipped) # グリッドに空きがあるので装備できる（旧・個数上限6ならここで弾かれていた）
+	assert(m.toggle(0,6) and 6 not in m.builds[0].equipped) # 解除も通常どおり
 	assert(m.builds[0].equipped.size() == 6)
-	assert(m.discard(0,7) and m.claim(0,8))
+	assert(m.discard(0,7) and m.claim(0,8)) # 7を破棄して空けた枠に8を獲得。P8xではclaim()時にグリッドの空きへ自動配置されるので、8はそのまま装備される（装備7個目）
 	assert(m.builds[0].owned.size() == 8 and not m.claim(0,9))
 	var p = game.players[0]
 	p.state.hp = 3
 	for n in range(8):
-		p.apply_build(m.builds[0],6)
+		p.apply_build(m.builds[0],m.capacity())
 		m.toggle(0,4)
-		p.apply_build(m.builds[0],6)
+		p.apply_build(m.builds[0],m.capacity())
 		m.toggle(0,4)
 	assert(p.state.hp == 3)
-	p.apply_build(m.builds[0],6,true)
+	p.apply_build(m.builds[0],m.capacity(),true)
 	assert(p.state.hp == 10)
-	assert(not p.acquire_temporary(9)) # full equipped capacity
-	m.toggle(0,3)
-	p.apply_build(m.builds[0],6,true)
-	assert(p.acquire_temporary(9) and not p.acquire_temporary(10))
-	assert(p.temporary_relic == 9 and p.relics.size() == 6)
+	assert(p.relics.size() == 7) # 上のclaim(0,8)が自動装備された分（旧・個数上限6なら装備されず6個のままだった）
+	# 仮装備ガード（player.gdのrelic_capacity到達）は容量モデルの数値そのものとは独立した
+	# ロジックなので、ここではcapacity引数にちょうど今の装備数を渡して「満杯」の境界を作る
+	# （play_feedback.gdで使われている手法と同じ）。
+	p.apply_build(m.builds[0],p.relics.size(),true)
+	assert(not p.acquire_temporary(9)) # ちょうど満杯なので仮装備できない
+	p.apply_build(m.builds[0],p.relics.size()+1,true)
+	assert(p.acquire_temporary(9) and not p.acquire_temporary(10)) # 1枠空けば1個だけ仮装備できる。仮装備は1ラウンド1個まで
+	assert(p.temporary_relic == 9 and p.relics.size() == p.relic_capacity)
 	# Stored (unequipped) IDs cannot be acquired again on the field.
 	p.temporary_relic = -1
 	assert(not p.acquire_temporary(3))
@@ -54,6 +66,6 @@ func run() -> void:
 	assert(p.weapon().id == 8 and p.weapon().clip == p.definition().mag and p.weapon().mode == 0)
 	assert(p.state.hp == p.state.max_hp and p.state.pulses == p.initial_pulses and p.state.shield == 0)
 	assert(p.inventory.size() == 2)
-	print("PASS: 8 inventory, 6 equipment, swap/discard, duplicate/temp guards, no healing exploit, S main/reset")
+	print("PASS: 8 inventory, area-based equip (P8x), swap/discard, duplicate/temp guards, no healing exploit, S main/reset")
 	game.queue_free()
 	quit()

@@ -2,8 +2,10 @@ extends SceneTree
 # P8 バックパックグリッド配置（配置基盤）。scripts/catalog/relic_shapes.gd（オフセットリスト
 # 形状）・scripts/game/match_state.gd（grid_size/fits/occupied_cells/auto_place/place、および
 # toggle()/claim()/discard()への位置連動）・scripts/ui/relic_grid_cell.gd・relic_tray.gdの
-# ドロップ判定を検証する。既存の個数上限（capacity()）自体は変更していないため、
-# tests/build_inventory.gd等の既存アサーションはそのまま成立する前提（このテストでは触れない）。
+# ドロップ判定を検証する。P8xでcapacity()はグリッドの総マス数（面積）を返すよう再定義され、
+# 着脱可否は個数ではなくfits()/auto_place()（実際にその形状が収まる空きマスがあるか）だけで
+# 決まる（詳細はmatch_state.gdのcapacity()直後のコメント参照）。この変更に伴い、旧・個数上限
+# 前提だったtests/build_inventory.gdのアサーションは別途書き直し済み。
 func _initialize() -> void:
 	call_deferred("run")
 func run() -> void:
@@ -52,12 +54,18 @@ func run() -> void:
 	m.builds[0].equipped.clear()
 	m.builds[0].positions.clear()
 
-	# --- 個数上限（capacity）は今回も維持：グリッドに空きがあっても上限を超えては置けない ---
-	m.builds[0].owned = [10,11,12,13]
+	# --- P8x：容量は面積に統合済み。個数ではなく「グリッドに実際に収まるか」だけで着脱可否が決まる ---
+	assert(m.capacity() == 6) # stage1は3×2＝6マス（旧・個数上限3は撤廃）
+	m.builds[0].owned = [10,11,12,13,14,15,16]
 	assert(m.place(0,10,Vector2i(0,0)) and m.place(0,11,Vector2i(1,0)) and m.place(0,12,Vector2i(2,0)))
-	assert(m.builds[0].equipped.size() == m.capacity()) # stage1は3
-	assert(not m.place(0,13,Vector2i(0,1))) # (0,1)は空いているが個数上限で弾かれる
-	assert(13 not in m.builds[0].equipped)
+	assert(m.builds[0].equipped.size() == 3) # 旧モデルなら個数上限（3）がここで天井だったが、今は単に3マス使っただけ
+	assert(m.place(0,13,Vector2i(0,1))) # (0,1)は空いている——旧・個数上限では弾かれていたが今は成功する
+	assert(m.place(0,14,Vector2i(1,1)) and m.place(0,15,Vector2i(2,1))) # 残り2マスも埋めて6/6
+	assert(m.builds[0].equipped.size() == m.capacity())
+	assert(not m.place(0,16,Vector2i(0,0))) # グリッドが本当に満杯：空きマスがなければ7個目でも失敗する
+	assert(16 not in m.builds[0].equipped)
+	assert(m.toggle(0,10)) # 1個外せば1マス空く
+	assert(m.toggle(0,16) and m.builds[0].equipped.size() == m.capacity()) # 空いたマスに収まって再び満杯
 
 	# --- toggle()／claim()の自動配置、discard()での位置解除 ---
 	m.builds[0].equipped.clear()
@@ -111,6 +119,6 @@ func run() -> void:
 	ms.builds[0].owned = [0,1,2,3,4,5,6,10,11,12,13,14]
 	for id in [0,1,4]: ms.place(0,id,ms.auto_place(0,id))
 	prep.refresh()
-	print("PASS: relic grid shapes/occupancy/fits, auto-place reading order, capacity ceiling kept, toggle/claim/discard position bookkeeping, grid-cell/tray drop delegation")
+	print("PASS: relic grid shapes/occupancy/fits, auto-place reading order, area-based capacity ceiling (P8x), toggle/claim/discard position bookkeeping, grid-cell/tray drop delegation")
 	game.queue_free()
 	quit()

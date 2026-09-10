@@ -211,9 +211,9 @@ func refresh() -> void:
 		var reward_label: String = info.name+"（"+compat+"）"+("（仮装備を確保）" if not is_mod and id == state.temporary[turn] else "")
 		var tip: String = info.desc + "\n相性：" + compat + (" / "+reason if reason != "" else "")
 		button_at(columns[1],reward_label,claim.bind(id),reason != "",tip)
-	# P8 配置基盤：レリックはグリッドへドラッグして配置する。着脱の可否自体は従来どおり
-	# capacity()の個数上限で決まり（グリッドは見た目・配置パズル用の上乗せ層）、満杯時は
-	# 控えへドラッグで戻してから別のレリックを置く。
+	# P8x：レリックはグリッドへドラッグして配置する。着脱の可否はグリッドに実際にその形状が
+	# 収まる空きマスがあるかどうかだけで決まる（個数上限は撤廃済み）。満杯時は控えへドラッグ
+	# で戻してから別のレリックを置く。
 	label_at(columns[2],"レリックをグリッドへドラッグして配置。外すときは下の「控えへ戻す」枠へドラッグ。")
 	build_relic_grid(columns[2],state,turn,build)
 	label_at(columns[2],"控え（ドラッグで解除、×で所持庫から完全放棄）")

@@ -93,11 +93,14 @@ func run() -> void:
 		if second < 90: s.step(1.0)
 	assert(counts.weapon == 6 and counts.legendary == 2 and counts.relic == 2 and counts.ammo == 14)
 	# All equipped relics get an individual name, effect and functioning hover target.
+	# P8x：カードのプールはMAX_RELIC_CAPACITY（16）分確保されているが、表示はrelic_capacity分
+	# だけに絞られる（残りは非表示）。
 	p.relic_capacity = 6
 	p.relics = [3,6,12,13,14,16]
 	p.temporary_relic = 16
 	game.hud.refresh_relics(0,p)
-	assert(game.hud.relic_cards[0].size() == 6)
+	assert(game.hud.relic_cards[0].size() == game.hud.MAX_RELIC_CAPACITY)
+	for slot in range(game.hud.MAX_RELIC_CAPACITY): assert(game.hud.relic_cards[0][slot].visible == (slot < 6))
 	for n in range(6):
 		var card = game.hud.relic_cards[0][n]
 		assert(card.mouse_filter == Control.MOUSE_FILTER_STOP)
