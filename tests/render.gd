@@ -50,6 +50,19 @@ func run() -> void:
 	game.spawn_shot(1,0,0,{"pos":Vector2(730,410),"depth":1,"speed":0.0,"damage":.4})
 	game.hud.refresh(game.players,game.remaining,game.paused,game.result,game.scores,game.phase)
 	await capture("-p4-danger-temporary")
+	game.players[0].relic_capacity = 6
+	game.players[0].relics = [0,1,2,3,6,7]
+	game.players[1].relics = [12,13,14,15,16,17]
+	game.players[1].temporary_relic = 17
+	game.hud.refresh(game.players,game.remaining,game.paused,game.result,game.scores,game.phase)
+	await capture("-relic-cards-six")
+	var relic_hover := InputEventMouseMotion.new()
+	relic_hover.position = game.hud.relic_cards[1][5].get_global_rect().get_center()
+	relic_hover.global_position = relic_hover.position
+	root.push_input(relic_hover,true)
+	await create_timer(.7).timeout
+	assert(root.gui_get_hovered_control() == game.hud.relic_cards[1][5])
+	await capture("-relic-tooltip")
 	game.use_pulse(1)
 	game._physics_process(.12)
 	await capture("-pulse")

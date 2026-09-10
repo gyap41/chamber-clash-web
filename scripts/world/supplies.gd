@@ -3,12 +3,14 @@ const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const Relics = preload("res://scripts/catalog/relic_catalog.gd")
 # legacy-web/dist/data.js RARITIES (not included in catalog.json).
 const RARITY_COLORS := {"C":"#a7c5df","B":"#79e1c5","A":"#d2a0ff","S":"#ffdb78"}
-@export var first_relic_delay := 17.0
-@export var relic_interval := 18.0
+@export var first_relic_delay := 35.0
+@export var relic_interval := 90.0
 @export var pickup_scene: PackedScene = preload("res://scenes/world/pickup.tscn")
-@export var first_supply_delay := 12.0
-@export var supply_interval := 14.0
-@export var legendary_time := 30.0
+@export var first_supply_delay := 28.0
+@export var supply_interval := 40.0
+@export var first_ammo_delay := 12.0
+@export var ammo_interval := 14.0
+@export var legendary_time := 45.0
 @export var pickup_delay := .6
 @export var pickup_lifetime := 42.0
 @export var touch_radius := 31.0
@@ -16,8 +18,9 @@ const RARITY_COLORS := {"C":"#a7c5df","B":"#79e1c5","A":"#d2a0ff","S":"#ffdb78"}
 var game
 var items: Array = []
 var elapsed := 0.0
-var supply_timer := 12.0
-var relic_timer := 17.0
+var supply_timer := 28.0
+var relic_timer := 35.0
+var ammo_timer := 12.0
 var legendary_spawned := false
 var legendary_warned := false
 var notice := ""
@@ -32,6 +35,7 @@ func reset() -> void:
 	elapsed = 0.0
 	supply_timer = first_supply_delay
 	relic_timer = first_relic_delay
+	ammo_timer = first_ammo_delay
 	legendary_spawned = false
 	legendary_warned = false
 	notice = ""
@@ -41,7 +45,7 @@ func announce(text: String) -> void:
 	notice_time = 3.0
 func weighted_gun(legendary: bool = false) -> int:
 	var roll: float = game.supply_generator.rng.randf()
-	var rarity := "S" if legendary else ("C" if roll < .48 else "B" if roll < .78 else "A" if roll < .95 else "S")
+	var rarity := "S" if legendary else ("C" if roll < .35 else "B" if roll < .75 else "A")
 	var pool: Array = Weapons.SUPPORTED.filter(func(id): return Weapons.definition(id).rarity == rarity)
 	return pool[game.supply_generator.rng.randi_range(0,pool.size()-1)]
 func put_item(kind: String, id: int, pos: Vector2):
@@ -61,13 +65,11 @@ func spawn_group(group: String, kind: String, id: int = 0) -> void:
 	for marker in get_node("Spawns/"+group).get_children():
 		put_item(kind,id,to_local(marker.global_position))
 func launch() -> void:
-	spawn_group("InitialWeapons","weapon",weighted_gun())
 	spawn_group("Ammo","ammo")
-	announce("武器・弾薬は近づいて取得。満杯時は P1 G / P2 H で装備中と交換")
+	announce("選んだ主力で開戦。武器補給は%d秒後、レジェンダリーは%d秒後" % [int(first_supply_delay),int(legendary_time)])
 func periodic_supply() -> void:
 	spawn_group("Weapons","weapon",weighted_gun())
-	spawn_group("Ammo","ammo")
-	announce("武器補給：同じ武器と弾薬箱が両サイドに出現")
+	announce("武器補給：同じ武器が両サイドに出現")
 func acquire(player_index: int, item, replace: bool = false) -> bool:
 	if not active() or not is_instance_valid(item) or item not in items or item.used or item.age < pickup_delay or item.age >= pickup_lifetime: return false
 	var player = game.players[player_index]
@@ -105,6 +107,10 @@ func interact(player_index: int) -> void:
 func step(dt: float) -> void:
 	if not active(): return
 	elapsed += dt
+	ammo_timer -= dt
+	if ammo_timer <= 0:
+		ammo_timer = ammo_interval
+		spawn_group("Ammo","ammo")
 	notice_time = maxf(0.0,notice_time-dt)
 	relic_timer -= dt
 	if relic_timer <= 0:

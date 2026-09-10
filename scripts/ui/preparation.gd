@@ -21,7 +21,7 @@ func select_gun(id: int) -> bool:
 	game.telemetry.record("main",{"player":turn,"id":id})
 	refresh()
 	return true
-func claim(id: int) -> bool:
+func claim(id) -> bool:
 	if game.phase != "prepare" or not game.match_state.claim(turn,id): return false
 	game.telemetry.record("reward",{"player":turn,"id":id})
 	refresh()
@@ -44,7 +44,13 @@ func ready_shop() -> void:
 	game.launch_round()
 	refresh()
 # Deterministic tag-based heuristic; the same state methods enforce every CPU limit.
-func affinity(id: int, gun: int, equipped: Array = []) -> int:
+func affinity(id, gun: int, equipped: Array = []) -> int:
+	# P5 mod tokens ("mod:<weapon_id>:<key>") aren't relics; score them like a solid-but-not-
+	# best pick when they target the CPU's current main, and never applicable otherwise (a
+	# stale token for a main the CPU has since switched away from — see MatchState.mod_reason).
+	if typeof(id) == TYPE_STRING:
+		var parsed := Weapons.parse_mod_token(id)
+		return 3 if not parsed.is_empty() and parsed.weapon_id == gun else 0
 	var g := Weapons.definition(maxi(0,gun))
 	if id == 2: return 0 if ["split","comet","gravity","boomerang","seed","bubble","clover"].any(func(tag): return g.get(tag,false)) else 4
 	if id == 11: return 4 if int(g.get("bounce",0)) > 0 or (2 in equipped and affinity(2,gun) > 0) else 0
@@ -69,7 +75,9 @@ func auto_prepare(i: int) -> void:
 	for id in candidates:
 		if state.remaining[i] <= 0: break
 		if id in state.builds[i].owned: continue
-		if state.builds[i].owned.size() >= 8:
+		# A mod-token claim never touches owned/equipped, so it never needs the 8-slot
+		# discard-to-make-room step below — only guard it for an actual relic id.
+		if typeof(id) != TYPE_STRING and state.builds[i].owned.size() >= 8:
 			state.discard(i,state.builds[i].owned.back())
 		state.claim(i,id)
 	var owned: Array = state.builds[i].owned.duplicate()
@@ -98,9 +106,19 @@ func button_at(parent: Node, text: String, action: Callable, disabled: bool = fa
 	button.add_theme_font_size_override("font_size",14)
 	button.pressed.connect(action)
 	parent.add_child(button)
+# P5: parses either candidate type into a display {name,desc} pair — a relic id via the relic
+# catalog, a "mod:<weapon_id>:<key>" token via the owning weapon's mod branch definition.
+func reward_info(id) -> Dictionary:
+	if typeof(id) == TYPE_STRING:
+		var parsed := Weapons.parse_mod_token(id)
+		var mod := Weapons.mod_definition(parsed.weapon_id,parsed.mod_key)
+		return {"name":Weapons.definition(parsed.weapon_id).name+"改造："+str(mod.name),"desc":str(mod.desc)}
+	return {"name":Relics.definition(id).name,"desc":Relics.definition(id).desc}
 func build_text(build: Dictionary) -> String:
 	var names: Array = build.equipped.map(func(id): return Relics.definition(id).name)
-	return (Weapons.definition(build.main).name if build.main >= 0 else "未確定") + " / " + "・".join(names)
+	var mods: Dictionary = build.get("mods",{})
+	var mod_tag := "" if mods.is_empty() else "・改造%d件" % mods.size()
+	return (Weapons.definition(build.main).name if build.main >= 0 else "未確定") + mod_tag + " / " + "・".join(names)
 func refresh() -> void:
 	$Root.visible = game.phase == "prepare"
 	if not $Root.visible: return
@@ -110,8 +128,9 @@ func refresh() -> void:
 	$Root/Panel/Content/Info.text = "相手の前ラウンド確定ビルド：" + build_text(state.previous[1-turn])
 	$Root/Panel/Content/Info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	$Root/Panel/Content/Ready.text = "準備完了" if turn == 0 and not game.players[1].is_cpu else "準備完了・対戦開始"
-	$Root/Panel/Content/Ready.disabled = build.main < 0 or (state.remaining[turn] > 0 and state.rewards[turn].any(func(id): return id not in build.owned))
-	$Root/Panel/Content/Notice.text = "報酬残り%d回。主力と報酬を選び、装備を整理して準備完了。G/Hで仮装備（1ラウンド1個）。\n着脱では回復せず戦闘開始時に全快。時間制限なし。ローカル2人では画面上の選択は秘匿できません。" % state.remaining[turn]
+	$Root/Panel/Content/Ready.disabled = build.main < 0 or (state.remaining[turn] > 0 and state.rewards[turn].any(func(id): return state.reason(turn,id) == ""))
+	$Root/Panel/Content/Notice.text = "報酬残り%d回。主力と報酬（レリック取得／主力改造）を選び、装備を整理して準備完了。G/Hで仮装備（1ラウンド1個）。\n着脱では回復せず戦闘開始時に全快。時間制限なし。ローカル2人では画面上の選択は秘匿できません。" % state.remaining[turn]
+	if not build.get("mods",{}).is_empty(): $Root/Panel/Content/Notice.text += "\n武器改造は武器ごとに紐づき、主力を切り替えても消えませんが、その武器を主力にしている間だけ有効です。"
 	var scroll_positions: Array = []
 	for child in $Root/Panel/Content/Cards.get_children():
 		scroll_positions.append(child.scroll_vertical if scroll_turn == turn else 0)
@@ -131,16 +150,21 @@ func refresh() -> void:
 		if n < scroll_positions.size(): scroll.set_deferred("scroll_vertical",scroll_positions[n])
 	label_at(columns[0],"主力1丁を指定（サイドアーム常備）")
 	label_at(columns[0],"開始時HP：%d / パルス：%d" % [game.players[turn].max_hp+(2 if 4 in build.equipped else 0),game.players[turn].initial_pulses])
+	var mods: Dictionary = build.get("mods",{})
 	for id in state.weapons[turn]:
-		button_at(columns[0],("✓ " if id == build.main else "")+Weapons.definition(id).name,select_gun.bind(id))
+		var mod_tag := "　⚙"+str(Weapons.mod_definition(id,mods[id]).name) if mods.has(id) else ""
+		button_at(columns[0],("✓ " if id == build.main else "")+Weapons.definition(id).name+mod_tag,select_gun.bind(id))
 		label_at(columns[0],Weapons.definition(id).desc)
-	label_at(columns[1],"無料レリック報酬：初回2個 / 以後1個")
+	label_at(columns[1],"無料レリック報酬／主力改造：初回2個 / 以後1個")
 	var candidates: Array = state.rewards[turn].duplicate()
 	if state.temporary[turn] >= 0 and state.temporary[turn] not in candidates: candidates.append(state.temporary[turn])
 	for id in candidates:
 		var reason: String = state.reason(turn,id)
-		button_at(columns[1],Relics.definition(id).name+("（仮装備を確保）" if id == state.temporary[turn] else ""),claim.bind(id),reason != "")
-		label_at(columns[1],Relics.definition(id).desc + "\n相性：" + ("主力には適用なし" if affinity(id,build.main,build.equipped) == 0 else ("良好" if affinity(id,build.main,build.equipped) >= 3 else "汎用")) + (" / "+reason if reason != "" else ""))
+		var info := reward_info(id)
+		var is_mod := typeof(id) == TYPE_STRING
+		button_at(columns[1],info.name+("（仮装備を確保）" if not is_mod and id == state.temporary[turn] else ""),claim.bind(id),reason != "")
+		var compat: String = "主力の改造" if is_mod else ("主力には適用なし" if affinity(id,build.main,build.equipped) == 0 else ("良好" if affinity(id,build.main,build.equipped) >= 3 else "汎用"))
+		label_at(columns[1],info.desc + "\n相性：" + compat + (" / "+reason if reason != "" else ""))
 	label_at(columns[2],"所持庫：クリックで着脱・満杯時は先に外す")
 	for id in build.owned:
 		button_at(columns[2],("装備中 " if id in build.equipped else "控え ")+Relics.definition(id).name,toggle.bind(id),id not in build.equipped and build.equipped.size() >= state.capacity())

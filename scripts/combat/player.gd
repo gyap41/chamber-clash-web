@@ -41,6 +41,11 @@ const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const Relics = preload("res://scripts/catalog/relic_catalog.gd")
 const Characters = preload("res://scripts/catalog/character_catalog.gd")
 var inventory: Array = []
+# P5: weapon_key(int) -> mod branch key(String) for the currently applied build, mirroring
+# MatchState.builds[i].mods. Keyed by weapon id (not inventory slot) so a branch stays
+# attached to the weapon it was chosen for even if the player's main later changes — see
+# resolved_definition()/definition() below, which are the only readers.
+var weapon_mods: Dictionary = {}
 var relics: Array = []
 var relic_capacity := 3
 var owned_relics: Array = []
@@ -232,8 +237,13 @@ func sync_visual() -> void:
 
 func weapon() -> Dictionary:
 	return inventory[state.gun]
+# P5: the definition for a given weapon id, with this player's active mod branch for that id
+# (if any) applied. Prefer this over Weapons.definition() wherever a live weapon instance
+# belonging to this player is in play, so damage/speed/bounce/etc. reflect the chosen branch.
+func resolved_definition(id: int) -> Dictionary:
+	return Weapons.resolved_definition(id, weapon_mods.get(id, ""))
 func definition() -> Dictionary:
-	return Weapons.definition(weapon().id)
+	return resolved_definition(weapon().id)
 func owns(id: int) -> bool:
 	return inventory.any(func(w): return w.id == id)
 func add_gun(id: int) -> bool:
@@ -260,7 +270,7 @@ func equip_slot(index: int) -> void:
 	# pulse also removes any echo-holster shot the pulsing player had reserved against them.
 	if 16 in relics and state.echo_holster_cd <= 0:
 		var outgoing := weapon()
-		var outgoing_def := Weapons.definition(outgoing.id)
+		var outgoing_def: Dictionary = resolved_definition(outgoing.id)
 		var relic16 := Relics.definition(16)
 		state.echo_holster_cd = float(relic16.get("holster_cooldown",2.5))
 		if int(outgoing.clip)+int(outgoing.reserve) > 0:
@@ -362,6 +372,7 @@ func apply_build(build: Dictionary, capacity: int, heal: bool = false) -> void:
 	relic_capacity = capacity
 	owned_relics = build.owned.duplicate()
 	relics = build.equipped.duplicate()
+	weapon_mods = build.get("mods", {}).duplicate()
 	temporary_relic = -1
 	state.max_hp = max_hp + (2.0 if 4 in relics else 0.0)
 	state.hp = state.max_hp if heal else minf(state.hp,state.max_hp)

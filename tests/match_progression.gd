@@ -22,8 +22,12 @@ func run() -> void:
 			prepare(game)
 			assert(game.match_state.stage == round_index+1)
 			assert(game.match_state.reward_counts == [round_index,round_index])
-			for p in game.players:
-				assert(p.relics.size() == 2+round_index)
+			for i in range(2):
+				var p = game.players[i]
+				# P5: auto_prepare() can spend a reward pick on a weapon-mod branch instead of a
+				# relic once a player's main is one of the moddable guns, so relic count can run
+				# short of "2+round_index" by however many mod branches that player has claimed.
+				assert(p.relics.size() == 2+round_index-game.match_state.builds[i].mods.size())
 				assert(p.relic_capacity == [3,4,5,6,6][round_index])
 				assert(p.state.hp == p.state.max_hp and p.state.pulses == p.initial_pulses)
 				assert(p.inventory.size() == 2 and p.weapon().mode == 0)

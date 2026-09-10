@@ -26,3 +26,40 @@ static func art(id: int) -> AtlasTexture:
 
 static func rarity_pool(rarity: String) -> Array:
 	return SUPPORTED.filter(func(id): return definition(id).rarity == rarity)
+
+# P5 weapon modification branches: each moddable gun's catalog entry carries an optional
+# "mods" array of {key,name,desc,<stat overrides...>}. Overrides replace fields on a
+# *duplicated* definition dict (see apply_mod) so the shared catalog entry itself is never
+# mutated — "所持定義を共有カタログへ書き戻さない".
+static func mods_for(id: int) -> Array:
+	return Catalog.data.guns[id].get("mods", [])
+static func moddable(id: int) -> bool:
+	return not mods_for(id).is_empty()
+static func mod_definition(id: int, key: String) -> Dictionary:
+	for mod in mods_for(id):
+		if mod.key == key: return mod
+	return {}
+static func apply_mod(base: Dictionary, id: int, key: String) -> Dictionary:
+	var mod := mod_definition(id, key)
+	if mod.is_empty(): return base
+	var merged := base.duplicate()
+	for k in mod:
+		if k == "key" or k == "name" or k == "desc": continue
+		merged[k] = mod[k]
+	merged["mod_key"] = key
+	merged["mod_name"] = mod.name
+	return merged
+# The definition actually in effect for a specific weapon instance: base catalog stats with
+# the active branch's overrides applied, or the untouched base definition when mod_key is
+# empty/unknown. Callers that own a live weapon instance should prefer Player.resolved_
+# definition()/Player.definition() below, which look the active branch up automatically.
+static func resolved_definition(id: int, mod_key: String = "") -> Dictionary:
+	if mod_key == "": return definition(id)
+	return apply_mod(definition(id), id, mod_key)
+static func mod_token(id: int, key: String) -> String:
+	return "mod:%d:%s" % [id, key]
+static func parse_mod_token(token: String) -> Dictionary:
+	if not token.begins_with("mod:"): return {}
+	var parts := token.split(":")
+	if parts.size() != 3 or not parts[1].is_valid_int(): return {}
+	return {"weapon_id": int(parts[1]), "mod_key": parts[2]}

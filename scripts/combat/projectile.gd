@@ -22,7 +22,10 @@ func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionar
 	log_origin = {"root":opts.get("root",-1),"kind":opts.get("kind","shot"),"weapon":id,"player":index}
 	source_player = player
 	var p = player.state
-	var g := Weapons.definition(id)
+	# P5: use the player's own weapon-mod-aware definition (falls back to the plain catalog
+	# entry when this id has no active branch) so a modded weapon's damage/speed/bounce/etc.
+	# apply to every bullet spawned from it, including derived shots that pass id=this gun.
+	var g: Dictionary = player.resolved_definition(id)
 	switcher = g.get("switcher",false)
 	speed = opts.get("speed", g.speed)
 	damage = opts.get("damage", g.damage)
@@ -30,11 +33,12 @@ func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionar
 		speed *= .8
 		damage *= 1.15
 	if g.get("comet",false): lifetime = 1.45
-	elif g.get("gravity",false): lifetime = 1.05
-	lifetime = opts.get("life", 3.6 if g.get("seed",false) else (.8 if g.get("clover",false) else (.68 if g.get("split",false) else (1.8 if g.get("boomerang",false) else lifetime))))
+	elif g.get("gravity",false): lifetime = 1.35
+	lifetime = opts.get("life", float(g.get("seed_life",4.8)) if g.get("seed",false) else (.8 if g.get("clover",false) else (.68 if g.get("split",false) else (1.8 if g.get("boomerang",false) else lifetime))))
 	radius = opts.get("radius", 9.0 if opts.get("parcel", false) else (8.0 if g.get("boomerang",false) else (4.0 if g.get("rail",false) else 5.0)))
 	if g.get("comet",false): radius = opts.get("radius",11.0)
 	elif g.get("gravity",false): radius = opts.get("radius",10.0)
+	elif g.get("seed",false): radius = opts.get("radius",9.0)
 	var special: bool = g.get("split",false) or g.get("comet",false) or g.get("gravity",false) or g.get("boomerang",false) or g.get("seed",false) or g.get("bubble",false) or g.get("clover",false)
 	var can_lens: bool = opts.get("can_lens", true)
 	var bounce: int = int(g.get("bounce",0)) + (1 if (not special and can_lens and 2 in player.relics) else 0)
@@ -45,7 +49,7 @@ func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionar
 	# the same generation effect twice (e.g. a bullet that somehow bounces more than once still
 	# only ever spawns one Echo Seed pool). Derived (depth>0) bullets are excluded from every P3
 	# synergy trigger below on purpose — "派生効果は原則さらに別の生成効果を発動しない".
-	state = {"comet":g.get("comet",false),"gravity":g.get("gravity",false),"split":g.get("split",false),"clover":g.get("clover",false),"boomerang":g.get("boomerang",false),"helix":g.get("helix",false),"phase":opts.get("phase",1),"hits":[],"color":opts.get("color",g.color),"age":0.0,"seed":g.get("seed",false),"boost":g.get("boost",false),"bubble":g.get("bubble",false),"homing":g.get("homing",false),"launched":false,"pos":opts.get("pos",p.pos+Vector2.from_angle(angle)*24),"velocity":Vector2.from_angle(angle)*speed,"owner":index,"life":lifetime,"bounce":bounce,"rebounds":0,"dead":false,"bank":g.get("bank",false),"parcel":opts.get("parcel",false),"volley":opts.get("volley",-1),"depth":int(opts.get("depth",0)),"applied_effects":opts.get("applied_effects",[]).duplicate()}
+	state = {"comet":g.get("comet",false),"gravity":g.get("gravity",false),"split":g.get("split",false),"clover":g.get("clover",false),"boomerang":g.get("boomerang",false),"helix":g.get("helix",false),"phase":opts.get("phase",1),"hits":[],"color":opts.get("color",g.color),"age":0.0,"seed":g.get("seed",false),"boost":g.get("boost",false),"bubble":g.get("bubble",false),"bubble_delay":float(g.get("bubble_delay",1.0)),"homing":g.get("homing",false),"launched":false,"pos":opts.get("pos",p.pos+Vector2.from_angle(angle)*24),"velocity":Vector2.from_angle(angle)*speed,"owner":index,"life":lifetime,"bounce":bounce,"rebounds":0,"dead":false,"bank":g.get("bank",false),"parcel":opts.get("parcel",false),"volley":opts.get("volley",-1),"depth":int(opts.get("depth",0)),"applied_effects":opts.get("applied_effects",[]).duplicate()}
 	position = state.pos
 	$Visual.modulate = Color(opts.get("color",g.color))
 	$Visual.scale = Vector2.ONE * radius/4.0
@@ -71,16 +75,26 @@ func step(dt: float, arena, enemy) -> void:
 	b.life -= dt
 	b.age += dt
 	# Legacy update order: age, special velocity, then swept movement/collision.
-	if b.seed and b.age >= .6: b.velocity = Vector2.ZERO
+	if b.seed and b.age >= .6 and not b.launched:
+		b.velocity = Vector2.ZERO
+		var seed_def: Dictionary = source_player.resolved_definition(gun_id)
+		if b.pos.distance_to(enemy.state.pos) <= float(seed_def.get("seed_trigger_radius",100.0)) and not arena.line_blocked(b.pos,enemy.state.pos):
+			b.launched = true
+			b.velocity = (enemy.state.pos-b.pos).normalized()*float(seed_def.get("seed_seek_speed",440.0))
+			burst_requested.emit(b.pos,Color(b.color),8)
 	if b.boost:
 		b.velocity = b.velocity.normalized() * minf(760.0,b.velocity.length()+500.0*dt)
-	if b.bubble and b.age >= 1.0 and not b.launched:
+	if b.bubble and b.age >= float(b.get("bubble_delay",1.0)) and not b.launched:
 		b.launched = true
 		b.velocity = b.velocity.normalized()*480.0
 	if b.homing:
 		var desired: float = (enemy.state.pos-b.pos).angle()
 		var current: float = b.velocity.angle()
 		var turn_rate := .7 if b.comet else 1.25
+		# Radial stars bend only toward a target in their forward 90-degree cone.
+		# Rear-facing stars keep spreading instead of all twelve collapsing onto one target.
+		if gun_id == 15:
+			turn_rate = 1.8 if absf(wrapf(desired-current,-PI,PI)) <= PI/4 else 0.0
 		var turn := clampf(wrapf(desired-current,-PI,PI),-turn_rate*dt,turn_rate*dt)
 		b.velocity = Vector2.from_angle(current+turn)*b.velocity.length()
 	if b.boomerang and b.age > .65:

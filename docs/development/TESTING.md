@@ -103,3 +103,38 @@ JSONLはGodotの`user://run-logs/`へ保存する（Windowsではプロジェク
 - Windows Compatibility描画テスト成功（GeForce RTX 3070 Ti）。`.local/logs/p4-render-p4-danger-temporary.png`を目視確認し、所有者色の輪・危険弾二重輪・仮装備名・紫破線を確認。その他の描画は同じ`p4-render-*.png`。
 
 残る受入：100msの実際の操作感、長時間の最大弾幕負荷、20〜30試合と人間同士の対策・公平性、効果音の聴取、P4のWeb/Windows配布版。今回は配布・公開していない。自動テストと静止画確認をもってP4の実プレイ評価が完了したとは扱わない。
+
+## 2026-09-09 プレイ評価の反映
+
+- 弱いと報告されたブラックホール、シードマイン、全方位のプラネタリウムを強化。通常武器・レリック補給を減らし、弾薬補給は維持。HUDを個別レリックカードへ変更。
+- `play_feedback.gd`を追加。マインの100px感知・突進命中・遮蔽・近接消去、星弾の前方限定追尾・反射・パルス消去、重力場の拡大と回避・パルスでの対処を確認。
+- 90秒ラウンドで毎回補給を回収した条件の上限を測定：武器6個（S2個を含む）、レリック2個、弾薬箱14個。通常抽選にSが混入しないこと、同じ品の対称配置、既存の取得・交換ルールも確認。
+- 既存テストは新しい武器性能・出現時刻に更新。シードマイン＋ヘビーコア＋スターターセル＋重力1tickのテスト値は2.056→2.858。これは特定条件での値で、全構成の上限ではない。
+- 最終：`powershell -ExecutionPolicy Bypass -File run_tests.ps1 -IncludeRender`で **headless 29本＋描画1本、全30本成功、エラーなし**。ログ：`.local/logs/run_tests-20260909-221204.log`。
+- 描画画像：`.local/logs/feedback-render-relic-cards-six.png`と`feedback-render-relic-tooltip.png`。Windows Compatibilityの縮小表示で両者6枠の名前・効果・仮装備を目視確認し、ビューポートへ入力したホバーイベントでカードの選択と折り返し説明を確認。ネイティブウィンドウの余白に依存しないビューポート座標を使用。
+- ホバー待ち時間を含む描画テストは従来の120フレームでは終了前に打ち切られるため、ランナーでは描画のみ最低300フレームとした。PASSのない実行は成功扱いにしていない。
+
+強化後の実操作感・S武器の満足感・補給の少なさは再プレイ評価が必要。このプレイ評価反映分のコミット・公開は未実施。
+
+## 2026-09-10 P5の実装・検証
+
+P5（武器改造分岐）の実装と検証記録。変更内容の詳細は[実装計画のP5節](../planning/ROGUELIKE_PVP_PLAN.md#p5-実装記録2026-09-10検証済み)、数値はGAME_RULES.mdを参照。
+
+### `device_commit_files`の書き込み反映遅延（新規に確認した運用上の注意）
+
+今回のセッションで、`device_commit_files`が`written`（成功）を返した直後に同じファイルを`device_stage_files`で読み返すと、実際にはユーザー機側の書き込みがまだ反映されておらず、書き換え前の内容が返ってくる事例を複数回確認した（`player.gd`・`projectile.gd`・`hud.gd`・`preparation.gd`でそれぞれ発生。`tests/weapon_mods.gd`でも初回に発生）。応答の`written`はコミット要求が受理されたことを示すだけで、ユーザー機側での反映完了を保証しない模様。この遅延に気づかず「ローカルの編集済みコピーを読めた＝ユーザー機にも反映済み」と誤認したまま次の作業に進んだ結果、修正前のコードのままユーザーにテスト実行を依頼してしまい、同じ失敗を1回余分に再現させた。
+
+教訓：`device_commit_files`のあと、同じファイルをその場で`device_stage_files`し直し、コミット元（`/mnt/user-data/outputs/...`）とのバイト数・ハッシュ一致を確認するまでは「反映済み」と扱わない。一致しない場合は`force:true`で再コミットし、再度ハッシュが一致するまで読み直す。複数ファイルを1回の`device_commit_files`に含めた場合、一部のファイルだけ反映が遅れることがあるため、全ファイルを個別にハッシュ照合する。P3・P4で確立した「バイト照合してからユーザーにテスト依頼する」運用自体は今回も踏襲したが、照合のタイミング（コミット直後の1回の`device_stage_files`だけで済ませていた）が不十分だったことが判明したため、今後は上記の再照合まで行う。
+
+### テストで見つかった不具合と修正
+
+1. **型推論エラーによる連鎖的なスクリプト読み込み失敗**：`player.gd`・`projectile.gd`・`hud.gd`内で、未加型の変数（`player`／`source_player`など）越しに`resolved_definition()`（戻り値`-> Dictionary`）を`var g := ...`のように型推論（`:=`）で受けていた4箇所が、「Cannot infer the type of ... variable」で該当スクリプトごとパースに失敗。読み込みに失敗したスクリプトを使うシーンがある全テスト（`projectile.gd`・`hud.gd`を使うほぼ全テスト）へ連鎖し、初回実行（`run_tests-20260910-005553.log`）は30本中28本FAILした。`catalog`・`reward_generation`の2本のみ、これらのスクリプトを経由しないため成功していた。該当4箇所を`var g: Dictionary = ...`のように明示的な型注釈へ変更して修正（`Weapons.resolved_definition(...)`のように型付き定数`const`経由の呼び出しは元々型推論が通るため対象外）。
+2. **上記修正の書き込み反映遅延**：前述の運用不備により、修正が実際には反映されないままユーザーに再実行を依頼してしまい、再実行（`run_tests-20260910-011054.log`）でも同じ28本FAILを確認。ハッシュ照合を徹底して実際の反映を確認したのち、3度目の実行を依頼した。
+3. **改造トークンとレリックIDの型混在による比較エラー**：`preparation.gd`の`refresh()`内、報酬候補一覧のボタン表示で`id == state.temporary[turn]`を直接比較していたが、`id`が改造トークン（String）の場合にGDScriptがString/int間の`==`演算子を許さずSCRIPT ERROR（`Invalid operands 'String' and 'int' in operator '=='`）になる。3度目の実行（`run_tests-20260910-011054.log`）で`smoke`のみFAILし、`smoke.gd`のキー入力経由で`reset_round()`→`preparation.begin()`→`refresh()`が呼ばれた際に踏んでいたことをバックトレースから特定した。`not is_mod and id == state.temporary[turn]`へガードして修正（`is_mod`は同関数内で`typeof(id)==TYPE_STRING`として既に算出済み）。
+4. **テスト自身の状態リーク**：`tests/weapon_mods.gd`内、「主力を切り替えた改造トークンが`現在の主力ではない`と判定される」ことを確認するassertが、直前の別チェック（`remaining[1] = 0`のまま）を引きずったため、`MatchState.mod_reason()`の判定順（残り報酬回数のチェックが主力一致チェックより先）により`報酬取得済み`を返してFAIL。テスト側で`remaining[1] = 1`を当該assertの直前に入れ直して修正。実装側（`match_state.gd`）の判定順自体は意図通りとして変更していない。
+
+### 最終結果
+
+`powershell -ExecutionPolicy Bypass -File run_tests.ps1`で**headless 30本全件成功、エラーなし**。ログ：`.local/logs/run_tests-20260910-011437.log`。ログ本文を実際に取得し、FAIL・SCRIPT ERROR・ERRORの行が存在しないことを確認済み（サマリー行のみを信頼していない）。
+
+残る受入：改造＋レリックの実プレイでの手触り（低レア主力の終盤性能、S武器への一律置換にならないか、CPUの改造選択の妥当性）、20〜30試合の観察は未実施。このセッションでのコミット・プッシュも未実施。

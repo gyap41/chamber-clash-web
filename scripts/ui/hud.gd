@@ -1,20 +1,43 @@
 extends CanvasLayer
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
+const Relics = preload("res://scripts/catalog/relic_catalog.gd")
+const RelicCard = preload("res://scripts/ui/relic_card.gd")
 var slots: Array = []
+var relic_cards: Array = []
+const RELIC_HINTS := ["移動 +12%", "装填時間 -35%", "壁反射 +1回", "攻撃を1回防ぐ", "最大HP +2", "回避で6方向弾", "威力+15% / 弾速-20%", "満タン初射 +20%", "切替で1発装填", "パルスで6方向弾", "弾消しで回避短縮", "初反射で弾速+20%", "反射地点に停止弾", "空から装填で追加弾", "帰還→切替で威力増", "近接で消すと追加弾", "切替で弱い追射", "回避で予備弾を装填"]
 func _ready() -> void:
 	$Root/Status.tooltip_text = "弾の外周：橙=P1、青=P2。黄色の二重輪=高威力・設置・分裂・派生弾。紫の破線=仮装備を持つ相手の派生弾。レリック欄にカーソルを重ねると効果を確認できます。"
 	for i in range(2):
+		var cards: Array = []
+		for n in range(6):
+			var card := RelicCard.new()
+			card.custom_minimum_size = Vector2(0,36)
+			card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			card.mouse_filter = Control.MOUSE_FILTER_STOP
+			var box := VBoxContainer.new()
+			box.add_theme_constant_override("separation",0)
+			box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			card.add_child(box)
+			for font_size in [14,12]:
+				var label := Label.new()
+				label.add_theme_font_size_override("font_size",font_size)
+				label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+				label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				box.add_child(label)
+			get_node("Root/Relics/P%d/Grid" % (i+1)).add_child(card)
+			cards.append(card)
+		relic_cards.append(cards)
 		var row: Array = []
 		for n in range(4):
 			var button := Button.new()
-			button.custom_minimum_size = Vector2(129,115)
+			button.custom_minimum_size = Vector2(129,86)
 			button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			button.focus_mode = Control.FOCUS_NONE
 			button.expand_icon = true
 			button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			button.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
-			button.add_theme_constant_override("icon_max_width",65)
-			button.add_theme_font_size_override("font_size",12)
+			button.add_theme_constant_override("icon_max_width",45)
+			button.add_theme_font_size_override("font_size",11)
 			button.pressed.connect(func(): get_parent().equip_slot(i,n))
 			get_node("Root/Loadouts/P%d" % (i+1)).add_child(button)
 			row.append(button)
@@ -59,17 +82,7 @@ func refresh(players: Array, remaining: float, paused: bool, result: String, sco
 	else:
 		$Root/Message.text = "%s（%d - %d）　ENTER で次ラウンドの準備" % [result,scores[0],scores[1]]
 	for i in range(2):
-		var names: Array[String] = []
-		for id in players[i].relics:
-			var rname: String = players[i].Relics.definition(id).name
-			if id == 3 and players[i].state.shield > 0: rname += "（%ds）" % ceili(players[i].state.shield)
-			names.append(("[仮] " if id == players[i].temporary_relic else "")+rname)
-		get_node("Root/Relics/P%d" % (i+1)).text = "P%d レリック %d/%d\n%s" % [i+1,names.size(),players[i].relic_capacity,"\n".join([" / ".join(names.slice(0,3))," / ".join(names.slice(3,6))]) if not names.is_empty() else "なし"]
-		var descriptions: Array[String] = []
-		for id in players[i].relics:
-			var relic: Dictionary = players[i].Relics.definition(id)
-			descriptions.append(("[仮] " if id == players[i].temporary_relic else "") + str(relic.name) + ": " + str(relic.desc))
-		get_node("Root/Relics/P%d" % (i+1)).tooltip_text = "\n".join(descriptions)
+		refresh_relics(i,players[i])
 		for n in range(4):
 			var button: Button = slots[i][n]
 			var player = players[i]
@@ -80,9 +93,49 @@ func refresh(players: Array, remaining: float, paused: bool, result: String, sco
 				button.modulate = Color.WHITE
 				continue
 			var w: Dictionary = player.inventory[n]
-			var g := Weapons.definition(w.id)
+			# P5: resolved_definition() folds in this weapon's active mod branch (if any), so the
+			# HUD name/tooltip surface it — part of P5's "改造＋レリックの...表示...を検証する".
+			var g: Dictionary = player.resolved_definition(w.id)
+			var mod_tag: String = "　⚙"+str(g.mod_name) if g.has("mod_name") else ""
 			button.icon = Weapons.art(w.id)
 			var active: bool = player.state.gun == n
 			button.modulate = Color("ffd091") if active else Color.WHITE
-			button.text = "%d %s\n%s\n%d / %d%s" % [n+1,"装備中" if active else "",g.name,w.clip,w.reserve," 装填中" if active and player.state.reload > 0 else (" 散弾" if w.mode == 1 else "")]
-			button.tooltip_text = g.desc
+			button.text = "%d %s\n%s%s\n%d / %d%s" % [n+1,"装備中" if active else "",g.name,mod_tag,w.clip,w.reserve," 装填中" if active and player.state.reload > 0 else (" 散弾" if w.mode == 1 else "")]
+			button.tooltip_text = g.desc + ("\n改造："+str(g.mod_name) if g.has("mod_name") else "")
+
+func refresh_relics(index: int, player) -> void:
+	get_node("Root/Relics/P%d/Heading" % (index+1)).text = "P%d 装備中レリック %d/%d  · カーソルで詳細" % [index+1,player.relics.size(),player.relic_capacity]
+	for slot in range(6):
+		var card: PanelContainer = relic_cards[index][slot]
+		var title: Label = card.get_child(0).get_child(0)
+		var hint: Label = card.get_child(0).get_child(1)
+		var id: int = player.relics[slot] if slot < player.relics.size() else -1
+		# Rebuild styles only when equipment changes, not on every physics frame.
+		var temporary: bool = id >= 0 and id == player.temporary_relic
+		var style_key := "%d/%s/%d" % [id,temporary,player.relic_capacity]
+		if card.get_meta("style_key","") != style_key:
+			card.set_meta("style_key",style_key)
+			var style := StyleBoxFlat.new()
+			style.bg_color = Color("352940") if temporary else Color("202930")
+			style.border_color = Color("e6a0ff") if temporary else (Color(Relics.definition(id).color) if id >= 0 else Color("465057"))
+			style.set_border_width_all(1)
+			style.border_width_left = 4
+			style.content_margin_left = 6
+			style.content_margin_right = 3
+			card.add_theme_stylebox_override("panel",style)
+		if id < 0:
+			title.text = "空き枠" if slot < player.relic_capacity else "未解放"
+			hint.text = "準備画面で装備" if slot < player.relic_capacity else "成長で解放"
+			card.tooltip_text = title.text
+			card.modulate = Color(1,1,1,.4)
+			continue
+		card.modulate = Color.WHITE
+		var relic: Dictionary = Relics.definition(id)
+		title.text = ("仮 " if temporary else "") + str(relic.name)
+		title.modulate = Color(relic.color)
+		hint.text = RELIC_HINTS[id]
+		if id == 3 and player.state.shield > 0: hint.text = "再使用まで %d秒" % ceili(player.state.shield)
+		if id == 14 and (player.state.return_battery_charge or player.state.return_battery_armed): hint.text = "充電済み / " + ("次射を強化" if player.state.return_battery_armed else "切替で発動")
+		if id == 15 and player.state.residual_heat_charge: hint.text = "次の射撃に追加弾！"
+		if id == 13 and player.state.empty_casing_charge: hint.text = "次の初射に追加弾！"
+		card.tooltip_text = ("【このラウンドの仮装備】\n" if temporary else "【装備中】\n") + str(relic.name) + "\n" + str(relic.desc)

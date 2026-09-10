@@ -59,7 +59,7 @@ func run() -> void:
 		game._physics_process(.01)
 		assert(game.shots.is_empty() and game.wells.is_empty())
 	b = setup(game,10)
-	assert(b.radius == 10 and is_equal_approx(b.state.life,1.05))
+	assert(b.radius == 10 and is_equal_approx(b.state.life,1.35))
 	b.state.pos = Vector2(210,190)
 	b.state.velocity = Vector2(230,0)
 	game._physics_process(.15)
@@ -78,7 +78,7 @@ func run() -> void:
 	game.players[0].state.pos = Vector2(550,100)
 	game.players[1].state.pos = Vector2(600,100)
 	game._physics_process(.1)
-	assert(is_equal_approx(game.players[1].state.pos.x,593.5))
+	assert(is_equal_approx(game.players[1].state.pos.x,587.5))
 	assert(game.players[0].state.pos == Vector2(550,100))
 	game.players[1].state.roll = .3
 	var before: Vector2 = game.players[1].state.pos
@@ -88,11 +88,11 @@ func run() -> void:
 	game.players[1].state.pos = Vector2(520,100)
 	well.state.tick = 0
 	game._physics_process(.01)
-	assert(is_equal_approx(game.players[1].state.hp,7.6))
+	assert(is_equal_approx(game.players[1].state.hp,7.35))
 	game._physics_process(.2)
-	assert(is_equal_approx(game.players[1].state.hp,7.6))
+	assert(is_equal_approx(game.players[1].state.hp,7.35))
 	game._physics_process(.26)
-	assert(is_equal_approx(game.players[1].state.hp,7.2))
+	assert(is_equal_approx(game.players[1].state.hp,6.7))
 	# Pull cannot move the victim through walls; damage is also occluded.
 	setup(game)
 	wall.position = Vector2(500,80)
@@ -126,7 +126,7 @@ func run() -> void:
 	assert(game.wells.is_empty() and game.arena.get_node("Wells").get_child_count() == 0)
 	setup(game)
 	well = game.spawn_well(Vector2(500,100),1)
-	game._physics_process(2.01)
+	game._physics_process(3.21)
 	assert(game.wells.is_empty())
 	assert(game.Weapons.rarity_pool("S") == [8,9,10,15])
 	print("PASS: comet turn/blast/occlusion/fragments/direct hit, gravity spawn/pull/dodge/ticks/walls/absorption, pause/result/reset/expiry, S pool")

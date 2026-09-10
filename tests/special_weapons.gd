@@ -51,7 +51,7 @@ func run() -> void:
 	b.step(.01,game.arena,game.players[1])
 	assert(is_equal_approx(b.state.velocity.length(),480))
 	b = setup(game,11)
-	assert(is_equal_approx(b.state.life,3.6))
+	assert(is_equal_approx(b.state.life,4.8))
 	b.step(.59,game.arena,game.players[1])
 	assert(b.state.velocity.length() > 0)
 	var stop: Vector2 = b.state.pos
@@ -61,7 +61,7 @@ func run() -> void:
 	assert(b.state.pos == stop)
 	game.players[1].state.pos = stop
 	b.step(.01,game.arena,game.players[1])
-	assert(is_equal_approx(game.players[1].state.hp,6.8) and b.state.life <= 0)
+	assert(is_equal_approx(game.players[1].state.hp,6.4) and b.state.life <= 0)
 	for id in [3,11,12,13]:
 		b = setup(game,id)
 		var pos: Vector2 = b.state.pos

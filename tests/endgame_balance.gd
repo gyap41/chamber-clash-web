@@ -64,14 +64,14 @@ func run() -> void:
 	var well = game.spawn_well(q.state.pos,0)
 	q.state.inv = 0.0
 	well.step(.001,game.arena,game.players,game.shots)
-	assert(is_equal_approx(q.state.hp,5.944))
+	assert(is_equal_approx(q.state.hp,5.142)) # buffed seed 1.6 * core/cell + gravity .65
 	var hp_before_dodge: float = q.state.hp
 	q.handle_key(KEY_SHIFT,1,game.shots,p,game.arena)
 	well.state.tick = 0.0
 	well.step(.001,game.arena,game.players,game.shots)
 	assert(q.state.hp == hp_before_dodge)
 	assert(game.use_pulse(1) and game.wells.is_empty())
-	print("PASS: clustered fragments .65, boosted 2-bounce 1.397, echo pair 1.794, mine + gravity tick 2.056")
+	print("PASS: clustered fragments .65, boosted 2-bounce 1.397, echo pair 1.794, mine + gravity tick 2.858")
 	# Against each late-game weapon family, dodge prevents contact damage and melee
 	# removes a dangerous projectile without spawning fragments or gravity wells.
 	for weapon in [2,8,10,11,16,19]:

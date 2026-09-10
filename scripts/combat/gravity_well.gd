@@ -1,10 +1,10 @@
 extends Node2D
-@export var duration := 2.0
-@export var pull_radius := 115.0
-@export var pull_speed := 65.0
-@export var damage_radius := 43.0
-@export var tick_interval := .45
-@export var tick_damage := .4
+@export var duration := 3.2
+@export var pull_radius := 155.0
+@export var pull_speed := 125.0
+@export var damage_radius := 72.0
+@export var tick_interval := .35
+@export var tick_damage := .65
 @export var bullet_radius := 125.0
 @export var absorb_radius := 15.0
 @export var bullet_acceleration := 550.0

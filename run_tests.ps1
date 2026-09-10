@@ -76,7 +76,8 @@ try {
         Write-Host "=== $name ===" -NoNewline
         "=== $name ===" | Out-File -FilePath $logPath -Append -Encoding utf8
 
-        $headlessArgs = @("--path", $ProjectPath, "--script", "res://tests/$name.gd", "--quit-after", $QuitAfter)
+        $frameLimit = if ($name -eq "render") { [Math]::Max($QuitAfter, 300) } else { $QuitAfter }
+        $headlessArgs = @("--path", $ProjectPath, "--script", "res://tests/$name.gd", "--quit-after", $frameLimit)
         if ($name -ne "render") { $headlessArgs = @("--headless") + $headlessArgs }
 
         $output = & $GodotPath @headlessArgs 2>&1

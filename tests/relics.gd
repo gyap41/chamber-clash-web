@@ -98,7 +98,7 @@ func run() -> void:
 	var s = game.supplies
 	assert(s.items.filter(func(x): return x.kind == "relic" and x.gun == 0).is_empty())
 	s.reset()
-	s.step(16.9)
+	s.step(34.9)
 	assert(s.items.filter(func(x): return x.kind == "relic").is_empty())
 	s.step(.11)
 	var relic_items = s.items.filter(func(x): return x.kind == "relic")
@@ -108,7 +108,7 @@ func run() -> void:
 	s.step(20)
 	assert(s.relic_timer == timer)
 	game.new_match(71)
-	assert(s.relic_timer == 17 and s.items.is_empty())
+	assert(s.relic_timer == 35 and s.items.is_empty())
 	print("PASS: relic shop/UI/budget/independence, three slots/duplicate/invalid-id, pickup, physical speed/dodge, reload timing, HP/reset/ratio, field schedule")
 	game.queue_free()
 	quit()

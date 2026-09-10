@@ -25,7 +25,23 @@
       "mag": 12,
       "stock": 48,
       "color": "#86efdd",
-      "bounce": 2
+      "bounce": 2,
+      "mods": [
+        {
+          "key": "extra_bounce",
+          "name": "強化跳弾",
+          "desc": "壁で3回跳ねる。威力は15%低下。",
+          "bounce": 3,
+          "damage": 0.85
+        },
+        {
+          "key": "heavy_bounce",
+          "name": "会心跳弾",
+          "desc": "威力+35%、弾速-15%。跳ね返る回数は変わらない。",
+          "damage": 1.35,
+          "speed": 332
+        }
+      ]
     },
     {
       "name": "ファイアワークス",
@@ -83,7 +99,23 @@
       "mag": 7,
       "stock": 28,
       "color": "#ceb0ff",
-      "boomerang": true
+      "boomerang": true,
+      "mods": [
+        {
+          "key": "swift_blade",
+          "name": "疾風の刃",
+          "desc": "弾速+20%、威力-20%の身軽な軌道に。",
+          "speed": 468,
+          "damage": 0.8
+        },
+        {
+          "key": "heavy_blade",
+          "name": "重月の刃",
+          "desc": "威力+40%、弾速-15%の重い一撃に。",
+          "damage": 1.4,
+          "speed": 332
+        }
+      ]
     },
     {
       "name": "アークレール",
@@ -151,12 +183,12 @@
       "glyph": "◉",
       "rarity": "S",
       "type": "GRAVITY",
-      "desc": "着弾地点に2秒の重力渦。敵と敵弾を吸い寄せ、中心で継続ダメージ。",
-      "rate": 1.8,
-      "speed": 230,
-      "damage": 0.5,
-      "mag": 2,
-      "stock": 6,
+      "desc": "着弾地点に3.2秒の重力渦。広範囲を強く吸引し、中心72pxに0.35秒ごと0.65ダメージ。回避・パルスで脱出可能。",
+      "rate": 1.5,
+      "speed": 300,
+      "damage": 1.0,
+      "mag": 3,
+      "stock": 9,
       "color": "#d7aaff",
       "gravity": true
     },
@@ -165,14 +197,33 @@
       "glyph": "♧",
       "rarity": "B",
       "type": "SEED",
-      "desc": "種を投げ、0.6秒後に止まる。最大3秒の待ち伏せ弾。近接で除去可能。",
-      "rate": 1.1,
+      "desc": "種を投げ、0.6秒後に待機。100px以内の敵を感知すると突進する1.6ダメージの罠。近接・パルスで除去可能。",
+      "rate": 0.85,
       "speed": 270,
-      "damage": 1.2,
+      "damage": 1.6,
       "mag": 4,
       "stock": 16,
       "color": "#b1ee99",
-      "seed": true
+      "seed": true,
+      "seed_life": 4.8,
+      "seed_trigger_radius": 100.0,
+      "seed_seek_speed": 440.0,
+      "mods": [
+        {
+          "key": "wide_sensor",
+          "name": "広域探知",
+          "desc": "感知範囲+50%。追跡速度は-15%。",
+          "seed_trigger_radius": 150.0,
+          "seed_seek_speed": 374.0
+        },
+        {
+          "key": "quick_fuse",
+          "name": "瞬発起爆",
+          "desc": "威力+31%。起爆までの待機寿命が3.1秒に短縮。",
+          "damage": 2.1,
+          "seed_life": 3.1
+        }
+      ]
     },
     {
       "name": "ロケットペンシル",
@@ -201,8 +252,25 @@
       "stock": 16,
       "color": "#a6efff",
       "bubble": true,
+      "bubble_delay": 1.0,
       "count": 3,
-      "spread": 0.23
+      "spread": 0.23,
+      "mods": [
+        {
+          "key": "early_pop",
+          "name": "早熟の泡",
+          "desc": "起動まで0.6秒に短縮。威力-20%。",
+          "bubble_delay": 0.6,
+          "damage": 0.44
+        },
+        {
+          "key": "aged_bubble",
+          "name": "熟成の泡",
+          "desc": "起動まで1.5秒に延長。威力+40%。",
+          "bubble_delay": 1.5,
+          "damage": 0.77
+        }
+      ]
     },
     {
       "name": "クローバースプリッター",
@@ -223,14 +291,16 @@
       "glyph": "✺",
       "rarity": "S",
       "type": "CONSTELLATION",
-      "desc": "12方向に星を放つ全周弾幕。1発0.4ダメージ、連射と弾持ちは控えめ。",
-      "rate": 1.4,
-      "speed": 290,
-      "damage": 0.4,
-      "mag": 3,
-      "stock": 9,
+      "desc": "12方向に放つ星弾が、進行方向の敵へ曲がる。各0.8ダメージ、壁で1回反射するレジェンダリー弾幕。",
+      "rate": 1.05,
+      "speed": 340,
+      "damage": 0.8,
+      "mag": 4,
+      "stock": 12,
       "color": "#d4c3ff",
       "radial": true,
+      "bounce": 1,
+      "homing": true,
       "count": 12
     },
     {
