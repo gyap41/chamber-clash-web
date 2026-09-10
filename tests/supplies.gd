@@ -78,8 +78,22 @@ func run() -> void:
 	var key := InputEventKey.new()
 	key.pressed = true
 	key.keycode = KEY_G
+	# P7 宝箱演出：Gキー1回では即入手できず、開封が始まるだけ（無敵化はしない）。
 	game._unhandled_key_input(key)
-	assert(item.used and p.weapon().id == 19 and p.inventory.size() == 4)
+	assert(item.opening_player == 0 and not item.used and p.weapon().id == 18)
+	# 開封完了まで待たずに離れると中断・進捗リセット。
+	s.step(s.chest_open_duration*.5)
+	assert(item.open_progress > 0.0 and not item.used)
+	var opened_pos: Vector2 = p.state.pos
+	p.state.pos = opened_pos + Vector2(s.interact_radius+5,0)
+	s.step(.01)
+	assert(item.opening_player == -1 and item.open_progress == 0.0 and not item.used)
+	# 戻って開封をやり直し、chest_open_duration経過で入手が確定する。
+	p.state.pos = opened_pos
+	game._unhandled_key_input(key)
+	assert(item.opening_player == 0)
+	s.step(s.chest_open_duration)
+	assert(item not in s.items and p.weapon().id == 19 and p.inventory.size() == 4)
 	assert(p.inventory[0] == untouched and p.weapon().mode == 0 and p.weapon().clip == 6)
 	assert(p.state.reload == 0 and p.state.reload_slot == -1 and p.state.shot >= .15)
 	s.reset()
@@ -92,7 +106,13 @@ func run() -> void:
 	assert(not s.acquire(1,item))
 	key.keycode = KEY_H
 	game._unhandled_key_input(key)
-	assert(item.used and q.weapon().id == 6)
+	assert(item.opening_player == 1 and not item.used)
+	# P1がHキー中の宝箱を横取りしようとしても無視される（p(P1)も同じ宝箱のinteract_radius内）。
+	key.keycode = KEY_G
+	game._unhandled_key_input(key)
+	assert(item.opening_player == 1)
+	s.step(s.chest_open_duration)
+	assert(item not in s.items and q.weapon().id == 6)
 	assert(not s.acquire(0,item,true))
 	s.reset()
 	item = s.put_item("weapon",8,Vector2(165,100))

@@ -7,6 +7,8 @@ points = PackedVector2Array(-23,-17,23,-17,23,17,-23,17,-23,-17)
 width = 2.0
 default_color = Color(0.65,0.87,0.96,1)
 [node name="Weapon" type="Sprite2D" parent="."]
+[node name="ChestArt" type="Sprite2D" parent="."]
+visible = false
 [node name="Ammo" type="Label" parent="."]
 offset_left = -23.0
 offset_top = -12.0
@@ -38,4 +40,16 @@ horizontal_alignment = 1
 theme_override_font_sizes/font_size = 14
 theme_override_colors/font_outline_color = Color(0.04,0.05,0.06,1)
 theme_override_constants/outline_size = 6
+mouse_filter = 2
+
+[node name="OpenProgress" type="ProgressBar" parent="."]
+visible = false
+offset_left = -40.0
+offset_top = 44.0
+offset_right = 40.0
+offset_bottom = 52.0
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+show_percentage = false
 mouse_filter = 2

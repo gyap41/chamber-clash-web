@@ -27,6 +27,13 @@ static func art(id: int) -> AtlasTexture:
 static func rarity_pool(rarity: String) -> Array:
 	return SUPPORTED.filter(func(id): return definition(id).rarity == rarity)
 
+# legacy-web/dist/data.js RARITIES (not included in catalog.json). Shared by the field-pickup
+# frame color (scripts/world/pickup.gd, P7 宝箱演出) and the acquire-burst color
+# (scripts/world/supplies.gd) so both stay in sync with a single source of truth.
+const RARITY_COLORS := {"C":"#a7c5df","B":"#79e1c5","A":"#d2a0ff","S":"#ffdb78"}
+static func rarity_color(id: int) -> Color:
+	return Color(RARITY_COLORS[definition(id).rarity])
+
 # P5 weapon modification branches: each moddable gun's catalog entry carries an optional
 # "mods" array of {key,name,desc,<stat overrides...>}. Overrides replace fields on a
 # *duplicated* definition dict (see apply_mod) so the shared catalog entry itself is never

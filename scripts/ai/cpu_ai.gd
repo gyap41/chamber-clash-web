@@ -73,8 +73,16 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 		dx = cos(a)
 		dy = sin(a)
 		if p.pos.distance_to(target.position) < 45.0:
-			var force: bool = player.inventory.size() >= 4 and target.kind == "weapon" and Weapons.definition(target.gun).rarity == "S"
-			game.supplies.acquire(1,target,force or target.kind == "relic")
+			if target.kind in ["weapon","relic"]:
+				# P7 宝箱演出：CPUも人間と同じ開封待ち（supplies.step()のchest_open_duration）に
+				# 従う。横取り禁止ルールも共通（interact()と同じopening_playerの判定）。age条件も
+				# interact()と揃え、スポーン直後の無敵猶予（pickup_delay）中は開封を開始しない。
+				# CPUはtargetを再選定するたびにこの45px判定を通るため、開封中も自然にその場へ
+				# 留まり続け、追加の「待機」ロジックは不要。
+				if target.age >= game.supplies.pickup_delay and (target.opening_player == -1 or target.opening_player == 1):
+					target.opening_player = 1
+			else:
+				game.supplies.acquire(1,target)
 
 	# Danger zone: the CPU checks a wider margin (+65/+60) than the damage margin itself
 	# (+25) so it steps back in before actually taking chip damage, then heads for center.

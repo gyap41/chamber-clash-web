@@ -6,9 +6,15 @@ var kind := "weapon"
 var gun := 0
 var age := 0.0
 var used := false
+# P7 宝箱演出：武器・レリックは「宝箱」化し、触れるだけでは入手できない。-1は未開封。
+# supplies.gdのinteract()/step()がこの2つを書き換えて開封の進行を管理する（無敵化はしない）。
+var opening_player := -1
+var open_progress := 0.0
 func configure(item_kind: String, id: int) -> void:
 	kind = item_kind
 	gun = id
+	opening_player = -1
+	open_progress = 0.0
 	$Weapon.visible = kind == "weapon"
 	$Ammo.visible = kind != "weapon"
 	$Ammo.text = str(Relics.definition(id).glyph) if kind == "relic" else "AMMO"
@@ -16,20 +22,32 @@ func configure(item_kind: String, id: int) -> void:
 	if kind == "weapon":
 		$Weapon.texture = Weapons.art(id)
 		$Weapon.scale = display_size / $Weapon.texture.get_size()
-		$Frame.default_color = Color("ffd071") if Weapons.definition(id).rarity == "S" else Color("a7dcf4")
-func refresh(players: Array, ready_delay: float = .6) -> void:
+		$Frame.default_color = Weapons.rarity_color(id) # 色分けレア度：C/B/A/Sの4段階
+	# $ChestArt は将来の宝箱画像（レア度別）を差し込むためのプレースホルダー。今回はテクス
+	# チャなし・非表示のままで、configure()/refresh()からはまだ参照しない。
+func refresh(players: Array, ready_delay: float = .6, open_seconds: float = 0.0) -> void:
 	var text := "弾薬箱" if kind == "ammo" else str(Relics.definition(gun).name if kind == "relic" else Weapons.definition(gun).name)
 	var hints: Array[String] = []
+	var is_chest: bool = kind in ["weapon","relic"]
 	for i in range(players.size()):
 		var p = players[i]
 		if position.distance_to(p.state.pos) < 82:
-			if kind == "weapon" and not p.owns(gun) and p.inventory.size() >= 4:
-				hints.append("P%d %s：装備中と交換" % [i+1,"G" if i == 0 else "H"])
+			if kind == "ammo":
+				hints.append("近づいて取得")
+			elif opening_player == i:
+				hints.append("開封中…%.1f/%.1f秒" % [minf(open_progress,open_seconds),open_seconds])
+			elif opening_player != -1:
+				hints.append("P%dが開封中" % (opening_player+1))
+			elif kind == "weapon" and not p.owns(gun) and p.inventory.size() >= 4:
+				hints.append("P%d %s：開封して交換" % [i+1,"G" if i == 0 else "H"])
+			elif kind == "weapon":
+				hints.append("P%d %s：開封" % [i+1,"G" if i == 0 else "H"])
 			elif kind == "relic":
 				var reason: String = p.field_relic_reason(gun)
-				hints.append("P%d %s" % [i+1,("G：仮装備" if i == 0 else "H：仮装備") if reason == "" else reason])
-			else: hints.append("近づいて取得")
+				hints.append("P%d %s" % [i+1,("G：開封" if i == 0 else "H：開封") if reason == "" else reason])
 	$Label.text = text
 	$Hint.text = " / ".join(hints)
 	$Label.visible = not hints.is_empty() or (kind == "weapon" and Weapons.definition(gun).rarity == "S")
 	modulate.a = .55 if age < ready_delay else 1.0
+	$OpenProgress.visible = is_chest and opening_player != -1 and open_seconds > 0.0
+	if $OpenProgress.visible: $OpenProgress.value = clampf(open_progress/open_seconds,0.0,1.0)

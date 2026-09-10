@@ -1,8 +1,6 @@
 extends Node2D
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const Relics = preload("res://scripts/catalog/relic_catalog.gd")
-# legacy-web/dist/data.js RARITIES (not included in catalog.json).
-const RARITY_COLORS := {"C":"#a7c5df","B":"#79e1c5","A":"#d2a0ff","S":"#ffdb78"}
 @export var first_relic_delay := 35.0
 @export var relic_interval := 90.0
 @export var pickup_scene: PackedScene = preload("res://scenes/world/pickup.tscn")
@@ -15,6 +13,11 @@ const RARITY_COLORS := {"C":"#a7c5df","B":"#79e1c5","A":"#d2a0ff","S":"#ffdb78"}
 @export var pickup_lifetime := 42.0
 @export var touch_radius := 31.0
 @export var interact_radius := 65.0
+# P7 宝箱演出：武器・レリックの補給は「宝箱」として、触れるだけでは入手できない。G/Hで
+# 開封を開始したプレイヤーがinteract_radius内に留まり続けた場合のみ、この秒数が経過すると
+# acquire()が呼ばれて入手が確定する（無敵化はしない＝開封中も通常どおり被弾しうる）。数値は
+# playtestでの調整前提の仮置き。弾薬箱は対象外（従来どおり触れるだけで即時補給）。
+@export var chest_open_duration := 1.5
 var game
 var items: Array = []
 var elapsed := 0.0
@@ -59,7 +62,7 @@ func put_item(kind: String, id: int, pos: Vector2):
 	item.position = pos
 	item.configure(kind,id)
 	items.append(item)
-	item.refresh(game.players,pickup_delay)
+	item.refresh(game.players,pickup_delay,chest_open_duration)
 	return item
 func spawn_group(group: String, kind: String, id: int = 0) -> void:
 	for marker in get_node("Spawns/"+group).get_children():
@@ -87,7 +90,7 @@ func acquire(player_index: int, item, replace: bool = false) -> bool:
 	item.used = true
 	game.sound.play_sound("pickup")
 	var color := Color("a5e9ee")
-	if item.kind == "weapon": color = Color(RARITY_COLORS[Weapons.definition(item.gun).rarity])
+	if item.kind == "weapon": color = Weapons.rarity_color(item.gun)
 	elif item.kind == "relic": color = Color(Relics.definition(item.gun).color)
 	game.combat_visuals.burst(item.position,color,22)
 	item.visible = false
@@ -103,7 +106,14 @@ func interact(player_index: int) -> void:
 		if d < distance:
 			distance = d
 			nearest = item
-	if nearest != null: acquire(player_index,nearest,true)
+	if nearest == null: return
+	if nearest.kind in ["weapon","relic"]:
+		# P7 宝箱演出：即時入手ではなく開封を開始（あるいは自分がすでに開封中なら何もしない）。
+		# 他プレイヤーが開封中の宝箱は横取りできない。
+		if nearest.opening_player == -1 or nearest.opening_player == player_index:
+			nearest.opening_player = player_index
+	else:
+		acquire(player_index,nearest,true)
 func step(dt: float) -> void:
 	if not active(): return
 	elapsed += dt
@@ -132,8 +142,20 @@ func step(dt: float) -> void:
 	for item in items:
 		item.age += dt
 		if item.age < pickup_lifetime:
-			for i in range(2): acquire(i,item)
-		item.refresh(game.players,pickup_delay)
+			if item.kind == "ammo":
+				for i in range(2): acquire(i,item)
+			elif item.opening_player != -1:
+				# P7 宝箱演出：開封中のプレイヤーがinteract_radius内に留まっている間だけ進行。
+				# 無敵にはしないため、開封中も通常どおり被弾しうる。範囲外に出た／倒れたら中断。
+				var opener = game.players[item.opening_player]
+				if opener.state.hp > 0 and item.position.distance_to(opener.state.pos) < interact_radius:
+					item.open_progress += dt
+					if item.open_progress >= chest_open_duration:
+						acquire(item.opening_player,item,true)
+				else:
+					item.opening_player = -1
+					item.open_progress = 0.0
+		item.refresh(game.players,pickup_delay,chest_open_duration)
 	for n in range(items.size()-1,-1,-1):
 		var item = items[n]
 		if item.used or item.age >= pickup_lifetime:
