@@ -18,13 +18,24 @@ func configure(item_kind: String, id: int) -> void:
 	$Weapon.visible = kind == "weapon"
 	$Ammo.visible = kind != "weapon"
 	$Ammo.text = str(Relics.definition(id).glyph) if kind == "relic" else "AMMO"
-	if kind == "relic": $Frame.default_color = Color(Relics.definition(id).color)
+	# P7 宝箱演出：武器・レリックは弾薬箱と見た目を分け、四角い$Frameの代わりに宝箱シルエット
+	# （$ChestFrame、Polygon2D/Line2Dのみで構成した仮アート）をレア度／レリック色で表示する。
+	# 弾薬箱は従来どおり$Frameの単純な四角枠のまま（色も既定値のまま変更しない）。
+	$Frame.visible = kind == "ammo"
+	$ChestFrame.visible = kind in ["weapon","relic"]
+	if kind == "relic":
+		var relic_color := Color(Relics.definition(id).color)
+		$ChestFrame/Body.color = relic_color
+		$ChestFrame/Lid.color = relic_color.darkened(.25)
 	if kind == "weapon":
 		$Weapon.texture = Weapons.art(id)
 		$Weapon.scale = display_size / $Weapon.texture.get_size()
-		$Frame.default_color = Weapons.rarity_color(id) # 色分けレア度：C/B/A/Sの4段階
-	# $ChestArt は将来の宝箱画像（レア度別）を差し込むためのプレースホルダー。今回はテクス
-	# チャなし・非表示のままで、configure()/refresh()からはまだ参照しない。
+		var rarity_color := Weapons.rarity_color(id) # 色分けレア度：C/B/A/Sの4段階
+		$ChestFrame/Body.color = rarity_color
+		$ChestFrame/Lid.color = rarity_color.darkened(.25)
+	# $ChestArt は将来の宝箱画像（レア度別）を差し込むためのプレースホルダー。本番素材が来たら
+	# ここへtextureを設定し、$ChestFrameは非表示にする想定（今回はテクスチャなし・非表示のまま
+	# で、configure()/refresh()からはまだ参照しない）。
 func refresh(players: Array, ready_delay: float = .6, open_seconds: float = 0.0) -> void:
 	var text := "弾薬箱" if kind == "ammo" else str(Relics.definition(gun).name if kind == "relic" else Weapons.definition(gun).name)
 	var hints: Array[String] = []
