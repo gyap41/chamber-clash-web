@@ -52,13 +52,12 @@ func claim(id) -> bool:
 	game.telemetry.record("reward",{"player":turn,"id":id})
 	refresh()
 	return true
-func toggle(id: int) -> void:
-	if game.phase != "prepare": return
-	if game.match_state.toggle(turn,id): game.telemetry.record("equip_relic",{"player":turn,"id":id})
-	refresh()
-# P8 配置基盤：ドラッグ＆ドロップでの配置・移動（グリッドのマスへドロップ）。着脱の可否は
-# match_state.place()の個数上限判定に従う。同じマスへ置き直す等、実際には何も変わらない
-# ドロップでも一律refresh()するが、副作用はなく無害。
+# P8 配置基盤：ドラッグ＆ドロップでの配置・移動（グリッドのマスへドロップ）。可否は
+# match_state.place()＝そのマスに形状が実際に収まるかどうかだけで決まる。同じマスへ置き直す等、
+# 実際には何も変わらないドロップでも一律refresh()するが、副作用はなく無害。
+# P8y 取得と配置の分離：人間が装備する経路はこのplace()だけになった。位置を自動で決める
+# match_state.toggle()の装備側を呼ぶ人間向けラッパー（旧toggle()）は、報酬取得時の即時装備と
+# あわせて撤去してある——自動配置を使うのはauto_prepare()＝CPUだけ。
 func place_relic(id: int, cell: Vector2i) -> void:
 	if game.phase != "prepare": return
 	if game.match_state.place(turn,id,cell): game.telemetry.record("place_relic",{"player":turn,"id":id,"cell":cell})
@@ -200,7 +199,7 @@ func refresh() -> void:
 		var weapon_desc: String = Weapons.definition(id).desc
 		if mods.has(id): weapon_desc += "\n⚙"+str(Weapons.mod_definition(id,mods[id]).name)+"："+str(Weapons.mod_definition(id,mods[id]).desc)
 		button_at(columns[0],("✓ " if id == build.main else "")+Weapons.definition(id).name+mod_tag,select_gun.bind(id),false,weapon_desc)
-	label_at(columns[1],"無料レリック報酬／主力改造：初回2個 / 以後1個")
+	label_at(columns[1],"無料レリック報酬／主力改造：初回2個 / 以後1個。取得したレリックは控えに入ります（レリック配置タブでグリッドへ）")
 	var candidates: Array = state.rewards[turn].duplicate()
 	if state.temporary[turn] >= 0 and state.temporary[turn] not in candidates: candidates.append(state.temporary[turn])
 	for id in candidates:

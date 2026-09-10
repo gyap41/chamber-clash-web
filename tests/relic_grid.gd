@@ -5,7 +5,9 @@ extends SceneTree
 # ドロップ判定を検証する。P8xでcapacity()はグリッドの総マス数（面積）を返すよう再定義され、
 # 着脱可否は個数ではなくfits()/auto_place()（実際にその形状が収まる空きマスがあるか）だけで
 # 決まる（詳細はmatch_state.gdのcapacity()直後のコメント参照）。この変更に伴い、旧・個数上限
-# 前提だったtests/build_inventory.gdのアサーションは別途書き直し済み。
+# 前提だったtests/build_inventory.gdのアサーションは別途書き直し済み。さらにP8yで、claim()は
+# 所持庫へ入れるだけになり自動配置しなくなった（人間が装備する経路はplace()のみ。位置を自動で
+# 決めるtoggle()の装備側は実質auto_prepare()＝CPU専用）。
 func _initialize() -> void:
 	call_deferred("run")
 func run() -> void:
@@ -67,15 +69,19 @@ func run() -> void:
 	assert(m.toggle(0,10)) # 1個外せば1マス空く
 	assert(m.toggle(0,16) and m.builds[0].equipped.size() == m.capacity()) # 空いたマスに収まって再び満杯
 
-	# --- toggle()／claim()の自動配置、discard()での位置解除 ---
+	# --- toggle()の自動配置（CPU経路）、claim()は所持庫止まり（P8y）、discard()での位置解除 ---
 	m.builds[0].equipped.clear()
 	m.builds[0].positions.clear()
 	m.builds[0].owned = [0,1]
-	assert(m.toggle(0,0) and m.builds[0].positions.has(0)) # 装備側は自動配置される
+	assert(m.toggle(0,0) and m.builds[0].positions.has(0)) # 装備側は自動配置される（auto_prepare＝CPUが使う経路）
 	assert(m.toggle(0,0) and not m.builds[0].positions.has(0)) # 解除側は位置も消える
 	m.rewards[0] = [5]
 	m.remaining[0] = 1
-	assert(m.claim(0,5) and m.builds[0].positions.has(5)) # claim()の即時装備も自動配置される
+	# P8y 取得と配置の分離：claim()は所持庫へ入れるだけで、装備も配置もしない。どのマスへ置くかは
+	# プレイヤーがplace()（準備画面のドラッグ）で決める。
+	assert(m.claim(0,5) and 5 in m.builds[0].owned)
+	assert(5 not in m.builds[0].equipped and not m.builds[0].positions.has(5))
+	assert(m.place(0,5,m.auto_place(0,5)) and m.builds[0].positions.has(5)) # 自分で置いて初めて装備になる
 	assert(m.discard(0,5) and not m.builds[0].positions.has(5))
 
 	# --- UIグルー：RelicGridCell／RelicTrayのドロップ判定はmatch_state.fits()/place()に委譲 ---
@@ -119,6 +125,6 @@ func run() -> void:
 	ms.builds[0].owned = [0,1,2,3,4,5,6,10,11,12,13,14]
 	for id in [0,1,4]: ms.place(0,id,ms.auto_place(0,id))
 	prep.refresh()
-	print("PASS: relic grid shapes/occupancy/fits, auto-place reading order, area-based capacity ceiling (P8x), toggle/claim/discard position bookkeeping, grid-cell/tray drop delegation")
+	print("PASS: relic grid shapes/occupancy/fits, auto-place reading order, area-based capacity ceiling (P8x), claim is storage-only (P8y), toggle/place/discard position bookkeeping, grid-cell/tray drop delegation")
 	game.queue_free()
 	quit()

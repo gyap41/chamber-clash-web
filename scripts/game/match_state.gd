@@ -126,14 +126,19 @@ func claim(i: int, id) -> bool:
 		# （「旧武器の改造は移転しない」）。
 		builds[i].mods[parsed.weapon_id] = parsed.mod_key
 	else:
+		# P8y 取得と配置の分離：報酬で取得したレリックは所持庫（owned）に入るだけで、装備は
+		# しない。どのマスへ置くかはプレイヤーが準備画面でドラッグして決める（place()）。
+		# 取得した瞬間に勝手にグリッドの空きへ置かれるのは「自分で判断して配置する」という
+		# 方針に反するため、P8xで入れた即時装備をここで撤回した。
 		builds[i].owned.append(id)
-		_equip_if_fits(i,id)
 	remaining[i] -= 1
 	if not initial: reward_counts[i] += 1
 	return true
-# claim()の即時装備・toggle()の装備側で共通の「収まるなら装備する」処理。P8xでグリッドの
-# 空きマスが実際の制約になったため、旧来の「置き場がなくても個数上限内なら装備は成立する」
-# という抜け道は廃止した——装備が成立する＝実際にグリッドへ置ける、という一本の基準に統一する。
+# 「収まるなら装備する」自動配置。P8xでグリッドの空きマスが実際の制約になったため、旧来の
+# 「置き場がなくても個数上限内なら装備は成立する」という抜け道は廃止した——装備が成立する＝
+# 実際にグリッドへ置ける、という一本の基準に統一する。P8yで人間の操作経路（claim()の即時装備）
+# からは切り離したため、現在ここを通るのはtoggle()の装備側——実質auto_prepare()＝CPUだけである。
+# 人間はplace()でマスを指定して置く。
 func _equip_if_fits(i: int, id: int) -> bool:
 	var anchor := auto_place(i,id)
 	if anchor.x < 0: return false
