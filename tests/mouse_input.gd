@@ -19,6 +19,14 @@ func mouse_right(at: Vector2, pressed: bool) -> void:
 	event.pressed = pressed
 	Input.parse_input_event(event)
 	Input.flush_buffered_events()
+func mouse_wheel(index: int, at: Vector2 = Vector2(100,120)) -> void:
+	var event := InputEventMouseButton.new()
+	event.position = at
+	event.global_position = at
+	event.button_index = index
+	event.pressed = true
+	Input.parse_input_event(event)
+	Input.flush_buffered_events()
 func mouse_move(at: Vector2) -> void:
 	var event := InputEventMouseMotion.new()
 	event.position = at
@@ -95,6 +103,39 @@ func run() -> void:
 	mouse_right(Vector2(400,500),true)
 	assert(p.state.melee > 0.0 and game.players[1].state.hp < game.players[1].state.max_hp)
 	mouse_right(Vector2(400,500),false)
-	print("PASS: left click hold/release, fire interval, real GUI slot click, preparation, pause, focus loss, mouse-driven aim, right-click melee")
+	# マウスホイールでのP1武器切替（2026-09-10追加）：Eキー/1〜4キーの既存経路とは別の追加
+	# 入力経路。巡回方向がホイールアップ／ダウンで前後になっていることと、既存のE/1〜4
+	# キー経路と同じガード（非ポーズ・非決着）に従うことを検証する。
+	assert(p.add_gun(16) and p.add_gun(19) and p.inventory.size() == 4)
+	p.equip_slot(0)
+	assert(p.state.gun == 0)
+	mouse_wheel(MOUSE_BUTTON_WHEEL_UP)
+	assert(p.state.gun == 1)
+	mouse_wheel(MOUSE_BUTTON_WHEEL_UP)
+	assert(p.state.gun == 2)
+	mouse_wheel(MOUSE_BUTTON_WHEEL_UP)
+	assert(p.state.gun == 3)
+	mouse_wheel(MOUSE_BUTTON_WHEEL_UP)
+	assert(p.state.gun == 0) # 末尾から先頭へ巡回
+	mouse_wheel(MOUSE_BUTTON_WHEEL_DOWN)
+	assert(p.state.gun == 3) # 先頭から末尾へ逆巡回
+	mouse_wheel(MOUSE_BUTTON_WHEEL_DOWN)
+	assert(p.state.gun == 2)
+	# P2（完全キーボード操作）はホイール入力の影響を受けない。
+	var q_gun_before: int = game.players[1].state.gun
+	mouse_wheel(MOUSE_BUTTON_WHEEL_UP)
+	mouse_wheel(MOUSE_BUTTON_WHEEL_DOWN)
+	assert(game.players[1].state.gun == q_gun_before)
+	# ポーズ中・決着後はEキーの巡回切替と同じくホイールも無視される。
+	var gun_before_guard: int = p.state.gun
+	game.paused = true
+	mouse_wheel(MOUSE_BUTTON_WHEEL_UP)
+	assert(p.state.gun == gun_before_guard)
+	game.paused = false
+	game.result = "P1 WINS"
+	mouse_wheel(MOUSE_BUTTON_WHEEL_UP)
+	assert(p.state.gun == gun_before_guard)
+	game.result = ""
+	print("PASS: left click hold/release, fire interval, real GUI slot click, preparation, pause, focus loss, mouse-driven aim, right-click melee, mouse wheel weapon switch")
 	game.queue_free()
 	quit()

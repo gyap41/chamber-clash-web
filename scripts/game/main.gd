@@ -112,6 +112,17 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
 		if phase == "play" and not paused and result == "" and not players[0].is_cpu:
 			players[0].try_melee(0,shots,players[1],arena)
+	# マウスホイールでのP1武器切替（2026-09-10追加）：Eキー・1〜4キーの既存経路には手を
+	# 入れず、追加の入力経路として実装。ガード条件はEキーの巡回切替と同一
+	# （phase=="play" かつ非ポーズ・非決着・非CPU）。P2はこの入力を一切参照しない。
+	if event is InputEventMouseButton and event.pressed and not players[0].is_cpu:
+		if phase == "play" and not paused and result == "":
+			var p0 = players[0]
+			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+				p0.request_switch((int(p0.state.gun)+1) % p0.inventory.size())
+			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+				var inv_size: int = p0.inventory.size()
+				p0.request_switch((int(p0.state.gun)-1+inv_size) % inv_size)
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT: clear_action_inputs()
 func clear_action_inputs() -> void:
