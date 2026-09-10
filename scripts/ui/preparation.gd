@@ -1,6 +1,9 @@
 extends CanvasLayer
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const Relics = preload("res://scripts/catalog/relic_catalog.gd")
+const RelicChip = preload("res://scripts/ui/relic_chip.gd")
+const RelicGridCell = preload("res://scripts/ui/relic_grid_cell.gd")
+const RelicTray = preload("res://scripts/ui/relic_tray.gd")
 var game
 var turn := 0
 var choices: Array = []
@@ -8,11 +11,34 @@ var shop_ready: Array:
 	get: return game.match_state.ready
 var started := 0
 var scroll_turn := -1
+# UI可読性改善：武器選択／報酬選択／レリック配置を同時に3列表示せず、タブで1つずつ見せる
+# （常時表示の説明文をツールチップへ移す変更と合わせて、画面の文字量を大きく減らす）。
+const TAB_NAMES := ["① 主力武器","② 報酬","③ レリック配置"]
+var active_tab := 0
 func _ready() -> void:
 	$Root/Panel/Content/Ready.pressed.connect(ready_shop)
+	for n in range(TAB_NAMES.size()):
+		var btn := Button.new()
+		btn.text = TAB_NAMES[n]
+		btn.toggle_mode = true
+		btn.focus_mode = Control.FOCUS_NONE
+		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		btn.pressed.connect(set_tab.bind(n))
+		$Root/Panel/Content/Tabs.add_child(btn)
+	update_tab_buttons()
+func set_tab(n: int) -> void:
+	if active_tab == n: return
+	active_tab = n
+	update_tab_buttons()
+	refresh()
+func update_tab_buttons() -> void:
+	for n in range($Root/Panel/Content/Tabs.get_child_count()):
+		$Root/Panel/Content/Tabs.get_child(n).button_pressed = n == active_tab
 func begin() -> void:
 	scroll_turn = -1
 	turn = 0
+	active_tab = 0
+	update_tab_buttons()
 	started = Time.get_ticks_msec()
 	choices = game.match_state.weapons[0].duplicate()
 	refresh()
@@ -30,6 +56,19 @@ func toggle(id: int) -> void:
 	if game.phase != "prepare": return
 	if game.match_state.toggle(turn,id): game.telemetry.record("equip_relic",{"player":turn,"id":id})
 	refresh()
+# P8 配置基盤：ドラッグ＆ドロップでの配置・移動（グリッドのマスへドロップ）。着脱の可否は
+# match_state.place()の個数上限判定に従う。同じマスへ置き直す等、実際には何も変わらない
+# ドロップでも一律refresh()するが、副作用はなく無害。
+func place_relic(id: int, cell: Vector2i) -> void:
+	if game.phase != "prepare": return
+	if game.match_state.place(turn,id,cell): game.telemetry.record("place_relic",{"player":turn,"id":id,"cell":cell})
+	refresh()
+# 控え（RelicTray）へドラッグで戻したときの解除。すでに未装備のレリックを誤ってここへ落として
+# もtoggle()を呼ばない（toggle()は「未装備なら装備」に倒れるため、無関係な誤装備を防ぐ）。
+func unequip_relic(id: int) -> void:
+	if game.phase != "prepare" or id not in game.match_state.builds[turn].equipped: return
+	if game.match_state.toggle(turn,id): game.telemetry.record("unequip_relic",{"player":turn,"id":id})
+	refresh()
 func discard(id: int) -> void:
 	if game.phase != "prepare": return
 	if game.match_state.discard(turn,id): game.telemetry.record("discard",{"player":turn,"id":id})
@@ -39,6 +78,8 @@ func ready_shop() -> void:
 	game.telemetry.record("preparation",{"player":turn,"seconds":(Time.get_ticks_msec()-started)/1000.0,"build":game.match_state.builds[turn]})
 	if turn == 0:
 		turn = 1
+		active_tab = 0
+		update_tab_buttons()
 		started = Time.get_ticks_msec()
 		if game.players[1].is_cpu: auto_prepare(1)
 	game.launch_round()
@@ -97,15 +138,17 @@ func label_at(parent: Node, text: String) -> void:
 	label.custom_minimum_size.x = 320
 	label.add_theme_font_size_override("font_size",14)
 	parent.add_child(label)
-func button_at(parent: Node, text: String, action: Callable, disabled: bool = false) -> void:
+func button_at(parent: Node, text: String, action: Callable, disabled: bool = false, tooltip: String = "") -> Button:
 	var button := Button.new()
 	button.text = text
 	button.disabled = disabled
 	button.custom_minimum_size = Vector2(320,30)
 	button.clip_text = true
 	button.add_theme_font_size_override("font_size",14)
+	if tooltip != "": button.tooltip_text = tooltip
 	button.pressed.connect(action)
 	parent.add_child(button)
+	return button
 # P5: parses either candidate type into a display {name,desc} pair — a relic id via the relic
 # catalog, a "mod:<weapon_id>:<key>" token via the owning weapon's mod branch definition.
 func reward_info(id) -> Dictionary:
@@ -147,14 +190,16 @@ func refresh() -> void:
 		column.custom_minimum_size.x = 320
 		scroll.add_child(column)
 		columns.append(column)
+		scroll.visible = n == active_tab
 		if n < scroll_positions.size(): scroll.set_deferred("scroll_vertical",scroll_positions[n])
 	label_at(columns[0],"主力1丁を指定（サイドアーム常備）")
 	label_at(columns[0],"開始時HP：%d / パルス：%d" % [game.players[turn].max_hp+(2 if 4 in build.equipped else 0),game.players[turn].initial_pulses])
 	var mods: Dictionary = build.get("mods",{})
 	for id in state.weapons[turn]:
 		var mod_tag := "　⚙"+str(Weapons.mod_definition(id,mods[id]).name) if mods.has(id) else ""
-		button_at(columns[0],("✓ " if id == build.main else "")+Weapons.definition(id).name+mod_tag,select_gun.bind(id))
-		label_at(columns[0],Weapons.definition(id).desc)
+		var weapon_desc: String = Weapons.definition(id).desc
+		if mods.has(id): weapon_desc += "\n⚙"+str(Weapons.mod_definition(id,mods[id]).name)+"："+str(Weapons.mod_definition(id,mods[id]).desc)
+		button_at(columns[0],("✓ " if id == build.main else "")+Weapons.definition(id).name+mod_tag,select_gun.bind(id),false,weapon_desc)
 	label_at(columns[1],"無料レリック報酬／主力改造：初回2個 / 以後1個")
 	var candidates: Array = state.rewards[turn].duplicate()
 	if state.temporary[turn] >= 0 and state.temporary[turn] not in candidates: candidates.append(state.temporary[turn])
@@ -162,11 +207,66 @@ func refresh() -> void:
 		var reason: String = state.reason(turn,id)
 		var info := reward_info(id)
 		var is_mod := typeof(id) == TYPE_STRING
-		button_at(columns[1],info.name+("（仮装備を確保）" if not is_mod and id == state.temporary[turn] else ""),claim.bind(id),reason != "")
 		var compat: String = "主力の改造" if is_mod else ("主力には適用なし" if affinity(id,build.main,build.equipped) == 0 else ("良好" if affinity(id,build.main,build.equipped) >= 3 else "汎用"))
-		label_at(columns[1],info.desc + "\n相性：" + compat + (" / "+reason if reason != "" else ""))
-	label_at(columns[2],"所持庫：クリックで着脱・満杯時は先に外す")
+		var reward_label: String = info.name+"（"+compat+"）"+("（仮装備を確保）" if not is_mod and id == state.temporary[turn] else "")
+		var tip: String = info.desc + "\n相性：" + compat + (" / "+reason if reason != "" else "")
+		button_at(columns[1],reward_label,claim.bind(id),reason != "",tip)
+	# P8 配置基盤：レリックはグリッドへドラッグして配置する。着脱の可否自体は従来どおり
+	# capacity()の個数上限で決まり（グリッドは見た目・配置パズル用の上乗せ層）、満杯時は
+	# 控えへドラッグで戻してから別のレリックを置く。
+	label_at(columns[2],"レリックをグリッドへドラッグして配置。外すときは下の「控えへ戻す」枠へドラッグ。")
+	build_relic_grid(columns[2],state,turn,build)
+	label_at(columns[2],"控え（ドラッグで解除、×で所持庫から完全放棄）")
+	var tray := RelicTray.new()
+	tray.on_drop = unequip_relic
+	tray.custom_minimum_size = Vector2(300,48)
+	columns[2].add_child(tray)
+	var tray_list := HFlowContainer.new()
+	columns[2].add_child(tray_list)
 	for id in build.owned:
-		button_at(columns[2],("装備中 " if id in build.equipped else "控え ")+Relics.definition(id).name,toggle.bind(id),id not in build.equipped and build.equipped.size() >= state.capacity())
-		label_at(columns[2],Relics.definition(id).desc)
-		button_at(columns[2],"破棄："+Relics.definition(id).name,discard.bind(id))
+		if id in build.equipped: continue
+		var row := HBoxContainer.new()
+		var chip := RelicChip.new()
+		chip.relic_id = id
+		chip.text = Relics.definition(id).name
+		chip.tooltip_text = Relics.definition(id).name+"："+Relics.definition(id).desc
+		chip.custom_minimum_size = Vector2(150,32)
+		row.add_child(chip)
+		var x_button := Button.new()
+		x_button.text = "×"
+		x_button.tooltip_text = "破棄："+Relics.definition(id).name+"（所持庫から完全に外す）"
+		x_button.custom_minimum_size = Vector2(28,32)
+		x_button.pressed.connect(discard.bind(id))
+		row.add_child(x_button)
+		tray_list.add_child(row)
+# 現在の段階のグリッドを描画する。空きマスはドロップ受付のみのPanel、装備品の基準マス
+# （position）にはドラッグ可能なRelicChipを乗せる。多マス形状の基準マス以外のセルは
+# 単に薄く色付けするだけ（子コントロールを重ねず、ドロップ判定をセル自身に残す）。
+func build_relic_grid(parent: Node, state, i: int, build: Dictionary) -> void:
+	var size: Vector2i = state.grid_size()
+	var occupied: Dictionary = state.occupied_cells(i)
+	var positions: Dictionary = build.get("positions",{})
+	var grid := GridContainer.new()
+	grid.columns = size.x
+	parent.add_child(grid)
+	for y in range(size.y):
+		for x in range(size.x):
+			var cell := Vector2i(x,y)
+			var panel := RelicGridCell.new()
+			panel.game = game
+			panel.player_index = i
+			panel.cell = cell
+			panel.on_drop = place_relic
+			panel.custom_minimum_size = Vector2(46,46)
+			if occupied.has(cell):
+				var id: int = occupied[cell]
+				if positions.get(id,cell) == cell:
+					var chip := RelicChip.new()
+					chip.relic_id = id
+					chip.text = Relics.definition(id).name.left(4)
+					chip.tooltip_text = Relics.definition(id).name+"："+Relics.definition(id).desc
+					chip.custom_minimum_size = Vector2(42,42)
+					panel.add_child(chip)
+				else:
+					panel.self_modulate = Color(1,1,1,.55) # 同じレリックの基準マス以外のセル
+			grid.add_child(panel)
