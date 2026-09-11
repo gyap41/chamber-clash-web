@@ -18,20 +18,20 @@ func run() -> void:
 	var gun: String = mixed.gun_token(0)
 	mixed.builds[0].owned = [gun,18]
 	assert(mixed.place(0,gun,Vector2i(0,0)))
-	assert(mixed.place(0,18,Vector2i(1,0)))
-	assert(mixed.occupied_cells(0).size() == 2)
-	assert(mixed.occupied_cells(0,gun) == {Vector2i(1,0):18})
-	assert(mixed.occupied_cells(0,18) == {Vector2i(0,0):gun})
+	assert(mixed.place(0,18,Vector2i(2,0)))
+	assert(mixed.occupied_cells(0).size() == 3)
+	assert(mixed.occupied_cells(0,gun) == {Vector2i(2,0):18})
+	assert(mixed.occupied_cells(0,18) == {Vector2i(0,0):gun,Vector2i(1,0):gun})
 	assert(mixed.place(0,gun,Vector2i(0,0)))
-	assert(mixed.place(0,18,Vector2i(1,0)))
+	assert(mixed.place(0,18,Vector2i(2,0)))
 	assert(not mixed.place(0,gun,Vector2i(1,0)))
 	assert(not mixed.place(0,18,Vector2i(0,0)))
 
 	# --- grid_size()：段階別マス数（要playtest調整の仮値） ---
 	m.stage = 1
-	assert(m.grid_size() == Vector2i(3,2))
+	assert(m.grid_size() == Vector2i(6,6) and m.capacity() == 8)
 	m.stage = 3
-	assert(m.grid_size() == Vector2i(4,3))
+	assert(m.grid_size() == Vector2i(6,6) and m.capacity() == 8)
 	m.stage = 5
 	assert(m.grid_size() == Vector2i(6,6))
 	m.stage = 1
@@ -43,7 +43,7 @@ func run() -> void:
 	assert(occ.size() == 2 and occ[Vector2i(0,0)] == 4 and occ[Vector2i(0,1)] == 4)
 	assert(not m.place(0,6,Vector2i(0,0))) # (0,0)は4が占有中
 	assert(6 not in m.builds[0].equipped and 6 not in m.builds[0].positions)
-	assert(not m.place(0,6,Vector2i(2,0))) # ヘビーコアの横2マスがグリッド右端(x=3)へはみ出す
+	assert(not m.place(0,6,Vector2i(3,0))) # ヘビーコアの横2マスがグリッド右端(x=3)へはみ出す
 	assert(m.place(0,6,Vector2i(1,0))) # (1,0)-(2,0)は空いている
 	occ = m.occupied_cells(0)
 	assert(occ.size() == 4 and occ[Vector2i(1,0)] == 6 and occ[Vector2i(2,0)] == 6)
@@ -70,12 +70,13 @@ func run() -> void:
 	m.builds[0].positions.clear()
 
 	# --- P8x：容量は面積に統合済み。個数ではなく「グリッドに実際に収まるか」だけで着脱可否が決まる ---
-	assert(m.capacity() == 6) # stage1は3×2＝6マス（旧・個数上限3は撤廃）
-	m.builds[0].owned = [10,11,12,13,14,15,16]
+	assert(m.capacity() == 8) # stage1は3×2＝6マス（旧・個数上限3は撤廃）
+	m.builds[0].owned = [10,11,12,13,14,15,16,18,19]
 	assert(m.place(0,10,Vector2i(0,0)) and m.place(0,11,Vector2i(1,0)) and m.place(0,12,Vector2i(2,0)))
 	assert(m.builds[0].equipped.size() == 3) # 旧モデルなら個数上限（3）がここで天井だったが、今は単に3マス使っただけ
 	assert(m.place(0,13,Vector2i(0,1))) # (0,1)は空いている——旧・個数上限では弾かれていたが今は成功する
 	assert(m.place(0,14,Vector2i(1,1)) and m.place(0,15,Vector2i(2,1))) # 残り2マスも埋めて6/6
+	assert(m.place(0,18,Vector2i(3,0)) and m.place(0,19,Vector2i(3,1)))
 	assert(m.builds[0].equipped.size() == m.capacity())
 	assert(not m.place(0,16,Vector2i(0,0))) # グリッドが本当に満杯：空きマスがなければ7個目でも失敗する
 	assert(16 not in m.builds[0].equipped)
@@ -88,8 +89,7 @@ func run() -> void:
 	m.builds[0].owned = [0,1]
 	assert(m.toggle(0,0) and m.builds[0].positions.has(0)) # 装備側は自動配置される（auto_prepare＝CPUが使う経路）
 	assert(m.toggle(0,0) and not m.builds[0].positions.has(0)) # 解除側は位置も消える
-	m.rewards[0] = [5]
-	m.remaining[0] = 1
+	m._set_products(0,[5])
 	# P8y 取得と配置の分離：claim()は所持庫へ入れるだけで、装備も配置もしない。どのマスへ置くかは
 	# プレイヤーがplace()（準備画面のドラッグ）で決める。
 	assert(m.claim(0,5))

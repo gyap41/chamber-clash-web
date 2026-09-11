@@ -67,7 +67,7 @@ func new_match(seed_value: int = -1) -> void:
 	origin_counter = 0
 	reset_round(false)
 func reset_round(check_new: bool = true) -> void:
-	if check_new and (match_state == null or result == "" or scores.max() >= 3):
+	if check_new and (match_state == null or result == "" or scores.max() >= MatchState.WIN_TARGET):
 		new_match()
 		return
 	var replay: bool = result == "DRAW"

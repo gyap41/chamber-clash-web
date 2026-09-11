@@ -7,17 +7,17 @@ func run() -> void:
 	game.set_physics_process(false)
 	var m = game.match_state
 	m.stage = 4
+	preload("res://tests/helpers/preparation.gd").rectangle(m)
 	var feathers: Array = []
 	var chips: Array = []
 	for round_index in range(3):
 		m.generate_rewards()
-		m.rewards[0] = [18,19]
-		m.remaining[0] = 2
+		m._set_products(0,[18,19])
 		assert(game.preparation.claim(18))
 		var feather = m.builds[0].owned.back()
 		assert(feather not in feathers and m.relic_id(feather) == 18)
 		feathers.append(feather)
-		assert(not m.claim(0,18) and m.remaining[0] == 1)
+		assert(not m.claim(0,18) and m.gold[0] == 100-round_index*4-2)
 		assert(m.place(0,feather,Vector2i(round_index,0)))
 		assert(game.preparation.claim(19))
 		var chip = m.builds[0].owned.back()
@@ -59,16 +59,13 @@ func run() -> void:
 	assert(is_equal_approx(player.effective_move_speed(),player.move_speed*1.04))
 	# Special relics still cannot be acquired twice, even across reward refreshes.
 	m.generate_rewards()
-	m.rewards[0] = [3]
-	m.remaining[0] = 1
+	m._set_products(0,[3])
 	assert(m.claim(0,3))
 	m.generate_rewards()
-	m.rewards[0] = [3]
-	m.remaining[0] = 1
+	m._set_products(0,[3])
 	assert(not m.claim(0,3))
 	# CPU duplicates and round snapshots preserve each individual item.
-	m.rewards[1] = [18,19]
-	m.remaining[1] = 2
+	m._set_products(1,[18,19])
 	game.preparation.auto_prepare(1)
 	var first: Array = m.builds[1].owned.duplicate()
 	m.start_round()
@@ -77,8 +74,7 @@ func run() -> void:
 	m.finish(0,game.players)
 	assert(m.temporary[0] == 19)
 	assert(m.previous[1].owned == first)
-	m.rewards[1] = [18,19]
-	m.remaining[1] = 2
+	m._set_products(1,[18,19])
 	game.preparation.auto_prepare(1)
 	assert(m.equipped_relics(1).count(18) == 2)
 	assert(m.equipped_relics(1).count(19) == 2)

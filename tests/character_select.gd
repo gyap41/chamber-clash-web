@@ -59,12 +59,13 @@ func run() -> void:
 	# 置くまで成立しないので、準備画面に入った時点では両者とも丸腰。
 	assert(cpu_game.phase == "prepare" and cpu_game.players[1].inventory.is_empty())
 	assert(cpu_game.match_state.builds[1].owned.size() == 1)
-	for id in cpu_game.match_state.rewards[0].slice(0,2): assert(cpu_game.preparation.claim(id))
+	cpu_game.match_state._set_products(0,[18,19])
+	for id in [18,19]: assert(cpu_game.preparation.claim(id))
 	cpu_game.preparation.ready_shop()
 	assert(cpu_game.phase == "play")
 	# CPUは所持庫のものを武器優先で自動配置する。段階1は6マスしかなく、形状次第では取った
 	# レリックが全部は入らないため、装備数ではなく「取り切って所持庫に入っていること」で見る。
-	assert(cpu_game.match_state.builds[1].owned.size() >= 2 and cpu_game.players[1].relics.size() <= 2)
+	assert(cpu_game.match_state.builds[1].owned.size() >= 2 and cpu_game.match_state.gold[1] >= 0)
 	assert(cpu_game.players[1].has_weapon()) # 武器を優先して置くので丸腰にはならない
 	assert(cpu_game.preparation.shop_ready == [true,true])
 

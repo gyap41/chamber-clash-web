@@ -76,7 +76,7 @@ func refresh(players: Array, remaining: float, paused: bool, result: String, sco
 	# scripts/title.gd) so the in-match HUD only shows live status. The P2 line is kept only
 	# for the local-keyboard fallback (is_cpu==false) — CPU matches (the normal path from the
 	# title screen) show "P2はCPUが自動操作" instead, same as before.
-	$Root/Status.text = "P1 HP %.1f/%.0f  %s %d/%d  |  %02d sec  |  %s HP %.1f/%.0f  %s %d/%d\n%s   ESC停止   SCORE %d : %d（3本先取）" % [p.state.hp,p.state.max_hp,p.definition().name,p.weapon().clip,p.weapon().reserve,maxi(0,int(remaining)),p2_label,q.state.hp,q.state.max_hp,q.definition().name,q.weapon().clip,q.weapon().reserve,"P2はCPUが自動操作" if q.is_cpu else "P2 矢印 / L射撃 / SHIFT回避 / N近接 / P装填 / K切替 / H交換 / Oパルス",scores[0],scores[1]]
+	$Root/Status.text = "P1 HP %.1f/%.0f  %s %d/%d  |  %02d sec  |  %s HP %.1f/%.0f  %s %d/%d\n%s   ESC停止   SCORE %d : %d（5本先取）" % [p.state.hp,p.state.max_hp,p.definition().name,p.weapon().clip,p.weapon().reserve,maxi(0,int(remaining)),p2_label,q.state.hp,q.state.max_hp,q.definition().name,q.weapon().clip,q.weapon().reserve,"P2はCPUが自動操作" if q.is_cpu else "P2 矢印 / L射撃 / SHIFT回避 / N近接 / P装填 / K切替 / H交換 / Oパルス",scores[0],scores[1]]
 	$Root/Status.text += "   PULSE %d : %d" % [p.state.pulses,q.state.pulses]
 	var inset: float = get_parent().arena_inset()
 	if inset > 0: $Root/Status.text += "   危険地帯：外周%dpxが継続ダメージ" % ceili(inset)
@@ -85,7 +85,7 @@ func refresh(players: Array, remaining: float, paused: bool, result: String, sco
 	# easy to miss because the message read the same as any other round win, so a completed
 	# match didn't visibly look different from "on to the next round". Make the match-complete
 	# case visually distinct instead of just swapping the trailing hint text.
-	var match_over: bool = scores.max() >= 3
+	var match_over: bool = scores.max() >= preload("res://scripts/catalog/shop_catalog.gd").WIN_TARGET
 	if paused:
 		$Root/Message.text = "PAUSED"
 	elif result == "":

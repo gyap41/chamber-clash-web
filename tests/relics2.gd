@@ -30,7 +30,7 @@ func run() -> void:
 
 	# Shop now offers all 12 relics, not just the first three from phase 1.
 	game.reset_round()
-	game.match_state.rewards[0] = [2,0,1]
+	game.match_state._set_products(0,[2,0,1])
 	assert(game.match_state.reason(0,2) == "")
 
 	# Prism Lens: +1 wall bounce on ordinary bullets, excluded from "special" bullets, honors can_lens opt.

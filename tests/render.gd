@@ -18,6 +18,7 @@ func run() -> void:
 	var saved_build: Dictionary = game.match_state.builds[0].duplicate(true)
 	game.match_state.stage = 5
 	game.match_state.builds[0] = {"owned":[],"equipped":[],"positions":{},"mods":{}}
+	preload("res://tests/helpers/preparation.gd").rectangle(game.match_state)
 	game.preparation.refresh()
 	game.preparation.select_expansion("rectangle")
 	game.preparation.set_process(false)
@@ -35,6 +36,7 @@ func run() -> void:
 	game.preparation.show_detail("relic:18:0")
 	await capture("-fine-grid-expanded")
 	game.match_state.builds[0] = {"owned":[game.match_state.gun_token(15),0,1,3],"equipped":[],"positions":{},"mods":{}}
+	preload("res://tests/helpers/preparation.gd").rectangle(game.match_state)
 	assert(game.match_state.place_expansion(0,"rectangle",Vector2i(0,4)))
 	assert(game.match_state.place(0,game.match_state.gun_token(15),Vector2i(0,3)))
 	for id in [0,1,3]: assert(game.match_state.place(0,id,game.match_state.auto_place(0,id)))
@@ -50,6 +52,7 @@ func run() -> void:
 	game.match_state.stage = 4
 	# P8z：mainは廃止。武器もレリックと同じグリッドに置くので、所持庫に武器を混ぜて自動配置する。
 	game.match_state.builds[0] = {"owned":[game.match_state.gun_token(1),0,1,2,3,4,5,6],"equipped":[],"positions":{},"mods":{}}
+	preload("res://tests/helpers/preparation.gd").rectangle(game.match_state)
 	for entry in game.match_state.builds[0].owned.duplicate(): game.match_state.place(0,entry,game.match_state.auto_place(0,entry))
 	game.preparation.refresh()
 	await capture("-inventory")
@@ -60,8 +63,8 @@ func run() -> void:
 	prep.cancel_placement()
 	prep.set_process(false) # Deterministic preview capture, independent of the OS cursor.
 	ms.builds[0] = {"owned":[start_gun,2,4,18,3],"equipped":[],"positions":{},"mods":{}}
-	ms.rewards[0] = [1,7,10]
-	ms.remaining[0] = 1
+	preload("res://tests/helpers/preparation.gd").rectangle(ms)
+	ms._set_products(0,[1,7,10])
 	assert(ms.place(0,start_gun,Vector2i(0,0)))
 	assert(ms.place(0,2,Vector2i(2,0)))
 	assert(ms.place(0,4,Vector2i(0,2)))
@@ -76,7 +79,8 @@ func run() -> void:
 	prep.cancel_placement()
 	var mod: Dictionary = game.Weapons.mods_for(1)[0]
 	ms.builds[0] = {"owned":[ms.gun_token(9),start_gun,0,1,2,3,4,5],"equipped":[],"positions":{},"mods":{1:mod.key}}
-	ms.rewards[0] = [game.Weapons.mod_token(1,mod.key),6,7,8,9,10]
+	preload("res://tests/helpers/preparation.gd").rectangle(ms)
+	ms._set_products(0,[game.Weapons.mod_token(1,mod.key),6,7,8,9,10])
 	prep.refresh()
 	prep.show_detail(start_gun)
 	await capture("-b-eight-reserve")

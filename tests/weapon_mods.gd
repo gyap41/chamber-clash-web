@@ -45,34 +45,29 @@ func run() -> void:
 	var gun5: String = m.gun_token(5)
 	m.builds[1].owned.append(gun5)
 	assert(m.place(1,gun5,Vector2i(0,0))) # ムーンリーパーを携行
-	m.rewards[1] = [0,1,2] + m.mod_candidates(1)
-	m.remaining[1] = 1
+	m.products[1] = m.mod_candidates(1).map(func(entry): return m._card(entry))
+	m._sync_rewards(1)
 	var token := Weapons.mod_token(5,"swift_blade")
 	assert(m.reason(1,token) == "")
 	assert(m.claim(1,token))
 	assert(m.builds[1].mods.get(5,"") == "swift_blade")
 	assert(m.builds[1].owned.filter(func(e): return typeof(e) == TYPE_INT).is_empty()) # mods never land in the 8-slot storage (武器トークンだけが入っている)
-	assert(m.remaining[1] == 0)
-	m.remaining[1] = 1 # isolate the "already modded" check from the separate "budget spent" one
+	assert(m.gold[1] == 6)
 	assert(m.reason(1,Weapons.mod_token(5,"heavy_blade")) == "改造済み")
-	m.remaining[1] = 0
 
 	# --- Taking the weapon off the grid leaves the old branch attached but inactive ("旧武器の
 	# 改造は移転しない"), and a now-stale offer left in rewards[] never softlocks confirm(): the
 	# reason()-based gate treats it as resolved (unclaimable) rather than still-outstanding. ---
 	assert(m.toggle(1,gun5)) # グリッドから外す＝携行をやめる
-	m.remaining[1] = 1 # isolate "not carried" from the "already resolved" check above (mod_reason
-	# checks remaining[i]<=0 before the carried check, and remaining[] was left at 0 by that check)
-	assert(m.reason(1,token) == "携行していない")
-	m.rewards[1] = [token] # the only candidate left is unclaimable from here on
+	assert(m.mod_reason(1,token) == "携行していない")
+	m._set_products(1,[token])
 	assert(m.confirm(1))
 
 	# --- A build dict without a "mods" key at all (older call sites, ad-hoc test literals)
 	# must not crash reward generation or claiming. ---
 	m.builds[0] = {"owned":[gun1],"equipped":[gun1],"positions":{gun1:Vector2i(0,0)}}
 	assert(m.mod_candidates(0).size() == 2) # reads default via .get(), no crash
-	m.rewards[0] = m.mod_candidates(0)
-	m.remaining[0] = 1
+	m._set_products(0,m.mod_candidates(0))
 	assert(m.claim(0,m.rewards[0][0])) # writes create the "mods" key on demand
 	assert(m.builds[0].mods.size() == 1)
 

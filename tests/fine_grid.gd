@@ -6,18 +6,12 @@ func run() -> void:
 	root.add_child(game)
 	game.set_physics_process(false)
 	var m = game.match_state
-	var previous := {}
-	for stage in range(1,6):
+	for stage in range(1,10):
 		m.stage = stage
-		if stage == 5: assert(m.place_expansion(0,"elbow",Vector2i(4,0)))
-		var cells: Dictionary = m.usable_cells()
-		assert(cells.size() == [6,8,12,16,22][stage-1])
-		for cell in previous: assert(cells.has(cell))
-		for cell in cells:
-			assert(cell.x >= 0 and cell.y >= 0 and cell.x < 6 and cell.y < 6)
-		previous = cells
+		assert(m.capacity() == 8 and m.grid_size() == Vector2i(6,6))
 	# Bounding rectangle contains holes: neither anchoring nor spanning one is legal.
 	m.builds[0] = {"owned":[18,6,4],"equipped":[],"positions":{},"mods":{}}
+	preload("res://tests/helpers/preparation.gd").rectangle(m)
 	assert(m.place_expansion(0,"elbow",Vector2i(4,0)))
 	assert(not m.fits(0,18,Vector2i(5,2)))
 	assert(not m.fits(0,6,Vector2i(4,2)))
@@ -29,6 +23,7 @@ func run() -> void:
 	assert(m.fits(0,6,Vector2i(4,0)))
 	# Auto-placement visits the same usable set, excluding holes even when nearly full.
 	m.builds[0] = {"owned":[],"equipped":[],"positions":{},"mods":{}}
+	preload("res://tests/helpers/preparation.gd").rectangle(m)
 	assert(m.place_expansion(0,"elbow",Vector2i(4,0)))
 	for index in range(23):
 		var token := "relic:18:%d" % index
@@ -55,7 +50,12 @@ func run() -> void:
 	assert(m.place(0,m.gun_token(8),Vector2i.ZERO))
 	var player = game.players[0]
 	player.apply_build(m.builds[0],m.capacity(),true,m.usable_cells())
-	assert(player.relics.is_empty() and not player.acquire_temporary(18))
+	assert(player.relics.is_empty() and player.acquire_temporary(18))
+	# Fill the two remaining cells with a vertical weapon for the full-bag boundary.
+	m.builds[0].owned.append(m.gun_token(12))
+	assert(m.place(0,m.gun_token(12),Vector2i(3,0)))
+	player.apply_build(m.builds[0],m.capacity(),true,m.usable_cells())
+	assert(not player.acquire_temporary(18))
 	# Reserve capacity includes only unplaced items; a failed removal keeps its position.
 	m.stage = 4
 	m.builds[0] = {"owned":[],"equipped":[],"positions":{},"mods":{}}
@@ -72,8 +72,7 @@ func run() -> void:
 	# CPU must not overflow reserve while rearranging or claiming another duplicate.
 	m.builds[1] = m.builds[0].duplicate(true)
 	m.ready[1] = false
-	m.rewards[1] = [18,19]
-	m.remaining[1] = 2
+	m._set_products(1,[18,19])
 	game.preparation.auto_prepare(1)
 	assert(m.ready[1] and m.reserve_items(1).size() <= m.RESERVE_CAPACITY)
 	assert(m.builds[1].owned.size() > 8)
@@ -92,6 +91,7 @@ func run() -> void:
 	m.stage = 5
 	m.ready[0] = false
 	m.builds[0] = {"owned":[],"equipped":[],"positions":{},"mods":{}}
+	preload("res://tests/helpers/preparation.gd").rectangle(m)
 	assert(m.place_expansion(0,"elbow",Vector2i(4,0)))
 	for gun_id in [0,3,4,1,7,12,18,6,13]: m.builds[0].owned.append(m.gun_token(gun_id))
 	assert(m.arrange(0,m.builds[0].owned.duplicate()))

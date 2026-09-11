@@ -10,9 +10,7 @@ static func start(game, gun: int = 1) -> void:
 	var ms = game.match_state
 	for i in range(2):
 		game.preparation.turn = i
-		for id in ms.rewards[i]:
-			if ms.remaining[i] > 0: assert(game.preparation.claim(id))
-		assert(ms.confirm(i))
+		if not ms.ready[i]: assert(ms.confirm(i))
 	game.launch_round()
 	assert(game.phase == "play")
 	# Initial random relics can reserve holster shots during launch_round(). Removing only

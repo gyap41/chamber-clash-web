@@ -7,11 +7,11 @@ extends RefCounted
 # ほど自動的にグリッドを圧迫する（旧P8cの狙い）。既定値は下のRARITY_SHAPES、個性を出したい武器
 # だけSHAPESで上書きする。すべてplaytest調整前提の仮値。
 #
-# 試作：最大6×6表示、開放6〜22マス。Sの既定形状は6マスへ調整し、
+# 試作：最大6×6表示、初期8〜開放上限24マス。Sの既定形状は6マスへ調整し、
 # コメット6、プラネタリウム9マス。理由は docs/design/ITEM_FOOTPRINT_BALANCE.md。
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const RARITY_SHAPES := {
-	"C": [Vector2i(0,0)],                                              # 1マス
+	"C": [Vector2i(0,0),Vector2i(1,0)],                                # 継続使用武器は最低2マス
 	"B": [Vector2i(0,0),Vector2i(1,0)],                                # 横2マス
 	"A": [Vector2i(0,0),Vector2i(1,0),Vector2i(0,1)],                  # L字3マス
 	"S": [Vector2i(0,0),Vector2i(1,0),Vector2i(2,0),Vector2i(0,1),Vector2i(1,1),Vector2i(2,1)],    # 試作：3×2の6マス
@@ -24,7 +24,7 @@ const SHAPES := {
 	12: [Vector2i(0,0),Vector2i(0,1)],                                               # ロケットペンシル(B)：縦2マス
 	18: [Vector2i(0,0),Vector2i(0,1)],                                               # スイッチスパナ(B)：縦2マス
 }
-const DEFAULT_SHAPE: Array = [Vector2i(0,0)]
+const DEFAULT_SHAPE: Array = [Vector2i(0,0),Vector2i(1,0)]
 static func shape(id: int) -> Array:
 	if SHAPES.has(id): return SHAPES[id]
 	if not Weapons.supported(id): return DEFAULT_SHAPE

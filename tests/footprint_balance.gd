@@ -27,6 +27,7 @@ func run() -> void:
 			var shape: Array = m.shape_of(m.gun_token(id) if kind == "gun" else id)
 			var visited := {Vector2i.ZERO:true}
 			assert(Vector2i.ZERO in shape)
+			if kind == "gun": assert(shape.size() >= 2)
 			for cell in shape: assert(cell.x >= 0 and cell.y >= 0 and cell.x < 6 and cell.y < 6 and shape.count(cell) == 1)
 			for pass_index in range(shape.size()):
 				for cell in shape:
@@ -40,7 +41,7 @@ func run() -> void:
 		m = game.match_state
 		m.grant_start_weapon(0,characters.start_gun(char_id))
 		assert(m.toggle(0,m.builds[0].owned[0]))
-		m.rewards[0] = [18,19]
+		m._set_products(0,[18,19])
 		for id in [18,19]:
 			assert(m.claim(0,id))
 			assert(m.toggle(0,m.builds[0].owned.back()))
@@ -52,15 +53,18 @@ func run() -> void:
 	m.stage = 2
 	var planet: String = m.gun_token(15)
 	m.builds[1] = {"owned":[planet,m.gun_token(0)],"equipped":[],"positions":{},"mods":{}}
-	m.remaining[1] = 0
+	m.gold[1] = 0
 	game.preparation.auto_prepare(1)
 	assert(m.carried_guns(1) == [0] and planet in m.reserve_items(1))
 	m.stage = 3
 	m.ready[1] = false
+	preload("res://tests/helpers/preparation.gd").rectangle(m,1)
+	m.gold[1] = 0
 	game.preparation.auto_prepare(1)
 	assert(15 in m.carried_guns(1) and m.occupied_cells(1).size() >= 9)
 	# Real GUI drag from the bottom-right of the 3x3 piece keeps its grab offset.
 	m.builds[0] = {"owned":[planet],"equipped":[],"positions":{},"mods":{}}
+	preload("res://tests/helpers/preparation.gd").rectangle(m)
 	assert(m.place(0,planet,Vector2i.ZERO))
 	var prep = game.preparation
 	prep.turn = 0

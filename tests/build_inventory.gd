@@ -9,9 +9,9 @@ func run() -> void:
 	var m = game.match_state
 	m.stage = 4
 	m.builds[0] = {"owned":[0,1,2,3,4,5,6,7,8,9,10,11,12,13],"equipped":[],"positions":{},"mods":{}}
+	preload("res://tests/helpers/preparation.gd").rectangle(m)
 	for id in [0,1,2,3,4,5]: assert(m.place(0,id,m.auto_place(0,id))) # 実際にグリッドへ置いて装備させる（占有マスを正しく記録するため）
-	m.rewards[0] = [14,15,16]
-	m.remaining[0] = 1
+	m._set_products(0,[14,15,16])
 	assert(not m.claim(0,14))
 	assert(m.toggle(0,6) and 6 in m.builds[0].equipped) # グリッドに空きがあるので装備できる（旧・個数上限6ならここで弾かれていた）
 	assert(m.toggle(0,6) and 6 not in m.builds[0].equipped) # 解除も通常どおり
@@ -63,8 +63,6 @@ func run() -> void:
 	for entry in game.match_state.builds[0].equipped.duplicate(): game.match_state.toggle(0,entry)
 	assert(game.match_state.place(0,gun8,game.match_state.auto_place(0,gun8)))
 	for i in range(2):
-		for id in game.match_state.rewards[i]:
-			if game.match_state.remaining[i] > 0: game.match_state.claim(i,id)
 		assert(game.match_state.confirm(i))
 	game.launch_round()
 	assert(p.weapon().id == 8 and p.weapon().clip == p.definition().mag and p.weapon().mode == 0)

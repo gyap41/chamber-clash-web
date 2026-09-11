@@ -36,15 +36,28 @@ func begin() -> void:
 	started = Time.get_ticks_msec()
 	refresh()
 func claim(id) -> bool:
-	if game.phase != "prepare" or not game.match_state.claim(turn,id): return false
+	if game.phase != "prepare": return false
+	var state = game.match_state
+	var card: Dictionary = state.product(turn,str(id))
+	var entry = card.entry if not card.is_empty() else id
+	var success: bool
+	if str(id) == "field":
+		entry = state.temporary[turn]
+		success = state.claim_temporary(turn)
+	else: success = state.purchase(turn,str(id)) if not card.is_empty() else state.claim(turn,id)
+	if not success: return false
 	selected_expansion = ""
-	game.telemetry.record("reward",{"player":turn,"id":id})
-	selected_reward = typeof(id) == TYPE_STRING and not game.match_state.is_gun(id)
-	selected_detail = id if selected_reward else game.match_state.builds[turn].owned.back()
+	game.telemetry.record("purchase",{"player":turn,"card":id,"entry":entry,"gold":state.gold[turn]})
+	selected_reward = str(entry).begins_with("mod:")
+	selected_detail = entry if selected_reward else state.builds[turn].owned.back()
 	if not selected_reward: placement_entry = selected_detail
 	scroll_to_latest = true
 	refresh()
 	return true
+func refresh_shop() -> void:
+	if game.phase != "prepare" or not game.match_state.refresh_shop(turn): return
+	selected_detail = null
+	refresh()
 # P8 配置基盤：ドラッグ＆ドロップでの配置・移動（グリッドのマスへドロップ）。可否は
 # match_state.place()＝そのマスに形状が実際に収まるかどうかだけで決まる。同じマスへ置き直す等、
 # 実際には何も変わらないドロップでも一律refresh()するが、副作用はなく無害。
@@ -71,7 +84,7 @@ func unequip_relic(id) -> void:
 	refresh()
 func discard(id) -> void:
 	if game.phase != "prepare": return
-	if game.match_state.discard(turn,id): game.telemetry.record("discard",{"player":turn,"id":id})
+	if game.match_state.sell(turn,id): game.telemetry.record("discard",{"player":turn,"id":id})
 	placement_entry = null
 	selected_detail = null
 	refresh()
@@ -121,31 +134,36 @@ func affinity(id, guns: Array, equipped: Array = []) -> int:
 # auto_place()）に頼るので、人間が手で最適に詰めた場合よりは詰め方が甘くなる（P8zの決定事項7）。
 func auto_prepare(i: int) -> void:
 	var state = game.match_state
-	state.auto_expand(i)
-	var candidates: Array = state.rewards[i].duplicate()
-	if state.temporary[i] >= 0: candidates.append(state.temporary[i])
-	candidates.sort_custom(func(a,b): return affinity(a,state.carried_guns(i),state.equipped_relics(i)) > affinity(b,state.carried_guns(i),state.equipped_relics(i)))
-	for id in candidates:
-		if state.remaining[i] <= 0: break
-		if id in state.claimed_candidates[i]: continue
-		if state.is_relic(id) and not Relics.stackable(state.relic_id(id)) and state.relic_id(id) in state.Items.relic_ids(state.builds[i].owned): continue
-		# A mod-token claim never touches reserve, so it never needs the 8-slot
-		# discard-to-make-room step below — only guard it for something that takes a slot.
-		var is_mod: bool = typeof(id) == TYPE_STRING and not state.is_gun(id)
-		if not is_mod and state.reserve_full(i):
-			# 捨てる相手はレリックを優先する（武器を捨てて丸腰になるのを避けるため）。
-			var spare = state.reserve_items(i).filter(func(e): return state.is_relic(e))
-			state.discard(i,spare.back() if not spare.is_empty() else state.reserve_items(i).back())
-		state.claim(i,id)
 	var owned: Array = state.builds[i].owned.duplicate()
 	var guns: Array = owned.filter(func(e): return state.is_gun(e))
 	guns.sort_custom(func(a,b): return weapon_score(state.gun_id(a),[]) > weapon_score(state.gun_id(b),[]))
-	var spares: Array = owned.filter(func(e): return state.is_relic(e))
-	var carried: Array = state.carried_guns(i)
-	spares.sort_custom(func(a,b): return affinity(a,carried,[]) > affinity(b,carried,[]))
-	state.arrange(i,guns+spares)
+	state.arrange(i,guns+owned.filter(func(e): return state.is_relic(e)))
+	# Reserve 4G for equipment after a patch. Grow by at most one paid patch per preparation.
+	if state.stage >= 2 and state.gold[i] >= 8 and state.capacity(i) < 24:
+		state.auto_expand(i)
+		state.arrange(i,guns+owned.filter(func(e): return state.is_relic(e)))
+	if state.claim_temporary(i):
+		var free_entry = state.builds[i].owned.back()
+		state.place(i,free_entry,state.auto_place(i,free_entry))
+	state.sync_mod_product(i)
+	var cards: Array = state.products[i].duplicate()
+	cards.sort_custom(func(a,b): return purchase_score(a,i) > purchase_score(b,i))
+	for card in cards:
+		if not state.purchase_reason(i,card.id).is_empty(): continue
+		var is_mod: bool = str(card.entry).begins_with("mod:")
+		if not is_mod and state.auto_place(i,card.entry).x < 0: continue
+		if state.purchase(i,card.id) and not is_mod:
+			var acquired = state.builds[i].owned.back()
+			state.place(i,acquired,state.auto_place(i,acquired))
+	state.sync_mod_product(i)
+	for card in state.products[i]:
+		if str(card.entry).begins_with("mod:"): state.purchase(i,card.id)
 	state.confirm(i)
-	game.telemetry.record("cpu_prepare",{"player":i,"build":state.builds[i]})
+	game.telemetry.record("cpu_prepare",{"player":i,"build":state.builds[i],"gold":state.gold[i]})
+func purchase_score(card: Dictionary, i: int) -> float:
+	var state = game.match_state
+	var value: int = weapon_score(state.gun_id(card.entry),[])+2 if state.is_gun(card.entry) else affinity(card.entry,state.carried_guns(i),state.equipped_relics(i))+2
+	return float(value)/maxi(1,card.price)
 func weapon_score(id: int, relics: Array) -> int:
 	var score := 0
 	for relic in relics: score += affinity(relic,[id],relics)
@@ -184,6 +202,7 @@ func entry_info(entry) -> Dictionary:
 # P5: parses either candidate type into a display {name,desc} pair — a relic id via the relic
 # catalog, a "mod:<weapon_id>:<key>" token via the owning weapon's mod branch definition.
 func reward_info(id) -> Dictionary:
+	if game.match_state.is_gun(id): return entry_info(id)
 	if typeof(id) == TYPE_STRING:
 		var parsed := Weapons.parse_mod_token(id)
 		var mod := Weapons.mod_definition(parsed.weapon_id,parsed.mod_key)
@@ -282,10 +301,11 @@ func show_detail(entry, reward: bool = false) -> void:
 		var count: int = equipped.count(relic)
 		var stat := "move_bonus" if relic == 18 else "shot_bonus"
 		detail_description.text += "\n\n装備中%d個 / 同種合計+%d%%" % [count,roundi(count*float(Relics.definition(relic).get(stat,0.0))*100)]
-	var is_mod: bool = reward and typeof(entry) == TYPE_STRING
+	var is_mod: bool = reward and str(entry).begins_with("mod:")
 	details.get_node("Meta").text = "武器に紐づく改造" if is_mod else "%dマス / %s" % [game.match_state.shape_of(entry).size(),"武器" if game.match_state.is_gun(entry) else "レリック"]
 	var discard_button: Button = details.get_node("Discard")
 	discard_button.visible = not reward and entry in game.match_state.builds[turn].owned
+	discard_button.text = "売却 %dG" % game.match_state.sale_value(turn,entry) if game.match_state.sale_value(turn,entry) > 0 else "破棄（無料品）"
 func select_entry(entry) -> void:
 	selected_expansion = ""
 	placement_entry = entry
@@ -359,8 +379,8 @@ func select_expansion(shape: String) -> void:
 	selected_detail = null
 	selected_expansion = shape
 	detail_path().get_node("Name").text = game.match_state.Expansions.NAMES[shape]
-	detail_path().get_node("Meta").text = "6マス / 無料のバッグ拡張"
-	detail_description.text = "未開放マスに置き、バッグの辺に接続します。回転なし。配置後は固定。通常報酬・控えは消費しません。"
+	detail_path().get_node("Meta").text = "%dマス / %dG" % [game.match_state.Expansions.SHAPES[shape].size(),game.match_state.Expansions.SHAPES[shape].size()]
+	detail_description.text = "未開放マスに置き、バッグの辺に接続します。回転なし。配置後は固定。配置成功時のみ支払い。各準備1個まで。上限24マス。控えは消費しません。"
 	detail_path().get_node("Discard").visible = false
 	set_status("基準マスをクリックして配置\nEscで選択解除",Color("83deca"))
 func preview_expansion(anchor: Vector2i) -> bool:
@@ -412,18 +432,17 @@ func refresh() -> void:
 	clear_preview()
 	var state = game.match_state
 	var build: Dictionary = state.builds[turn]
+	state.sync_mod_product(turn)
 	$Root/Panel/Content/Title.text = "P%d  ラウンド準備" % (turn+1)
-	$Root/Panel/Content/Info.text = "成長 %d   /   SCORE %d : %d   /   時間制限なし" % [state.stage,state.scores[0],state.scores[1]]
+	$Root/Panel/Content/Info.text = "準備 %d / 5本先取 / SCORE %d : %d / %dG" % [state.stage,state.scores[0],state.scores[1],state.gold[turn]]
 	$Root/Panel/Content/Info.tooltip_text = "相手の前ラウンド確定ビルド：" + build_text(state.previous[1-turn]) + "\nローカル2人では選択を秘匿できません。"
-	var pending: bool = state.remaining[turn] > 0 and state.rewards[turn].any(func(id): return state.reason(turn,id) == "")
-	$Root/Panel/Content/Ready.text = ("報酬をあと%d個選ぶ" % state.remaining[turn]) if pending else ("準備完了・対戦開始" if turn == 1 or game.players[1].is_cpu else "準備完了・P2へ")
-	if state.expansion_pending(turn): $Root/Panel/Content/Ready.text = "バッグ拡張を配置する"
-	$Root/Panel/Content/Ready.disabled = pending or state.expansion_pending(turn)
+	$Root/Panel/Content/Ready.text = "準備完了・対戦開始" if turn == 1 or game.players[1].is_cpu else "準備完了・P2へ"
+	$Root/Panel/Content/Ready.disabled = state.ready[turn]
 	var guns: Array = state.carried_guns(turn)
 	var names: Array = guns.map(func(id): return str(Weapons.definition(id).name))
-	$Root/Panel/Content/Notice.text = "HP %d   /   パルス %d   /   携行 %d丁   /   報酬残り %d回" % [game.players[turn].max_hp+(2 if 4 in state.equipped_relics(turn) else 0),game.players[turn].initial_pulses,guns.size(),state.remaining[turn]]
-	$Root/Panel/Content/Summary.text = "武器未配置：近接のみで出撃" if guns.is_empty() else "携行：" + " / ".join(names)
-	$Root/Panel/Content/Summary.tooltip_text = " / ".join(names) + "\n武器の順番はグリッドの左上から。戦闘開始時に全快。"
+	$Root/Panel/Content/Notice.text = "HP %d   /   パルス %d   /   携行 %d丁   /   残金 %dG" % [game.players[turn].max_hp+(2 if 4 in state.equipped_relics(turn) else 0),game.players[turn].initial_pulses,guns.size(),state.gold[turn]]
+	$Root/Panel/Content/Summary.text = "未確保の無料品あり：出撃すると失います" if state.temporary[turn] >= 0 else ("武器未配置：近接のみで出撃" if guns.is_empty() else "携行：" + " / ".join(names))
+	$Root/Panel/Content/Summary.tooltip_text = ("未確保のフィールドレリックは出撃で失います。\n" if state.temporary[turn] >= 0 else "") + " / ".join(names) + "\n武器の順番はグリッドの左上から。戦闘開始時に全快。"
 	var old_scroll := get_node_or_null("Root/Panel/Content/Cards/Reserve/Scroll") as ScrollContainer
 	if old_scroll and rendered_turn == turn: reserve_scroll = old_scroll.scroll_horizontal
 	rendered_turn = turn
@@ -466,7 +485,7 @@ func refresh() -> void:
 	discard_button.name = "Discard"
 	discard_button.position = Vector2(136,330)
 	discard_button.size = Vector2(116,40)
-	discard_button.text = "所持から破棄"
+	discard_button.text = "売却 / 破棄"
 	discard_button.tooltip_text = "完全に手放す操作です。控えへの移動とは異なります。"
 	style_button(discard_button)
 	discard_button.add_theme_font_size_override("font_size",14)
@@ -474,32 +493,39 @@ func refresh() -> void:
 	discard_button.visible = false
 	discard_button.pressed.connect(discard_selected)
 	details.add_child(discard_button)
-	text_at(rewards,"Heading","報酬を選ぶ",Rect2(20,16,312,32),24)
-	text_at(rewards,"Remaining","残り%d回 / 取得 → 下の控えへ" % state.remaining[turn],Rect2(20,60,312,32),17,Color("83deca"))
+	text_at(rewards,"Heading","ショップ",Rect2(20,16,312,32),24)
+	text_at(rewards,"Remaining","%dG / 購入は任意・控えへ追加" % state.gold[turn],Rect2(20,60,312,32),17,Color("83deca"))
 	var reward_list := scroll_at(rewards,"Scroll",Rect2(20,104,312,424))
+	var reroll := button_at(reward_list,"商品更新 2G（各準備1回）",refresh_shop,state.refreshed[turn] or state.gold[turn] < 2 or state.ready[turn])
+	reroll.name = "Refresh"
+	reroll.custom_minimum_size.x = 0
 	if state.expansion_pending(turn):
 		var heading := Label.new()
-		heading.text = "無料拡張：どちらか1つを配置"
+		heading.text = "バッグ拡張：各準備1個まで"
 		heading.add_theme_font_size_override("font_size",16)
 		reward_list.add_child(heading)
 		for shape in state.Expansions.SHAPES:
 			var choice := Button.new()
 			choice.name = "Expansion_"+shape
-			choice.text = state.Expansions.NAMES[shape]+"　6マス"
-			choice.custom_minimum_size = Vector2(0,64)
+			choice.text = state.Expansions.NAMES[shape]+" %dG" % state.Expansions.SHAPES[shape].size()
+			choice.custom_minimum_size = Vector2(0,44)
 			style_button(choice)
 			choice.pressed.connect(select_expansion.bind(shape))
 			var footprint := Footprint.new()
 			footprint.shape = state.Expansions.SHAPES[shape]
 			footprint.position = Vector2(8,8)
-			footprint.size = Vector2(36,48)
+			footprint.size = Vector2(26,28)
 			footprint.tint = Color("83deca")
 			choice.add_child(footprint)
 			reward_list.add_child(choice)
 	var candidates: Array = state.rewards[turn].duplicate()
-	if state.temporary[turn] >= 0 and state.temporary[turn] not in candidates: candidates.append(state.temporary[turn])
-	for entry in candidates:
-		var reason: String = state.reason(turn,entry)
+	var offers: Array = state.products[turn].duplicate(true)
+	if state.temporary[turn] >= 0:
+		candidates.append(state.temporary[turn])
+		offers.push_front({"id":"field","entry":state.temporary[turn],"price":0,"sold":false})
+	for offer in offers:
+		var entry = offer.entry
+		var reason: String = state.temporary_reason(turn) if offer.id == "field" else state.purchase_reason(turn,offer.id)
 		var info := reward_info(entry)
 		var card := PanelContainer.new()
 		card.custom_minimum_size = Vector2(0,136)
@@ -511,7 +537,7 @@ func refresh() -> void:
 		var layout := Control.new()
 		layout.custom_minimum_size = Vector2(0,136)
 		card.add_child(layout)
-		if typeof(entry) == TYPE_INT: add_footprint(layout,entry,Rect2(12,16,32,32))
+		if not str(entry).begins_with("mod:"): add_footprint(layout,entry,Rect2(12,16,32,32))
 		else: text_at(layout,"Mod","改",Rect2(12,16,32,32),22)
 		var reward_name := text_at(layout,"Name",info.name,Rect2(56,10,232,50),18)
 		reward_name.max_lines_visible = 2
@@ -520,16 +546,18 @@ func refresh() -> void:
 		effect.autowrap_mode = TextServer.AUTOWRAP_OFF
 		effect.clip_text = true
 		effect.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		var why := text_at(layout,"Reason",reason if not reason.is_empty() else ("武器改造" if typeof(entry) == TYPE_STRING else "%dマス" % state.shape_of(entry).size()),Rect2(12,96,178,34),14,Color("91a7bc"))
+		var why := text_at(layout,"Reason",reason if not reason.is_empty() else ("武器改造" if str(entry).begins_with("mod:") else "%dマス" % state.shape_of(entry).size()),Rect2(12,96,178,34),14,Color("91a7bc"))
 		why.max_lines_visible = 2
 		var button := Button.new()
 		button.name = "Claim"
 		button.position = Vector2(198,94)
 		button.size = Vector2(90,36)
-		button.text = "取得"
+		button.text = "無料確保" if offer.id == "field" else ("売切" if offer.sold else "%dG 購入" % offer.price)
+		button.add_theme_font_size_override("font_size",14)
 		button.disabled = not reason.is_empty()
 		style_button(button,true)
-		button.pressed.connect(claim.bind(entry))
+		button.add_theme_font_size_override("font_size",14)
+		button.pressed.connect(claim.bind(offer.id))
 		layout.add_child(button)
 		layout.tooltip_text = info.name+"\n"+info.desc+"\n"+reason
 		layout.mouse_entered.connect(show_detail.bind(entry,true))

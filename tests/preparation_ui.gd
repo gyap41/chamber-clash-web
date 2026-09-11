@@ -27,23 +27,26 @@ func run() -> void:
 	game.new_match(1)
 	var prep = game.preparation
 	var state = game.match_state
+	state._set_products(0,[18,19])
+	prep.refresh()
 	var cards = prep.get_node("Root/Panel/Content/Cards")
 	assert(cards.get_child_count() == 3)
 	for name in ["Rewards","Equipment","Reserve","Equipment/Details"]:
 		assert(cards.get_node(name).is_visible_in_tree())
 	var ready = prep.get_node("Root/Panel/Content/Ready")
-	assert(ready.disabled)
+	assert(not ready.disabled)
 	# Claim through the real reward button; acquisition remains storage-only.
 	var rewards = cards.get_node("Rewards/Scroll/List")
 	var entry = state.rewards[0][0]
-	rewards.get_child(0).get_child(0).mouse_entered.emit()
+	rewards.get_children().filter(func(n): return n is PanelContainer)[0].get_child(0).mouse_entered.emit()
 	assert(cards.get_node("Equipment/Details/Name").text == prep.reward_info(entry).name)
-	rewards.get_child(0).get_child(0).get_node("Claim").pressed.emit()
+	rewards.get_children().filter(func(n): return n is PanelContainer)[0].get_child(0).get_node("Claim").pressed.emit()
 	assert(state.relic_id(state.builds[0].owned.back()) == entry and state.builds[0].equipped.is_empty())
-	assert(state.remaining[0] == 1 and ready.disabled)
+	assert(state.gold[0] == 10 and not ready.disabled)
 	state.stage = 4
 	var gun: String = state.gun_token(1)
 	state.builds[0] = {"owned":[gun,18,1,4],"equipped":[],"positions":{},"mods":{}}
+	preload("res://tests/helpers/preparation.gd").rectangle(state)
 	prep.refresh()
 	# Drops on the displayed cells use the same layout validation as the match model.
 	var grid = cards.get_node("Equipment/Grid")
@@ -122,12 +125,12 @@ func run() -> void:
 	assert(not details.get_global_rect().intersects(cards.get_node("Equipment/Grid").get_global_rect()))
 	assert(not reserve_scroll.get_global_rect().intersects(cards.get_node("Reserve/DropZone").get_global_rect()))
 	for card in cards.get_node("Rewards/Scroll/List").get_children():
+		if not card is PanelContainer: continue
 		for control in card.get_child(0).get_children():
 			assert(card.get_global_rect().encloses(control.get_global_rect()))
 	for control in details.get_children():
 		assert(details.get_global_rect().encloses(control.get_global_rect()))
 	# Complete preparation with no weapon: keep the existing valid unarmed choice.
-	state.remaining[0] = 0
 	prep.refresh()
 	assert(not ready.disabled and "近接" in prep.get_node("Root/Panel/Content/Summary").text)
 	prep.ready_shop()
@@ -170,12 +173,12 @@ func run() -> void:
 	await process_frame
 	assert(root.gui_is_dragging())
 	grid = cards.get_node("Equipment/Grid")
-	var target: Vector2 = grid.get_child(1).get_global_rect().get_center()
+	var target: Vector2 = grid.get_child(2).get_global_rect().get_center()
 	motion(target,true,target-source)
 	await process_frame
 	mouse_button(target,false)
 	await process_frame
-	assert(state.builds[1].positions[4] == Vector2i(1,0))
+	assert(state.builds[1].positions[4] == Vector2i(2,0))
 	print("PASS: full-screen preparation, reward/detail/claim, grid and occupied-cell drops, reserve/discard, unarmed ready, turn reset and layout bounds")
 	game.queue_free()
 	quit()

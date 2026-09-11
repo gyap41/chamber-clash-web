@@ -1,4 +1,12 @@
 extends RefCounted
+const Shop = preload("res://scripts/catalog/shop_catalog.gd")
+const WIN_TARGET := Shop.WIN_TARGET
+var gold := [12,12]
+var products: Array = [[],[]]
+var refreshed := [false,false]
+var expansion_bought := [false,false]
+var next_card_id := 0
+var ended := false
 const Expansions = preload("res://scripts/catalog/bag_expansions.gd")
 const Generator = preload("res://scripts/game/reward_generator.gd")
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
@@ -13,12 +21,9 @@ var stage := 1
 var builds: Array = []
 var previous: Array = []
 var rewards: Array = [[],[]]
-var claimed_candidates: Array = [[],[]]
-var remaining := [2,2]
 var ready := [false,false]
-var reward_counts := [0,0]
+var purchase_counts := [0,0]
 var temporary := [-1,-1]
-var initial := true
 var settled := false
 # P8z 装備モデルの統合：所持庫（owned）と装備（equipped/positions）は武器とレリックの共通の
 # 置き場になった。新規レリックは個体トークン（旧intも移行対応）、武器は "gun:<id>" という文字列トークンで表す（報酬の改造
@@ -57,54 +62,58 @@ func migrate_relic_instances(i: int) -> void:
 		if build.positions.has(entry):
 			build.positions[token] = build.positions[entry]
 			build.positions.erase(entry)
+		if build.get("acquisitions",{}).has(entry):
+			build.acquisitions[token] = build.acquisitions[entry]
+			build.acquisitions.erase(entry)
 	build["next_item_serial"] = serial
 # 所持庫・装備に入りうる要素の形状。武器かレリックかで参照する形状表が変わるだけで、
 # fits()/occupied_cells()/auto_place()の当たり判定そのものは共通のまま。
 static func shape_of(entry) -> Array:
 	return WeaponShapes.shape(gun_id(entry)) if is_gun(entry) else RelicShapes.shape(relic_id(entry))
 func _new_build() -> Dictionary:
-	return {"owned":[],"equipped":[],"positions":{},"mods":{},"next_item_serial":0}
+	return {"owned":[],"equipped":[],"positions":{},"mods":{},"next_item_serial":0,"acquisitions":{},"bag_expansions":[]}
 func _init(value: int = 1) -> void:
 	seed_value = value
 	generator = Generator.new(value)
 	builds = [_new_build(),_new_build()]
-	for i in range(2): builds[i].owned.append(gun_token(start_guns[i]))
+	for i in range(2): _acquire(i,gun_token(start_guns[i]),"initial",0,"")
 	previous = builds.duplicate(true)
 	generate_rewards()
 # P8z：キャラクター選択で確定した初期武器へ差し替える。main.tscnの_ready()がnew_match()を先に
 # 走らせてしまう（キャラはその後に適用される）ため、既定の初期武器しか持っていない＝まだ何も
-# 動かしていない状態のときだけ差し替える。start_gunsに覚えておくのは、3本先取でマッチが終わって
+# 動かしていない状態のときだけ差し替える。start_gunsに覚えておくのは、5本先取でマッチが終わって
 # ビルドが作り直されたあとも同じ初期武器から始めるため。
 func grant_start_weapon(i: int, gun: int) -> void:
 	if i not in [0,1] or not Weapons.supported(gun): return
 	start_guns[i] = gun
 	if builds[i].owned == [gun_token(DEFAULT_START_GUN)] and builds[i].equipped.is_empty():
-		builds[i].owned = [gun_token(gun)]
-# Prototype: stages 1-4 stay unchanged; each player places one free patch at stage 5.
+		builds[i].owned = []
+		builds[i].acquisitions = {}
+		_acquire(i,gun_token(gun),"initial",0,"")
+# Paid patches persist independently of preparation number; one purchase per preparation.
 # The canvas limit and usable region are separate. No full 36-cell unlock.
 const RESERVE_CAPACITY := 8
 const MAX_CARRIED_WEAPONS := 8
 const MAX_GRID_SIZE := Vector2i(6,6)
-const GRID_SIZES := [Vector2i(3,2),Vector2i(4,2),Vector2i(4,3),Vector2i(4,4),Vector2i(6,6)]
 func grid_size() -> Vector2i:
-	return GRID_SIZES[clampi(stage,1,5)-1]
+	return MAX_GRID_SIZE
 func usable_cells(i: int = 0) -> Dictionary:
 	var cells := {}
-	var base: Vector2i = GRID_SIZES[mini(clampi(stage,1,5)-1,3)]
-	for y in range(base.y):
-		for x in range(base.x): cells[Vector2i(x,y)] = true
-	var patch: Dictionary = builds[i].get("bag_expansion",{})
-	if not patch.is_empty():
+	for y in range(2):
+		for x in range(4): cells[Vector2i(x,y)] = true
+	for patch in builds[i].get("bag_expansions",[]):
 		for offset in Expansions.SHAPES[patch.shape]: cells[patch.anchor+offset] = true
 	return cells
 func capacity(i: int = 0) -> int:
 	return usable_cells(i).size()
 func expansion_pending(i: int) -> bool:
-	return i in [0,1] and stage >= 5 and builds[i].get("bag_expansion",{}).is_empty()
+	return i in [0,1] and not ended and not expansion_bought[i] and capacity(i) <= 20
 func expansion_reason(i: int, shape: String, anchor: Vector2i) -> String:
 	if i not in [0,1] or not Expansions.SHAPES.has(shape): return "無効な拡張"
-	if ready[i]: return "準備完了"
+	if ready[i] or ended: return "準備完了"
 	if not expansion_pending(i): return "拡張なし / 配置済み"
+	if capacity(i)+Expansions.SHAPES[shape].size() > 24: return "開放上限24マス"
+	if gold[i] < Expansions.SHAPES[shape].size(): return "資金不足"
 	var usable := usable_cells(i)
 	var connected := false
 	for offset in Expansions.SHAPES[shape]:
@@ -116,7 +125,10 @@ func expansion_reason(i: int, shape: String, anchor: Vector2i) -> String:
 	return "" if connected else "バッグに辺で接続してください"
 func place_expansion(i: int, shape: String, anchor: Vector2i) -> bool:
 	if not expansion_reason(i,shape,anchor).is_empty(): return false
-	builds[i]["bag_expansion"] = {"shape":shape,"anchor":anchor}
+	gold[i] -= Expansions.SHAPES[shape].size()
+	expansion_bought[i] = true
+	if not builds[i].has("bag_expansions"): builds[i]["bag_expansions"] = []
+	builds[i].bag_expansions.append({"shape":shape,"anchor":anchor})
 	return true
 func auto_expand(i: int) -> bool:
 	if not expansion_pending(i): return false
@@ -131,7 +143,7 @@ func reserve_full(i: int) -> bool:
 	return reserve_items(i).size() >= RESERVE_CAPACITY
 # Atomic CPU rearrangement: a greedy packing must not overflow reserve or lose items.
 func arrange(i: int, order: Array) -> bool:
-	if ready[i]: return false
+	if ready[i] or ended: return false
 	var equipped: Array = builds[i].equipped.duplicate()
 	var positions: Dictionary = builds[i].positions.duplicate()
 	builds[i].equipped = []
@@ -180,7 +192,7 @@ func auto_place(i: int, id) -> Vector2i:
 # ドラッグ＆ドロップなど、置き場所を明示的に指定する経路。既装備品の移動にも使う。P8xにより
 # 着脱可否はfits()（実際にその位置へ収まるか）だけで決まる——個数上限は撤廃済み。
 func place(i: int, id, anchor: Vector2i) -> bool:
-	if ready[i] or id not in builds[i].owned: return false
+	if ready[i] or ended or id not in builds[i].owned: return false
 	var already: bool = id in builds[i].equipped
 	if not already and is_gun(id) and carried_guns(i).size() >= MAX_CARRIED_WEAPONS: return false
 	if not fits(i,id,anchor,id if already else -1): return false
@@ -205,74 +217,135 @@ func carried_guns(i: int) -> Array:
 	return result
 func equipped_relics(i: int) -> Array:
 	return Items.relic_ids(builds[i].equipped)
+func _base_products() -> Array:
+	var result: Array = []
+	for slot in range(2):
+		var roll: int = generator.rng.randi_range(0,99)
+		var rarity: String
+		if stage < 3: rarity = "C" if roll < 35 else ("B" if roll < 75 else "A")
+		else: rarity = "C" if roll < 25 else ("B" if roll < 60 else ("A" if roll < 85 else "S"))
+		var pool: Array = Weapons.SUPPORTED.filter(func(id): return Weapons.definition(id).rarity == rarity)
+		result.append(gun_token(pool[generator.rng.randi_range(0,pool.size()-1)]))
+	for slot in range(3): result.append(generator.rng.randi_range(0,19))
+	return result
+func _card(entry) -> Dictionary:
+	var result := {"id":"card:%d" % next_card_id,"entry":entry,"price":Shop.price(entry),"sold":false}
+	next_card_id += 1
+	return result
+func _set_products(i: int, base: Array) -> void:
+	products[i] = []
+	for entry in base: products[i].append(_card(entry))
+	_sync_rewards(i)
+	sync_mod_product(i)
+func _sync_rewards(i: int) -> void:
+	rewards[i] = products[i].map(func(card): return card.entry)
 func generate_rewards() -> void:
-	claimed_candidates = [[],[]]
-	var base: Array = generator.shuffled(Relics.SUPPORTED).slice(0,3)
-	for i in range(2): rewards[i] = generator.candidates(base,Items.relic_ids(builds[i].owned)) + mod_candidates(i)
-# P5: "レリック取得／主力改造" — when a carried weapon has unused modification branches, offer
-# them as extra reward candidates alongside the usual relics (not in place of them; a candidate
-# pool that includes zero mod tokens falls back to relics only, matching "対応武器がない場合は
-# 取得可能な報酬を提示する"). Represented as "mod:<weapon_id>:<key>" tokens so the existing
-# rewards[]/owned[] arrays don't need a parallel structure.
-# P8z：判定の起点が「主力」から「グリッドに置いている武器」へ変わった。複数丁を携行していれば
-# その全部が対象になるので報酬候補が長くなりうる——実プレイで多すぎるようなら絞る（playtest）。
+	var base := _base_products()
+	for i in range(2): _set_products(i,base)
+func sync_mod_product(i: int) -> void:
+	if ready[i] or ended: return
+	# Once offered, retain even an unavailable mod: moving equipment is not a free reroll.
+	var cards: Array = products[i].filter(func(card): return str(card.entry).begins_with("mod:"))
+	if not cards.is_empty(): return
+	var candidates := mod_candidates(i)
+	if not candidates.is_empty(): products[i].append(_card(candidates[generator.rng.randi_range(0,candidates.size()-1)]))
+	_sync_rewards(i)
+func refresh_shop(i: int) -> bool:
+	if i not in [0,1] or ready[i] or ended or refreshed[i] or gold[i] < Shop.REFRESH_PRICE: return false
+	gold[i] -= Shop.REFRESH_PRICE
+	refreshed[i] = true
+	_set_products(i,_base_products())
+	return true
+func product(i: int, card_id: String) -> Dictionary:
+	if i not in [0,1]: return {}
+	for card in products[i]:
+		if card.id == card_id: return card
+	return {}
 func mod_candidates(i: int) -> Array:
 	var result: Array = []
 	for main_id in carried_guns(i):
 		if not Weapons.moddable(main_id) or builds[i].get("mods",{}).has(main_id): continue
 		for mod in Weapons.mods_for(main_id): result.append(Weapons.mod_token(main_id,mod.key))
 	return result
-func reason(i: int, id) -> String:
+func acquisition_reason(i: int, entry) -> String:
 	if i not in [0,1]: return "無効"
-	if typeof(id) == TYPE_STRING and not is_gun(id): return mod_reason(i,id)
-	if is_gun(id):
-		if not Weapons.supported(gun_id(id)): return "無効"
-	elif not Relics.supported(id): return "無効"
-	if ready[i]: return "準備完了"
-	if remaining[i] <= 0: return "報酬取得済み"
-	if id in claimed_candidates[i]: return "この候補は取得済み"
-	if is_gun(id) and id in builds[i].owned: return "所持済み"
-	if is_relic(id) and not Relics.stackable(relic_id(id)) and relic_id(id) in Items.relic_ids(builds[i].owned): return "所持済み"
-	if reserve_full(i): return "控え8個が満杯：先に配置または破棄"
-	if id not in rewards[i] and id != temporary[i]: return "候補外"
+	if ready[i] or ended: return "準備完了"
+	if str(entry).begins_with("mod:"): return mod_reason(i,entry)
+	if is_gun(entry):
+		if not Weapons.supported(gun_id(entry)): return "無効"
+		if entry in builds[i].owned: return "所持済み"
+	elif typeof(entry) != TYPE_INT or not Relics.supported(entry): return "無効"
+	elif not Relics.stackable(entry) and entry in Items.relic_ids(builds[i].owned): return "所持済み"
+	if reserve_full(i): return "控え8個が満杯：先に配置または売却"
 	return ""
-# A mod token can go stale mid-preparation if the player takes the weapon it targets off the
-# grid — "携行していない" catches that rather than leaving a permanently-unclaimable candidate
-# in the pool. See confirm()'s reason()-based gate below, which relies on this to avoid
-# stalling on a token that can no longer be claimed. (P8z: 旧「現在の主力ではない」。)
+func purchase_reason(i: int, card_id: String) -> String:
+	var card := product(i,card_id)
+	if card.is_empty(): return "候補外"
+	if card.sold: return "売り切れ"
+	var why := acquisition_reason(i,card.entry)
+	if not why.is_empty(): return why
+	if gold[i] < card.price: return "資金不足"
+	return ""
+func purchase(i: int, card_id: String) -> bool:
+	if not purchase_reason(i,card_id).is_empty(): return false
+	var card := product(i,card_id)
+	# All validation precedes this synchronous transaction; no signal/await in between.
+	gold[i] -= card.price
+	card.sold = true
+	_acquire(i,card.entry,"purchase",card.price,card.id)
+	purchase_counts[i] += 1
+	return true
+func _acquire(i: int, entry, source: String, paid: int, card_id: String):
+	var token = entry
+	if str(entry).begins_with("mod:"):
+		var parsed := Weapons.parse_mod_token(entry)
+		if not builds[i].has("mods"): builds[i]["mods"] = {}
+		builds[i].mods[parsed.weapon_id] = parsed.mod_key
+	elif is_relic(entry):
+		var serial: int = builds[i].get("next_item_serial",0)
+		token = Items.relic_token(relic_id(entry),serial)
+		while token in builds[i].owned:
+			serial += 1
+			token = Items.relic_token(relic_id(entry),serial)
+		builds[i]["next_item_serial"] = serial+1
+		builds[i].owned.append(token)
+	else: builds[i].owned.append(token)
+	if not builds[i].has("acquisitions"): builds[i]["acquisitions"] = {}
+	builds[i].acquisitions[token] = {"source":source,"paid":paid,"card_id":card_id}
+	return token
+func temporary_reason(i: int) -> String:
+	if i not in [0,1] or temporary[i] < 0: return "持ち帰り候補なし"
+	return acquisition_reason(i,temporary[i])
+func claim_temporary(i: int) -> bool:
+	if not temporary_reason(i).is_empty(): return false
+	_acquire(i,temporary[i],"field",0,"")
+	temporary[i] = -1
+	return true
+# Compatibility convenience for callers selecting an entry. UI uses immutable card IDs.
+func reason(i: int, entry) -> String:
+	if i not in [0,1]: return "無効"
+	for card in products[i]:
+		if typeof(card.entry) == typeof(entry) and card.entry == entry: return purchase_reason(i,card.id)
+	return "候補外"
+func claim(i: int, entry) -> bool:
+	if i not in [0,1]: return false
+	for card in products[i]:
+		if typeof(card.entry) == typeof(entry) and card.entry == entry: return purchase(i,card.id)
+	return false
 func mod_reason(i: int, token: String) -> String:
-	if ready[i]: return "準備完了"
-	if remaining[i] <= 0: return "報酬取得済み"
+	if ready[i] or ended: return "準備完了"
 	var parsed := Weapons.parse_mod_token(token)
 	if parsed.is_empty(): return "無効"
 	if gun_token(parsed.weapon_id) not in builds[i].equipped: return "携行していない"
 	if builds[i].get("mods",{}).has(parsed.weapon_id): return "改造済み"
-	if token not in rewards[i]: return "候補外"
 	return ""
-func claim(i: int, id) -> bool:
-	if reason(i,id) != "": return false
-	if typeof(id) == TYPE_STRING and not is_gun(id):
-		var parsed := Weapons.parse_mod_token(id)
-		if not builds[i].has("mods"): builds[i]["mods"] = {}
-		# 改造は武器IDへ紐づく。owned/equipped には触れないため、控え8個
-		# 枠は消費しない。携行をやめても既存の改造は消えず、単に対象外になるだけ
-		# （「旧武器の改造は移転しない」）。
-		builds[i].mods[parsed.weapon_id] = parsed.mod_key
-	else:
-		# P8y 取得と配置の分離：報酬で取得したものは所持庫（owned）に入るだけで、装備はしない。
-		# どのマスへ置くかはプレイヤーが準備画面でドラッグして決める（place()）。
-		if is_relic(id):
-			var serial: int = builds[i].get("next_item_serial",0)
-			var token := Items.relic_token(relic_id(id),serial)
-			while token in builds[i].owned:
-				serial += 1
-				token = Items.relic_token(relic_id(id),serial)
-			builds[i].owned.append(token)
-			builds[i]["next_item_serial"] = serial+1
-		else: builds[i].owned.append(id)
-	claimed_candidates[i].append(id)
-	remaining[i] -= 1
-	if not initial: reward_counts[i] += 1
+func sale_value(i: int, entry) -> int:
+	return int(builds[i].get("acquisitions",{}).get(entry,{}).get("paid",0)/2)
+func sell(i: int, entry) -> bool:
+	if i not in [0,1] or ready[i] or ended or entry not in builds[i].owned: return false
+	var value := sale_value(i,entry)
+	if not discard(i,entry): return false
+	gold[i] += value
 	return true
 # 「収まるなら装備する」自動配置。P8xでグリッドの空きマスが実際の制約になったため、旧来の
 # 「置き場がなくても個数上限内なら装備は成立する」という抜け道は廃止した——装備が成立する＝
@@ -288,7 +361,7 @@ func _equip_if_fits(i: int, id) -> bool:
 	builds[i].positions[id] = anchor
 	return true
 func toggle(i: int, id) -> bool:
-	if ready[i] or id not in builds[i].owned: return false
+	if ready[i] or ended or id not in builds[i].owned: return false
 	if id in builds[i].equipped:
 		if reserve_full(i): return false
 		builds[i].equipped.erase(id)
@@ -296,44 +369,48 @@ func toggle(i: int, id) -> bool:
 	elif not _equip_if_fits(i,id): return false
 	return true
 func discard(i: int, id) -> bool:
-	if ready[i] or id not in builds[i].owned: return false
+	if ready[i] or ended or id not in builds[i].owned: return false
 	builds[i].equipped.erase(id)
 	builds[i].get("positions",{}).erase(id)
 	builds[i].owned.erase(id)
+	builds[i].get("acquisitions",{}).erase(id)
+	if is_gun(id):
+		builds[i].mods.erase(gun_id(id))
+		for key in builds[i].get("acquisitions",{}).keys():
+			if str(key).begins_with("mod:%d:" % gun_id(id)): builds[i].acquisitions.erase(key)
 	return true
-# P8z：主力の指定が要らなくなったため、準備完了のゲートは「取れる報酬を取り切ったか」だけに
-# なった。武器を1丁も置いていない（丸腰の）プレイヤーもそのままラウンドを開始できる——置くか
-# 置かないかはプレイヤーの判断で、システムが強制するものではない。
+# Shopping and expansion are optional, including unarmed preparation.
 func confirm(i: int) -> bool:
-	if ready[i] or expansion_pending(i): return false
-	# reason(i,id)=="" means "still actionable" for either type of candidate — claimed relics
-	# report "所持済み" and a mod token that's gone stale (weapon no longer carried) reports
-	# "携行していない", so both correctly stop blocking confirm() once resolved either way.
-	if remaining[i] > 0 and rewards[i].any(func(id): return reason(i,id) == ""): return false
+	if i not in [0,1] or ready[i] or ended: return false
 	ready[i] = true
 	return true
 func start_round() -> void:
 	previous = builds.duplicate(true)
 	settled = false
 func finish(winner: int, players: Array) -> void:
-	if settled: return
+	if settled or ended: return
 	settled = true
 	if winner < 0: return
 	scores[winner] += 1
-	if scores.max() >= 3:
+	if scores.max() >= WIN_TARGET:
+		ended = true
+		gold = [0,0]
+		products = [[],[]]
+		refreshed = [false,false]
+		expansion_bought = [false,false]
+		next_card_id = 0
 		builds = [_new_build(),_new_build()]
-		for i in range(2): builds[i].owned.append(gun_token(start_guns[i]))
+		for i in range(2): _acquire(i,gun_token(start_guns[i]),"initial",0,"")
 		previous = builds.duplicate(true)
 		rewards = [[],[]]
 		temporary = [-1,-1]
-		remaining = [0,0]
-		reward_counts = [0,0]
+		purchase_counts = [0,0]
 		ready = [false,false]
 		return
-	stage = mini(5,stage+1)
-	initial = false
+	stage += 1
+	refreshed = [false,false]
+	expansion_bought = [false,false]
 	ready = [false,false]
-	remaining = [1,1]
 	for i in range(2):
 		# P8z：ラウンド中にフィールドで拾った武器は所持庫へ入る（グリッドのどこへ置くか、
 		# そもそも置くかは次の準備画面でのプレイヤーの判断）。控え8個が満杯なら入らない
@@ -341,6 +418,7 @@ func finish(winner: int, players: Array) -> void:
 		# 自動確定はここで廃止した。
 		for w in players[i].inventory:
 			var token := gun_token(int(w.id))
-			if token not in builds[i].owned and not reserve_full(i): builds[i].owned.append(token)
+			if token not in builds[i].owned and not reserve_full(i): _acquire(i,token,"field",0,"")
 		temporary[i] = players[i].temporary_relic
+		gold[i] += Shop.income(stage)
 	generate_rewards()
