@@ -185,6 +185,46 @@ func run() -> void:
 	p.state.pos = ammo_item.position+Vector2(10,0)
 	game.CpuAI.decide(game,p,enemy,1.0/60.0)
 	assert(p.inventory[0].reserve > 1) # picked up in the same call that got this close
+	game.supplies.reset()
+	# Lead a moving target; do not lead a stationary target or aim through a wall.
+	p.state.pos = Vector2(170,180)
+	enemy.state.pos = Vector2(400,180)
+	p.state.erase("ai_enemy_pos")
+	var first: Vector2 = game.CpuAI.predicted_target(p.state,enemy,{"speed":500.0},.1,game.arena)
+	assert(first == enemy.state.pos)
+	enemy.state.pos.y += 15.0
+	var lead: Vector2 = game.CpuAI.predicted_target(p.state,enemy,{"speed":500.0},.1,game.arena)
+	assert(lead.y > enemy.state.pos.y)
+	assert(game.CpuAI.predicted_target(p.state,enemy,{"speed":500.0},.1,game.arena) == enemy.state.pos)
+	# Incoming fast bullets are detected before entering the old 90px radius.
+	p.state.pos = Vector2(170,300)
+	enemy.state.pos = Vector2(170,520)
+	p.state.roll = 0.0
+	p.state.dodge = 0.0
+	p.state.ai_cd = 0.0
+	p.state.dir = Vector2.DOWN
+	game.spawn_shot(0,0,0.0,{"pos":Vector2(60,300),"speed":500.0})
+	var early: Dictionary = game.CpuAI.decide(game,p,enemy,1.0/60.0)
+	assert(p.state.roll > 0.0)
+	assert(p.state.dir.is_equal_approx(Vector2(early.dx,early.dy).normalized()))
+	for shot in game.shots:
+		shot.queue_free()
+	game.shots.clear()
+	# A nearby departing bullet must not consume a roll.
+	p.state.roll = 0.0
+	p.state.dodge = 0.0
+	p.state.ai_cd = 0.0
+	game.spawn_shot(0,0,0.0,{"pos":Vector2(210,300),"speed":500.0})
+	game.CpuAI.decide(game,p,enemy,1.0/60.0)
+	assert(p.state.roll == 0.0)
+	for shot in game.shots:
+		shot.queue_free()
+	game.shots.clear()
+	# Unarmed CPU closes into melee instead of retreating at 150px.
+	p.inventory.clear()
+	enemy.state.pos = Vector2(170,450)
+	var unarmed: Dictionary = game.CpuAI.decide(game,p,enemy,1.0/60.0)
+	assert(unarmed.dy > .9 and not unarmed.shoot)
 
 	print("PASS: CPU kiting/retreat/hold, weapon auto-switch, shoot decision (blocked/bounce/clear), obstacle avoidance, danger-zone retreat, bullet dodge + roll, panic pulse, reload-when-empty, melee-when-close, pickup seek + acquire")
 	game.queue_free()

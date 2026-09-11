@@ -55,15 +55,18 @@ Pythonテストは通信mockで課金なし。環境と無料確認は [素材�
 
 ## 最新の記録と未完了の受入
 
-CPU強化後、**headless全51本PASS、終了コード0**。
-実行: `powershell -ExecutionPolicy Bypass -File run_tests.ps1`。
-ログ: `.local/logs/run_tests-20260912-004948.log`。Godotのユーザーログ・証明書アクセスがサンドボックスで拒否されたため、通常権限で実行した。
+武器14種の差別化とプラネタリウム8方向化後、**52本（headless51＋描画1）PASS、終了コード0**。
+実行: `powershell -ExecutionPolicy Bypass -File run_tests.ps1 -IncludeRender`。
+ログ: `.local/logs/run_tests-20260912-004007.log`。
+Godot 4.7.2のheadlessエディタで再インポートも成功。サンドボックス内のユーザーデータ・キャッシュ・証明書権限エラー後、通常権限で検証した。
 
-CPU強化の回帰では、移動相手への予測照準・静止相手への照準維持・90pxより遠い接近弾への回避・遠ざかる弾の無視・回避方向の反映・丸腰時の接近を `cpu_ai.gd` で検証する。`endgame_balance.gd` は実際の回避クールダウン中に再発動・追加弾生成が起きないことを検証する。
+- `weapon_differentiation.gd`: 8発の45度間隔・消費1発、武器×キャラ×装填短縮、装填直前/直後、切替中断、途中取得による進行時間の固定、2発弾倉へのワイドマガジン、未指定武器の1.15秒・スパナ変形を検証。
+- 既存の追尾方向/反射/パルス、レシートの反射加算、エコ追射、散弾角度、弾薬箱の予備補給、レリック効果と残弾の期待値を新仕様へ更新して回帰成功。
+- 最初の全体実行では旧弾数・角度・補給量の期待値が残る5テストが失敗。更新後の全体再実行はすべて成功。
+- 描画テストはCompatibilityで成功。今回はスクリーンショットの目視確認・人間による実プレイを含まない。
 
-初回の全体実行は50本PASS、1本FAIL。`endgame_balance.gd` が旧仕様の負の判断タイマーと50px先の静止弾を仮定していたため、判断タイマー0・接触に近い静止弾20pxへ更新した。実際の回避クールダウンを守るアサーションは維持している。
-
-前回の武器差別化・描画を含む検証結果は [CPU強化前の検証記録](../archive/2026-09-12/BEFORE_CPU_STRENGTHENING_TESTING.md)。今回の変更は描画・人間による実プレイ評価を含まない。予測射撃の命中率・回避の強さ・CPU勝率は未測定。
+前回のリファクタリング検証は [変更前の検証記録](../archive/2026-09-12/BEFORE_WEAPON_DIFFERENTIATION_TESTING.md)。
+武器差別化の判断と試作値は [実装前の比較案](../archive/2026-09-12/WEAPON_DIFFERENTIATION_PROPOSAL.md)、現行値は [アイテム一覧](../design/ITEM_CATALOG.md)。
 
 一覧更新: `python tools/export_item_catalog.py`。全38武器・35レリック・8キャラの表を生成する。
 武器・レリック件数と通常入手数は自動集計。バッグ説明は手動管理。

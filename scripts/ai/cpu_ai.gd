@@ -1,23 +1,7 @@
 extends RefCounted
-# Ported from the legacy web version's aiInput()/updatePlayer() CPU branch (legacy-web/dist/
-# game.js). The CPU always controls player index 1 and always targets player index 0, exactly
-# like legacy (mode==='cpu' hardcodes `enemy=players[0]` and the p.id===1 branch).
-#
-# Side effects that legacy's aiInput() performs inline (weapon auto-switch, reload-when-empty,
-# dodge roll, melee, pulse/blank use, and the pickup acquire() call) are likewise applied
-# directly to the player/game here. Only movement (dx,dy, pre-normalization, matching legacy's
-# un-normalized accumulation before updatePlayer's shared hypot-normalize step) and the aim
-# jitter/shoot decision are returned, since those still have to flow through Player.step()'s
-# existing roll/movement/reload-on-shoot/can_fire() handling shared with human input.
-#
-# One deliberate implementation-order simplification vs. legacy: legacy decrements all of a
-# player's cooldown timers (melee, dodge, roll, reload, ...) at the top of updatePlayer, before
-# calling aiInput() in the same tick, so a cooldown that reaches exactly zero this frame is
-# already usable when aiInput checks it. Here, decide() is called from main.gd BEFORE
-# Player.step() (which owns the timer decrement), so a cooldown reaching zero this frame is
-# read as still active and becomes usable on the next physics frame instead — a ~1/60s lag
-# with no gameplay-visible effect, accepted to keep decide() a pure decision function that
-# does not need to duplicate Player.step()'s timer bookkeeping.
+# CPU controls P2 through shared player actions and cooldowns. Movement and aim
+# feed Player.step(); roll, melee, reload and pickups use the normal gameplay APIs.
+# Combat timers tick in Player.step after decide, so newly ready actions may wait one frame.
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 
 static func decide(game, player, enemy, dt: float) -> Dictionary:
@@ -62,6 +46,7 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 	var d: float = to_enemy.length()
 	var a: float = to_enemy.angle()
 	var forward: float = 1.0 if d > 340.0 else (-1.0 if d < 200.0 else 0.0)
+	if not player.has_weapon(): forward = 1.0 if d > 45.0 else 0.0
 	var strafe: float = sin(elapsed*.7)*.8
 	var dx: float = cos(a)*forward + cos(a+PI/2)*strafe
 	var dy: float = sin(a)*forward + sin(a+PI/2)*strafe
@@ -91,22 +76,33 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 		dx = cos(a)
 		dy = sin(a)
 
-	# Dodge the nearest enemy bullet within 90px by strafing perpendicular to it, and roll
-	# once a per-CPU cooldown (randomized .35-.75s of continuous threat) expires.
+	# Predict closest approach, ignoring receding bullets and shots behind cover.
+	# Timers recover even while no bullet is nearby.
+	p.ai_cd = maxf(0.0,p.ai_cd-dt)
 	var threat = null
+	var soonest := INF
 	for shot in game.shots:
-		if shot.state.owner != 1 and not shot.state.dead and shot.state.pos.distance_to(p.pos) < 90.0:
+		if shot.state.owner == 1 or shot.state.dead: continue
+		var offset: Vector2 = p.pos-shot.state.pos
+		var velocity: Vector2 = shot.state.velocity
+		var approach := 0.0
+		if velocity.length_squared() > 1.0:
+			approach = offset.dot(velocity)/velocity.length_squared()
+			if approach < 0.0 or approach > .4: continue
+		elif offset.length() > 35.0:
+			continue
+		if (offset-velocity*approach).length() > player.radius+shot.radius+18.0: continue
+		if arena.line_blocked(shot.state.pos,p.pos): continue
+		if approach < soonest:
+			soonest = approach
 			threat = shot
-			break
 	if threat != null:
-		dx += -(threat.state.pos.y-p.pos.y)/65.0
-		dy += (threat.state.pos.x-p.pos.x)/65.0
-		p.ai_cd -= dt
-		if p.ai_cd < 0.0 and p.dodge <= 0.0 and p.roll <= 0.0:
-			if player.handle_key(KEY_SHIFT,1,game.shots,enemy,arena):
-				for n in range(6):
-					game.spawn_shot(1,0,n*TAU/6,{"kind":"dodge_nova","speed":250.0,"damage":.35,"life":1.2,"radius":4.0,"color":"#ecc5ff","can_lens":false,"depth":1})
-			p.ai_cd = randf_range(.35,.75)
+		var heading: Vector2 = threat.state.velocity.normalized()
+		if heading.is_zero_approx(): heading = (p.pos-threat.state.pos).normalized()
+		var evade := Vector2(-heading.y,heading.x)
+		if evade.dot(Vector2(dx,dy)) < 0: evade = -evade
+		dx += evade.x*2.0
+		dy += evade.y*2.0
 
 	# Panic-pulse when swarmed by more than 5 of the enemy's own bullets within 120px.
 	if p.pulses > 0:
@@ -126,7 +122,16 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 				dy = candidate.y
 				break
 
+	# Start the roll only after wall avoidance and set its direction before handle_key.
+	# Player.step deliberately preserves p.dir during a roll.
+	if threat != null and p.ai_cd <= 0.0 and p.dodge <= 0.0 and p.roll <= 0.0:
+		p.dir = Vector2(dx,dy).normalized()
+		if player.handle_key(KEY_SHIFT,1,game.shots,enemy,arena):
+			for n in range(6):
+				game.spawn_shot(1,0,n*TAU/6,{"kind":"dodge_nova","speed":250.0,"damage":.35,"life":1.2,"radius":4.0,"color":"#ecc5ff","can_lens":false,"depth":1})
+		p.ai_cd = randf_range(.35,.75)
 	if player.has_weapon() and player.weapon().clip == 0: player.start_reload()
+	p.angle = to_enemy.angle()
 	if d < 64.0: player.handle_key(KEY_N,1,game.shots,enemy,arena)
 
 	# P8z：武器を1丁も置かなかったラウンドは丸腰になりうる。撃てないので射線を取りに行っても
@@ -135,4 +140,20 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 		return {"dx":dx,"dy":dy,"shoot":false,"aim_jitter":sin(elapsed*2.2)*.09}
 	var def: Dictionary = player.definition()
 	var shoot: bool = not arena.line_blocked(p.pos,enemy.state.pos) or int(def.get("bounce",0)) > 0 or bool(def.get("boomerang",false))
-	return {"dx":dx,"dy":dy,"shoot":shoot,"aim_jitter":sin(elapsed*2.2)*.09}
+	var aim: Vector2 = predicted_target(p,enemy,def,dt,arena)
+	if arena.line_blocked(p.pos,aim): aim = enemy.state.pos
+	return {"dx":dx,"dy":dy,"shoot":shoot,"aim_jitter":wrapf((aim-p.pos).angle()-to_enemy.angle(),-PI,PI)+sin(elapsed*2.2)*.035}
+
+static func predicted_target(p: Dictionary, enemy, def: Dictionary, dt: float, arena) -> Vector2:
+	# Infer motion from observed positions, never from human input. Clamp teleports/rolls
+	# and the prediction horizon so changes of direction still let the human dodge.
+	var current: Vector2 = enemy.state.pos
+	var previous: Vector2 = p.get("ai_enemy_pos",current)
+	p.ai_enemy_pos = current
+	var velocity := ((current-previous)/maxf(dt,.001)).limit_length(enemy.effective_move_speed())
+	var speed := float(def.get("speed",0.0))
+	if speed <= 0.0 or def.get("seed",false) or def.get("bubble",false): return current
+	var flight := minf(.45,p.pos.distance_to(current)/speed)
+	var predicted := current+velocity*flight*.8
+	predicted = predicted.clamp(arena.fighter_bounds.position,arena.fighter_bounds.end)
+	return current if arena.line_blocked(current,predicted) else predicted

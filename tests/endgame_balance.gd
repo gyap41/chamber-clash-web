@@ -99,9 +99,9 @@ func run() -> void:
 	q.relics = [5,12]
 	q.state.dodge = .5
 	q.state.ai_cd = -.1
-	game.spawn_shot(0,0,0.0,{"pos":q.state.pos+Vector2(0,50),"speed":0.0})
+	game.spawn_shot(0,0,0.0,{"pos":q.state.pos+Vector2(0,20),"speed":0.0})
 	game.CpuAI.decide(game,q,p,.01)
-	assert(q.state.roll == 0 and q.state.dodge == .5 and game.shots.size() == 1 and q.state.ai_cd < 0)
+	assert(q.state.roll == 0 and q.state.dodge == .5 and game.shots.size() == 1 and q.state.ai_cd == 0)
 	q.state.dodge = 0.0
 	game.CpuAI.decide(game,q,p,.01)
 	assert(q.state.roll > 0 and game.shots.size() == 7)
