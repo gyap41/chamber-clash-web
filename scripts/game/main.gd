@@ -158,7 +158,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		if players[i].handle_key(event.keycode,i,shots,players[1-i],arena):
 			for n in range(6):
 				spawn_shot(i,0,n*TAU/6,{"kind":"dodge_nova","speed":250.0,"damage":.35,"life":1.2,"radius":4.0,"color":"#ecc5ff","can_lens":false,"depth":1})
-		if event.keycode == [KEY_G,KEY_H][i]: supplies.interact(i)
+		if event.keycode == [KEY_F,KEY_H][i]: supplies.interact(i)
 		if event.keycode == [KEY_Q,KEY_O][i]: use_pulse(i)
 func use_pulse(index: int) -> bool:
 	if index < 0 or index >= players.size() or phase != "play" or paused or result != "": return false
@@ -416,3 +416,14 @@ func _settle_round() -> void:
 func _process(dt: float) -> void:
 	if phase == "play" and not paused and result == "" and telemetry != null:
 		telemetry.frame(dt,shots.size())
+
+# Result navigation starts a fresh selection/match and releases the entire battle scene.
+func return_from_result(to_title: bool) -> void:
+	if result.is_empty() or is_queued_for_deletion(): return
+	clear_action_inputs()
+	set_physics_process(false)
+	var next_scene = load("res://scenes/ui/title.tscn" if to_title else "res://scenes/ui/character_select.tscn").instantiate()
+	if not to_title: next_scene.cpu_mode = players[1].is_cpu
+	get_tree().root.add_child(next_scene)
+	get_parent().remove_child(self)
+	queue_free()

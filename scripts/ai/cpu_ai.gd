@@ -3,6 +3,7 @@ extends RefCounted
 # feed Player.step(); roll, melee, reload and pickups use the normal gameplay APIs.
 # Combat timers tick in Player.step after decide, so newly ready actions may wait one frame.
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
+const Navigation = preload("res://scripts/ai/cpu_navigation.gd")
 
 static func decide(game, player, enemy, dt: float) -> Dictionary:
 	var p: Dictionary = player.state
@@ -40,16 +41,19 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 			best = cost
 			target = item
 
-	# Base movement: close the distance past 340px, back off under 200px, hold and strafe
-	# in between. The strafe term oscillates with match time, not with either player's state.
+	# Use the currently equipped definition (including mods and switcher mode).
+	var band := combat_range(player)
 	var to_enemy: Vector2 = enemy.state.pos - p.pos
 	var d: float = to_enemy.length()
 	var a: float = to_enemy.angle()
-	var forward: float = 1.0 if d > 340.0 else (-1.0 if d < 200.0 else 0.0)
-	if not player.has_weapon(): forward = 1.0 if d > 45.0 else 0.0
+	var forward: float = 1.0 if d > band.y else (-1.0 if d < band.x else 0.0)
 	var strafe: float = sin(elapsed*.7)*.8
 	var dx: float = cos(a)*forward + cos(a+PI/2)*strafe
 	var dy: float = sin(a)*forward + sin(a+PI/2)*strafe
+	var route := combat_direction(arena,p,enemy.state.pos,band,Vector2(dx,dy),dt)
+	if not route.is_zero_approx():
+		dx = route.x
+		dy = route.y
 
 	# A wanted pickup within cost 500 overrides movement entirely; within 45px, take it.
 	if target != null and best < 500.0:
@@ -67,14 +71,6 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 					target.opening_player = 1
 			else:
 				game.supplies.acquire(1,target)
-
-	# Danger zone: the CPU checks a wider margin (+65/+60) than the damage margin itself
-	# (+25) so it steps back in before actually taking chip damage, then heads for center.
-	var inset: float = game.arena_inset()
-	if inset > 0.0 and (p.pos.x < inset+65.0 or p.pos.x > 1120.0-inset-65.0 or p.pos.y < inset*.58+60.0 or p.pos.y > 600.0-inset*.58-60.0):
-		a = (Vector2(560.0,300.0)-p.pos).angle()
-		dx = cos(a)
-		dy = sin(a)
 
 	# Predict closest approach, ignoring receding bullets and shots behind cover.
 	# Timers recover even while no bullet is nearby.
@@ -111,9 +107,15 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 			if shot.state.owner == 0 and not shot.state.dead and shot.state.pos.distance_to(p.pos) < 120.0: nearby += 1
 		if nearby > 5: game.use_pulse(1)
 
+	# Retreat wins over pickups, kiting and outward bullet steering until well inside.
+	var escape := escape_direction(game,p)
+	if not escape.is_zero_approx():
+		dx = escape.x
+		dy = escape.y
+
 	# If the chosen direction would walk into a wall, try turning 90 degrees either way or
 	# fully around and take the first candidate that's actually clear.
-	if arena.solid(p.pos+Vector2(dx,dy)*40.0,18.0):
+	if escape.is_zero_approx() and arena.solid(p.pos+Vector2(dx,dy)*40.0,18.0):
 		var base: float = Vector2(dx,dy).angle()
 		for turn in [PI/2,-PI/2,PI]:
 			var candidate: Vector2 = Vector2.from_angle(base+turn)
@@ -157,3 +159,92 @@ static func predicted_target(p: Dictionary, enemy, def: Dictionary, dt: float, a
 	var predicted := current+velocity*flight*.8
 	predicted = predicted.clamp(arena.fighter_bounds.position,arena.fighter_bounds.end)
 	return current if arena.line_blocked(current,predicted) else predicted
+
+static func escape_direction(game, p: Dictionary) -> Vector2:
+	var inset: float = game.arena_inset()
+	var safe := Rect2(Vector2(inset+65.0,inset*.58+60.0),Vector2(1120.0-2*(inset+65.0),600.0-2*(inset*.58+60.0)))
+	var inner := safe.grow(-40.0)
+	if inset <= 0.0 or inner.has_point(p.pos):
+		p.ai_retreat = false
+		p.ai_escape_path = []
+		return Vector2.ZERO
+	if not safe.has_point(p.pos): p.ai_retreat = true
+	if not p.get("ai_retreat",false): return Vector2.ZERO
+	var path: Array = p.get("ai_escape_path",[])
+	while not path.is_empty() and p.pos.distance_to(path[0]) < 6.0: path.pop_front()
+	var direction: Vector2 = (Vector2(560,300)-p.pos).normalized() if path.is_empty() else (path[0]-p.pos).normalized()
+	var probe: Vector2 = p.pos+direction*45.0 if path.is_empty() else path[0]
+	if not escape_segment_clear(game.arena,p.pos,probe):
+		path = escape_path(game.arena,p.pos,inner)
+		if not path.is_empty(): direction = (path[0]-p.pos).normalized()
+	p.ai_escape_path = path
+	return direction
+
+static func escape_segment_clear(arena, from: Vector2, to: Vector2) -> bool:
+	return Navigation.segment_clear(arena,from,to)
+
+static func combat_range(player) -> Vector2:
+	if not player.has_weapon(): return Vector2(0,45)
+	var def: Dictionary = player.definition()
+	if def.get("type","") == "SHOTGUN" or (def.get("switcher",false) and player.weapon().mode == 1):
+		return Vector2(90,170)
+	if def.get("seed",false):
+		# Seeds stop after .6s; include the muzzle offset and part of the sensor radius.
+		var reach := 24.0+float(def.speed)*.6
+		return Vector2(maxf(100,reach-50),reach+float(def.get("seed_trigger_radius",100))*.5)
+	if def.get("split",false) or def.get("clover",false):
+		var reach := 24.0+float(def.speed)*(.68 if def.get("split",false) else .8)
+		return Vector2(maxf(100,reach-45),reach+45)
+	if def.get("boomerang",false): return Vector2(160,280)
+	if def.get("bubble",false): return Vector2(180,300)
+	# Wide multi-projectile fans still benefit from medium range, even with rail speed.
+	if int(def.get("count",1)) <= 1 and (def.get("rail",false) or float(def.speed) >= 620):
+		return Vector2(300,460)
+	return Vector2(200,340)
+
+static func combat_direction(arena, p: Dictionary, enemy: Vector2, band: Vector2, move: Vector2, dt: float) -> Vector2:
+	var path: Array = p.get("ai_combat_path",[])
+	var cooldown: float = maxf(0.0,float(p.get("ai_path_cd",0.0))-dt)
+	while not path.is_empty() and p.pos.distance_to(path[0]) < 6.0: path.pop_front()
+	var blocked: bool = arena.line_blocked(p.pos,enemy)
+	var movement_blocked := not move.is_zero_approx() and not Navigation.segment_clear(arena,p.pos,p.pos+move.normalized()*45.0)
+	if not blocked and (Navigation.firing_position(arena,p.pos,enemy,band) or (path.is_empty() and not movement_blocked)):
+		p.ai_combat_path = []
+		p.ai_path_cd = cooldown
+		return Vector2.ZERO
+	var stale: bool = p.get("ai_path_band",Vector2.ZERO) != band or enemy.distance_to(p.get("ai_path_enemy",enemy)) > 64.0
+	if not path.is_empty() and not Navigation.segment_clear(arena,p.pos,path[0]): stale = true
+	if stale: path = []
+	# Cache successful routes until invalidated. Failed searches wait .6s before retrying.
+	if cooldown <= 0.0 and (path.is_empty() or not Navigation.firing_position(arena,path.back(),enemy,band)):
+		path = Navigation.combat_path(arena,p.pos,enemy,band)
+		p.ai_path_enemy = enemy
+		p.ai_path_band = band
+		cooldown = .6
+	p.ai_combat_path = path
+	p.ai_path_cd = cooldown
+	return Vector2.ZERO if path.is_empty() else (path[0]-p.pos).normalized()
+
+# Small four-neighbour search only when retreat meets an obstacle. Keep the route
+# between frames so the CPU cannot alternate left/right against the same corner.
+static func escape_path(arena, start: Vector2, goal: Rect2) -> Array:
+	var frontier: Array[Vector2i] = [Vector2i.ZERO]
+	var previous := {Vector2i.ZERO: Vector2i.ZERO}
+	var cursor := 0
+	while cursor < frontier.size():
+		var cell := frontier[cursor]
+		cursor += 1
+		var point := start+Vector2(cell)*32.0
+		if goal.has_point(point):
+			var path: Array = []
+			while cell != Vector2i.ZERO:
+				path.push_front(start+Vector2(cell)*32.0)
+				cell = previous[cell]
+			return path
+		for offset in [Vector2i.RIGHT,Vector2i.DOWN,Vector2i.LEFT,Vector2i.UP]:
+			var next: Vector2i = cell+offset
+			if previous.has(next): continue
+			if not escape_segment_clear(arena,point,start+Vector2(next)*32.0): continue
+			previous[next] = cell
+			frontier.append(next)
+	return []

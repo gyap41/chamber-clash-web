@@ -9,6 +9,8 @@ const RELIC_HINTS := ["移動 +12%", "装填時間 -35%", "壁反射 +1回", "�
 const MAX_RELIC_CAPACITY := 36
 const MAX_WEAPON_SLOTS := 8
 func _ready() -> void:
+	$Root/ResultActions/CharacterSelect.pressed.connect(func(): get_parent().return_from_result(false))
+	$Root/ResultActions/Title.pressed.connect(func(): get_parent().return_from_result(true))
 	$Root/Status.tooltip_text = "弾の外周：橙=P1、青=P2。黄色の二重輪=高威力・設置・分裂・派生弾。紫の破線=仮装備を持つ相手の派生弾。レリック欄にカーソルを重ねると効果を確認できます。"
 	for i in range(2):
 		var cards: Array = []
@@ -64,6 +66,7 @@ func _ready() -> void:
 		audio.set_enabled(not audio.enabled)
 	)
 func refresh(players: Array, remaining: float, paused: bool, result: String, scores: Array, phase: String) -> void:
+	$Root/ResultActions.visible = not result.is_empty()
 	var supply = get_parent().supplies
 	$Root/SupplyNotice.text = supply.notice if phase == "play" and supply.notice_time > 0 and not paused else ""
 	var p = players[0]

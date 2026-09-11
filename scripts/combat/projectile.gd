@@ -102,10 +102,6 @@ func step(dt: float, arena, enemy) -> void:
 		var desired: float = (enemy.state.pos-b.pos).angle()
 		var current: float = b.velocity.angle()
 		var turn_rate: float = b.turn_rate if absf(wrapf(desired-current,-PI,PI)) <= b.homing_cone else 0.0
-		# Radial stars bend only toward a target in their forward 90-degree cone.
-		# Rear-facing stars keep spreading instead of all twelve collapsing onto one target.
-		if gun_id == 15:
-			turn_rate = 1.8 if absf(wrapf(desired-current,-PI,PI)) <= PI/4 else 0.0
 		var turn := clampf(wrapf(desired-current,-PI,PI),-turn_rate*dt,turn_rate*dt)
 		b.velocity = Vector2.from_angle(current+turn)*b.velocity.length()
 	if b.boomerang and b.age > .65:

@@ -90,7 +90,7 @@ func run() -> void:
 	game.remaining = .001
 	game._physics_process(.01)
 	assert(game.result == "P2 WINS") # .8 vs .875
-	# Field schedule; same item for both players, pause/reset.
+	# Field schedule; one shared item for both players, pause/reset.
 	shop(game)
 	prep.ready_shop()
 	prep.ready_shop()
@@ -101,7 +101,7 @@ func run() -> void:
 	assert(s.items.filter(func(x): return x.kind == "relic").is_empty())
 	s.step(.11)
 	var relic_items = s.items.filter(func(x): return x.kind == "relic")
-	assert(relic_items.size() == 2 and relic_items[0].gun == relic_items[1].gun)
+	assert(relic_items.size() == 1)
 	game.paused = true
 	var timer: float = s.relic_timer
 	s.step(20)

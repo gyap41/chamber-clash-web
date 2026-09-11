@@ -82,6 +82,7 @@ func run() -> void:
 	setup(game,1)
 	var counts := {"weapon":0,"relic":0,"ammo":0,"legendary":0}
 	var s = game.supplies
+	s.legendary_chance = 1.0 # Maximum supply budget on a successful legendary roll.
 	s.launch()
 	for second in range(91):
 		for item in s.items:
@@ -91,7 +92,7 @@ func run() -> void:
 			item.queue_free()
 		s.items.clear()
 		if second < 90: s.step(1.0)
-	assert(counts.weapon == 6 and counts.legendary == 2 and counts.relic == 2 and counts.ammo == 14)
+	assert(counts.weapon == 3 and counts.legendary == 1 and counts.relic == 1 and counts.ammo == 5)
 	# All equipped relics get an individual name, effect and functioning hover target.
 	# P8x：カードのプールはMAX_RELIC_CAPACITY（16）分確保されているが、表示はrelic_capacity分
 	# だけに絞られる（残りは非表示）。
@@ -112,6 +113,6 @@ func run() -> void:
 	p.relics = [0]
 	game.hud.refresh_relics(0,p)
 	assert(game.hud.relic_cards[0][1].get_child(0).get_child(0).text == "空き枠")
-	print("PASS: proximity mine, directional star homing/bounce, stronger gravity/counterplay, 90s supply budget (6 weapons/2 relics/14 ammo), individual relic cards")
+	print("PASS: proximity mine, directional star homing/bounce, stronger gravity/counterplay, 90s supply budget (3 weapons/1 relic/5 ammo), individual relic cards")
 	game.queue_free()
 	quit()

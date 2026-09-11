@@ -11,15 +11,17 @@ func run() -> void:
 	root.add_child(game)
 	game.set_physics_process(false)
 	var s = game.supplies
+	assert(is_equal_approx(s.legendary_chance,.3))
+	s.legendary_chance = 1.0
 	var p = game.players[0]
 	var q = game.players[1]
 	assert(s.items.is_empty())
 	s.step(13)
 	assert(s.elapsed == 0 and s.items.is_empty())
 	launch(game)
-	assert(s.items.size() == 2 and s.items.all(func(x): return x.kind == "ammo"))
-	assert(s.items[0].position == Vector2(160,460))
-	assert(s.put_item("weapon",4,Vector2(160,460)) == null)
+	assert(s.items.size() == 1 and s.items.all(func(x): return x.kind == "ammo"))
+	assert(s.items[0].position in [Vector2(450,300),Vector2(670,300)])
+	assert(s.put_item("weapon",4,s.items[0].position) == null)
 	assert(s.put_item("weapon",4,Vector2(260,180)) == null)
 	assert(s.put_item("weapon",4,Vector2(-10,-10)) == null)
 	assert(s.put_item("weapon",99,Vector2(100,100)) == null)
@@ -76,8 +78,8 @@ func run() -> void:
 	assert(not s.acquire(0,item) and p.weapon().id == 18)
 	var key := InputEventKey.new()
 	key.pressed = true
-	key.keycode = KEY_G
-	# P7 宝箱演出：Gキー1回では即入手できず、開封が始まるだけ（無敵化はしない）。
+	key.keycode = KEY_F
+	# P7 宝箱演出：Fキー1回では即入手できず、開封が始まるだけ（無敵化はしない）。
 	game._unhandled_key_input(key)
 	assert(item.opening_player == 0 and not item.used and p.weapon().id == 18)
 	# 開封完了まで待たずに離れると中断・進捗リセット。
@@ -108,7 +110,7 @@ func run() -> void:
 	game._unhandled_key_input(key)
 	assert(item.opening_player == 1 and not item.used)
 	# P1がHキー中の宝箱を横取りしようとしても無視される（p(P1)も同じ宝箱のinteract_radius内）。
-	key.keycode = KEY_G
+	key.keycode = KEY_F
 	game._unhandled_key_input(key)
 	assert(item.opening_player == 1)
 	s.step(s.chest_open_duration)
@@ -129,26 +131,26 @@ func run() -> void:
 	# Schedule, shared drops, one legendary event, expiry and editor markers.
 	p.state.pos = Vector2(60,300)
 	q.state.pos = Vector2(1060,300)
-	s.step(11.9)
+	s.step(17.9)
 	assert(s.items.is_empty())
 	s.step(.11)
-	assert(s.items.size() == 2 and s.items.all(func(x): return x.kind == "ammo"))
-	s.step(15.98)
+	assert(s.items.size() == 1 and s.items.all(func(x): return x.kind == "ammo"))
+	s.step(9.98)
 	assert(s.items.filter(func(x): return x.kind == "weapon").is_empty())
 	s.step(.02)
 	var normal = s.items.filter(func(x): return x.kind == "weapon")
-	assert(normal.size() == 2 and normal[0].gun == normal[1].gun)
+	assert(normal.size() == 1)
 	s.step(7.0)
-	assert(s.items.filter(func(x): return x.kind == "relic").size() == 2)
+	assert(s.items.filter(func(x): return x.kind == "relic").size() == 1)
 	s.step(5.0)
 	assert(s.legendary_warned and not s.legendary_spawned)
 	s.step(5.0)
 	assert(s.legendary_spawned)
-	var legendary = s.items.filter(func(x): return x.position == Vector2(560,205) or x.position == Vector2(560,395))
-	assert(legendary.size() == 2 and legendary[0].gun == legendary[1].gun)
+	var legendary = s.items.filter(func(x): return x.kind == "weapon" and game.Weapons.definition(x.gun).rarity == "S")
+	assert(legendary.size() == 1)
 	assert(game.Weapons.definition(legendary[0].gun).rarity == "S")
 	s.step(.1)
-	assert(s.items.filter(func(x): return x.kind == "weapon" and game.Weapons.definition(x.gun).rarity == "S").size() == 2)
+	assert(s.items.filter(func(x): return x.kind == "weapon" and game.Weapons.definition(x.gun).rarity == "S").size() == 1)
 	item = s.items[0]
 	item.age = s.pickup_lifetime
 	s.step(.01)
@@ -159,8 +161,9 @@ func run() -> void:
 	assert(s.elapsed == before)
 	var marker = s.get_node("Spawns/Ammo/Point1")
 	marker.position = Vector2(110,220)
+	s.get_node("Spawns/Ammo/Point2").position = Vector2(110,220)
 	launch(game)
-	assert(s.elapsed == 0 and not s.legendary_spawned and s.items.size() == 2)
+	assert(s.elapsed == 0 and not s.legendary_spawned and s.items.size() == 1)
 	assert(s.items[0].position == Vector2(110,220) and s.items[0].age == 0)
 	# Automatic touch path rather than direct acquire API.
 	p.state.pos = s.items[0].position
@@ -168,6 +171,49 @@ func run() -> void:
 	var initial = s.items[0]
 	s.step(.61)
 	assert(initial not in s.items)
-	print("PASS: pickup delay, touch/range, duplicate rejection, ammo, full carried slots/G/H reserve storage, single owner, pause/result/reset, schedules, expiry, editable spawns")
+	# Count a full 90-second schedule with every drop immediately removed, so
+	# occupancy/expiry cannot hide excess supply. Each event must create just one.
+	launch(game)
+	p.state.pos = Vector2(60,300)
+	q.state.pos = Vector2(1060,300)
+	var ammo_times: Array = [0]
+	var weapon_count := 0
+	var relic_count := 0
+	for second in range(1,90):
+		for drop in s.items: drop.used = true
+		s.step(0.0)
+		s.step(1.0)
+		var ammo = s.items.filter(func(x): return x.kind == "ammo")
+		assert(ammo.size() <= 1)
+		if not ammo.is_empty(): ammo_times.append(second)
+		weapon_count += s.items.filter(func(x): return x.kind == "weapon").size()
+		relic_count += s.items.filter(func(x): return x.kind == "relic").size()
+	assert(ammo_times == [0,18,40,62,84])
+	assert(weapon_count == 3 and relic_count == 1)
+	# An occupied candidate uses the other marker; never create two rewards.
+	s.reset()
+	s.get_node("Spawns/Ammo/Point1").position = Vector2(450,300)
+	s.get_node("Spawns/Ammo/Point2").position = Vector2(670,300)
+	assert(s.put_item("ammo",0,Vector2(450,300)) != null)
+	s.spawn_group("Ammo","ammo")
+	assert(s.items.size() == 2 and s.items[1].position == Vector2(670,300))
+	s.spawn_group("Ammo","ammo")
+	assert(s.items.size() == 2) # both occupied: skip, no stacked boxes
+	# A failed roll must neither warn nor retry, even if the chance later changes.
+	s.reset()
+	s.legendary_chance = 0.0
+	s.step(40.0)
+	assert(s.legendary_decided and not s.legendary_selected and not s.legendary_warned)
+	s.legendary_chance = 1.0
+	s.step(5.0)
+	assert(not s.legendary_spawned)
+	assert(s.items.all(func(x): return x.kind != "weapon" or game.Weapons.definition(x.gun).rarity != "S"))
+	s.reset()
+	assert(not s.legendary_decided and not s.legendary_selected)
+	s.step(40.0)
+	assert(s.legendary_selected and s.legendary_warned and not s.legendary_spawned)
+	s.step(5.0)
+	assert(s.legendary_spawned)
+	print("PASS: pickup delay, touch/range, duplicate rejection, ammo, full carried slots/F/H reserve storage, single owner, pause/result/reset, schedules, expiry, editable spawns")
 	game.queue_free()
 	quit()

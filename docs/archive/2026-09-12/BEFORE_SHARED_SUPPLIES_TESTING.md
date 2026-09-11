@@ -55,17 +55,18 @@ Pythonテストは通信mockで課金なし。環境と無料確認は [素材�
 
 ## 最新の記録と未完了の受入
 
-2026-09-12: 武器別間合い・迂回の追加後、**headless全53本PASS、終了コード0**。
-実行: `powershell -ExecutionPolicy Bypass -File run_tests.ps1`。
-ログ: `.local/logs/run_tests-20260912-013758.log`。Godotのログ・証明書アクセスがサンドボックスで拒否されたため、通常権限で実行した。
+小改善の回帰は `tests/small_improvements.gd` で検証する。Fでの開封とGの無効化・ポーズ中のガード、星弾の旋回量と前方範囲、8か所のエリア端・壁付近から実際のPlayer.stepによる退避、ラウンド/試合終了時のボタン、キャラ選択へのモード引継ぎ・新規試合・タイトルへの遷移を含む。
 
-CPUの武器別間合い・通常戦闘の迂回は `tests/cpu_tactics.gd` で検証する。距離240pxで散弾が接近・レールが後退・標準武器が維持すること、スパナ変形・シード改造、全38武器の間合い、3武器×7配置の実際のPlayer.stepによる射線/間合い到達、移動相手への経路更新、到達不能時の再探索間隔を含む。
+2026-09-12: 全52本のheadlessテストを実行し51本PASS。旧Gキー前提の `supplies.gd` だけ失敗したため、Fキーへ更新して単独再実行しPASS（終了コード0）。全52本の成功を確認したが、修正後の一括再実行はしていない。一括ログ: `.local/logs/run_tests-20260912-012146.log`。
 
-既存の `cpu_ai.gd` は予測射撃・回避・補給取得、`endgame_balance.gd` は回避クールダウン、`small_improvements.gd` は8地点からの縮小エリア退避と補給より退避を優先することを確認する。
+`small_improvements.gd` を描画ありでも実行してPASS。`.local/logs/result-actions.png` で勝敗メッセージと戻る2ボタンが重ならず表示されることを確認。再現コマンド:
 
-共有補給・30%のレジェンド抽選・Fキー開封・星弾追尾・勝敗画面の実装と以前の検証記録は [CPU間合い・迂回前の検証記録](../archive/2026-09-12/BEFORE_CPU_TACTICS_TESTING.md) を参照する。
+```powershell
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --path . --script res://tests/small_improvements.gd --quit-after 120 -- --result-screenshot
+```
 
-今回の描画・人間による実プレイは未確認。CPUの勝率、武器別間合いの適正値、移動する相手への経路追従、補給競争との優先度は未評価。自動テスト成功を対人バランスの確定とは扱わない。
+CPU強化時の実行記録は [小改善前の検証記録](../archive/2026-09-12/BEFORE_SMALL_IMPROVEMENTS_TESTING.md) を参照。
+今回の人間による操作感・追尾の避けやすさ・CPU勝率は未評価。
 
 一覧更新: `python tools/export_item_catalog.py`。全38武器・35レリック・8キャラの表を生成する。
 武器・レリック件数と通常入手数は自動集計。バッグ説明は手動管理。

@@ -6,14 +6,15 @@ const Relics = preload("res://scripts/catalog/relic_catalog.gd")
 @export var pickup_scene: PackedScene = preload("res://scenes/world/pickup.tscn")
 @export var first_supply_delay := 28.0
 @export var supply_interval := 40.0
-@export var first_ammo_delay := 12.0
-@export var ammo_interval := 14.0
+@export var first_ammo_delay := 18.0
+@export var ammo_interval := 22.0
 @export var legendary_time := 45.0
+@export_range(0.0,1.0) var legendary_chance := .3
 @export var pickup_delay := .6
 @export var pickup_lifetime := 42.0
 @export var touch_radius := 31.0
 @export var interact_radius := 65.0
-# P7 宝箱演出：武器・レリックの補給は「宝箱」として、触れるだけでは入手できない。G/Hで
+# P7 宝箱演出：武器・レリックの補給は「宝箱」として、触れるだけでは入手できない。F/Hで
 # 開封を開始したプレイヤーがinteract_radius内に留まり続けた場合のみ、この秒数が経過すると
 # acquire()が呼ばれて入手が確定する（無敵化はしない＝開封中も通常どおり被弾しうる）。数値は
 # playtestでの調整前提の仮置き。弾薬箱は対象外（従来どおり触れるだけで即時補給）。
@@ -23,9 +24,11 @@ var items: Array = []
 var elapsed := 0.0
 var supply_timer := 28.0
 var relic_timer := 35.0
-var ammo_timer := 12.0
+var ammo_timer := 18.0
 var legendary_spawned := false
 var legendary_warned := false
+var legendary_decided := false
+var legendary_selected := false
 var notice := ""
 var notice_time := 0.0
 func active() -> bool:
@@ -41,6 +44,8 @@ func reset() -> void:
 	ammo_timer = first_ammo_delay
 	legendary_spawned = false
 	legendary_warned = false
+	legendary_decided = false
+	legendary_selected = false
 	notice = ""
 	notice_time = 0.0
 func announce(text: String) -> void:
@@ -67,14 +72,20 @@ func put_item(kind: String, id: int, pos: Vector2):
 	item.refresh(game.players,pickup_delay,chest_open_duration)
 	return item
 func spawn_group(group: String, kind: String, id: int = 0) -> void:
-	for marker in get_node("Spawns/"+group).get_children():
-		put_item(kind,id,to_local(marker.global_position))
+	# One shared drop per event. Seeded choice keeps replays reproducible; try the
+	# other authored marker if occupied, without duplicating the reward.
+	var markers: Array = get_node("Spawns/"+group).get_children()
+	if markers.is_empty(): return
+	var first: int = game.supply_generator.rng.randi_range(0,markers.size()-1)
+	for offset in range(markers.size()):
+		var marker = markers[(first+offset)%markers.size()]
+		if put_item(kind,id,to_local(marker.global_position)) != null: return
 func launch() -> void:
 	spawn_group("Ammo","ammo")
-	announce("選んだ主力で開戦。武器補給は%d秒後、レジェンダリーは%d秒後" % [int(first_supply_delay),int(legendary_time)])
+	announce("選んだ主力で開戦。武器補給は%d秒後、レジェンダリーは抽選で%d秒後" % [int(first_supply_delay),int(legendary_time)])
 func periodic_supply() -> void:
 	spawn_group("Weapons","weapon",weighted_gun())
-	announce("武器補給：同じ武器が両サイドに出現")
+	announce("武器補給：中央付近に共有の宝箱が1個出現")
 func acquire(player_index: int, item, replace: bool = false) -> bool:
 	if player_index not in [0,1]: return false
 	if not active() or not is_instance_valid(item) or item not in items or item.used or item.age < pickup_delay or item.age >= pickup_lifetime: return false
@@ -139,19 +150,23 @@ func step(dt: float) -> void:
 	if relic_timer <= 0:
 		relic_timer = relic_interval
 		spawn_group("Relics","relic",game.supply_generator.shuffled(Relics.SUPPORTED)[0])
-		announce("レリック補給：G / Hで仮装備・1人1個")
+		announce("レリック補給：共有の宝箱1個・F / Hで開封")
 	supply_timer -= dt
 	if supply_timer <= 0:
 		supply_timer = supply_interval
 		periodic_supply()
-	if elapsed >= legendary_time-5.0 and not legendary_warned:
-		legendary_warned = true
-		announce("あと5秒：中央の上下にSレア武器を投下")
-	if elapsed >= legendary_time and not legendary_spawned:
+	# Draw once at the warning time; failed rounds never warn or reroll.
+	if elapsed >= legendary_time-5.0 and not legendary_decided:
+		legendary_decided = true
+		legendary_selected = game.supply_generator.rng.randf() < legendary_chance
+		if legendary_selected:
+			legendary_warned = true
+			announce("あと5秒：中央付近にSレア武器を1個投下")
+	if elapsed >= legendary_time and legendary_selected and not legendary_spawned:
 		legendary_spawned = true
 		game.sound.play_sound("legendary")
 		spawn_group("Legendary","weapon",weighted_gun(true))
-		announce("Sレア武器が中央の上下に到着")
+		announce("Sレア武器が中央付近に1個到着")
 	for item in items:
 		item.age += dt
 		if item.age < pickup_lifetime:
