@@ -14,3 +14,13 @@ static func relic_id(entry) -> int:
 	return entry if typeof(entry) == TYPE_INT else int(entry.split(":")[1])
 static func relic_ids(entries: Array) -> Array:
 	return entries.filter(is_relic).map(relic_id)
+
+const GUN_PREFIX := "gun:"
+static func gun_token(id: int) -> String:
+	return GUN_PREFIX + str(id)
+static func is_gun(entry) -> bool:
+	return typeof(entry) == TYPE_STRING and str(entry).begins_with(GUN_PREFIX)
+static func gun_id(entry) -> int:
+	return int(str(entry).substr(GUN_PREFIX.length()))
+static func same_entry(a, b) -> bool:
+	return typeof(a) == typeof(b) and a == b

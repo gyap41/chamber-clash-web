@@ -20,12 +20,13 @@ func run() -> void:
 	assert(not m.place_expansion(0,"square",Vector2i(0,4)) and m.capacity() == 24 and m.gold[0] == 100)
 	game.new_match(32)
 	m = game.match_state
-	game.players[0].add_gun(15)
+	m.ready = [true,true]
+	assert(game.players[0].acquire_weapon(15) != "" and not game.players[0].owns(15))
 	game.players[0].temporary_relic = 18
 	m.start_round()
 	var stock: Array = m.products.duplicate(true)
 	m.finish(-1,game.players)
-	assert(m.gold == [12,12] and m.products == stock and m.builds[0].owned == ["gun:0"] and m.temporary == [-1,-1])
+	assert(m.gold == [12,12] and m.products == stock and m.builds[0].owned == ["gun:0","gun:15"] and m.temporary == [-1,-1])
 	m.start_round()
 	m.finish(0,game.players)
 	assert(m.gold == [20,20] and "gun:15" in m.builds[0].owned and m.temporary[0] == 18)

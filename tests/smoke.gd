@@ -6,8 +6,8 @@ func run() -> void:
 	root.add_child(game)
 	game.set_physics_process(false)
 	start_combat(game)
-	assert(game.catalog.guns.size() == 20)
-	assert(game.catalog.relics.size() == 20) # Includes stackable IDs 18/19
+	assert(game.catalog.guns.size() == 38)
+	assert(game.catalog.relics.size() == 35) # Includes stackable IDs 18/19
 	game.fighters[0].pos = Vector2(60,82)
 	game.move_fighter(game.fighters[0],Vector2(-100,-100))
 	assert(game.fighters[0].pos == Vector2(60,82))

@@ -23,7 +23,7 @@ func run() -> void:
 	var m = game.match_state
 	# All catalog shapes must be connected, unique, positive offsets with an origin.
 	for kind in ["gun","relic"]:
-		for id in range(20):
+		for id in range(game.catalog.guns.size() if kind == "gun" else game.catalog.relics.size()):
 			var shape: Array = m.shape_of(m.gun_token(id) if kind == "gun" else id)
 			var visited := {Vector2i.ZERO:true}
 			assert(Vector2i.ZERO in shape)

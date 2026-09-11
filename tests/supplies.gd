@@ -30,28 +30,22 @@ func run() -> void:
 	p.state.pos = item.position
 	assert(not s.acquire(0,item)) # spawn protection
 	mature(item)
-	assert(s.acquire(0,item) and p.weapon().id == 4)
-	assert(not s.acquire(1,item) and q.inventory.size() == 2)
-	assert(p.inventory.size() == 3)
+	var loadout: Array = p.inventory.duplicate(true)
+	assert(not s.acquire(0,item)) # weapons never use the touch path
+	assert(s.acquire(0,item,true) and p.inventory == loadout)
+	assert("gun:4" in game.match_state.reserve_items(0) and not p.owns(4))
+	assert(not s.acquire(1,item,true) and q.inventory.size() == 2)
 	s.step(.01)
 	assert(item not in s.items)
-	# Identical weapon refills the matching slot, not the active weapon.
+	# Duplicate weapons are rejected, including when carried ammo is empty.
+	assert(p.add_gun(4)) # explicit combat fixture for ammunition preservation
 	p.equip_slot(0)
 	p.inventory[2].clip = 2
 	p.inventory[2].reserve = 0
 	item = s.put_item("weapon",4,Vector2(100,100))
 	mature(item)
-	assert(s.acquire(0,item))
-	assert(p.state.gun == 0 and p.inventory[2].clip == 2 and p.inventory[2].reserve == 18)
-	s.step(.01)
-	p.inventory[2].reserve = 29
-	item = s.put_item("weapon",4,Vector2(100,100))
-	mature(item)
-	assert(s.acquire(0,item) and p.inventory[2].reserve == 30)
-	s.step(.01)
-	item = s.put_item("weapon",4,Vector2(100,100))
-	mature(item)
-	assert(not s.acquire(0,item) and not item.used)
+	assert(not s.acquire(0,item,true) and not item.used)
+	assert(p.state.gun == 0 and p.inventory[2].clip == 2 and p.inventory[2].reserve == 0)
 	s.reset()
 	# Ammo box refills all reserves by ceil(stock*.4), preserving clips/mode.
 	item = s.put_item("ammo",0,Vector2(100,100))
@@ -66,14 +60,17 @@ func run() -> void:
 	mature(item)
 	assert(not s.acquire(0,item) and not item.used)
 	s.reset()
-	# Full inventory never auto-replaces; G replaces only the selected slot.
+	# Full carried inventory still allows reserve storage; active reload/mode never change.
 	for id in [2,3,5,6]: assert(p.add_gun(id))
 	assert(p.add_gun(18))
 	assert(p.inventory.size() == p.MAX_CARRIED_WEAPONS)
 	p.weapon().clip = 2
 	p.weapon().mode = 1
 	p.start_reload()
-	var untouched: Dictionary = p.inventory[0].duplicate()
+	var untouched: Array = p.inventory.duplicate(true)
+	var reload_before: float = p.state.reload
+	var reload_slot_before: int = p.state.reload_slot
+	var shot_before: float = p.state.shot
 	item = s.put_item("weapon",19,Vector2(100,100))
 	mature(item)
 	assert(not s.acquire(0,item) and p.weapon().id == 18)
@@ -95,9 +92,10 @@ func run() -> void:
 	game._unhandled_key_input(key)
 	assert(item.opening_player == 0)
 	s.step(s.chest_open_duration)
-	assert(item not in s.items and p.weapon().id == 19 and p.inventory.size() == p.MAX_CARRIED_WEAPONS)
-	assert(p.inventory[0] == untouched and p.weapon().mode == 0 and p.weapon().clip == 6)
-	assert(p.state.reload == 0 and p.state.reload_slot == -1 and p.state.shot >= .15)
+	assert(item not in s.items and p.weapon().id == 18 and p.inventory.size() == p.MAX_CARRIED_WEAPONS)
+	assert("gun:19" in game.match_state.reserve_items(0) and not p.owns(19))
+	assert(p.inventory == untouched and p.weapon().mode == 1 and p.weapon().clip == 2)
+	assert(p.state.reload == reload_before and p.state.reload_slot == reload_slot_before and p.state.shot == shot_before)
 	s.reset()
 	# Range and P2 H binding; one contested pickup cannot be awarded twice.
 	q.state.pos = Vector2(100,100)
@@ -114,7 +112,7 @@ func run() -> void:
 	game._unhandled_key_input(key)
 	assert(item.opening_player == 1)
 	s.step(s.chest_open_duration)
-	assert(item not in s.items and q.weapon().id == 6)
+	assert(item not in s.items and not q.owns(6) and "gun:6" in game.match_state.reserve_items(1))
 	assert(not s.acquire(0,item,true))
 	s.reset()
 	item = s.put_item("weapon",8,Vector2(165,100))
@@ -170,6 +168,6 @@ func run() -> void:
 	var initial = s.items[0]
 	s.step(.61)
 	assert(initial not in s.items)
-	print("PASS: pickup delay, touch/range, duplicate/refill caps, ammo, full slots/G/H exchange, single owner, pause/result/reset, schedules, expiry, editable spawns")
+	print("PASS: pickup delay, touch/range, duplicate rejection, ammo, full carried slots/G/H reserve storage, single owner, pause/result/reset, schedules, expiry, editable spawns")
 	game.queue_free()
 	quit()

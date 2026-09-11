@@ -1,7 +1,7 @@
 extends RefCounted
 const Shop = preload("res://scripts/catalog/shop_catalog.gd")
 const WIN_TARGET := Shop.WIN_TARGET
-var gold := [12,12]
+var gold := [Shop.INITIAL_GOLD,Shop.INITIAL_GOLD]
 var products: Array = [[],[]]
 var refreshed := [false,false]
 var expansion_bought := [false,false]
@@ -11,8 +11,7 @@ const Expansions = preload("res://scripts/catalog/bag_expansions.gd")
 const Generator = preload("res://scripts/game/reward_generator.gd")
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const Relics = preload("res://scripts/catalog/relic_catalog.gd")
-const RelicShapes = preload("res://scripts/catalog/relic_shapes.gd")
-const WeaponShapes = preload("res://scripts/catalog/weapon_shapes.gd")
+const BuildGrid = preload("res://scripts/game/build_grid.gd")
 const Items = preload("res://scripts/game/item_identity.gd")
 var generator
 var seed_value: int
@@ -30,17 +29,20 @@ var settled := false
 # トークン "mod:<id>:<key>" と同じ書き方で、既存の配列・辞書構造を作り直さずに済ませるため）。
 # 「主力（build.main）」と「サイドアームの自動付与」はこのフェーズで廃止し、グリッドに置いた
 # 武器がそのラウンドの携行武器になる。武器を1丁も置かなければ丸腰で、近接だけで戦うことになる。
-const GUN_PREFIX := "gun:"
+const GUN_PREFIX := Items.GUN_PREFIX
 # キャラクター選択前・ヘッドレステストなど、キャラが未確定のまま始まったマッチの既定の初期武器。
 # grant_start_weapon()がキャラクターの初期武器へ差し替える。
 const DEFAULT_START_GUN := 0
 var start_guns := [DEFAULT_START_GUN,DEFAULT_START_GUN]
 static func gun_token(id: int) -> String:
-	return GUN_PREFIX + str(id)
+	return Items.gun_token(id)
+
 static func is_gun(entry) -> bool:
-	return typeof(entry) == TYPE_STRING and str(entry).begins_with(GUN_PREFIX)
+	return Items.is_gun(entry)
+
 static func gun_id(entry) -> int:
-	return int(str(entry).substr(GUN_PREFIX.length()))
+	return Items.gun_id(entry)
+
 static func is_relic(entry) -> bool:
 	return Items.is_relic(entry)
 static func relic_id(entry) -> int:
@@ -69,7 +71,8 @@ func migrate_relic_instances(i: int) -> void:
 # 所持庫・装備に入りうる要素の形状。武器かレリックかで参照する形状表が変わるだけで、
 # fits()/occupied_cells()/auto_place()の当たり判定そのものは共通のまま。
 static func shape_of(entry) -> Array:
-	return WeaponShapes.shape(gun_id(entry)) if is_gun(entry) else RelicShapes.shape(relic_id(entry))
+	return BuildGrid.shape_of(entry)
+
 func _new_build() -> Dictionary:
 	return {"owned":[],"equipped":[],"positions":{},"mods":{},"next_item_serial":0,"acquisitions":{},"bag_expansions":[]}
 func _init(value: int = 1) -> void:
@@ -92,28 +95,35 @@ func grant_start_weapon(i: int, gun: int) -> void:
 		_acquire(i,gun_token(gun),"initial",0,"")
 # Paid patches persist independently of preparation number; one purchase per preparation.
 # The canvas limit and usable region are separate. No full 36-cell unlock.
-const RESERVE_CAPACITY := 8
-const MAX_CARRIED_WEAPONS := 8
-const MAX_GRID_SIZE := Vector2i(6,6)
+const RESERVE_CAPACITY := BuildGrid.RESERVE_CAPACITY
+const MAX_CARRIED_WEAPONS := BuildGrid.MAX_CARRIED_WEAPONS
+const MAX_GRID_SIZE := BuildGrid.MAX_GRID_SIZE
 func grid_size() -> Vector2i:
 	return MAX_GRID_SIZE
 func usable_cells(i: int = 0) -> Dictionary:
-	var cells := {}
-	for y in range(2):
-		for x in range(4): cells[Vector2i(x,y)] = true
-	for patch in builds[i].get("bag_expansions",[]):
-		for offset in Expansions.SHAPES[patch.shape]: cells[patch.anchor+offset] = true
-	return cells
+	return BuildGrid.usable_cells(builds[i])
+
 func capacity(i: int = 0) -> int:
 	return usable_cells(i).size()
 func expansion_pending(i: int) -> bool:
 	return i in [0,1] and not ended and not expansion_bought[i] and capacity(i) <= 20
-func expansion_reason(i: int, shape: String, anchor: Vector2i) -> String:
+func expansion_purchase_reason(i: int, shape: String) -> String:
 	if i not in [0,1] or not Expansions.SHAPES.has(shape): return "無効な拡張"
 	if ready[i] or ended: return "準備完了"
-	if not expansion_pending(i): return "拡張なし / 配置済み"
-	if capacity(i)+Expansions.SHAPES[shape].size() > 24: return "開放上限24マス"
-	if gold[i] < Expansions.SHAPES[shape].size(): return "資金不足"
+	if expansion_bought[i]: return "この準備では購入済み"
+	if capacity(i)+Expansions.SHAPES[shape].size() > BuildGrid.MAX_AREA: return "上限24マス（残り%d）" % (BuildGrid.MAX_AREA-capacity(i))
+	if gold[i] < Expansions.SHAPES[shape].size(): return "資金不足（必要%dG）" % Expansions.SHAPES[shape].size()
+	return ""
+func expansion_offer_reason(i: int, shape: String) -> String:
+	var reason := expansion_purchase_reason(i,shape)
+	if not reason.is_empty(): return reason
+	for y in range(MAX_GRID_SIZE.y):
+		for x in range(MAX_GRID_SIZE.x):
+			if expansion_reason(i,shape,Vector2i(x,y)).is_empty(): return ""
+	return "この形を置ける場所なし"
+func expansion_reason(i: int, shape: String, anchor: Vector2i) -> String:
+	var reason := expansion_purchase_reason(i,shape)
+	if not reason.is_empty(): return reason
 	var usable := usable_cells(i)
 	var connected := false
 	for offset in Expansions.SHAPES[shape]:
@@ -141,6 +151,17 @@ func reserve_items(i: int) -> Array:
 	return builds[i].owned.filter(func(entry): return entry not in builds[i].equipped)
 func reserve_full(i: int) -> bool:
 	return reserve_items(i).size() >= RESERVE_CAPACITY
+# Field weapons enter the persistent reserve immediately, never the current loadout.
+func field_weapon_reason(i: int, id: int) -> String:
+	if i not in [0,1] or not Weapons.distributable(id): return "取得できない武器"
+	if ended or settled or not ready.all(func(value): return value): return "戦闘中のみ取得可能"
+	if gun_token(id) in builds[i].owned: return "所持済み（弾薬補給は弾薬箱）"
+	if reserve_full(i): return "控え8個が満杯"
+	return ""
+func store_field_weapon(i: int, id: int) -> bool:
+	if not field_weapon_reason(i,id).is_empty(): return false
+	_acquire(i,gun_token(id),"field",0,"")
+	return true
 # Atomic CPU rearrangement: a greedy packing must not overflow reserve or lose items.
 func arrange(i: int, order: Array) -> bool:
 	if ready[i] or ended: return false
@@ -160,25 +181,14 @@ func arrange(i: int, order: Array) -> bool:
 # positionsに記録されるため、この経路を通らずにbuilds[i]を直接書き換えるコード（テスト等）
 # だけが対象になる。
 func occupied_cells(i: int, exclude_id = -1) -> Dictionary:
-	var cells := {}
-	var positions: Dictionary = builds[i].get("positions",{})
-	for id in positions:
-		# Weapon tokens and relic IDs have different types; Godot rejects String == int.
-		if (typeof(id) == typeof(exclude_id) and id == exclude_id) or id not in builds[i].equipped: continue
-		for offset in shape_of(id): cells[positions[id]+offset] = id
-	return cells
+	return BuildGrid.occupied_cells(builds[i],exclude_id)
+
 # idの形状をanchorへ置いた場合に、全マスがグリッド範囲内かつ空いているか。exclude_idは「すでに
 # 置いてある自分自身」を一時的に除外するためのもの（移動時の自己衝突を避ける）。
 func fits(i: int, id, anchor: Vector2i, exclude_id = -1) -> bool:
 	if is_gun(id) and id not in builds[i].equipped and carried_guns(i).size() >= MAX_CARRIED_WEAPONS: return false
-	var size := grid_size()
-	var cells := occupied_cells(i,exclude_id)
-	var usable := usable_cells(i)
-	for offset in shape_of(id):
-		var cell: Vector2i = anchor+offset
-		if cell.x < 0 or cell.y < 0 or cell.x >= size.x or cell.y >= size.y: return false
-		if not usable.has(cell) or cells.has(cell): return false
-	return true
+	return BuildGrid.fits(id,anchor,usable_cells(i),occupied_cells(i,exclude_id))
+
 # 読み順（左上→右下）で最初に空いている配置先を返す。CPU準備の自動配置に使う。置き場がなければ
 # Vector2i(-1,-1)——P8xではこれがそのまま「装備できない（グリッドに収まらない）」の判定にもなる
 # （_equip_if_fits()参照）。P8yで人間の操作経路からは切り離した。
@@ -204,17 +214,8 @@ func place(i: int, id, anchor: Vector2i) -> bool:
 # そのラウンドの携行武器そのものになり、player.apply_build()のinventoryの並び＝数字キー1〜8と
 # HUDのスロット順にもなる。「主力」という概念の置き換え先。
 func carried_guns(i: int) -> Array:
-	var positions: Dictionary = builds[i].get("positions",{})
-	# 読み順のキー（y優先→x）を作って並べ替える。グリッドの横幅は最大6なので y*100+x で衝突しない。
-	var order: Array = []
-	for entry in builds[i].equipped:
-		if not is_gun(entry) or not positions.has(entry): continue
-		var pos: Vector2i = positions[entry]
-		order.append([pos.y*100+pos.x, gun_id(entry)])
-	order.sort_custom(func(a,b): return a[0] < b[0])
-	var result: Array = []
-	for pair in order: result.append(pair[1])
-	return result
+	return BuildGrid.carried_guns(builds[i])
+
 func equipped_relics(i: int) -> Array:
 	return Items.relic_ids(builds[i].equipped)
 func _base_products() -> Array:
@@ -224,9 +225,9 @@ func _base_products() -> Array:
 		var rarity: String
 		if stage < 3: rarity = "C" if roll < 35 else ("B" if roll < 75 else "A")
 		else: rarity = "C" if roll < 25 else ("B" if roll < 60 else ("A" if roll < 85 else "S"))
-		var pool: Array = Weapons.SUPPORTED.filter(func(id): return Weapons.definition(id).rarity == rarity)
+		var pool: Array = Weapons.rarity_pool(rarity)
 		result.append(gun_token(pool[generator.rng.randi_range(0,pool.size()-1)]))
-	for slot in range(3): result.append(generator.rng.randi_range(0,19))
+	for slot in range(3): result.append(Relics.SUPPORTED[generator.rng.randi_range(0,Relics.SUPPORTED.size()-1)])
 	return result
 func _card(entry) -> Dictionary:
 	var result := {"id":"card:%d" % next_card_id,"entry":entry,"price":Shop.price(entry),"sold":false}
@@ -281,6 +282,7 @@ func acquisition_reason(i: int, entry) -> String:
 func purchase_reason(i: int, card_id: String) -> String:
 	var card := product(i,card_id)
 	if card.is_empty(): return "候補外"
+	if card.price < 0 or (is_gun(card.entry) and not Weapons.distributable(gun_id(card.entry))): return "非売品"
 	if card.sold: return "売り切れ"
 	var why := acquisition_reason(i,card.entry)
 	if not why.is_empty(): return why
@@ -412,13 +414,7 @@ func finish(winner: int, players: Array) -> void:
 	expansion_bought = [false,false]
 	ready = [false,false]
 	for i in range(2):
-		# P8z：ラウンド中にフィールドで拾った武器は所持庫へ入る（グリッドのどこへ置くか、
-		# そもそも置くかは次の準備画面でのプレイヤーの判断）。控え8個が満杯なら入らない
-		# ——先に何かを破棄しておく必要がある。旧実装の「持っていた武器＝次の主力候補」という
-		# 自動確定はここで廃止した。
-		for w in players[i].inventory:
-			var token := gun_token(int(w.id))
-			if token not in builds[i].owned and not reserve_full(i): _acquire(i,token,"field",0,"")
+		# Weapons were already stored at chest acquisition, including after a draw.
 		temporary[i] = players[i].temporary_relic
 		gold[i] += Shop.income(stage)
 	generate_rewards()

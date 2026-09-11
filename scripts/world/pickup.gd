@@ -38,6 +38,8 @@ func configure(item_kind: String, id: int) -> void:
 	# で、configure()/refresh()からはまだ参照しない）。
 func refresh(players: Array, ready_delay: float = .6, open_seconds: float = 0.0) -> void:
 	var text := "弾薬箱" if kind == "ammo" else str(Relics.definition(gun).name if kind == "relic" else Weapons.definition(gun).name)
+	if opening_player >= 0:
+		open_seconds = players[opening_player].effective_chest_duration(open_seconds)
 	var hints: Array[String] = []
 	var is_chest: bool = kind in ["weapon","relic"]
 	for i in range(players.size()):
@@ -49,10 +51,9 @@ func refresh(players: Array, ready_delay: float = .6, open_seconds: float = 0.0)
 				hints.append("開封中…%.1f/%.1f秒" % [minf(open_progress,open_seconds),open_seconds])
 			elif opening_player != -1:
 				hints.append("P%dが開封中" % (opening_player+1))
-			elif kind == "weapon" and not p.owns(gun) and p.inventory.size() >= p.MAX_CARRIED_WEAPONS: # P8z：携行枠は4丁固定ではなくMAX_CARRIED_WEAPONS
-				hints.append("P%d %s：開封して交換" % [i+1,"G" if i == 0 else "H"])
 			elif kind == "weapon":
-				hints.append("P%d %s：開封" % [i+1,"G" if i == 0 else "H"])
+				var reason: String = p.field_weapon_reason(gun)
+				hints.append("P%d %s" % [i+1,("G：控えへ（次の準備で配置）" if i == 0 else "H：控えへ（次の準備で配置）") if reason.is_empty() else reason])
 			elif kind == "relic":
 				var reason: String = p.field_relic_reason(gun)
 				hints.append("P%d %s" % [i+1,("G：開封" if i == 0 else "H：開封") if reason == "" else reason])

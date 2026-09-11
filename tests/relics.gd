@@ -29,8 +29,9 @@ func run() -> void:
 	assert(not game.supplies.acquire(0,item))
 	assert(game.supplies.acquire(0,item,true) and p.relics.size() == 3)
 	assert(not p.add_relic(0) and not p.add_relic(4) and p.state.max_hp == 10)
-	# IDs 0-19 are supported; 20 is the first out-of-range ID.
-	assert(not p.add_relic(20) and game.supplies.put_item("relic",20,Vector2(200,100)) == null)
+	# Reject unsupported IDs independently of the inventory capacity.
+	var invalid: int = game.Relics.SUPPORTED.size()
+	assert(not p.add_relic(invalid) and game.supplies.put_item("relic",invalid,Vector2(200,100)) == null)
 	game.supplies.step(.01)
 	item = game.supplies.put_item("relic",0,p.state.pos)
 	item.age = .6

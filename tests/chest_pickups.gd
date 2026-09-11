@@ -25,7 +25,7 @@ func run() -> void:
 	var item = s.put_item("weapon",7,p.state.pos)
 	mature(item)
 	s.step(.5)
-	assert(item.opening_player == -1 and not item.used and not p.owns(7))
+	assert(item.opening_player == -1 and not item.used and not ("gun:7" in game.match_state.builds[0].owned))
 	# interact()で開封を開始。chest_open_duration未満ではまだ確定しない。
 	s.interact(0)
 	assert(item.opening_player == 0 and item.open_progress == 0.0)
@@ -37,7 +37,7 @@ func run() -> void:
 	assert(is_equal_approx(p.state.hp,hp_before-1.0))
 	# 残り時間が経過すると入手確定。
 	s.step(s.chest_open_duration)
-	assert(item not in s.items and p.owns(7))
+	assert(item not in s.items and ("gun:7" in game.match_state.builds[0].owned))
 	s.reset()
 	# その場（interact_radius内）を離れると開封が中断され、進捗はリセットされる。
 	item = s.put_item("weapon",9,p.state.pos)
@@ -48,7 +48,7 @@ func run() -> void:
 	var opened_pos: Vector2 = p.state.pos
 	p.state.pos = opened_pos + Vector2(s.interact_radius+10,0)
 	s.step(.01)
-	assert(item.opening_player == -1 and item.open_progress == 0.0 and not item.used and not p.owns(9))
+	assert(item.opening_player == -1 and item.open_progress == 0.0 and not item.used and not ("gun:9" in game.match_state.builds[0].owned))
 	s.reset()
 	# 他プレイヤーが開封中の宝箱は横取りできない（interact()は無視される）。
 	p.state.pos = Vector2(300,300)
@@ -93,7 +93,7 @@ func run() -> void:
 	game.CpuAI.decide(game,q,p,1.0/60.0) # re-selecting the same target keeps opening_player == 1
 	assert(item.opening_player == 1)
 	s.step(s.chest_open_duration)
-	assert(item not in s.items and q.owns(11))
+	assert(item not in s.items and ("gun:11" in game.match_state.builds[1].owned))
 	s.reset()
 	# 人間（P1）が開封中の宝箱をCPUが横取りできない。
 	p.state.pos = Vector2(300,300)
@@ -105,7 +105,7 @@ func run() -> void:
 	game.CpuAI.decide(game,q,p,1.0/60.0)
 	assert(item.opening_player == 0) # CPUは進行中の人間の開封を奪えない
 	s.step(s.chest_open_duration)
-	assert(item not in s.items and p.owns(12) and not q.owns(12))
+	assert(item not in s.items and ("gun:12" in game.match_state.builds[0].owned) and not ("gun:12" in game.match_state.builds[1].owned))
 	s.reset()
 	# 逆に、CPUが開封中の宝箱を人間がGキーで横取りできない。
 	q.state.pos = Vector2(300,300)
@@ -117,7 +117,7 @@ func run() -> void:
 	s.interact(0)
 	assert(item.opening_player == 1) # 人間は進行中のCPUの開封を奪えない
 	s.step(s.chest_open_duration)
-	assert(item not in s.items and q.owns(13) and not p.owns(13))
+	assert(item not in s.items and ("gun:13" in game.match_state.builds[1].owned) and not ("gun:13" in game.match_state.builds[0].owned))
 	s.reset()
 	# スポーン直後（pickup_delay未満の無敵猶予中）はCPUも開封を開始しない（interact()と同条件）。
 	item = s.put_item("weapon",14,q.state.pos)

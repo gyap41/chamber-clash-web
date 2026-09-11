@@ -49,9 +49,7 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 		elif item.kind == "relic":
 			desired = player.field_relic_reason(item.gun) == ""
 		else:
-			var g: Dictionary = Weapons.definition(item.gun)
-			# P8z：携行枠が4丁固定でなくなったため上限はplayer.MAX_CARRIED_WEAPONSを見る。
-			desired = player.inventory.size() < player.MAX_CARRIED_WEAPONS or player.inventory.any(func(x): return x.id == item.gun and float(x.reserve) < float(g.stock)*.6) or g.rarity == "S"
+			desired = player.field_weapon_reason(item.gun).is_empty()
 		if not desired: continue
 		var cost: float = p.pos.distance_to(item.position) * (.65 if item.kind == "weapon" and Weapons.definition(item.gun).rarity == "S" else 1.0)
 		if cost < best:

@@ -76,9 +76,17 @@ func periodic_supply() -> void:
 	spawn_group("Weapons","weapon",weighted_gun())
 	announce("武器補給：同じ武器が両サイドに出現")
 func acquire(player_index: int, item, replace: bool = false) -> bool:
+	if player_index not in [0,1]: return false
 	if not active() or not is_instance_valid(item) or item not in items or item.used or item.age < pickup_delay or item.age >= pickup_lifetime: return false
+	if item.opening_player != -1 and item.opening_player != player_index: return false
 	var player = game.players[player_index]
 	if player.state.hp <= 0 or player.state.pos.distance_to(item.position) >= (interact_radius if replace else touch_radius): return false
+	if item.kind == "weapon":
+		if not replace: return false
+		var reason: String = player.field_weapon_reason(item.gun)
+		if not reason.is_empty():
+			announce(reason)
+			return false
 	var message: String = player.acquire_weapon(item.gun,replace) if item.kind == "weapon" else ("全武器の予備弾を補給" if item.kind == "ammo" and player.refill_ammo() > 0 else "")
 	if item.kind == "relic":
 		if not replace: return false
@@ -110,6 +118,9 @@ func interact(player_index: int) -> void:
 			nearest = item
 	if nearest == null: return
 	if nearest.kind in ["weapon","relic"]:
+		if nearest.kind == "weapon" and not game.players[player_index].field_weapon_reason(nearest.gun).is_empty():
+			announce(game.players[player_index].field_weapon_reason(nearest.gun))
+			return
 		# P7 宝箱演出：即時入手ではなく開封を開始（あるいは自分がすでに開封中なら何もしない）。
 		# 他プレイヤーが開封中の宝箱は横取りできない。
 		if nearest.opening_player == -1 or nearest.opening_player == player_index:
@@ -150,9 +161,9 @@ func step(dt: float) -> void:
 				# P7 宝箱演出：開封中のプレイヤーがinteract_radius内に留まっている間だけ進行。
 				# 無敵にはしないため、開封中も通常どおり被弾しうる。範囲外に出た／倒れたら中断。
 				var opener = game.players[item.opening_player]
-				if opener.state.hp > 0 and item.position.distance_to(opener.state.pos) < interact_radius:
+				if opener.state.hp > 0 and item.position.distance_to(opener.state.pos) < interact_radius and (item.kind != "weapon" or opener.field_weapon_reason(item.gun).is_empty()):
 					item.open_progress += dt
-					if item.open_progress >= chest_open_duration:
+					if item.open_progress >= opener.effective_chest_duration(chest_open_duration):
 						acquire(item.opening_player,item,true)
 				else:
 					item.opening_player = -1

@@ -58,6 +58,8 @@ func new_match(seed_value: int = -1) -> void:
 	# キャラ未選択（char_id < 0）なのでMatchState側の既定の初期武器のままで、キャラ確定時に
 	# assign_character()が差し替える。
 	for i in range(players.size()):
+		players[i].match_inventory = match_state
+		players[i].match_player_index = i
 		if players[i].char_id >= 0: match_state.grant_start_weapon(i,Characters.start_gun(players[i].char_id))
 	supply_generator = MatchState.Generator.new(match_state.seed_value ^ 0x51A7)
 	telemetry = RunLog.new(match_state.seed_value)
@@ -163,6 +165,7 @@ func use_pulse(index: int) -> bool:
 	var p: Dictionary = players[index].state
 	if p.hp <= 0 or p.pulses <= 0: return false
 	p.pulses -= 1
+	if 29 in players[index].relics: p.boots_time = players[index].relic_value(29,"boots_duration")
 	telemetry.record("pulse",{"player":index,"remaining":p.pulses})
 	combat_visuals.shake(5.0)
 	sound.play_sound("boom",0)
@@ -211,25 +214,45 @@ func fire(index: int) -> void:
 	var w: Dictionary = player.weapon()
 	var scatter: bool = g.get("switcher", false) and w.mode == 1
 	var count: int = 3 if scatter else int(g.get("count", 1))
+	var burst_count := int(g.get("burst_count",1))
 	var first_shot: bool = w.clip == int(g.mag)
 	var shot_damage: float = (.5 if scatter else g.damage) * (1.2 if first_shot and 7 in player.relics else 1.0)
 	# 帰還バッテリー: a charge armed by the *previous* weapon switch boosts this volley once,
 	# then clears itself; it cannot re-arm until another boomerang recovery + switch happens.
 	if 14 in player.relics and player.state.get("return_battery_armed", false):
 		# One charge belongs to the shot, shared across pellets rather than multiplied by count.
-		shot_damage += float(Relics.definition(14).get("battery_bonus",.45))/count
+		shot_damage += float(Relics.definition(14).get("battery_bonus",.45))/(count*burst_count)
 		player.state.return_battery_armed = false
+	var echo_damage := shot_damage
+	if w.clip == 1 and 22 in player.relics:
+		shot_damage += player.relic_value(22,"last_bonus")/(count*burst_count)
+	var damage_scale: float = (1.0+Relics.additive_bonus(player.relics,"shot_bonus"))*(1.15 if 6 in player.relics else 1.0)
+	var speed_scale: float = (1.0+Relics.additive_bonus(player.relics,"speed_bonus"))*(.8 if 6 in player.relics else 1.0)
+	if 30 in player.relics and player.state.sight_time > 0:
+		speed_scale *= 1.0+player.relic_value(30,"sight_bonus")
+		player.state.sight_time = 0.0
 	volley_counter += 1
 	origin_counter += 1
 	telemetry.record("fire",{"player":index,"weapon":w.id,"root":origin_counter,"volley":volley_counter,"pellets":count})
 	for i in range(count):
 		var angle: float = player.state.angle + (i-(count-1)/2.0) * (.16 if scatter else float(g.get("spread", .11)))
+		if g.has("alternate_spread"): angle += float(g.alternate_spread)*(1 if int(player.state.alternate_shots)%2 == 0 else -1)
+		if g.get("cross",false): angle = player.state.angle+(-.10 if i < 2 else .10)
 		if g.get("radial", false): angle = player.state.angle + i*TAU/count
 		var opts := {"root":origin_counter,"phase":1 if i % 2 else -1,"damage":shot_damage,"volley":volley_counter,"parcel":g.get("parcel",false) and w.clip == 1,"depth":0}
+		opts.damage_scale = damage_scale
+		opts.speed_scale = speed_scale
+		if g.get("cross",false):
+			opts.cross_turn = .20 if i < 2 else -.20
+			opts.pos = player.state.pos+Vector2.from_angle(angle)*(21.0 if i%2 == 0 else 29.0)
 		if g.get("prism", false): opts.color = ["#ff9bbd","#ffe99b","#98efd0","#a4d9ff","#dfafff"][i % 5]
 		spawn_shot(index, w.id, angle, opts)
+		for followup in range(1,burst_count):
+			var delayed := opts.duplicate(true)
+			delayed.merge({"owner":index,"gun":w.id,"angle":angle,"delay":float(g.get("burst_delay",.08))*followup,"kind":"burst"},true)
+			delayed_shots.append(delayed)
 	if g.get("echo", false):
-		delayed_shots.append({"root":origin_counter,"owner":index,"gun":w.id,"angle":player.state.angle,"delay":.24,"volley":volley_counter,"damage":shot_damage,"kind":"echo","depth":1})
+		delayed_shots.append({"root":origin_counter,"owner":index,"gun":w.id,"angle":player.state.angle,"delay":.24,"volley":volley_counter,"damage":echo_damage,"kind":"echo","depth":1})
 	# 空薬莢の祝福: only the next *first* shot (full magazine) after an empty-clip reload
 	# consumes the charge, matching "次の初射"; 余熱コンデンサ has no such qualifier and is
 	# spent by the very next fire() call regardless of magazine state. Both are one-shot bonus
@@ -297,96 +320,98 @@ func move_fighter(p: Dictionary, delta: Vector2) -> void:
 	arena.move_fighter(p,delta)
 func _physics_process(dt: float) -> void:
 	if phase == "play" and not paused and result == "":
+		# Order matters: delayed shots precede player actions, projectile impacts precede
+		# well absorption, and settlement observes all damage from this frame.
 		remaining -= dt
 		combat_visuals.step(dt)
-		for n in range(pulse_effects.size()-1,-1,-1):
-			if pulse_effects[n].step(dt):
-				var effect = pulse_effects.pop_at(n)
-				effect.get_parent().remove_child(effect)
-				effect.queue_free()
-		for n in range(delayed_shots.size()-1,-1,-1):
-			var delayed: Dictionary = delayed_shots[n]
-			delayed.delay -= dt
-			if delayed.delay <= 0:
-				spawn_shot(delayed.owner,delayed.gun,delayed.angle,{"volley":delayed.get("volley",-1),"damage":delayed.damage,"kind":delayed.get("kind","echo"),"root":delayed.get("root",delayed.get("volley",-1)),"depth":delayed.get("depth",1),"can_lens":delayed.get("can_lens",true)})
-				combat_visuals.weapon_effect(3,players[delayed.owner].state.pos+Vector2.from_angle(delayed.angle)*34,delayed.angle)
-				delayed_shots.remove_at(n)
-		for i in range(2):
-			var ai: Dictionary = CpuAI.decide(self,players[i],players[1-i],dt) if players[i].is_cpu else {}
-			if players[i].step(dt,i,players[1-i],arena,mouse_fire_held,ai): fire(i)
-			if players[i].state.roll > 0: combat_visuals.dodge_trail(players[i].state.pos,players[i].visual_color())
-			# すり抜け装填: while actively dodging, an enemy bullet passing within phase_radius loads 1
-			# round into the current weapon from reserve (once per dodge; resets when a new dodge starts,
-			# see handle_key()). Deliberately bypasses start_reload()/finish_reload() entirely, so it can
-			# never itself charge 空薬莢の祝福 - "装填完了の効果は発動しない".
-			if players[i].state.roll > 0 and 17 in players[i].relics and not players[i].state.get("phase_load_used",false):
-				var phase_triggered := false
-				var phase_radius: float = float(Relics.definition(17).get("phase_radius",42.0))
-				for b in shots:
-					if b.state.owner != i and not b.state.dead and b.state.pos.distance_to(players[i].state.pos) < phase_radius:
-						phase_triggered = true
-						break
-				# P8z ステップA：すり抜け装填には装填する武器が要る。丸腰ではWeapons.definition(-1)が
-				# 負数添字で配列末尾を返してしまうため、has_weapon()で手前から弾く。
-				if phase_triggered and players[i].has_weapon():
-					players[i].state.phase_load_used = true
-					var phase_weapon: Dictionary = players[i].weapon()
-					var phase_def: Dictionary = Weapons.definition(phase_weapon.id)
-					if phase_weapon.reserve > 0 and phase_weapon.clip < int(phase_def.mag):
-						phase_weapon.clip += 1
-						phase_weapon.reserve -= 1
-			var inset: float = arena_inset()
-			if inset > 0.0:
-				var pos: Vector2 = players[i].state.pos
-				if pos.x < inset+25 or pos.x > 1120-inset-25 or pos.y < inset*.58+25 or pos.y > 600-inset*.58-25:
-					players[i].hurt(.16,-1,true)
+		_step_pulse_effects(dt)
+		_step_delayed_shots(dt)
+		_step_players(dt)
 		supplies.step(dt)
-		for b in shots.duplicate(): b.step(dt,arena,players[1-b.state.owner])
-		for n in range(shots.size()-1,-1,-1):
-			var b = shots[n]
-			if b.state.dead or b.state.life <= 0:
-				if not b.state.dead:
-					if b.state.parcel: combat_visuals.weapon_effect(1,b.state.pos)
-					if b.state.parcel: combat_visuals.ring(b.state.pos,Color(b.state.color),55.0)
-					if b.state.gravity: combat_visuals.ring(b.state.pos,Color(b.state.color),100.0)
-					if b.state.split or b.state.clover or b.state.comet:
-						combat_visuals.burst(b.state.pos,Color(b.state.color),32 if b.state.comet else 20)
-						combat_visuals.ring(b.state.pos,Color(b.state.color),95.0 if b.state.comet else 45.0)
-					if b.state.comet:
-						var enemy = players[1-b.state.owner]
-						if b.state.pos.distance_to(enemy.state.pos) < b.comet_blast_radius and not arena.line_blocked(b.state.pos,enemy.state.pos): enemy.hurt(b.comet_blast_damage)
-						combat_visuals.shake(5.0)
-					if b.state.gravity: spawn_well(b.state.pos,b.state.owner)
-				var fragments: Dictionary = b.fragments()
-				if not fragments.is_empty():
-					for shard in range(fragments.count):
-						spawn_shot(b.state.owner,0,shard*TAU/fragments.count,{"kind":"fragment","root":b.get_meta("origin",-1),"pos":b.state.pos,"speed":fragments.speed,"damage":fragments.damage,"life":fragments.life,"color":fragments.color,"radius":4.0,"can_lens":false,"depth":1})
-				shots.remove_at(n)
-				b.get_parent().remove_child(b)
-				b.queue_free()
-		for well in wells: well.step(dt,arena,players,shots)
-		for n in range(wells.size()-1,-1,-1):
-			if wells[n].state.life <= 0:
-				var well = wells.pop_at(n)
-				well.get_parent().remove_child(well)
-				well.queue_free()
-		# Absorption removes enemy shots without impact effects or new wells.
-		for n in range(shots.size()-1,-1,-1):
-			if shots[n].state.dead:
-				var shot = shots.pop_at(n)
-				shot.get_parent().remove_child(shot)
-				shot.queue_free()
-		if remaining <= 0 or fighters[0].hp <= 0 or fighters[1].hp <= 0:
-			var ratio1: float = fighters[0].hp/fighters[0].max_hp
-			var ratio2: float = fighters[1].hp/fighters[1].max_hp
-			result = "DRAW" if absf(ratio1-ratio2) < .001 else ("P1 WINS" if ratio1 > ratio2 else "P2 WINS")
-			phase = "result"
-			clear_action_inputs()
-			match_state.finish(-1 if result == "DRAW" else (0 if result == "P1 WINS" else 1),players)
-			telemetry.record("round_end",{"result":result,"seconds":round_duration-remaining,"scores":scores})
+		_step_projectiles(dt)
+		_step_wells(dt)
+		_settle_round()
 	arena.get_node("DangerZone").refresh(arena_inset() if phase in ["play","result"] else 0.0)
 	arena.get_node("CombatCamera").offset = -combat_visuals.shake_offset
 	hud.refresh(players,remaining,paused,result,scores,phase)
+
+func _step_pulse_effects(dt: float) -> void:
+	for n in range(pulse_effects.size()-1,-1,-1):
+		if pulse_effects[n].step(dt):
+			var effect = pulse_effects.pop_at(n)
+			effect.get_parent().remove_child(effect)
+			effect.queue_free()
+
+func _step_delayed_shots(dt: float) -> void:
+	for n in range(delayed_shots.size()-1,-1,-1):
+		var delayed: Dictionary = delayed_shots[n]
+		delayed.delay -= dt
+		if delayed.delay <= 0:
+			spawn_shot(delayed.owner,delayed.gun,delayed.angle,delayed)
+			combat_visuals.weapon_effect(3,players[delayed.owner].state.pos+Vector2.from_angle(delayed.angle)*34,delayed.angle)
+			delayed_shots.remove_at(n)
+
+func _step_players(dt: float) -> void:
+	for i in range(2):
+		var ai: Dictionary = CpuAI.decide(self,players[i],players[1-i],dt) if players[i].is_cpu else {}
+		if players[i].step(dt,i,players[1-i],arena,mouse_fire_held,ai): fire(i)
+		if players[i].state.roll > 0: combat_visuals.dodge_trail(players[i].state.pos,players[i].visual_color())
+		players[i].try_phase_load(shots,i)
+		var inset: float = arena_inset()
+		if inset > 0.0:
+			var pos: Vector2 = players[i].state.pos
+			if pos.x < inset+25 or pos.x > 1120-inset-25 or pos.y < inset*.58+25 or pos.y > 600-inset*.58-25:
+				players[i].hurt(.16,-1,true)
+
+func _step_projectiles(dt: float) -> void:
+	for b in shots.duplicate(): b.step(dt,arena,players[1-b.state.owner])
+	for n in range(shots.size()-1,-1,-1):
+		var b = shots[n]
+		if b.state.dead or b.state.life <= 0:
+			if not b.state.dead:
+				if b.state.parcel: combat_visuals.weapon_effect(1,b.state.pos)
+				if b.state.parcel: combat_visuals.ring(b.state.pos,Color(b.state.color),55.0)
+				if b.state.gravity: combat_visuals.ring(b.state.pos,Color(b.state.color),100.0)
+				if b.state.split or b.state.clover or b.state.comet:
+					combat_visuals.burst(b.state.pos,Color(b.state.color),32 if b.state.comet else 20)
+					combat_visuals.ring(b.state.pos,Color(b.state.color),95.0 if b.state.comet else 45.0)
+				if b.state.comet:
+					var enemy = players[1-b.state.owner]
+					if b.state.pos.distance_to(enemy.state.pos) < b.comet_blast_radius and not arena.line_blocked(b.state.pos,enemy.state.pos): enemy.hurt(b.comet_blast_damage)
+					combat_visuals.shake(5.0)
+				if b.state.gravity: spawn_well(b.state.pos,b.state.owner)
+			var fragments: Dictionary = b.fragments()
+			if not fragments.is_empty():
+				for shard in range(fragments.count):
+					spawn_shot(b.state.owner,0,shard*TAU/fragments.count,{"kind":"fragment","root":b.get_meta("origin",-1),"pos":b.state.pos,"speed":fragments.speed,"damage":fragments.damage,"life":fragments.life,"color":fragments.color,"radius":4.0,"can_lens":false,"depth":1})
+			shots.remove_at(n)
+			b.get_parent().remove_child(b)
+			b.queue_free()
+
+func _step_wells(dt: float) -> void:
+	for well in wells: well.step(dt,arena,players,shots)
+	for n in range(wells.size()-1,-1,-1):
+		if wells[n].state.life <= 0:
+			var well = wells.pop_at(n)
+			well.get_parent().remove_child(well)
+			well.queue_free()
+	# Absorption removes enemy shots without impact effects or new wells.
+	for n in range(shots.size()-1,-1,-1):
+		if shots[n].state.dead:
+			var shot = shots.pop_at(n)
+			shot.get_parent().remove_child(shot)
+			shot.queue_free()
+
+func _settle_round() -> void:
+	if remaining <= 0 or fighters[0].hp <= 0 or fighters[1].hp <= 0:
+		var ratio1: float = fighters[0].hp/fighters[0].max_hp
+		var ratio2: float = fighters[1].hp/fighters[1].max_hp
+		result = "DRAW" if absf(ratio1-ratio2) < .001 else ("P1 WINS" if ratio1 > ratio2 else "P2 WINS")
+		phase = "result"
+		delayed_shots.clear()
+		clear_action_inputs()
+		match_state.finish(-1 if result == "DRAW" else (0 if result == "P1 WINS" else 1),players)
+		telemetry.record("round_end",{"result":result,"seconds":round_duration-remaining,"scores":scores})
 
 func _process(dt: float) -> void:
 	if phase == "play" and not paused and result == "" and telemetry != null:

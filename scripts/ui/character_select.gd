@@ -72,5 +72,8 @@ func start_match() -> void:
 	for i in range(2):
 		game.assign_character(i,picked[i])
 	game.players[1].is_cpu = cpu_mode
+	# _ready() drew the placeholder P-12 before either character was assigned.
+	# Rebuild once with both final builds and CPU mode, clearing stale selections.
+	game.preparation.begin()
 	get_parent().remove_child(self)
 	queue_free()

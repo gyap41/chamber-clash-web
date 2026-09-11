@@ -128,7 +128,7 @@ func run() -> void:
 	well = game.spawn_well(Vector2(500,100),1)
 	game._physics_process(3.21)
 	assert(game.wells.is_empty())
-	assert(game.Weapons.rarity_pool("S") == [8,9,10,15])
+	assert(game.Weapons.rarity_pool("S") == [8,9,10,15,37])
 	print("PASS: comet turn/blast/occlusion/fragments/direct hit, gravity spawn/pull/dodge/ticks/walls/absorption, pause/result/reset/expiry, S pool")
 	game.queue_free()
 	quit()

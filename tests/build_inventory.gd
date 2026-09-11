@@ -47,7 +47,7 @@ func run() -> void:
 	game.new_match(5)
 	for i in range(2): game.preparation.auto_prepare(i)
 	game.launch_round()
-	p.add_gun(8)
+	assert(p.acquire_weapon(8) != "" and not p.owns(8))
 	p.weapon().clip = 0
 	p.weapon().mode = 1
 	p.state.hp = 1

@@ -27,3 +27,7 @@ HTTP 401はキー、403はモデル権限、429は残高・利用制限を確認
 通信失敗時は二重課金を避けるため自動再試行しません。
 
 仕様: [OpenAI Image API公式ガイド](https://developers.openai.com/api/docs/guides/image-generation)
+
+## アイテム一覧の更新
+
+`python tools/export_item_catalog.py` でカタログ・価格・占有形状から `docs/design/ITEM_CATALOG.md` の表を再出力する。バッグ範囲の説明は手動更新。外部通信・素材生成なし。

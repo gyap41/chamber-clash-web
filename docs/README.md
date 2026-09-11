@@ -9,6 +9,8 @@
 |開発再開・エージェント共通|[引き継ぎ資料](development/HANDOFF_FOR_CLAUDE.md)|
 |起動と操作|[プロジェクトREADME](../README.md)|
 |武器・レリック・キャラクター・戦闘ルール|[ゲーム仕様](design/GAME_RULES.md)|
+|現行アイテムの性能・価格・占有形状・バッグ範囲・初期武器|[アイテム一覧](design/ITEM_CATALOG.md)|
+|採用した武器10種・レリック15種の提案履歴|[追加提案の履歴](archive/2026-09-11/ITEM_EXPANSION_PROPOSAL.md)|
 |フォルダーの責務・共通化・拡張方針|[構成ガイド](development/ARCHITECTURE.md)|
 |シーンやInspectorの調整|[エディタガイド](development/EDITOR_GUIDE.md)|
 |自動テストと描画確認|[検証手順](development/TESTING.md)|

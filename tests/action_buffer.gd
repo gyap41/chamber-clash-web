@@ -40,7 +40,7 @@ func run() -> void:
 	p.state.roll = .08
 	mouse(game,true)
 	game._physics_process(.08)
-	game._physics_process(.3)
+	game._physics_process(float(p.definition().rate)+.01)
 	assert(p.weapon().clip == clip-3 and p.buffered_fire == 0)
 	mouse(game,false)
 	# Expire a tap blocked by a longer reload; never replay it when reload finishes.

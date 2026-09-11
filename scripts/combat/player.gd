@@ -1,5 +1,5 @@
 extends Node2D
-const MatchState = preload("res://scripts/game/match_state.gd")
+const BuildGrid = preload("res://scripts/game/build_grid.gd")
 const Items = preload("res://scripts/game/item_identity.gd")
 signal burst_requested(pos: Vector2, color: Color, count: int)
 signal ring_requested(pos: Vector2, color: Color, expansion: float)
@@ -43,6 +43,8 @@ const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const Relics = preload("res://scripts/catalog/relic_catalog.gd")
 const Characters = preload("res://scripts/catalog/character_catalog.gd")
 var inventory: Array = []
+var match_inventory
+var match_player_index := -1
 # P5: weapon_key(int) -> mod branch key(String) for the currently applied build, mirroring
 # MatchState.builds[i].mods. Keyed by weapon id (not inventory slot) so a branch stays
 # attached to the weapon it was chosen for even if the player's main later changes — see
@@ -58,6 +60,8 @@ var field_occupied := {}
 var telemetry
 var state: Dictionary = {}
 var char_id := -1
+# Equipment-triggered timers are separate from persistent character stats.
+const ITEM_TIMERS := ["cool_grip_cd","sole_time","shell_time","shell_cd","aid_time","boots_time","sight_time","sight_cd","reel_cd"]
 # Set by character_select.gd when CPU mode is chosen (always player index 1, matching the
 # legacy web version's mode==='cpu' hardcoding). Persists across reset_round() like char_id.
 var is_cpu := false
@@ -97,12 +101,16 @@ func reset(spawn: Vector2) -> void:
 	# charged, next shot is boosted"; echo_holster_cd is a plain cooldown timer (decremented
 	# alongside the other timers in step()); phase_load_used resets at the start of each dodge.
 	state = {"pulses":initial_pulses,"pos":spawn,"hp":max_hp,"max_hp":max_hp,"angle":0.0,"shot":0.0,"roll":0.0,"dodge":0.0,"slash":0.0,"melee":0.0,"inv":0.0,"reload":0.0,"reload_slot":-1,"last_volley":-1,"blocked_volley":-1,"shield":0.0,"holster":0.0,"dir":Vector2.RIGHT,"gun":0,"ai_cd":randf_range(.25,.6),"reload_started_empty":false,"empty_casing_charge":false,"residual_heat_charge":false,"return_battery_charge":false,"return_battery_armed":false,"echo_holster_cd":0.0,"phase_load_used":false}
+	for timer in ITEM_TIMERS: state[timer] = 0.0
+	state.aid_used = 0
+	state.alternate_shots = 0
 	# P8z：サイドアーム（武器0）の自動付与を廃止。携行武器はグリッドに置いた武器だけになったので、
 	# reset()の時点では常に丸腰で、apply_build(..., heal=true)がビルドから組み直す。
 	inventory = []
 	update_weapon_art()
 	sync_visual()
 func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Dictionary = {}) -> bool:
+	if state.hp <= 0 or amount <= 0: return false
 	if state.roll > 0 or (volley >= 0 and state.blocked_volley == volley) or (state.inv > 0 and (volley < 0 or state.last_volley != volley)): return false
 	if not hazard and 3 in relics and state.shield <= 0:
 		state.blocked_volley = volley
@@ -112,9 +120,16 @@ func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Diction
 		ring_requested.emit(state.pos,Color("ffe2a0"),65.0)
 		sound_requested.emit("bell",0)
 		return false
+	if not hazard and 27 in relics and state.shell_time > 0:
+		state.shell_time = 0.0
+		amount = maxf(0.0,amount-relic_value(27,"shell_reduction"))
+		if amount <= 0: return false
 	state.last_volley = volley
 	var actual := minf(state.hp,amount)
 	state.hp = maxf(0,state.hp-amount)
+	if not hazard and actual > 0 and state.hp > 0 and 28 in relics and state.aid_time <= 0 and state.aid_used < int(relic_value(28,"aid_limit")):
+		state.aid_used += 1
+		state.aid_time = relic_value(28,"aid_delay")
 	if telemetry != null: telemetry.record("damage",{"player":str(name),"amount":actual,"volley":volley,"hazard":hazard,"origin":origin})
 	state.inv = .22
 	burst_requested.emit(state.pos,visual_color(),14)
@@ -133,7 +148,7 @@ func handle_key(key: int, i: int, shots: Array, enemy, arena) -> bool:
 	if key == [KEY_SPACE,KEY_SHIFT][i] and p.dodge <= 0:
 		p.last_volley = -1
 		p.roll = dodge_duration
-		p.dodge = dodge_cooldown
+		p.dodge = dodge_cooldown * (relic_value(24,"dodge_ratio") if 24 in relics else 1.0)
 		p.inv = maxf(p.inv,dodge_invulnerability)
 		p.phase_load_used = false # すり抜け装填: fresh one-per-dodge opportunity
 		burst_requested.emit(p.pos,visual_color(),8)
@@ -151,7 +166,7 @@ func handle_key(key: int, i: int, shots: Array, enemy, arena) -> bool:
 func try_melee(i: int, shots: Array, enemy, arena) -> void:
 	var p = state
 	if p.melee > 0 or p.reload > 0 or p.roll > 0: return
-	p.melee = melee_cooldown
+	p.melee = melee_cooldown * (relic_value(26,"melee_ratio") if 26 in relics else 1.0)
 	p.slash = .16
 	p.shot = maxf(p.shot,.3)
 	sound_requested.emit("slash",0)
@@ -170,6 +185,9 @@ func try_melee(i: int, shots: Array, enemy, arena) -> void:
 	# shot. removed>0 can only become true once per try_melee() call, so this is naturally
 	# "once per swing"; the flag itself caps the charge at one (no stacking).
 	if removed > 0 and 15 in relics: p.residual_heat_charge = true
+	if removed > 0 and 27 in relics and p.shell_cd <= 0:
+		p.shell_time = relic_value(27,"shell_duration")
+		p.shell_cd = relic_value(27,"shell_reuse")
 	var offset: Vector2 = enemy.state.pos-p.pos
 	if offset.length() < melee_range and absf(wrapf(offset.angle()-p.angle,-PI,PI)) <= PI/3 and not arena.line_blocked(p.pos,enemy.state.pos): enemy.hurt(melee_damage)
 func step(dt: float, i: int, enemy, arena, mouse_shooting: bool = false, ai: Dictionary = {}) -> bool:
@@ -178,7 +196,14 @@ func step(dt: float, i: int, enemy, arena, mouse_shooting: bool = false, ai: Dic
 	var switch_pending := buffered_switch > 0.0 and dt <= buffered_switch + 0.000001
 	buffered_fire = maxf(0.0, buffered_fire-dt)
 	buffered_switch = maxf(0.0, buffered_switch-dt)
+	var previous_roll: float = p.roll
+	var previous_aid: float = p.aid_time
+	for timer in ITEM_TIMERS: p[timer] = maxf(0.0,p[timer]-dt)
+	if previous_aid > 0 and p.aid_time == 0 and p.hp > 0 and 28 in relics:
+		p.hp = minf(p.max_hp,p.hp+relic_value(28,"aid_heal"))
 	for timer in ["shot","roll","dodge","slash","melee","inv","shield","holster","echo_holster_cd"]: p[timer] = maxf(0,p[timer]-dt)
+	if previous_roll > 0 and p.roll <= 0 and 25 in relics:
+		p.sole_time = maxf(0.0,relic_value(25,"sole_duration")-(dt-previous_roll))
 	if p.roll <= 0 and switch_pending:
 		var slot := buffered_slot
 		buffered_switch = 0.0
@@ -234,6 +259,7 @@ func can_fire() -> bool:
 func consume_shot() -> void:
 	if not has_weapon(): return
 	weapon().clip -= 1
+	state.alternate_shots += 1
 	state.shot = definition().rate
 	$Animation.fire()
 func sync_visual() -> void:
@@ -268,7 +294,26 @@ func weapon() -> Dictionary:
 # (if any) applied. Prefer this over Weapons.definition() wherever a live weapon instance
 # belonging to this player is in play, so damage/speed/bounce/etc. reflect the chosen branch.
 func resolved_definition(id: int) -> Dictionary:
-	return Weapons.resolved_definition(id, weapon_mods.get(id, ""))
+	var resolved := Weapons.resolved_definition(id, weapon_mods.get(id, ""))
+	if 21 in relics:
+		resolved = resolved.duplicate()
+		resolved.mag = int(resolved.mag)+int(relic_value(21,"mag_bonus"))
+	return resolved
+func new_weapon_entry(id: int) -> Dictionary:
+	var entry := Weapons.new_inventory_entry(id)
+	entry.clip = int(resolved_definition(id).mag)
+	return entry
+func top_up_weapon(id: int) -> bool:
+	for entry in inventory:
+		if entry.id == id and entry.reserve > 0 and entry.clip < int(resolved_definition(id).mag):
+			entry.clip += 1
+			entry.reserve -= 1
+			return true
+	return false
+func recover_projectile(id: int) -> void:
+	if 14 in relics: state.return_battery_charge = true
+	if 33 in relics and state.reel_cd <= 0 and top_up_weapon(id):
+		state.reel_cd = relic_value(33,"reel_reuse")
 func definition() -> Dictionary:
 	return resolved_definition(weapon().id) if has_weapon() else NO_WEAPON_DEF
 func owns(id: int) -> bool:
@@ -276,10 +321,10 @@ func owns(id: int) -> bool:
 # 携行武器は操作/HUDの上限8丁を維持する。控え容量8個とは独立している。実際の上限は
 # グリッドの面積とそこに置いた武器の形状で決まるので、ここは暴走防止の天井にすぎない
 # （HUDの武器スロットもMAX_WEAPON_SLOTS＝8で確保している）。
-const MAX_CARRIED_WEAPONS := 8
+const MAX_CARRIED_WEAPONS := BuildGrid.MAX_CARRIED_WEAPONS
 func add_gun(id: int) -> bool:
 	if not Weapons.supported(id) or owns(id) or inventory.size() >= MAX_CARRIED_WEAPONS: return false
-	inventory.append(Weapons.new_inventory_entry(id))
+	inventory.append(new_weapon_entry(id))
 	equip_slot(inventory.size()-1)
 	return true
 func equip_slot(index: int) -> void:
@@ -289,7 +334,7 @@ func equip_slot(index: int) -> void:
 	# 返してしまうのも、ここで防いでいる）。
 	if has_weapon() and 8 in relics and state.holster <= 0:
 		var old := weapon()
-		var old_def := Weapons.definition(old.id)
+		var old_def := resolved_definition(old.id)
 		if old.reserve > 0 and old.clip < int(old_def.mag):
 			old.clip += 1
 			old.reserve -= 1
@@ -316,6 +361,9 @@ func equip_slot(index: int) -> void:
 	if 14 in relics and state.return_battery_charge:
 		state.return_battery_charge = false
 		state.return_battery_armed = true
+	if has_weapon() and 30 in relics and state.sight_cd <= 0:
+		state.sight_time = relic_value(30,"sight_duration")
+		state.sight_cd = relic_value(30,"sight_reuse")
 	state.gun = index
 	state.reload = 0.0
 	state.reload_slot = -1
@@ -339,6 +387,9 @@ func finish_reload() -> void:
 	var amount := mini(int(definition().mag)-int(w.clip), int(w.reserve))
 	w.clip += amount
 	w.reserve -= amount
+	if amount > 0 and 23 in relics and state.cool_grip_cd <= 0:
+		state.dodge = maxf(0.0,state.dodge-relic_value(23,"cool_reduction"))
+		state.cool_grip_cd = relic_value(23,"cool_reuse")
 	if amount > 0 and definition().get("switcher", false): w.mode = 1-w.mode
 	# 空薬莢の祝福: only a reload that both started from empty AND actually completed here
 	# (not interrupted — an interrupted reload never reaches finish_reload(), see the
@@ -353,26 +404,15 @@ func update_weapon_art() -> void:
 	$Weapon/Sprite.texture = Weapons.art(weapon().id)
 	$Weapon/Sprite.scale = weapon_display_size / $Weapon/Sprite.texture.get_size()
 
-# Field pickup rules are separate from strict shop purchases.
-func acquire_weapon(id: int, replace: bool = false) -> String:
-	if not Weapons.supported(id): return ""
-	var g := Weapons.definition(id)
-	for w in inventory:
-		if w.id == id:
-			var amount := mini(int(g.stock)-int(w.reserve),ceili(float(g.stock)*.6))
-			if amount <= 0: return ""
-			w.reserve += amount
-			return g.name + "：予備弾を補給"
-	if inventory.size() < MAX_CARRIED_WEAPONS:
-		add_gun(id)
-		return g.name + "：装備に追加"
-	if not replace or not has_weapon(): return "" # 丸腰なら上のadd_gun()側に入るため、ここは4枠が埋まっている場合だけ通る
-	inventory[state.gun] = Weapons.new_inventory_entry(id)
-	state.reload = 0.0
-	state.reload_slot = -1
-	state.shot = maxf(state.shot,.15)
-	update_weapon_art()
-	return g.name + "：装備中の武器と交換"
+# No field pickup may change active ammunition, reload, weapon mode or slot.
+func field_weapon_reason(id: int) -> String:
+	if match_inventory == null: return "試合データなし"
+	if owns(id): return "所持済み（弾薬補給は弾薬箱）"
+	return match_inventory.field_weapon_reason(match_player_index,id)
+func acquire_weapon(id: int, _replace: bool = false) -> String:
+	if state.hp <= 0 or not field_weapon_reason(id).is_empty(): return ""
+	if not match_inventory.store_field_weapon(match_player_index,id): return ""
+	return Weapons.definition(id).name + "：控えへ収納・次の準備で配置"
 func refill_ammo() -> int:
 	var gained := 0
 	for w in inventory:
@@ -395,9 +435,13 @@ func add_relic(id: int) -> bool:
 		state.hp = minf(state.max_hp,state.hp+2.0)
 	return true
 func effective_move_speed() -> float:
-	return move_speed*(1.0 + (.12 if 0 in relics else 0.0) + Relics.additive_bonus(relics,"move_bonus"))
+	return move_speed*(1.0 + (.12 if 0 in relics else 0.0) + Relics.additive_bonus(relics,"move_bonus") + (relic_value(25,"sole_bonus") if 25 in relics and state.sole_time > 0 else 0.0) + (relic_value(29,"boots_bonus") if 29 in relics and state.boots_time > 0 else 0.0))
 func effective_reload_duration() -> float:
 	return reload_duration*(.65 if 1 in relics else 1.0)
+func relic_value(id: int, key: String) -> float:
+	return float(Relics.definition(id).get(key,0.0))
+func effective_chest_duration(base: float) -> float:
+	return base*(relic_value(34,"chest_ratio") if 34 in relics else 1.0)
 
 func field_relic_reason(id: int) -> String:
 	if temporary_relic >= 0: return "仮装備は1ラウンド1個まで"
@@ -405,12 +449,7 @@ func field_relic_reason(id: int) -> String:
 	if not reason.is_empty(): return reason
 	if not field_region.is_empty():
 		for anchor in field_region:
-			var valid := true
-			for offset in MatchState.shape_of(id):
-				if not field_region.has(anchor+offset) or field_occupied.has(anchor+offset):
-					valid = false
-					break
-			if valid: return ""
+			if BuildGrid.fits(id,anchor,field_region,field_occupied): return ""
 		return "バッグに仮装備の形が収まりません"
 	return ""
 func acquire_temporary(id: int) -> bool:
@@ -425,10 +464,7 @@ func acquire_temporary(id: int) -> bool:
 # 携行武器になる。1丁も置いていなければinventoryは空＝丸腰で、近接だけで戦うことになる。
 func apply_build(build: Dictionary, capacity: int, heal: bool = false, usable: Dictionary = {}) -> void:
 	field_region = usable.duplicate()
-	field_occupied = {}
-	for entry in build.equipped:
-		if not build.get("positions",{}).has(entry): continue
-		for offset in MatchState.shape_of(entry): field_occupied[build.positions[entry]+offset] = true
+	field_occupied = BuildGrid.occupied_cells(build)
 	relic_capacity = capacity
 	owned_relics = Items.relic_ids(build.owned)
 	relics = Items.relic_ids(build.equipped)
@@ -438,20 +474,28 @@ func apply_build(build: Dictionary, capacity: int, heal: bool = false, usable: D
 	state.max_hp = max_hp + (2.0 if 4 in relics else 0.0)
 	state.hp = state.max_hp if heal else minf(state.hp,state.max_hp)
 	if heal:
-		# 携行武器の並びはグリッドの読み順（上の行から、同じ行なら左から）。数字キー1〜8と
-		# HUDのスロット順がグリッド上の見た目と一致するようにするため、build.positionsを見て
-		# 並べ替える（位置未記録のものは、置かれていない扱いで携行しない）。
-		var positions: Dictionary = build.get("positions",{})
-		var order: Array = []
-		for entry in build.equipped:
-			if typeof(entry) != TYPE_STRING or not str(entry).begins_with("gun:") or not positions.has(entry): continue
-			var pos: Vector2i = positions[entry]
-			order.append([pos.y*100+pos.x, int(str(entry).substr(4))])
-		order.sort_custom(func(a,b): return a[0] < b[0])
 		inventory = []
-		for pair in order:
-			var id: int = pair[1]
-			if Weapons.supported(id) and not owns(id): inventory.append(Weapons.new_inventory_entry(id))
+		for id in BuildGrid.carried_guns(build):
+			if Weapons.supported(id) and not owns(id): inventory.append(new_weapon_entry(id))
 		state.gun = 0
 		state.shot = 0.0
 		update_weapon_art()
+
+# Dodge proximity loads reserve ammo without invoking reload completion effects.
+func try_phase_load(shots: Array, index: int) -> void:
+	if state.roll > 0 and 17 in relics and not state.get("phase_load_used",false):
+		var phase_triggered := false
+		var phase_radius: float = float(Relics.definition(17).get("phase_radius",42.0))
+		for b in shots:
+			if b.state.owner != index and not b.state.dead and b.state.pos.distance_to(state.pos) < phase_radius:
+				phase_triggered = true
+				break
+		# P8z ステップA：すり抜け装填には装填する武器が要る。丸腰ではWeapons.definition(-1)が
+		# 負数添字で配列末尾を返してしまうため、has_weapon()で手前から弾く。
+		if phase_triggered and has_weapon():
+			state.phase_load_used = true
+			var phase_weapon: Dictionary = weapon()
+			var phase_def: Dictionary = resolved_definition(phase_weapon.id)
+			if phase_weapon.reserve > 0 and phase_weapon.clip < int(phase_def.mag):
+				phase_weapon.clip += 1
+				phase_weapon.reserve -= 1

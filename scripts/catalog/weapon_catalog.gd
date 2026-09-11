@@ -1,6 +1,6 @@
 extends RefCounted
 # Shared definitions; ammunition and mode live exclusively in Player inventory.
-const SUPPORTED := [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+const SUPPORTED := [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37]
 const Catalog = preload("res://scripts/catalog/game_catalog.gd")
 const AtlasRegions = preload("res://scripts/visuals/atlas_regions.gd")
 const BASE_SHEET = preload("res://assets/weapons/weapons.png")
@@ -19,16 +19,13 @@ static func supported(id: int) -> bool:
 
 static func art(id: int) -> AtlasTexture:
 	if not textures.has(id):
-		var columns := 4 if id < 16 else 2
-		var index := id if id < 16 else id - 16
-		textures[id] = AtlasRegions.grid_cell(BASE_SHEET if id < 16 else EXTRA_SHEET, Vector2i(columns, columns), index)
+		var art_id := int(definition(id).get("art_id",id))
+		var columns := 4 if art_id < 16 else 2
+		var index := art_id if art_id < 16 else art_id - 16
+		textures[id] = AtlasRegions.grid_cell(BASE_SHEET if art_id < 16 else EXTRA_SHEET, Vector2i(columns, columns), index)
 	return textures[id]
 
-# P8z：今後キャラクター専用の初期武器を追加する予定があり、それらは宝箱の抽選にもマッチ開始時
-# の候補にも混ざってはいけない。抽選側がSUPPORTEDを直接見ないよう、「配布してよい武器」のプール
-# をここで一枚挟んでおく。専用武器を足すときは、その武器のカタログ定義に "exclusive": true を
-# 付ければ自動的にプールから外れる（フィールドの武器抽選＝supplies.gdのweighted_gun()も、この
-# 下のrarity_pool()を経由するようにしてある）。
+# 初期専用ID20〜27はexclusive指定。ショップ・フィールドの抽選はこのプールを共用する。
 static func distributable(id: int) -> bool:
 	return supported(id) and not bool(definition(id).get("exclusive", false))
 static func distributable_pool() -> Array:

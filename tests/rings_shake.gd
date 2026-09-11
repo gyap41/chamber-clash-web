@@ -64,13 +64,12 @@ func run() -> void:
 	# Successful and rejected pickup attempts; verify every color source.
 	for kind in ["ammo","weapon","relic"]:
 		game.reset_round()
-		game.phase = "play"
-		assert(p.add_gun(0))
+		preload("res://tests/helpers/battle.gd").start(game,0)
 		p.weapon().reserve = 0
 		var item = game.supplies.put_item(kind,4,p.state.pos)
 		assert(not game.supplies.acquire(0,item) and fx.particles.is_empty())
 		item.age = .6
-		assert(game.supplies.acquire(0,item,kind == "relic") and fx.particles.size() == 22)
+		assert(game.supplies.acquire(0,item,kind != "ammo") and fx.particles.size() == 22)
 		var color := Color("a5e9ee") if kind == "ammo" else (Color("a7c5df") if kind == "weapon" else Color(p.Relics.definition(4).color))
 		assert(fx.particles[0].color == color)
 		assert(not game.supplies.acquire(0,item) and fx.particles.size() == 22)

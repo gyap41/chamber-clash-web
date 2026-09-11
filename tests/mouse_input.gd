@@ -55,7 +55,7 @@ func run() -> void:
 	assert(p.weapon().clip == 11 and game.shots.size() == 1)
 	game._physics_process(.1)
 	assert(p.weapon().clip == 11)
-	game._physics_process(.2)
+	game._physics_process(float(p.definition().rate)-.1+.01)
 	assert(p.weapon().clip == 10)
 	mouse(Vector2(100,120),false)
 	game._physics_process(.3)

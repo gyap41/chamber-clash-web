@@ -6,7 +6,7 @@
       "rarity": "C",
       "type": "PISTOL",
       "desc": "標準型セミオートピストル。扱いやすい弾速と連射性能。",
-      "rate": 0.29,
+      "rate": 0.38,
       "speed": 510,
       "damage": 1,
       "mag": 12,
@@ -359,6 +359,302 @@
       "stock": 24,
       "color": "#ceb2ec",
       "echo": true
+    },
+    {
+      "name": "サービスピストル",
+      "glyph": "✦",
+      "rarity": "C",
+      "type": "PISTOL",
+      "desc": "標準型の初期ピストル。扱いやすい直進弾。",
+      "rate": 0.38,
+      "speed": 510,
+      "damage": 1,
+      "mag": 12,
+      "stock": 60,
+      "color": "#f5a7ce",
+      "art_id": 0,
+      "exclusive": true
+    },
+    {
+      "name": "スカウトニードル",
+      "glyph": "➶",
+      "rarity": "C",
+      "type": "PISTOL",
+      "desc": "高速・低威力の針弾。小弾倉を素早い装填で補う。",
+      "rate": 0.34,
+      "speed": 580,
+      "damage": 0.8,
+      "mag": 10,
+      "stock": 50,
+      "color": "#98c7ff",
+      "art_id": 6,
+      "exclusive": true
+    },
+    {
+      "name": "トリックコイン",
+      "glyph": "◇",
+      "rarity": "C",
+      "type": "PISTOL",
+      "desc": "壁で1回反射する低威力のコイン弾。",
+      "rate": 0.42,
+      "speed": 400,
+      "damage": 0.85,
+      "mag": 10,
+      "stock": 50,
+      "color": "#ffd28e",
+      "art_id": 1,
+      "bounce": 1,
+      "exclusive": true
+    },
+    {
+      "name": "ガードリベット",
+      "glyph": "⬟",
+      "rarity": "C",
+      "type": "PISTOL",
+      "desc": "重い単発の鋲。連射は遅いが1発1.2ダメージ。",
+      "rate": 0.5,
+      "speed": 440,
+      "damage": 1.2,
+      "mag": 10,
+      "stock": 50,
+      "color": "#96e5d5",
+      "art_id": 12,
+      "exclusive": true
+    },
+    {
+      "name": "ツインタッカー",
+      "glyph": "⋈",
+      "rarity": "C",
+      "type": "PISTOL",
+      "desc": "左右に2発同時射撃。両方当てると1.1ダメージ。",
+      "rate": 0.48,
+      "speed": 480,
+      "damage": 0.55,
+      "mag": 8,
+      "stock": 40,
+      "color": "#e8b457",
+      "art_id": 4,
+      "count": 2,
+      "spread": 0.08,
+      "exclusive": true
+    },
+    {
+      "name": "ルーンペン",
+      "glyph": "✧",
+      "rarity": "C",
+      "type": "PISTOL",
+      "desc": "前方±35度へ弱く追尾する単発弾。壁で消える。",
+      "rate": 0.44,
+      "speed": 340,
+      "damage": 0.8,
+      "mag": 10,
+      "stock": 50,
+      "color": "#a69ad9",
+      "art_id": 3,
+      "homing": true,
+      "turn_rate": 0.6,
+      "homing_cone": 0.6108652382,
+      "exclusive": true
+    },
+    {
+      "name": "シックスノート",
+      "glyph": "♬",
+      "rarity": "C",
+      "type": "PISTOL",
+      "desc": "6発入りの高威力リボルバー。装填の隙に注意。",
+      "rate": 0.48,
+      "speed": 550,
+      "damage": 1.25,
+      "mag": 6,
+      "stock": 36,
+      "color": "#d78063",
+      "art_id": 0,
+      "exclusive": true
+    },
+    {
+      "name": "ミニガトル",
+      "glyph": "▤",
+      "rarity": "C",
+      "type": "PISTOL",
+      "desc": "低威力の連射弾。左右へ交互に少し散る。",
+      "rate": 0.24,
+      "speed": 470,
+      "damage": 0.55,
+      "mag": 18,
+      "stock": 72,
+      "color": "#8aa0ac",
+      "art_id": 7,
+      "alternate_spread": 0.04,
+      "exclusive": true
+    },
+    {
+      "name": "ホチキスバースト",
+      "glyph": "⋮",
+      "rarity": "B",
+      "type": "PISTOL",
+      "desc": "0.08秒間隔の3連射。弾薬消費1、最初の照準を保持。",
+      "rate": 0.72,
+      "speed": 520,
+      "damage": 0.6,
+      "mag": 8,
+      "stock": 32,
+      "color": "#b7d4ea",
+      "art_id": 19,
+      "burst_count": 3,
+      "burst_delay": 0.08
+    },
+    {
+      "name": "クロスステッチ",
+      "glyph": "╳",
+      "rarity": "A",
+      "type": "PISTOL",
+      "desc": "左右に2発ずつ発射し、0.25秒後に内向きへ曲がる交差弾。",
+      "rate": 0.9,
+      "speed": 420,
+      "damage": 0.55,
+      "mag": 6,
+      "stock": 24,
+      "color": "#eeadcc",
+      "art_id": 7,
+      "count": 4,
+      "cross": true
+    },
+    {
+      "name": "チョークライフル",
+      "glyph": "➶",
+      "rarity": "C",
+      "type": "RIFLE",
+      "desc": "細い高速の直進弾を狙って撃つ。1発1.4、連射は控えめ。",
+      "rate": 0.62,
+      "speed": 680,
+      "damage": 1.4,
+      "mag": 8,
+      "stock": 40,
+      "color": "#d9e7ee",
+      "art_id": 6
+    },
+    {
+      "name": "ペッパーボックス",
+      "glyph": "⁙",
+      "rarity": "C",
+      "type": "SHOTGUN",
+      "desc": "広く散る4発散弾。近距離で全弾命中すると2ダメージ。",
+      "rate": 0.9,
+      "speed": 380,
+      "damage": 0.5,
+      "mag": 6,
+      "stock": 30,
+      "color": "#e9b391",
+      "art_id": 4,
+      "count": 4,
+      "spread": 0.18
+    },
+    {
+      "name": "ピンボールパドル",
+      "glyph": "◇",
+      "rarity": "B",
+      "type": "RICOCHET",
+      "desc": "2発の球がそれぞれ壁で3回反射。各0.6の跳弾で角を狙う。",
+      "rate": 0.8,
+      "speed": 360,
+      "damage": 0.6,
+      "mag": 7,
+      "stock": 28,
+      "color": "#a5e2d1",
+      "art_id": 1,
+      "count": 2,
+      "spread": 0.22,
+      "bounce": 3
+    },
+    {
+      "name": "ツインクレセント",
+      "glyph": "☽",
+      "rarity": "B",
+      "type": "BOOMERANG",
+      "desc": "2枚の月が壁を抜けて戻る。各0.55、往復でそれぞれ命中できる。",
+      "rate": 1.05,
+      "speed": 360,
+      "damage": 0.55,
+      "mag": 5,
+      "stock": 20,
+      "color": "#c3b5ed",
+      "art_id": 5,
+      "count": 2,
+      "spread": 0.24,
+      "boomerang": true
+    },
+    {
+      "name": "スパークフォーク",
+      "glyph": "ϟ",
+      "rarity": "B",
+      "type": "BOOST",
+      "desc": "2本の火花が初速150から760へ加速。左右の進路で回避を誘う。",
+      "rate": 0.78,
+      "speed": 150,
+      "damage": 0.7,
+      "mag": 6,
+      "stock": 24,
+      "color": "#f0d38f",
+      "art_id": 12,
+      "count": 2,
+      "spread": 0.16,
+      "boost": true
+    },
+    {
+      "name": "ベルフラワー",
+      "glyph": "✿",
+      "rarity": "A",
+      "type": "SEED",
+      "desc": "3つの花を設置。0.6秒後に待機し80pxの敵へ突進、各0.8。寿命3.6秒、近接・パルスで除去可能。",
+      "rate": 1.2,
+      "speed": 270,
+      "damage": 0.8,
+      "mag": 4,
+      "stock": 16,
+      "color": "#a6d9ac",
+      "art_id": 11,
+      "count": 3,
+      "spread": 0.28,
+      "seed": true,
+      "seed_life": 3.6,
+      "seed_trigger_radius": 80.0,
+      "seed_seek_speed": 400.0
+    },
+    {
+      "name": "カーボンコピー",
+      "glyph": "⧉",
+      "rarity": "A",
+      "type": "RAIL",
+      "desc": "高速レールを0.24秒差で2発。各1.15、弾薬消費1。持替後も最初の照準へ追射。",
+      "rate": 1.15,
+      "speed": 800,
+      "damage": 1.15,
+      "mag": 4,
+      "stock": 16,
+      "color": "#b8d0e8",
+      "art_id": 6,
+      "rail": true,
+      "echo": true
+    },
+    {
+      "name": "オーロラファン",
+      "glyph": "✶",
+      "rarity": "S",
+      "type": "FAN",
+      "desc": "前方へ7発の扇状弾。各0.55、前方±45度へ弱追尾し壁で1回反射。",
+      "rate": 1.25,
+      "speed": 400,
+      "damage": 0.55,
+      "mag": 4,
+      "stock": 12,
+      "color": "#c1b7ff",
+      "art_id": 8,
+      "count": 7,
+      "spread": 0.18,
+      "homing": true,
+      "turn_rate": 0.9,
+      "homing_cone": 0.7853981634,
+      "bounce": 1
     }
   ],
   "relics": [
@@ -497,25 +793,154 @@
       "color": "#9adbb0",
       "desc": "回避中に敵弾が近くを通過すると、装備中の武器へ予備弾から1発装填する。1回の回避につき1回まで。装填完了の効果は発動しない。",
       "key": "phase_load",
-        "phase_radius": 42.0
-      },
-      {
-        "name": "ミニフェザー",
-        "glyph": "➶",
-        "color": "#a9e7de",
-        "desc": "移動速度+2%。同種は加算（3個で+6%）。回避速度は変わらない。",
-        "key": "mini_feather",
-        "stackable": true,
-        "move_bonus": 0.02
-      },
-      {
-        "name": "パワーチップ",
-        "glyph": "⬟",
-        "color": "#e8b776",
-        "desc": "直接発射する各弾のダメージ+2%。同種は加算（3個で+6%）。追加弾・爆発・近接は対象外。",
-        "key": "power_chip",
-        "stackable": true,
-        "shot_bonus": 0.02
+      "phase_radius": 42.0
+    },
+    {
+      "name": "ミニフェザー",
+      "glyph": "➶",
+      "color": "#a9e7de",
+      "desc": "移動速度+2%。同種は加算（3個で+6%）。回避速度は変わらない。",
+      "key": "mini_feather",
+      "stackable": true,
+      "move_bonus": 0.02
+    },
+    {
+      "name": "パワーチップ",
+      "glyph": "⬟",
+      "color": "#e8b776",
+      "desc": "直接発射する各弾のダメージ+2%。同種は加算（3個で+6%）。追加弾・爆発・近接は対象外。",
+      "key": "power_chip",
+      "stackable": true,
+      "shot_bonus": 0.02
+    },
+    {
+      "name": "ロングバレル",
+      "key": "long_barrel",
+      "desc": "直接発射弾の初速+15%。派生弾は対象外。",
+      "glyph": "➶",
+      "color": "#9dcce5",
+      "speed_bonus": 0.15
+    },
+    {
+      "name": "ワイドマガジン",
+      "key": "wide_magazine",
+      "desc": "全武器の弾倉上限+2。戦闘中取得では弾は増えず、予備から装填。",
+      "glyph": "▤",
+      "color": "#a7dcb7",
+      "mag_bonus": 2
+    },
+    {
+      "name": "ラストスタンプ",
+      "key": "last_stamp",
+      "desc": "最後の1射に合計+0.30ダメージ。直接弾に均等配分。",
+      "glyph": "✦",
+      "color": "#eabf89",
+      "last_bonus": 0.3
+    },
+    {
+      "name": "クールグリップ",
+      "key": "cool_grip",
+      "desc": "実弾装填完了で回避待ち-0.25秒。再使用2秒、1発補填は対象外。",
+      "glyph": "❄",
+      "color": "#9dcce5",
+      "cool_reduction": 0.25,
+      "cool_reuse": 2.0
+    },
+    {
+      "name": "ステップスプリング",
+      "key": "step_spring",
+      "desc": "回避クールダウン-10%。回避の速度・無敵時間は不変。",
+      "glyph": "↗",
+      "color": "#a7dcb7",
+      "dodge_ratio": 0.9
+    },
+    {
+      "name": "セーフティソール",
+      "key": "safety_sole",
+      "desc": "回避終了後0.8秒、通常移動+10%。",
+      "glyph": "⌁",
+      "color": "#eabf89",
+      "sole_duration": 0.8,
+      "sole_bonus": 0.1
+    },
+    {
+      "name": "クイックシース",
+      "key": "quick_sheath",
+      "desc": "近接クールダウン-15%。威力・範囲・弾消し時間は不変。",
+      "glyph": "†",
+      "color": "#9dcce5",
+      "melee_ratio": 0.85
+    },
+    {
+      "name": "パリィシェル",
+      "key": "parry_shell",
+      "desc": "弾消し後2秒以内の次の敵攻撃を0.5軽減。蓄積1、再使用6秒。危険地帯対象外。",
+      "glyph": "◇",
+      "color": "#a7dcb7",
+      "shell_duration": 2.0,
+      "shell_reuse": 6.0,
+      "shell_reduction": 0.5
+    },
+    {
+      "name": "応急パッチ",
+      "key": "aid_patch",
+      "desc": "敵攻撃でHPが減ると2秒後に0.5回復。ラウンド2回、予約重複・死亡後・危険地帯は対象外。",
+      "glyph": "♥",
+      "color": "#eabf89",
+      "aid_delay": 2.0,
+      "aid_heal": 0.5,
+      "aid_limit": 2
+    },
+    {
+      "name": "パルスブーツ",
+      "key": "pulse_boots",
+      "desc": "パルス使用後2秒、通常移動+15%。回避速度・パルス回数は不変。",
+      "glyph": "ϟ",
+      "color": "#9dcce5",
+      "boots_duration": 2.0,
+      "boots_bonus": 0.15
+    },
+    {
+      "name": "チェンジサイト",
+      "key": "change_sight",
+      "desc": "切替後2秒以内の最初の1射は初速+25%。再使用2秒、派生弾対象外。",
+      "glyph": "⊙",
+      "color": "#a7dcb7",
+      "sight_duration": 2.0,
+      "sight_reuse": 2.0,
+      "sight_bonus": 0.25
+    },
+    {
+      "name": "ラバーチップ",
+      "key": "rubber_chip",
+      "desc": "直接弾の最初の壁反射で威力+10%。反射回数は増えない。",
+      "glyph": "↪",
+      "color": "#eabf89",
+      "rubber_bonus": 0.1
+    },
+    {
+      "name": "整流コイル",
+      "key": "rectifier_coil",
+      "desc": "花火・四つ葉・小包の破片の威力+10%。爆風・星くず・追加弾対象外。",
+      "glyph": "⋈",
+      "color": "#9dcce5",
+      "fragment_bonus": 0.1
+    },
+    {
+      "name": "帰還リール",
+      "key": "return_reel",
+      "desc": "往復弾回収で発射元武器へ予備から1発装填。再使用1秒。",
+      "glyph": "⟲",
+      "color": "#a7dcb7",
+      "reel_reuse": 1.0
+    },
+    {
+      "name": "サプライキー",
+      "key": "supply_key",
+      "desc": "武器・レリック宝箱の開封時間-20%（標準1.5→1.2秒）。",
+      "glyph": "⚿",
+      "color": "#eabf89",
+      "chest_ratio": 0.8
     }
   ],
   "characters": [
@@ -530,7 +955,7 @@
       "reload": 1.1,
       "dodge": 1.65,
       "blanks": 3,
-      "gun": 16
+      "gun": 20
     },
     {
       "name": "ソラ",
@@ -543,7 +968,7 @@
       "reload": 0.85,
       "dodge": 1.8,
       "blanks": 2,
-      "gun": 4
+      "gun": 21
     },
     {
       "name": "コハク",
@@ -556,7 +981,7 @@
       "reload": 1,
       "dodge": 1.4,
       "blanks": 2,
-      "gun": 1
+      "gun": 22
     },
     {
       "name": "ボルト",
@@ -569,7 +994,7 @@
       "reload": 1,
       "dodge": 2,
       "blanks": 2,
-      "gun": 11
+      "gun": 23
     },
     {
       "name": "メイ",
@@ -582,7 +1007,7 @@
       "reload": 0.8,
       "dodge": 2,
       "blanks": 2,
-      "gun": 18
+      "gun": 24
     },
     {
       "name": "ルナ",
@@ -595,7 +1020,7 @@
       "reload": 0.9,
       "dodge": 1.65,
       "blanks": 3,
-      "gun": 5
+      "gun": 25
     },
     {
       "name": "ラトル",
@@ -608,7 +1033,7 @@
       "reload": 1.15,
       "dodge": 1.5,
       "blanks": 2,
-      "gun": 0
+      "gun": 26
     },
     {
       "name": "クロウ",
@@ -621,7 +1046,7 @@
       "reload": 0.9,
       "dodge": 1.9,
       "blanks": 2,
-      "gun": 12
+      "gun": 27
     }
   ]
 }

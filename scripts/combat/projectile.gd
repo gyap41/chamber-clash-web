@@ -29,11 +29,11 @@ func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionar
 	switcher = g.get("switcher",false)
 	speed = opts.get("speed", g.speed)
 	damage = opts.get("damage", g.damage)
-	if int(opts.get("depth",0)) == 0:
-		damage *= 1.0 + player.Relics.additive_bonus(player.relics,"shot_bonus")
-	if 6 in player.relics:
-		speed *= .8
-		damage *= 1.15
+	var direct := int(opts.get("depth",0)) == 0
+	var damage_scale: float = (1.0+player.Relics.additive_bonus(player.relics,"shot_bonus") if direct else 1.0)*(1.15 if 6 in player.relics else 1.0)
+	var speed_scale: float = (1.0+player.Relics.additive_bonus(player.relics,"speed_bonus") if direct else 1.0)*(.8 if 6 in player.relics else 1.0)
+	damage *= float(opts.get("damage_scale",damage_scale))
+	speed *= float(opts.get("speed_scale",speed_scale))
 	if g.get("comet",false): lifetime = 1.45
 	elif g.get("gravity",false): lifetime = 1.35
 	lifetime = opts.get("life", float(g.get("seed_life",4.8)) if g.get("seed",false) else (.8 if g.get("clover",false) else (.68 if g.get("split",false) else (1.8 if g.get("boomerang",false) else lifetime))))
@@ -53,6 +53,10 @@ func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionar
 	# synergy trigger below on purpose — "派生効果は原則さらに別の生成効果を発動しない".
 	state = {"comet":g.get("comet",false),"gravity":g.get("gravity",false),"split":g.get("split",false),"clover":g.get("clover",false),"boomerang":g.get("boomerang",false),"helix":g.get("helix",false),"phase":opts.get("phase",1),"hits":[],"color":opts.get("color",g.color),"age":0.0,"seed":g.get("seed",false),"boost":g.get("boost",false),"bubble":g.get("bubble",false),"bubble_delay":float(g.get("bubble_delay",1.0)),"homing":g.get("homing",false),"launched":false,"pos":opts.get("pos",p.pos+Vector2.from_angle(angle)*24),"velocity":Vector2.from_angle(angle)*speed,"owner":index,"life":lifetime,"bounce":bounce,"rebounds":0,"dead":false,"bank":g.get("bank",false),"parcel":opts.get("parcel",false),"volley":opts.get("volley",-1),"depth":int(opts.get("depth",0)),"applied_effects":opts.get("applied_effects",[]).duplicate()}
 	position = state.pos
+	state.cross_turn = float(opts.get("cross_turn",0.0))
+	state.cross_turned = false
+	state.turn_rate = float(g.get("turn_rate",.7 if state.comet else 1.25))
+	state.homing_cone = float(g.get("homing_cone",PI))
 	$Visual.modulate = Color(opts.get("color",g.color))
 	$Visual.scale = Vector2.ONE * radius/4.0
 	$Art.configure(id,bool(opts.get("parcel",false)),bool(opts.get("shard",false)))
@@ -76,6 +80,9 @@ func step(dt: float, arena, enemy) -> void:
 	if b.dead or b.life <= 0: return
 	b.life -= dt
 	b.age += dt
+	if not b.cross_turned and b.cross_turn != 0.0 and b.age >= .25:
+		b.cross_turned = true
+		b.velocity = b.velocity.rotated(b.cross_turn)
 	# Legacy update order: age, special velocity, then swept movement/collision.
 	if b.seed and b.age >= .6 and not b.launched:
 		b.velocity = Vector2.ZERO
@@ -92,7 +99,7 @@ func step(dt: float, arena, enemy) -> void:
 	if b.homing:
 		var desired: float = (enemy.state.pos-b.pos).angle()
 		var current: float = b.velocity.angle()
-		var turn_rate := .7 if b.comet else 1.25
+		var turn_rate: float = b.turn_rate if absf(wrapf(desired-current,-PI,PI)) <= b.homing_cone else 0.0
 		# Radial stars bend only toward a target in their forward 90-degree cone.
 		# Rear-facing stars keep spreading instead of all twelve collapsing onto one target.
 		if gun_id == 15:
@@ -102,12 +109,12 @@ func step(dt: float, arena, enemy) -> void:
 	if b.boomerang and b.age > .65:
 		var offset: Vector2 = source_player.state.pos-b.pos
 		b.velocity += (Vector2.from_angle(offset.angle())*470.0-b.velocity)*dt*4.0
-		if offset.length() < 20.0:
+		if offset.length() < 20.0 and b.life > 0 and source_player.state.hp > 0:
 			b.life = 0.0
 			# 帰還バッテリー: only the bullet actually returning to its owner counts as
 			# "recovery" — a hit (see b.hits handling below) or the life timer simply
 			# running out never reaches this branch, so neither charges the battery.
-			if b.depth == 0 and 14 in source_player.relics: source_player.state.return_battery_charge = true
+			if b.depth == 0: source_player.recover_projectile(gun_id)
 	var motion: Vector2 = b.velocity
 	if b.helix:
 		motion += Vector2(-b.velocity.y,b.velocity.x)/speed*cos(b.age*14.0)*90.0*b.phase
@@ -123,6 +130,7 @@ func step(dt: float, arena, enemy) -> void:
 				if b.bank: weapon_effect_requested.emit(0,previous,(-b.velocity).angle()+PI/4)
 				if b.bank: damage += .25
 				if b.rebounds == 1 and 11 in source_player.relics: b.velocity *= 1.2
+				if b.rebounds == 1 and b.depth == 0 and 31 in source_player.relics: damage *= 1.0+source_player.relic_value(31,"rubber_bonus")
 				# 反響の種: the *first* bounce of a directly-fired bullet drops a short-lived
 				# stationary pool at the bounce point. "echo_seed" in applied_effects makes this
 				# resilient even if rebounds==1 could somehow be re-entered; b.depth==0 keeps the
@@ -155,8 +163,9 @@ func step(dt: float, arena, enemy) -> void:
 # Explicit removal (melee/reset) must never trigger impact/expiry fragments.
 func fragments() -> Dictionary:
 	if state.dead: return {}
-	if state.parcel: return {"count":5,"speed":240.0,"damage":.35,"life":.7,"color":"#dce9ff"}
+	var scale_damage: float = 1.0+source_player.relic_value(32,"fragment_bonus") if 32 in source_player.relics else 1.0
+	if state.parcel: return {"count":5,"speed":240.0,"damage":.35*scale_damage,"life":.7,"color":"#dce9ff"}
 	if state.comet: return {"count":12,"speed":260.0,"damage":.45,"life":1.5,"color":state.color}
 	if state.split or state.clover:
-		return {"count":4 if state.clover else 8,"speed":280.0,"damage":.65,"life":.85 if state.clover else 1.5,"color":state.color}
+		return {"count":4 if state.clover else 8,"speed":280.0,"damage":.65*scale_damage,"life":.85 if state.clover else 1.5,"color":state.color}
 	return {}

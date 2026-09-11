@@ -1,4 +1,6 @@
 extends CanvasLayer
+const CpuPreparation = preload("res://scripts/ai/cpu_preparation.gd")
+const Items = preload("res://scripts/game/item_identity.gd")
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const Relics = preload("res://scripts/catalog/relic_catalog.gd")
 const RelicChip = preload("res://scripts/ui/relic_chip.gd")
@@ -107,67 +109,14 @@ func ready_shop() -> void:
 # 受け取る。相性そのものの計算は先頭の1丁（＝グリッドの読み順で最初の武器）を代表として使う
 # 単純な近似で、丸腰のときは武器0の定義を仮の基準にする（従来のmaxi(0,gun)と同じ扱い）。
 func affinity(id, guns: Array, equipped: Array = []) -> int:
-	# P5 mod tokens ("mod:<weapon_id>:<key>") aren't relics; score them like a solid-but-not-
-	# best pick when they target a weapon the CPU actually carries, and never applicable
-	# otherwise (a stale token for a weapon since taken off the grid — see MatchState.mod_reason).
-	if typeof(id) == TYPE_STRING and not game.match_state.is_gun(id) and not game.match_state.is_relic(id):
-		var parsed := Weapons.parse_mod_token(id)
-		return 3 if not parsed.is_empty() and parsed.weapon_id in guns else 0
-	if game.match_state.is_gun(id): return 0 # 武器同士の相性は見ない（並べ替えはweapon_score側）
-	id = game.match_state.relic_id(id)
-	var g := Weapons.definition(guns[0] if not guns.is_empty() else 0)
-	if id == 2: return 0 if ["split","comet","gravity","boomerang","seed","bubble","clover"].any(func(tag): return g.get(tag,false)) else 4
-	if id == 11: return 4 if int(g.get("bounce",0)) > 0 or (2 in equipped and affinity(2,guns) > 0) else 0
-	if id == 7: return 3 if int(g.mag) <= 6 else 1
-	if id == 1: return 3 if int(g.mag) <= 6 else 2
-	if id == 6: return 3 if int(g.get("count",1)) > 1 else 2
-	# P3 additions: only give the two relics with an obvious weapon-tag correlation (bounce
-	# for 反響の種, boomerang for 帰還バッテリー) a non-default score, same simple heuristic
-	# style as above; the other four (13/15/16/17) apply to any build about equally, so they
-	# keep the generic fallback score of 2 rather than a fabricated preference.
-	if id == 12: return 4 if int(g.get("bounce",0)) > 0 or (2 in equipped and affinity(2,guns) > 0) else 1
-	if id == 14: return 4 if g.get("boomerang",false) else 1
-	return 2
-# P8z：主力の指定がなくなったので、CPUの準備は「報酬を取る」→「所持庫から置けるだけ置く」の
-# 2段階になった。置く順番は武器が先で、これは意図的——丸腰だと近接しか手段がなくなるため、
-# 先にグリッドの場所を武器へ確保させる。武器・レリックとも自動配置（match_state.toggle()＝
-# auto_place()）に頼るので、人間が手で最適に詰めた場合よりは詰め方が甘くなる（P8zの決定事項7）。
+	return CpuPreparation.affinity(id,guns,equipped)
 func auto_prepare(i: int) -> void:
-	var state = game.match_state
-	var owned: Array = state.builds[i].owned.duplicate()
-	var guns: Array = owned.filter(func(e): return state.is_gun(e))
-	guns.sort_custom(func(a,b): return weapon_score(state.gun_id(a),[]) > weapon_score(state.gun_id(b),[]))
-	state.arrange(i,guns+owned.filter(func(e): return state.is_relic(e)))
-	# Reserve 4G for equipment after a patch. Grow by at most one paid patch per preparation.
-	if state.stage >= 2 and state.gold[i] >= 8 and state.capacity(i) < 24:
-		state.auto_expand(i)
-		state.arrange(i,guns+owned.filter(func(e): return state.is_relic(e)))
-	if state.claim_temporary(i):
-		var free_entry = state.builds[i].owned.back()
-		state.place(i,free_entry,state.auto_place(i,free_entry))
-	state.sync_mod_product(i)
-	var cards: Array = state.products[i].duplicate()
-	cards.sort_custom(func(a,b): return purchase_score(a,i) > purchase_score(b,i))
-	for card in cards:
-		if not state.purchase_reason(i,card.id).is_empty(): continue
-		var is_mod: bool = str(card.entry).begins_with("mod:")
-		if not is_mod and state.auto_place(i,card.entry).x < 0: continue
-		if state.purchase(i,card.id) and not is_mod:
-			var acquired = state.builds[i].owned.back()
-			state.place(i,acquired,state.auto_place(i,acquired))
-	state.sync_mod_product(i)
-	for card in state.products[i]:
-		if str(card.entry).begins_with("mod:"): state.purchase(i,card.id)
-	state.confirm(i)
-	game.telemetry.record("cpu_prepare",{"player":i,"build":state.builds[i],"gold":state.gold[i]})
+	CpuPreparation.auto_prepare(game.match_state,i)
+	game.telemetry.record("cpu_prepare",{"player":i,"build":game.match_state.builds[i],"gold":game.match_state.gold[i]})
 func purchase_score(card: Dictionary, i: int) -> float:
-	var state = game.match_state
-	var value: int = weapon_score(state.gun_id(card.entry),[])+2 if state.is_gun(card.entry) else affinity(card.entry,state.carried_guns(i),state.equipped_relics(i))+2
-	return float(value)/maxi(1,card.price)
+	return CpuPreparation.purchase_score(card,game.match_state,i)
 func weapon_score(id: int, relics: Array) -> int:
-	var score := 0
-	for relic in relics: score += affinity(relic,[id],relics)
-	return score + ["C","B","A","S"].find(Weapons.definition(id).rarity)
+	return CpuPreparation.weapon_score(id,relics)
 func label_at(parent: Node, text: String) -> void:
 	var label := Label.new()
 	label.text = text
@@ -282,7 +231,7 @@ func scroll_at(parent: Node, node_name: String, rect: Rect2) -> VBoxContainer:
 	scroll.add_child(list)
 	return list
 func same_entry(a, b) -> bool:
-	return typeof(a) == typeof(b) and a == b
+	return Items.same_entry(a,b)
 func detail_path() -> Node:
 	return $Root/Panel/Content/Cards/Equipment/Details
 func show_detail(entry, reward: bool = false) -> void:
@@ -374,7 +323,11 @@ func _input(event: InputEvent) -> void:
 		cancel_placement()
 		get_viewport().set_input_as_handled()
 func select_expansion(shape: String) -> void:
-	if not game.match_state.expansion_pending(turn) or game.match_state.ready[turn]: return
+	var reason: String = game.match_state.expansion_offer_reason(turn,shape)
+	if not reason.is_empty():
+		cancel_placement()
+		set_status(reason,Color("ffad83"))
+		return
 	placement_entry = null
 	selected_detail = null
 	selected_expansion = shape
@@ -382,7 +335,7 @@ func select_expansion(shape: String) -> void:
 	detail_path().get_node("Meta").text = "%dマス / %dG" % [game.match_state.Expansions.SHAPES[shape].size(),game.match_state.Expansions.SHAPES[shape].size()]
 	detail_description.text = "未開放マスに置き、バッグの辺に接続します。回転なし。配置後は固定。配置成功時のみ支払い。各準備1個まで。上限24マス。控えは消費しません。"
 	detail_path().get_node("Discard").visible = false
-	set_status("基準マスをクリックして配置\nEscで選択解除",Color("83deca"))
+	set_status("バッグの配置先をクリック\n配置確定で支払い / Esc取消",Color("83deca"))
 func preview_expansion(anchor: Vector2i) -> bool:
 	clear_preview()
 	var state = game.match_state
@@ -418,7 +371,7 @@ func _process(_delta: float) -> void:
 		else: preview_at(entry,anchor)
 	else:
 		clear_preview()
-		set_status("配置先をクリック / ドラッグ\nEscで選択解除",Color("83deca"))
+		set_status("バッグの配置先をクリック\n配置確定で支払い / Esc取消" if not selected_expansion.is_empty() else "配置先をクリック / ドラッグ\nEscで選択解除",Color("83deca"))
 func add_footprint(parent: Node, entry, rect: Rect2) -> void:
 	var icon := Footprint.new()
 	icon.shape = game.match_state.shape_of(entry)
@@ -499,17 +452,22 @@ func refresh() -> void:
 	var reroll := button_at(reward_list,"商品更新 2G（各準備1回）",refresh_shop,state.refreshed[turn] or state.gold[turn] < 2 or state.ready[turn])
 	reroll.name = "Refresh"
 	reroll.custom_minimum_size.x = 0
-	if state.expansion_pending(turn):
+	# Keep unavailable patches visible with a reason instead of silently hiding them.
+	if not state.ended:
 		var heading := Label.new()
-		heading.text = "バッグ拡張：各準備1個まで"
+		heading.text = "拡張 %d/24マス：選択 → 配置" % state.capacity(turn)
 		heading.add_theme_font_size_override("font_size",16)
 		reward_list.add_child(heading)
 		for shape in state.Expansions.SHAPES:
 			var choice := Button.new()
 			choice.name = "Expansion_"+shape
-			choice.text = state.Expansions.NAMES[shape]+" %dG" % state.Expansions.SHAPES[shape].size()
+			var why: String = state.expansion_offer_reason(turn,shape)
+			choice.text = state.Expansions.NAMES[shape]+" %dG" % state.Expansions.SHAPES[shape].size()+(" / 選択" if why.is_empty() else "\n"+why)
+			choice.disabled = not why.is_empty()
+			choice.tooltip_text = "選択後、グリッドの配置先をクリック。確定時のみ支払い。" if why.is_empty() else why
 			choice.custom_minimum_size = Vector2(0,44)
 			style_button(choice)
+			choice.add_theme_font_size_override("font_size",14)
 			choice.pressed.connect(select_expansion.bind(shape))
 			var footprint := Footprint.new()
 			footprint.shape = state.Expansions.SHAPES[shape]

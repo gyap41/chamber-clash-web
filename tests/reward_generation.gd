@@ -11,7 +11,7 @@ func _initialize() -> void:
 	# P3 added relic ids 12-17 (Relics.SUPPORTED now runs 0-17, 18 total): the "one short of the
 	# full pool" / "fully owned" bounds below shift from 11/12 to 17/18 accordingly.
 	assert(a.generator.candidates([17,18,19],range(17)) == [17,18,19])
-	assert(a.generator.candidates([18,19],range(20)) == [18,19])
+	assert(a.generator.candidates([18,19],preload("res://scripts/catalog/relic_catalog.gd").SUPPORTED) == [18,19])
 	a._set_products(0,[0,1,2])
 	a._set_products(1,[0,1,2])
 	assert(a.claim(0,0) and a.claim(1,0))
