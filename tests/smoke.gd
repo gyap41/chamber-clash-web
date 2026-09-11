@@ -59,7 +59,7 @@ func extended(game) -> void:
 		assert(game.fighters[0].pos.is_equal_approx(corner+inward*20))
 	start_combat(game)
 	game.fire(0)
-	assert(game.shots.size() == 1 and game.players[0].weapon().clip == 11)
+	assert(game.shots.size() == 1 and game.players[0].weapon().clip == 15)
 	game.fire(0)
 	assert(game.shots.size() == 1) # cooldown
 	var b = game.shots[0]

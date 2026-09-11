@@ -46,7 +46,7 @@ func run() -> void:
 		bank.state.pos = Vector2(1087,100)
 		bank.state.velocity = Vector2(370,0)
 		bank.step(.02,game.arena,q)
-	assert(is_equal_approx(bank.damage,1.397))
+	assert(is_equal_approx(bank.damage,2.028))
 	setup(game,19)
 	p.relics = [6,7]
 	game.fire(0)
@@ -55,7 +55,7 @@ func run() -> void:
 	game._physics_process(.24)
 	game.shots[-1].state.pos = q.state.pos
 	game.shots[-1].step(.001,game.arena,q)
-	assert(is_equal_approx(q.state.hp,6.206))
+	assert(is_equal_approx(q.state.hp,6.482))
 	setup(game,11)
 	p.relics = [6,7]
 	game.fire(0)
@@ -71,7 +71,7 @@ func run() -> void:
 	well.step(.001,game.arena,game.players,game.shots)
 	assert(q.state.hp == hp_before_dodge)
 	assert(game.use_pulse(1) and game.wells.is_empty())
-	print("PASS: clustered fragments .65, boosted 2-bounce 1.397, echo pair 1.794, mine + gravity tick 2.858")
+	print("PASS: clustered fragments .65, boosted 2-bounce 2.028, echo pair 1.518, mine + gravity tick 2.858")
 	# Against each late-game weapon family, dodge prevents contact damage and melee
 	# removes a dangerous projectile without spawning fragments or gravity wells.
 	for weapon in [2,8,10,11,16,19]:

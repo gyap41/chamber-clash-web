@@ -116,7 +116,7 @@ func refresh(players: Array, remaining: float, paused: bool, result: String, sco
 			var active: bool = player.state.gun == n
 			button.modulate = Color("ffd091") if active else Color.WHITE
 			button.text = "%d %s\n%s%s\n%d / %d%s" % [n+1,"装備中" if active else "",g.name,mod_tag,w.clip,w.reserve," 装填中" if active and player.state.reload > 0 else (" 散弾" if w.mode == 1 else "")]
-			button.tooltip_text = g.desc + ("\n改造："+str(g.mod_name) if g.has("mod_name") else "")
+			button.tooltip_text = g.desc + ("\n改造："+str(g.mod_name) if g.has("mod_name") else "") + "\n" + Weapons.stats_text(g)
 
 func refresh_relics(index: int, player) -> void:
 	get_node("Root/Relics/P%d/Heading" % (index+1)).text = "P%d レリック %d個 · バッグ%dマス · スクロールで詳細" % [index+1,player.relics.size(),player.relic_capacity]

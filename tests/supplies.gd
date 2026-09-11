@@ -52,7 +52,7 @@ func run() -> void:
 	mature(item)
 	for w in p.inventory: w.reserve = 0
 	assert(s.acquire(0,item))
-	assert(p.inventory[0].reserve == 24 and p.inventory[1].reserve == 20 and p.inventory[2].reserve == 12)
+	assert(p.inventory[0].reserve == 26 and p.inventory[1].reserve == 20 and p.inventory[2].reserve == 8)
 	assert(p.inventory[2].clip == 2)
 	s.step(.01)
 	for w in p.inventory: w.reserve = int(game.Weapons.definition(w.id).stock)

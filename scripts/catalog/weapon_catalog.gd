@@ -10,6 +10,13 @@ static var textures: Dictionary = {}
 static func definition(id: int) -> Dictionary:
 	return Catalog.data.guns[id]
 
+static func stats_text(g: Dictionary) -> String:
+	var output := "%d発同時" % int(g.get("count",1))
+	if g.get("echo",false): output = "2発・0.24秒差"
+	elif int(g.get("burst_count",1)) > 1: output = "%d連射・%.2f秒差" % [int(g.burst_count),float(g.get("burst_delay",.08))]
+	elif g.get("switcher",false): output = "単発 / 3発散弾"
+	return "初速 %.0f / 発射間隔 %.2f秒\n弾倉 %d / 予備 %d / 出力 %s\n基礎装填 %.2f秒（キャラ・レリック補正前）" % [g.speed,g.rate,int(g.mag),int(g.stock),output,float(g.get("reload_time",1.15))]
+
 static func new_inventory_entry(id: int) -> Dictionary:
 	var gun := definition(id)
 	return {"id": id, "clip": int(gun.mag), "reserve": int(gun.stock), "mode": 0}

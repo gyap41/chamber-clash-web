@@ -46,12 +46,12 @@ func run() -> void:
 	assert(mine.state.dead and mine.fragments().is_empty())
 	setup(game,15)
 	game.fire(0)
-	assert(game.shots.size() == 12 and p.weapon().clip == 3)
+	assert(game.shots.size() == 8 and p.weapon().clip == 3)
 	var star = game.shots[0]
 	q.state.pos = star.state.pos+Vector2(200,60)
 	star.step(.1,game.arena,q)
 	assert(star.state.velocity.angle() > .1 and is_equal_approx(star.damage,.8))
-	var back_star = game.shots[6]
+	var back_star = game.shots[4]
 	var back_angle: float = back_star.state.velocity.angle()
 	back_star.step(.01,game.arena,q)
 	assert(is_equal_approx(back_star.state.velocity.angle(),back_angle))

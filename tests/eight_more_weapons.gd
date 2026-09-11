@@ -30,7 +30,7 @@ func run() -> void:
 		var b = game.shots[0]
 		match id:
 			30: assert(is_equal_approx(b.speed,680) and is_equal_approx(b.damage,1.4))
-			31: assert(is_equal_approx(game.shots[0].state.velocity.angle(),-.27) and game.shots.size() == 4)
+			31: assert(is_equal_approx(game.shots[0].state.velocity.angle(),-.33) and game.shots.size() == 4)
 			32:
 				for bounce in range(3):
 					b.state.pos = Vector2(1087,100)

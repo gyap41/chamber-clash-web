@@ -28,7 +28,7 @@ const SHAPES := {
 	25: [Vector2i(0,0),Vector2i(0,1)],
 	28: [Vector2i(0,0),Vector2i(1,0),Vector2i(2,0)],
 	29: [Vector2i(0,0),Vector2i(1,0),Vector2i(0,1),Vector2i(1,1)],
-	15: [Vector2i(0,0),Vector2i(1,0),Vector2i(2,0),Vector2i(0,1),Vector2i(1,1),Vector2i(2,1),Vector2i(0,2),Vector2i(1,2),Vector2i(2,2)], # 12方向の追尾・反射弾：3×3の9マス
+	15: [Vector2i(0,0),Vector2i(1,0),Vector2i(2,0),Vector2i(0,1),Vector2i(1,1),Vector2i(2,1),Vector2i(0,2),Vector2i(1,2),Vector2i(2,2)], # 8方向の追尾・反射弾：3×3の9マス
 	6: [Vector2i(0,0),Vector2i(1,0),Vector2i(2,0)],                                  # アークレール(A)：横3マスのレール
 	9: [Vector2i(0,0),Vector2i(1,0),Vector2i(2,0),Vector2i(0,1),Vector2i(1,1),Vector2i(2,1)],                    # コメット：爆風と12破片を考慮し3×2の6マス
 	12: [Vector2i(0,0),Vector2i(0,1)],                                               # ロケットペンシル(B)：縦2マス

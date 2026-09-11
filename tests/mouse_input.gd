@@ -52,14 +52,14 @@ func run() -> void:
 	mouse(Vector2(100,120),true)
 	assert(game.mouse_fire_held)
 	game._physics_process(.01)
-	assert(p.weapon().clip == 11 and game.shots.size() == 1)
+	assert(p.weapon().clip == 15 and game.shots.size() == 1)
 	game._physics_process(.1)
-	assert(p.weapon().clip == 11)
+	assert(p.weapon().clip == 15)
 	game._physics_process(float(p.definition().rate)-.1+.01)
-	assert(p.weapon().clip == 10)
+	assert(p.weapon().clip == 14)
 	mouse(Vector2(100,120),false)
 	game._physics_process(.3)
-	assert(not game.mouse_fire_held and p.weapon().clip == 10)
+	assert(not game.mouse_fire_held and p.weapon().clip == 14)
 	# A real GUI slot click equips but cannot start continuous firing.
 	var slot: Button = game.hud.slots[0][1]
 	var center := slot.get_global_rect().get_center()

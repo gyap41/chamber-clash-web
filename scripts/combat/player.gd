@@ -437,7 +437,8 @@ func add_relic(id: int) -> bool:
 func effective_move_speed() -> float:
 	return move_speed*(1.0 + (.12 if 0 in relics else 0.0) + Relics.additive_bonus(relics,"move_bonus") + (relic_value(25,"sole_bonus") if 25 in relics and state.sole_time > 0 else 0.0) + (relic_value(29,"boots_bonus") if 29 in relics and state.boots_time > 0 else 0.0))
 func effective_reload_duration() -> float:
-	return reload_duration*(.65 if 1 in relics else 1.0)
+	# reload_duration retains the Inspector/character baseline; each gun supplies its base.
+	return float(definition().get("reload_time",1.15))*(reload_duration/1.15)*(.65 if 1 in relics else 1.0)
 func relic_value(id: int, key: String) -> float:
 	return float(Relics.definition(id).get(key,0.0))
 func effective_chest_duration(base: float) -> float:

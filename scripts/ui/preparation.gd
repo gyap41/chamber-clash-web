@@ -146,6 +146,7 @@ func entry_info(entry) -> Dictionary:
 		var mod_tag := "　⚙"+str(Weapons.mod_definition(id,mods[id]).name) if mods.has(id) else ""
 		var desc: String = str(g.desc)
 		if mods.has(id): desc += "\n⚙"+str(Weapons.mod_definition(id,mods[id]).name)+"："+str(Weapons.mod_definition(id,mods[id]).desc)
+		desc += "\n" + Weapons.stats_text(Weapons.resolved_definition(id,str(mods.get(id,""))))
 		return {"name":str(g.name)+mod_tag,"desc":desc}
 	return {"name":str(Relics.definition(game.match_state.relic_id(entry)).name),"desc":str(Relics.definition(game.match_state.relic_id(entry)).desc)}
 # P5: parses either candidate type into a display {name,desc} pair — a relic id via the relic

@@ -28,17 +28,17 @@ func run() -> void:
 	p.equip_slot(0)
 	p.state.shot = 0.0
 	game.fire(0)
-	assert(p.weapon().clip == 11 and q.inventory[0].clip == 12)
+	assert(p.weapon().clip == 15 and q.inventory[0].clip == 16)
 	p.start_reload()
 	p.equip_slot(1)
 	assert(p.state.reload == 0 and p.state.reload_slot == -1)
-	game._physics_process(1.2)
-	assert(p.inventory[0].clip == 11 and p.weapon().clip == 12)
+	game._physics_process(1.4)
+	assert(p.inventory[0].clip == 15 and p.weapon().clip == 12)
 	p.equip_slot(0)
 	p.weapon().clip = 2
 	p.weapon().reserve = 3
 	p.start_reload()
-	game._physics_process(1.2)
+	game._physics_process(1.4)
 	assert(p.weapon().clip == 5 and p.weapon().reserve == 0)
 	p.equip_slot(99)
 	assert(p.state.gun == 0)
@@ -98,7 +98,7 @@ func combat(game) -> void:
 		bullet.state.pos = Vector2(1087,100)
 		bullet.state.velocity = Vector2(370,0)
 		bullet.step(.02,game.arena,game.players[1])
-	assert(is_equal_approx(bullet.damage,1.15) and bullet.state.bounce == 0)
+	assert(is_equal_approx(bullet.damage,1.8) and bullet.state.bounce == 0)
 	setup(game,18)
 	var p = game.players[0]
 	p.weapon().clip = 2
@@ -107,7 +107,7 @@ func combat(game) -> void:
 	assert(p.inventory[2].mode == 0)
 	p.equip_slot(2)
 	p.start_reload()
-	game._physics_process(1.2)
+	game._physics_process(1.4)
 	assert(p.weapon().mode == 1 and p.weapon().clip == 6)
 	game.fire(0)
 	assert(game.shots.size() == 3 and game.shots[0].damage == .5 and p.weapon().clip == 5)
@@ -128,7 +128,7 @@ func combat(game) -> void:
 	game._physics_process(.23)
 	assert(game.shots.size() == 1)
 	game._physics_process(.02)
-	assert(game.shots.size() == 2 and game.shots[1].damage == .65)
+	assert(game.shots.size() == 2 and game.shots[1].damage == .55)
 	assert(game.shots[0].state.volley == game.shots[1].state.volley)
 	setup(game,17)
 	game.players[0].weapon().clip = 1

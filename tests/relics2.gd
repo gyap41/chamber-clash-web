@@ -66,24 +66,24 @@ func run() -> void:
 	setup(game,0)
 	assert(p.add_relic(6))
 	game.fire(0)
-	assert(is_equal_approx(game.shots[-1].state.velocity.length(),510*.8))
-	assert(is_equal_approx(game.shots[-1].damage,1.15))
+	assert(is_equal_approx(game.shots[-1].state.velocity.length(),480*.8))
+	assert(is_equal_approx(game.shots[-1].damage,.92))
 
 	# Starter Cell: +20% damage on the first shot from a full magazine only.
 	setup(game,0)
 	assert(p.add_relic(7))
 	game.fire(0)
-	assert(is_equal_approx(game.shots[-1].damage,1.2))
+	assert(is_equal_approx(game.shots[-1].damage,.96))
 	p.state.shot = 0.0
 	game.fire(0)
-	assert(is_equal_approx(game.shots[-1].damage,1.0))
+	assert(is_equal_approx(game.shots[-1].damage,.8))
 	# Echo's delayed companion shot must keep the boosted damage from the original volley.
 	setup(game,19)
 	assert(p.add_relic(7))
 	game.fire(0)
-	assert(is_equal_approx(game.delayed_shots[0].damage,.78))
+	assert(is_equal_approx(game.delayed_shots[0].damage,.66))
 	game._physics_process(.25)
-	assert(is_equal_approx(game.shots[-1].damage,.78))
+	assert(is_equal_approx(game.shots[-1].damage,.66))
 
 	# Reserve Holster: switching guns tops the outgoing weapon up by 1 round from reserve, 1.5s reuse.
 	# setup() already gives both players id 0 and id 1 (tests/helpers/battle.gd places both on the grid),
@@ -132,7 +132,7 @@ func run() -> void:
 	bullet.state.pos = Vector2(1087,100)
 	bullet.state.velocity = Vector2(370,0)
 	bullet.step(.02,game.arena,q)
-	assert(is_equal_approx(bullet.state.velocity.length(),444.0) and is_equal_approx(bullet.damage,.9) and bullet.state.rebounds == 1)
+	assert(is_equal_approx(bullet.state.velocity.length(),444.0) and is_equal_approx(bullet.damage,1.2) and bullet.state.rebounds == 1)
 	bullet.state.pos = Vector2(1087,100)
 	bullet.state.velocity = Vector2(370,0)
 	bullet.step(.02,game.arena,q)

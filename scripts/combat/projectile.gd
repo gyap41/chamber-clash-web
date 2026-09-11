@@ -13,6 +13,7 @@ var speed: float = 420.0
 @export var comet_blast_damage := 1.5
 var radius: float = 4.0
 var damage: float = 1.0
+var bank_bonus: float = .25
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 var source_player
 var state: Dictionary
@@ -26,6 +27,7 @@ func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionar
 	# entry when this id has no active branch) so a modded weapon's damage/speed/bounce/etc.
 	# apply to every bullet spawned from it, including derived shots that pass id=this gun.
 	var g: Dictionary = player.resolved_definition(id)
+	bank_bonus = float(g.get("bank_bonus",.25))
 	switcher = g.get("switcher",false)
 	speed = opts.get("speed", g.speed)
 	damage = opts.get("damage", g.damage)
@@ -128,7 +130,7 @@ func step(dt: float, arena, enemy) -> void:
 				b.bounce -= 1
 				b.rebounds += 1
 				if b.bank: weapon_effect_requested.emit(0,previous,(-b.velocity).angle()+PI/4)
-				if b.bank: damage += .25
+				if b.bank: damage += bank_bonus
 				if b.rebounds == 1 and 11 in source_player.relics: b.velocity *= 1.2
 				if b.rebounds == 1 and b.depth == 0 and 31 in source_player.relics: damage *= 1.0+source_player.relic_value(31,"rubber_bonus")
 				# 反響の種: the *first* bounce of a directly-fired bullet drops a short-lived

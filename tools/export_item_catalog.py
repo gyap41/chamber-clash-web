@@ -41,16 +41,16 @@ def main():
     lines = [heading.rstrip(), "", f"## 現行武器{weapon_count}種", "",
              "間隔は秒、弾速はpx/秒。弾数×威力は直接射撃分。分裂・追射・爆発・継続ダメージは含まない。",
              "ホチキスバーストの3発は時間差の直接射撃。エコードラム・カーボンコピーの追射は特徴欄を参照。",
-             "装填は基礎1.15秒×キャラ補正。レリックで変化する。ワイドマガジン装備時は表の弾倉上限に+2。",
+             "装填は表の武器別基礎秒数×キャラ補正×レリック補正。未指定武器は1.15秒。ワイドマガジン装備時は表の弾倉上限に+2。",
              f"初期専用8種は無料・抽選外・売却0G。通常入手{common_count}種はレアに応じてショップ／補給から取得する。",
              "フィールド武器は取得時に控えへ入り、次の準備で配置してから使える。所持済み・控え8個満杯では取得不可。弾薬補給は弾薬箱。", "",
-             "|ID|名称|レア|間隔|弾速|弾数×威力|弾倉/予備|占有・形状|価格G|特徴|",
-             "|---|---|---|---:|---:|---|---|---|---|---|",]
+             "|ID|名称|レア|間隔|弾速|弾数×威力|弾倉/予備|基礎装填|占有・形状|価格G|特徴|",
+             "|---|---|---|---:|---:|---|---|---:|---|---|---|",]
     for index, gun in enumerate(catalog["guns"]):
         price = "初期専用" if gun.get("exclusive") else prices["WEAPON"][index]
         count = gun.get("count", 1) * gun.get("burst_count", 1)
         shape = weapons.get(str(index), defaults[gun["rarity"]])
-        lines.append(f'|{index}|{gun["name"]}|{gun["rarity"]}|{gun["rate"]}|{gun["speed"]}|{count}×{gun["damage"]}|{gun["mag"]}/{gun["stock"]}|{shape}|{price}|{gun["desc"]}|')
+        lines.append(f'|{index}|{gun["name"]}|{gun["rarity"]}|{gun["rate"]}|{gun["speed"]}|{count}×{gun["damage"]}|{gun["mag"]}/{gun["stock"]}|{gun.get("reload_time",1.15)}|{shape}|{price}|{gun["desc"]}|')
     lines += ["", f"## 現行レリック{relic_count}種", "", f"ショップは各1/{relic_count}の均等抽選。フィールド仮取得は1ラウンド1個。",
               "同種重複可能なのは18/19のみ。新規15種は同種重複不可。重複品も個体ごとにマスを使う。", "",
               "|ID|名称|効果|占有・形状|価格G|同種重複|", "|---|---|---|---|---:|---|"]
@@ -59,7 +59,7 @@ def main():
         stack = "可・加算" if relic.get("stackable") else "不可"
         lines.append(f'|{index}|{relic["name"]}|{relic["desc"]}|{shape}|{prices["RELIC"][index]}|{stack}|')
     lines += ["", "## 現行キャラと初期武器", "", "初期武器は無料で控えへ保証する。各キャラの2マス専用武器を配置して出撃できる。",
-              "移動はpx/秒、装填は基礎1.15秒への倍率、回避はクールダウン秒。", "",
+              "移動はpx/秒、装填は武器別基礎装填時間への倍率、回避はクールダウン秒。", "",
               "|キャラ|役割|HP|移動|装填倍率|回避待ち|パルス回数|現在の初期武器|", "|---|---|---:|---:|---:|---:|---:|---|"]
     for ch in catalog["characters"]:
         gun = catalog["guns"][ch["gun"]]
