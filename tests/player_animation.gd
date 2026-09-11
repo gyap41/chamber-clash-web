@@ -41,6 +41,7 @@ func run() -> void:
 	game.reset_round()
 	assert(anim.orbit_positions.is_empty() and anim.walk == 0 and anim.recoil == 0)
 	assert(p.get_node("Weapon").modulate.a == 1.0)
+	assert(p.add_gun(0)) # Reset no longer grants an automatic sidearm.
 	game.phase = "play"
 	p.state.shot = 0
 	game.fire(0)

@@ -14,6 +14,6 @@ func shuffled(pool: Array) -> Array:
 func candidates(base: Array, owned: Array, count: int = 3) -> Array:
 	var result: Array = []
 	for id in base + shuffled(Relics.SUPPORTED):
-		if id not in owned and id not in result: result.append(id)
+		if (id not in owned or Relics.stackable(id)) and id not in result: result.append(id)
 		if result.size() >= count: break
 	return result

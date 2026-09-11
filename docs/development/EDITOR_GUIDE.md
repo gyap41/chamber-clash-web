@@ -14,8 +14,8 @@
 |scenes/world/supplies.tscn / Spawns|InitialWeapons・Weapons・Ammo・LegendaryのMarker2Dで補給位置を編集。Supplies/Itemsは原点・等倍を維持|
 |scenes/world/supplies.tscn / Supplies|出現間隔、Sレア時刻、取得待ち時間、寿命、取得範囲をInspectorで調整|
 |scenes/world/pickup.tscn|武器画像・弾薬箱・名前・交換案内の共通表示。Label/Hintはマウス入力を遮らない|
-|scenes/ui/preparation.tscn|Panel/Content内の見出し、Cardsグリッド、Notice、Readyの配置。カードはpreparation.gdで生成|
-|data/catalog.json / scripts/catalog/weapon_catalog.gd|元の武器数値と、実装済みIDの許可リスト・画像対応。catalog.json自体は今回無変更|
+|scenes/ui/preparation.tscn|Root/Panel/Contentの見出し・Notice・Ready等と、preparation.gdが動的生成するB案の各パネル。寸法はPREPARATION_UI_B.mdを参照|
+|data/catalog.json / scripts/catalog/weapon_catalog.gd|元の武器数値と、実装済みIDの許可リスト・画像対応|
 |scenes/combat/gravity_well.tscn|寿命・吸引/ダメージ/弾吸収の範囲・強さ・周期をInspectorで調整。Line2Dの色・太さを編集可。円の頂点は実行時に範囲から生成|
 |scenes/combat/projectile.tscn|寿命とVisual（Polygon2D）。弾速・威力・半径・跳弾数は発射時に武器定義/効果から設定|
 |scenes/ui/hud.tscn / Root|Status・Message・LoadoutsをControlとして配置。武器枠はhud.gdが生成|

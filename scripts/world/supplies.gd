@@ -49,7 +49,9 @@ func announce(text: String) -> void:
 func weighted_gun(legendary: bool = false) -> int:
 	var roll: float = game.supply_generator.rng.randf()
 	var rarity := "S" if legendary else ("C" if roll < .35 else "B" if roll < .75 else "A")
-	var pool: Array = Weapons.SUPPORTED.filter(func(id): return Weapons.definition(id).rarity == rarity)
+	# P8z：SUPPORTEDを直接絞らずrarity_pool()を経由する。将来のキャラクター専用武器
+	# （"exclusive": true）が宝箱から出ないようにするための一枚（weapon_catalog.gd参照）。
+	var pool: Array = Weapons.rarity_pool(rarity)
 	return pool[game.supply_generator.rng.randi_range(0,pool.size()-1)]
 func put_item(kind: String, id: int, pos: Vector2):
 	if kind not in ["weapon","ammo","relic"] or (kind == "weapon" and not Weapons.supported(id)): return null

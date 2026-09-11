@@ -67,7 +67,9 @@ func run() -> void:
 	assert(not s.acquire(0,item) and not item.used)
 	s.reset()
 	# Full inventory never auto-replaces; G replaces only the selected slot.
+	for id in [2,3,5,6]: assert(p.add_gun(id))
 	assert(p.add_gun(18))
+	assert(p.inventory.size() == p.MAX_CARRIED_WEAPONS)
 	p.weapon().clip = 2
 	p.weapon().mode = 1
 	p.start_reload()
@@ -93,7 +95,7 @@ func run() -> void:
 	game._unhandled_key_input(key)
 	assert(item.opening_player == 0)
 	s.step(s.chest_open_duration)
-	assert(item not in s.items and p.weapon().id == 19 and p.inventory.size() == 4)
+	assert(item not in s.items and p.weapon().id == 19 and p.inventory.size() == p.MAX_CARRIED_WEAPONS)
 	assert(p.inventory[0] == untouched and p.weapon().mode == 0 and p.weapon().clip == 6)
 	assert(p.state.reload == 0 and p.state.reload_slot == -1 and p.state.shot >= .15)
 	s.reset()

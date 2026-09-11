@@ -1,4 +1,5 @@
 extends Node2D
+const Items = preload("res://scripts/game/item_identity.gd")
 signal burst_requested(pos: Vector2, color: Color, count: int)
 signal ring_requested(pos: Vector2, color: Color, expansion: float)
 signal shake_requested(strength: float)
@@ -89,7 +90,9 @@ func reset(spawn: Vector2) -> void:
 	# charged, next shot is boosted"; echo_holster_cd is a plain cooldown timer (decremented
 	# alongside the other timers in step()); phase_load_used resets at the start of each dodge.
 	state = {"pulses":initial_pulses,"pos":spawn,"hp":max_hp,"max_hp":max_hp,"angle":0.0,"shot":0.0,"roll":0.0,"dodge":0.0,"slash":0.0,"melee":0.0,"inv":0.0,"reload":0.0,"reload_slot":-1,"last_volley":-1,"blocked_volley":-1,"shield":0.0,"holster":0.0,"dir":Vector2.RIGHT,"gun":0,"ai_cd":randf_range(.25,.6),"reload_started_empty":false,"empty_casing_charge":false,"residual_heat_charge":false,"return_battery_charge":false,"return_battery_armed":false,"echo_holster_cd":0.0,"phase_load_used":false}
-	inventory = [Weapons.new_inventory_entry(0)]
+	# P8z：サイドアーム（武器0）の自動付与を廃止。携行武器はグリッドに置いた武器だけになったので、
+	# reset()の時点では常に丸腰で、apply_build(..., heal=true)がビルドから組み直す。
+	inventory = []
 	update_weapon_art()
 	sync_visual()
 func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Dictionary = {}) -> bool:
@@ -116,8 +119,9 @@ func visual_color() -> Color:
 func handle_key(key: int, i: int, shots: Array, enemy, arena) -> bool:
 	var p = state
 	var dodge_nova := false
-	if key == [KEY_E,KEY_K][i]: request_switch((int(p.gun)+1) % inventory.size())
-	if i == 0 and key >= KEY_1 and key <= KEY_4: request_switch(key-KEY_1)
+	if key == [KEY_E,KEY_K][i] and not inventory.is_empty(): request_switch((int(p.gun)+1) % inventory.size())
+	# P8z：携行数がグリッド由来で最大8丁になりうるため、直接指定も1〜8へ広げた（P1限定）。
+	if i == 0 and key >= KEY_1 and key <= KEY_8: request_switch(key-KEY_1)
 	if key == [KEY_R,KEY_P][i]: start_reload()
 	if key == [KEY_SPACE,KEY_SHIFT][i] and p.dodge <= 0:
 		p.last_volley = -1
@@ -198,7 +202,7 @@ func step(dt: float, i: int, enemy, arena, mouse_shooting: bool = false, ai: Dic
 	$Animation.advance(dt,axis.length() > 0)
 	sync_visual()
 	var shooting: bool = ai.shoot if not ai.is_empty() else ((mouse_shooting if i == 0 else keyboard_fire_held) or fire_pending)
-	if shooting and weapon().clip == 0: start_reload()
+	if shooting and has_weapon() and weapon().clip == 0: start_reload()
 	var ready := shooting and can_fire()
 	if ready: buffered_fire = 0.0
 	return ready
@@ -219,8 +223,9 @@ func request_switch(index: int) -> void:
 		return
 	equip_slot(index)
 func can_fire() -> bool:
-	return state.shot <= 0 and state.reload <= 0 and state.roll <= 0 and weapon().clip > 0
+	return has_weapon() and state.shot <= 0 and state.reload <= 0 and state.roll <= 0 and weapon().clip > 0
 func consume_shot() -> void:
+	if not has_weapon(): return
 	weapon().clip -= 1
 	state.shot = definition().rate
 	$Animation.fire()
@@ -235,25 +240,47 @@ func sync_visual() -> void:
 	$Slash.rotation = state.angle
 	$Animation.refresh()
 
+# P8z ステップA 丸腰耐性：ステップBで武器をグリッドに置く方式へ移ると、1丁も置かなかった
+# プレイヤーはinventoryが空のままラウンドを迎えうる。weapon()はinventory[state.gun]を無条件に
+# 添字参照していたため、毎フレーム走るstep()やHUDを含む約20箇所がその状態で落ちる。ここで
+# 「武器を持っていない」を正式な状態として扱えるようにしておく（この時点ではinventoryが空に
+# なる経路がまだ無いので、振る舞いは一切変わらない）。近接・回避・パルスは元から武器の状態を
+# 参照していないため、丸腰でも戦うこと自体はできる。
+const NO_WEAPON := {"id": -1, "clip": 0, "reserve": 0, "mode": 0}
+# 丸腰時のdefinition()。Weapons.definition(-1)はGDScriptの負数添字で配列末尾の武器を返して
+# しまうため、明示的な擬似定義を返す。can_fire()が偽になるので射撃系の値は読まれないが、
+# HUDの表示（name/desc）と装填ガード（mag）は実際に参照される。
+const NO_WEAPON_DEF := {"name": "素手", "desc": "武器を装備していない。近接で戦う。", "rarity": "C", "color": "#8f9aa3", "mag": 0, "stock": 0, "rate": .5, "damage": 0.0, "speed": 0.0}
+func has_weapon() -> bool:
+	return state.gun >= 0 and state.gun < inventory.size()
 func weapon() -> Dictionary:
-	return inventory[state.gun]
+	# 呼び出し側にはweapon().clip -= 1 のように戻り値を直接書き換えるものがあるため、丸腰時は
+	# 毎回複製を返して書き込みを無害な空振りにする（共有した定数を汚さないため）。
+	return inventory[state.gun] if has_weapon() else NO_WEAPON.duplicate()
 # P5: the definition for a given weapon id, with this player's active mod branch for that id
 # (if any) applied. Prefer this over Weapons.definition() wherever a live weapon instance
 # belonging to this player is in play, so damage/speed/bounce/etc. reflect the chosen branch.
 func resolved_definition(id: int) -> Dictionary:
 	return Weapons.resolved_definition(id, weapon_mods.get(id, ""))
 func definition() -> Dictionary:
-	return resolved_definition(weapon().id)
+	return resolved_definition(weapon().id) if has_weapon() else NO_WEAPON_DEF
 func owns(id: int) -> bool:
 	return inventory.any(func(w): return w.id == id)
+# P8z：携行できる丁数の上限は「4スロット固定」から所持庫の上限（8個）に合わせた。実際の上限は
+# グリッドの面積とそこに置いた武器の形状で決まるので、ここは暴走防止の天井にすぎない
+# （HUDの武器スロットもMAX_WEAPON_SLOTS＝8で確保している）。
+const MAX_CARRIED_WEAPONS := 8
 func add_gun(id: int) -> bool:
-	if not Weapons.supported(id) or owns(id) or inventory.size() >= 4: return false
+	if not Weapons.supported(id) or owns(id) or inventory.size() >= MAX_CARRIED_WEAPONS: return false
 	inventory.append(Weapons.new_inventory_entry(id))
 	equip_slot(inventory.size()-1)
 	return true
 func equip_slot(index: int) -> void:
 	if index < 0 or index >= inventory.size() or index == state.gun: return
-	if 8 in relics and state.holster <= 0:
+	# P8z ステップA：下の2つのレリック効果はいずれも「切り替え前の武器」を必要とするため、
+	# 丸腰から1丁目を装備する場合は対象外になる（Weapons.definition(-1)が負数添字で配列末尾を
+	# 返してしまうのも、ここで防いでいる）。
+	if has_weapon() and 8 in relics and state.holster <= 0:
 		var old := weapon()
 		var old_def := Weapons.definition(old.id)
 		if old.reserve > 0 and old.clip < int(old_def.mag):
@@ -268,7 +295,7 @@ func equip_slot(index: int) -> void:
 	# into a delayed_shots entry (depth 1, no volley, can't re-trigger further generation) and
 	# already clears the *enemy's* delayed shots on pulse via the existing owner filter, so a
 	# pulse also removes any echo-holster shot the pulsing player had reserved against them.
-	if 16 in relics and state.echo_holster_cd <= 0:
+	if has_weapon() and 16 in relics and state.echo_holster_cd <= 0:
 		var outgoing := weapon()
 		var outgoing_def: Dictionary = resolved_definition(outgoing.id)
 		var relic16 := Relics.definition(16)
@@ -289,16 +316,18 @@ func equip_slot(index: int) -> void:
 	update_weapon_art()
 	sound_requested.emit("equip",0)
 func start_reload() -> void:
-	if state.reload > 0 or weapon().clip >= definition().mag or weapon().reserve <= 0: return
+	if not has_weapon() or state.reload > 0 or weapon().clip >= definition().mag or weapon().reserve <= 0: return
 	state.reload = effective_reload_duration()
-	state.reload_slot = state.gun
+	# P8z ステップA：装填中の武器をインベントリの添字ではなく武器idで覚える。ステップBで携行
+	# 武器の並びがグリッド由来になると添字が動きうるため（idはadd_gun()が重複を弾くので一意）。
+	state.reload_slot = weapon().id
 	# 空薬莢の祝福 only cares about a reload that began from a *fully* empty clip; partial
 	# top-ups never reach here anyway (guarded above), but this keeps the "empty" distinction
 	# explicit and independent of that guard's exact bounds.
 	state.reload_started_empty = weapon().clip == 0
 	sound_requested.emit("reload",0)
 func finish_reload() -> void:
-	if state.reload_slot != state.gun: return
+	if not has_weapon() or state.reload_slot != weapon().id: return
 	var w := weapon()
 	var amount := mini(int(definition().mag)-int(w.clip), int(w.reserve))
 	w.clip += amount
@@ -312,6 +341,8 @@ func finish_reload() -> void:
 	state.reload_started_empty = false
 	state.reload_slot = -1
 func update_weapon_art() -> void:
+	$Weapon.visible = has_weapon()
+	if not has_weapon(): return
 	$Weapon/Sprite.texture = Weapons.art(weapon().id)
 	$Weapon/Sprite.scale = weapon_display_size / $Weapon/Sprite.texture.get_size()
 
@@ -325,10 +356,10 @@ func acquire_weapon(id: int, replace: bool = false) -> String:
 			if amount <= 0: return ""
 			w.reserve += amount
 			return g.name + "：予備弾を補給"
-	if inventory.size() < 4:
+	if inventory.size() < MAX_CARRIED_WEAPONS:
 		add_gun(id)
 		return g.name + "：装備に追加"
-	if not replace: return ""
+	if not replace or not has_weapon(): return "" # 丸腰なら上のadd_gun()側に入るため、ここは4枠が埋まっている場合だけ通る
 	inventory[state.gun] = Weapons.new_inventory_entry(id)
 	state.reload = 0.0
 	state.reload_slot = -1
@@ -346,7 +377,7 @@ func refill_ammo() -> int:
 
 func relic_block_reason(id: int) -> String:
 	if not Relics.supported(id): return "効果未移植・取得不可"
-	if id in relics or id in owned_relics: return "所持済み"
+	if not Relics.stackable(id) and (id in relics or id in owned_relics): return "所持済み"
 	if relics.size() >= relic_capacity: return "レリック%d枠が満杯" % relic_capacity
 	return ""
 func add_relic(id: int) -> bool:
@@ -357,7 +388,7 @@ func add_relic(id: int) -> bool:
 		state.hp = minf(state.max_hp,state.hp+2.0)
 	return true
 func effective_move_speed() -> float:
-	return move_speed*(1.12 if 0 in relics else 1.0)
+	return move_speed*(1.0 + (.12 if 0 in relics else 0.0) + Relics.additive_bonus(relics,"move_bonus"))
 func effective_reload_duration() -> float:
 	return reload_duration*(.65 if 1 in relics else 1.0)
 
@@ -368,17 +399,34 @@ func acquire_temporary(id: int) -> bool:
 	if field_relic_reason(id) != "" or not add_relic(id): return false
 	temporary_relic = id
 	return true
+# P8z 装備モデルの統合：build.owned／build.equippedは武器とレリックの共通の置き場になった
+# （レリックは素のint、武器は"gun:<id>"の文字列トークン。詳細はmatch_state.gd冒頭）。ここでは
+# それぞれを自分の持ち場へ振り分ける——レリックはrelics/owned_relicsへ、武器はinventoryへ。
+# 「サイドアーム（武器0）の自動付与」と「主力1丁」は廃止し、グリッドに置いた武器がそのまま
+# 携行武器になる。1丁も置いていなければinventoryは空＝丸腰で、近接だけで戦うことになる。
 func apply_build(build: Dictionary, capacity: int, heal: bool = false) -> void:
 	relic_capacity = capacity
-	owned_relics = build.owned.duplicate()
-	relics = build.equipped.duplicate()
+	owned_relics = Items.relic_ids(build.owned)
+	relics = Items.relic_ids(build.equipped)
 	weapon_mods = build.get("mods", {}).duplicate()
 	temporary_relic = -1
 	state.max_hp = max_hp + (2.0 if 4 in relics else 0.0)
 	state.hp = state.max_hp if heal else minf(state.hp,state.max_hp)
 	if heal:
-		inventory = [Weapons.new_inventory_entry(0)]
+		# 携行武器の並びはグリッドの読み順（上の行から、同じ行なら左から）。数字キー1〜8と
+		# HUDのスロット順がグリッド上の見た目と一致するようにするため、build.positionsを見て
+		# 並べ替える（位置未記録のものは、置かれていない扱いで携行しない）。
+		var positions: Dictionary = build.get("positions",{})
+		var order: Array = []
+		for entry in build.equipped:
+			if typeof(entry) != TYPE_STRING or not str(entry).begins_with("gun:") or not positions.has(entry): continue
+			var pos: Vector2i = positions[entry]
+			order.append([pos.y*100+pos.x, int(str(entry).substr(4))])
+		order.sort_custom(func(a,b): return a[0] < b[0])
+		inventory = []
+		for pair in order:
+			var id: int = pair[1]
+			if Weapons.supported(id) and not owns(id): inventory.append(Weapons.new_inventory_entry(id))
 		state.gun = 0
-		if build.main > 0: add_gun(build.main)
 		state.shot = 0.0
 		update_weapon_art()

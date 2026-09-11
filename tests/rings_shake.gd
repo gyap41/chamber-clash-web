@@ -65,6 +65,7 @@ func run() -> void:
 	for kind in ["ammo","weapon","relic"]:
 		game.reset_round()
 		game.phase = "play"
+		assert(p.add_gun(0))
 		p.weapon().reserve = 0
 		var item = game.supplies.put_item(kind,4,p.state.pos)
 		assert(not game.supplies.acquire(0,item) and fx.particles.is_empty())
@@ -77,6 +78,9 @@ func run() -> void:
 	game.phase = "play"
 	var full = game.supplies.put_item("ammo",0,p.state.pos)
 	full.age = .6
+	assert(not p.has_weapon())
+	assert(not game.supplies.acquire(0,full) and fx.particles.is_empty())
+	assert(p.add_gun(0))
 	assert(not game.supplies.acquire(0,full) and fx.particles.is_empty())
 	fx.shake_scale = 0.0
 	fx.shake(5.0)

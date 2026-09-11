@@ -67,8 +67,10 @@ func refresh() -> void:
 func start_match() -> void:
 	var game = main_scene.instantiate()
 	get_tree().root.add_child(game)
+	# P8z：キャラクターごとの初期武器（data/catalog.jsonのcharacters[].gun）を所持庫へ入れる
+	# 必要があるため、set_character()を直接呼ばずmain.gd側の入口を通す。
 	for i in range(2):
-		game.players[i].set_character(picked[i])
+		game.assign_character(i,picked[i])
 	game.players[1].is_cpu = cpu_mode
 	get_parent().remove_child(self)
 	queue_free()

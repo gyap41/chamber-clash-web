@@ -3,6 +3,7 @@ const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const Catalog = preload("res://scripts/catalog/game_catalog.gd")
 const Relics = preload("res://scripts/catalog/relic_catalog.gd")
 const CpuAI = preload("res://scripts/ai/cpu_ai.gd")
+const Characters = preload("res://scripts/catalog/character_catalog.gd")
 @export var pulse_effect_scene: PackedScene = preload("res://scenes/combat/pulse_effect.tscn")
 @export var round_duration: float = 90.0
 @export var projectile_scene: PackedScene = preload("res://scenes/combat/projectile.tscn")
@@ -53,6 +54,11 @@ func _ready() -> void:
 	new_match(seed_value)
 func new_match(seed_value: int = -1) -> void:
 	match_state = MatchState.new(seed_value if seed_value >= 0 else Time.get_ticks_usec())
+	# P8z：マッチを作り直しても、選んだキャラクターの初期武器から始められるようにする。初回は
+	# キャラ未選択（char_id < 0）なのでMatchState側の既定の初期武器のままで、キャラ確定時に
+	# assign_character()が差し替える。
+	for i in range(players.size()):
+		if players[i].char_id >= 0: match_state.grant_start_weapon(i,Characters.start_gun(players[i].char_id))
 	supply_generator = MatchState.Generator.new(match_state.seed_value ^ 0x51A7)
 	telemetry = RunLog.new(match_state.seed_value)
 	scores = match_state.scores
@@ -118,11 +124,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and not players[0].is_cpu:
 		if phase == "play" and not paused and result == "":
 			var p0 = players[0]
-			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-				p0.request_switch((int(p0.state.gun)+1) % p0.inventory.size())
-			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				var inv_size: int = p0.inventory.size()
-				p0.request_switch((int(p0.state.gun)-1+inv_size) % inv_size)
+			# P8z ステップA：丸腰（inventoryが空）だと剰余がゼロ除算になるため、切替自体を無視する。
+			var inv_size: int = p0.inventory.size()
+			if inv_size > 0:
+				if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+					p0.request_switch((int(p0.state.gun)+1) % inv_size)
+				elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+					p0.request_switch((int(p0.state.gun)-1+inv_size) % inv_size)
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT: clear_action_inputs()
 func clear_action_inputs() -> void:
@@ -271,6 +279,13 @@ func launch_round() -> void:
 	telemetry.record("round_start",{"stage":match_state.stage,"builds":match_state.previous})
 	supplies.launch()
 	preparation.refresh()
+# P8z：キャラクターの適用と初期武器の付与をまとめた入口。main.tscnの_ready()が先にnew_match()
+# を走らせてしまうため、キャラが決まった時点でここを呼んで、初期武器を所持庫へ入れ直したビルドを
+# プレイヤーへ反映する（scripts/ui/character_select.gdのstart_match()から呼ばれる）。
+func assign_character(index: int, char_id: int) -> void:
+	players[index].set_character(char_id)
+	match_state.grant_start_weapon(index,Characters.start_gun(char_id))
+	players[index].apply_build(match_state.builds[index],match_state.capacity())
 func equip_slot(index: int, slot: int) -> void:
 	if phase == "play" and not paused and result == "" and not players[index].is_cpu: players[index].request_switch(slot)
 # Danger zone: the safe area starts shrinking 60s into the round (7px/sec, capped at 195px
@@ -311,7 +326,9 @@ func _physics_process(dt: float) -> void:
 					if b.state.owner != i and not b.state.dead and b.state.pos.distance_to(players[i].state.pos) < phase_radius:
 						phase_triggered = true
 						break
-				if phase_triggered:
+				# P8z ステップA：すり抜け装填には装填する武器が要る。丸腰ではWeapons.definition(-1)が
+				# 負数添字で配列末尾を返してしまうため、has_weapon()で手前から弾く。
+				if phase_triggered and players[i].has_weapon():
 					players[i].state.phase_load_used = true
 					var phase_weapon: Dictionary = players[i].weapon()
 					var phase_def: Dictionary = Weapons.definition(phase_weapon.id)

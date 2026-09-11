@@ -6,7 +6,7 @@ func _initialize() -> void:
 	call_deferred("run")
 
 # battle.gd's start(game,1) always gives BOTH players inventory [sidearm(0), candy(1)] with
-# candy(1) equipped (build.main defaults to weapon 1 for both sides). id==0 switches back to
+# candy(1) equipped (tests/helpers/battle.gd places weapon 1 for both sides). id==0 switches back to
 # the already-owned sidearm; id==1 leaves candy equipped; any other id adds and equips a THIRD
 # weapon (must not already be 0/1, and must not already be owned).
 func setup(game, id: int) -> void:

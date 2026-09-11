@@ -1,0 +1,2 @@
+# Python 3.10+; HTTP/JSON/.env handling use the standard library.
+mutagen==1.47.0

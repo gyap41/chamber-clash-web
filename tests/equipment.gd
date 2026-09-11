@@ -14,12 +14,16 @@ func run() -> void:
 	game.fire(0)
 	game._physics_process(.5)
 	assert(game.shots.is_empty() and game.remaining == clock)
-	assert(not prep.select_gun(-1))
+	assert(not prep.claim(-1)) # P8z：主力選択(select_gun)は廃止。無効なidの報酬取得が弾かれることで準備画面のゲートを確認する
 	prep.ready_shop()
 	assert(game.phase == "prepare")
 	preload("res://tests/helpers/battle.gd").start(game)
-	assert(p.add_gun(16) and p.add_gun(19) and not p.add_gun(6))
+	assert(p.add_gun(16) and p.add_gun(19) and not p.add_gun(19)) # 重複は拒否
 	assert(q.inventory.size() == 2)
+	# P8z：携行の天井は「4スロット固定」から所持庫に合わせたMAX_CARRIED_WEAPONS（8丁）へ移った
+	# （実際の上限はグリッドの面積と武器の形状で決まり、これは暴走防止の天井）。
+	for id in [2,3,5,7,11,12]: assert(q.add_gun(id))
+	assert(q.inventory.size() == q.MAX_CARRIED_WEAPONS and not q.add_gun(14))
 	# Independent ammunition, reload cancellation, empty slots and cycling.
 	p.equip_slot(0)
 	p.state.shot = 0.0
@@ -41,8 +45,10 @@ func run() -> void:
 	for i in range(4): p.handle_key(KEY_E,0,game.shots,q,game.arena)
 	assert(p.state.gun == 0)
 	game.new_match(17)
-	assert(game.scores == [0,0] and game.match_state.builds[0].owned.is_empty())
-	assert(p.inventory.size() == 1 and p.weapon().clip == 12 and game.delayed_shots.is_empty())
+	# P8z：新しいマッチの所持庫にはキャラクターの初期武器（キャラ未選択なら既定の武器0）が1つ
+	# だけ入っている。取得と配置は分離されているので、自分でグリッドへ置くまでは丸腰。
+	assert(game.scores == [0,0] and game.match_state.builds[0].owned == [game.match_state.gun_token(0)])
+	assert(p.inventory.is_empty() and not p.has_weapon() and game.delayed_shots.is_empty())
 	combat(game)
 	game.new_match(18)
 	preload("res://tests/helpers/battle.gd").start(game)
@@ -51,7 +57,7 @@ func run() -> void:
 	assert(p.state.gun == 0 and q.state.gun == 0)
 	game.hud.slots[1][1].pressed.emit()
 	assert(p.state.gun == 0 and q.state.gun == 1)
-	print("PASS: preparation gate, independent ammunition, four slots, reload, reset, HUD bindings")
+	print("PASS: preparation gate, independent ammunition, carry cap (P8z), reload, weaponless reset, HUD bindings")
 	game.queue_free()
 	quit()
 

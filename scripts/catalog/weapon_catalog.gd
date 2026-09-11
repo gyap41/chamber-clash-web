@@ -24,8 +24,17 @@ static func art(id: int) -> AtlasTexture:
 		textures[id] = AtlasRegions.grid_cell(BASE_SHEET if id < 16 else EXTRA_SHEET, Vector2i(columns, columns), index)
 	return textures[id]
 
+# P8z：今後キャラクター専用の初期武器を追加する予定があり、それらは宝箱の抽選にもマッチ開始時
+# の候補にも混ざってはいけない。抽選側がSUPPORTEDを直接見ないよう、「配布してよい武器」のプール
+# をここで一枚挟んでおく。専用武器を足すときは、その武器のカタログ定義に "exclusive": true を
+# 付ければ自動的にプールから外れる（フィールドの武器抽選＝supplies.gdのweighted_gun()も、この
+# 下のrarity_pool()を経由するようにしてある）。
+static func distributable(id: int) -> bool:
+	return supported(id) and not bool(definition(id).get("exclusive", false))
+static func distributable_pool() -> Array:
+	return SUPPORTED.filter(func(id): return distributable(id))
 static func rarity_pool(rarity: String) -> Array:
-	return SUPPORTED.filter(func(id): return definition(id).rarity == rarity)
+	return distributable_pool().filter(func(id): return definition(id).rarity == rarity)
 
 # legacy-web/dist/data.js RARITIES (not included in catalog.json). Shared by the field-pickup
 # frame color (scripts/world/pickup.gd, P7 宝箱演出) and the acquire-burst color

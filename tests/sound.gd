@@ -14,6 +14,12 @@ func run() -> void:
 	game.hud.get_node("SoundControls/Toggle").pressed.emit()
 	assert(audio.enabled and events.back()[0] == "toggle")
 	game.phase = "play"
+	assert(not p.has_weapon())
+	var unarmed_count := events.size()
+	game.fire(0)
+	assert(events.size() == unarmed_count)
+	assert(p.add_gun(0))
+	p.state.shot = 0.0
 	game.fire(0)
 	assert(events.back() == ["shot",0])
 	var count := events.size()
@@ -56,8 +62,10 @@ func run() -> void:
 	var size: int = audio.cache.size()
 	for i in range(20): audio.play_sound("shot",0)
 	assert(audio.cache.size() == size and audio.voices.size() == 16)
+	var playback_refs: Array = audio.voices.map(func(voice): return weakref(voice.get_stream_playback()))
 	audio.set_enabled(false)
 	assert(audio.voices.all(func(voice): return not voice.playing))
+	assert(audio.voices.all(func(voice): return voice.stream == null))
 	count = events.size()
 	audio.play_sound("hit")
 	assert(events.size() == count)
@@ -67,5 +75,11 @@ func run() -> void:
 	game.queue_free()
 	await process_frame
 	assert(AudioServer.get_bus_index(bus) == -1)
+	# The mixer and deferred cleanup need time after scene deletion. Check actual release
+	# through weak references, with a bounded wait instead of an arbitrary fixed sleep.
+	var deadline := Time.get_ticks_msec() + 1000
+	while playback_refs.any(func(ref): return ref.get_ref() != null) and Time.get_ticks_msec() < deadline:
+		await create_timer(.05).timeout
+	assert(playback_refs.all(func(ref): return ref.get_ref() == null))
 	print("PASS: mute/UI/action guards/combat signals, 20 weapon synthesis profiles/PCM, cache/voice cap/stop and bus cleanup")
 	quit()

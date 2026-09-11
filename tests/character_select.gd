@@ -55,12 +55,17 @@ func run() -> void:
 	# theirs — P2/CPU never gets an actual turn in either screen (legacy's selectGun()/
 	# readyShop() mode==='cpu' branches). Drive P1 through both to confirm this end-to-end.
 	cpu_game.set_physics_process(false)
-	assert(cpu_game.phase == "prepare" and cpu_game.players[1].inventory.size() == 1)
-	cpu_game.preparation.select_gun(cpu_game.preparation.choices[0])
+	# P8z：主力選択が廃止され、キャラクターの初期武器が所持庫へ入る。装備は自分でグリッドへ
+	# 置くまで成立しないので、準備画面に入った時点では両者とも丸腰。
+	assert(cpu_game.phase == "prepare" and cpu_game.players[1].inventory.is_empty())
+	assert(cpu_game.match_state.builds[1].owned.size() == 1)
 	for id in cpu_game.match_state.rewards[0].slice(0,2): assert(cpu_game.preparation.claim(id))
 	cpu_game.preparation.ready_shop()
 	assert(cpu_game.phase == "play")
-	assert(cpu_game.players[1].relics.size() == 2)
+	# CPUは所持庫のものを武器優先で自動配置する。段階1は6マスしかなく、形状次第では取った
+	# レリックが全部は入らないため、装備数ではなく「取り切って所持庫に入っていること」で見る。
+	assert(cpu_game.match_state.builds[1].owned.size() >= 2 and cpu_game.players[1].relics.size() <= 2)
+	assert(cpu_game.players[1].has_weapon()) # 武器を優先して置くので丸腰にはならない
 	assert(cpu_game.preparation.shop_ready == [true,true])
 
 	# A CPU-controlled player moves under cpu_ai.gd's decision, not physical key input: step()

@@ -11,6 +11,11 @@ const RELIC_HINTS := ["移動 +12%", "装填時間 -35%", "壁反射 +1回", "�
 # だけに絞るため、常に16枚すべてが見えるわけではない。段階が進むと横に長くなりうるが、これは
 # P10（UIテーマ・見た目の作り込み）での調整を前提とした割り切り。
 const MAX_RELIC_CAPACITY := 16
+# P8z：武器も同じグリッドに置くようになり、携行丁数が「サイドアーム＋主力の2丁、拾って最大4丁」
+# から可変（0〜8丁）になった。所持庫の上限が8個なので携行も8丁が天井（player.gdの
+# MAX_CARRIED_WEAPONS）。スロットはその数だけ確保し、実際に携行しているぶんだけ表示する
+# ——1丁も置かなければ武器スロットは1つも出ない（丸腰）。
+const MAX_WEAPON_SLOTS := 8
 func _ready() -> void:
 	$Root/Status.tooltip_text = "弾の外周：橙=P1、青=P2。黄色の二重輪=高威力・設置・分裂・派生弾。紫の破線=仮装備を持つ相手の派生弾。レリック欄にカーソルを重ねると効果を確認できます。"
 	for i in range(2):
@@ -34,7 +39,7 @@ func _ready() -> void:
 			cards.append(card)
 		relic_cards.append(cards)
 		var row: Array = []
-		for n in range(4):
+		for n in range(MAX_WEAPON_SLOTS):
 			var button := Button.new()
 			button.custom_minimum_size = Vector2(129,86)
 			button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -89,12 +94,14 @@ func refresh(players: Array, remaining: float, paused: bool, result: String, sco
 		$Root/Message.text = "%s（%d - %d）　ENTER で次ラウンドの準備" % [result,scores[0],scores[1]]
 	for i in range(2):
 		refresh_relics(i,players[i])
-		for n in range(4):
+		for n in range(MAX_WEAPON_SLOTS):
 			var button: Button = slots[i][n]
 			var player = players[i]
-			button.disabled = n >= player.inventory.size() or phase != "play" or paused or player.is_cpu
-			if n >= player.inventory.size():
-				button.text = "空き %d" % (n+1)
+			# P8z：携行していないスロットは「空き」ではなく非表示にする。準備画面のグリッドに
+			# 何丁置いたかがそのまま並ぶので、埋まっていない枠を見せる意味がなくなった。
+			button.visible = n < player.inventory.size()
+			button.disabled = not button.visible or phase != "play" or paused or player.is_cpu
+			if not button.visible:
 				button.icon = null
 				button.modulate = Color.WHITE
 				continue

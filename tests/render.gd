@@ -15,10 +15,48 @@ func run() -> void:
 	game.set_physics_process(false)
 	game.new_match(42)
 	await capture("-preparation")
+	game.preparation.show_detail(game.match_state.rewards[0][0],true)
+	await capture("-rewards")
 	game.match_state.stage = 4
-	game.match_state.builds[0] = {"main":1,"owned":[0,1,2,3,4,5,6,7],"equipped":[0,1,2,3,4,5]}
+	# P8z：mainは廃止。武器もレリックと同じグリッドに置くので、所持庫に武器を混ぜて自動配置する。
+	game.match_state.builds[0] = {"owned":[game.match_state.gun_token(1),0,1,2,3,4,5,6],"equipped":[],"positions":{},"mods":{}}
+	for entry in game.match_state.builds[0].owned.duplicate(): game.match_state.place(0,entry,game.match_state.auto_place(0,entry))
 	game.preparation.refresh()
 	await capture("-inventory")
+	# B layout: same 7/16-cell example as the accepted design, plus overflow states.
+	var prep = game.preparation
+	var ms = game.match_state
+	var start_gun: String = ms.gun_token(1)
+	prep.cancel_placement()
+	prep.set_process(false) # Deterministic preview capture, independent of the OS cursor.
+	ms.builds[0] = {"owned":[start_gun,2,4,0,3],"equipped":[],"positions":{},"mods":{}}
+	ms.rewards[0] = [1,7,10]
+	ms.remaining[0] = 1
+	assert(ms.place(0,start_gun,Vector2i(0,0)))
+	assert(ms.place(0,2,Vector2i(2,0)))
+	assert(ms.place(0,4,Vector2i(0,2)))
+	prep.refresh()
+	prep.show_detail(0)
+	await capture("-b-layout")
+	prep.select_entry(0)
+	assert(prep.preview_at(0,Vector2i(3,3)))
+	await capture("-b-preview")
+	assert(not prep.preview_at(0,Vector2i(0,0)))
+	await capture("-b-blocked")
+	prep.cancel_placement()
+	var mod: Dictionary = game.Weapons.mods_for(1)[0]
+	ms.builds[0] = {"owned":[ms.gun_token(9),start_gun,0,1,2,3,4,5],"equipped":[],"positions":{},"mods":{1:mod.key}}
+	ms.rewards[0] = [game.Weapons.mod_token(1,mod.key),6,7,8,9,10]
+	prep.refresh()
+	prep.show_detail(start_gun)
+	await capture("-b-eight-reserve")
+	prep.get_node("Root/Panel/Content/Cards/Reserve/Scroll").scroll_horizontal = 10000
+	await capture("-b-reserve-end")
+	var original_size := root.size
+	root.size = Vector2i(1120,800)
+	await capture("-b-native-size")
+	root.size = original_size
+	prep.set_process(true)
 	game.new_match(42)
 	preload("res://tests/helpers/battle.gd").start(game)
 	game.players[0].add_gun(8)
@@ -60,7 +98,12 @@ func run() -> void:
 	relic_hover.position = game.hud.relic_cards[1][5].get_global_rect().get_center()
 	relic_hover.global_position = relic_hover.position
 	root.push_input(relic_hover,true)
-	await create_timer(.7).timeout
+	# Keep the synthetic hover in place while waiting for the tooltip; a native
+	# mouse event when the test window opens can otherwise replace it mid-wait.
+	var hover_until := Time.get_ticks_msec() + 700
+	while Time.get_ticks_msec() < hover_until:
+		await process_frame
+		root.push_input(relic_hover,true)
 	assert(root.gui_get_hovered_control() == game.hud.relic_cards[1][5])
 	await capture("-relic-tooltip")
 	game.use_pulse(1)
@@ -93,8 +136,9 @@ func run() -> void:
 	game.players[0].hurt(1)
 	var item = game.supplies.put_item("ammo",0,game.players[1].state.pos)
 	item.age = .6
+	assert(game.players[1].add_gun(0))
 	game.players[1].weapon().reserve = 0
-	game.supplies.acquire(1,item)
+	assert(game.supplies.acquire(1,item))
 	game.spawn_shot(0,9,0,{"pos":Vector2(450,400),"life":.001})
 	game.spawn_shot(0,10,0,{"pos":Vector2(700,400),"life":.001})
 	game._physics_process(.01)

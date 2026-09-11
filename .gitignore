@@ -4,6 +4,7 @@ web-build/
 export_templates/
 legacy-web/.openai/
 assets/reference/
+.env
 
 # OS / editor noise
 .DS_Store
@@ -12,3 +13,9 @@ Thumbs.db
 *.swp
 
 Claude outputs/
+
+# Local Python audio tooling and credentials
+.env.*
+.venv/
+__pycache__/
+*.py[cod]

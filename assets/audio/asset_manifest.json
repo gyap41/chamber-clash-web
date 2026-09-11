@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "assets": [
+    {
+      "asset_id": "se:test_ui_click",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/test_ui_click.mp3",
+      "purpose": "Connection test: subtle UI click",
+      "prompt": "One subtle dry game UI click, soft tactile plastic tap, very short gentle transient, quiet tail, no music, no voice, no repeated clicks",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-11T08:44:07.852564+00:00",
+      "fingerprint": "d81fa147aedc1e6fc5db03484bf891698d98287fee5b061b701640f3b863512d",
+      "sha256": "aaf77dd7a00bf34b06ed3331a83af04af147f2ef7c8eea8cb49a2ecd09f3ae16",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "bgm:sample_battle_02",
+      "type": "bgm",
+      "provider": "stability",
+      "file_path": "res://assets/audio/bgm/sample_battle_02.wav",
+      "purpose": "User-requested BGM sample after TLS and User-Agent fixes; previous attempt bgm:sample_battle_01",
+      "prompt": "Instrumental playful sci-fi arena battle, 132 BPM, punchy synth bass, tight electronic drums, sparse bright arpeggios, energetic and focused, no vocals, no sound effects, no long intro",
+      "loop": false,
+      "generation_parameters": {
+        "model": "stable-audio-2.5",
+        "duration": 20.0,
+        "output_format": "wav",
+        "steps": 8
+      },
+      "duration": 20.0,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-11T10:47:40.660079+00:00",
+      "fingerprint": "ec9e296e16b69fdccdd0f7eab93b82da1ba52631ca1000520a955e43735ecdc7",
+      "sha256": "86cb6d68b46a37283d7f0ebf9bf6d85b8f5372085e6d23718f14c52018d6d4de",
+      "loop_verified": false
+    }
+  ]
+}

@@ -49,7 +49,7 @@ func refresh(players: Array, ready_delay: float = .6, open_seconds: float = 0.0)
 				hints.append("開封中…%.1f/%.1f秒" % [minf(open_progress,open_seconds),open_seconds])
 			elif opening_player != -1:
 				hints.append("P%dが開封中" % (opening_player+1))
-			elif kind == "weapon" and not p.owns(gun) and p.inventory.size() >= 4:
+			elif kind == "weapon" and not p.owns(gun) and p.inventory.size() >= p.MAX_CARRIED_WEAPONS: # P8z：携行枠は4丁固定ではなくMAX_CARRIED_WEAPONS
 				hints.append("P%d %s：開封して交換" % [i+1,"G" if i == 0 else "H"])
 			elif kind == "weapon":
 				hints.append("P%d %s：開封" % [i+1,"G" if i == 0 else "H"])

@@ -1,0 +1,8 @@
+{
+  "model": "gpt-image-2",
+  "prompt": "Create one test game asset sprite for Chamber Clash, a 2D arena combat game. A single closed sci-fi loot chest, dark steel with gold trim and a cyan latch. Three-quarter top-down view, crisp pixel-art style, chunky readable silhouette, centered with generous padding. Flat solid white background, no ground shadow, no scene, no text, no watermark, no sprite sheet.",
+  "n": 1,
+  "size": "1024x1024",
+  "quality": "low",
+  "output_format": "png"
+}

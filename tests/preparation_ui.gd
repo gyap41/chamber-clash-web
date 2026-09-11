@@ -1,83 +1,181 @@
 extends SceneTree
-# 準備画面の可読性改善（タブ分割・常設説明文のツールチップ化・所持レリック一覧の重複排除）を
-# 検証する。実際のマウス操作の感触やレイアウトの見た目自体はheadlessでは検証できないため、
-# ノード構造・可視性・ツールチップ設定・破棄ボタンの配線のみを確認する。
 func _initialize() -> void:
 	call_deferred("run")
+func motion(at: Vector2, held: bool = false, delta := Vector2.ZERO) -> void:
+	var event := InputEventMouseMotion.new()
+	event.position = at
+	event.global_position = at
+	event.relative = delta
+	event.button_mask = MOUSE_BUTTON_MASK_LEFT if held else 0
+	root.push_input(event,true)
+func mouse_button(at: Vector2, pressed: bool) -> void:
+	var event := InputEventMouseButton.new()
+	event.position = at
+	event.global_position = at
+	event.button_index = MOUSE_BUTTON_LEFT
+	event.pressed = pressed
+	event.button_mask = MOUSE_BUTTON_MASK_LEFT if pressed else 0
+	root.push_input(event,true)
+func click_at(at: Vector2) -> void:
+	motion(at)
+	mouse_button(at,true)
+	mouse_button(at,false)
 func run() -> void:
 	var game = load("res://scenes/game/main.tscn").instantiate()
 	root.add_child(game)
 	game.set_physics_process(false)
 	game.new_match(1)
-	assert(game.phase == "prepare")
 	var prep = game.preparation
 	var state = game.match_state
-
-	# --- タブ：初期状態は①のみ表示、ボタン3つ、押下状態も①のみtrue ---
-	var tabs = prep.get_node("Root/Panel/Content/Tabs")
-	assert(tabs.get_child_count() == 3)
 	var cards = prep.get_node("Root/Panel/Content/Cards")
 	assert(cards.get_child_count() == 3)
-	assert(prep.active_tab == 0)
-	assert(cards.get_child(0).visible and not cards.get_child(1).visible and not cards.get_child(2).visible)
-	assert(tabs.get_child(0).button_pressed and not tabs.get_child(1).button_pressed and not tabs.get_child(2).button_pressed)
-
-	# --- set_tab()で表示列・タブボタンの押下状態が切り替わる ---
-	prep.set_tab(1)
-	assert(prep.active_tab == 1)
-	assert(not cards.get_child(0).visible and cards.get_child(1).visible and not cards.get_child(2).visible)
-	assert(not tabs.get_child(0).button_pressed and tabs.get_child(1).button_pressed and not tabs.get_child(2).button_pressed)
-	prep.set_tab(2)
-	assert(cards.get_child(2).visible and not cards.get_child(0).visible and not cards.get_child(1).visible)
-	prep.set_tab(0)
-	assert(cards.get_child(0).visible)
-
-	# --- ready_shop()でのターン交代時、次のプレイヤーは①タブから開始する ---
-	prep.active_tab = 2
-	prep.update_tab_buttons()
-	assert(state.set_main(0,state.weapons[0][0]))
-	state.remaining[0] = 0 # confirm()の報酬消化条件を満たし、P1の準備完了だけを成立させる
-	prep.ready_shop()
-	assert(game.phase == "prepare") # P2未確定のためlaunch_round()はno-op
-	assert(prep.turn == 1 and prep.active_tab == 0)
-
-	# --- 武器候補：常設の説明Labelは撤去し、ボタンのtooltip_textへ移した ---
-	var col0 = cards.get_child(0).get_child(0)
-	var weapon_count: int = state.weapons[prep.turn].size()
-	assert(col0.get_child_count() == 2 + weapon_count) # 見出しLabel2枚＋武器ボタンのみ（説明文なし）
-	var weapon_buttons: Array = col0.get_children().filter(func(c): return c is Button)
-	assert(weapon_buttons.size() == weapon_count)
-	for b in weapon_buttons: assert(b.tooltip_text != "")
-
-	# --- 報酬候補：説明・相性の長文はtooltipへ。ボタン文言には相性だけ短く残す ---
-	var col1 = cards.get_child(1).get_child(0)
-	var reward_buttons: Array = col1.get_children().filter(func(c): return c is Button)
-	var reward_labels: Array = col1.get_children().filter(func(c): return c is Label)
-	assert(reward_labels.size() == 1) # 見出しLabelのみ（候補ごとの説明Labelは撤去）
-	assert(reward_buttons.size() > 0)
-	for b in reward_buttons:
-		assert(b.tooltip_text != "" and "相性：" in b.tooltip_text)
-		assert("（" in b.text) # ボタン文言自体にも相性タグ（例：良好／汎用）を短く残す
-
-	# --- レリック配置：所持レリック全部の重複説明リストを撤去。未装備分のみ、
-	#     チップ＋×（所持庫から完全放棄）ボタンの1行として控えに並べる ---
-	state.builds[prep.turn].owned = [0,1,4]
-	assert(state.place(prep.turn,4,state.auto_place(prep.turn,4))) # 4だけ装備してグリッドに乗せる
+	for name in ["Rewards","Equipment","Reserve","Equipment/Details"]:
+		assert(cards.get_node(name).is_visible_in_tree())
+	var ready = prep.get_node("Root/Panel/Content/Ready")
+	assert(ready.disabled)
+	# Claim through the real reward button; acquisition remains storage-only.
+	var rewards = cards.get_node("Rewards/Scroll/List")
+	var entry = state.rewards[0][0]
+	rewards.get_child(0).get_child(0).mouse_entered.emit()
+	assert(cards.get_node("Equipment/Details/Name").text == prep.reward_info(entry).name)
+	rewards.get_child(0).get_child(0).get_node("Claim").pressed.emit()
+	assert(state.relic_id(state.builds[0].owned.back()) == entry and state.builds[0].equipped.is_empty())
+	assert(state.remaining[0] == 1 and ready.disabled)
+	state.stage = 4
+	var gun: String = state.gun_token(1)
+	state.builds[0] = {"owned":[gun,0,1,4],"equipped":[],"positions":{},"mods":{}}
 	prep.refresh()
-	var col2 = cards.get_child(2).get_child(0)
-	var tray_list = col2.get_children().back() # HFlowContainer（最後に追加される）
-	assert(tray_list.get_child_count() == 2) # 未装備の0,1のみ（4は装備済みでグリッド側に表示）
-	for row in tray_list.get_children():
-		assert(row.get_child_count() == 2)
-		assert(row.get_child(0).tooltip_text != "") # チップ側の説明はツールチップに残る
-		assert(row.get_child(1).text == "×")
-
-	# ×ボタンは discard() に配線されており、装備の着脱（toggle）とは別に所持庫から完全に外す
-	var target_row = tray_list.get_children()[0]
-	var target_id: int = target_row.get_child(0).relic_id
-	target_row.get_child(1).pressed.emit()
-	assert(target_id not in state.builds[prep.turn].owned)
-
-	print("PASS: preparation tabs (visibility/button state, per-turn reset), weapon/reward long text moved to tooltips, relic tray dedup with wired discard button")
+	# Drops on the displayed cells use the same layout validation as the match model.
+	var grid = cards.get_node("Equipment/Grid")
+	assert(grid.get_child_count() == 16)
+	var cell = grid.get_child(0)
+	assert(cell._can_drop_data(Vector2.ZERO,{"entry":gun}))
+	cell._drop_data(Vector2.ZERO,{"entry":gun})
+	assert(gun in state.builds[0].equipped)
+	grid = cards.get_node("Equipment/Grid")
+	var chip = grid.get_child(0).get_child(0)
+	chip.pressed.emit()
+	assert(cards.get_node("Equipment/Details/Name").text == prep.entry_info(gun).name)
+	# Occupied anchors still receive drag events through their child chip.
+	assert(chip._can_drop_data(Vector2.ZERO,{"entry":gun}))
+	assert(not chip._can_drop_data(Vector2.ZERO,{"entry":4}))
+	# A locked click selection must not change when passing over another item.
+	prep.show_detail(0)
+	assert(prep.same_entry(prep.placement_entry,gun))
+	assert(cards.get_node("Equipment/Details/Name").text == prep.entry_info(gun).name)
+	prep.cancel_placement()
+	prep.select_entry(0)
+	assert(not prep.preview_at(0,Vector2i(0,0)))
+	assert("重複" in cards.get_node("Equipment/Details/Status").text)
+	var original: Dictionary = state.builds[0].positions.duplicate()
+	prep.click_cell(Vector2i(0,0))
+	assert(state.builds[0].positions == original)
+	assert(not prep.preview_at(4,Vector2i(3,3)))
+	assert("外" in cards.get_node("Equipment/Details/Status").text)
+	assert(prep.preview_at(0,Vector2i(3,3)))
+	var click := InputEventMouseButton.new()
+	click.button_index = MOUSE_BUTTON_LEFT
+	click.pressed = true
+	grid.get_child(15)._gui_input(click)
+	assert(state.builds[0].positions[0] == Vector2i(3,3))
+	prep.unequip_relic(0)
+	# Grabbing a non-anchor cell preserves the item's offset when relocating.
+	grid = cards.get_node("Equipment/Grid")
+	var body = grid.get_child(1).get_child(0)
+	assert(body.grab_offset == Vector2i(1,0))
+	var drag := {"entry":gun,"grab_offset":body.grab_offset}
+	assert(grid.get_child(5)._can_drop_data(Vector2.ZERO,drag))
+	grid.get_child(5)._drop_data(Vector2.ZERO,drag)
+	assert(state.builds[0].positions[gun] == Vector2i(0,1))
+	var tray = cards.get_node("Reserve/DropZone")
+	assert(tray.get_node("Hint").mouse_filter == Control.MOUSE_FILTER_IGNORE)
+	tray._drop_data(Vector2.ZERO,{"entry":gun})
+	assert(gun not in state.builds[0].equipped)
+	var rows = cards.get_node("Reserve/Scroll/List")
+	assert(rows.get_child_count() == 4)
+	rows.get_child(0).pressed.emit()
+	cards.get_node("Equipment/Details/Discard").pressed.emit()
+	assert(gun not in state.builds[0].owned)
+	# Eight reserve items remain reachable without expanding or moving the footer.
+	state.builds[0] = {"owned":[state.gun_token(9),gun,0,1,2,3,4,5],"equipped":[],"positions":{},"mods":{}}
+	prep.refresh()
+	await process_frame
+	await process_frame
+	var reserve_scroll = cards.get_node("Reserve/Scroll")
+	rows = reserve_scroll.get_node("List")
+	assert(rows.get_child_count() == 8 and rows.size.x > reserve_scroll.size.x)
+	reserve_scroll.scroll_horizontal = 10000
+	await process_frame
+	assert(reserve_scroll.get_global_rect().intersects(rows.get_child(7).get_global_rect()))
+	reserve_scroll.scroll_horizontal = 120
+	prep.refresh()
+	await process_frame
+	await process_frame
+	reserve_scroll = cards.get_node("Reserve/Scroll")
+	assert(reserve_scroll.scroll_horizontal == 120)
+	# Pane rectangles may not overlap; scroll content may extend only inside its clip.
+	var sections: Array = cards.get_children()
+	for a in range(sections.size()):
+		for b in range(a+1,sections.size()):
+			assert(not sections[a].get_global_rect().intersects(sections[b].get_global_rect()))
+	var details = cards.get_node("Equipment/Details")
+	assert(not details.get_global_rect().intersects(cards.get_node("Equipment/Grid").get_global_rect()))
+	assert(not reserve_scroll.get_global_rect().intersects(cards.get_node("Reserve/DropZone").get_global_rect()))
+	for card in cards.get_node("Rewards/Scroll/List").get_children():
+		for control in card.get_child(0).get_children():
+			assert(card.get_global_rect().encloses(control.get_global_rect()))
+	for control in details.get_children():
+		assert(details.get_global_rect().encloses(control.get_global_rect()))
+	# Complete preparation with no weapon: keep the existing valid unarmed choice.
+	state.remaining[0] = 0
+	prep.refresh()
+	assert(not ready.disabled and "近接" in prep.get_node("Root/Panel/Content/Summary").text)
+	prep.ready_shop()
+	assert(game.phase == "prepare" and prep.turn == 1 and prep.selected_detail == null)
+	# Layout fits the 1120x800 logical viewport, including a maximum-size grid.
+	await process_frame
+	await process_frame
+	var content = prep.get_node("Root/Panel/Content")
+	assert(cards.get_node("Reserve/Scroll").scroll_horizontal == 0)
+	var panel_rect: Rect2 = content.get_global_rect()
+	for section in cards.get_children():
+		assert(panel_rect.encloses(section.get_global_rect()))
+	assert(panel_rect.encloses(ready.get_global_rect()))
+	grid = cards.get_node("Equipment/Grid")
+	assert(grid.get_child(0).size.x >= 88)
+	assert(cards.get_node("Equipment").get_global_rect().encloses(grid.get_global_rect()))
+	assert(prep.get_node("Root/Shade").color.a == 1.0)
+	# Exercise Godot's GUI hit testing and drag threshold, not only callback methods.
+	var sidearm: String = state.gun_token(0)
+	state.stage = 1
+	state.builds[1] = {"owned":[sidearm,0,4],"equipped":[],"positions":{},"mods":{}}
+	prep.cancel_placement()
+	prep.reserve_scroll = 0
+	prep.refresh()
+	await process_frame
+	await process_frame
+	rows = cards.get_node("Reserve/Scroll/List")
+	click_at(rows.get_child(0).get_global_rect().get_center())
+	assert(prep.same_entry(prep.placement_entry,sidearm))
+	grid = cards.get_node("Equipment/Grid")
+	click_at(grid.get_child(0).get_global_rect().get_center())
+	assert(state.builds[1].positions[sidearm] == Vector2i.ZERO)
+	await process_frame
+	await process_frame
+	rows = cards.get_node("Reserve/Scroll/List")
+	var source: Vector2 = rows.get_child(1).get_global_rect().get_center()
+	motion(source)
+	mouse_button(source,true)
+	motion(source+Vector2(20,-20),true,Vector2(20,-20))
+	await process_frame
+	assert(root.gui_is_dragging())
+	grid = cards.get_node("Equipment/Grid")
+	var target: Vector2 = grid.get_child(1).get_global_rect().get_center()
+	motion(target,true,target-source)
+	await process_frame
+	mouse_button(target,false)
+	await process_frame
+	assert(state.builds[1].positions[4] == Vector2i(1,0))
+	print("PASS: full-screen preparation, reward/detail/claim, grid and occupied-cell drops, reserve/discard, unarmed ready, turn reset and layout bounds")
 	game.queue_free()
 	quit()

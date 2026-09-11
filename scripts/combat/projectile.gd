@@ -29,6 +29,8 @@ func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionar
 	switcher = g.get("switcher",false)
 	speed = opts.get("speed", g.speed)
 	damage = opts.get("damage", g.damage)
+	if int(opts.get("depth",0)) == 0:
+		damage *= 1.0 + player.Relics.additive_bonus(player.relics,"shot_bonus")
 	if 6 in player.relics:
 		speed *= .8
 		damage *= 1.15

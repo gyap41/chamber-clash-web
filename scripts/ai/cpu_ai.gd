@@ -50,7 +50,8 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 			desired = player.field_relic_reason(item.gun) == ""
 		else:
 			var g: Dictionary = Weapons.definition(item.gun)
-			desired = player.inventory.size() < 4 or player.inventory.any(func(x): return x.id == item.gun and float(x.reserve) < float(g.stock)*.6) or g.rarity == "S"
+			# P8z：携行枠が4丁固定でなくなったため上限はplayer.MAX_CARRIED_WEAPONSを見る。
+			desired = player.inventory.size() < player.MAX_CARRIED_WEAPONS or player.inventory.any(func(x): return x.id == item.gun and float(x.reserve) < float(g.stock)*.6) or g.rarity == "S"
 		if not desired: continue
 		var cost: float = p.pos.distance_to(item.position) * (.65 if item.kind == "weapon" and Weapons.definition(item.gun).rarity == "S" else 1.0)
 		if cost < best:
@@ -127,9 +128,13 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 				dy = candidate.y
 				break
 
-	if player.weapon().clip == 0: player.start_reload()
+	if player.has_weapon() and player.weapon().clip == 0: player.start_reload()
 	if d < 64.0: player.handle_key(KEY_N,1,game.shots,enemy,arena)
 
+	# P8z：武器を1丁も置かなかったラウンドは丸腰になりうる。撃てないので射線を取りに行っても
+	# 意味がなく、近接の間合いへ詰めるのが唯一の攻め手になる。
+	if not player.has_weapon():
+		return {"dx":dx,"dy":dy,"shoot":false,"aim_jitter":sin(elapsed*2.2)*.09}
 	var def: Dictionary = player.definition()
 	var shoot: bool = not arena.line_blocked(p.pos,enemy.state.pos) or int(def.get("bounce",0)) > 0 or bool(def.get("boomerang",false))
 	return {"dx":dx,"dy":dy,"shoot":shoot,"aim_jitter":sin(elapsed*2.2)*.09}

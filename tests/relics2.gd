@@ -86,7 +86,7 @@ func run() -> void:
 	assert(is_equal_approx(game.shots[-1].damage,.78))
 
 	# Reserve Holster: switching guns tops the outgoing weapon up by 1 round from reserve, 1.5s reuse.
-	# setup() already gives both players id 0 (starter) and id 1 (shop pick) via select_gun(1),
+	# setup() already gives both players id 0 and id 1 (tests/helpers/battle.gd places both on the grid),
 	# so inventory[0]/[1] already exist here; no extra add_gun call is needed (or valid, since
 	# add_gun rejects a weapon the player already owns).
 	setup(game,0)

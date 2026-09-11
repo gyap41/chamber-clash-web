@@ -13,6 +13,19 @@ func _initialize() -> void:
 func run() -> void:
 	var MatchState = preload("res://scripts/game/match_state.gd")
 	var m = MatchState.new(1)
+	# Mixed token types must coexist, exclude only themselves, and block overlaps.
+	var mixed = MatchState.new(1)
+	var gun: String = mixed.gun_token(0)
+	mixed.builds[0].owned = [gun,0]
+	assert(mixed.place(0,gun,Vector2i(0,0)))
+	assert(mixed.place(0,0,Vector2i(1,0)))
+	assert(mixed.occupied_cells(0).size() == 2)
+	assert(mixed.occupied_cells(0,gun) == {Vector2i(1,0):0})
+	assert(mixed.occupied_cells(0,0) == {Vector2i(0,0):gun})
+	assert(mixed.place(0,gun,Vector2i(0,0)))
+	assert(mixed.place(0,0,Vector2i(1,0)))
+	assert(not mixed.place(0,gun,Vector2i(1,0)))
+	assert(not mixed.place(0,0,Vector2i(0,0)))
 
 	# --- grid_size()：段階別マス数（要playtest調整の仮値） ---
 	m.stage = 1
@@ -79,10 +92,12 @@ func run() -> void:
 	m.remaining[0] = 1
 	# P8y 取得と配置の分離：claim()は所持庫へ入れるだけで、装備も配置もしない。どのマスへ置くかは
 	# プレイヤーがplace()（準備画面のドラッグ）で決める。
-	assert(m.claim(0,5) and 5 in m.builds[0].owned)
-	assert(5 not in m.builds[0].equipped and not m.builds[0].positions.has(5))
-	assert(m.place(0,5,m.auto_place(0,5)) and m.builds[0].positions.has(5)) # 自分で置いて初めて装備になる
-	assert(m.discard(0,5) and not m.builds[0].positions.has(5))
+	assert(m.claim(0,5))
+	var acquired = m.builds[0].owned.back()
+	assert(m.relic_id(acquired) == 5)
+	assert(acquired not in m.builds[0].equipped and not m.builds[0].positions.has(acquired))
+	assert(m.place(0,acquired,m.auto_place(0,acquired)) and m.builds[0].positions.has(acquired)) # 自分で置いて初めて装備になる
+	assert(m.discard(0,acquired) and not m.builds[0].positions.has(acquired))
 
 	# --- UIグルー：RelicGridCell／RelicTrayのドロップ判定はmatch_state.fits()/place()に委譲 ---
 	var game = load("res://scenes/game/main.tscn").instantiate()
@@ -101,19 +116,19 @@ func run() -> void:
 	cell.player_index = 0
 	cell.cell = Vector2i(0,0)
 	cell.on_drop = prep.place_relic
-	assert(cell._can_drop_data(Vector2.ZERO,{"relic_id":4}))
-	cell._drop_data(Vector2.ZERO,{"relic_id":4})
+	assert(cell._can_drop_data(Vector2.ZERO,{"entry":4}))
+	cell._drop_data(Vector2.ZERO,{"entry":4})
 	assert(4 in ms.builds[0].equipped and ms.builds[0].positions[4] == Vector2i(0,0))
 	var cell_same_spot := RelicGridCell.new()
 	cell_same_spot.game = game
 	cell_same_spot.player_index = 0
 	cell_same_spot.cell = Vector2i(0,0)
 	cell_same_spot.on_drop = prep.place_relic
-	assert(not cell_same_spot._can_drop_data(Vector2.ZERO,{"relic_id":6})) # 既に4が占有中
+	assert(not cell_same_spot._can_drop_data(Vector2.ZERO,{"entry":6})) # 既に4が占有中
 	var tray := RelicTray.new()
 	tray.on_drop = prep.unequip_relic
-	assert(tray._can_drop_data(Vector2.ZERO,{"relic_id":4}))
-	tray._drop_data(Vector2.ZERO,{"relic_id":4})
+	assert(tray._can_drop_data(Vector2.ZERO,{"entry":4}))
+	tray._drop_data(Vector2.ZERO,{"entry":4})
 	assert(4 not in ms.builds[0].equipped and not ms.builds[0].positions.has(4))
 	# 単体でnew()したControlノードは一度もシーンツリーへ入っていないため、そのままでは
 	# CanvasItem RID等がリークする（refresh()経由でCards配下に足された他のノードは、次回

@@ -27,11 +27,15 @@ func _ready() -> void:
 		voices.append(voice)
 
 func _exit_tree() -> void:
+	stop_all()
+	cache.clear()
 	var index := AudioServer.get_bus_index(bus_name)
 	if index > 0: AudioServer.remove_bus(index)
 
 func stop_all() -> void:
-	for voice in voices: voice.stop()
+	for voice in voices:
+		voice.stop()
+		voice.stream = null
 
 func set_enabled(value: bool) -> void:
 	enabled = value

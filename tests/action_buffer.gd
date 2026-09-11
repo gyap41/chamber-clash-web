@@ -103,6 +103,8 @@ func run() -> void:
 		game.phase = "play"
 		game.remaining = 90.0
 	var q = game.players[1]
+	# new_match clears equipment; explicitly arm P2 for the keyboard firing check.
+	assert(q.add_gun(0))
 	q.state.roll = .08
 	q.state.shot = 0.0
 	key(game,KEY_L)

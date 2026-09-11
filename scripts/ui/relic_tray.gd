@@ -4,6 +4,6 @@ extends Panel
 # パネル自体がドロップを受け取れなくなるため。控え一覧の表示は別の場所に並べる）。
 var on_drop: Callable
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
-	return typeof(data) == TYPE_DICTIONARY and data.has("relic_id")
+	return typeof(data) == TYPE_DICTIONARY and data.has("entry")
 func _drop_data(_at_position: Vector2, data: Variant) -> void:
-	on_drop.call(int(data.relic_id))
+	on_drop.call(data.entry)

@@ -11,6 +11,10 @@ func run() -> void:
 	# apply (this is what every other existing test still exercises implicitly).
 	assert(p.char_id == -1 and p.max_hp == 8.0 and p.move_speed == 205.0)
 
+	# P8z：サイドアームの自動付与が廃止され、グリッドに何も置いていないラウンドは丸腰で始まる。
+	# 下の「set_character()はinventoryに触れない」という検証のために1丁だけ持たせておく。
+	assert(p.inventory.is_empty() and p.add_gun(0))
+
 	# Bolt (id 3): HP10, speed190, reload x1.0, dodge cooldown 2.0, 2 pulses, sprite cell 3.
 	p.set_character(3)
 	assert(p.char_id == 3 and p.max_hp == 10.0 and p.move_speed == 190.0)

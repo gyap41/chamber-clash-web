@@ -20,14 +20,20 @@ func run() -> void:
 	assert(Weapons.parse_mod_token("not_a_token").is_empty())
 	assert(Weapons.mod_token(11,"wide_sensor") == "mod:11:wide_sensor")
 
-	# --- MatchState: mod candidates only appear for the current, unmodified, moddable main ---
+	# --- MatchState: mod candidates only appear for a carried, unmodified, moddable weapon ---
+	# P8z：起点が「主力」から「グリッドに置いている武器」へ変わった。所持庫に持っているだけでは
+	# 対象にならず、実際に置いて携行して初めて改造が提示される。
 	game.reset_round()
 	var m = game.match_state
-	m.builds[0].main = -1
-	assert(m.mod_candidates(0).is_empty()) # no main chosen yet
-	m.builds[0].main = 0 # サイドアーム: not moddable
+	var gun0: String = m.gun_token(0)
+	var gun1: String = m.gun_token(1)
+	assert(m.builds[0].owned == [gun0]) # 既定の初期武器だけを所持、まだ置いていない
+	assert(m.mod_candidates(0).is_empty()) # 何も携行していない
+	assert(m.place(0,gun0,Vector2i(0,0))) # サイドアーム: not moddable
 	assert(m.mod_candidates(0).is_empty())
-	m.builds[0].main = 1 # 跳弾キャンディ: moddable, unmodified
+	m.builds[0].owned.append(gun1)
+	assert(m.toggle(0,gun0)) # 置き場を空ける
+	assert(m.place(0,gun1,Vector2i(0,0))) # 跳弾キャンディ: moddable, unmodified
 	var tokens: Array = m.mod_candidates(0)
 	assert(tokens.size() == 2 and Weapons.mod_token(1,"extra_bounce") in tokens and Weapons.mod_token(1,"heavy_bounce") in tokens)
 	m.builds[0].mods[1] = "extra_bounce"
@@ -36,32 +42,34 @@ func run() -> void:
 	# --- claim()/reason(): a mod token records into builds[i].mods, never owned/equipped,
 	# and once claimed the *other* branch for the same weapon reports "改造済み" specifically
 	# (not just "no reward budget left") while the branch just claimed is gone from future pools. ---
-	m.builds[1].main = 5 # ムーンリーパー
+	var gun5: String = m.gun_token(5)
+	m.builds[1].owned.append(gun5)
+	assert(m.place(1,gun5,Vector2i(0,0))) # ムーンリーパーを携行
 	m.rewards[1] = [0,1,2] + m.mod_candidates(1)
 	m.remaining[1] = 1
 	var token := Weapons.mod_token(5,"swift_blade")
 	assert(m.reason(1,token) == "")
 	assert(m.claim(1,token))
 	assert(m.builds[1].mods.get(5,"") == "swift_blade")
-	assert(m.builds[1].owned.is_empty()) # mods never land in the relic inventory/8-slot cap
+	assert(m.builds[1].owned.filter(func(e): return typeof(e) == TYPE_INT).is_empty()) # mods never land in the 8-slot storage (武器トークンだけが入っている)
 	assert(m.remaining[1] == 0)
 	m.remaining[1] = 1 # isolate the "already modded" check from the separate "budget spent" one
 	assert(m.reason(1,Weapons.mod_token(5,"heavy_blade")) == "改造済み")
 	m.remaining[1] = 0
 
-	# --- Switching main away leaves the old branch attached but inactive ("旧武器の改造は
-	# 移転しない"), and a now-stale offer left in rewards[] never softlocks confirm(): the
+	# --- Taking the weapon off the grid leaves the old branch attached but inactive ("旧武器の
+	# 改造は移転しない"), and a now-stale offer left in rewards[] never softlocks confirm(): the
 	# reason()-based gate treats it as resolved (unclaimable) rather than still-outstanding. ---
-	m.builds[1].main = 0
-	m.remaining[1] = 1 # isolate "not current main" from the "already resolved" check above (mod_reason
-	# checks remaining[i]<=0 before the main-id check, and remaining[] was left at 0 by that check)
-	assert(m.reason(1,token) == "現在の主力ではない")
+	assert(m.toggle(1,gun5)) # グリッドから外す＝携行をやめる
+	m.remaining[1] = 1 # isolate "not carried" from the "already resolved" check above (mod_reason
+	# checks remaining[i]<=0 before the carried check, and remaining[] was left at 0 by that check)
+	assert(m.reason(1,token) == "携行していない")
 	m.rewards[1] = [token] # the only candidate left is unclaimable from here on
 	assert(m.confirm(1))
 
 	# --- A build dict without a "mods" key at all (older call sites, ad-hoc test literals)
 	# must not crash reward generation or claiming. ---
-	m.builds[0] = {"owned":[],"equipped":[],"main":1}
+	m.builds[0] = {"owned":[gun1],"equipped":[gun1],"positions":{gun1:Vector2i(0,0)}}
 	assert(m.mod_candidates(0).size() == 2) # reads default via .get(), no crash
 	m.rewards[0] = m.mod_candidates(0)
 	m.remaining[0] = 1
@@ -70,7 +78,7 @@ func run() -> void:
 
 	# --- Player: apply_build() carries mods keyed by weapon id; definition() only reflects
 	# the branch belonging to whichever weapon is actually equipped right now. ---
-	var build := {"owned":[],"equipped":[],"main":1,"mods":{1:"heavy_bounce",5:"swift_blade"}}
+	var build := {"owned":[gun1],"equipped":[gun1],"positions":{gun1:Vector2i(0,0)},"mods":{1:"heavy_bounce",5:"swift_blade"}}
 	var p = game.players[0]
 	p.reset(p.state.pos)
 	p.apply_build(build,3,true)

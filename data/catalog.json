@@ -497,7 +497,25 @@
       "color": "#9adbb0",
       "desc": "回避中に敵弾が近くを通過すると、装備中の武器へ予備弾から1発装填する。1回の回避につき1回まで。装填完了の効果は発動しない。",
       "key": "phase_load",
-      "phase_radius": 42.0
+        "phase_radius": 42.0
+      },
+      {
+        "name": "ミニフェザー",
+        "glyph": "➶",
+        "color": "#a9e7de",
+        "desc": "移動速度+2%。同種は加算（3個で+6%）。回避速度は変わらない。",
+        "key": "mini_feather",
+        "stackable": true,
+        "move_bonus": 0.02
+      },
+      {
+        "name": "パワーチップ",
+        "glyph": "⬟",
+        "color": "#e8b776",
+        "desc": "直接発射する各弾のダメージ+2%。同種は加算（3個で+6%）。追加弾・爆発・近接は対象外。",
+        "key": "power_chip",
+        "stackable": true,
+        "shot_bonus": 0.02
     }
   ],
   "characters": [
@@ -511,7 +529,8 @@
       "speed": 205,
       "reload": 1.1,
       "dodge": 1.65,
-      "blanks": 3
+      "blanks": 3,
+      "gun": 16
     },
     {
       "name": "ソラ",
@@ -523,7 +542,8 @@
       "speed": 215,
       "reload": 0.85,
       "dodge": 1.8,
-      "blanks": 2
+      "blanks": 2,
+      "gun": 4
     },
     {
       "name": "コハク",
@@ -535,7 +555,8 @@
       "speed": 235,
       "reload": 1,
       "dodge": 1.4,
-      "blanks": 2
+      "blanks": 2,
+      "gun": 1
     },
     {
       "name": "ボルト",
@@ -547,7 +568,8 @@
       "speed": 190,
       "reload": 1,
       "dodge": 2,
-      "blanks": 2
+      "blanks": 2,
+      "gun": 11
     },
     {
       "name": "メイ",
@@ -559,7 +581,8 @@
       "speed": 210,
       "reload": 0.8,
       "dodge": 2,
-      "blanks": 2
+      "blanks": 2,
+      "gun": 18
     },
     {
       "name": "ルナ",
@@ -571,7 +594,8 @@
       "speed": 205,
       "reload": 0.9,
       "dodge": 1.65,
-      "blanks": 3
+      "blanks": 3,
+      "gun": 5
     },
     {
       "name": "ラトル",
@@ -583,7 +607,8 @@
       "speed": 220,
       "reload": 1.15,
       "dodge": 1.5,
-      "blanks": 2
+      "blanks": 2,
+      "gun": 0
     },
     {
       "name": "クロウ",
@@ -595,7 +620,8 @@
       "speed": 200,
       "reload": 0.9,
       "dodge": 1.9,
-      "blanks": 2
+      "blanks": 2,
+      "gun": 12
     }
   ]
 }
