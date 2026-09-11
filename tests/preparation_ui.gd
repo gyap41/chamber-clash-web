@@ -43,11 +43,11 @@ func run() -> void:
 	assert(state.remaining[0] == 1 and ready.disabled)
 	state.stage = 4
 	var gun: String = state.gun_token(1)
-	state.builds[0] = {"owned":[gun,0,1,4],"equipped":[],"positions":{},"mods":{}}
+	state.builds[0] = {"owned":[gun,18,1,4],"equipped":[],"positions":{},"mods":{}}
 	prep.refresh()
 	# Drops on the displayed cells use the same layout validation as the match model.
 	var grid = cards.get_node("Equipment/Grid")
-	assert(grid.get_child_count() == 16)
+	assert(grid.get_child_count() == 36)
 	var cell = grid.get_child(0)
 	assert(cell._can_drop_data(Vector2.ZERO,{"entry":gun}))
 	cell._drop_data(Vector2.ZERO,{"entry":gun})
@@ -64,28 +64,28 @@ func run() -> void:
 	assert(prep.same_entry(prep.placement_entry,gun))
 	assert(cards.get_node("Equipment/Details/Name").text == prep.entry_info(gun).name)
 	prep.cancel_placement()
-	prep.select_entry(0)
-	assert(not prep.preview_at(0,Vector2i(0,0)))
+	prep.select_entry(18)
+	assert(not prep.preview_at(18,Vector2i(0,0)))
 	assert("重複" in cards.get_node("Equipment/Details/Status").text)
 	var original: Dictionary = state.builds[0].positions.duplicate()
 	prep.click_cell(Vector2i(0,0))
 	assert(state.builds[0].positions == original)
 	assert(not prep.preview_at(4,Vector2i(3,3)))
-	assert("外" in cards.get_node("Equipment/Details/Status").text)
-	assert(prep.preview_at(0,Vector2i(3,3)))
+	assert("未開放" in cards.get_node("Equipment/Details/Status").text)
+	assert(prep.preview_at(18,Vector2i(3,3)))
 	var click := InputEventMouseButton.new()
 	click.button_index = MOUSE_BUTTON_LEFT
 	click.pressed = true
-	grid.get_child(15)._gui_input(click)
-	assert(state.builds[0].positions[0] == Vector2i(3,3))
-	prep.unequip_relic(0)
+	grid.get_child(21)._gui_input(click)
+	assert(state.builds[0].positions[18] == Vector2i(3,3))
+	prep.unequip_relic(18)
 	# Grabbing a non-anchor cell preserves the item's offset when relocating.
 	grid = cards.get_node("Equipment/Grid")
 	var body = grid.get_child(1).get_child(0)
 	assert(body.grab_offset == Vector2i(1,0))
 	var drag := {"entry":gun,"grab_offset":body.grab_offset}
-	assert(grid.get_child(5)._can_drop_data(Vector2.ZERO,drag))
-	grid.get_child(5)._drop_data(Vector2.ZERO,drag)
+	assert(grid.get_child(7)._can_drop_data(Vector2.ZERO,drag))
+	grid.get_child(7)._drop_data(Vector2.ZERO,drag)
 	assert(state.builds[0].positions[gun] == Vector2i(0,1))
 	var tray = cards.get_node("Reserve/DropZone")
 	assert(tray.get_node("Hint").mouse_filter == Control.MOUSE_FILTER_IGNORE)
@@ -142,7 +142,7 @@ func run() -> void:
 		assert(panel_rect.encloses(section.get_global_rect()))
 	assert(panel_rect.encloses(ready.get_global_rect()))
 	grid = cards.get_node("Equipment/Grid")
-	assert(grid.get_child(0).size.x >= 88)
+	assert(grid.get_child(0).size.x == 58)
 	assert(cards.get_node("Equipment").get_global_rect().encloses(grid.get_global_rect()))
 	assert(prep.get_node("Root/Shade").color.a == 1.0)
 	# Exercise Godot's GUI hit testing and drag threshold, not only callback methods.

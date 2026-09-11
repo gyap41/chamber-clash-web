@@ -4,22 +4,24 @@ const Relics = preload("res://scripts/catalog/relic_catalog.gd")
 const RelicCard = preload("res://scripts/ui/relic_card.gd")
 var slots: Array = []
 var relic_cards: Array = []
-const RELIC_HINTS := ["移動 +12%", "装填時間 -35%", "壁反射 +1回", "攻撃を1回防ぐ", "最大HP +2", "回避で6方向弾", "威力+15% / 弾速-20%", "満タン初射 +20%", "切替で1発装填", "パルスで6方向弾", "弾消しで回避短縮", "初反射で弾速+20%", "反射地点に停止弾", "空から装填で追加弾", "帰還→切替で威力増", "近接で消すと追加弾", "切替で弱い追射", "回避で予備弾を装填"]
-# P8x：容量モデルがグリッド面積（match_state.gdのGRID_SIZES、最大4×4＝16マス）に統合された
-# ため、戦闘中HUDのレリック枠も最大値ぶん確保しておく（そうしないと7個目以降を装備した際に
-# HUD上から表示が消えてしまう）。表示自体はrefresh_relics()側でその時点のrelic_capacity分
-# だけに絞るため、常に16枚すべてが見えるわけではない。段階が進むと横に長くなりうるが、これは
-# P10（UIテーマ・見た目の作り込み）での調整を前提とした割り切り。
-const MAX_RELIC_CAPACITY := 16
-# P8z：武器も同じグリッドに置くようになり、携行丁数が「サイドアーム＋主力の2丁、拾って最大4丁」
-# から可変（0〜8丁）になった。所持庫の上限が8個なので携行も8丁が天井（player.gdの
-# MAX_CARRIED_WEAPONS）。スロットはその数だけ確保し、実際に携行しているぶんだけ表示する
-# ——1丁も置かなければ武器スロットは1つも出ない（丸腰）。
+const RELIC_HINTS := ["移動 +12%", "装填時間 -35%", "壁反射 +1回", "攻撃を1回防ぐ", "最大HP +2", "回避で6方向弾", "威力+15% / 弾速-20%", "満タン初射 +20%", "切替で1発装填", "パルスで6方向弾", "弾消しで回避短縮", "初反射で弾速+20%", "反射地点に停止弾", "空から装填で追加弾", "帰還→切替で威力増", "近接で消すと追加弾", "切替で弱い追射", "回避で予備弾を装填", "移動 +2%", "直接弾の威力 +2%"]
+# Scroll within the existing HUD band so all equipped copies remain reachable.
+const MAX_RELIC_CAPACITY := 36
 const MAX_WEAPON_SLOTS := 8
 func _ready() -> void:
 	$Root/Status.tooltip_text = "弾の外周：橙=P1、青=P2。黄色の二重輪=高威力・設置・分裂・派生弾。紫の破線=仮装備を持つ相手の派生弾。レリック欄にカーソルを重ねると効果を確認できます。"
 	for i in range(2):
 		var cards: Array = []
+		var parent := get_node("Root/Relics/P%d" % (i+1))
+		var grid := parent.get_node("Grid")
+		parent.remove_child(grid)
+		var scroll := ScrollContainer.new()
+		scroll.name = "Scroll"
+		scroll.custom_minimum_size = Vector2(0,74)
+		scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		parent.add_child(scroll)
+		grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		scroll.add_child(grid)
 		for n in range(MAX_RELIC_CAPACITY):
 			var card := RelicCard.new()
 			card.custom_minimum_size = Vector2(0,36)
@@ -35,7 +37,7 @@ func _ready() -> void:
 				label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 				label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				box.add_child(label)
-			get_node("Root/Relics/P%d/Grid" % (i+1)).add_child(card)
+			grid.add_child(card)
 			cards.append(card)
 		relic_cards.append(cards)
 		var row: Array = []
@@ -117,19 +119,16 @@ func refresh(players: Array, remaining: float, paused: bool, result: String, sco
 			button.tooltip_text = g.desc + ("\n改造："+str(g.mod_name) if g.has("mod_name") else "")
 
 func refresh_relics(index: int, player) -> void:
-	get_node("Root/Relics/P%d/Heading" % (index+1)).text = "P%d 装備中レリック %d/%d  · カーソルで詳細" % [index+1,player.relics.size(),player.relic_capacity]
-	# P8x：容量＝グリッド面積になり段階ごとに増減するため、カードは常にrelic_capacity分だけ
-	# 表示し、残り（MAX_RELIC_CAPACITY-relic_capacity）は非表示にする。「未解放」表示は撤廃——
-	# 今の容量モデルでは「そもそもそのマスがまだ存在しない」ので、非表示にするのが素直な対応。
+	get_node("Root/Relics/P%d/Heading" % (index+1)).text = "P%d レリック %d個 · バッグ%dマス · スクロールで詳細" % [index+1,player.relics.size(),player.relic_capacity]
 	for slot in range(MAX_RELIC_CAPACITY):
 		var card: PanelContainer = relic_cards[index][slot]
-		card.visible = slot < player.relic_capacity
+		card.visible = slot < mini(player.relic_capacity,maxi(6,player.relics.size()))
 		if not card.visible: continue
 		var title: Label = card.get_child(0).get_child(0)
 		var hint: Label = card.get_child(0).get_child(1)
 		var id: int = player.relics[slot] if slot < player.relics.size() else -1
 		# Rebuild styles only when equipment changes, not on every physics frame.
-		var temporary: bool = id >= 0 and id == player.temporary_relic
+		var temporary: bool = id >= 0 and slot == player.temporary_relic_slot and id == player.temporary_relic
 		var style_key := "%d/%s/%d" % [id,temporary,player.relic_capacity]
 		if card.get_meta("style_key","") != style_key:
 			card.set_meta("style_key",style_key)
@@ -157,3 +156,9 @@ func refresh_relics(index: int, player) -> void:
 		if id == 15 and player.state.residual_heat_charge: hint.text = "次の射撃に追加弾！"
 		if id == 13 and player.state.empty_casing_charge: hint.text = "次の初射に追加弾！"
 		card.tooltip_text = ("【このラウンドの仮装備】\n" if temporary else "【装備中】\n") + str(relic.name) + "\n" + str(relic.desc)
+
+		if Relics.stackable(id):
+			var count: int = player.relics.count(id)
+			var total := "同種%d個 / 合計+%d%%" % [count,count*2]
+			hint.text += " · +%d%%計" % (count*2)
+			card.tooltip_text += "\n" + total

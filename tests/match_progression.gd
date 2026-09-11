@@ -35,7 +35,7 @@ func run() -> void:
 				# P8x：容量は個数上限ではなくグリッドの面積（match_state.gdのGRID_SIZES＝
 				# 3×2/4×2/4×3/4×4/4×4）に統合された。ここでは「段階が進むごとに枠が広がる」
 				# という成長カーブそのものの検証が目的なので、面積の実数値を期待値に置く。
-				assert(p.relic_capacity == [6,8,12,16,16][round_index])
+				assert(p.relic_capacity == [6,8,12,16,22][round_index])
 				assert(p.state.hp == p.state.max_hp and p.state.pulses == p.initial_pulses)
 				# P8z：サイドアーム＋主力の2丁固定はなくなり、携行はグリッドに置いた武器だけ。
 				# auto_prepare()は武器を優先して置くので、初期武器の1丁を必ず持っている。

@@ -1,4 +1,5 @@
 extends Node2D
+const MatchState = preload("res://scripts/game/match_state.gd")
 const Items = preload("res://scripts/game/item_identity.gd")
 signal burst_requested(pos: Vector2, color: Color, count: int)
 signal ring_requested(pos: Vector2, color: Color, expansion: float)
@@ -51,6 +52,9 @@ var relics: Array = []
 var relic_capacity := 3
 var owned_relics: Array = []
 var temporary_relic := -1
+var temporary_relic_slot := -1
+var field_region := {}
+var field_occupied := {}
 var telemetry
 var state: Dictionary = {}
 var char_id := -1
@@ -80,7 +84,10 @@ func reset(spawn: Vector2) -> void:
 	$Animation.reset()
 	relics.clear()
 	owned_relics.clear()
+	field_region.clear()
+	field_occupied.clear()
 	temporary_relic = -1
+	temporary_relic_slot = -1
 	# ai_cd: CPU-only dodge-roll cooldown (legacy makePlayer()'s p.ai=rnd(.25,.6); unused by
 	# human players). Decremented only while a bullet threat is present, see cpu_ai.gd.
 	# P3 synergy state (all reset every round, same as the timers above): reload_started_empty
@@ -266,7 +273,7 @@ func definition() -> Dictionary:
 	return resolved_definition(weapon().id) if has_weapon() else NO_WEAPON_DEF
 func owns(id: int) -> bool:
 	return inventory.any(func(w): return w.id == id)
-# P8z：携行できる丁数の上限は「4スロット固定」から所持庫の上限（8個）に合わせた。実際の上限は
+# 携行武器は操作/HUDの上限8丁を維持する。控え容量8個とは独立している。実際の上限は
 # グリッドの面積とそこに置いた武器の形状で決まるので、ここは暴走防止の天井にすぎない
 # （HUDの武器スロットもMAX_WEAPON_SLOTS＝8で確保している）。
 const MAX_CARRIED_WEAPONS := 8
@@ -394,22 +401,40 @@ func effective_reload_duration() -> float:
 
 func field_relic_reason(id: int) -> String:
 	if temporary_relic >= 0: return "仮装備は1ラウンド1個まで"
-	return relic_block_reason(id)
+	var reason := relic_block_reason(id)
+	if not reason.is_empty(): return reason
+	if not field_region.is_empty():
+		for anchor in field_region:
+			var valid := true
+			for offset in MatchState.shape_of(id):
+				if not field_region.has(anchor+offset) or field_occupied.has(anchor+offset):
+					valid = false
+					break
+			if valid: return ""
+		return "バッグに仮装備の形が収まりません"
+	return ""
 func acquire_temporary(id: int) -> bool:
 	if field_relic_reason(id) != "" or not add_relic(id): return false
 	temporary_relic = id
+	temporary_relic_slot = relics.size()-1
 	return true
 # P8z 装備モデルの統合：build.owned／build.equippedは武器とレリックの共通の置き場になった
-# （レリックは素のint、武器は"gun:<id>"の文字列トークン。詳細はmatch_state.gd冒頭）。ここでは
+# （新規レリックは個体トークン、旧intも対応。武器は"gun:<id>"）。ここでは
 # それぞれを自分の持ち場へ振り分ける——レリックはrelics/owned_relicsへ、武器はinventoryへ。
 # 「サイドアーム（武器0）の自動付与」と「主力1丁」は廃止し、グリッドに置いた武器がそのまま
 # 携行武器になる。1丁も置いていなければinventoryは空＝丸腰で、近接だけで戦うことになる。
-func apply_build(build: Dictionary, capacity: int, heal: bool = false) -> void:
+func apply_build(build: Dictionary, capacity: int, heal: bool = false, usable: Dictionary = {}) -> void:
+	field_region = usable.duplicate()
+	field_occupied = {}
+	for entry in build.equipped:
+		if not build.get("positions",{}).has(entry): continue
+		for offset in MatchState.shape_of(entry): field_occupied[build.positions[entry]+offset] = true
 	relic_capacity = capacity
 	owned_relics = Items.relic_ids(build.owned)
 	relics = Items.relic_ids(build.equipped)
 	weapon_mods = build.get("mods", {}).duplicate()
 	temporary_relic = -1
+	temporary_relic_slot = -1
 	state.max_hp = max_hp + (2.0 if 4 in relics else 0.0)
 	state.hp = state.max_hp if heal else minf(state.hp,state.max_hp)
 	if heal:

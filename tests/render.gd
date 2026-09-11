@@ -15,6 +15,36 @@ func run() -> void:
 	game.set_physics_process(false)
 	game.new_match(42)
 	await capture("-preparation")
+	var saved_build: Dictionary = game.match_state.builds[0].duplicate(true)
+	game.match_state.stage = 5
+	game.match_state.builds[0] = {"owned":[],"equipped":[],"positions":{},"mods":{}}
+	game.preparation.refresh()
+	game.preparation.select_expansion("rectangle")
+	game.preparation.set_process(false)
+	assert(game.preparation.preview_expansion(Vector2i(0,4)))
+	await capture("-expansion-valid")
+	assert(not game.preparation.preview_expansion(Vector2i(0,0)))
+	await capture("-expansion-blocked")
+	game.preparation.cancel_placement()
+	assert(game.match_state.place_expansion(0,"elbow",Vector2i(4,0)))
+	for n in range(20):
+		var token := "relic:18:%d" % n
+		game.match_state.builds[0].owned.append(token)
+		if n < 12: assert(game.match_state.place(0,token,game.match_state.auto_place(0,token)))
+	game.preparation.refresh()
+	game.preparation.show_detail("relic:18:0")
+	await capture("-fine-grid-expanded")
+	game.match_state.builds[0] = {"owned":[game.match_state.gun_token(15),0,1,3],"equipped":[],"positions":{},"mods":{}}
+	assert(game.match_state.place_expansion(0,"rectangle",Vector2i(0,4)))
+	assert(game.match_state.place(0,game.match_state.gun_token(15),Vector2i(0,3)))
+	for id in [0,1,3]: assert(game.match_state.place(0,id,game.match_state.auto_place(0,id)))
+	game.preparation.refresh()
+	game.preparation.show_detail(game.match_state.gun_token(15))
+	await capture("-planet-nine-cells")
+	game.match_state.builds[0] = saved_build
+	game.match_state.stage = 1
+	game.preparation.cancel_placement()
+	game.preparation.refresh()
 	game.preparation.show_detail(game.match_state.rewards[0][0],true)
 	await capture("-rewards")
 	game.match_state.stage = 4
@@ -29,7 +59,7 @@ func run() -> void:
 	var start_gun: String = ms.gun_token(1)
 	prep.cancel_placement()
 	prep.set_process(false) # Deterministic preview capture, independent of the OS cursor.
-	ms.builds[0] = {"owned":[start_gun,2,4,0,3],"equipped":[],"positions":{},"mods":{}}
+	ms.builds[0] = {"owned":[start_gun,2,4,18,3],"equipped":[],"positions":{},"mods":{}}
 	ms.rewards[0] = [1,7,10]
 	ms.remaining[0] = 1
 	assert(ms.place(0,start_gun,Vector2i(0,0)))
@@ -38,10 +68,10 @@ func run() -> void:
 	prep.refresh()
 	prep.show_detail(0)
 	await capture("-b-layout")
-	prep.select_entry(0)
-	assert(prep.preview_at(0,Vector2i(3,3)))
+	prep.select_entry(18)
+	assert(prep.preview_at(18,Vector2i(3,3)))
 	await capture("-b-preview")
-	assert(not prep.preview_at(0,Vector2i(0,0)))
+	assert(not prep.preview_at(18,Vector2i(0,0)))
 	await capture("-b-blocked")
 	prep.cancel_placement()
 	var mod: Dictionary = game.Weapons.mods_for(1)[0]
@@ -92,6 +122,7 @@ func run() -> void:
 	game.players[0].relics = [0,1,2,3,6,7]
 	game.players[1].relics = [12,13,14,15,16,17]
 	game.players[1].temporary_relic = 17
+	game.players[1].temporary_relic_slot = 5
 	game.hud.refresh(game.players,game.remaining,game.paused,game.result,game.scores,game.phase)
 	await capture("-relic-cards-six")
 	var relic_hover := InputEventMouseMotion.new()
@@ -179,7 +210,22 @@ func run() -> void:
 		p.relic_capacity = 6
 		p.relics = [0,1,2,3,4,5]
 		p.temporary_relic = 5
+		p.temporary_relic_slot = p.relics.find(5)
 	game.hud.refresh(game.players,game.remaining,game.paused,game.result,game.scores,game.phase)
 	await capture("-six-relics")
+	game.players[0].relic_capacity = 22
+	game.players[0].relics = []
+	for n in range(12): game.players[0].relics.append(18)
+	game.players[0].temporary_relic = 18
+	game.players[0].temporary_relic_slot = 11
+	game.hud.refresh_relics(0,game.players[0])
+	var hud_scroll = game.hud.get_node("Root/Relics/P1/Scroll")
+	await process_frame
+	await process_frame
+	hud_scroll.scroll_vertical = 10000
+	await capture("-stacked-hud-scroll")
+	assert(hud_scroll.get_global_rect().intersects(game.hud.relic_cards[0][11].get_global_rect()))
+	assert(hud_scroll.get_global_rect().end.y <= 800)
+	assert("【このラウンドの仮装備】" in game.hud.relic_cards[0][11].tooltip_text)
 	print("PASS: native Compatibility preparation/battle/danger/combat/rings/projectile/HP/player animation frames rendered")
 	quit()

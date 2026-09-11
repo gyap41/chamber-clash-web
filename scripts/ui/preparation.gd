@@ -5,6 +5,9 @@ const RelicChip = preload("res://scripts/ui/relic_chip.gd")
 const RelicGridCell = preload("res://scripts/ui/relic_grid_cell.gd")
 const RelicTray = preload("res://scripts/ui/relic_tray.gd")
 const Footprint = preload("res://scripts/ui/item_footprint.gd")
+const CELL_SIZE := 58
+const CELL_GAP := 4
+const CELL_PITCH := CELL_SIZE+CELL_GAP
 var game
 var turn := 0
 var shop_ready: Array:
@@ -13,6 +16,7 @@ var started := 0
 var selected_detail = null
 var selected_reward := false
 var detail_description: Label
+var selected_expansion := ""
 var placement_entry = null
 var preview_cells: Array = []
 var reserve_scroll := 0
@@ -23,6 +27,7 @@ func _ready() -> void:
 	style_button($Root/Panel/Content/Ready,true)
 func begin() -> void:
 	turn = 0
+	selected_expansion = ""
 	selected_detail = null
 	placement_entry = null
 	reserve_scroll = 0
@@ -32,6 +37,7 @@ func begin() -> void:
 	refresh()
 func claim(id) -> bool:
 	if game.phase != "prepare" or not game.match_state.claim(turn,id): return false
+	selected_expansion = ""
 	game.telemetry.record("reward",{"player":turn,"id":id})
 	selected_reward = typeof(id) == TYPE_STRING and not game.match_state.is_gun(id)
 	selected_detail = id if selected_reward else game.match_state.builds[turn].owned.back()
@@ -57,7 +63,10 @@ func place_relic(id, cell: Vector2i) -> void:
 # もtoggle()を呼ばない（toggle()は「未装備なら装備」に倒れるため、無関係な誤装備を防ぐ）。
 func unequip_relic(id) -> void:
 	if game.phase != "prepare" or id not in game.match_state.builds[turn].equipped: return
-	if game.match_state.toggle(turn,id): game.telemetry.record("unequip_relic",{"player":turn,"id":id})
+	if not game.match_state.toggle(turn,id):
+		set_status("控えが満杯：先に配置か破棄",Color("ffad83"))
+		return
+	game.telemetry.record("unequip_relic",{"player":turn,"id":id})
 	placement_entry = null
 	refresh()
 func discard(id) -> void:
@@ -71,6 +80,7 @@ func ready_shop() -> void:
 	game.telemetry.record("preparation",{"player":turn,"seconds":(Time.get_ticks_msec()-started)/1000.0,"build":game.match_state.builds[turn]})
 	if turn == 0:
 		turn = 1
+		selected_expansion = ""
 		selected_detail = null
 		placement_entry = null
 		reserve_scroll = 0
@@ -111,6 +121,7 @@ func affinity(id, guns: Array, equipped: Array = []) -> int:
 # auto_place()）に頼るので、人間が手で最適に詰めた場合よりは詰め方が甘くなる（P8zの決定事項7）。
 func auto_prepare(i: int) -> void:
 	var state = game.match_state
+	state.auto_expand(i)
 	var candidates: Array = state.rewards[i].duplicate()
 	if state.temporary[i] >= 0: candidates.append(state.temporary[i])
 	candidates.sort_custom(func(a,b): return affinity(a,state.carried_guns(i),state.equipped_relics(i)) > affinity(b,state.carried_guns(i),state.equipped_relics(i)))
@@ -118,23 +129,21 @@ func auto_prepare(i: int) -> void:
 		if state.remaining[i] <= 0: break
 		if id in state.claimed_candidates[i]: continue
 		if state.is_relic(id) and not Relics.stackable(state.relic_id(id)) and state.relic_id(id) in state.Items.relic_ids(state.builds[i].owned): continue
-		# A mod-token claim never touches owned/equipped, so it never needs the 8-slot
+		# A mod-token claim never touches reserve, so it never needs the 8-slot
 		# discard-to-make-room step below — only guard it for something that takes a slot.
 		var is_mod: bool = typeof(id) == TYPE_STRING and not state.is_gun(id)
-		if not is_mod and state.builds[i].owned.size() >= 8:
+		if not is_mod and state.reserve_full(i):
 			# 捨てる相手はレリックを優先する（武器を捨てて丸腰になるのを避けるため）。
-			var spare = state.builds[i].owned.filter(func(e): return state.is_relic(e))
-			state.discard(i,spare.back() if not spare.is_empty() else state.builds[i].owned.back())
+			var spare = state.reserve_items(i).filter(func(e): return state.is_relic(e))
+			state.discard(i,spare.back() if not spare.is_empty() else state.reserve_items(i).back())
 		state.claim(i,id)
 	var owned: Array = state.builds[i].owned.duplicate()
-	for entry in state.builds[i].equipped.duplicate(): state.toggle(i,entry)
 	var guns: Array = owned.filter(func(e): return state.is_gun(e))
 	guns.sort_custom(func(a,b): return weapon_score(state.gun_id(a),[]) > weapon_score(state.gun_id(b),[]))
-	for entry in guns: state.toggle(i,entry)
 	var spares: Array = owned.filter(func(e): return state.is_relic(e))
 	var carried: Array = state.carried_guns(i)
 	spares.sort_custom(func(a,b): return affinity(a,carried,[]) > affinity(b,carried,[]))
-	for entry in spares: state.toggle(i,entry)
+	state.arrange(i,guns+spares)
 	state.confirm(i)
 	game.telemetry.record("cpu_prepare",{"player":i,"build":state.builds[i]})
 func weapon_score(id: int, relics: Array) -> int:
@@ -258,6 +267,7 @@ func same_entry(a, b) -> bool:
 func detail_path() -> Node:
 	return $Root/Panel/Content/Cards/Equipment/Details
 func show_detail(entry, reward: bool = false) -> void:
+	if not selected_expansion.is_empty(): return
 	if placement_entry != null and (reward or not same_entry(entry,placement_entry)): return
 	var info := reward_info(entry) if reward else entry_info(entry)
 	selected_detail = entry
@@ -277,14 +287,25 @@ func show_detail(entry, reward: bool = false) -> void:
 	var discard_button: Button = details.get_node("Discard")
 	discard_button.visible = not reward and entry in game.match_state.builds[turn].owned
 func select_entry(entry) -> void:
+	selected_expansion = ""
 	placement_entry = entry
 	show_detail(entry)
 	set_status("配置先をクリック\nEscで選択解除",Color("83deca"))
 func cancel_placement() -> void:
+	selected_expansion = ""
 	placement_entry = null
 	clear_preview()
 	set_status("品を選択 → マスをクリック\nドラッグでも配置できます",Color("91a7bc"))
 func click_cell(cell: Vector2i) -> void:
+	if not selected_expansion.is_empty():
+		if game.phase != "prepare": return
+		if game.match_state.place_expansion(turn,selected_expansion,cell):
+			game.telemetry.record("bag_expansion",{"player":turn,"shape":selected_expansion,"anchor":cell})
+			selected_expansion = ""
+			selected_detail = null
+			refresh()
+		else: preview_expansion(cell)
+		return
 	if placement_entry != null:
 		place_relic(placement_entry,cell)
 	else:
@@ -310,24 +331,52 @@ func preview_at(entry, anchor: Vector2i) -> bool:
 	var state = game.match_state
 	var valid: bool = state.fits(turn,entry,anchor,entry)
 	var outside := false
-	var size: Vector2i = state.grid_size()
+	var locked := false
+	var size: Vector2i = state.MAX_GRID_SIZE
 	var grid := $Root/Panel/Content/Cards/Equipment/Grid
 	for offset in state.shape_of(entry):
 		var cell: Vector2i = anchor+offset
 		if cell.x < 0 or cell.y < 0 or cell.x >= size.x or cell.y >= size.y:
 			outside = true
 			continue
+		if not state.usable_cells(turn).has(cell): locked = true
 		var panel = grid.get_child(cell.y*size.x+cell.x)
 		panel.preview_color = Color("8ff4bf") if valid else Color("ffad83")
 		panel.queue_redraw()
 		preview_cells.append(panel)
-	set_status("ここに置けます" if valid else ("配置不可：グリッドの外" if outside else "配置不可：他の装備と重複"),Color("8ff4bf") if valid else Color("ffad83"))
+	set_status("ここに置けます" if valid else ("配置不可：グリッドの外" if outside else ("配置不可：未開放マス" if locked else "配置不可：他の装備と重複")),Color("8ff4bf") if valid else Color("ffad83"))
+	if state.is_gun(entry) and entry not in state.builds[turn].equipped and state.carried_guns(turn).size() >= state.MAX_CARRIED_WEAPONS:
+		set_status("配置不可：携行武器は8丁まで",Color("ffad83"))
 	return valid
 func _input(event: InputEvent) -> void:
 	if game == null or game.phase != "prepare": return
-	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE and placement_entry != null:
+	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE and (placement_entry != null or not selected_expansion.is_empty()):
 		cancel_placement()
 		get_viewport().set_input_as_handled()
+func select_expansion(shape: String) -> void:
+	if not game.match_state.expansion_pending(turn) or game.match_state.ready[turn]: return
+	placement_entry = null
+	selected_detail = null
+	selected_expansion = shape
+	detail_path().get_node("Name").text = game.match_state.Expansions.NAMES[shape]
+	detail_path().get_node("Meta").text = "6マス / 無料のバッグ拡張"
+	detail_description.text = "未開放マスに置き、バッグの辺に接続します。回転なし。配置後は固定。通常報酬・控えは消費しません。"
+	detail_path().get_node("Discard").visible = false
+	set_status("基準マスをクリックして配置\nEscで選択解除",Color("83deca"))
+func preview_expansion(anchor: Vector2i) -> bool:
+	clear_preview()
+	var state = game.match_state
+	var reason: String = state.expansion_reason(turn,selected_expansion,anchor)
+	var grid := $Root/Panel/Content/Cards/Equipment/Grid
+	for offset in state.Expansions.SHAPES[selected_expansion]:
+		var cell: Vector2i = anchor+offset
+		if cell.x < 0 or cell.y < 0 or cell.x >= 6 or cell.y >= 6: continue
+		var panel = grid.get_child(cell.y*6+cell.x)
+		panel.preview_color = Color("8ff4bf") if reason.is_empty() else Color("ffad83")
+		panel.queue_redraw()
+		preview_cells.append(panel)
+	set_status("クリックで拡張を確定" if reason.is_empty() else "配置不可："+reason,Color("8ff4bf") if reason.is_empty() else Color("ffad83"))
+	return reason.is_empty()
 func _process(_delta: float) -> void:
 	if game == null or game.phase != "prepare" or not has_node("Root/Panel/Content/Cards/Equipment/Grid"): return
 	var entry = placement_entry
@@ -337,14 +386,16 @@ func _process(_delta: float) -> void:
 		if typeof(data) == TYPE_DICTIONARY and data.has("entry"):
 			entry = data.entry
 			offset = data.get("grab_offset",Vector2i.ZERO)
-	if entry == null:
+	if entry == null and selected_expansion.is_empty():
 		clear_preview()
 		return
 	var grid := $Root/Panel/Content/Cards/Equipment/Grid
 	var local: Vector2 = grid.get_local_mouse_position()
-	var size: Vector2i = game.match_state.grid_size()
-	if local.x >= 0 and local.y >= 0 and local.x < size.x*94-6 and local.y < size.y*94-6:
-		preview_at(entry,Vector2i(floori(local.x/94),floori(local.y/94))-offset)
+	var size: Vector2i = game.match_state.MAX_GRID_SIZE
+	if local.x >= 0 and local.y >= 0 and local.x < size.x*CELL_PITCH-CELL_GAP and local.y < size.y*CELL_PITCH-CELL_GAP:
+		var anchor := Vector2i(floori(local.x/CELL_PITCH),floori(local.y/CELL_PITCH))-offset
+		if not selected_expansion.is_empty(): preview_expansion(anchor)
+		else: preview_at(entry,anchor)
 	else:
 		clear_preview()
 		set_status("配置先をクリック / ドラッグ\nEscで選択解除",Color("83deca"))
@@ -366,7 +417,8 @@ func refresh() -> void:
 	$Root/Panel/Content/Info.tooltip_text = "相手の前ラウンド確定ビルド：" + build_text(state.previous[1-turn]) + "\nローカル2人では選択を秘匿できません。"
 	var pending: bool = state.remaining[turn] > 0 and state.rewards[turn].any(func(id): return state.reason(turn,id) == "")
 	$Root/Panel/Content/Ready.text = ("報酬をあと%d個選ぶ" % state.remaining[turn]) if pending else ("準備完了・対戦開始" if turn == 1 or game.players[1].is_cpu else "準備完了・P2へ")
-	$Root/Panel/Content/Ready.disabled = pending
+	if state.expansion_pending(turn): $Root/Panel/Content/Ready.text = "バッグ拡張を配置する"
+	$Root/Panel/Content/Ready.disabled = pending or state.expansion_pending(turn)
 	var guns: Array = state.carried_guns(turn)
 	var names: Array = guns.map(func(id): return str(Weapons.definition(id).name))
 	$Root/Panel/Content/Notice.text = "HP %d   /   パルス %d   /   携行 %d丁   /   報酬残り %d回" % [game.players[turn].max_hp+(2 if 4 in state.equipped_relics(turn) else 0),game.players[turn].initial_pulses,guns.size(),state.remaining[turn]]
@@ -384,7 +436,7 @@ func refresh() -> void:
 	var reserve := panel_at(cards,"Reserve",Rect2(0,456,704,88))
 	var details := panel_at(equipment,"Details",Rect2(424,56,264,376))
 	text_at(equipment,"Heading","バックパック",Rect2(24,16,240,32),24)
-	text_at(equipment,"Capacity","%d / %d マス" % [state.occupied_cells(turn).size(),state.capacity()],Rect2(274,22,160,26),18,Color("83deca"))
+	text_at(equipment,"Capacity","%d / %d マス" % [state.occupied_cells(turn).size(),state.capacity(turn)],Rect2(274,22,160,26),18,Color("83deca"))
 	build_relic_grid(equipment,state,turn,build)
 	text_at(details,"Heading","アイテム詳細",Rect2(12,4,240,26),16,Color("91a7bc"))
 	var title := text_at(details,"Name","品を選んで詳細を確認",Rect2(12,40,240,64),20,Color("83deca"))
@@ -425,6 +477,25 @@ func refresh() -> void:
 	text_at(rewards,"Heading","報酬を選ぶ",Rect2(20,16,312,32),24)
 	text_at(rewards,"Remaining","残り%d回 / 取得 → 下の控えへ" % state.remaining[turn],Rect2(20,60,312,32),17,Color("83deca"))
 	var reward_list := scroll_at(rewards,"Scroll",Rect2(20,104,312,424))
+	if state.expansion_pending(turn):
+		var heading := Label.new()
+		heading.text = "無料拡張：どちらか1つを配置"
+		heading.add_theme_font_size_override("font_size",16)
+		reward_list.add_child(heading)
+		for shape in state.Expansions.SHAPES:
+			var choice := Button.new()
+			choice.name = "Expansion_"+shape
+			choice.text = state.Expansions.NAMES[shape]+"　6マス"
+			choice.custom_minimum_size = Vector2(0,64)
+			style_button(choice)
+			choice.pressed.connect(select_expansion.bind(shape))
+			var footprint := Footprint.new()
+			footprint.shape = state.Expansions.SHAPES[shape]
+			footprint.position = Vector2(8,8)
+			footprint.size = Vector2(36,48)
+			footprint.tint = Color("83deca")
+			choice.add_child(footprint)
+			reward_list.add_child(choice)
 	var candidates: Array = state.rewards[turn].duplicate()
 	if state.temporary[turn] >= 0 and state.temporary[turn] not in candidates: candidates.append(state.temporary[turn])
 	for entry in candidates:
@@ -465,7 +536,7 @@ func refresh() -> void:
 		button.focus_entered.connect(show_detail.bind(entry,true))
 	text_at(reserve,"Heading","控え",Rect2(16,6,100,24),18)
 	var reserve_count: int = build.owned.size()-build.equipped.size()
-	text_at(reserve,"Capacity","控え%d個 / 所持%d・上限8   ← 横にスクロール →" % [reserve_count,build.owned.size()],Rect2(96,8,590,24),14,Color("91a7bc"))
+	text_at(reserve,"Capacity","控え%d / 8個 · 総所持%d   ← 横にスクロール →" % [reserve_count,build.owned.size()],Rect2(96,8,590,24),14,Color("91a7bc"))
 	var scroll := ScrollContainer.new()
 	scroll.name = "Scroll"
 	scroll.position = Vector2(16,34)
@@ -520,16 +591,17 @@ func refresh() -> void:
 	var selection_exists: bool = selected_detail != null and (selected_detail in candidates if selected_reward else selected_detail in build.owned)
 	if placement_entry != null and placement_entry not in build.owned: placement_entry = null
 	if selection_exists: show_detail(selected_detail,selected_reward)
+	if not selected_expansion.is_empty(): select_expansion(selected_expansion)
 func build_relic_grid(parent: Node, state, i: int, build: Dictionary) -> void:
-	var size: Vector2i = state.grid_size()
+	var size: Vector2i = state.MAX_GRID_SIZE
 	var occupied: Dictionary = state.occupied_cells(i)
 	var positions: Dictionary = build.get("positions",{})
 	var grid := GridContainer.new()
 	grid.name = "Grid"
 	grid.columns = size.x
 	grid.position = Vector2(24,60)
-	grid.add_theme_constant_override("h_separation",6)
-	grid.add_theme_constant_override("v_separation",6)
+	grid.add_theme_constant_override("h_separation",CELL_GAP)
+	grid.add_theme_constant_override("v_separation",CELL_GAP)
 	parent.add_child(grid)
 	for y in range(size.y):
 		for x in range(size.x):
@@ -540,11 +612,16 @@ func build_relic_grid(parent: Node, state, i: int, build: Dictionary) -> void:
 			panel.cell = cell
 			panel.on_drop = place_relic
 			panel.on_click = click_cell
-			panel.custom_minimum_size = Vector2(88,88)
+			panel.custom_minimum_size = Vector2(CELL_SIZE,CELL_SIZE)
 			var style := StyleBoxFlat.new()
 			style.bg_color = Color("243747")
 			style.border_color = Color("456174")
 			style.set_border_width_all(1)
+			if not state.usable_cells(i).has(cell):
+				style.bg_color = Color("151f29")
+				style.border_color = Color("2c3945")
+				panel.tooltip_text = "未開放：バッグ拡張で使用可能になる領域"
+				text_at(panel,"Locked","×",Rect2(18,14,24,24),18,Color("65727d"))
 			if occupied.has(cell):
 				var entry = occupied[cell]
 				style.bg_color = Color("30758a") if state.is_gun(entry) else Color(Relics.definition(game.match_state.relic_id(entry)).color).darkened(.5)
@@ -559,9 +636,9 @@ func build_relic_grid(parent: Node, state, i: int, build: Dictionary) -> void:
 				chip.on_drag_start = select_entry
 				chip.clip_text = true
 				chip.tooltip_text = entry_info(entry).name+"\n"+entry_info(entry).desc
-				chip.custom_minimum_size = Vector2(84,84)
+				chip.custom_minimum_size = Vector2(CELL_SIZE-4,CELL_SIZE-4)
 				chip.position = Vector2(2,2)
-				chip.add_theme_font_size_override("font_size",17)
+				chip.add_theme_font_size_override("font_size",12)
 				for name in ["normal","hover","pressed"]: chip.add_theme_stylebox_override(name,StyleBoxEmpty.new())
 				chip.pressed.connect(click_cell.bind(cell))
 				chip.mouse_entered.connect(show_detail.bind(entry))
@@ -574,18 +651,18 @@ func build_relic_grid(parent: Node, state, i: int, build: Dictionary) -> void:
 						art.texture = Weapons.art(state.gun_id(entry))
 						art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 						art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-						art.position = Vector2(14,6)
-						art.size = Vector2(56,38)
+						art.position = Vector2(7,3)
+						art.size = Vector2(40,25)
 						art.mouse_filter = Control.MOUSE_FILTER_IGNORE
 						chip.add_child(art)
-					else: add_footprint(chip,entry,Rect2(24,10,36,32))
+					else: add_footprint(chip,entry,Rect2(17,4,22,22))
 				# Connect cells from the same item across gutters without blocking input.
 				for direction in [Vector2i.RIGHT,Vector2i.DOWN]:
 					if occupied.has(cell+direction) and same_entry(occupied[cell+direction],entry):
 						var bridge := ColorRect.new()
 						bridge.color = style.bg_color
-						bridge.position = Vector2(88,0) if direction == Vector2i.RIGHT else Vector2(0,88)
-						bridge.size = Vector2(6,88) if direction == Vector2i.RIGHT else Vector2(88,6)
+						bridge.position = Vector2(CELL_SIZE,0) if direction == Vector2i.RIGHT else Vector2(0,CELL_SIZE)
+						bridge.size = Vector2(CELL_GAP,CELL_SIZE) if direction == Vector2i.RIGHT else Vector2(CELL_SIZE,CELL_GAP)
 						bridge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 						panel.add_child(bridge)
 			panel.add_theme_stylebox_override("panel",style)

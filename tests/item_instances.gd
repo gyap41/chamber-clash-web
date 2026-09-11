@@ -20,16 +20,16 @@ func run() -> void:
 	# Two objects of the same type must move and discard independently.
 	var second := Items.relic_token(0,99)
 	m.builds[0].owned.append(second)
-	assert(m.place(0,second,Vector2i(1,0)))
-	assert(not m.place(0,first,Vector2i(1,0)))
-	assert(m.place(0,first,Vector2i(2,0)))
+	assert(m.place(0,second,Vector2i(0,1)))
+	assert(not m.place(0,first,Vector2i(0,1)))
+	assert(m.place(0,first,Vector2i(1,0)))
 	assert(m.equipped_relics(0) == [0,0])
 	game.players[0].apply_build(m.builds[0],m.capacity(),true)
 	assert(game.players[0].relics == [0,0])
 	game.preparation.refresh()
 	assert(game.preparation.entry_info(first) == game.preparation.entry_info(second))
 	assert(m.discard(0,first))
-	assert(m.builds[0].positions[second] == Vector2i(1,0))
+	assert(m.builds[0].positions[second] == Vector2i(0,1))
 	assert(m.equipped_relics(0) == [0])
 	# Reward rules still forbid duplicates until stacking is explicitly opened.
 	m.rewards[0] = [0,1,2]

@@ -15,6 +15,10 @@ extends RefCounted
 #                        割り当てる意味がある）
 # 回転は未対応（ドキュメント方針どおり優先度を下げている）。
 const SHAPES := {
+	0: [Vector2i(0,0),Vector2i(1,0)], # 移動+12%の面積効率を小型版と区別
+	1: [Vector2i(0,0),Vector2i(1,0)], # 装填-35%は全携行武器に作用
+	3: [Vector2i(0,0),Vector2i(1,0)], # 再使用可能な防御
+	7: [Vector2i(0,0),Vector2i(1,0)], # 試作：初射強化は小型補正より大きい2マス
 	4: [Vector2i(0,0),Vector2i(0,1)],
 	6: [Vector2i(0,0),Vector2i(1,0)],
 	2: [Vector2i(0,0),Vector2i(1,0),Vector2i(0,1)],

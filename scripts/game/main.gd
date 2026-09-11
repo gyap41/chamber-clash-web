@@ -93,7 +93,7 @@ func reset_round(check_new: bool = true) -> void:
 	for i in range(2):
 		players[i].reset(arena.get_node("Spawns/P%d" % [i+1]).position)
 		players[i].telemetry = telemetry
-		players[i].apply_build(match_state.builds[i],match_state.capacity())
+		players[i].apply_build(match_state.builds[i],match_state.capacity(i),false,match_state.usable_cells(i))
 		fighters.append(players[i].state)
 	remaining = round_duration
 	arena.get_node("DangerZone").refresh(0.0)
@@ -273,7 +273,7 @@ func launch_round() -> void:
 	phase = "play"
 	for i in range(2):
 		players[i].reset(arena.get_node("Spawns/P%d" % [i+1]).position)
-		players[i].apply_build(match_state.builds[i],match_state.capacity(),true)
+		players[i].apply_build(match_state.builds[i],match_state.capacity(i),true,match_state.usable_cells(i))
 		fighters[i] = players[i].state
 	match_state.start_round()
 	telemetry.record("round_start",{"stage":match_state.stage,"builds":match_state.previous})
@@ -285,7 +285,7 @@ func launch_round() -> void:
 func assign_character(index: int, char_id: int) -> void:
 	players[index].set_character(char_id)
 	match_state.grant_start_weapon(index,Characters.start_gun(char_id))
-	players[index].apply_build(match_state.builds[index],match_state.capacity())
+	players[index].apply_build(match_state.builds[index],match_state.capacity(index),false,match_state.usable_cells(index))
 func equip_slot(index: int, slot: int) -> void:
 	if phase == "play" and not paused and result == "" and not players[index].is_cpu: players[index].request_switch(slot)
 # Danger zone: the safe area starts shrinking 60s into the round (7px/sec, capped at 195px

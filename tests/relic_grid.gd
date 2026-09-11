@@ -16,16 +16,16 @@ func run() -> void:
 	# Mixed token types must coexist, exclude only themselves, and block overlaps.
 	var mixed = MatchState.new(1)
 	var gun: String = mixed.gun_token(0)
-	mixed.builds[0].owned = [gun,0]
+	mixed.builds[0].owned = [gun,18]
 	assert(mixed.place(0,gun,Vector2i(0,0)))
-	assert(mixed.place(0,0,Vector2i(1,0)))
+	assert(mixed.place(0,18,Vector2i(1,0)))
 	assert(mixed.occupied_cells(0).size() == 2)
-	assert(mixed.occupied_cells(0,gun) == {Vector2i(1,0):0})
-	assert(mixed.occupied_cells(0,0) == {Vector2i(0,0):gun})
+	assert(mixed.occupied_cells(0,gun) == {Vector2i(1,0):18})
+	assert(mixed.occupied_cells(0,18) == {Vector2i(0,0):gun})
 	assert(mixed.place(0,gun,Vector2i(0,0)))
-	assert(mixed.place(0,0,Vector2i(1,0)))
+	assert(mixed.place(0,18,Vector2i(1,0)))
 	assert(not mixed.place(0,gun,Vector2i(1,0)))
-	assert(not mixed.place(0,0,Vector2i(0,0)))
+	assert(not mixed.place(0,18,Vector2i(0,0)))
 
 	# --- grid_size()：段階別マス数（要playtest調整の仮値） ---
 	m.stage = 1
@@ -33,11 +33,11 @@ func run() -> void:
 	m.stage = 3
 	assert(m.grid_size() == Vector2i(4,3))
 	m.stage = 5
-	assert(m.grid_size() == Vector2i(4,4))
+	assert(m.grid_size() == Vector2i(6,6))
 	m.stage = 1
 
 	# --- 形状はオフセットリスト：範囲内・重なりなしのみ配置できる ---
-	m.builds[0].owned = [0,4,6,2]
+	m.builds[0].owned = [18,4,6,2]
 	assert(m.place(0,4,Vector2i(0,0))) # ライフアンプ：縦2マス (0,0)-(0,1)
 	var occ: Dictionary = m.occupied_cells(0)
 	assert(occ.size() == 2 and occ[Vector2i(0,0)] == 4 and occ[Vector2i(0,1)] == 4)
@@ -61,7 +61,7 @@ func run() -> void:
 	m.builds[0].positions.clear()
 
 	# --- auto_place()：読み順（左上→右下）で最初に収まる位置を返す ---
-	assert(m.place(0,0,Vector2i(0,0))) # (0,0)を1×1のidで埋める
+	assert(m.place(0,18,Vector2i(0,0))) # (0,0)を1×1のidで埋める
 	var anchor: Vector2i = m.auto_place(0,2) # L字は(0,0)を含む候補が(0,0)自体の占有で弾かれ、(1,0)-(2,0)-(1,1)が最初に収まる
 	assert(anchor == Vector2i(1,0))
 	assert(m.fits(0,2,anchor))

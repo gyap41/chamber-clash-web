@@ -98,6 +98,7 @@ func run() -> void:
 	p.relic_capacity = 6
 	p.relics = [3,6,12,13,14,16]
 	p.temporary_relic = 16
+	p.temporary_relic_slot = p.relics.find(16)
 	game.hud.refresh_relics(0,p)
 	assert(game.hud.relic_cards[0].size() == game.hud.MAX_RELIC_CAPACITY)
 	for slot in range(game.hud.MAX_RELIC_CAPACITY): assert(game.hud.relic_cards[0][slot].visible == (slot < 6))

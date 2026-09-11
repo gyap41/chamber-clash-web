@@ -7,21 +7,20 @@ extends RefCounted
 # ほど自動的にグリッドを圧迫する（旧P8cの狙い）。既定値は下のRARITY_SHAPES、個性を出したい武器
 # だけSHAPESで上書きする。すべてplaytest調整前提の仮値。
 #
-# 参考：段階1のグリッドは3×2＝6マス、段階5で4×4＝16マス。Sレア（4マス）は段階1の3マス幅に
-# 収まらない形状もあるが、Sレアはラウンド開始45秒後の投下なので、実際に置けるようになるのは
-# 段階2以降という想定。
+# 試作：最大6×6表示、開放6〜22マス。Sの既定形状は6マスへ調整し、
+# コメット6、プラネタリウム9マス。理由は docs/design/ITEM_FOOTPRINT_BALANCE.md。
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const RARITY_SHAPES := {
 	"C": [Vector2i(0,0)],                                              # 1マス
 	"B": [Vector2i(0,0),Vector2i(1,0)],                                # 横2マス
 	"A": [Vector2i(0,0),Vector2i(1,0),Vector2i(0,1)],                  # L字3マス
-	"S": [Vector2i(0,0),Vector2i(1,0),Vector2i(0,1),Vector2i(1,1)],    # 2×2の4マス
+	"S": [Vector2i(0,0),Vector2i(1,0),Vector2i(2,0),Vector2i(0,1),Vector2i(1,1),Vector2i(2,1)],    # 試作：3×2の6マス
 }
-# 個別指定：レア度の既定値と同じマス数のまま形の向きだけ変えるもの（12/18）と、レア度より
-# 長く取る代わりに置ける場所が限られるもの（6/9）。
+# 個別指定：レールの横長、ペンシル/スパナの縦長、コメット6マス、プラネタリウム9マス。
 const SHAPES := {
+	15: [Vector2i(0,0),Vector2i(1,0),Vector2i(2,0),Vector2i(0,1),Vector2i(1,1),Vector2i(2,1),Vector2i(0,2),Vector2i(1,2),Vector2i(2,2)], # 12方向の追尾・反射弾：3×3の9マス
 	6: [Vector2i(0,0),Vector2i(1,0),Vector2i(2,0)],                                  # アークレール(A)：横3マスのレール
-	9: [Vector2i(0,0),Vector2i(1,0),Vector2i(2,0),Vector2i(3,0)],                    # コメットランチャー(S)：横4マス。幅4のグリッド（段階2以降）でしか置けない
+	9: [Vector2i(0,0),Vector2i(1,0),Vector2i(2,0),Vector2i(0,1),Vector2i(1,1),Vector2i(2,1)],                    # コメット：爆風と12破片を考慮し3×2の6マス
 	12: [Vector2i(0,0),Vector2i(0,1)],                                               # ロケットペンシル(B)：縦2マス
 	18: [Vector2i(0,0),Vector2i(0,1)],                                               # スイッチスパナ(B)：縦2マス
 }
