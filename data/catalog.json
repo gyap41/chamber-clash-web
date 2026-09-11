@@ -679,15 +679,25 @@
       "name": "フェザー",
       "glyph": "➶",
       "color": "#a9e7de",
-      "desc": "移動速度が12%アップ。回避中の速度は変わらない。",
-      "key": "feather"
+      "desc": "移動速度が6%アップ。回避中の速度は変わらない。 同種重複可（数値は1個分）。",
+      "key": "feather",
+      "move_bonus": 0.06,
+      "stackable": true,
+      "stack_stats": [
+        "move_bonus"
+      ]
     },
     {
       "name": "クイックギア",
       "glyph": "⋈",
       "color": "#ffb8d8",
-      "desc": "リロード時間を35%短縮。弾切れの隙を小さく。",
-      "key": "ribbon"
+      "desc": "リロード時間を12%短縮。弾切れの隙を小さく。 同種重複可（数値は1個分）。",
+      "key": "ribbon",
+      "reload_ratio": 0.88,
+      "stackable": true,
+      "stack_stats": [
+        "reload_ratio"
+      ]
     },
     {
       "name": "プリズムレンズ",
@@ -707,8 +717,13 @@
       "name": "ライフアンプ",
       "glyph": "♥",
       "color": "#ffa7bd",
-      "desc": "装備で最大HP+2。戦闘開始時に全快。戦闘中の仮取得時のみHP+2。",
-      "key": "heart"
+      "desc": "装備で最大HP+1。戦闘開始時に全快。戦闘中の仮取得時のみHP+1。 同種重複可（数値は1個分）。",
+      "key": "heart",
+      "hp_bonus": 1,
+      "stackable": true,
+      "stack_stats": [
+        "hp_bonus"
+      ]
     },
     {
       "name": "ドッジノヴァ",
@@ -721,15 +736,27 @@
       "name": "ヘビーコア",
       "glyph": "⬟",
       "color": "#e8b776",
-      "desc": "発射弾の威力+15%、弾速-20%。遅い弾を当てる工夫が必要。",
-      "key": "heavy"
+      "desc": "発射弾の威力+8%、弾速-10%。遅い弾を当てる工夫が必要。 同種重複可（数値は1個分）。",
+      "key": "heavy",
+      "heavy_bonus": 0.08,
+      "heavy_ratio": 0.9,
+      "stackable": true,
+      "stack_stats": [
+        "heavy_bonus",
+        "heavy_ratio"
+      ]
     },
     {
       "name": "スターターセル",
       "glyph": "ϟ",
       "color": "#a5d7f2",
-      "desc": "満タンの弾倉から撃つ最初の1射だけ、発射弾の威力+20%。",
-      "key": "starter"
+      "desc": "満タンの弾倉から撃つ最初の1射だけ、発射弾の威力+10%。 同種重複可（数値は1個分）。",
+      "key": "starter",
+      "starter_bonus": 0.1,
+      "stackable": true,
+      "stack_stats": [
+        "starter_bonus"
+      ]
     },
     {
       "name": "予備マガジン",
@@ -756,8 +783,13 @@
       "name": "リバウンドテープ",
       "glyph": "↗",
       "color": "#95d8c9",
-      "desc": "反射する弾の最初の反射後に弾速+20%。反射回数は増えない。",
-      "key": "rebound"
+      "desc": "反射する弾の最初の反射後に弾速+10%。反射回数は増えない。 同種重複可（数値は1個分）。",
+      "key": "rebound",
+      "rebound_bonus": 0.1,
+      "stackable": true,
+      "stack_stats": [
+        "rebound_bonus"
+      ]
     },
     {
       "name": "反響の種",
@@ -819,7 +851,10 @@
       "desc": "移動速度+2%。同種は加算（3個で+6%）。回避速度は変わらない。",
       "key": "mini_feather",
       "stackable": true,
-      "move_bonus": 0.02
+      "move_bonus": 0.02,
+      "stack_stats": [
+        "move_bonus"
+      ]
     },
     {
       "name": "パワーチップ",
@@ -828,31 +863,46 @@
       "desc": "直接発射する各弾のダメージ+2%。同種は加算（3個で+6%）。追加弾・爆発・近接は対象外。",
       "key": "power_chip",
       "stackable": true,
-      "shot_bonus": 0.02
+      "shot_bonus": 0.02,
+      "stack_stats": [
+        "shot_bonus"
+      ]
     },
     {
       "name": "ロングバレル",
       "key": "long_barrel",
-      "desc": "直接発射弾の初速+15%。派生弾は対象外。",
+      "desc": "直接発射弾の初速+8%。派生弾は対象外。 同種重複可（数値は1個分）。",
       "glyph": "➶",
       "color": "#9dcce5",
-      "speed_bonus": 0.15
+      "speed_bonus": 0.08,
+      "stackable": true,
+      "stack_stats": [
+        "speed_bonus"
+      ]
     },
     {
       "name": "ワイドマガジン",
       "key": "wide_magazine",
-      "desc": "全武器の弾倉上限+2。戦闘中取得では弾は増えず、予備から装填。",
+      "desc": "全武器の弾倉上限+1。戦闘中取得では弾は増えず、予備から装填。 同種重複可（数値は1個分）。",
       "glyph": "▤",
       "color": "#a7dcb7",
-      "mag_bonus": 2
+      "mag_bonus": 1,
+      "stackable": true,
+      "stack_stats": [
+        "mag_bonus"
+      ]
     },
     {
       "name": "ラストスタンプ",
       "key": "last_stamp",
-      "desc": "最後の1射に合計+0.30ダメージ。直接弾に均等配分。",
+      "desc": "最後の1射に合計+0.15ダメージ。直接弾に均等配分。 同種重複可（数値は1個分）。",
       "glyph": "✦",
       "color": "#eabf89",
-      "last_bonus": 0.3
+      "last_bonus": 0.15,
+      "stackable": true,
+      "stack_stats": [
+        "last_bonus"
+      ]
     },
     {
       "name": "クールグリップ",
@@ -866,27 +916,39 @@
     {
       "name": "ステップスプリング",
       "key": "step_spring",
-      "desc": "回避クールダウン-10%。回避の速度・無敵時間は不変。",
+      "desc": "回避クールダウン-6%。回避の速度・無敵時間は不変。 同種重複可（数値は1個分）。",
       "glyph": "↗",
       "color": "#a7dcb7",
-      "dodge_ratio": 0.9
+      "dodge_ratio": 0.94,
+      "stackable": true,
+      "stack_stats": [
+        "dodge_ratio"
+      ]
     },
     {
       "name": "セーフティソール",
       "key": "safety_sole",
-      "desc": "回避終了後0.8秒、通常移動+10%。",
+      "desc": "回避終了後0.8秒、通常移動+6%。 同種重複可（数値は1個分）。",
       "glyph": "⌁",
       "color": "#eabf89",
       "sole_duration": 0.8,
-      "sole_bonus": 0.1
+      "sole_bonus": 0.06,
+      "stackable": true,
+      "stack_stats": [
+        "sole_bonus"
+      ]
     },
     {
       "name": "クイックシース",
       "key": "quick_sheath",
-      "desc": "近接クールダウン-15%。威力・範囲・弾消し時間は不変。",
+      "desc": "近接クールダウン-8%。威力・範囲・弾消し時間は不変。 同種重複可（数値は1個分）。",
       "glyph": "†",
       "color": "#9dcce5",
-      "melee_ratio": 0.85
+      "melee_ratio": 0.92,
+      "stackable": true,
+      "stack_stats": [
+        "melee_ratio"
+      ]
     },
     {
       "name": "パリィシェル",
@@ -911,37 +973,53 @@
     {
       "name": "パルスブーツ",
       "key": "pulse_boots",
-      "desc": "パルス使用後2秒、通常移動+15%。回避速度・パルス回数は不変。",
+      "desc": "パルス使用後2秒、通常移動+8%。回避速度・パルス回数は不変。 同種重複可（数値は1個分）。",
       "glyph": "ϟ",
       "color": "#9dcce5",
       "boots_duration": 2.0,
-      "boots_bonus": 0.15
+      "boots_bonus": 0.08,
+      "stackable": true,
+      "stack_stats": [
+        "boots_bonus"
+      ]
     },
     {
       "name": "チェンジサイト",
       "key": "change_sight",
-      "desc": "切替後2秒以内の最初の1射は初速+25%。再使用2秒、派生弾対象外。",
+      "desc": "切替後2秒以内の最初の1射は初速+12%。再使用2秒、派生弾対象外。 同種重複可（数値は1個分）。",
       "glyph": "⊙",
       "color": "#a7dcb7",
       "sight_duration": 2.0,
       "sight_reuse": 2.0,
-      "sight_bonus": 0.25
+      "sight_bonus": 0.12,
+      "stackable": true,
+      "stack_stats": [
+        "sight_bonus"
+      ]
     },
     {
       "name": "ラバーチップ",
       "key": "rubber_chip",
-      "desc": "直接弾の最初の壁反射で威力+10%。反射回数は増えない。",
+      "desc": "直接弾の最初の壁反射で威力+6%。反射回数は増えない。 同種重複可（数値は1個分）。",
       "glyph": "↪",
       "color": "#eabf89",
-      "rubber_bonus": 0.1
+      "rubber_bonus": 0.06,
+      "stackable": true,
+      "stack_stats": [
+        "rubber_bonus"
+      ]
     },
     {
       "name": "整流コイル",
       "key": "rectifier_coil",
-      "desc": "花火・四つ葉・小包の破片の威力+10%。爆風・星くず・追加弾対象外。",
+      "desc": "花火・四つ葉・小包の破片の威力+6%。爆風・星くず・追加弾対象外。 同種重複可（数値は1個分）。",
       "glyph": "⋈",
       "color": "#9dcce5",
-      "fragment_bonus": 0.1
+      "fragment_bonus": 0.06,
+      "stackable": true,
+      "stack_stats": [
+        "fragment_bonus"
+      ]
     },
     {
       "name": "帰還リール",
@@ -954,10 +1032,14 @@
     {
       "name": "サプライキー",
       "key": "supply_key",
-      "desc": "武器・レリック宝箱の開封時間-20%（標準1.5→1.2秒）。",
+      "desc": "武器・レリック宝箱の開封時間-10%（標準1.5→1.35秒）。 同種重複可（数値は1個分）。",
       "glyph": "⚿",
       "color": "#eabf89",
-      "chest_ratio": 0.8
+      "chest_ratio": 0.9,
+      "stackable": true,
+      "stack_stats": [
+        "chest_ratio"
+      ]
     }
   ],
   "characters": [

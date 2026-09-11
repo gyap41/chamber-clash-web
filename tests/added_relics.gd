@@ -18,35 +18,35 @@ func run() -> void:
 	setup(game)
 	assert(p.add_relic(20))
 	game.fire(0)
-	assert(is_equal_approx(game.shots[0].speed,480*1.15))
+	assert(is_equal_approx(game.shots[0].speed,480*1.08))
 	game.spawn_shot(0,0,0,{"depth":1,"speed":200.0})
 	assert(is_equal_approx(game.shots[-1].speed,200.0))
 	# Magazine acquisition changes capacity only; all reload/top-up paths use it.
 	assert(p.add_relic(21))
-	assert(p.weapon().clip == 15 and p.definition().mag == 18 and game.Weapons.definition(0).mag == 16)
-	p.weapon().clip = 17
+	assert(p.weapon().clip == 15 and p.definition().mag == 17 and game.Weapons.definition(0).mag == 16)
+	p.weapon().clip = 16
 	var reserve: int = p.weapon().reserve
 	p.start_reload()
 	p.finish_reload()
-	assert(p.weapon().clip == 18 and p.weapon().reserve == reserve-1)
-	assert(p.add_gun(28) and p.weapon().clip == 10)
+	assert(p.weapon().clip == 17 and p.weapon().reserve == reserve-1)
+	assert(p.add_gun(28) and p.weapon().clip == 9)
 	p.relics.append(8)
-	p.inventory[0].clip = 17
+	p.inventory[0].clip = 16
 	p.equip_slot(0)
 	p.equip_slot(1)
-	assert(p.inventory[0].clip == 18)
+	assert(p.inventory[0].clip == 17)
 	p.apply_build({"owned":["gun:0",21],"equipped":["gun:0",21],"positions":{"gun:0":Vector2i.ZERO,21:Vector2i(2,0)}},8,true)
-	assert(p.weapon().clip == 18 and p.weapon().reserve == 64)
+	assert(p.weapon().clip == 17 and p.weapon().reserve == 64)
 	setup(game,24)
 	p.relics = [22]
 	p.weapon().clip = 1
 	game.fire(0)
-	assert(is_equal_approx(game.shots[0].damage,.55) and is_equal_approx(game.shots[1].damage,.55))
+	assert(is_equal_approx(game.shots[0].damage,.475) and is_equal_approx(game.shots[1].damage,.475))
 	setup(game,19)
 	p.relics = [22]
 	p.weapon().clip = 1
 	game.fire(0)
-	assert(is_equal_approx(game.shots[0].damage,.85) and is_equal_approx(game.delayed_shots[0].damage,.55))
+	assert(is_equal_approx(game.shots[0].damage,.70) and is_equal_approx(game.delayed_shots[0].damage,.55))
 	setup(game)
 	p.relics = [23]
 	p.state.dodge = 1.0
@@ -62,15 +62,15 @@ func run() -> void:
 	setup(game)
 	p.relics = [24,25,26]
 	p.handle_key(KEY_SPACE,0,game.shots,q,game.arena)
-	assert(is_equal_approx(p.state.dodge,1.65*.9))
+	assert(is_equal_approx(p.state.dodge,1.65*.94))
 	assert(is_equal_approx(p.state.roll,.26) and is_equal_approx(p.state.inv,.31))
 	p.step(.26,0,q,game.arena)
-	assert(is_equal_approx(p.effective_move_speed(),205*1.1))
+	assert(is_equal_approx(p.effective_move_speed(),205*1.06))
 	p.step(.81,0,q,game.arena)
 	assert(is_equal_approx(p.effective_move_speed(),205))
 	p.state.angle = 0.0
 	p.try_melee(0,game.shots,q,game.arena)
-	assert(is_equal_approx(p.state.melee,1.1*.85) and is_equal_approx(p.state.slash,.16))
+	assert(is_equal_approx(p.state.melee,1.1*.92) and is_equal_approx(p.state.slash,.16))
 	# Successful parry charges once; hazard, dodge and bell do not consume the shell.
 	setup(game)
 	p.relics = [27]
@@ -117,12 +117,12 @@ func run() -> void:
 	setup(game,28)
 	p.relics = [29,30]
 	assert(game.use_pulse(0) and p.state.boots_time == 2.0)
-	assert(is_equal_approx(p.effective_move_speed(),205*1.15))
+	assert(is_equal_approx(p.effective_move_speed(),205*1.08))
 	p.equip_slot(0)
 	assert(p.state.sight_time == 2.0)
 	p.state.shot = 0.0
 	game.fire(0)
-	assert(is_equal_approx(game.shots[-1].speed,480*1.25) and p.state.sight_time == 0)
+	assert(is_equal_approx(game.shots[-1].speed,480*1.12) and p.state.sight_time == 0)
 	p.equip_slot(1)
 	assert(p.state.sight_time == 0) # cannot refresh during cooldown
 	p.step(2.01,0,q,game.arena)
@@ -135,7 +135,7 @@ func run() -> void:
 		b.state.pos = Vector2(1087,100)
 		b.state.velocity = Vector2(390,0)
 		b.step(.02,game.arena,q)
-		assert(is_equal_approx(b.damage,1.1))
+		assert(is_equal_approx(b.damage,1.06))
 	game.spawn_shot(0,1,0,{"depth":1})
 	b = game.shots[-1]
 	b.state.pos = Vector2(1087,100)
@@ -147,7 +147,7 @@ func run() -> void:
 		p.weapon().clip = 1
 		game.fire(0)
 		b = game.shots[0]
-		var expected: float = .45 if id == 9 else (.35 if id == 17 else .65)*1.1
+		var expected: float = .45 if id == 9 else (.35 if id == 17 else .65)*1.06
 		assert(is_equal_approx(b.fragments().damage,expected))
 		b.state.dead = true
 		assert(b.fragments().is_empty())
@@ -169,9 +169,9 @@ func run() -> void:
 	var chest = game.supplies.put_item("weapon",28,p.state.pos)
 	chest.age = .6
 	game.supplies.interact(0)
-	game.supplies.step(1.19)
+	game.supplies.step(1.34)
 	assert(not chest.used and not p.owns(28))
-	assert("1.2秒" in chest.get_node("Hint").text)
+	assert("1.4秒" in chest.get_node("Hint").text)
 	game.supplies.step(.011)
 	assert(not p.owns(28) and "gun:28" in game.match_state.reserve_items(0))
 	assert(is_equal_approx(q.effective_chest_duration(1.5),1.5))

@@ -431,16 +431,16 @@ func add_relic(id: int) -> bool:
 	if relic_block_reason(id) != "": return false
 	relics.append(id)
 	if id == 4:
-		state.max_hp += 2.0
-		state.hp = minf(state.max_hp,state.hp+2.0)
+		state.max_hp += float(Relics.definition(4).hp_bonus)
+		state.hp = minf(state.max_hp,state.hp+float(Relics.definition(4).hp_bonus))
 	return true
 func effective_move_speed() -> float:
-	return move_speed*(1.0 + (.12 if 0 in relics else 0.0) + Relics.additive_bonus(relics,"move_bonus") + (relic_value(25,"sole_bonus") if 25 in relics and state.sole_time > 0 else 0.0) + (relic_value(29,"boots_bonus") if 29 in relics and state.boots_time > 0 else 0.0))
+	return move_speed*(1.0 + Relics.additive_bonus(relics,"move_bonus") + (relic_value(25,"sole_bonus") if 25 in relics and state.sole_time > 0 else 0.0) + (relic_value(29,"boots_bonus") if 29 in relics and state.boots_time > 0 else 0.0))
 func effective_reload_duration() -> float:
 	# reload_duration retains the Inspector/character baseline; each gun supplies its base.
-	return float(definition().get("reload_time",1.15))*(reload_duration/1.15)*(.65 if 1 in relics else 1.0)
+	return float(definition().get("reload_time",1.15))*(reload_duration/1.15)*Relics.stacked_value(relics,1,"reload_ratio")
 func relic_value(id: int, key: String) -> float:
-	return float(Relics.definition(id).get(key,0.0))
+	return Relics.stacked_value(relics,id,key)
 func effective_chest_duration(base: float) -> float:
 	return base*(relic_value(34,"chest_ratio") if 34 in relics else 1.0)
 
@@ -472,7 +472,7 @@ func apply_build(build: Dictionary, capacity: int, heal: bool = false, usable: D
 	weapon_mods = build.get("mods", {}).duplicate()
 	temporary_relic = -1
 	temporary_relic_slot = -1
-	state.max_hp = max_hp + (2.0 if 4 in relics else 0.0)
+	state.max_hp = max_hp + relic_value(4,"hp_bonus")
 	state.hp = state.max_hp if heal else minf(state.hp,state.max_hp)
 	if heal:
 		inventory = []

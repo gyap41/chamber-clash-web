@@ -141,7 +141,7 @@ func clear_action_inputs() -> void:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed or event.echo: return
 	if event.keycode == KEY_ENTER and result != "":
-		reset_round()
+		advance_result()
 		return
 	if phase != "play": return
 	if event.keycode == KEY_ESCAPE:
@@ -216,7 +216,7 @@ func fire(index: int) -> void:
 	var count: int = 3 if scatter else int(g.get("count", 1))
 	var burst_count := int(g.get("burst_count",1))
 	var first_shot: bool = w.clip == int(g.mag)
-	var shot_damage: float = (.5 if scatter else g.damage) * (1.2 if first_shot and 7 in player.relics else 1.0)
+	var shot_damage: float = (.5 if scatter else g.damage) * (1.0+player.relic_value(7,"starter_bonus") if first_shot else 1.0)
 	# 帰還バッテリー: a charge armed by the *previous* weapon switch boosts this volley once,
 	# then clears itself; it cannot re-arm until another boomerang recovery + switch happens.
 	if 14 in player.relics and player.state.get("return_battery_armed", false):
@@ -226,8 +226,8 @@ func fire(index: int) -> void:
 	var echo_damage := shot_damage
 	if w.clip == 1 and 22 in player.relics:
 		shot_damage += player.relic_value(22,"last_bonus")/(count*burst_count)
-	var damage_scale: float = (1.0+Relics.additive_bonus(player.relics,"shot_bonus"))*(1.15 if 6 in player.relics else 1.0)
-	var speed_scale: float = (1.0+Relics.additive_bonus(player.relics,"speed_bonus"))*(.8 if 6 in player.relics else 1.0)
+	var damage_scale: float = (1.0+Relics.additive_bonus(player.relics,"shot_bonus"))*(1.0+player.relic_value(6,"heavy_bonus"))
+	var speed_scale: float = (1.0+Relics.additive_bonus(player.relics,"speed_bonus"))*player.relic_value(6,"heavy_ratio")
 	if 30 in player.relics and player.state.sight_time > 0:
 		speed_scale *= 1.0+player.relic_value(30,"sight_bonus")
 		player.state.sight_time = 0.0
@@ -418,8 +418,15 @@ func _process(dt: float) -> void:
 		telemetry.frame(dt,shots.size())
 
 # Result navigation starts a fresh selection/match and releases the entire battle scene.
-func return_from_result(to_title: bool) -> void:
+func advance_result() -> void:
 	if result.is_empty() or is_queued_for_deletion(): return
+	if scores.max() >= MatchState.WIN_TARGET:
+		return_from_result(false)
+	else:
+		reset_round()
+
+func return_from_result(to_title: bool) -> void:
+	if result.is_empty() or scores.max() < MatchState.WIN_TARGET or is_queued_for_deletion(): return
 	clear_action_inputs()
 	set_physics_process(false)
 	var next_scene = load("res://scenes/ui/title.tscn" if to_title else "res://scenes/ui/character_select.tscn").instantiate()

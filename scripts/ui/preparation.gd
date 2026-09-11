@@ -249,8 +249,8 @@ func show_detail(entry, reward: bool = false) -> void:
 	if Relics.stackable(relic):
 		var equipped: Array = game.match_state.equipped_relics(turn)
 		var count: int = equipped.count(relic)
-		var stat := "move_bonus" if relic == 18 else "shot_bonus"
-		detail_description.text += "\n\n装備中%d個 / 同種合計+%d%%" % [count,roundi(count*float(Relics.definition(relic).get(stat,0.0))*100)]
+		var total := Relics.stack_summary(relic,count)
+		detail_description.text += "\n\n装備中%d個 / 同種合計%s" % [count,total]
 	var is_mod: bool = reward and str(entry).begins_with("mod:")
 	details.get_node("Meta").text = "武器に紐づく改造" if is_mod else "%dマス / %s" % [game.match_state.shape_of(entry).size(),"武器" if game.match_state.is_gun(entry) else "レリック"]
 	var discard_button: Button = details.get_node("Discard")

@@ -31,9 +31,9 @@ func run() -> void:
 	assert(m.discard(0,first))
 	assert(m.builds[0].positions[second] == Vector2i(0,1))
 	assert(m.equipped_relics(0) == [0])
-	# Reward rules still forbid duplicates until stacking is explicitly opened.
+	# Numeric relic copies are now purchasable independently.
 	m._set_products(0,[0,1,2])
-	assert(m.reason(0,0) == "所持済み")
+	assert(m.reason(0,0) == "")
 	assert(game.preparation.claim(1))
 	var acquired = m.builds[0].owned.back()
 	assert(Items.relic_id(acquired) == 1 and typeof(acquired) == TYPE_STRING)

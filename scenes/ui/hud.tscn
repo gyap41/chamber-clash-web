@@ -119,17 +119,22 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -270.0
+offset_left = -300.0
 offset_top = 44.0
-offset_right = 270.0
+offset_right = 300.0
 offset_bottom = 94.0
 theme_override_constants/separation = 16
 alignment = 1
-[node name="CharacterSelect" type="Button" parent="Root/ResultActions"]
-custom_minimum_size = Vector2(280, 50)
+[node name="NextRound" type="Button" parent="Root/ResultActions"]
+custom_minimum_size = Vector2(340, 50)
 layout_mode = 2
 focus_mode = 0
-text = "キャラクター選択に戻る"
+text = "次のラウンドの準備へ  [Enter]"
+[node name="CharacterSelect" type="Button" parent="Root/ResultActions"]
+custom_minimum_size = Vector2(320, 50)
+layout_mode = 2
+focus_mode = 0
+text = "キャラクター選択に戻る  [Enter]"
 [node name="Title" type="Button" parent="Root/ResultActions"]
 custom_minimum_size = Vector2(240, 50)
 layout_mode = 2

@@ -4,11 +4,12 @@ const Relics = preload("res://scripts/catalog/relic_catalog.gd")
 const RelicCard = preload("res://scripts/ui/relic_card.gd")
 var slots: Array = []
 var relic_cards: Array = []
-const RELIC_HINTS := ["移動 +12%", "装填時間 -35%", "壁反射 +1回", "攻撃を1回防ぐ", "最大HP +2", "回避で6方向弾", "威力+15% / 弾速-20%", "満タン初射 +20%", "切替で1発装填", "パルスで6方向弾", "弾消しで回避短縮", "初反射で弾速+20%", "反射地点に停止弾", "空から装填で追加弾", "帰還→切替で威力増", "近接で消すと追加弾", "切替で弱い追射", "回避で予備弾を装填", "移動 +2%", "直接弾の威力 +2%", "直接弾の初速 +15%", "弾倉上限 +2", "最終射に合計 +0.30", "装填で回避待ち短縮", "回避待ち -10%", "回避後に移動加速", "近接待ち -15%", "弾消しで次の被害軽減", "被弾後に0.5回復・2回", "パルス後に移動加速", "切替初射の初速 +25%", "初反射で威力 +10%", "分裂破片の威力 +10%", "往復弾回収で1発装填", "宝箱開封 -20%"]
+const RELIC_HINTS := ["移動 +6%", "装填時間 -12%", "壁反射 +1回", "攻撃を1回防ぐ", "最大HP +1", "回避で6方向弾", "威力+8% / 弾速-10%", "満タン初射 +10%", "切替で1発装填", "パルスで6方向弾", "弾消しで回避短縮", "初反射で弾速+10%", "反射地点に停止弾", "空から装填で追加弾", "帰還→切替で威力増", "近接で消すと追加弾", "切替で弱い追射", "回避で予備弾を装填", "移動 +2%", "直接弾の威力 +2%", "直接弾の初速 +8%", "弾倉上限 +1", "最終射に合計 +0.15", "装填で回避待ち短縮", "回避待ち -6%", "回避後に移動加速", "近接待ち -8%", "弾消しで次の被害軽減", "被弾後に0.5回復・2回", "パルス後に移動加速", "切替初射の初速 +12%", "初反射で威力 +6%", "分裂破片の威力 +6%", "往復弾回収で1発装填", "宝箱開封 -10%"]
 # Scroll within the existing HUD band so all equipped copies remain reachable.
 const MAX_RELIC_CAPACITY := 36
 const MAX_WEAPON_SLOTS := 8
 func _ready() -> void:
+	$Root/ResultActions/NextRound.pressed.connect(func(): get_parent().advance_result())
 	$Root/ResultActions/CharacterSelect.pressed.connect(func(): get_parent().return_from_result(false))
 	$Root/ResultActions/Title.pressed.connect(func(): get_parent().return_from_result(true))
 	$Root/Status.tooltip_text = "弾の外周：橙=P1、青=P2。黄色の二重輪=高威力・設置・分裂・派生弾。紫の破線=仮装備を持つ相手の派生弾。レリック欄にカーソルを重ねると効果を確認できます。"
@@ -83,20 +84,21 @@ func refresh(players: Array, remaining: float, paused: bool, result: String, sco
 	$Root/Status.text += "   PULSE %d : %d" % [p.state.pulses,q.state.pulses]
 	var inset: float = get_parent().arena_inset()
 	if inset > 0: $Root/Status.text += "   危険地帯：外周%dpxが継続ダメージ" % ceili(inset)
-	# A round win (result != "") only ends the whole match once someone's score reaches 3 —
-	# reset_round() silently zeroes scores back to 0-0 in that case (see main.gd). That was
-	# easy to miss because the message read the same as any other round win, so a completed
-	# match didn't visibly look different from "on to the next round". Make the match-complete
-	# case visually distinct instead of just swapping the trailing hint text.
 	var match_over: bool = scores.max() >= preload("res://scripts/catalog/shop_catalog.gd").WIN_TARGET
+	$Root/ResultActions/NextRound.visible = not match_over
+	$Root/ResultActions/NextRound.text = "再戦する  [Enter]" if result == "DRAW" else "次のラウンドの準備へ  [Enter]"
+	$Root/ResultActions/CharacterSelect.visible = match_over
+	$Root/ResultActions/Title.visible = match_over
 	if paused:
 		$Root/Message.text = "PAUSED"
 	elif result == "":
 		$Root/Message.text = ""
 	elif match_over:
-		$Root/Message.text = "マッチ終了！ %s（最終 %d - %d） 　ENTER で新しい試合" % [result,scores[0],scores[1]]
+		$Root/Message.text = "試合終了！ %s\n最終スコア  %d - %d" % [result,scores[0],scores[1]]
+	elif result == "DRAW":
+		$Root/Message.text = "引き分け\n同じ装備で再戦します"
 	else:
-		$Root/Message.text = "%s（%d - %d）　ENTER で次ラウンドの準備" % [result,scores[0],scores[1]]
+		$Root/Message.text = "ラウンド終了  %s\nスコア  %d - %d" % [result,scores[0],scores[1]]
 	for i in range(2):
 		refresh_relics(i,players[i])
 		for n in range(MAX_WEAPON_SLOTS):
@@ -162,6 +164,6 @@ func refresh_relics(index: int, player) -> void:
 
 		if Relics.stackable(id):
 			var count: int = player.relics.count(id)
-			var total := "同種%d個 / 合計+%d%%" % [count,count*2]
-			hint.text += " · +%d%%計" % (count*2)
+			var total := "同種%d個 / 合計%s" % [count,Relics.stack_summary(id,count)]
+			hint.text += " · 同種%d個" % count
 			card.tooltip_text += "\n" + total

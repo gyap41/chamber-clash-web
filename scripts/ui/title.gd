@@ -8,6 +8,7 @@ extends Control
 # hands off to main.tscn.
 @export var character_select_scene: PackedScene = preload("res://scenes/ui/character_select.tscn")
 func _ready() -> void:
+	$Panel/Content/Version.text = "v%s" % ProjectSettings.get_setting("application/config/version", "dev")
 	$Panel/Content/Start.pressed.connect(start_cpu_match)
 func start_cpu_match() -> void:
 	var select = character_select_scene.instantiate()

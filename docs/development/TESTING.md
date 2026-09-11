@@ -19,6 +19,10 @@ powershell -ExecutionPolicy Bypass -File run_tests.ps1 -IncludeRender
 PASS数はアサーション数ではない。Godotのユーザーデータ/キャッシュ権限エラーも無視しない。
 音響素材がない場合のaudio_assets.gdはSKIPを返す。単独実行は終了コード0だが、現行の一括ランナーはPASS表示なしを失敗扱いにする。未生成を認識成功と扱わない。
 
+## バージョン表示
+
+ゲームのバージョンは `project.godot` の `application/config/version` で管理する。初期値は `0.1.0-dev`。タイトル画面はこの値を読み、`v0.1.0-dev` の形式で表示する。リリース時はこの設定を更新する。
+
 ## 描画と入力
 
 ```powershell
@@ -34,6 +38,7 @@ B案の座標/操作基準は [準備UI仕様](../design/PREPARATION_UI_B.md)。
 
 - match_state/準備: 商品二重購入・資金収支、配置衝突、控え容量/解除先満杯、確定、丸腰出撃、引き分け/試合終了、CPU。
 - fine_grid/item_instances/relic_stacking: 個体ID、同種の位置/破棄、重複可否、能力加算、取得経路。
+- numeric_relic_stacking: 数値補正19種の価格・重複購入/配置/売却/仮取得/HUD、時間短縮の乗算、条件付き効果の固定時間、直接/派生弾、HP取得差分。
 - 戦闘: 全武器、改造、レリック、派生制限、回避/被弾、入力予約、危険地帯、補給/宝箱。
 - field_weapon_reserve/eight_more_weapons: 控え収納と明示配置、引き分け/決着/満杯/重複、追加通常8武器。
 - added_weapons/added_relics/added_item_acquisition: 初期専用8種の抽選除外、追加全品の購入・売却・無料持ち帰り、3連射の補正/予約取消、交差弾、15レリックの条件/上限/対象外、CPU初期装備。
@@ -54,6 +59,16 @@ Pythonテストは通信mockで課金なし。環境と無料確認は [素材�
 直近の音響検証ではPython19件とBGM/SEのGodot Resource認識が成功。全ゲームテストの再実行とは別。
 
 ## 最新の記録と未完了の受入
+
+2026-09-12: 数値補正19種の重複解禁・低数値化・価格改定後、headless全55本PASS、終了コード0。
+実行: `powershell -ExecutionPolicy Bypass -File run_tests.ps1`。
+ログ: `.local/logs/run_tests-20260912-021554.log`。初回はGodotのログ・証明書アクセスがサンドボックスで拒否されたため、通常権限で再実行した。
+単体効果、重複19種の取得経路、合計表示、装填/回避/近接/開封の乗算、発動時間据え置き、射撃補正、HP/弾倉を確認。今回の描画目視と人間の実プレイによる価格・対人バランス評価は未実施。
+
+勝敗UIの修正後、`result_flow.gd`（描画あり）、`small_improvements.gd`、`smoke.gd`、`match_progression.gd` がPASS・終了コード0。途中勝敗の次準備ボタン/Enter、引き分け再戦、最終決着時のみ戻り先表示、途中の戻り先API拒否、最終Enterでキャラ選択を検証。全体一括テストは今回再実行していない。
+
+描画再現: `.local/tools/Godot_v4.7.2-stable_win64_console.exe --path . --script res://tests/result_flow.gd --quit-after 120 -- --result-screenshot`。
+`.local/logs/result-round.png`、`result-draw.png`、`result-match.png` でメッセージ・スコア・操作ボタンの重なりがないことを確認した。
 
 2026-09-12: 武器別間合い・迂回の追加後、**headless全53本PASS、終了コード0**。
 実行: `powershell -ExecutionPolicy Bypass -File run_tests.ps1`。

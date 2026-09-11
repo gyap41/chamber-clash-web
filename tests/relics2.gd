@@ -62,18 +62,18 @@ func run() -> void:
 	assert(is_equal_approx(game.shots[-1].state.velocity.length(),250.0) and is_equal_approx(game.shots[-1].damage,.35))
 	assert(game.shots[-1].state.bounce == 0)
 
-	# Heavy Core: -20% bullet speed, +15% damage, applied at the moment the bullet is created.
+	# Heavy Core: -10% bullet speed, +8% damage, applied at the moment the bullet is created.
 	setup(game,0)
 	assert(p.add_relic(6))
 	game.fire(0)
-	assert(is_equal_approx(game.shots[-1].state.velocity.length(),480*.8))
-	assert(is_equal_approx(game.shots[-1].damage,.92))
+	assert(is_equal_approx(game.shots[-1].state.velocity.length(),480*.9))
+	assert(is_equal_approx(game.shots[-1].damage,.864))
 
-	# Starter Cell: +20% damage on the first shot from a full magazine only.
+	# Starter Cell: +10% damage on the first shot from a full magazine only.
 	setup(game,0)
 	assert(p.add_relic(7))
 	game.fire(0)
-	assert(is_equal_approx(game.shots[-1].damage,.96))
+	assert(is_equal_approx(game.shots[-1].damage,.88))
 	p.state.shot = 0.0
 	game.fire(0)
 	assert(is_equal_approx(game.shots[-1].damage,.8))
@@ -81,9 +81,9 @@ func run() -> void:
 	setup(game,19)
 	assert(p.add_relic(7))
 	game.fire(0)
-	assert(is_equal_approx(game.delayed_shots[0].damage,.66))
+	assert(is_equal_approx(game.delayed_shots[0].damage,.605))
 	game._physics_process(.25)
-	assert(is_equal_approx(game.shots[-1].damage,.66))
+	assert(is_equal_approx(game.shots[-1].damage,.605))
 
 	# Reserve Holster: switching guns tops the outgoing weapon up by 1 round from reserve, 1.5s reuse.
 	# setup() already gives both players id 0 and id 1 (tests/helpers/battle.gd places both on the grid),
@@ -124,7 +124,7 @@ func run() -> void:
 	p.try_melee(0,game.shots,q,game.arena) # the bullet from the first swing is already dead, so nothing is in range this time
 	assert(is_equal_approx(p.state.dodge,1.0))
 
-	# Rebound Tape: bounced bullets gain +20% speed after their first bounce only; bank's damage bump is unaffected.
+	# Rebound Tape: bounced bullets gain +10% speed after their first bounce only; bank's damage bump is unaffected.
 	setup(game,16)
 	assert(p.add_relic(11))
 	game.fire(0)
@@ -132,7 +132,7 @@ func run() -> void:
 	bullet.state.pos = Vector2(1087,100)
 	bullet.state.velocity = Vector2(370,0)
 	bullet.step(.02,game.arena,q)
-	assert(is_equal_approx(bullet.state.velocity.length(),444.0) and is_equal_approx(bullet.damage,1.2) and bullet.state.rebounds == 1)
+	assert(is_equal_approx(bullet.state.velocity.length(),407.0) and is_equal_approx(bullet.damage,1.2) and bullet.state.rebounds == 1)
 	bullet.state.pos = Vector2(1087,100)
 	bullet.state.velocity = Vector2(370,0)
 	bullet.step(.02,game.arena,q)

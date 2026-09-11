@@ -43,11 +43,11 @@ func run() -> void:
 	game.reset_round()
 	assert(game.shots.is_empty())
 	p.set_character(7)
-	p.add_relic(4) # 9 HP character + 2 maximum HP.
+	p.add_relic(4) # 9 HP character + 1 maximum HP.
 	p.state.hp = 7.5
 	game._physics_process(0.0)
 	var bar = game.hud.get_node("Root/HP1")
-	assert(bar.opacities.size() == 11)
+	assert(bar.opacities.size() == 10)
 	assert(bar.opacities[6] == 1.0 and is_equal_approx(bar.opacities[7],.6) and is_equal_approx(bar.opacities[8],.2))
 	assert(bar.mouse_filter == Control.MOUSE_FILTER_IGNORE)
 	p.state.hp = 0

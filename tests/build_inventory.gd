@@ -31,7 +31,7 @@ func run() -> void:
 		m.toggle(0,4)
 	assert(p.state.hp == 3)
 	p.apply_build(m.builds[0],m.capacity(),true)
-	assert(p.state.hp == 10)
+	assert(p.state.hp == 9)
 	assert(p.relics.size() == 6)
 	# 仮装備ガード（player.gdのrelic_capacity到達）は容量モデルの数値そのものとは独立した
 	# ロジックなので、ここではcapacity引数にちょうど今の装備数を渡して「満杯」の境界を作る

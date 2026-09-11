@@ -68,6 +68,9 @@ func run() -> void:
 		game.scores[0] = score
 		game.hud.refresh(game.players,game.remaining,false,game.result,game.scores,game.phase)
 		assert(actions.visible)
+		assert(actions.get_node("NextRound").visible == (score < 5))
+		assert(actions.get_node("CharacterSelect").visible == (score == 5))
+		assert(actions.get_node("Title").visible == (score == 5))
 	if "--result-screenshot" in OS.get_cmdline_user_args():
 		await process_frame
 		await process_frame
@@ -84,6 +87,7 @@ func run() -> void:
 	assert(fresh.scores == [0,0] and fresh.phase == "prepare")
 	assert(not fresh.hud.get_node("Root/ResultActions").visible)
 	fresh.result = "P2 WIN"
+	fresh.scores[1] = 5
 	fresh.hud.get_node("Root/ResultActions/Title").pressed.emit()
 	assert(fresh.get_parent() == null)
 	var title = root.get_child(root.get_child_count()-1)

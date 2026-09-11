@@ -2,7 +2,7 @@ extends RefCounted
 const Items = preload("res://scripts/game/item_identity.gd")
 # Prototype prices: rationale and draw weights in PURCHASE_ECONOMY_PROPOSAL.md.
 const WEAPON_PRICES := [3,5,8,5,3,5,8,5,12,14,14,5,5,8,5,16,5,8,5,8,-1,-1,-1,-1,-1,-1,-1,-1,5,8,3,3,5,5,5,8,8,14]
-const RELIC_PRICES := [6,7,8,9,6,5,6,4,5,4,4,4,7,5,4,5,6,5,2,2,5,6,4,4,6,4,4,6,6,4,4,4,5,4,3]
+const RELIC_PRICES := [4,4,8,9,4,5,4,3,5,4,4,2,7,5,4,5,6,5,2,2,3,4,3,4,4,2,3,6,6,2,3,3,3,4,2]
 const MOD_PRICE := 6
 const REFRESH_PRICE := 2
 const INITIAL_GOLD := 12

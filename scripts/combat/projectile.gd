@@ -32,8 +32,8 @@ func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionar
 	speed = opts.get("speed", g.speed)
 	damage = opts.get("damage", g.damage)
 	var direct := int(opts.get("depth",0)) == 0
-	var damage_scale: float = (1.0+player.Relics.additive_bonus(player.relics,"shot_bonus") if direct else 1.0)*(1.15 if 6 in player.relics else 1.0)
-	var speed_scale: float = (1.0+player.Relics.additive_bonus(player.relics,"speed_bonus") if direct else 1.0)*(.8 if 6 in player.relics else 1.0)
+	var damage_scale: float = (1.0+player.Relics.additive_bonus(player.relics,"shot_bonus") if direct else 1.0)*(1.0+player.relic_value(6,"heavy_bonus"))
+	var speed_scale: float = (1.0+player.Relics.additive_bonus(player.relics,"speed_bonus") if direct else 1.0)*player.relic_value(6,"heavy_ratio")
 	damage *= float(opts.get("damage_scale",damage_scale))
 	speed *= float(opts.get("speed_scale",speed_scale))
 	if g.get("comet",false): lifetime = 1.45
@@ -127,7 +127,7 @@ func step(dt: float, arena, enemy) -> void:
 				b.rebounds += 1
 				if b.bank: weapon_effect_requested.emit(0,previous,(-b.velocity).angle()+PI/4)
 				if b.bank: damage += bank_bonus
-				if b.rebounds == 1 and 11 in source_player.relics: b.velocity *= 1.2
+				if b.rebounds == 1 and 11 in source_player.relics: b.velocity *= 1.0+source_player.relic_value(11,"rebound_bonus")
 				if b.rebounds == 1 and b.depth == 0 and 31 in source_player.relics: damage *= 1.0+source_player.relic_value(31,"rubber_bonus")
 				# 反響の種: the *first* bounce of a directly-fired bullet drops a short-lived
 				# stationary pool at the bounce point. "echo_seed" in applied_effects makes this

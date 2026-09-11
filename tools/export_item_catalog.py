@@ -41,7 +41,7 @@ def main():
     lines = [heading.rstrip(), "", f"## 現行武器{weapon_count}種", "",
              "間隔は秒、弾速はpx/秒。弾数×威力は直接射撃分。分裂・追射・爆発・継続ダメージは含まない。",
              "ホチキスバーストの3発は時間差の直接射撃。エコードラム・カーボンコピーの追射は特徴欄を参照。",
-             "装填は表の武器別基礎秒数×キャラ補正×レリック補正。未指定武器は1.15秒。ワイドマガジン装備時は表の弾倉上限に+2。",
+              "装填は表の武器別基礎秒数×キャラ補正×レリック補正。未指定武器は1.15秒。ワイドマガジンは1個につき表の弾倉上限に+1。",
              f"初期専用8種は無料・抽選外・売却0G。通常入手{common_count}種はレアに応じてショップ／補給から取得する。",
              "フィールド武器は取得時に控えへ入り、次の準備で配置してから使える。所持済み・控え8個満杯では取得不可。弾薬補給は弾薬箱。", "",
              "|ID|名称|レア|間隔|弾速|弾数×威力|弾倉/予備|基礎装填|占有・形状|価格G|特徴|",
@@ -52,11 +52,11 @@ def main():
         shape = weapons.get(str(index), defaults[gun["rarity"]])
         lines.append(f'|{index}|{gun["name"]}|{gun["rarity"]}|{gun["rate"]}|{gun["speed"]}|{count}×{gun["damage"]}|{gun["mag"]}/{gun["stock"]}|{gun.get("reload_time",1.15)}|{shape}|{price}|{gun["desc"]}|')
     lines += ["", f"## 現行レリック{relic_count}種", "", f"ショップは各1/{relic_count}の均等抽選。フィールド仮取得は1ラウンド1個。",
-              "同種重複可能なのは18/19のみ。新規15種は同種重複不可。重複品も個体ごとにマスを使う。", "",
+              "数値補正19種は同種重複可。増加量は同種加算、時間短縮とヘビーコアの弾速低下は残り値への乗算。持続時間・発動回数は増えない。重複品も個体ごとにマスを使う。", "",
               "|ID|名称|効果|占有・形状|価格G|同種重複|", "|---|---|---|---|---:|---|"]
     for index, relic in enumerate(catalog["relics"]):
         shape = relics.get(str(index), "1・`#`")
-        stack = "可・加算" if relic.get("stackable") else "不可"
+        stack = ("可・乗算含む" if any(k.endswith("_ratio") for k in relic.get("stack_stats", [])) else "可・加算") if relic.get("stackable") else "不可"
         lines.append(f'|{index}|{relic["name"]}|{relic["desc"]}|{shape}|{prices["RELIC"][index]}|{stack}|')
     lines += ["", "## 現行キャラと初期武器", "", "初期武器は無料で控えへ保証する。各キャラの2マス専用武器を配置して出撃できる。",
               "移動はpx/秒、装填は武器別基礎装填時間への倍率、回避はクールダウン秒。", "",

@@ -19,7 +19,7 @@ func run() -> void:
 	var prep = game.preparation
 	shop(game)
 	assert(p.add_relic(4) and p.add_relic(1))
-	assert(p.state.max_hp == 10 and p.state.hp == 10)
+	assert(p.state.max_hp == 9 and p.state.hp == 9)
 	game.supplies.reset()
 	p.state.pos = Vector2(100,100)
 	q.state.pos = Vector2(950,500)
@@ -28,7 +28,7 @@ func run() -> void:
 	item.age = .6
 	assert(not game.supplies.acquire(0,item))
 	assert(game.supplies.acquire(0,item,true) and p.relics.size() == 3)
-	assert(not p.add_relic(0) and not p.add_relic(4) and p.state.max_hp == 10)
+	assert(not p.add_relic(0) and not p.add_relic(4) and p.state.max_hp == 9)
 	# Reject unsupported IDs independently of the inventory capacity.
 	var invalid: int = game.Relics.SUPPORTED.size()
 	assert(not p.add_relic(invalid) and game.supplies.put_item("relic",invalid,Vector2(200,100)) == null)
@@ -42,7 +42,7 @@ func run() -> void:
 	var start: Vector2 = p.state.pos
 	p.step(.1,0,q,game.arena)
 	press(KEY_D,false)
-	assert(is_equal_approx(p.state.pos.x-start.x,22.96))
+	assert(is_equal_approx(p.state.pos.x-start.x,21.73))
 	p.state.roll = .26
 	start = p.state.pos
 	p.step(.1,0,q,game.arena)
@@ -50,16 +50,16 @@ func run() -> void:
 	p.state.roll = 0
 	p.weapon().clip = 0
 	p.start_reload()
-	assert(is_equal_approx(p.state.reload,1.15*.65))
-	p.step(.75,0,q,game.arena)
+	assert(is_equal_approx(p.state.reload,1.15*.88))
+	p.step(1.02,0,q,game.arena)
 	assert(p.weapon().clip == p.definition().mag and p.state.reload == 0)
 	# Runtime max HP and modifiers reset without changing Inspector defaults.
 	shop(game)
 	assert(p.relics.is_empty() and p.state.hp == 8 and p.state.max_hp == 8)
 	assert(p.move_speed == 205 and p.reload_duration == 1.15)
 	p.state.hp = 3
+	assert(p.add_relic(4) and p.state.hp == 4 and p.state.max_hp == 9)
 	assert(p.add_relic(4) and p.state.hp == 5 and p.state.max_hp == 10)
-	assert(not p.add_relic(4) and p.state.hp == 5)
 	# Acquiring gear during an existing reload affects the next reload only.
 	p.weapon().clip = 0
 	p.start_reload()
@@ -78,18 +78,18 @@ func run() -> void:
 	q.state.pos = Vector2(560,300)
 	game.remaining = .001
 	game._physics_process(.01)
-	assert(game.result == "DRAW") # full 10/10 vs 8/8
+	assert(game.result == "DRAW") # full 9/9 vs 8/8
 	shop(game)
 	p.add_relic(4)
 	prep.ready_shop()
 	prep.ready_shop()
-	p.state.hp = 8
+	p.state.hp = 7
 	q.state.hp = 7
 	p.state.pos = Vector2(560,300)
 	q.state.pos = Vector2(560,300)
 	game.remaining = .001
 	game._physics_process(.01)
-	assert(game.result == "P2 WINS") # .8 vs .875
+	assert(game.result == "P2 WINS") # 7/9 vs 7/8
 	# Field schedule; one shared item for both players, pause/reset.
 	shop(game)
 	prep.ready_shop()

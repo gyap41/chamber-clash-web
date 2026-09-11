@@ -27,10 +27,10 @@ func run() -> void:
 	p.relics = [1]
 	p.weapon().clip = 0
 	p.start_reload()
-	assert(is_equal_approx(p.state.reload,.90*.85*.65))
+	assert(is_equal_approx(p.state.reload,.90*.85*.88))
 	p.step(.49,0,q,game.arena)
 	assert(p.weapon().clip == 0 and p.state.reload > 0)
-	p.step(.01,0,q,game.arena)
+	p.step(.19,0,q,game.arena)
 	assert(p.weapon().clip == 7 and p.weapon().reserve == 35)
 	p.weapon().clip = 6
 	p.start_reload()
@@ -38,7 +38,7 @@ func run() -> void:
 	assert(p.state.reload == 0 and p.state.reload_slot == -1)
 	p.step(2.0,0,q,game.arena)
 	assert(p.inventory[1].clip == 6)
-	assert(is_equal_approx(p.effective_reload_duration(),1.35*.85*.65))
+	assert(is_equal_approx(p.effective_reload_duration(),1.35*.85*.88))
 	# Reload takes its duration at start; acquired gear affects the next reload.
 	setup(game,4)
 	p.set_character(0)
@@ -49,7 +49,7 @@ func run() -> void:
 	p.step(1.5,0,q,game.arena)
 	assert(p.weapon().clip == 1 and p.state.reload > 0)
 	p.step(.1,0,q,game.arena)
-	assert(p.weapon().clip == 4 and p.weapon().reserve == 17)
+	assert(p.weapon().clip == 3 and p.weapon().reserve == 18)
 	# Unspecified weapons retain 1.15 seconds and actual reload flips the spanner.
 	setup(game,18)
 	p.weapon().clip = 5
