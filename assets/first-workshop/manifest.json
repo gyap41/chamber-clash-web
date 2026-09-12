@@ -1,0 +1,982 @@
+{
+  "version": 1,
+  "scope": "rina-slot-0-service-pistol-20-minimum",
+  "model": "gpt-image-2",
+  "budget_usd": 15,
+  "request_limit": 50,
+  "ledger": "assets/generated/first-workshop-usage.json",
+  "originals": "assets/generated/fw-*.png",
+  "animation_contract": {
+    "cell": [
+      128,
+      128
+    ],
+    "foot_origin": [
+      64,
+      112
+    ],
+    "idle_frames": 4,
+    "move_frames": 6,
+    "roll_frames": 6,
+    "roll_seconds": 0.26,
+    "roll_source": "player.state.roll / player.dodge_duration",
+    "weapons_separate": true,
+    "runtime_dest": [
+      -64,
+      -47.5,
+      128,
+      84
+    ],
+    "roll_processing_scale": 0.24,
+    "approved_extra": "move-corrected: user approved one additional request because first sheet repeated leg pose",
+    "move_rate": "10 frames/s * effective_move_speed / 205",
+    "idle_rate": 3,
+    "roll_afterglow_seconds": 0.05
+  },
+  "assets": [
+    {
+      "id": "floor",
+      "original": "assets\\generated\\fw-floor.png",
+      "mode": "floor",
+      "grid": [
+        1,
+        1
+      ],
+      "output": "assets\\first-workshop\\floor.png",
+      "display": "1120x600 field rectangle",
+      "consumers": [
+        "scripts/visuals/workshop_floor.gd"
+      ],
+      "adopted": true,
+      "prompt": "docs/art/production/first-workshop-prompts/floor.txt",
+      "original_sha256": "73da7d2a88f765eda12c370f536c305ee69e70ae398754ec1219e28ab4ef2423",
+      "output_sha256": "10ec5a0a70c233d8bf497dab8021059d043fc257dc33006e5d0169bbb7359831"
+    },
+    {
+      "id": "rina",
+      "original": "assets\\generated\\fw-rina.png",
+      "mode": "object",
+      "grid": [
+        1,
+        1
+      ],
+      "crop": [
+        336,
+        36,
+        655,
+        958
+      ],
+      "output": "docs\\archive\\2026-09-12\\art-organization\\unused-candidates\\superseded-assets\\first-workshop\\rina.png",
+      "size": [
+        89,
+        256
+      ],
+      "resample": "Lanczos",
+      "consumers": [
+        "scripts/catalog/character_catalog.gd"
+      ],
+      "adopted": true,
+      "prompt": "docs/art/production/first-workshop-prompts/rina.txt",
+      "original_sha256": "8cab4dd6af25337cf811643469fce41821e6bb94c2174ce76514e49f5a3ff686",
+      "output_sha256": "889c83381a37982f5a5499964d045668252557b772b394fd1ef82d0132ecc2da"
+    },
+    {
+      "id": "cover",
+      "original": "assets\\generated\\fw-cover.png",
+      "mode": "object",
+      "grid": [
+        1,
+        1
+      ],
+      "crop": [
+        113,
+        112,
+        910,
+        908
+      ],
+      "output": "assets\\first-workshop\\cover.png",
+      "size": [
+        256,
+        256
+      ],
+      "resample": "Lanczos",
+      "consumers": [
+        "scripts/world/wall.gd"
+      ],
+      "adopted": true,
+      "prompt": "docs/art/production/first-workshop-prompts/cover.txt",
+      "original_sha256": "060efcf1fc6b5d27c97fedf55a7d4c29cedca0028cfc23aa65b4c575f480b526",
+      "output_sha256": "01c112bcdefd79183ddde355926c6e917395f81929ffc97678d4d3285dacacaa"
+    },
+    {
+      "id": "pistol",
+      "original": "assets\\generated\\fw-pistol.png",
+      "mode": "object",
+      "grid": [
+        1,
+        1
+      ],
+      "crop": [
+        157,
+        185,
+        932,
+        800
+      ],
+      "output": "assets\\first-workshop\\pistol.png",
+      "size": [
+        128,
+        102
+      ],
+      "resample": "Lanczos",
+      "consumers": [
+        "scripts/catalog/weapon_catalog.gd",
+        "scripts/combat/player.gd"
+      ],
+      "adopted": true,
+      "prompt": "docs/art/production/first-workshop-prompts/pistol.txt",
+      "original_sha256": "45babc1b937ee1ddc10761dcea8b5fa4f0db52c3c0ea2b9ff4883d6dbd9cd35a",
+      "output_sha256": "1480dcfd1e653d6e34a646875a1a8bf7ef6e514145d26fcf1e2cefd868b40f89"
+    },
+    {
+      "id": "idle",
+      "original": "assets\\generated\\fw-idle.png",
+      "mode": "sheet",
+      "grid": [
+        2,
+        2
+      ],
+      "output": "docs\\archive\\2026-09-12\\art-organization\\unused-candidates\\superseded-assets\\first-workshop\\idle.png",
+      "frames": [
+        {
+          "rect": [
+            0,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "crop": [
+            174,
+            21,
+            333,
+            482
+          ]
+        },
+        {
+          "rect": [
+            128,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            512,
+            0,
+            512,
+            512
+          ],
+          "crop": [
+            155,
+            20,
+            315,
+            482
+          ]
+        },
+        {
+          "rect": [
+            256,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            0,
+            512,
+            512,
+            512
+          ],
+          "crop": [
+            174,
+            17,
+            333,
+            478
+          ]
+        },
+        {
+          "rect": [
+            384,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            512,
+            512,
+            512,
+            512
+          ],
+          "crop": [
+            154,
+            17,
+            315,
+            478
+          ]
+        }
+      ],
+      "consumers": [
+        "scripts/visuals/player_animation.gd"
+      ],
+      "adopted": true,
+      "prompt": "docs/art/production/first-workshop-prompts/idle.txt",
+      "original_sha256": "05c66176d4045749acccc684419e4f9c673d48acefe33ac8220c4d0ee03b8e80",
+      "output_sha256": "0a98aaf491738e867b8837af1ab56663c47b97ec6eea85bea00117f8b9fcad86"
+    },
+    {
+      "id": "move",
+      "original": "assets\\generated\\fw-move.png",
+      "mode": "sheet",
+      "grid": [
+        3,
+        2
+      ],
+      "output": "docs\\archive\\2026-09-12\\art-organization\\unused-candidates\\superseded-assets\\first-workshop\\move.png",
+      "frames": [
+        {
+          "rect": [
+            0,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            0,
+            0,
+            341,
+            512
+          ],
+          "crop": [
+            102,
+            29,
+            293,
+            436
+          ]
+        },
+        {
+          "rect": [
+            128,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            341,
+            0,
+            341,
+            512
+          ],
+          "crop": [
+            79,
+            27,
+            244,
+            450
+          ]
+        },
+        {
+          "rect": [
+            256,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            682,
+            0,
+            341,
+            512
+          ],
+          "crop": [
+            68,
+            28,
+            242,
+            447
+          ]
+        },
+        {
+          "rect": [
+            384,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            0,
+            512,
+            341,
+            512
+          ],
+          "crop": [
+            74,
+            10,
+            268,
+            426
+          ]
+        },
+        {
+          "rect": [
+            512,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            341,
+            512,
+            341,
+            512
+          ],
+          "crop": [
+            84,
+            13,
+            260,
+            431
+          ]
+        },
+        {
+          "rect": [
+            640,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            682,
+            512,
+            341,
+            512
+          ],
+          "crop": [
+            62,
+            14,
+            255,
+            431
+          ]
+        }
+      ],
+      "consumers": [],
+      "adopted": false,
+      "prompt": "docs/art/production/first-workshop-prompts/move.txt",
+      "original_sha256": "70dbab59156c4a4aa8138de4a7e9c350ac77d4794dcb2baacf783fcd27df5e56",
+      "output_sha256": "7470a6131185bd94aa1b41fcf8d081e792519ff7e8991df3821686f75e4530ef"
+    },
+    {
+      "id": "move-corrected",
+      "original": "assets\\generated\\fw-move-corrected.png",
+      "mode": "sheet",
+      "grid": [
+        3,
+        2
+      ],
+      "output": "docs\\archive\\2026-09-12\\art-organization\\unused-candidates\\superseded-assets\\first-workshop\\move-corrected.png",
+      "frames": [
+        {
+          "rect": [
+            0,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            0,
+            0,
+            341,
+            512
+          ],
+          "crop": [
+            71,
+            46,
+            341,
+            434
+          ]
+        },
+        {
+          "rect": [
+            128,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            341,
+            0,
+            341,
+            512
+          ],
+          "crop": [
+            0,
+            42,
+            242,
+            460
+          ]
+        },
+        {
+          "rect": [
+            256,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            682,
+            0,
+            341,
+            512
+          ],
+          "crop": [
+            17,
+            42,
+            219,
+            448
+          ]
+        },
+        {
+          "rect": [
+            384,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            0,
+            512,
+            341,
+            512
+          ],
+          "crop": [
+            72,
+            39,
+            341,
+            426
+          ]
+        },
+        {
+          "rect": [
+            512,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            341,
+            512,
+            341,
+            512
+          ],
+          "crop": [
+            102,
+            38,
+            268,
+            444
+          ]
+        },
+        {
+          "rect": [
+            640,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            682,
+            512,
+            341,
+            512
+          ],
+          "crop": [
+            20,
+            42,
+            235,
+            430
+          ]
+        }
+      ],
+      "consumers": [
+        "scripts/visuals/player_animation.gd"
+      ],
+      "adopted": true,
+      "prompt": "docs/art/production/first-workshop-prompts/move-corrected.txt",
+      "original_sha256": "f1eaa5a7e4610b26bfb1014603b92ceeae19daff7927d6ba87d6cf7f7885afce",
+      "output_sha256": "fdb70e9987b6352b585af266f07a982cc2c56559c44a891938d07def327e4ddb"
+    },
+    {
+      "id": "roll",
+      "original": "assets\\generated\\fw-roll.png",
+      "mode": "sheet",
+      "grid": [
+        3,
+        2
+      ],
+      "output": "docs\\archive\\2026-09-12\\art-organization\\unused-candidates\\superseded-assets\\first-workshop\\roll.png",
+      "frames": [
+        {
+          "rect": [
+            0,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            0,
+            0,
+            341,
+            512
+          ],
+          "crop": [
+            89,
+            119,
+            294,
+            407
+          ]
+        },
+        {
+          "rect": [
+            128,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            341,
+            0,
+            341,
+            512
+          ],
+          "crop": [
+            33,
+            187,
+            302,
+            431
+          ]
+        },
+        {
+          "rect": [
+            256,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            682,
+            0,
+            341,
+            512
+          ],
+          "crop": [
+            54,
+            219,
+            297,
+            417
+          ]
+        },
+        {
+          "rect": [
+            384,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            0,
+            512,
+            341,
+            512
+          ],
+          "crop": [
+            93,
+            89,
+            289,
+            379
+          ]
+        },
+        {
+          "rect": [
+            512,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            341,
+            512,
+            341,
+            512
+          ],
+          "crop": [
+            39,
+            155,
+            294,
+            380
+          ]
+        },
+        {
+          "rect": [
+            640,
+            0,
+            128,
+            128
+          ],
+          "origin": [
+            64,
+            112
+          ],
+          "source_cell": [
+            682,
+            512,
+            341,
+            512
+          ],
+          "crop": [
+            72,
+            97,
+            267,
+            385
+          ]
+        }
+      ],
+      "consumers": [
+        "scripts/visuals/player_animation.gd"
+      ],
+      "adopted": true,
+      "prompt": "docs/art/production/first-workshop-prompts/roll.txt",
+      "original_sha256": "5a18fc05f00fd95356655924d5a7d7d5cf0bb854cde5170b49a3e452dd6d91df",
+      "output_sha256": "72378eefc232b1f937d9951db4f87229e1651f8a2010d5a333708527e3636eea"
+    },
+    {
+      "id": "bullet",
+      "original": "assets\\generated\\fw-bullet.png",
+      "mode": "object",
+      "grid": [
+        1,
+        1
+      ],
+      "crop": [
+        374,
+        474,
+        652,
+        549
+      ],
+      "output": "assets\\first-workshop\\bullet.png",
+      "size": [
+        128,
+        35
+      ],
+      "resample": "Lanczos",
+      "consumers": [
+        "scripts/visuals/projectile_art.gd"
+      ],
+      "adopted": true,
+      "prompt": "docs/art/production/first-workshop-prompts/bullet.txt",
+      "original_sha256": "d7451592aa156865580bcb5077d562e4ffde1e0f5f98a65bb69d64a3027785d8",
+      "output_sha256": "161f489e7f854ce128172787a6d667a194d452d608ec364f9da228be13d60e83"
+    },
+    {
+      "id": "muzzle",
+      "original": "assets\\generated\\fw-muzzle.png",
+      "mode": "object",
+      "grid": [
+        1,
+        1
+      ],
+      "crop": [
+        309,
+        322,
+        749,
+        669
+      ],
+      "output": "assets\\first-workshop\\muzzle.png",
+      "size": [
+        128,
+        101
+      ],
+      "resample": "Lanczos",
+      "consumers": [
+        "scripts/visuals/player_animation.gd"
+      ],
+      "adopted": true,
+      "prompt": "docs/art/production/first-workshop-prompts/muzzle.txt",
+      "original_sha256": "a3ad9054d3c93d2b9089264896af09c90017a9bd9b4a1ab09b6f8ee6b2b6df5b",
+      "output_sha256": "64e709df0e3dccbacca069706bc7df16dd3aeb23752738436f8d63209555701b"
+    },
+    {
+      "id": "impact",
+      "original": "assets\\generated\\fw-impact.png",
+      "mode": "object",
+      "grid": [
+        1,
+        1
+      ],
+      "crop": [
+        398,
+        361,
+        591,
+        613
+      ],
+      "output": "assets\\first-workshop\\impact.png",
+      "size": [
+        98,
+        128
+      ],
+      "resample": "Lanczos",
+      "consumers": [
+        "scripts/visuals/combat_visuals.gd"
+      ],
+      "adopted": true,
+      "prompt": "docs/art/production/first-workshop-prompts/impact.txt",
+      "original_sha256": "4174968a306ce2717fdfaa68a0c446d974c5804a5553e4bf9ab8cb2f1b096a43",
+      "output_sha256": "7d6f0594891bd311b2eb3252e60b76b995d23b9deb94b6f8059a031da8c99cd3"
+    },
+    {
+      "id": "trail",
+      "original": "assets\\generated\\fw-trail.png",
+      "mode": "object",
+      "grid": [
+        1,
+        1
+      ],
+      "crop": [
+        201,
+        378,
+        862,
+        646
+      ],
+      "output": "assets\\first-workshop\\trail.png",
+      "size": [
+        128,
+        52
+      ],
+      "resample": "Lanczos",
+      "consumers": [
+        "scripts/visuals/player_animation.gd"
+      ],
+      "adopted": true,
+      "prompt": "docs/art/production/first-workshop-prompts/trail.txt",
+      "original_sha256": "df8c71ba39ee84837b9c72c861122060bedcf23a3e96978112ad451a0702127f",
+      "output_sha256": "19efb06e904dbe8675cd6a301349ac0157fee686aedb7b77398bbb222719abd3"
+    },
+    {
+      "id": "ammo",
+      "original": "assets\\generated\\fw-ammo.png",
+      "mode": "object",
+      "grid": [
+        1,
+        1
+      ],
+      "crop": [
+        240,
+        181,
+        782,
+        825
+      ],
+      "output": "assets\\first-workshop\\ammo.png",
+      "size": [
+        108,
+        128
+      ],
+      "resample": "Lanczos",
+      "consumers": [
+        "scripts/world/pickup.gd"
+      ],
+      "adopted": true,
+      "prompt": "docs/art/production/first-workshop-prompts/ammo.txt",
+      "original_sha256": "d65929c34a80f8c0c7e19a8b3548f056b95a1337e3d0a44fce840fec6460ba2e",
+      "output_sha256": "58cd7993515fbb1dd50311f51257162a98e82e6333686b57e0873050172bc68d"
+    },
+    {
+      "id": "hud",
+      "original": "assets\\generated\\fw-hud.png",
+      "mode": "icons",
+      "grid": [
+        1,
+        1
+      ],
+      "outputs": [
+        {
+          "name": "dodge",
+          "output": "assets\\first-workshop\\dodge.png",
+          "source_cell": [
+            0,
+            0,
+            341,
+            1024
+          ],
+          "crop": [
+            46,
+            395,
+            325,
+            621
+          ]
+        },
+        {
+          "name": "melee",
+          "output": "assets\\first-workshop\\melee.png",
+          "source_cell": [
+            341,
+            0,
+            341,
+            1024
+          ],
+          "crop": [
+            29,
+            341,
+            300,
+            647
+          ]
+        },
+        {
+          "name": "pulse",
+          "output": "assets\\first-workshop\\pulse.png",
+          "source_cell": [
+            682,
+            0,
+            341,
+            1024
+          ],
+          "crop": [
+            17,
+            360,
+            298,
+            656
+          ]
+        }
+      ],
+      "display_size": [
+        24,
+        24
+      ],
+      "consumers": [
+        "assets/ui/hud/skin.json"
+      ],
+      "adopted": true,
+      "prompt": "docs/art/production/first-workshop-prompts/hud.txt",
+      "original_sha256": "1a2b1ef7e7fe3d618cec2c5faad2432fe324148439b283b4e0ce1a355a66bd93"
+    }
+  ],
+  "weapon_20": {
+    "display_width": 28,
+    "sprite_position": [
+      15,
+      0
+    ],
+    "grip_normalized": [
+      0.25,
+      0.7
+    ],
+    "muzzle_normalized": [
+      1,
+      0.17
+    ],
+    "mirror": "flip_v on left aim; muzzle y changes sign",
+    "muzzle_local": [
+      29,
+      -7
+    ]
+  },
+  "accounting": {
+    "requests": 14,
+    "pricing_estimate_usd": 1.537681,
+    "reserved_usd": 14,
+    "billing_invoice_verified": false,
+    "automatic_retries": 0,
+    "audio_requests": 0
+  },
+  "current_character_manifest": "tests/fixtures/art/legacy-rina-twohead/manifest.json",
+  "character_revision_note": "Two-head Rina uses one drawing, fixed body/shoe UV cutouts and procedural tumble. All earlier character sheets retained as history."
+}

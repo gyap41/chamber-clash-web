@@ -6,8 +6,13 @@ import os
 from pathlib import Path
 import re
 import sys
+import hashlib
+import uuid
+from datetime import datetime, timezone
 import urllib.error
 import urllib.request
+from image_budget import save, validate_history, usage_record, reference, RESERVATION_USD
+from asset_generator.transport import https_opener
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "assets" / "generated"
@@ -53,7 +58,13 @@ def main():
     parser.add_argument("--model", default="gpt-image-2")
     parser.add_argument("--quality", choices=["low", "medium", "high", "auto"], default="low")
     parser.add_argument("--check", action="store_true", help="Validate locally without an API call")
+    parser.add_argument("--prompt-file", type=Path)
+    parser.add_argument("--reference", type=Path, action="append", default=[])
     args = parser.parse_args()
+    if args.prompt_file:
+        args.prompt = args.prompt_file.read_text(encoding="utf-8-sig")
+    if args.model != 'gpt-image-2' or len(args.prompt.encode('utf-8')) > 4000 or len(args.reference) > 3:
+        raise ValueError('Outside reviewed model/input budget envelope.')
     if not re.fullmatch(r"[a-zA-Z0-9][a-zA-Z0-9_-]{0,79}", args.name):
         raise ValueError("Use 1-80 letters, numbers, underscores or hyphens for --name.")
     if not args.prompt.strip():
@@ -66,28 +77,66 @@ def main():
     metadata = target.with_suffix(".json")
     if target.exists() or metadata.exists():
         raise ValueError("Output already exists. Choose a new --name.")
-    if args.check:
-        print("Local configuration OK. No API call made; key not displayed.")
-        return 0
     payload = dict(model=args.model, prompt=args.prompt, n=1, size="1024x1024",
                    quality=args.quality, output_format="png")
+    references = []
+    for path in args.reference:
+        raw, digest = reference(path)
+        references.append((path, raw, digest))
+    fingerprint = hashlib.sha256(json.dumps([payload,[r[2] for r in references]],sort_keys=True).encode()).hexdigest()
+    ledger = OUTPUT / 'first-workshop-usage.json'
+    history = json.loads(ledger.read_text(encoding='utf-8')) if ledger.exists() else []
+    validate_history(history, args.name, fingerprint)
+    if args.check:
+        print(f'Local validation OK. Requests={len(history)}, reserved=${len(history)*RESERVATION_USD:.2f}; no API call.')
+        return 0
+    OUTPUT.mkdir(parents=True, exist_ok=True)
+    lock = OUTPUT / 'first-workshop.lock'
+    # Exclusive lock remains after a crash: never guess whether a request ran.
+    with lock.open('x') as stream:
+        stream.write(args.name)
+    history = json.loads(ledger.read_text(encoding='utf-8')) if ledger.exists() else []
+    validate_history(history, args.name, fingerprint)
+    body = json.dumps(payload).encode('utf-8')
+    content_type = 'application/json'
+    endpoint = 'generations'
+    if references:
+        endpoint = 'edits'
+        boundary = 'Workshop' + uuid.uuid4().hex
+        parts = []
+        for field, value in payload.items():
+            parts.append(f'--{boundary}\r\nContent-Disposition: form-data; name="{field}"\r\n\r\n{value}\r\n'.encode())
+        for i, (_, raw, _) in enumerate(references):
+            parts.append(f'--{boundary}\r\nContent-Disposition: form-data; name="image[]"; filename="reference-{i}.png"\r\nContent-Type: image/png\r\n\r\n'.encode()+raw+b'\r\n')
+        body = b''.join(parts) + f'--{boundary}--\r\n'.encode()
+        content_type = 'multipart/form-data; boundary=' + boundary
     request = urllib.request.Request(
-        "https://api.openai.com/v1/images/generations",
-        data=json.dumps(payload).encode("utf-8"),
-        headers={"Authorization": "Bearer " + key, "Content-Type": "application/json"},
+        "https://api.openai.com/v1/images/" + endpoint,
+        data=body,
+        headers={"Authorization": "Bearer " + key, "Content-Type": content_type},
         method="POST",
     )
+    opener = https_opener()
+    record = dict(name=args.name, fingerprint=fingerprint, status='pending', reserved_usd=RESERVATION_USD,
+                  sent_at=datetime.now(timezone.utc).isoformat(), endpoint=endpoint, request=payload,
+                  references=[dict(path=str(p.relative_to(ROOT) if p.is_absolute() else p),sha256=h) for p,_,h in references])
+    history.append(record)
+    save(ledger, history)
     print("Generating one image via OpenAI Image API...", flush=True)
     try:
-        with urllib.request.build_opener(NoRedirect).open(request, timeout=300) as response:
+        with opener.open(request, timeout=300) as response:
             result = json.load(response)
     except urllib.error.HTTPError as error:
+        record.update(status='http_error', http_status=int(error.code))
+        save(ledger, history)
         # API error bodies can contain credential fragments; never print them.
         hints = {401: "Check the API key.", 403: "Check model access / organization verification.",
                  429: "Check API quota, billing and rate limits.", 400: "Check model and request parameters."}
         print(f"OpenAI HTTP {error.code}. " + hints.get(error.code, "Request failed."), file=sys.stderr)
         return 1
     except (urllib.error.URLError, TimeoutError):
+        record['status'] = 'outcome_unknown'
+        save(ledger, history)
         print("Network error or timeout. No automatic retry; check before retrying to avoid duplicate charges.", file=sys.stderr)
         return 2
     raw = base64.b64decode(result["data"][0]["b64_json"], validate=True)
@@ -96,10 +145,25 @@ def main():
     OUTPUT.mkdir(parents=True, exist_ok=True)
     with target.open("xb") as stream:
         stream.write(raw)
+    # Preserve a successful image even if accounting data is incomplete; stop afterward.
+    record['status'] = 'received'
+    save(ledger, history)
+    try:
+        safe_usage, cost = usage_record(result.get('usage'))
+    except ValueError:
+        record['status'] = 'usage_missing'
+        save(ledger, history)
+        save(metadata, record)
+        raise
+    record.update(usage=safe_usage, pricing_estimate_usd=cost)
     with metadata.open("x", encoding="utf-8") as stream:
-        json.dump(payload, stream, ensure_ascii=False, indent=2)
+        json.dump(record, stream, ensure_ascii=False, indent=2)
         stream.write("\n")
-    print("Saved: " + str(target))
+    record['status'] = 'success' if cost < RESERVATION_USD else 'budget_review_required'
+    save(metadata, record)
+    save(ledger, history)
+    lock.unlink()
+    print(f'Saved: {target}; usage-based estimate=${cost:.6f}; requests={len(history)}; reserved=${len(history):.2f}')
     return 0
 
 

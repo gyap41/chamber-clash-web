@@ -26,6 +26,10 @@ static func supported(id: int) -> bool:
 
 static func art(id: int) -> AtlasTexture:
 	if not textures.has(id):
+		if id == 20:
+			var pistol = preload("res://assets/first-workshop/pistol.png")
+			textures[id] = AtlasRegions.region(pistol,Rect2(Vector2.ZERO,pistol.get_size()))
+			return textures[id]
 		var art_id := int(definition(id).get("art_id",id))
 		var columns := 4 if art_id < 16 else 2
 		var index := art_id if art_id < 16 else art_id - 16

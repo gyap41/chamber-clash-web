@@ -1,0 +1,196 @@
+{
+  "original": "assets/generated/fw-rina-dodge-poses-v1.png",
+  "sha256": "516303bba9ab5bdbfa8e64991501271c871864c9ccd5a4499eb1f875c672adf1",
+  "cell": [
+    512,
+    384
+  ],
+  "origin": [
+    256,
+    320
+  ],
+  "scale": 0.9,
+  "poses": [
+    {
+      "view": "front",
+      "stage": 0,
+      "source_rect": [
+        0,
+        0,
+        341,
+        341
+      ],
+      "crop": [
+        80,
+        63,
+        279,
+        303
+      ],
+      "offset": [
+        167,
+        104
+      ]
+    },
+    {
+      "view": "front",
+      "stage": 1,
+      "source_rect": [
+        341,
+        0,
+        682,
+        341
+      ],
+      "crop": [
+        75,
+        86,
+        272,
+        288
+      ],
+      "offset": [
+        168,
+        138
+      ]
+    },
+    {
+      "view": "front",
+      "stage": 2,
+      "source_rect": [
+        682,
+        0,
+        1024,
+        341
+      ],
+      "crop": [
+        54,
+        69,
+        253,
+        301
+      ],
+      "offset": [
+        167,
+        111
+      ]
+    },
+    {
+      "view": "back",
+      "stage": 0,
+      "source_rect": [
+        0,
+        341,
+        341,
+        682
+      ],
+      "crop": [
+        96,
+        36,
+        272,
+        260
+      ],
+      "offset": [
+        177,
+        118
+      ]
+    },
+    {
+      "view": "back",
+      "stage": 1,
+      "source_rect": [
+        341,
+        341,
+        682,
+        682
+      ],
+      "crop": [
+        75,
+        60,
+        265,
+        257
+      ],
+      "offset": [
+        171,
+        143
+      ]
+    },
+    {
+      "view": "back",
+      "stage": 2,
+      "source_rect": [
+        682,
+        341,
+        1024,
+        682
+      ],
+      "crop": [
+        65,
+        39,
+        236,
+        260
+      ],
+      "offset": [
+        179,
+        121
+      ]
+    },
+    {
+      "view": "side",
+      "stage": 0,
+      "source_rect": [
+        0,
+        682,
+        341,
+        1024
+      ],
+      "crop": [
+        107,
+        2,
+        277,
+        224
+      ],
+      "offset": [
+        180,
+        120
+      ]
+    },
+    {
+      "view": "side",
+      "stage": 1,
+      "source_rect": [
+        341,
+        682,
+        682,
+        1024
+      ],
+      "crop": [
+        73,
+        21,
+        270,
+        202
+      ],
+      "offset": [
+        168,
+        157
+      ]
+    },
+    {
+      "view": "side",
+      "stage": 2,
+      "source_rect": [
+        682,
+        682,
+        1024,
+        1024
+      ],
+      "crop": [
+        73,
+        14,
+        250,
+        227
+      ],
+      "offset": [
+        177,
+        128
+      ]
+    }
+  ],
+  "method": "Chroma key; one shared scale; bottom contact alignment; no anatomy redraw"
+}

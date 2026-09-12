@@ -1,0 +1,30 @@
+{
+  "name": "fw-character-03-bolt",
+  "fingerprint": "cdc5dd00d2b67f224048aa1ffef6244d9aafe6b0c92db4010ad617ed5424b878",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T08:26:23.390719+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Original character reference sheet for The First Workshop, an explorer-artisan world of ancient stone and advanced manufacturing. Character: BOLT. Nonhuman maintenance and guard robot, sturdy four-head-equivalent mechanical proportions. Broad rounded shoulders, short neck, flat rectangular head and a single horizontal teal illuminated eye slit. Worn ivory armor, dark steel joints, tiny amber indicator. Integrated square tool cabinet on back, one mismatched replacement shoulder panel. Gentle reliable personality. No human skin, clothes or muscles. Chibi two-head version retains block head, broad shoulders and mechanical feet, not a human in a robot suit.\n\nCreate one clean square studio model sheet on warm off-white. Layout: left 38 percent is a large NORMAL-PROPORTION full-body front three-quarter view; middle 38 percent is a matching NORMAL-PROPORTION full-body back view at the same scale and feet baseline. Rightmost 24 percent is a distinct small TWO-HEAD game adaptation of the same character. Generous empty gutters between panels allow separate cropping. Normal views occupy 80 percent of sheet height; chibi is about 35 percent of sheet height. Do NOT accidentally make the two normal-height views chibi. Do NOT stretch the chibi into human anatomy. Head/face/hair, major costume colors and backpack identity must match across versions.\n\nContemporary Japanese adventure character design, crisp clean dark outlines, controlled cel shading, appealing expressive faces and believable work clothes. Ivory and dark steel common materials, individual accent colors as specified. Normal views show garment construction, back straps and secure backpack attachment. Chibi has huge head, tiny bean torso, tiny shoes directly under hem, no long visible thighs/shins, very few broad color shapes. Both hands empty, no guns in hands, no additional weapons or props, no scene. Practical modest adult clothing. No big flowing fabric or loose dangling equipment. Thin minimal title 'BOLT' only, no paragraphs, measurements or other labels, no watermark.\n\nReference images, when supplied, define shared world materials; do not copy an unrelated person's face. For Rina the approved two-head image defines identity and colors ONLY; reconstruct natural adult anatomy for the two large views. This is a setting reference sheet, not an animation or a game screenshot.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\generated\\fw-character-00-rina.png",
+      "sha256": "5442340e3ec4eade4779e11e53ef0e36872016f7aef6ed792b4647ee0fb05aed"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 471,
+      "image_tokens": 1024
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1106335
+}

@@ -1,0 +1,30 @@
+{
+  "name": "fw-idle",
+  "fingerprint": "69e9423ab21a18654f211462b29e02e80761be4e7ef4a180e61d9713b4cf3a43",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T04:48:31.561877+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Production four-frame idle breathing animation sheet of the EXACT explorer-artisan in Image 1. Preserve her face, ponytail, ivory jacket, tucked rust scarf, olive trousers, gloves, boots and securely strapped compact portable workshop backpack. No weapon. One sheet, exactly 2 columns by 2 rows, four evenly spaced 512x512 cells; one full-body pose centered in each cell, same scale, same feet baseline, no crossing cell boundaries. Read order top-left, top-right, bottom-left, bottom-right. Frames: neutral; gentle inhale shoulders 2px higher; inhale peak chest subtly expanded; gentle exhale returning to neutral. Very small changes with same identity, body facing screen RIGHT in high three-quarter overhead game view. Adult simplified readable proportions. Painterly rendering matching reference, no pixel grid. Pure uniform saturated magenta #ff00ff backdrop; no floor or cast shadows, no cell lines, no labels, no text. All feet and hair fully visible with padding. Keep backpack firmly attached, empty hands near torso for separate pistol.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\generated\\fw-rina.png",
+      "sha256": "8cab4dd6af25337cf811643469fce41821e6bb94c2174ce76514e49f5a3ff686"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 227,
+      "image_tokens": 1024
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1100235
+}

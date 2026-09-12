@@ -1,6 +1,16 @@
 # AI素材生成環境 設定・連携ガイド
 
-最終確認: 2026-09-11（ローカル実装と今回までの検証結果）。
+素材整理：ゲーム素材はassets/first-workshop、設定・採用レビュー・指示はdocs/artへ分離。原画・生成履歴はassets/generatedに保持し、.gdignoreでGodotインポート対象外。生成先・API・認証・保存形式は変更なし。旧JSONの参照パスは移動台帳で追跡する。[分類と台帳](../art/README.md)。今回の整理では有料生成なし。
+
+現行画像枠：他7人へのリナ基準の展開を承認。方向・回避共通シートを各1枚、計7枚。予約上限$46、累計最大45送信、成否不明予約保持。API・model・通信・保存形式は維持。以下は以前の段階。
+
+現行画像枠（2026-09-12）：リナの歩行・ドッジ修正への続行指示に基づき専用9ポーズシート1枚。予約上限$39、累計最大38送信。成否不明分を保持。provider/model/通信・保存形式は変更なし。以下の枠は以前の段階の履歴。
+
+現行画像枠：リナの方向別ゲーム画像1枚を追加承認。予約上限$38、累計最大37送信。過去の成否不明分も予約に残す。provider/model/通信・保存形式は変更なし。
+
+最新画像枠（2026-09-12）：キャラクター修正設定画7枚と、成否不明を報告後にユーザーが指示したソラ再送1回。前回分を解放せず予約上限$37、累計最大36送信。provider/model/通信仕様は変更なし。認証なしHEADでAPI到達を確認し、制限外の実行を明示承認して再送する。成否不明の台帳には再開指示・日時・再送名を追記し、成功や未課金とみなさない。詳細は画像README。
+
+最終確認: 2026-09-12（画像CLIの予算・参照入力拡張を含む）。
 画像・SE・BGMの環境構築、API連携変更、通信障害対応では最初に本書を読む。
 本書は現在の設定の入口とし、CLIの詳細は各README、調査経緯は個別報告を参照する。
 モデル名や料金を将来も有効な仕様として扱わず、連携変更時に公式資料を再確認する。
@@ -17,7 +27,7 @@
 |出力形式|PNG、1024×1024|MP3、44.1kHz/128kbps|WAV|
 |既定設定|low、1枚|0.5秒、1個|20秒、steps8、1個|
 |無料のローカル確認|--check|--dry-run / check-keys|--dry-run / check-keys|
-|生成条件の保存|PNGと同名のJSON|assets/audio/asset_manifest.json|同左|
+|生成条件の保存|PNGと同名のJSON、first-workshop-usage.json|assets/audio/asset_manifest.json|同左|
 |通信待ち時間|300秒|既定180秒、変更可|同左|
 |自動再試行|なし|なし|なし|
 
@@ -78,20 +88,19 @@ python -m venv .local/audio-venv
 
 |連携|HTTP要求|実装|
 |---|---|---|
-|画像|POST https://api.openai.com/v1/images/generations、Bearer、JSON、base64 PNG応答|tools/generate_image.py|
+|画像|POST https://api.openai.com/v1/images/generations（JSON）または /v1/images/edits（multipart）、Bearer、base64 PNG応答|tools/generate_image.py|
 |SE|POST https://api.elevenlabs.io/v1/sound-generation、xi-api-key、JSON、MP3応答|tools/asset_generator/providers/elevenlabs.py|
 |BGM|POST https://api.stability.ai/v2beta/audio/stable-audio-2/text-to-audio、Bearer、multipart、WAV応答|tools/asset_generator/providers/stable_audio.py|
 
 音響共通のパス/キーはconfig.py、HTTP/TLSはtransport.py、CLI/保存はasset.pyが担当する。
-画像ツールは独立実装で、音響transport.pyを使用していない。
+画像はHTTP opener/TLSだけtransport.pyから共有し、要求・応答・予算管理は独立実装。
 
 音響のWindows TLSは信頼済みROOTストアからサーバー認証用ルートをロードする。
 CAキャッシュ内の期限切れ中間証明書を避けつつ、証明書とホスト名を検証する。
 Windows以外はPython標準設定。追加の信頼設定はプロセス環境の
 SSL_CERT_FILE / SSL_CERT_DIRから読む。REQUESTS_CA_BUNDLEはurllibでは使用しない。
 音響User-Agentは `ChamberClashAssetGenerator/1.0 (Python urllib)`。
-画像側は標準urllibのTLS/User-Agentのままで、音響側の修正を適用済みと扱わない。
-将来共通化する場合も、両側の認証/応答形式/動作を個別に検証する。
+画像側も同じTLS/User-Agentを使う。画像JSON応答と音響バイナリ応答は別に処理する。
 
 ## 課金・保存・障害対応
 
@@ -99,9 +108,9 @@ SSL_CERT_FILE / SSL_CERT_DIRから読む。REQUESTS_CA_BUNDLEはurllibでは使�
 環境変更だけの依頼では素材を新規生成しない。エラーを受けて無断で再生成しない。
 別provider/モデルへの自動切替、無限retry、同名上書きを行わない。
 
-画像は同名PNG/JSONの上書きを拒否するが、音響のような永続試行履歴・排他ロック・
-生成条件ハッシュによる重複防止はない。画像の通信失敗後も、履歴や出力を確認せず再実行しない。
-画像メタデータは要求payloadのみで、音響manifestと同じスキーマではない。
+画像は同名PNG/JSON上書きと条件ハッシュ重複を拒否し、永続試行履歴・排他ロックを使用する。
+画像の通信失敗・成否不明後は停止。記録の照合とユーザー指示なしに再実行しない。
+画像メタデータは要求・参照画像ハッシュ・許可リストのusageと換算額。音響とは別スキーマ。
 
 音響は `.local/asset_generator/attempts.json` に送信前の試行を記録する。
 失敗/成否不明でも名前と条件を予約し、同条件の再生成は明示依頼がある場合だけ
@@ -152,3 +161,19 @@ Godot実行ファイルの場所は環境に合わせる。画像のインポー
 - [ElevenLabs Sound Effects API](https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert)
 
 本書の設定値は現在のローカル実装を記録したもの。公式仕様の再確認日は各連携の変更時に記録する。
+
+## 2026-09-12 画像制作の現行拡張
+画像CLIの送信履歴・排他・予算・参照入力は[画像README](../../tools/README.md#始まりの工房画像制作2026-09-12)を参照。
+現在の画像制作向け制限：
+- 画像もtransport.https_openerを利用し、Windows ROOT検証と明示User-Agent。音響生成は実行しない。
+- /images/editsのmultipart参照PNG入力、--prompt-file、固定gpt-image-2／1024PNG。
+- first-workshop-usage.jsonへ送信前記録、失敗時停止、同条件拒否、usageを許可リスト保存。
+- $29/50回の承認に対して1回$1を解放せず予約し、$29到達前に停止。usage欠損でも停止。
+- 最新承認：8人各1枚の設定シートを計8回生成。予約上限$21→$29、累計最大28回。通常等身前後と2頭身を別保存し、ゲームへの自動差し替えは行わない。
+- 2026-09-12、2頭身デザイン1枚と歩行シート1枚の比較制作を承認。予約上限$19→$21、累計最大20回。正式差し替え・追加候補は含まない。
+- 2026-09-12、低頭身リナの待機・移動・回避3シートとゲーム差し替えをユーザーが承認。予約上限$16→$19、累計最大18回。追加候補の無断再生成は含まない。
+- 公式料金表確認（2026-09-12）: 入力text $2.5/image $4、出力$15/百万token。換算は請求額ではない。
+- 原画を残してローカル切抜き・透明化・フレーム原点統一。出力PNGだけで透明とは扱わない。
+- 無料mock検証: python -m unittest discover -s tools/tests -v。
+仕様: https://developers.openai.com/api/reference/resources/images/methods/edit
+料金: https://developers.openai.com/api/docs/pricing

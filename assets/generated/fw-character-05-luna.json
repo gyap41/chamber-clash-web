@@ -1,0 +1,30 @@
+{
+  "name": "fw-character-05-luna",
+  "fingerprint": "37433c44f75d98f7e26b8a52b07754fc757b54f4a07b7ff10261285dd3d59f22",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T08:31:25.505924+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Original character reference sheet for The First Workshop, an explorer-artisan world of ancient stone and advanced manufacturing. Character: LUNA. Slender adult woman, 6.5 heads tall. Silver-lilac round bob haircut, small crescent hair clip, muted violet short shoulder capelet over ivory collared technical workwear, insulating gloves, dark trousers. Compact measurement backpack with small fixed ring sensor. Thoughtful ancient control-system analyst. No witch hat, staff, mystical floating runes or long robe. Chibi keeps round bob, crescent and violet shoulder shape.\n\nCreate one clean square studio model sheet on warm off-white. Layout: left 38 percent is a large NORMAL-PROPORTION full-body front three-quarter view; middle 38 percent is a matching NORMAL-PROPORTION full-body back view at the same scale and feet baseline. Rightmost 24 percent is a distinct small TWO-HEAD game adaptation of the same character. Generous empty gutters between panels allow separate cropping. Normal views occupy 80 percent of sheet height; chibi is about 35 percent of sheet height. Do NOT accidentally make the two normal-height views chibi. Do NOT stretch the chibi into human anatomy. Head/face/hair, major costume colors and backpack identity must match across versions.\n\nContemporary Japanese adventure character design, crisp clean dark outlines, controlled cel shading, appealing expressive faces and believable work clothes. Ivory and dark steel common materials, individual accent colors as specified. Normal views show garment construction, back straps and secure backpack attachment. Chibi has huge head, tiny bean torso, tiny shoes directly under hem, no long visible thighs/shins, very few broad color shapes. Both hands empty, no guns in hands, no additional weapons or props, no scene. Practical modest adult clothing. No big flowing fabric or loose dangling equipment. Thin minimal title 'LUNA' only, no paragraphs, measurements or other labels, no watermark.\n\nReference images, when supplied, define shared world materials; do not copy an unrelated person's face. For Rina the approved two-head image defines identity and colors ONLY; reconstruct natural adult anatomy for the two large views. This is a setting reference sheet, not an animation or a game screenshot.\nIdentity guard: Luna is NOT the reference person. No goggles or rust scarf. Silver-lilac rounded bob, small crescent clip and violet short capelet must dominate her silhouette; calm reserved expression, distinct from Rina. The capelet is short enough for practical work.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\generated\\fw-character-00-rina.png",
+      "sha256": "5442340e3ec4eade4779e11e53ef0e36872016f7aef6ed792b4647ee0fb05aed"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 520,
+      "image_tokens": 1024
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.110756
+}

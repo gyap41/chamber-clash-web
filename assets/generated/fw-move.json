@@ -1,0 +1,30 @@
+{
+  "name": "fw-move",
+  "fingerprint": "7257c170f8979213b68dbcebc815533043ddec7079da22416c57d0fab495589f",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T04:52:23.613942+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Production six-frame running cycle sheet of EXACT explorer-artisan in Image 1. Preserve face, tied ponytail, patched ivory travel jacket, tucked rust scarf, olive trousers, gloves, boots and tightly secured compact portable workshop on back. No weapon. Exactly 3 columns by 2 rows, six equal cells, one full body character centered in each cell, same character scale and same ground baseline, generous padding, no overlaps. Read order left to right then next row. A complete cyclical run to screen RIGHT: 1 right-foot forward contact, 2 right-leg weight down and left leg passing, 3 right-leg push off and left knee forward, 4 left-foot forward contact, 5 left-leg weight down and right leg passing, 6 left-leg push off and right knee forward. Clearly alternate legs, natural bent elbows close to torso for separate weapon, modest torso bob. High three-quarter overhead game camera identical in every frame, no change in perspective. Painterly Japanese adventure game rendering matching character reference. Pure uniform saturated magenta #ff00ff backdrop. No floor, no cast shadows, no borders, no cell lines, no text or numbering.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\generated\\fw-rina.png",
+      "sha256": "8cab4dd6af25337cf811643469fce41821e6bb94c2174ce76514e49f5a3ff686"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 250,
+      "image_tokens": 1024
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.110081
+}

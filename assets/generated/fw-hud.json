@@ -1,0 +1,25 @@
+{
+  "name": "fw-hud",
+  "fingerprint": "443f95321bc1350123e3978bf5ba19f7c034f987d3d1c60b8324d6bb592f1607",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T05:22:24.090615+00:00",
+  "endpoint": "generations",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Production game HUD action icon sheet for The First Workshop. Exactly three separate icons in a single horizontal row with equal-width cells, centered individually and generous clear margins, no borders, no text. Icon 1 LEFT: simplified ivory silhouette of a tucked explorer with compact backpack doing a forward dodge roll with one small curved arrow. Icon 2 CENTER: one simple diagonal ivory utility blade with small muted teal grip for melee. Icon 3 RIGHT: three clean concentric ivory arcs around a small muted teal power cell for a defensive pulse. Consistent clear stroke weights, minimal detail, bold distinct shapes that read at 24x24px, slight painted enamel shading. These are functional HUD symbols, not complicated illustrations. Pure uniform saturated magenta #ff00ff background in all cells for local alpha extraction, no magenta in icons. Do not add panels or words, no letters, no key labels, no watermark.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 197,
+      "image_tokens": 0
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1058525
+}

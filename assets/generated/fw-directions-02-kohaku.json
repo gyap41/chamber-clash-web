@@ -1,0 +1,34 @@
+{
+  "name": "fw-directions-02-kohaku",
+  "fingerprint": "3e39fed1be4ef33894cd73de84f7b8522d13c2799ec5bdbc4f43a2a8695f47c6",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T11:44:52.364618+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Production game sprite sheet of ONE character. First reference defines this character's identity. Second reference Rina defines rendering style and VERY LOW two-head proportions only; do NOT copy Rina's costume or face. Kohaku: an orange FOX person, huge pointed fox ears, white muzzle, orange tail with white tip, green short cloak, tiny brown shoes. Never human.\nMatch Rina's huge head, tiny compact torso, almost no visible legs, two independent tiny shoes directly under hem. No thighs, knees or long pants visible when standing. Crisp stable dark outlines, flat cel shading, ivory/teal workshop detailing where already present. Keep unique species, colors, hat/ears/tail. No weapon in any pose.\nEXACT regular 4 columns by 3 rows on 1024x1024, each cell 256 wide and 341 high. Exactly TWELVE isolated sprites, centered in their own cell with generous magenta gutters. Pure uniform #FF00FF background. No text, labels, borders, shadows, floor, effects or extra sprites. Entire sprite including tail/hat fits cell. Same physical head size across all 12 poses, head about 130px wide excluding hat/ears. Do not independently fit each pose to the cell. Feet/hands contact a common baseline near bottom of each row. Slight elevated game camera, not cinematic.\nRows: TOP = front facing DOWN toward viewer; MIDDLE = true BACK facing UP away, NO face/eye/beak visible; BOTTOM = true RIGHT profile facing right. Left will be mirrored by game.\nColumns: 1 STANDING idle with both small shoes visible and separated, arms at sides; 2 TAKEOFF crouch with weight forward and compressed tiny legs; 3 ACTIVE EVASION; 4 LANDING crouch absorbing impact with hands low and shoes gathered beneath torso.\nActive evasion: A nimble forward pounce with bent legs and tail trailing, then light crouched landing. Draw genuinely different bent limb/torso anatomy, never merely rotate a standing sprite. For down/front motion head leads toward bottom foreground, body/feet trail above and behind with foreshortening. For up/back head leads toward top, back torso and tucked shoes trail below, face hidden. For right motion head leads RIGHT and feet trail LEFT; show profile and clear movement direction. Preserve identical head mass, costume, outline weight and proportions throughout. Landing different from takeoff. All sprites are the same character, not variations.\nThis replaces a game's standing, walking source and dodge animation. Consistency and readable feet matter more than extra decoration.",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "docs\\design\\character-directions-2026-09-12\\02-kohaku\\identity.png",
+      "sha256": "475be1a2b9d2728df717bf6313e010ec6079b45163143912ba18cb8a503ee22a"
+    },
+    {
+      "path": "assets\\generated\\fw-rina-directions-v1.png",
+      "sha256": "b183d710f01c06778c1020572c7dcc26544975c3ccc333a8e26797f9ea1cdfa7"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 535,
+      "image_tokens": 1290
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1118575
+}

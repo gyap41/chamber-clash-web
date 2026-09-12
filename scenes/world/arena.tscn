@@ -1,14 +1,17 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3]
 [ext_resource type="Script" path="res://scripts/world/arena.gd" id="1"]
 [ext_resource type="Resource" path="res://data/fields/duel.tres" id="2"]
 [ext_resource type="PackedScene" path="res://scenes/combat/player.tscn" id="3"]
 [ext_resource type="PackedScene" path="res://scenes/world/supplies.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://scenes/visuals/danger_zone_visual.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://scenes/visuals/combat_visuals.tscn" id="6"]
+[ext_resource type="Script" path="res://scripts/visuals/workshop_floor.gd" id="7"]
 [node name="Arena" type="Node2D"]
 script = ExtResource("1")
 definition = ExtResource("2")
 [node name="Floor" type="Polygon2D" parent="."]
+[node name="WorkshopArt" type="Node2D" parent="Floor"]
+script = ExtResource("7")
 [node name="Walls" type="Node2D" parent="."]
 [node name="DangerZone" parent="." instance=ExtResource("5")]
 [node name="Spawns" type="Node2D" parent="."]

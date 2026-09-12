@@ -1,0 +1,34 @@
+{
+  "name": "fw-twohead-walk",
+  "fingerprint": "48b34aa0457fc1a43651172100dca882f4eb7b8a3c8c7719369016d2a68cfebd",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T07:28:14.518400+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Exactly FOUR animation sprites of the EXACT compact mascot Rina from image 1, in a TWO COLUMN by TWO ROW sheet. Match the reference's huge head, tiny bean body and tiny shoes. Do not lengthen legs or introduce tall boots. Identical costume, colors, head size, thick outlines and simple flat shading. Empty hands, no gun. Mild overhead three-quarter front camera facing screen right and down, identical in all four cells.\nImage 2 is a mandatory FOOT POSITION guide only. Copy each cell's red and blue foot placement relative to the body. Red and blue identify the two different feet; draw them in Rina's normal shoe colors, NEVER red/blue. Keep character's right shoe on the left side of the picture and her left shoe on the right side; do not mirror the whole character. In cell 1 the picture-left foot is forward/down and grounded, picture-right foot back/up. In cell 3 this MUST SWAP: picture-right foot forward/down and grounded, picture-left foot back/up. Cells 2 and 4 are compact passing positions between these contacts with the opposite shoe lifted. The two contact poses MUST differ. Four consecutive frames of a tiny alternating-foot walk cycle, not four identical poses. Short legs mostly hidden under body, small opposing glove swing, subtle whole-body bob. Do not bend only one leg backward in every frame. Shoes remain separate and distinguishable. No large athletic strides, no running lean, no airborne jump. Keep all four heads identical in size and direction.\nCanvas 1024 square, each cell exactly 512 square. Center each whole character at x=256 within its cell, same ground baseline near y=430 and constant scale. Character height about 340 pixels in each cell, ample empty space around EVERY sprite. Never cross a cell boundary. Uniform saturated magenta #ff00ff background with no magenta in the character. No ground, no shadows, no text, no numbers, no guide lines, no borders. Four full-body frames only, correct alternating-foot order top-left, top-right, bottom-left, bottom-right. Preserve the approved reference's extremely short body and huge head in every cell.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\generated\\fw-twohead-design.png",
+      "sha256": "cb1199a10fefc8d50b3f86e3598e4a325e08e1e283ca5d5fd9b895fc46faa388"
+    },
+    {
+      "path": "docs\\design\\concepts\\rina-two-head-2026-09-12\\walk-guide.png",
+      "sha256": "95fd66ec4a6abaa91a10f322815517bc2ebeade2e5be4ffa21460baacef9ecb1"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 455,
+      "image_tokens": 2048
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1146895
+}

@@ -1,0 +1,30 @@
+{
+  "name": "fw-chibi-roll",
+  "fingerprint": "fefe5d8451d498b2dbb27e269a9ed75206a4f893ee38fa79cd136325043b03f6",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T06:03:12.200013+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Production dodge shoulder-roll sprite sheet for the EXACT approved chibi Rina in reference image 1. Maintain approved huge head, very short limbs, oversized boots/gloves, chestnut hair tuft, goggles, ivory cropped jacket, tucked rust scarf, shorts/opaque leggings, compact strapped workshop backpack with teal panel. Clean outlined cel-shaded anime rendering matching reference, no tall anatomy. No weapon or loose tools.\nExactly TWELVE full-body poses in a regular 3-column, 4-row grid, one per cell with generous margins. Same physical character scale throughout: crouched or tucked poses MUST be smaller than extended poses, not enlarged to fill the cell. Read left to right then down. FIRST SIX cells (rows 1-2): one connected six-key shoulder roll traveling diagonally screen RIGHT and DOWN, initially face visible. LAST SIX cells (rows 3-4): corresponding six-key shoulder roll traveling diagonally screen RIGHT and UP, initially back/workshop visible. Both from the same slightly elevated orthographic arena camera. The animation is 0.26 seconds, a fast tumble rather than a long windup.\nEach six-frame sequence: 1 immediate knees-bent crouch; 2 push forward with chin tucked and arms close; 3 low tuck rotating onto shoulder, hips rising; 4 rounded inverted tumble, boots overhead; 5 unwind and extend leading boot toward floor, torso low; 6 balanced low landing ready to stand. Actual bending articulated poses, not six rigid rotated standing bodies. Head protected, backpack attached and kept off the shoulder contact area. All hair, boots and backpack inside every cell. Uniform solid saturated magenta #ff00ff background, no ground, cast shadow, trails, text, labels or grid lines.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\generated\\fw-rina-chibi-concept.png",
+      "sha256": "e9a360b1eda04b07588b45c930a1887492e4502ab9ab8c319bd813e7b8e36f0a"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 369,
+      "image_tokens": 1024
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1103785
+}

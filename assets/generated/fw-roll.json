@@ -1,0 +1,34 @@
+{
+  "name": "fw-roll",
+  "fingerprint": "31235a6daf78be7b7bc6182c162329470dfbaa2c2dc44c70163a480ce4647b0f",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T05:00:36.874721+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Production six-frame dodge roll animation of the EXACT explorer-artisan in Image 1, moving screen RIGHT. Image 2 is a schematic guide for the six distinct body orientations and knee positions; follow those poses while rendering the normal character, not the schematic lines/colors. Preserve face, ponytail, patched ivory jacket, tucked rust scarf, olive trousers, boots, gloves and compact securely strapped portable workshop backpack. No weapon. One sheet exactly 3 columns by 2 rows of evenly spaced full character poses, same scale, each centered with ample padding. Read left to right then next row. Six rapidly consecutive keys for a 0.26-second shoulder roll: 1 knees bent immediate crouch, 2 push forward tuck chin and arms, 3 tuck body rotating onto right shoulder with hips over shoulder and backpack protected, 4 low rounded fully inverted tumble with boots overhead, 5 unwind extend leading foot toward ground torso low, 6 balanced low landing ready to stand. This is an actual connected forward shoulder roll, not six running poses or six identical rotated standing figures. Compact workshop strapped close and protected, shoulder contacts ground instead of backpack, no loose tools. High three-quarter overhead game camera with depth consistent with reference, roll traveling right. Painted Japanese adventure game style, bold clear shapes at 68px. Uniform saturated magenta #ff00ff background, no floor, no cast shadow, no cell lines, no numbers, no text.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\generated\\fw-rina.png",
+      "sha256": "8cab4dd6af25337cf811643469fce41821e6bb94c2174ce76514e49f5a3ff686"
+    },
+    {
+      "path": "assets\\first-workshop\\roll-guide.png",
+      "sha256": "f5c3d862e12247a72400d17f9ec27d18e4f4475766fa4e6480e6171a3444e286"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 305,
+      "image_tokens": 2048
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1143145
+}

@@ -30,8 +30,8 @@ var buffered_switch := 0.0
 var buffered_slot := -1
 var keyboard_fire_held := false
 # Legacy roll()/damage() keep invincibility (p.inv) separate from the roll animation timer
-# (p.roll=.26): p.inv=Math.max(p.inv,.31) is set independently and is what damage() actually
-# gates on, so a dodge is invincible for .31s even though the roll animation itself is .26s.
+# Default characters roll for .26s; Rina dives for .38s with a vulnerable landing.
+# p.inv is independently set to .31s, which gates Rina's incoming damage.
 # handle_key() below previously relied on state.roll alone for the dodge's invincibility
 # window (via hurt()'s `state.roll > 0` check), which is .05s shorter than legacy.
 @export var dodge_invulnerability: float = 0.31
@@ -76,6 +76,7 @@ var battle_slot := -1
 # main.gd keeps into this same dict.
 func set_character(id: int) -> void:
 	char_id = id
+	dodge_duration = .38 if id == 0 else .26
 	var c: Dictionary = Characters.definition(id)
 	max_hp = c.hp
 	move_speed = c.speed
@@ -130,7 +131,7 @@ func move_to_room(spawn: Vector2) -> void:
 	sync_visual()
 func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Dictionary = {}) -> bool:
 	if state.hp <= 0 or amount <= 0: return false
-	if state.roll > 0 or (volley >= 0 and state.blocked_volley == volley) or (state.inv > 0 and (volley < 0 or state.last_volley != volley)): return false
+	if (char_id != 0 and state.roll > 0) or (volley >= 0 and state.blocked_volley == volley) or (state.inv > 0 and (volley < 0 or state.last_volley != volley)): return false
 	amount = preload("res://scripts/combat/relic_effects.gd").incoming_damage(self,amount,volley,hazard)
 	if amount <= 0: return false
 	state.last_volley = volley
@@ -216,8 +217,18 @@ func step(dt: float, i: int, enemy, arena, mouse_shooting: bool = false, ai: Dic
 		command.shoot = mouse_shooting
 	var axis := Vector2(command.dx,command.dy).normalized()
 	p.angle = float(command.get("angle",(enemy.state.pos-p.pos).angle()+float(command.get("aim_jitter",0.0)) if enemy != null else p.angle))
-	if p.roll <= 0 and axis.length() > 0: p.dir = axis
-	arena.move_fighter(p,p.dir*roll_speed*dt if p.roll > 0 else axis*effective_move_speed()*dt,radius)
+	if char_id == 0 and previous_roll > 0:
+		# Integrate the speed curve over this step, including the final partial tick.
+		var start := clampf(1.0-previous_roll/dodge_duration,0,1)
+		var finish := clampf(1.0-p.roll/dodge_duration,0,1)
+		var distance := roll_speed*.26*((2*finish-finish*finish)-(2*start-start*start))
+		arena.move_fighter(p,p.dir*distance,radius)
+		var remaining := maxf(0.0,dt-previous_roll)
+		if remaining > 0:
+			arena.move_fighter(p,axis*effective_move_speed()*remaining,radius)
+	else:
+		if p.roll <= 0 and axis.length() > 0: p.dir = axis
+		arena.move_fighter(p,p.dir*roll_speed*dt if p.roll > 0 else axis*effective_move_speed()*dt,radius)
 	$Animation.advance(dt,axis.length() > 0)
 	sync_visual()
 	var shooting: bool = command.shoot or fire_pending
@@ -349,6 +360,12 @@ func update_weapon_art() -> void:
 	if not has_weapon(): return
 	$Weapon/Sprite.texture = Weapons.art(weapon().id)
 	$Weapon/Sprite.scale = weapon_display_size / $Weapon/Sprite.texture.get_size()
+	if weapon().id == 20:
+		# Tight original: fit inside the existing envelope, with grip and muzzle metadata.
+		$Weapon/Sprite.scale = Vector2.ONE*28.0/$Weapon/Sprite.texture.get_width()
+		$Weapon/Sprite.position = Vector2(15,0)
+	else:
+		$Weapon/Sprite.position = Vector2(23,0)
 
 # No field pickup may change active ammunition, reload, weapon mode or slot.
 func field_weapon_reason(id: int) -> String:

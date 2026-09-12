@@ -1,0 +1,30 @@
+{
+  "name": "fw-pistol",
+  "fingerprint": "95b9e94d7b827fa6bb78ae26132ba5788c3f946715d1d2439f0dc53a8eacc8f0",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T04:44:30.820421+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. One production service pistol sprite for The First Workshop, standard conventional compact firearm maintained by an explorer-artisan. Image 1 is material/design world reference only. Single isolated pistol in strict side view, barrel aimed horizontally RIGHT. Short dark steel barrel, worn ivory enamel receiver, muted teal magazine base, practical exposed brass fasteners and tiny amber status lamp. Believable serviceable precision manufactured pistol, compact conventional silhouette, clearly visible grip and trigger guard, no decorative gears, no magical ornament. Painterly Japanese adventure game style with bold clean silhouette readable at 44x33px, simplified details. Entire pistol centered, generous margin, no hands, no person, no ammunition, no other object, no shadow, no floor. Pure uniform saturated magenta #ff00ff background, none in gun. Soft top-left light, no writing, no logo, no watermark.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "docs\\design\\concepts\\first-workshop-2026-09-11\\04_portable_workshop.png",
+      "sha256": "0996833f7c2bd72193ec27232ccdc8a8ed4739ae78820c2032116c4e05da9f2c"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 187,
+      "image_tokens": 1536
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1119715
+}

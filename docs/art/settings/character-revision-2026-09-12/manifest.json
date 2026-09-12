@@ -1,0 +1,423 @@
+{
+  "characters": [
+    {
+      "id": 1,
+      "name": "01-sora",
+      "source": "assets/generated/fw-character-v2-01-sora-retry1.png",
+      "sha256": "b6688d544c358c94eb128bac00812bbfc44bd240e0c417fff352a68c4a4d0b64",
+      "prompt": "docs/art/settings/character-revision-2026-09-12/01-sora.txt",
+      "panels": {
+        "front": {
+          "source_rect": [
+            0,
+            92,
+            390,
+            1024
+          ],
+          "trim": [
+            57,
+            3,
+            376,
+            853
+          ],
+          "clip": null
+        },
+        "back": {
+          "source_rect": [
+            390,
+            92,
+            751,
+            1024
+          ],
+          "trim": [
+            49,
+            23,
+            317,
+            837
+          ],
+          "clip": null
+        },
+        "chibi": {
+          "source_rect": [
+            751,
+            92,
+            1024,
+            1024
+          ],
+          "trim": [
+            1,
+            482,
+            223,
+            812
+          ],
+          "clip": null
+        }
+      },
+      "pricing_estimate_usd": 0.1158595,
+      "game_integration": false
+    },
+    {
+      "id": 2,
+      "name": "02-kohaku",
+      "source": "assets/generated/fw-character-v2-02-kohaku.png",
+      "sha256": "854718de2944b9199d0c6b99a94d193952e83af44463e737e281290299d7f4b6",
+      "prompt": "docs/art/settings/character-revision-2026-09-12/02-kohaku.txt",
+      "panels": {
+        "front": {
+          "source_rect": [
+            0,
+            108,
+            390,
+            1024
+          ],
+          "trim": [
+            37,
+            9,
+            361,
+            787
+          ],
+          "clip": null
+        },
+        "back": {
+          "source_rect": [
+            390,
+            108,
+            742,
+            1024
+          ],
+          "trim": [
+            40,
+            48,
+            296,
+            781
+          ],
+          "clip": null
+        },
+        "chibi": {
+          "source_rect": [
+            742,
+            108,
+            1024,
+            1024
+          ],
+          "trim": [
+            1,
+            485,
+            223,
+            779
+          ],
+          "clip": null
+        }
+      },
+      "pricing_estimate_usd": 0.115932,
+      "game_integration": false
+    },
+    {
+      "id": 3,
+      "name": "03-bolt",
+      "source": "assets/generated/fw-character-v2-03-bolt.png",
+      "sha256": "a5bfbdc285e5d0412502d05e5c38ebc3956c969d986bd6f1d92ad8a2dec12302",
+      "prompt": "docs/art/settings/character-revision-2026-09-12/03-bolt.txt",
+      "panels": {
+        "front": {
+          "source_rect": [
+            0,
+            0,
+            390,
+            1024
+          ],
+          "trim": [
+            87,
+            52,
+            383,
+            853
+          ],
+          "clip": null
+        },
+        "back": {
+          "source_rect": [
+            390,
+            0,
+            773,
+            1024
+          ],
+          "trim": [
+            53,
+            126,
+            331,
+            868
+          ],
+          "clip": null
+        },
+        "chibi": {
+          "source_rect": [
+            773,
+            580,
+            1024,
+            1024
+          ],
+          "trim": [
+            13,
+            42,
+            178,
+            300
+          ],
+          "clip": null
+        }
+      },
+      "pricing_estimate_usd": 0.115887,
+      "game_integration": false
+    },
+    {
+      "id": 4,
+      "name": "04-mei",
+      "source": "assets/generated/fw-character-v2-04-mei.png",
+      "sha256": "6737d3c70bdd3f9acd5a5cc9f4db4b9ffed68a5bc6ee0e3f23d06d8ead234dea",
+      "prompt": "docs/art/settings/character-revision-2026-09-12/04-mei.txt",
+      "panels": {
+        "front": {
+          "source_rect": [
+            0,
+            108,
+            390,
+            1024
+          ],
+          "trim": [
+            58,
+            8,
+            385,
+            832
+          ],
+          "clip": null
+        },
+        "back": {
+          "source_rect": [
+            390,
+            108,
+            723,
+            1024
+          ],
+          "trim": [
+            13,
+            38,
+            308,
+            813
+          ],
+          "clip": null
+        },
+        "chibi": {
+          "source_rect": [
+            723,
+            108,
+            1024,
+            1024
+          ],
+          "trim": [
+            1,
+            458,
+            261,
+            786
+          ],
+          "clip": null
+        }
+      },
+      "pricing_estimate_usd": 0.1158695,
+      "game_integration": false
+    },
+    {
+      "id": 5,
+      "name": "05-luna",
+      "source": "assets/generated/fw-character-v2-05-luna.png",
+      "sha256": "b2eee54744a53fa3c0415048f82acc4ca92f86799699a05aa3f1d2969265886a",
+      "prompt": "docs/art/settings/character-revision-2026-09-12/05-luna.txt",
+      "panels": {
+        "front": {
+          "source_rect": [
+            0,
+            0,
+            395,
+            1024
+          ],
+          "trim": [
+            17,
+            67,
+            394,
+            947
+          ],
+          "clip": null
+        },
+        "back": {
+          "source_rect": [
+            395,
+            0,
+            727,
+            1024
+          ],
+          "trim": [
+            21,
+            97,
+            332,
+            935
+          ],
+          "clip": [
+            [
+              0,
+              0
+            ],
+            [
+              332,
+              0
+            ],
+            [
+              332,
+              600
+            ],
+            [
+              318,
+              600
+            ],
+            [
+              318,
+              1024
+            ],
+            [
+              0,
+              1024
+            ]
+          ]
+        },
+        "chibi": {
+          "source_rect": [
+            710,
+            540,
+            1024,
+            1024
+          ],
+          "trim": [
+            5,
+            34,
+            286,
+            379
+          ],
+          "clip": null
+        }
+      },
+      "pricing_estimate_usd": 0.115972,
+      "game_integration": false
+    },
+    {
+      "id": 6,
+      "name": "06-rattle",
+      "source": "assets/generated/fw-character-v2-06-rattle.png",
+      "sha256": "0ef68a919a034b696ed7c9aac4ef148591a2e87ab310b0398b536823c4777e12",
+      "prompt": "docs/art/settings/character-revision-2026-09-12/06-rattle.txt",
+      "panels": {
+        "front": {
+          "source_rect": [
+            0,
+            130,
+            390,
+            1024
+          ],
+          "trim": [
+            32,
+            41,
+            354,
+            771
+          ],
+          "clip": null
+        },
+        "back": {
+          "source_rect": [
+            390,
+            130,
+            733,
+            1024
+          ],
+          "trim": [
+            10,
+            67,
+            304,
+            768
+          ],
+          "clip": null
+        },
+        "chibi": {
+          "source_rect": [
+            733,
+            130,
+            1024,
+            1024
+          ],
+          "trim": [
+            1,
+            452,
+            259,
+            746
+          ],
+          "clip": null
+        }
+      },
+      "pricing_estimate_usd": 0.115927,
+      "game_integration": false
+    },
+    {
+      "id": 7,
+      "name": "07-crow",
+      "source": "assets/generated/fw-character-v2-07-crow.png",
+      "sha256": "4820bda1365398491b36d1e80dd0c4cc6236109b5fe5ce900475a4139b9e0eaa",
+      "prompt": "docs/art/settings/character-revision-2026-09-12/07-crow.txt",
+      "panels": {
+        "front": {
+          "source_rect": [
+            0,
+            85,
+            405,
+            1024
+          ],
+          "trim": [
+            29,
+            8,
+            405,
+            857
+          ],
+          "clip": null
+        },
+        "back": {
+          "source_rect": [
+            405,
+            85,
+            764,
+            1024
+          ],
+          "trim": [
+            26,
+            26,
+            339,
+            839
+          ],
+          "clip": null
+        },
+        "chibi": {
+          "source_rect": [
+            764,
+            85,
+            1024,
+            1024
+          ],
+          "trim": [
+            1,
+            468,
+            233,
+            835
+          ],
+          "clip": null
+        }
+      },
+      "pricing_estimate_usd": 0.1159295,
+      "game_integration": false
+    }
+  ],
+  "pricing_estimate_usd": 0.8113765000000001,
+  "comparison": "56px full height including hats/ears, enlarged 3x; paper retained"
+}

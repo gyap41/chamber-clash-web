@@ -7,7 +7,7 @@ func capture(suffix: String) -> void:
 	await process_frame
 	if "--hud-screenshot" not in OS.get_cmdline_user_args(): return
 	await RenderingServer.frame_post_draw
-	assert(root.get_texture().get_image().save_png("res://docs/design/concepts/battle-ui-2026-09-12/implemented-"+suffix+".png") == OK)
+	assert(root.get_texture().get_image().save_png("res://docs/art/settings/concepts/battle-ui-2026-09-12/implemented-"+suffix+".png") == OK)
 func run() -> void:
 	root.size = Vector2i(1120,800)
 	var game = load("res://scenes/game/main.tscn").instantiate()

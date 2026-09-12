@@ -1,0 +1,23 @@
+{
+  "original": "assets/generated/fw-twohead-design.png",
+  "source": "docs/art/settings/concepts/rina-two-head-2026-09-12/design.png",
+  "output": "tests/fixtures/art/legacy-rina-twohead/rina.png",
+  "sha256": "5e2d382de5dd70853d1af8d2fd9592954e8e50a8ce283a70dab2c014f36356e4",
+  "body_height": 56,
+  "foot_origin": [
+    0,
+    15
+  ],
+  "parts": "fixed texture UV polygons: body, left shoe, right shoe",
+  "consumers": [
+    "scripts/visuals/twohead_rina.gd",
+    "scripts/visuals/player_animation.gd",
+    "scripts/catalog/character_catalog.gd"
+  ],
+  "walk": "continuous opposite shoe phases; generated walk sheets not used",
+  "back_view": false,
+  "roll": "0.38s takeoff/dive/landing from fixed parts; no full revolution",
+  "additional_api_calls": 0,
+  "dodge_distance": 153.4,
+  "dodge_invulnerability": 0.31
+}

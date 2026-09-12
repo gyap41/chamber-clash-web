@@ -1,8 +1,8 @@
 {
   "fallback": "res://assets/ui/hud/placeholder.svg",
-  "dodge": "res://assets/ui/hud/dodge.svg",
-  "melee": "res://assets/ui/hud/melee.svg",
-  "pulse": "res://assets/ui/hud/pulse.svg",
+  "dodge": "res://assets/first-workshop/dodge.png",
+  "melee": "res://assets/first-workshop/melee.png",
+  "pulse": "res://assets/first-workshop/pulse.png",
   "relic_00": "res://assets/ui/hud/relic_00.svg",
   "relic_01": "res://assets/ui/hud/relic_01.svg",
   "relic_02": "res://assets/ui/hud/relic_02.svg",

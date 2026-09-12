@@ -1,0 +1,438 @@
+{
+  "characters": [
+    {
+      "id": 0,
+      "name": "00-rina",
+      "original": "assets\\generated\\fw-character-00-rina.png",
+      "sha256": "5442340e3ec4eade4779e11e53ef0e36872016f7aef6ed792b4647ee0fb05aed",
+      "metadata": "assets\\generated\\fw-character-00-rina.json",
+      "pricing_estimate_usd": 0.110626,
+      "prompt": "docs/art/production/character-prompts/00-rina.txt",
+      "panels": {
+        "front": {
+          "source_rect": [
+            0,
+            0,
+            401,
+            1024
+          ],
+          "trim": [
+            57,
+            50,
+            401,
+            961
+          ]
+        },
+        "back": {
+          "source_rect": [
+            401,
+            65,
+            742,
+            1024
+          ],
+          "trim": [
+            11,
+            1,
+            341,
+            886
+          ]
+        },
+        "chibi": {
+          "source_rect": [
+            742,
+            100,
+            1024,
+            1024
+          ],
+          "trim": [
+            0,
+            456,
+            243,
+            781
+          ]
+        }
+      },
+      "game_integration": false
+    },
+    {
+      "id": 1,
+      "name": "01-sora",
+      "original": "assets\\generated\\fw-character-01-sora.png",
+      "sha256": "8dc5a53b804eac9dfc8683184d96ea3129ea33c4ada93e6076ab2e208417dfe9",
+      "metadata": "assets\\generated\\fw-character-01-sora.json",
+      "pricing_estimate_usd": 0.1105985,
+      "prompt": "docs/art/production/character-prompts/01-sora.txt",
+      "panels": {
+        "front": {
+          "source_rect": [
+            0,
+            0,
+            390,
+            1024
+          ],
+          "trim": [
+            77,
+            40,
+            384,
+            971
+          ]
+        },
+        "back": {
+          "source_rect": [
+            390,
+            65,
+            753,
+            1024
+          ],
+          "trim": [
+            42,
+            0,
+            341,
+            895
+          ]
+        },
+        "chibi": {
+          "source_rect": [
+            753,
+            100,
+            1024,
+            1024
+          ],
+          "trim": [
+            0,
+            506,
+            234,
+            830
+          ]
+        }
+      },
+      "game_integration": false
+    },
+    {
+      "id": 2,
+      "name": "02-kohaku",
+      "original": "assets\\generated\\fw-character-02-kohaku.png",
+      "sha256": "149bdd126b753ba8a222bde9aa595c493e3320f22752cffa50963abc510f1cfe",
+      "metadata": "assets\\generated\\fw-character-02-kohaku.json",
+      "pricing_estimate_usd": 0.1106185,
+      "prompt": "docs/art/production/character-prompts/02-kohaku.txt",
+      "panels": {
+        "front": {
+          "source_rect": [
+            0,
+            60,
+            427,
+            1024
+          ],
+          "trim": [
+            73,
+            0,
+            427,
+            905
+          ]
+        },
+        "back": {
+          "source_rect": [
+            427,
+            65,
+            763,
+            1024
+          ],
+          "trim": [
+            2,
+            6,
+            336,
+            886
+          ]
+        },
+        "chibi": {
+          "source_rect": [
+            763,
+            100,
+            1024,
+            1024
+          ],
+          "trim": [
+            0,
+            491,
+            241,
+            817
+          ]
+        }
+      },
+      "game_integration": false
+    },
+    {
+      "id": 3,
+      "name": "03-bolt",
+      "original": "assets\\generated\\fw-character-03-bolt.png",
+      "sha256": "0c2ed0c940640933841465874e0235bac8d600f5e2fbed1655127138442f3147",
+      "metadata": "assets\\generated\\fw-character-03-bolt.json",
+      "pricing_estimate_usd": 0.1106335,
+      "prompt": "docs/art/production/character-prompts/03-bolt.txt",
+      "panels": {
+        "front": {
+          "source_rect": [
+            0,
+            0,
+            398,
+            1024
+          ],
+          "trim": [
+            18,
+            128,
+            398,
+            885
+          ]
+        },
+        "back": {
+          "source_rect": [
+            398,
+            65,
+            794,
+            1024
+          ],
+          "trim": [
+            36,
+            78,
+            396,
+            805
+          ]
+        },
+        "chibi": {
+          "source_rect": [
+            794,
+            100,
+            1024,
+            1024
+          ],
+          "trim": [
+            0,
+            514,
+            204,
+            795
+          ]
+        }
+      },
+      "game_integration": false
+    },
+    {
+      "id": 4,
+      "name": "04-mei",
+      "original": "assets\\generated\\fw-character-04-mei.png",
+      "sha256": "fad65ad057efe6a3676e54ab2cae51ee60b40f6204d2d9024e8b501ac89810d6",
+      "metadata": "assets\\generated\\fw-character-04-mei.json",
+      "pricing_estimate_usd": 0.110696,
+      "prompt": "docs/art/production/character-prompts/04-mei.txt",
+      "panels": {
+        "front": {
+          "source_rect": [
+            0,
+            0,
+            399,
+            1024
+          ],
+          "trim": [
+            52,
+            52,
+            399,
+            966
+          ]
+        },
+        "back": {
+          "source_rect": [
+            399,
+            65,
+            775,
+            1024
+          ],
+          "trim": [
+            6,
+            4,
+            298,
+            891
+          ]
+        },
+        "chibi": {
+          "source_rect": [
+            775,
+            100,
+            1024,
+            1024
+          ],
+          "trim": [
+            0,
+            489,
+            205,
+            845
+          ]
+        }
+      },
+      "game_integration": false
+    },
+    {
+      "id": 5,
+      "name": "05-luna",
+      "original": "assets\\generated\\fw-character-05-luna.png",
+      "sha256": "88a57611c9201f59b3e0cfc90336d3680bf42ffd8ab7a87faa2ef66299947ffe",
+      "metadata": "assets\\generated\\fw-character-05-luna.json",
+      "pricing_estimate_usd": 0.110756,
+      "prompt": "docs/art/production/character-prompts/05-luna.txt",
+      "panels": {
+        "front": {
+          "source_rect": [
+            0,
+            0,
+            402,
+            1024
+          ],
+          "trim": [
+            76,
+            57,
+            402,
+            958
+          ]
+        },
+        "back": {
+          "source_rect": [
+            402,
+            65,
+            761,
+            1024
+          ],
+          "trim": [
+            28,
+            18,
+            327,
+            881
+          ]
+        },
+        "chibi": {
+          "source_rect": [
+            761,
+            100,
+            1024,
+            1024
+          ],
+          "trim": [
+            0,
+            484,
+            213,
+            805
+          ]
+        }
+      },
+      "game_integration": false
+    },
+    {
+      "id": 6,
+      "name": "06-rattle",
+      "original": "assets\\generated\\fw-character-06-rattle.png",
+      "sha256": "e06ea1a02cd6faf82f8388341dd362a1d3a46e87984dfde10db784c6d1b3ddbd",
+      "metadata": "assets\\generated\\fw-character-06-rattle.json",
+      "pricing_estimate_usd": 0.110746,
+      "prompt": "docs/art/production/character-prompts/06-rattle.txt",
+      "panels": {
+        "front": {
+          "source_rect": [
+            0,
+            0,
+            390,
+            1024
+          ],
+          "trim": [
+            59,
+            53,
+            366,
+            947
+          ]
+        },
+        "back": {
+          "source_rect": [
+            390,
+            65,
+            764,
+            1024
+          ],
+          "trim": [
+            44,
+            0,
+            346,
+            867
+          ]
+        },
+        "chibi": {
+          "source_rect": [
+            764,
+            100,
+            1024,
+            1024
+          ],
+          "trim": [
+            0,
+            520,
+            223,
+            817
+          ]
+        }
+      },
+      "game_integration": false
+    },
+    {
+      "id": 7,
+      "name": "07-crow",
+      "original": "assets\\generated\\fw-character-07-crow.png",
+      "sha256": "ab8ba8c83abb2f994cb113935c73204fe39923ab0cc731c5421d4520cc2d5f20",
+      "metadata": "assets\\generated\\fw-character-07-crow.json",
+      "pricing_estimate_usd": 0.1107885,
+      "prompt": "docs/art/production/character-prompts/07-crow.txt",
+      "panels": {
+        "front": {
+          "source_rect": [
+            0,
+            0,
+            391,
+            1024
+          ],
+          "trim": [
+            33,
+            54,
+            391,
+            941
+          ]
+        },
+        "back": {
+          "source_rect": [
+            391,
+            65,
+            775,
+            1024
+          ],
+          "trim": [
+            46,
+            8,
+            381,
+            856
+          ]
+        },
+        "chibi": {
+          "source_rect": [
+            775,
+            100,
+            1024,
+            1024
+          ],
+          "trim": [
+            6,
+            462,
+            210,
+            791
+          ]
+        }
+      },
+      "game_integration": false
+    }
+  ],
+  "pricing_estimate_usd": 0.885463,
+  "method": "gutter crops, paper background preserved; originals retained"
+}

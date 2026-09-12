@@ -33,6 +33,7 @@ static func apply(arena, source: Definition, participant_count: int = 0, radius:
 		var points: PackedVector2Array = definition.supply_points[group]
 		for i in range(points.size()): marker(container,"Point%d" % (i+1),points[i])
 	arena.runtime_definition = definition
+	if arena.has_node("Floor/WorkshopArt"): arena.get_node("Floor/WorkshopArt").queue_redraw()
 	arena.get_node("DangerZone").queue_redraw()
 	return errors
 

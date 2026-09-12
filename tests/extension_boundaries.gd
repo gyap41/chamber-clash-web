@@ -54,7 +54,11 @@ func run() -> void:
 		if game.phase == "result": break
 	for i in range(4):
 		assert(game.players[i].state.pos != starts[i])
-		assert(game.arena.fighter_bounds.has_point(game.players[i].state.pos))
+		# move_fighter clamps inclusively; Rect2.has_point excludes right/bottom edges.
+		var bounds: Rect2 = game.arena.fighter_bounds
+		var pos: Vector2 = game.players[i].state.pos
+		assert(pos.x >= bounds.position.x and pos.x <= bounds.end.x)
+		assert(pos.y >= bounds.position.y and pos.y <= bounds.end.y)
 	# Passive fixtures below use the same authority service and deterministic commands.
 	fresh(game)
 	var p = game.players[0]

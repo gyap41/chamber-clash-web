@@ -1,0 +1,25 @@
+{
+  "name": "fw-trail",
+  "fingerprint": "05399b7335c4d73b80a88834ca03127efa6dabd61a722327804b3963a5c75a72",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T05:16:06.819027+00:00",
+  "endpoint": "generations",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. One game VFX dodge afterglow sprite for The First Workshop explorer-artisan. A very restrained sweep of pale ivory and muted teal streaks, horizontal movement to screen RIGHT. Three short curved tapering brushstrokes describing a low shoulder-roll arc, brightest at right-hand leading edge and fading off to left. Wispy broken trails, no solid disk, no opaque cloud, no body silhouette, no character. Painterly stylized Japanese adventure game effect readable at 42x25 pixels, low visual noise. Single isolated effect centered with ample padding. Pure uniform saturated magenta #ff00ff backdrop for local alpha extraction, no magenta in effect. No text or symbols.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 151,
+      "image_tokens": 0
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1057375
+}

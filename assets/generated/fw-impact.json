@@ -1,0 +1,25 @@
+{
+  "name": "fw-impact",
+  "fingerprint": "a17273f4b06e1feeee6eda53f416968533522eac69af7c911e07d97227db6f2a",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T05:13:06.036429+00:00",
+  "endpoint": "generations",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. One compact game VFX impact spark sprite for The First Workshop conventional service pistol striking stone or metal. Small ivory-yellow central glint, 5 short amber radial sparks with a few tiny gray stone chips. Restrained readable painterly Japanese adventure game VFX at 22x22 pixels, not a huge explosion. Isolated centered effect with lots of clear margin, no wall, no target, no person, no blood, no bullet, no text, no labels, no frame. Pure uniform saturated magenta #ff00ff background for alpha extraction, no magenta in effect.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 131,
+      "image_tokens": 0
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1056875
+}

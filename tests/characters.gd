@@ -49,20 +49,20 @@ func run() -> void:
 	assert(game.players[0].Characters.count() == 8)
 	assert(game.players[0].Characters.definition(7).name == "クロウ")
 
-	# art() crops fighters.png (4 columns x 2 rows) by cell index. Checked via ratios of the
-	# shared atlas size rather than hardcoded pixel values, since it's the grid math (not the
-	# source image's exact dimensions) that this is meant to catch regressions in.
+	# Portraits use the selected character's fixed game image, not a legacy sheet cell.
 	var Characters = game.players[0].Characters
 	var tex0: AtlasTexture = Characters.art(0) # cell 0 -> row 0, col 0 (top-left)
-	var full: Vector2 = tex0.atlas.get_size()
-	assert(is_equal_approx(tex0.region.size.x,full.x/4.0) and is_equal_approx(tex0.region.size.y,full.y/2.0))
-	assert(tex0.region.position == Vector2.ZERO)
+	assert(tex0.atlas.resource_path.begins_with("res://assets/first-workshop/"))
+	assert(tex0.region == Rect2(8,8,240,240))
+	assert(tex0.atlas.resource_path.ends_with("rina-directions/front.png"))
 	assert(Characters.art(0) == tex0) # cached, not rebuilt per call
 	var tex3: AtlasTexture = Characters.art(3) # Bolt, cell 3 -> row 0, col 3 (top-right)
-	assert(tex3.atlas == tex0.atlas)
-	assert(is_equal_approx(tex3.region.position.x,full.x/4.0*3.0) and is_equal_approx(tex3.region.position.y,0.0))
+	assert(tex3.atlas != tex0.atlas)
+	assert(tex3.atlas.resource_path.ends_with("03-bolt/front.png"))
+	assert(tex3.region == Rect2(8,8,240,240))
 	var tex7: AtlasTexture = Characters.art(7) # Crow, cell 7 -> row 1, col 3 (bottom-right)
-	assert(is_equal_approx(tex7.region.position.x,full.x/4.0*3.0) and is_equal_approx(tex7.region.position.y,full.y/2.0))
+	assert(tex7.atlas.resource_path.ends_with("07-crow/front.png"))
+	assert(tex7.atlas != tex3.atlas and tex7.region == Rect2(8,8,240,240))
 
 	print("PASS: character stat application (HP/speed/reload/dodge cooldown/pulses/sprite frame), live-state patch safety, persistence across reset(), portrait art() grid cropping")
 	game.queue_free()

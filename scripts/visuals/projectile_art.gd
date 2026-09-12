@@ -11,15 +11,29 @@ const FRAMES := [
 const WIDTHS := [30.0,32.0,23.0,28.0]
 const ANCHORS := [.76,.63,.75,.75]
 var row := -1
+var service_pistol := false
+const SERVICE_BULLET = preload("res://assets/first-workshop/bullet.png")
 var animation_frame := -1
 static var atlases: Dictionary = {}
 
 func configure(id: int, parcel: bool, shard: bool) -> void:
+	service_pistol = id == 20 and not shard
+	if service_pistol:
+		row = -1
+		visible = true
+		texture = SERVICE_BULLET
+		centered = true
+		offset = Vector2.ZERO
+		scale = Vector2(18,8)/texture.get_size()
+		return
 	row = -1 if shard else (0 if id == 16 else (1 if id == 17 and parcel else (2 if id == 18 else (3 if id == 19 else -1))))
 	visible = row >= 0
 	animation_frame = -1
 
 func refresh(age: float, velocity: Vector2) -> void:
+	if service_pistol:
+		rotation = velocity.angle()
+		return
 	if row < 0: return
 	rotation = velocity.angle()
 	var next := floori(age*12.0)%4

@@ -1,0 +1,34 @@
+{
+  "name": "fw-character-v2-03-bolt",
+  "fingerprint": "72ce9c12cf514ff2625f5f1d4c2130ea886f6158a983d74380f271cb44de7cb9",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T09:16:19.414281+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Character: BOLT. Friendly nonhuman guard robot, rounded ivory head with ONE large circular blue optical eye, dark round ear housing and short antenna. Ivory rounded armor, black joints, compact orange back module. NOT a box head or a horizontal eye slit.\n\nUse case: stylized-concept. Create ONE square character setting sheet. Left 38%: natural-proportion full-body front three-quarter view. Middle 38%: matching full-body rear view. Right 24%: compact game chibi. Empty gutters, warm plain off-white paper, no annotations except character name. Normal views about 80% sheet height, chibi about 35%. Human normal versions are adults around 6 heads tall; retain nonhuman anatomy for fox, skeleton, bird and robot. Show coherent front/back costume construction.\nReference roles: original fighters sheet defines THIS character's species, face, signature colors and identifying accessories; approved in-game Rina image defines ONLY chibi proportions, clean outlines and cel shading. Do not copy Rina's goggles, face, hair or costume onto other characters. A previous draft, if provided, is only a secondary costume-construction reference and must not override identity.\nChibi construction: oversized head, extremely short bean torso, two tiny separate rounded shoes immediately below the hem. Almost no exposed thighs or shins; no visible knee anatomy, no long trouser section between waist and feet. Follow in-game Rina proportions, not the taller prior setting-sheet chibis. Keep a readable separation between left and right shoe and attach both naturally under the body. Each shoe must work as an independent animation part; do not draw walking poses or multiple frames. Preserve costume identity with broad color blocks. Body and head have stable clean contours. Hat, ears and tail remain recognizable but compact. Normal-proportion views KEEP natural-length legs; never stretch chibi anatomy into them. Match identity across all three views. Empty hands, no gun, no additional characters, no scenery or watermark. Modern appealing Japanese adventure illustration with controlled cel shading and crisp outlines.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\characters\\fighters.png",
+      "sha256": "68c207890e94d799921808944fa41ba02d2bce8b22afda0c59734b98acd09ea2"
+    },
+    {
+      "path": "assets\\first-workshop\\twohead\\rina.png",
+      "sha256": "5e2d382de5dd70853d1af8d2fd9592954e8e50a8ce283a70dab2c014f36356e4"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 422,
+      "image_tokens": 2368
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.115887
+}

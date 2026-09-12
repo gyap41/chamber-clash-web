@@ -1,0 +1,1402 @@
+[
+  {
+    "name": "fw-floor",
+    "fingerprint": "37a13234bbbfda2554e480046cac58c8b4cd61971ee91ef17fea5b09ead10cf5",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T04:33:21.235485+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Production game floor texture for The First Workshop. Image 1 is an art style and material reference only. Generate a square orthographic directly overhead texture of broad worn ancient gray limestone slabs interlocked with occasional dark steel maintenance strips, restrained muted teal patina, small ivory enamel access plates, subtle amber inlaid power channels. Painterly Japanese adventure game craftsmanship, ancient stone integrated with advanced precision manufacturing, quiet medium-value gray warm-cool balance. All space is flat walkable floor. Full bleed seamless material texture, large readable square stone blocks aligned horizontally and vertically. No obstacles, no walls, no characters, no furniture, no pits, no raised machinery, no strong perspective, no writing, no symbols, no borders, no UI. Low contrast fine cracks, sparse chipped edges, very little clutter; bullets and small characters must stand out. Soft overhead light, no directional cast shadows. Not pixel art, not steampunk.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\design\\concepts\\first-workshop-2026-09-11\\02_exploration_field.png",
+        "sha256": "d3c3338971dc1fc6b055ada64d61c382938326d980bb758acd36ac0bfd1ed1dc"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 199,
+        "image_tokens": 1536
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1120015
+  },
+  {
+    "name": "fw-cover",
+    "fingerprint": "084807d8e06fde61c0969a07b8537c1b0d2d8866ae770b43df4ba0010bd4c953",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T04:37:11.892282+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. One production game obstacle sprite for The First Workshop. Image 1 is material and rendering reference only. One low square ancient limestone maintenance plinth, worn ivory stone top held by dark steel corner brackets, practical brass fasteners, a single small muted amber power slit and subtle teal patina. Stylized painterly Japanese adventure game, bold readable silhouette at 80x85 pixels. Orthographic high overhead view with top and a very shallow front face, top edges parallel to image axes, NOT diamond isometric. Centered single isolated object with generous padding, square footprint and flat vertical sides. No tall attachments, no plants, no debris, no floor, no ground shadows, no text, no symbols, no UI. Pure uniform saturated magenta #ff00ff backdrop for local alpha extraction. No magenta in the object. Soft top-left lighting. Ancient stone plus advanced manufacturing, no decorative gears. The image will be cropped into an existing square collision rectangle.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\design\\concepts\\first-workshop-2026-09-11\\02_exploration_field.png",
+        "sha256": "d3c3338971dc1fc6b055ada64d61c382938326d980bb758acd36ac0bfd1ed1dc"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 207,
+        "image_tokens": 1536
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1120215
+  },
+  {
+    "name": "fw-rina",
+    "fingerprint": "ee6e906c46c050134f4ec72222778680aa3b2fab28769f4e03705c44852f89dd",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T04:41:20.673152+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. One production character sprite, the Rina slot explorer-artisan for The First Workshop. Image 1 is world/costume reference only. Full body adult young woman with tied short chestnut ponytail, goggles resting on hair, practical patched ivory travel jacket, rust scarf tucked close, dark olive trousers, leather gloves and sturdy boots. A compact closed ivory-and-dark-steel hard-case portable workshop securely strapped on her back, muted teal module and small amber indicator. Simplified painterly Japanese adventure game rendering and bold clear shapes readable at about 51x68 pixels, adult proportions simplified to about four heads tall. High three-quarter overhead game view, body facing screen right, face visible in three-quarter profile, neutral alert standing pose with both feet planted, empty hands relaxed in front of torso for a separately rendered pistol. No firearm or other weapon anywhere in image. Single consistent character centered with generous margin. No floor, no cast shadow, no props, no labels, no text, no UI. Pure uniform saturated magenta #ff00ff background, no magenta on subject. Soft top-left lighting, thin dark painted contours, ivory and amber highlights restrained. Portable workshop is backpack-sized, not a huge chest. No flowing long cloth.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\design\\concepts\\first-workshop-2026-09-11\\04_portable_workshop.png",
+        "sha256": "0996833f7c2bd72193ec27232ccdc8a8ed4739ae78820c2032116c4e05da9f2c"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 263,
+        "image_tokens": 1536
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1121615
+  },
+  {
+    "name": "fw-pistol",
+    "fingerprint": "95b9e94d7b827fa6bb78ae26132ba5788c3f946715d1d2439f0dc53a8eacc8f0",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T04:44:30.820421+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. One production service pistol sprite for The First Workshop, standard conventional compact firearm maintained by an explorer-artisan. Image 1 is material/design world reference only. Single isolated pistol in strict side view, barrel aimed horizontally RIGHT. Short dark steel barrel, worn ivory enamel receiver, muted teal magazine base, practical exposed brass fasteners and tiny amber status lamp. Believable serviceable precision manufactured pistol, compact conventional silhouette, clearly visible grip and trigger guard, no decorative gears, no magical ornament. Painterly Japanese adventure game style with bold clean silhouette readable at 44x33px, simplified details. Entire pistol centered, generous margin, no hands, no person, no ammunition, no other object, no shadow, no floor. Pure uniform saturated magenta #ff00ff background, none in gun. Soft top-left light, no writing, no logo, no watermark.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\design\\concepts\\first-workshop-2026-09-11\\04_portable_workshop.png",
+        "sha256": "0996833f7c2bd72193ec27232ccdc8a8ed4739ae78820c2032116c4e05da9f2c"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 187,
+        "image_tokens": 1536
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1119715
+  },
+  {
+    "name": "fw-idle",
+    "fingerprint": "69e9423ab21a18654f211462b29e02e80761be4e7ef4a180e61d9713b4cf3a43",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T04:48:31.561877+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Production four-frame idle breathing animation sheet of the EXACT explorer-artisan in Image 1. Preserve her face, ponytail, ivory jacket, tucked rust scarf, olive trousers, gloves, boots and securely strapped compact portable workshop backpack. No weapon. One sheet, exactly 2 columns by 2 rows, four evenly spaced 512x512 cells; one full-body pose centered in each cell, same scale, same feet baseline, no crossing cell boundaries. Read order top-left, top-right, bottom-left, bottom-right. Frames: neutral; gentle inhale shoulders 2px higher; inhale peak chest subtly expanded; gentle exhale returning to neutral. Very small changes with same identity, body facing screen RIGHT in high three-quarter overhead game view. Adult simplified readable proportions. Painterly rendering matching reference, no pixel grid. Pure uniform saturated magenta #ff00ff backdrop; no floor or cast shadows, no cell lines, no labels, no text. All feet and hair fully visible with padding. Keep backpack firmly attached, empty hands near torso for separate pistol.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-rina.png",
+        "sha256": "8cab4dd6af25337cf811643469fce41821e6bb94c2174ce76514e49f5a3ff686"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 227,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1100235
+  },
+  {
+    "name": "fw-move",
+    "fingerprint": "7257c170f8979213b68dbcebc815533043ddec7079da22416c57d0fab495589f",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T04:52:23.613942+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Production six-frame running cycle sheet of EXACT explorer-artisan in Image 1. Preserve face, tied ponytail, patched ivory travel jacket, tucked rust scarf, olive trousers, gloves, boots and tightly secured compact portable workshop on back. No weapon. Exactly 3 columns by 2 rows, six equal cells, one full body character centered in each cell, same character scale and same ground baseline, generous padding, no overlaps. Read order left to right then next row. A complete cyclical run to screen RIGHT: 1 right-foot forward contact, 2 right-leg weight down and left leg passing, 3 right-leg push off and left knee forward, 4 left-foot forward contact, 5 left-leg weight down and right leg passing, 6 left-leg push off and right knee forward. Clearly alternate legs, natural bent elbows close to torso for separate weapon, modest torso bob. High three-quarter overhead game camera identical in every frame, no change in perspective. Painterly Japanese adventure game rendering matching character reference. Pure uniform saturated magenta #ff00ff backdrop. No floor, no cast shadows, no borders, no cell lines, no text or numbering.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-rina.png",
+        "sha256": "8cab4dd6af25337cf811643469fce41821e6bb94c2174ce76514e49f5a3ff686"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 250,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.110081
+  },
+  {
+    "name": "fw-move-corrected",
+    "fingerprint": "0386af7813620939c87927bf880c9470dfc83d3896923c7765924da4daf01768",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T04:56:57.168029+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Create a CORRECT six-frame run animation sprite sheet, not variations of one running pose. Image 1 is the exact character identity/costume reference. Image 2 is a mandatory skeletal leg-pose guide for the six cells. Preserve the woman's face, tied ponytail, ivory jacket, rust scarf, olive trousers, gloves, boots and strapped portable workshop backpack. No weapon. Layout exactly 3 columns by 2 rows like image 2, six full-body poses in read order, constant character scale. In the guide RED is the near leg and BLUE the far leg: render both in the character's normal olive cloth and leather boots, do not copy skeleton colors. Copy the distinct leg positions from image 2 closely. Cell 1 near leg forward heel contact, far leg BACK; cell 2 near leg vertical supporting body, far knee passing bent FORWARD; cell 3 near leg BACK pushing off, far knee raised FORWARD; cell 4 far leg forward heel contact, near leg BACK; cell 5 far leg vertical supporting body, near knee passing FORWARD; cell 6 far leg BACK pushing off, near knee raised FORWARD. Each half of cycle must visibly swap the near and far legs, including three different silhouettes: long stride, narrow passing, raised knee. Do NOT depict the same bent-back leg in all six cells. Feet passing through center is essential. Empty gloved hands near waist, alternate arm motion small. Maintain high three-quarter overhead camera from image 1, facing screen RIGHT, painterly Japanese adventure game sprite rendering, no shadows. Uniform saturated magenta #ff00ff background. No drawn skeletons, no pose-guide lines, no grid lines, no labels or numbers. Generous cell padding; all feet fully inside cells.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-rina.png",
+        "sha256": "8cab4dd6af25337cf811643469fce41821e6bb94c2174ce76514e49f5a3ff686"
+      },
+      {
+        "path": "assets\\first-workshop\\pose-guide.png",
+        "sha256": "edcbf48fbd6376e65831f7705633b6e9e16baa3bf3bfe6e9f59c7699b569252d"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 373,
+        "image_tokens": 2048
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1144845
+  },
+  {
+    "name": "fw-roll",
+    "fingerprint": "31235a6daf78be7b7bc6182c162329470dfbaa2c2dc44c70163a480ce4647b0f",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T05:00:36.874721+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Production six-frame dodge roll animation of the EXACT explorer-artisan in Image 1, moving screen RIGHT. Image 2 is a schematic guide for the six distinct body orientations and knee positions; follow those poses while rendering the normal character, not the schematic lines/colors. Preserve face, ponytail, patched ivory jacket, tucked rust scarf, olive trousers, boots, gloves and compact securely strapped portable workshop backpack. No weapon. One sheet exactly 3 columns by 2 rows of evenly spaced full character poses, same scale, each centered with ample padding. Read left to right then next row. Six rapidly consecutive keys for a 0.26-second shoulder roll: 1 knees bent immediate crouch, 2 push forward tuck chin and arms, 3 tuck body rotating onto right shoulder with hips over shoulder and backpack protected, 4 low rounded fully inverted tumble with boots overhead, 5 unwind extend leading foot toward ground torso low, 6 balanced low landing ready to stand. This is an actual connected forward shoulder roll, not six running poses or six identical rotated standing figures. Compact workshop strapped close and protected, shoulder contacts ground instead of backpack, no loose tools. High three-quarter overhead game camera with depth consistent with reference, roll traveling right. Painted Japanese adventure game style, bold clear shapes at 68px. Uniform saturated magenta #ff00ff background, no floor, no cast shadow, no cell lines, no numbers, no text.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-rina.png",
+        "sha256": "8cab4dd6af25337cf811643469fce41821e6bb94c2174ce76514e49f5a3ff686"
+      },
+      {
+        "path": "assets\\first-workshop\\roll-guide.png",
+        "sha256": "f5c3d862e12247a72400d17f9ec27d18e4f4475766fa4e6480e6171a3444e286"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 305,
+        "image_tokens": 2048
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1143145
+  },
+  {
+    "name": "fw-bullet",
+    "fingerprint": "266e286373043b898feb9174c3396dbd65fdb800ef5fd210e61cf3cc36a35957",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T05:05:53.401877+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. One small game VFX sprite for the service pistol of The First Workshop. One short horizontal amber tracer aimed RIGHT, compact bright warm ivory capsule core tapering into a short amber tail to the left, restrained soft glow. Clearly readable at 18x8 pixels. Clean painterly game VFX, no cartridge casing, no firearm, no other objects, no text. Single sprite centered with large margin. Pure uniform saturated magenta #ff00ff background for alpha extraction, no magenta in the effect. No large flare or wide cloud.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 123,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1056675
+  },
+  {
+    "name": "fw-muzzle",
+    "fingerprint": "3bba4d87b9e218c229bc91d1a48914e75f1beb05f7022635c8438a369b7e23b4",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T05:10:27.197326+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. One small game VFX muzzle flash sprite for The First Workshop conventional service pistol. Side view pointing horizontally RIGHT. Short amber-white starburst plume, bright ivory center, 3 pointed amber flame lobes and tiny spark flecks. Brightest emission origin on LEFT, tapering to RIGHT. Compact controlled flash readable at 22x16 pixels and lasting 0.075 seconds, painterly stylized adventure game. Isolated centered sprite, no gun, no bullet, no smoke cloud, no other props, no text, no frame. Pure uniform saturated magenta #ff00ff background for local alpha extraction, no magenta in the effect, ample margin.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 147,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1057275
+  },
+  {
+    "name": "fw-impact",
+    "fingerprint": "a17273f4b06e1feeee6eda53f416968533522eac69af7c911e07d97227db6f2a",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T05:13:06.036429+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. One compact game VFX impact spark sprite for The First Workshop conventional service pistol striking stone or metal. Small ivory-yellow central glint, 5 short amber radial sparks with a few tiny gray stone chips. Restrained readable painterly Japanese adventure game VFX at 22x22 pixels, not a huge explosion. Isolated centered effect with lots of clear margin, no wall, no target, no person, no blood, no bullet, no text, no labels, no frame. Pure uniform saturated magenta #ff00ff background for alpha extraction, no magenta in effect.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 131,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1056875
+  },
+  {
+    "name": "fw-trail",
+    "fingerprint": "05399b7335c4d73b80a88834ca03127efa6dabd61a722327804b3963a5c75a72",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T05:16:06.819027+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. One game VFX dodge afterglow sprite for The First Workshop explorer-artisan. A very restrained sweep of pale ivory and muted teal streaks, horizontal movement to screen RIGHT. Three short curved tapering brushstrokes describing a low shoulder-roll arc, brightest at right-hand leading edge and fading off to left. Wispy broken trails, no solid disk, no opaque cloud, no body silhouette, no character. Painterly stylized Japanese adventure game effect readable at 42x25 pixels, low visual noise. Single isolated effect centered with ample padding. Pure uniform saturated magenta #ff00ff backdrop for local alpha extraction, no magenta in effect. No text or symbols.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 151,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1057375
+  },
+  {
+    "name": "fw-ammo",
+    "fingerprint": "f3e71392d87cc54884b567ffbf7fc62a83a4c31688a96565e9b49388484ec75a",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T05:18:49.751341+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. One production ammunition supply box sprite for The First Workshop. Image 1 is world and material reference only. Small square dark steel field ammunition dispenser with worn ivory enamel edging, muted teal side insert and practical brass fasteners. A recessed top window clearly shows three upright warm brass pistol cartridges, a small amber latch light. Clearly a compact ammunition box and not a treasure chest. High orthographic overhead game view, front face shallow, horizontal top edges, no diamond isometric. Bold readable painterly Japanese adventure game illustration, useful at 40x36 pixels. Single centered isolated item with generous margins, no hands, no gun, no loose ammo outside the box, no floor or cast shadow. Pure uniform saturated magenta #ff00ff background, no magenta in object. No text, no numbers, no UI.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\design\\concepts\\first-workshop-2026-09-11\\04_portable_workshop.png",
+        "sha256": "0996833f7c2bd72193ec27232ccdc8a8ed4739ae78820c2032116c4e05da9f2c"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 178,
+        "image_tokens": 1536
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.111949
+  },
+  {
+    "name": "fw-hud",
+    "fingerprint": "443f95321bc1350123e3978bf5ba19f7c034f987d3d1c60b8324d6bb592f1607",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T05:22:24.090615+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Production game HUD action icon sheet for The First Workshop. Exactly three separate icons in a single horizontal row with equal-width cells, centered individually and generous clear margins, no borders, no text. Icon 1 LEFT: simplified ivory silhouette of a tucked explorer with compact backpack doing a forward dodge roll with one small curved arrow. Icon 2 CENTER: one simple diagonal ivory utility blade with small muted teal grip for melee. Icon 3 RIGHT: three clean concentric ivory arcs around a small muted teal power cell for a defensive pulse. Consistent clear stroke weights, minimal detail, bold distinct shapes that read at 24x24px, slight painted enamel shading. These are functional HUD symbols, not complicated illustrations. Pure uniform saturated magenta #ff00ff background in all cells for local alpha extraction, no magenta in icons. Do not add panels or words, no letters, no key labels, no watermark.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 197,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1058525
+  },
+  {
+    "name": "fw-rina-chibi-concept",
+    "fingerprint": "cdba31a1f99a8f1f6437784967ce1ac927e0e4670fa88a1163259e05277315e8",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T05:44:56.675132+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Create ONE polished character design approval board for Rina, the female explorer-artisan of Chamber Clash: The First Workshop. Reference image 1 is ONLY a reference for identity, goggles, chestnut hair, portable workshop and clothing palette. COMPLETELY REDESIGN proportions and rendering: the reference is much too tall and realistic.\n\nArt direction: contemporary cute Japanese fantasy tactical RPG character design, bold expressive anime eyes and playful angular silhouettes reminiscent of Disgaea's exaggerated chibi appeal, but an original explorer-artisan costume. Clean confident tapered ink outlines, graphic cel shading, fresh polished game illustration, restrained texture, not realistic painting. Charming confident young adult heroine represented in super-deformed proportions. STRICTLY 2.25 HEADS TALL including hair, head nearly half the full height; tiny compact torso, very short chunky legs, oversized rounded boots and mitt-like gloves. No long thighs, long torso or slender adult anatomy. Cute bright teal eyes, cheek blush, impish confident smile, chunky chestnut bob with tiny tied tuft, oversized brass goggles perched on head.\n\nOutfit: cropped ivory workshop jacket with teal accents, short tucked amber-rust scarf, dark charcoal compact work shorts over opaque leggings, sturdy brown oversized boots. Simplify seams and small accessories into a few memorable big shapes. Compact rounded-square ivory and dark steel portable workshop backpack, one teal panel and amber latch; distinct and readable from the back, not taller than the torso. Practical modest outfit, no exposed midriff. Empty hands, no weapon. Preserve explorer-artisan identity without the reference's military realism or visual clutter.\n\nComposition: single square cream-white presentation sheet with generous space. Three equally large full-body views of the SAME design, aligned on the same baseline: front at left, back in center, front three-quarter at right. Consistent 2.25-head proportions in EVERY view. Slightly elevated game-camera view revealing tops of head and boots, camera suitable for a 2D arena with movement in all screen directions. Feet planted, arms slightly away from body so silhouette is clear. Above the figures a small neat title RINA. Under the figures three tiny colored swatches ivory, teal and amber and minimal labels FRONT / BACK / THREE-QUARTER. Make the artwork fill most of the sheet, no environment, no large text, no interface, no animations, no alternate outfits, no comparison with the old tall design. Design must remain attractive and legible as a small game character.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-rina.png",
+        "sha256": "8cab4dd6af25337cf811643469fce41821e6bb94c2174ce76514e49f5a3ff686"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 515,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1107435
+  },
+  {
+    "name": "fw-chibi-idle",
+    "fingerprint": "e4b80fec49a0bb6de2a3ea7020d77e9faadf8d5d609aecbbf4126fa86f1e2a24",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T05:57:55.036991+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Production animation sheet for the EXACT approved chibi Rina in reference image 1. Preserve the reference's large head, compact torso, very short legs, oversized boots and gloves, chestnut hair tuft, brass goggles, teal eyes, ivory cropped jacket, rust scarf, dark shorts and opaque leggings, compact ivory/steel portable workshop backpack with teal panel. Match the approved proportions, clean anime outlines and cel shading; do not make her taller or more realistic. Empty hands for a separately rendered pistol. No weapons anywhere.\nExactly EIGHT full-body sprites in a regular 4-column, 2-row grid. Each 256x512 cell has one character, same camera, scale and foot baseline throughout. Row 1: four idle breathing frames facing diagonally screen RIGHT and DOWN, face visible. Row 2: the same four-frame breathing loop facing diagonally screen RIGHT and UP, back and workshop visible. Slightly elevated orthographic game camera in both rows, never eye-level, no perspective scale change. In each row frames 1-4: neutral, subtle inhale, inhale peak, exhale returning to neutral. Motion very small, feet fixed, no walking. Same limb lengths and head size in every frame; do not stretch to fill cells. Entire hair, hands, boots and backpack inside each cell with ample margin. Uniform solid saturated magenta #ff00ff background; no magenta on character, no ground, no cast shadow, no labels, no borders, no text. This is a game sprite sheet, not a presentation board.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-rina-chibi-concept.png",
+        "sha256": "e9a360b1eda04b07588b45c930a1887492e4502ab9ab8c319bd813e7b8e36f0a"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 327,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1102735
+  },
+  {
+    "name": "fw-chibi-move",
+    "fingerprint": "80e570bacfe58765f4db03d8f8e281252767ed0ca13691208ac76d7c53f6c73c",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T06:00:36.404223+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Production run-cycle sprite sheet for the EXACT approved chibi Rina in reference image 1. Match the large head and very short limbs of the approved drawing, oversized boots/gloves, chestnut hair tuft, goggles, ivory cropped jacket, rust scarf, dark shorts/leggings, compact ivory/steel workshop backpack with teal panel. Clean anime outlines and cel shading, not realistic tall anatomy. Empty hands, no weapons.\nExactly TWELVE full-body poses in a regular 3-column, 4-row grid, one character per cell, equal scale and head size in every cell. Frames read left to right then downward. FIRST SIX cells (rows 1-2): a complete run loop facing diagonally screen RIGHT and DOWN, face visible. LAST SIX cells (rows 3-4): the same complete run loop facing diagonally screen RIGHT and UP, back and workshop visible. Both use the same slightly elevated orthographic game camera. Do not rotate the canvas. Keep all sprites inside cells with generous margin, consistent foot-ground baseline.\nIn EACH six-frame cycle show these six successive phases: 1 near leg forward heel contact, far leg back; 2 near leg supports body while far knee passes forward, narrow silhouette; 3 near leg pushes BACK, far knee raised FORWARD; 4 far leg forward heel contact, near leg BACK; 5 far leg supports body while near knee passes forward, narrow silhouette; 6 far leg pushes BACK, near knee raised FORWARD. Alternate near and far legs visibly between the two halves, never repeat the same forward leg in all cells. Small opposite arm swings, backpack securely strapped, tiny bounce. Maintain the cute short legs and big boots; distinguish strides through pose rather than elongation. Uniform solid saturated magenta #ff00ff background, no ground, shadows, text, labels or grid lines. No motion streaks. Not a design board.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-rina-chibi-concept.png",
+        "sha256": "e9a360b1eda04b07588b45c930a1887492e4502ab9ab8c319bd813e7b8e36f0a"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 398,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.110451
+  },
+  {
+    "name": "fw-chibi-roll",
+    "fingerprint": "fefe5d8451d498b2dbb27e269a9ed75206a4f893ee38fa79cd136325043b03f6",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T06:03:12.200013+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Production dodge shoulder-roll sprite sheet for the EXACT approved chibi Rina in reference image 1. Maintain approved huge head, very short limbs, oversized boots/gloves, chestnut hair tuft, goggles, ivory cropped jacket, tucked rust scarf, shorts/opaque leggings, compact strapped workshop backpack with teal panel. Clean outlined cel-shaded anime rendering matching reference, no tall anatomy. No weapon or loose tools.\nExactly TWELVE full-body poses in a regular 3-column, 4-row grid, one per cell with generous margins. Same physical character scale throughout: crouched or tucked poses MUST be smaller than extended poses, not enlarged to fill the cell. Read left to right then down. FIRST SIX cells (rows 1-2): one connected six-key shoulder roll traveling diagonally screen RIGHT and DOWN, initially face visible. LAST SIX cells (rows 3-4): corresponding six-key shoulder roll traveling diagonally screen RIGHT and UP, initially back/workshop visible. Both from the same slightly elevated orthographic arena camera. The animation is 0.26 seconds, a fast tumble rather than a long windup.\nEach six-frame sequence: 1 immediate knees-bent crouch; 2 push forward with chin tucked and arms close; 3 low tuck rotating onto shoulder, hips rising; 4 rounded inverted tumble, boots overhead; 5 unwind and extend leading boot toward floor, torso low; 6 balanced low landing ready to stand. Actual bending articulated poses, not six rigid rotated standing bodies. Head protected, backpack attached and kept off the shoulder contact area. All hair, boots and backpack inside every cell. Uniform solid saturated magenta #ff00ff background, no ground, cast shadow, trails, text, labels or grid lines.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-rina-chibi-concept.png",
+        "sha256": "e9a360b1eda04b07588b45c930a1887492e4502ab9ab8c319bd813e7b8e36f0a"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 369,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1103785
+  },
+  {
+    "name": "fw-twohead-design",
+    "fingerprint": "a6835f9c8ae0c7ddc40f02af718fd20a6adb97fe82fdabe2f0a36c7be3087db3",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T07:26:08.692342+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. ONE original game character, Rina the explorer artisan, redesigned specifically for a tiny top-down twin-stick shooter sprite. Image 1 is identity and palette reference ONLY, NOT proportions, rendering complexity or costume detail. Image 2 is reference for the tiny big-headed characters' graphic simplicity and chunky silhouette ONLY, not its environment or character identities.\nCRITICAL: extremely squat 1.7 to 2 heads tall including hair. Head and hair occupy SIXTY PERCENT of total silhouette height. Remaining forty percent contains the ENTIRE tiny body and feet. Short round bean-shaped body, no visible waist, no articulated thighs or shins, tiny rounded shoes directly beneath the jacket hem. No tall boots, no elongated legs, no long coat. This must be noticeably squatter than image 1, like a cute compact mascot for an overhead arcade shooter, NOT a detailed chibi figurine.\nRecognizable identity: a huge chestnut hair shape with one little tuft, large brass goggles, big teal eyes and a confident cute smile. Short ivory jacket as ONE simple color block with teal collar, tiny tucked rust scarf. Two small dark gloves. A miniature ivory box backpack with ONE teal square, no belts or latches drawn individually. Only a few broad flat colors with one shadow tone each, thick dark warm outlines, crisp contemporary cute anime-cartoon illustration. No painterly shading, realistic folds, stitching, buttons, straps, gear teeth, belts or micro-details. Modest fully clothed original heroine. Empty hands; gun will be a separate asset.\nSingle full-body three-quarter FRONT view facing diagonally screen right and down, mildly elevated orthographic game camera. Head large and body extremely compact. Both tiny shoes visible and separate, grounded neutral pose. Centered on uniform saturated magenta #ff00ff background, no ground or cast shadow, generous margins, no labels, no text, no palette, no multiple views, no scene. Clean isolated sprite concept filling about 75 percent of image height. Enforce the sixty-percent head silhouette, do not lengthen the legs to look anatomical.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-rina-chibi-concept.png",
+        "sha256": "e9a360b1eda04b07588b45c930a1887492e4502ab9ab8c319bd813e7b8e36f0a"
+      },
+      {
+        "path": "docs\\design\\concepts\\rina-two-head-2026-09-12\\reference-gunner.png",
+        "sha256": "2a8db40f82ff011d7fa3edf927969490d5c0cbc3e9309e286026d6a02b3977c7"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 434,
+        "image_tokens": 1944
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.114221
+  },
+  {
+    "name": "fw-twohead-walk",
+    "fingerprint": "48b34aa0457fc1a43651172100dca882f4eb7b8a3c8c7719369016d2a68cfebd",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T07:28:14.518400+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Exactly FOUR animation sprites of the EXACT compact mascot Rina from image 1, in a TWO COLUMN by TWO ROW sheet. Match the reference's huge head, tiny bean body and tiny shoes. Do not lengthen legs or introduce tall boots. Identical costume, colors, head size, thick outlines and simple flat shading. Empty hands, no gun. Mild overhead three-quarter front camera facing screen right and down, identical in all four cells.\nImage 2 is a mandatory FOOT POSITION guide only. Copy each cell's red and blue foot placement relative to the body. Red and blue identify the two different feet; draw them in Rina's normal shoe colors, NEVER red/blue. Keep character's right shoe on the left side of the picture and her left shoe on the right side; do not mirror the whole character. In cell 1 the picture-left foot is forward/down and grounded, picture-right foot back/up. In cell 3 this MUST SWAP: picture-right foot forward/down and grounded, picture-left foot back/up. Cells 2 and 4 are compact passing positions between these contacts with the opposite shoe lifted. The two contact poses MUST differ. Four consecutive frames of a tiny alternating-foot walk cycle, not four identical poses. Short legs mostly hidden under body, small opposing glove swing, subtle whole-body bob. Do not bend only one leg backward in every frame. Shoes remain separate and distinguishable. No large athletic strides, no running lean, no airborne jump. Keep all four heads identical in size and direction.\nCanvas 1024 square, each cell exactly 512 square. Center each whole character at x=256 within its cell, same ground baseline near y=430 and constant scale. Character height about 340 pixels in each cell, ample empty space around EVERY sprite. Never cross a cell boundary. Uniform saturated magenta #ff00ff background with no magenta in the character. No ground, no shadows, no text, no numbers, no guide lines, no borders. Four full-body frames only, correct alternating-foot order top-left, top-right, bottom-left, bottom-right. Preserve the approved reference's extremely short body and huge head in every cell.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-twohead-design.png",
+        "sha256": "cb1199a10fefc8d50b3f86e3598e4a325e08e1e283ca5d5fd9b895fc46faa388"
+      },
+      {
+        "path": "docs\\design\\concepts\\rina-two-head-2026-09-12\\walk-guide.png",
+        "sha256": "95fd66ec4a6abaa91a10f322815517bc2ebeade2e5be4ffa21460baacef9ecb1"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 455,
+        "image_tokens": 2048
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1146895
+  },
+  {
+    "name": "fw-character-00-rina",
+    "fingerprint": "216ff235b6171b4b482b32d26b5c081c34172c6f657ee03348aa29c7bb491cc4",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T08:15:54.989846+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Original character reference sheet for The First Workshop, an explorer-artisan world of ancient stone and advanced manufacturing. Character: RINA. Adult woman, medium build, six heads tall. Chestnut short tied hair with one tuft, large brass goggles, teal eyes, ivory cropped work jacket with teal collar, tucked rust scarf, dark work trousers and low practical shoes. Compact rounded-square ivory and steel workshop backpack with one teal panel. Curious hands-on general assembly explorer. Chibi identity must match approved reference: huge head, bean body, tiny shoes. Do not return to military clutter or tall boots.\n\nCreate one clean square studio model sheet on warm off-white. Layout: left 38 percent is a large NORMAL-PROPORTION full-body front three-quarter view; middle 38 percent is a matching NORMAL-PROPORTION full-body back view at the same scale and feet baseline. Rightmost 24 percent is a distinct small TWO-HEAD game adaptation of the same character. Generous empty gutters between panels allow separate cropping. Normal views occupy 80 percent of sheet height; chibi is about 35 percent of sheet height. Do NOT accidentally make the two normal-height views chibi. Do NOT stretch the chibi into human anatomy. Head/face/hair, major costume colors and backpack identity must match across versions.\n\nContemporary Japanese adventure character design, crisp clean dark outlines, controlled cel shading, appealing expressive faces and believable work clothes. Ivory and dark steel common materials, individual accent colors as specified. Normal views show garment construction, back straps and secure backpack attachment. Chibi has huge head, tiny bean torso, tiny shoes directly under hem, no long visible thighs/shins, very few broad color shapes. Both hands empty, no guns in hands, no additional weapons or props, no scene. Practical modest adult clothing. No big flowing fabric or loose dangling equipment. Thin minimal title 'RINA' only, no paragraphs, measurements or other labels, no watermark.\n\nReference images, when supplied, define shared world materials; do not copy an unrelated person's face. For Rina the approved two-head image defines identity and colors ONLY; reconstruct natural adult anatomy for the two large views. This is a setting reference sheet, not an animation or a game screenshot.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-twohead-design.png",
+        "sha256": "cb1199a10fefc8d50b3f86e3598e4a325e08e1e283ca5d5fd9b895fc46faa388"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 468,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.110626
+  },
+  {
+    "name": "fw-character-01-sora",
+    "fingerprint": "b8bae45bdefd82e474274e982b5c6e18d85c58ddf3d875d9b01c68c51ffda731",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T08:21:05.414095+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Original character reference sheet for The First Workshop, an explorer-artisan world of ancient stone and advanced manufacturing. Character: SORA. Slender adult man, 6.5 heads tall. Navy short side-swept hair, one flip-up monocular rangefinder, sky-blue short raised collar, light ivory work jacket, dark slim work trousers. Narrow surveying case on back, folded measuring rod secured along it. Calm precision surveyor. Chibi identifiers: sweeping horizontal hair shape, single eye lens, blue collar. No long scarf.\n\nCreate one clean square studio model sheet on warm off-white. Layout: left 38 percent is a large NORMAL-PROPORTION full-body front three-quarter view; middle 38 percent is a matching NORMAL-PROPORTION full-body back view at the same scale and feet baseline. Rightmost 24 percent is a distinct small TWO-HEAD game adaptation of the same character. Generous empty gutters between panels allow separate cropping. Normal views occupy 80 percent of sheet height; chibi is about 35 percent of sheet height. Do NOT accidentally make the two normal-height views chibi. Do NOT stretch the chibi into human anatomy. Head/face/hair, major costume colors and backpack identity must match across versions.\n\nContemporary Japanese adventure character design, crisp clean dark outlines, controlled cel shading, appealing expressive faces and believable work clothes. Ivory and dark steel common materials, individual accent colors as specified. Normal views show garment construction, back straps and secure backpack attachment. Chibi has huge head, tiny bean torso, tiny shoes directly under hem, no long visible thighs/shins, very few broad color shapes. Both hands empty, no guns in hands, no additional weapons or props, no scene. Practical modest adult clothing. No big flowing fabric or loose dangling equipment. Thin minimal title 'SORA' only, no paragraphs, measurements or other labels, no watermark.\n\nReference images, when supplied, define shared world materials; do not copy an unrelated person's face. For Rina the approved two-head image defines identity and colors ONLY; reconstruct natural adult anatomy for the two large views. This is a setting reference sheet, not an animation or a game screenshot.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-character-00-rina.png",
+        "sha256": "5442340e3ec4eade4779e11e53ef0e36872016f7aef6ed792b4647ee0fb05aed"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 457,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1105985
+  },
+  {
+    "name": "fw-character-02-kohaku",
+    "fingerprint": "0bdbe0609d30f32278fb38963783056a57b7543311ba9829402cc55c8be78a6f",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T08:23:56.743220+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Original character reference sheet for The First Workshop, an explorer-artisan world of ancient stone and advanced manufacturing. Character: KOHAKU. Petite agile adult woman, six heads tall. Amber hair gathered into two large pointed tufts, short rust-red scarf, one round brass clasp, short-sleeved ivory work jacket and dark practical trousers, round shoes. Thin round disk workshop case on back. Playful salvage and reflection-mechanism craftsperson. HUMAN proposal: no fox ears, tails or animal limbs. Chibi retains the two hair tufts and circular case.\n\nCreate one clean square studio model sheet on warm off-white. Layout: left 38 percent is a large NORMAL-PROPORTION full-body front three-quarter view; middle 38 percent is a matching NORMAL-PROPORTION full-body back view at the same scale and feet baseline. Rightmost 24 percent is a distinct small TWO-HEAD game adaptation of the same character. Generous empty gutters between panels allow separate cropping. Normal views occupy 80 percent of sheet height; chibi is about 35 percent of sheet height. Do NOT accidentally make the two normal-height views chibi. Do NOT stretch the chibi into human anatomy. Head/face/hair, major costume colors and backpack identity must match across versions.\n\nContemporary Japanese adventure character design, crisp clean dark outlines, controlled cel shading, appealing expressive faces and believable work clothes. Ivory and dark steel common materials, individual accent colors as specified. Normal views show garment construction, back straps and secure backpack attachment. Chibi has huge head, tiny bean torso, tiny shoes directly under hem, no long visible thighs/shins, very few broad color shapes. Both hands empty, no guns in hands, no additional weapons or props, no scene. Practical modest adult clothing. No big flowing fabric or loose dangling equipment. Thin minimal title 'KOHAKU' only, no paragraphs, measurements or other labels, no watermark.\n\nReference images, when supplied, define shared world materials; do not copy an unrelated person's face. For Rina the approved two-head image defines identity and colors ONLY; reconstruct natural adult anatomy for the two large views. This is a setting reference sheet, not an animation or a game screenshot.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-character-00-rina.png",
+        "sha256": "5442340e3ec4eade4779e11e53ef0e36872016f7aef6ed792b4647ee0fb05aed"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 465,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1106185
+  },
+  {
+    "name": "fw-character-03-bolt",
+    "fingerprint": "cdc5dd00d2b67f224048aa1ffef6244d9aafe6b0c92db4010ad617ed5424b878",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T08:26:23.390719+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Original character reference sheet for The First Workshop, an explorer-artisan world of ancient stone and advanced manufacturing. Character: BOLT. Nonhuman maintenance and guard robot, sturdy four-head-equivalent mechanical proportions. Broad rounded shoulders, short neck, flat rectangular head and a single horizontal teal illuminated eye slit. Worn ivory armor, dark steel joints, tiny amber indicator. Integrated square tool cabinet on back, one mismatched replacement shoulder panel. Gentle reliable personality. No human skin, clothes or muscles. Chibi two-head version retains block head, broad shoulders and mechanical feet, not a human in a robot suit.\n\nCreate one clean square studio model sheet on warm off-white. Layout: left 38 percent is a large NORMAL-PROPORTION full-body front three-quarter view; middle 38 percent is a matching NORMAL-PROPORTION full-body back view at the same scale and feet baseline. Rightmost 24 percent is a distinct small TWO-HEAD game adaptation of the same character. Generous empty gutters between panels allow separate cropping. Normal views occupy 80 percent of sheet height; chibi is about 35 percent of sheet height. Do NOT accidentally make the two normal-height views chibi. Do NOT stretch the chibi into human anatomy. Head/face/hair, major costume colors and backpack identity must match across versions.\n\nContemporary Japanese adventure character design, crisp clean dark outlines, controlled cel shading, appealing expressive faces and believable work clothes. Ivory and dark steel common materials, individual accent colors as specified. Normal views show garment construction, back straps and secure backpack attachment. Chibi has huge head, tiny bean torso, tiny shoes directly under hem, no long visible thighs/shins, very few broad color shapes. Both hands empty, no guns in hands, no additional weapons or props, no scene. Practical modest adult clothing. No big flowing fabric or loose dangling equipment. Thin minimal title 'BOLT' only, no paragraphs, measurements or other labels, no watermark.\n\nReference images, when supplied, define shared world materials; do not copy an unrelated person's face. For Rina the approved two-head image defines identity and colors ONLY; reconstruct natural adult anatomy for the two large views. This is a setting reference sheet, not an animation or a game screenshot.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-character-00-rina.png",
+        "sha256": "5442340e3ec4eade4779e11e53ef0e36872016f7aef6ed792b4647ee0fb05aed"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 471,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1106335
+  },
+  {
+    "name": "fw-character-04-mei",
+    "fingerprint": "ebf58bc4f16c7be68bf98ff8ac6c8ac1cb49ec0241df2bbb909c394687329d7c",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T08:29:02.521782+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Original character reference sheet for The First Workshop, an explorer-artisan world of ancient stone and advanced manufacturing. Character: MEI. Petite sturdy adult woman, six heads tall. One large copper-red hair bun and shallow work cap, warm yellow short apron over ivory rolled-sleeve workwear, dark trousers with one large knee repair patch. Two-drawer workshop backpack, small secured tool holders on its sides. Lively repair specialist. Chibi identifiers: single round bun, yellow apron, stacked toolbox; simplify tools and eliminate tiny loose items. Reference person is NOT Mei: no goggles, no rust scarf, no cropped zip jacket. Make the yellow apron and copper bun unmistakable, with a friendly round face distinct from Rina.\n\nCreate one clean square studio model sheet on warm off-white. Layout: left 38 percent is a large NORMAL-PROPORTION full-body front three-quarter view; middle 38 percent is a matching NORMAL-PROPORTION full-body back view at the same scale and feet baseline. Rightmost 24 percent is a distinct small TWO-HEAD game adaptation of the same character. Generous empty gutters between panels allow separate cropping. Normal views occupy 80 percent of sheet height; chibi is about 35 percent of sheet height. Do NOT accidentally make the two normal-height views chibi. Do NOT stretch the chibi into human anatomy. Head/face/hair, major costume colors and backpack identity must match across versions.\n\nContemporary Japanese adventure character design, crisp clean dark outlines, controlled cel shading, appealing expressive faces and believable work clothes. Ivory and dark steel common materials, individual accent colors as specified. Normal views show garment construction, back straps and secure backpack attachment. Chibi has huge head, tiny bean torso, tiny shoes directly under hem, no long visible thighs/shins, very few broad color shapes. Both hands empty, no guns in hands, no additional weapons or props, no scene. Practical modest adult clothing. No big flowing fabric or loose dangling equipment. Thin minimal title 'MEI' only, no paragraphs, measurements or other labels, no watermark.\n\nReference images, when supplied, define shared world materials; do not copy an unrelated person's face. For Rina the approved two-head image defines identity and colors ONLY; reconstruct natural adult anatomy for the two large views. This is a setting reference sheet, not an animation or a game screenshot.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-character-00-rina.png",
+        "sha256": "5442340e3ec4eade4779e11e53ef0e36872016f7aef6ed792b4647ee0fb05aed"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 496,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.110696
+  },
+  {
+    "name": "fw-character-05-luna",
+    "fingerprint": "37433c44f75d98f7e26b8a52b07754fc757b54f4a07b7ff10261285dd3d59f22",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T08:31:25.505924+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Original character reference sheet for The First Workshop, an explorer-artisan world of ancient stone and advanced manufacturing. Character: LUNA. Slender adult woman, 6.5 heads tall. Silver-lilac round bob haircut, small crescent hair clip, muted violet short shoulder capelet over ivory collared technical workwear, insulating gloves, dark trousers. Compact measurement backpack with small fixed ring sensor. Thoughtful ancient control-system analyst. No witch hat, staff, mystical floating runes or long robe. Chibi keeps round bob, crescent and violet shoulder shape.\n\nCreate one clean square studio model sheet on warm off-white. Layout: left 38 percent is a large NORMAL-PROPORTION full-body front three-quarter view; middle 38 percent is a matching NORMAL-PROPORTION full-body back view at the same scale and feet baseline. Rightmost 24 percent is a distinct small TWO-HEAD game adaptation of the same character. Generous empty gutters between panels allow separate cropping. Normal views occupy 80 percent of sheet height; chibi is about 35 percent of sheet height. Do NOT accidentally make the two normal-height views chibi. Do NOT stretch the chibi into human anatomy. Head/face/hair, major costume colors and backpack identity must match across versions.\n\nContemporary Japanese adventure character design, crisp clean dark outlines, controlled cel shading, appealing expressive faces and believable work clothes. Ivory and dark steel common materials, individual accent colors as specified. Normal views show garment construction, back straps and secure backpack attachment. Chibi has huge head, tiny bean torso, tiny shoes directly under hem, no long visible thighs/shins, very few broad color shapes. Both hands empty, no guns in hands, no additional weapons or props, no scene. Practical modest adult clothing. No big flowing fabric or loose dangling equipment. Thin minimal title 'LUNA' only, no paragraphs, measurements or other labels, no watermark.\n\nReference images, when supplied, define shared world materials; do not copy an unrelated person's face. For Rina the approved two-head image defines identity and colors ONLY; reconstruct natural adult anatomy for the two large views. This is a setting reference sheet, not an animation or a game screenshot.\nIdentity guard: Luna is NOT the reference person. No goggles or rust scarf. Silver-lilac rounded bob, small crescent clip and violet short capelet must dominate her silhouette; calm reserved expression, distinct from Rina. The capelet is short enough for practical work.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-character-00-rina.png",
+        "sha256": "5442340e3ec4eade4779e11e53ef0e36872016f7aef6ed792b4647ee0fb05aed"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 520,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.110756
+  },
+  {
+    "name": "fw-character-06-rattle",
+    "fingerprint": "6237d4f3473f7d137f20173f406fb65c1c1b02c412e10105157d22430b816102",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T08:33:42.753753+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Original character reference sheet for The First Workshop, an explorer-artisan world of ancient stone and advanced manufacturing. Character: RATTLE. Mature slender adult man, 6.5 heads tall. Sand-colored broad brim work hat, short gray-brown hair, strong brows and subtle moustache, ivory shirt and rust-red short vest, dark work trousers. Low horizontal cylindrical parts case attached on back for spare revolver cylinders. Reserved experienced gunsmith. HUMAN proposal, not a skeleton. Chibi keeps broad hat and red vest, hat width controlled and body tiny.\n\nCreate one clean square studio model sheet on warm off-white. Layout: left 38 percent is a large NORMAL-PROPORTION full-body front three-quarter view; middle 38 percent is a matching NORMAL-PROPORTION full-body back view at the same scale and feet baseline. Rightmost 24 percent is a distinct small TWO-HEAD game adaptation of the same character. Generous empty gutters between panels allow separate cropping. Normal views occupy 80 percent of sheet height; chibi is about 35 percent of sheet height. Do NOT accidentally make the two normal-height views chibi. Do NOT stretch the chibi into human anatomy. Head/face/hair, major costume colors and backpack identity must match across versions.\n\nContemporary Japanese adventure character design, crisp clean dark outlines, controlled cel shading, appealing expressive faces and believable work clothes. Ivory and dark steel common materials, individual accent colors as specified. Normal views show garment construction, back straps and secure backpack attachment. Chibi has huge head, tiny bean torso, tiny shoes directly under hem, no long visible thighs/shins, very few broad color shapes. Both hands empty, no guns in hands, no additional weapons or props, no scene. Practical modest adult clothing. No big flowing fabric or loose dangling equipment. Thin minimal title 'RATTLE' only, no paragraphs, measurements or other labels, no watermark.\n\nReference images, when supplied, define shared world materials; do not copy an unrelated person's face. For Rina the approved two-head image defines identity and colors ONLY; reconstruct natural adult anatomy for the two large views. This is a setting reference sheet, not an animation or a game screenshot.\nIdentity guard: Rattle is NOT the reference person. No goggles or hair tuft. Mature masculine face, strong brows and subtle moustache beneath a broad work hat; rust-red vest rather than Rina's zip jacket. Preserve this distinct older identity in the chibi version.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-character-00-rina.png",
+        "sha256": "5442340e3ec4eade4779e11e53ef0e36872016f7aef6ed792b4647ee0fb05aed"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 516,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.110746
+  },
+  {
+    "name": "fw-character-07-crow",
+    "fingerprint": "68b094345b8972cf67e75fc216e02b3dde7d3463cf6b34c6ab4e769b8f86424d",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T08:36:02.810466+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Original character reference sheet for The First Workshop, an explorer-artisan world of ancient stone and advanced manufacturing. Character: CROW. Tall broad-shouldered adult woman, seven heads tall. Blue-black short hair, angular shoulder pads, thick heat-resistant gloves, short blue-gray heavy work jacket with ivory armor sections and dark steel fittings, reinforced trousers. Wide low load-bearing workshop frame on back with hip supports. Careful protective heavy-equipment operator. HUMAN proposal: no wings, beak or bird anatomy. Chibi keeps angular shoulders and wide low backpack but equal overall game height to other characters.\n\nCreate one clean square studio model sheet on warm off-white. Layout: left 38 percent is a large NORMAL-PROPORTION full-body front three-quarter view; middle 38 percent is a matching NORMAL-PROPORTION full-body back view at the same scale and feet baseline. Rightmost 24 percent is a distinct small TWO-HEAD game adaptation of the same character. Generous empty gutters between panels allow separate cropping. Normal views occupy 80 percent of sheet height; chibi is about 35 percent of sheet height. Do NOT accidentally make the two normal-height views chibi. Do NOT stretch the chibi into human anatomy. Head/face/hair, major costume colors and backpack identity must match across versions.\n\nContemporary Japanese adventure character design, crisp clean dark outlines, controlled cel shading, appealing expressive faces and believable work clothes. Ivory and dark steel common materials, individual accent colors as specified. Normal views show garment construction, back straps and secure backpack attachment. Chibi has huge head, tiny bean torso, tiny shoes directly under hem, no long visible thighs/shins, very few broad color shapes. Both hands empty, no guns in hands, no additional weapons or props, no scene. Practical modest adult clothing. No big flowing fabric or loose dangling equipment. Thin minimal title 'CROW' only, no paragraphs, measurements or other labels, no watermark.\n\nReference images, when supplied, define shared world materials; do not copy an unrelated person's face. For Rina the approved two-head image defines identity and colors ONLY; reconstruct natural adult anatomy for the two large views. This is a setting reference sheet, not an animation or a game screenshot.\nIdentity guard: Crow is NOT the reference person. No goggles, hair tuft, rust scarf or cropped zip jacket. A tall strong adult woman with broad shoulders, blue-black close-cut hair, angular ivory shoulder protection and blue-gray workwear. Keep her sturdy build and angular silhouette distinct in both normal and chibi views.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-character-00-rina.png",
+        "sha256": "5442340e3ec4eade4779e11e53ef0e36872016f7aef6ed792b4647ee0fb05aed"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 533,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1107885
+  },
+  {
+    "name": "fw-character-v2-01-sora",
+    "fingerprint": "686f36178b30d36f22ef4caed44c16d87363ac0cd5e949c21f67f0e07fd29eaf",
+    "status": "outcome_unknown",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T09:01:09.097297+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Character: SORA. Human scout with tousled brown hair and forehead goggles, blue short jacket, ivory shirt, tan work trousers. Preserve the original scout identity, not navy hair or a monocular.\n\nUse case: stylized-concept. Create ONE square character setting sheet. Left 38%: natural-proportion full-body front three-quarter view. Middle 38%: matching full-body rear view. Right 24%: compact game chibi. Empty gutters, warm plain off-white paper, no annotations except character name. Normal views about 80% sheet height, chibi about 35%. Human normal versions are adults around 6 heads tall; retain nonhuman anatomy for fox, skeleton, bird and robot. Show coherent front/back costume construction.\nReference roles: original fighters sheet defines THIS character's species, face, signature colors and identifying accessories; approved in-game Rina image defines ONLY chibi proportions, clean outlines and cel shading. Do not copy Rina's goggles, face, hair or costume onto other characters. A previous draft, if provided, is only a secondary costume-construction reference and must not override identity.\nChibi construction: oversized head, extremely short bean torso, two tiny separate rounded shoes immediately below the hem. Almost no exposed thighs or shins; no visible knee anatomy, no long trouser section between waist and feet. Follow in-game Rina proportions, not the taller prior setting-sheet chibis. Keep a readable separation between left and right shoe and attach both naturally under the body. Each shoe must work as an independent animation part; do not draw walking poses or multiple frames. Preserve costume identity with broad color blocks. Body and head have stable clean contours. Hat, ears and tail remain recognizable but compact. Normal-proportion views KEEP natural-length legs; never stretch chibi anatomy into them. Match identity across all three views. Empty hands, no gun, no additional characters, no scenery or watermark. Modern appealing Japanese adventure illustration with controlled cel shading and crisp outlines.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\characters\\fighters.png",
+        "sha256": "68c207890e94d799921808944fa41ba02d2bce8b22afda0c59734b98acd09ea2"
+      },
+      {
+        "path": "assets\\first-workshop\\twohead\\rina.png",
+        "sha256": "5e2d382de5dd70853d1af8d2fd9592954e8e50a8ce283a70dab2c014f36356e4"
+      }
+    ],
+    "manual_resolution": {
+      "action": "user_authorized_resume_keep_reservation",
+      "user_message": "進めてください。",
+      "recorded_at": "2026-09-12T09:04:55.258651+00:00",
+      "retry_name": "fw-character-v2-01-sora-retry1",
+      "billing_outcome": "unknown"
+    }
+  },
+  {
+    "name": "fw-character-v2-01-sora-retry1",
+    "fingerprint": "686f36178b30d36f22ef4caed44c16d87363ac0cd5e949c21f67f0e07fd29eaf",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T09:07:13.514109+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Character: SORA. Human scout with tousled brown hair and forehead goggles, blue short jacket, ivory shirt, tan work trousers. Preserve the original scout identity, not navy hair or a monocular.\n\nUse case: stylized-concept. Create ONE square character setting sheet. Left 38%: natural-proportion full-body front three-quarter view. Middle 38%: matching full-body rear view. Right 24%: compact game chibi. Empty gutters, warm plain off-white paper, no annotations except character name. Normal views about 80% sheet height, chibi about 35%. Human normal versions are adults around 6 heads tall; retain nonhuman anatomy for fox, skeleton, bird and robot. Show coherent front/back costume construction.\nReference roles: original fighters sheet defines THIS character's species, face, signature colors and identifying accessories; approved in-game Rina image defines ONLY chibi proportions, clean outlines and cel shading. Do not copy Rina's goggles, face, hair or costume onto other characters. A previous draft, if provided, is only a secondary costume-construction reference and must not override identity.\nChibi construction: oversized head, extremely short bean torso, two tiny separate rounded shoes immediately below the hem. Almost no exposed thighs or shins; no visible knee anatomy, no long trouser section between waist and feet. Follow in-game Rina proportions, not the taller prior setting-sheet chibis. Keep a readable separation between left and right shoe and attach both naturally under the body. Each shoe must work as an independent animation part; do not draw walking poses or multiple frames. Preserve costume identity with broad color blocks. Body and head have stable clean contours. Hat, ears and tail remain recognizable but compact. Normal-proportion views KEEP natural-length legs; never stretch chibi anatomy into them. Match identity across all three views. Empty hands, no gun, no additional characters, no scenery or watermark. Modern appealing Japanese adventure illustration with controlled cel shading and crisp outlines.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\characters\\fighters.png",
+        "sha256": "68c207890e94d799921808944fa41ba02d2bce8b22afda0c59734b98acd09ea2"
+      },
+      {
+        "path": "assets\\first-workshop\\twohead\\rina.png",
+        "sha256": "5e2d382de5dd70853d1af8d2fd9592954e8e50a8ce283a70dab2c014f36356e4"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 411,
+        "image_tokens": 2368
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1158595
+  },
+  {
+    "name": "fw-character-v2-02-kohaku",
+    "fingerprint": "3bf69514156b4544e9a6e8efdf40ca3ca8190c292106d6a38e413d20041ff078",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T09:11:05.702648+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Character: KOHAKU. Anthropomorphic orange fox, NOT a human. Large pointed fox ears, white muzzle and cheek fur, black nose, expressive fox face and one fluffy orange tail with a white tip. Green short hooded work top, brown trousers. No human hair, goggles or human face. Keep the tail compact in the chibi.\n\nUse case: stylized-concept. Create ONE square character setting sheet. Left 38%: natural-proportion full-body front three-quarter view. Middle 38%: matching full-body rear view. Right 24%: compact game chibi. Empty gutters, warm plain off-white paper, no annotations except character name. Normal views about 80% sheet height, chibi about 35%. Human normal versions are adults around 6 heads tall; retain nonhuman anatomy for fox, skeleton, bird and robot. Show coherent front/back costume construction.\nReference roles: original fighters sheet defines THIS character's species, face, signature colors and identifying accessories; approved in-game Rina image defines ONLY chibi proportions, clean outlines and cel shading. Do not copy Rina's goggles, face, hair or costume onto other characters. A previous draft, if provided, is only a secondary costume-construction reference and must not override identity.\nChibi construction: oversized head, extremely short bean torso, two tiny separate rounded shoes immediately below the hem. Almost no exposed thighs or shins; no visible knee anatomy, no long trouser section between waist and feet. Follow in-game Rina proportions, not the taller prior setting-sheet chibis. Keep a readable separation between left and right shoe and attach both naturally under the body. Each shoe must work as an independent animation part; do not draw walking poses or multiple frames. Preserve costume identity with broad color blocks. Body and head have stable clean contours. Hat, ears and tail remain recognizable but compact. Normal-proportion views KEEP natural-length legs; never stretch chibi anatomy into them. Match identity across all three views. Empty hands, no gun, no additional characters, no scenery or watermark. Modern appealing Japanese adventure illustration with controlled cel shading and crisp outlines.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\characters\\fighters.png",
+        "sha256": "68c207890e94d799921808944fa41ba02d2bce8b22afda0c59734b98acd09ea2"
+      },
+      {
+        "path": "assets\\first-workshop\\twohead\\rina.png",
+        "sha256": "5e2d382de5dd70853d1af8d2fd9592954e8e50a8ce283a70dab2c014f36356e4"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 440,
+        "image_tokens": 2368
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.115932
+  },
+  {
+    "name": "fw-character-v2-03-bolt",
+    "fingerprint": "72ce9c12cf514ff2625f5f1d4c2130ea886f6158a983d74380f271cb44de7cb9",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T09:16:19.414281+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Character: BOLT. Friendly nonhuman guard robot, rounded ivory head with ONE large circular blue optical eye, dark round ear housing and short antenna. Ivory rounded armor, black joints, compact orange back module. NOT a box head or a horizontal eye slit.\n\nUse case: stylized-concept. Create ONE square character setting sheet. Left 38%: natural-proportion full-body front three-quarter view. Middle 38%: matching full-body rear view. Right 24%: compact game chibi. Empty gutters, warm plain off-white paper, no annotations except character name. Normal views about 80% sheet height, chibi about 35%. Human normal versions are adults around 6 heads tall; retain nonhuman anatomy for fox, skeleton, bird and robot. Show coherent front/back costume construction.\nReference roles: original fighters sheet defines THIS character's species, face, signature colors and identifying accessories; approved in-game Rina image defines ONLY chibi proportions, clean outlines and cel shading. Do not copy Rina's goggles, face, hair or costume onto other characters. A previous draft, if provided, is only a secondary costume-construction reference and must not override identity.\nChibi construction: oversized head, extremely short bean torso, two tiny separate rounded shoes immediately below the hem. Almost no exposed thighs or shins; no visible knee anatomy, no long trouser section between waist and feet. Follow in-game Rina proportions, not the taller prior setting-sheet chibis. Keep a readable separation between left and right shoe and attach both naturally under the body. Each shoe must work as an independent animation part; do not draw walking poses or multiple frames. Preserve costume identity with broad color blocks. Body and head have stable clean contours. Hat, ears and tail remain recognizable but compact. Normal-proportion views KEEP natural-length legs; never stretch chibi anatomy into them. Match identity across all three views. Empty hands, no gun, no additional characters, no scenery or watermark. Modern appealing Japanese adventure illustration with controlled cel shading and crisp outlines.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\characters\\fighters.png",
+        "sha256": "68c207890e94d799921808944fa41ba02d2bce8b22afda0c59734b98acd09ea2"
+      },
+      {
+        "path": "assets\\first-workshop\\twohead\\rina.png",
+        "sha256": "5e2d382de5dd70853d1af8d2fd9592954e8e50a8ce283a70dab2c014f36356e4"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 422,
+        "image_tokens": 2368
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.115887
+  },
+  {
+    "name": "fw-character-v2-04-mei",
+    "fingerprint": "978808e5b72a4e366751aa475ca2bfc3c88e6fcd7cb7ab9d41196f5febc6b08a",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T09:19:37.446308+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Character: MEI. Human mechanic with copper-red twin braids, tan work cap and forehead goggles, yellow shirt and blue work overalls. Preserve braids rather than a single bun. Compact tools and practical work boots.\n\nUse case: stylized-concept. Create ONE square character setting sheet. Left 38%: natural-proportion full-body front three-quarter view. Middle 38%: matching full-body rear view. Right 24%: compact game chibi. Empty gutters, warm plain off-white paper, no annotations except character name. Normal views about 80% sheet height, chibi about 35%. Human normal versions are adults around 6 heads tall; retain nonhuman anatomy for fox, skeleton, bird and robot. Show coherent front/back costume construction.\nReference roles: original fighters sheet defines THIS character's species, face, signature colors and identifying accessories; approved in-game Rina image defines ONLY chibi proportions, clean outlines and cel shading. Do not copy Rina's goggles, face, hair or costume onto other characters. A previous draft, if provided, is only a secondary costume-construction reference and must not override identity.\nChibi construction: oversized head, extremely short bean torso, two tiny separate rounded shoes immediately below the hem. Almost no exposed thighs or shins; no visible knee anatomy, no long trouser section between waist and feet. Follow in-game Rina proportions, not the taller prior setting-sheet chibis. Keep a readable separation between left and right shoe and attach both naturally under the body. Each shoe must work as an independent animation part; do not draw walking poses or multiple frames. Preserve costume identity with broad color blocks. Body and head have stable clean contours. Hat, ears and tail remain recognizable but compact. Normal-proportion views KEEP natural-length legs; never stretch chibi anatomy into them. Match identity across all three views. Empty hands, no gun, no additional characters, no scenery or watermark. Modern appealing Japanese adventure illustration with controlled cel shading and crisp outlines.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\characters\\fighters.png",
+        "sha256": "68c207890e94d799921808944fa41ba02d2bce8b22afda0c59734b98acd09ea2"
+      },
+      {
+        "path": "assets\\first-workshop\\twohead\\rina.png",
+        "sha256": "5e2d382de5dd70853d1af8d2fd9592954e8e50a8ce283a70dab2c014f36356e4"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 415,
+        "image_tokens": 2368
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1158695
+  },
+  {
+    "name": "fw-character-v2-05-luna",
+    "fingerprint": "1d4530a901260c8a3ac1b82f6537b2b115fa04f07bf6c43957741abeb7eec39b",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T09:21:58.565263+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Character: LUNA. Human arcanist with silver-lilac bob and blue eyes. Preserve a recognizable dark blue pointed witch hat with gold crescent, matching blue cape with crescent motif, ivory tunic and dark leggings. In chibi shorten the cape and tunic, keep face clear, hide leggings almost completely beneath hem. Do not replace witch hat with only a hair clip; no exposed long trouser legs.\n\nUse case: stylized-concept. Create ONE square character setting sheet. Left 38%: natural-proportion full-body front three-quarter view. Middle 38%: matching full-body rear view. Right 24%: compact game chibi. Empty gutters, warm plain off-white paper, no annotations except character name. Normal views about 80% sheet height, chibi about 35%. Human normal versions are adults around 6 heads tall; retain nonhuman anatomy for fox, skeleton, bird and robot. Show coherent front/back costume construction.\nReference roles: original fighters sheet defines THIS character's species, face, signature colors and identifying accessories; approved in-game Rina image defines ONLY chibi proportions, clean outlines and cel shading. Do not copy Rina's goggles, face, hair or costume onto other characters. A previous draft, if provided, is only a secondary costume-construction reference and must not override identity.\nChibi construction: oversized head, extremely short bean torso, two tiny separate rounded shoes immediately below the hem. Almost no exposed thighs or shins; no visible knee anatomy, no long trouser section between waist and feet. Follow in-game Rina proportions, not the taller prior setting-sheet chibis. Keep a readable separation between left and right shoe and attach both naturally under the body. Each shoe must work as an independent animation part; do not draw walking poses or multiple frames. Preserve costume identity with broad color blocks. Body and head have stable clean contours. Hat, ears and tail remain recognizable but compact. Normal-proportion views KEEP natural-length legs; never stretch chibi anatomy into them. Match identity across all three views. Empty hands, no gun, no additional characters, no scenery or watermark. Modern appealing Japanese adventure illustration with controlled cel shading and crisp outlines.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\characters\\fighters.png",
+        "sha256": "68c207890e94d799921808944fa41ba02d2bce8b22afda0c59734b98acd09ea2"
+      },
+      {
+        "path": "assets\\first-workshop\\twohead\\rina.png",
+        "sha256": "5e2d382de5dd70853d1af8d2fd9592954e8e50a8ce283a70dab2c014f36356e4"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 456,
+        "image_tokens": 2368
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.115972
+  },
+  {
+    "name": "fw-character-v2-06-rattle",
+    "fingerprint": "2bdc17a53b55723a69be5a2c2e0f84e3df86e11444cd9b98a36dd2ec7caf791d",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T09:25:36.346131+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Character: RATTLE. Animated SKELETON gunslinger, NOT a living human. Ivory skull face with dark eye sockets, visible skeletal hands, brown broad-brimmed cowboy hat, short rust-red poncho with gold trim, dark trousers and brown boots. Friendly expressive skull, no gore, no flesh, hair or moustache.\n\nUse case: stylized-concept. Create ONE square character setting sheet. Left 38%: natural-proportion full-body front three-quarter view. Middle 38%: matching full-body rear view. Right 24%: compact game chibi. Empty gutters, warm plain off-white paper, no annotations except character name. Normal views about 80% sheet height, chibi about 35%. Human normal versions are adults around 6 heads tall; retain nonhuman anatomy for fox, skeleton, bird and robot. Show coherent front/back costume construction.\nReference roles: original fighters sheet defines THIS character's species, face, signature colors and identifying accessories; approved in-game Rina image defines ONLY chibi proportions, clean outlines and cel shading. Do not copy Rina's goggles, face, hair or costume onto other characters. A previous draft, if provided, is only a secondary costume-construction reference and must not override identity.\nChibi construction: oversized head, extremely short bean torso, two tiny separate rounded shoes immediately below the hem. Almost no exposed thighs or shins; no visible knee anatomy, no long trouser section between waist and feet. Follow in-game Rina proportions, not the taller prior setting-sheet chibis. Keep a readable separation between left and right shoe and attach both naturally under the body. Each shoe must work as an independent animation part; do not draw walking poses or multiple frames. Preserve costume identity with broad color blocks. Body and head have stable clean contours. Hat, ears and tail remain recognizable but compact. Normal-proportion views KEEP natural-length legs; never stretch chibi anatomy into them. Match identity across all three views. Empty hands, no gun, no additional characters, no scenery or watermark. Modern appealing Japanese adventure illustration with controlled cel shading and crisp outlines.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\characters\\fighters.png",
+        "sha256": "68c207890e94d799921808944fa41ba02d2bce8b22afda0c59734b98acd09ea2"
+      },
+      {
+        "path": "assets\\first-workshop\\twohead\\rina.png",
+        "sha256": "5e2d382de5dd70853d1af8d2fd9592954e8e50a8ce283a70dab2c014f36356e4"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 438,
+        "image_tokens": 2368
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.115927
+  },
+  {
+    "name": "fw-character-v2-07-crow",
+    "fingerprint": "c6cf2efda7b894ab4c24507509cf622b644692b68d274a1085d4b8a695220d06",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T09:47:50.098534+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Character: CROW. Anthropomorphic CROW bird-person heavy gunner, NOT a human. Blue-black feathered head, prominent dark beak, feather crest and compact tail feathers. Orange scarf, blue-gray work jacket, olive trousers and brown boots, broad sturdy torso. Preserve avian face and feathers, no human face or human hair.\n\nUse case: stylized-concept. Create ONE square character setting sheet. Left 38%: natural-proportion full-body front three-quarter view. Middle 38%: matching full-body rear view. Right 24%: compact game chibi. Empty gutters, warm plain off-white paper, no annotations except character name. Normal views about 80% sheet height, chibi about 35%. Human normal versions are adults around 6 heads tall; retain nonhuman anatomy for fox, skeleton, bird and robot. Show coherent front/back costume construction.\nReference roles: original fighters sheet defines THIS character's species, face, signature colors and identifying accessories; approved in-game Rina image defines ONLY chibi proportions, clean outlines and cel shading. Do not copy Rina's goggles, face, hair or costume onto other characters. A previous draft, if provided, is only a secondary costume-construction reference and must not override identity.\nChibi construction: oversized head, extremely short bean torso, two tiny separate rounded shoes immediately below the hem. Almost no exposed thighs or shins; no visible knee anatomy, no long trouser section between waist and feet. Follow in-game Rina proportions, not the taller prior setting-sheet chibis. Keep a readable separation between left and right shoe and attach both naturally under the body. Each shoe must work as an independent animation part; do not draw walking poses or multiple frames. Preserve costume identity with broad color blocks. Body and head have stable clean contours. Hat, ears and tail remain recognizable but compact. Normal-proportion views KEEP natural-length legs; never stretch chibi anatomy into them. Match identity across all three views. Empty hands, no gun, no additional characters, no scenery or watermark. Modern appealing Japanese adventure illustration with controlled cel shading and crisp outlines.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\characters\\fighters.png",
+        "sha256": "68c207890e94d799921808944fa41ba02d2bce8b22afda0c59734b98acd09ea2"
+      },
+      {
+        "path": "assets\\first-workshop\\twohead\\rina.png",
+        "sha256": "5e2d382de5dd70853d1af8d2fd9592954e8e50a8ce283a70dab2c014f36356e4"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 439,
+        "image_tokens": 2368
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1159295
+  },
+  {
+    "name": "fw-rina-directions-v1",
+    "fingerprint": "a55a37c86570768a517e5a6852780cd05487ebe95156a82926a4b62b15931599",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T10:31:12.038463+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Create a GAME SPRITE TURNAROUND of RINA, not a normal-proportion model sheet and not an animation sheet. The attached approved chibi Rina defines identity, costume and compact anatomy: large brown hair mass with a small tied-up tuft, brass goggles with teal lenses, teal eyes, short ivory jacket, rust-orange neck scarf, teal collar accents, dark gloves, tiny rounded brown shoes, small ivory-and-teal workshop backpack. No new accessories or costume changes.\n\nThree equally spaced columns on one 1024-square image: LEFT is a true FRONT view facing DOWN toward the viewer, CENTER is a true REAR view facing UP away from the viewer, RIGHT is a true RIGHT PROFILE facing screen-right. All three are the exact same compact character turning in place. NOT three copies of the same three-quarter face. Front nose and chest face the viewer symmetrically; rear has no visible eyes or face; right profile has a profile nose/chest and one visible near eye. Keep the same slightly elevated game camera (about 20 degrees looking down) in every view; do not use eye-level side view or a steep overhead rear view.\n\nThe head INCLUDING HAIR occupies about 70 percent of the character height; the torso is a very short rounded bean; the remaining feet are two tiny independent shoes directly below the coat hem. No exposed thighs, shins, knees or long pants. No normal human anatomy anywhere. Rear torso must have the SAME plump volume as front, not a narrow neck with a flattened coat; retain the small backpack without hiding the whole body. Same head height, torso height, shoe size, line thickness, shading and anatomical proportions in every view. Use a single scale and shared foot baseline; never independently fit each view to a box. Hatless hair tuft is consistent across views.\n\nEach complete character is approximately 380-400 pixels high, fits within 290 pixels width, centered in its column; common shoe baseline around y=720. Generous clean empty gutters, no overlap. Relaxed upright neutral standing pose, arms slightly clear of coat so hands read, feet distinguishable; in profile put the far shoe slightly offset so it is not completely hidden. No walk or dodge poses yet. Contemporary cute Japanese game illustration, clean consistent medium-weight dark outline, simple controlled cel shading, broad readable color shapes, no painterly texture, no heavy gradients or exaggerated lighting.\n\nBackground is exactly flat saturated magenta #FF00FF across the entire image, including between limbs, suitable for technical chroma-key extraction. No floor, contact shadow, glow, text, labels, borders, diagrams, weapons or extra characters. Draw all three directions from scratch as matched game art; never squash a tall reference figure into a chibi. Preserve the attached character's charm and adult adventurer identity.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\first-workshop\\twohead\\rina.png",
+        "sha256": "5e2d382de5dd70853d1af8d2fd9592954e8e50a8ce283a70dab2c014f36356e4"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 582,
+        "image_tokens": 832
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.110143
+  },
+  {
+    "name": "fw-rina-dodge-poses-v1",
+    "fingerprint": "38debd503ce0102ef86d0af951cb9490bcea6b6b6c7161de666f3334bb8d683c",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T11:07:00.667946+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Create a production animation pose sheet of the EXACT tiny chibi adventurer in the reference image. Same brown hair and tied tuft, brass goggles with teal lenses, huge head, tiny ivory coat with teal trim, rust scarf, dark gloves, tiny brown shoes and small ivory/teal backpack. Preserve the reference's extremely short two-head proportions, clean dark outlines and flat cel shading. No redesign, no longer legs, no weapons.\n\n1024 square canvas, uniform pure magenta #FF00FF background. EXACTLY NINE isolated sprites in a regular 3 by 3 grid, equal 341px cells. No labels, text, borders, shadows, effects or ground. Generous empty gutters; nothing crosses a cell. Use the SAME physical head size in all nine cells, approximately 155px head width. Whole character fits within each cell. Do not enlarge shorter poses to fill the cell.\n\nRows are movement direction, columns are action stage. Top row: DOWN toward the viewer, front view. Middle row: UP away from the viewer, true back view, face hidden. Bottom row: RIGHT across the screen, true right profile. Camera is the same slightly elevated game camera throughout, never a cinematic camera.\n\nColumn 1: TAKEOFF crouch. Tiny legs compressed, weight forward, arms preparing to reach, head lowered but its shape unchanged. Both shoes near the ground, coat compact. Clearly a crouched pose, not ordinary standing.\nColumn 2: AIRBORNE FORWARD DIVE. Draw NEW bent anatomy, not a rotated standing sprite. Torso nearly parallel to ground, arms extending in travel direction, small legs tucked behind. Front/down dive: head leads toward the bottom of the cell, more crown visible, compact body and shoes trailing above/behind the head; strong foreshortening, not a front-standing silhouette. Back/up dive: back of head leads toward top of cell, face invisible, backpack and tucked shoes trail below it. Right dive: head leads RIGHT, hands reach right, horizontal compact torso, folded shoes trail LEFT; clearly a belly-first leap. Keep huge head and stubby limbs, never stretched human anatomy.\nColumn 3: LANDING crouch. Hands down to catch the ground, head low, folded legs gather beneath the small torso, compact recovering posture. Different from takeoff, visibly absorbing impact. Down/front face readable, up/back face hidden, right side profile. Match head size, costume and lighting exactly across poses.\n\nThis is a cohesive sprite sheet, not illustrations or a character design presentation. Prioritize direction clarity, genuinely horizontal diving anatomy and consistent large-head proportions.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-rina-directions-v1.png",
+        "sha256": "b183d710f01c06778c1020572c7dcc26544975c3ccc333a8e26797f9ea1cdfa7"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 538,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.110801
+  },
+  {
+    "name": "fw-directions-01-sora",
+    "fingerprint": "12a44826a7c57975232251fa8f94a846c604c784860881c988122e135264ba64",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T11:27:28.464701+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Production game sprite sheet of ONE character. First reference defines this character's identity. Second reference Rina defines rendering style and VERY LOW two-head proportions only; do NOT copy Rina's costume or face. Sora: brown tousled hair, brass goggles, blue jacket with ivory hood, dark gloves and tiny dark shoes. Human male.\nMatch Rina's huge head, tiny compact torso, almost no visible legs, two independent tiny shoes directly under hem. No thighs, knees or long pants visible when standing. Crisp stable dark outlines, flat cel shading, ivory/teal workshop detailing where already present. Keep unique species, colors, hat/ears/tail. No weapon in any pose.\nEXACT regular 4 columns by 3 rows on 1024x1024, each cell 256 wide and 341 high. Exactly TWELVE isolated sprites, centered in their own cell with generous magenta gutters. Pure uniform #FF00FF background. No text, labels, borders, shadows, floor, effects or extra sprites. Entire sprite including tail/hat fits cell. Same physical head size across all 12 poses, head about 130px wide excluding hat/ears. Do not independently fit each pose to the cell. Feet/hands contact a common baseline near bottom of each row. Slight elevated game camera, not cinematic.\nRows: TOP = front facing DOWN toward viewer; MIDDLE = true BACK facing UP away, NO face/eye/beak visible; BOTTOM = true RIGHT profile facing right. Left will be mirrored by game.\nColumns: 1 STANDING idle with both small shoes visible and separated, arms at sides; 2 TAKEOFF crouch with weight forward and compressed tiny legs; 3 ACTIVE EVASION; 4 LANDING crouch absorbing impact with hands low and shoes gathered beneath torso.\nActive evasion: A low forward sliding dive, arms forward and tiny legs tucked behind. Draw genuinely different bent limb/torso anatomy, never merely rotate a standing sprite. For down/front motion head leads toward bottom foreground, body/feet trail above and behind with foreshortening. For up/back head leads toward top, back torso and tucked shoes trail below, face hidden. For right motion head leads RIGHT and feet trail LEFT; show profile and clear movement direction. Preserve identical head mass, costume, outline weight and proportions throughout. Landing different from takeoff. All sprites are the same character, not variations.\nThis replaces a game's standing, walking source and dodge animation. Consistency and readable feet matter more than extra decoration.",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\design\\character-directions-2026-09-12\\01-sora\\identity.png",
+        "sha256": "5e284c5fc4f78674827e51708b9db89498721dc67ce9d03859aa39aadd40dfe2"
+      },
+      {
+        "path": "assets\\generated\\fw-rina-directions-v1.png",
+        "sha256": "b183d710f01c06778c1020572c7dcc26544975c3ccc333a8e26797f9ea1cdfa7"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 524,
+        "image_tokens": 1318
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.111942
+  },
+  {
+    "name": "fw-directions-02-kohaku",
+    "fingerprint": "3e39fed1be4ef33894cd73de84f7b8522d13c2799ec5bdbc4f43a2a8695f47c6",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T11:44:52.364618+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Production game sprite sheet of ONE character. First reference defines this character's identity. Second reference Rina defines rendering style and VERY LOW two-head proportions only; do NOT copy Rina's costume or face. Kohaku: an orange FOX person, huge pointed fox ears, white muzzle, orange tail with white tip, green short cloak, tiny brown shoes. Never human.\nMatch Rina's huge head, tiny compact torso, almost no visible legs, two independent tiny shoes directly under hem. No thighs, knees or long pants visible when standing. Crisp stable dark outlines, flat cel shading, ivory/teal workshop detailing where already present. Keep unique species, colors, hat/ears/tail. No weapon in any pose.\nEXACT regular 4 columns by 3 rows on 1024x1024, each cell 256 wide and 341 high. Exactly TWELVE isolated sprites, centered in their own cell with generous magenta gutters. Pure uniform #FF00FF background. No text, labels, borders, shadows, floor, effects or extra sprites. Entire sprite including tail/hat fits cell. Same physical head size across all 12 poses, head about 130px wide excluding hat/ears. Do not independently fit each pose to the cell. Feet/hands contact a common baseline near bottom of each row. Slight elevated game camera, not cinematic.\nRows: TOP = front facing DOWN toward viewer; MIDDLE = true BACK facing UP away, NO face/eye/beak visible; BOTTOM = true RIGHT profile facing right. Left will be mirrored by game.\nColumns: 1 STANDING idle with both small shoes visible and separated, arms at sides; 2 TAKEOFF crouch with weight forward and compressed tiny legs; 3 ACTIVE EVASION; 4 LANDING crouch absorbing impact with hands low and shoes gathered beneath torso.\nActive evasion: A nimble forward pounce with bent legs and tail trailing, then light crouched landing. Draw genuinely different bent limb/torso anatomy, never merely rotate a standing sprite. For down/front motion head leads toward bottom foreground, body/feet trail above and behind with foreshortening. For up/back head leads toward top, back torso and tucked shoes trail below, face hidden. For right motion head leads RIGHT and feet trail LEFT; show profile and clear movement direction. Preserve identical head mass, costume, outline weight and proportions throughout. Landing different from takeoff. All sprites are the same character, not variations.\nThis replaces a game's standing, walking source and dodge animation. Consistency and readable feet matter more than extra decoration.",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\design\\character-directions-2026-09-12\\02-kohaku\\identity.png",
+        "sha256": "475be1a2b9d2728df717bf6313e010ec6079b45163143912ba18cb8a503ee22a"
+      },
+      {
+        "path": "assets\\generated\\fw-rina-directions-v1.png",
+        "sha256": "b183d710f01c06778c1020572c7dcc26544975c3ccc333a8e26797f9ea1cdfa7"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 535,
+        "image_tokens": 1290
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1118575
+  },
+  {
+    "name": "fw-directions-03-bolt",
+    "fingerprint": "5ca17e3df248ed54a7951067404366d775fb7a0fb646b0ec0dde964cff29ce1a",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T11:49:12.670901+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Production game sprite sheet of ONE character. First reference defines this character's identity. Second reference Rina defines rendering style and VERY LOW two-head proportions only; do NOT copy Rina's costume or face. Bolt: a round ivory ROBOT with one large blue circular lens eye, small antenna, rounded ivory armor, dark joints and tiny round feet. Never human.\nMatch Rina's huge head, tiny compact torso, almost no visible legs, two independent tiny shoes directly under hem. No thighs, knees or long pants visible when standing. Crisp stable dark outlines, flat cel shading, ivory/teal workshop detailing where already present. Keep unique species, colors, hat/ears/tail. No weapon in any pose.\nEXACT regular 4 columns by 3 rows on 1024x1024, each cell 256 wide and 341 high. Exactly TWELVE isolated sprites, centered in their own cell with generous magenta gutters. Pure uniform #FF00FF background. No text, labels, borders, shadows, floor, effects or extra sprites. Entire sprite including tail/hat fits cell. Same physical head size across all 12 poses, head about 130px wide excluding hat/ears. Do not independently fit each pose to the cell. Feet/hands contact a common baseline near bottom of each row. Slight elevated game camera, not cinematic.\nRows: TOP = front facing DOWN toward viewer; MIDDLE = true BACK facing UP away, NO face/eye/beak visible; BOTTOM = true RIGHT profile facing right. Left will be mirrored by game.\nColumns: 1 STANDING idle with both small shoes visible and separated, arms at sides; 2 TAKEOFF crouch with weight forward and compressed tiny legs; 3 ACTIVE EVASION; 4 LANDING crouch absorbing impact with hands low and shoes gathered beneath torso.\nActive evasion: Low mechanical forward glide: feet folded under round chassis, body inclined, then feet extend for landing. No standing rotation. Draw genuinely different bent limb/torso anatomy, never merely rotate a standing sprite. For down/front motion head leads toward bottom foreground, body/feet trail above and behind with foreshortening. For up/back head leads toward top, back torso and tucked shoes trail below, face hidden. For right motion head leads RIGHT and feet trail LEFT; show profile and clear movement direction. Preserve identical head mass, costume, outline weight and proportions throughout. Landing different from takeoff. All sprites are the same character, not variations.\nThis replaces a game's standing, walking source and dodge animation. Consistency and readable feet matter more than extra decoration.",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\design\\character-directions-2026-09-12\\03-bolt\\identity.png",
+        "sha256": "b3ed3247abe2e20decea797bdf22c3160db9e282224fd92d5982a8addf0e1aa8"
+      },
+      {
+        "path": "assets\\generated\\fw-rina-directions-v1.png",
+        "sha256": "b183d710f01c06778c1020572c7dcc26544975c3ccc333a8e26797f9ea1cdfa7"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 539,
+        "image_tokens": 1211
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1115515
+  },
+  {
+    "name": "fw-directions-04-mei",
+    "fingerprint": "de3b9d0c89b0b9d1e340fc86a19c2f933bfec6b3132afc02c0556f9f0d8c68a2",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T11:52:16.718897+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Production game sprite sheet of ONE character. First reference defines this character's identity. Second reference Rina defines rendering style and VERY LOW two-head proportions only; do NOT copy Rina's costume or face. Mei: copper-red twin braids, brown work cap with goggles, yellow shirt, compact blue overalls, dark gloves and tiny brown shoes. Human female.\nMatch Rina's huge head, tiny compact torso, almost no visible legs, two independent tiny shoes directly under hem. No thighs, knees or long pants visible when standing. Crisp stable dark outlines, flat cel shading, ivory/teal workshop detailing where already present. Keep unique species, colors, hat/ears/tail. No weapon in any pose.\nEXACT regular 4 columns by 3 rows on 1024x1024, each cell 256 wide and 341 high. Exactly TWELVE isolated sprites, centered in their own cell with generous magenta gutters. Pure uniform #FF00FF background. No text, labels, borders, shadows, floor, effects or extra sprites. Entire sprite including tail/hat fits cell. Same physical head size across all 12 poses, head about 130px wide excluding hat/ears. Do not independently fit each pose to the cell. Feet/hands contact a common baseline near bottom of each row. Slight elevated game camera, not cinematic.\nRows: TOP = front facing DOWN toward viewer; MIDDLE = true BACK facing UP away, NO face/eye/beak visible; BOTTOM = true RIGHT profile facing right. Left will be mirrored by game.\nColumns: 1 STANDING idle with both small shoes visible and separated, arms at sides; 2 TAKEOFF crouch with weight forward and compressed tiny legs; 3 ACTIVE EVASION; 4 LANDING crouch absorbing impact with hands low and shoes gathered beneath torso.\nActive evasion: A low workmanlike forward slide, hands reaching forward, folded short legs, weighty crouched recovery. Draw genuinely different bent limb/torso anatomy, never merely rotate a standing sprite. For down/front motion head leads toward bottom foreground, body/feet trail above and behind with foreshortening. For up/back head leads toward top, back torso and tucked shoes trail below, face hidden. For right motion head leads RIGHT and feet trail LEFT; show profile and clear movement direction. Preserve identical head mass, costume, outline weight and proportions throughout. Landing different from takeoff. All sprites are the same character, not variations.\nThis replaces a game's standing, walking source and dodge animation. Consistency and readable feet matter more than extra decoration.",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\design\\character-directions-2026-09-12\\04-mei\\identity.png",
+        "sha256": "0a2dfb3b3f64ba28c983030b5a5ee6c5d32c454c4d82c0297646df1d9d819529"
+      },
+      {
+        "path": "assets\\generated\\fw-rina-directions-v1.png",
+        "sha256": "b183d710f01c06778c1020572c7dcc26544975c3ccc333a8e26797f9ea1cdfa7"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 537,
+        "image_tokens": 1381
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1122265
+  },
+  {
+    "name": "fw-directions-05-luna",
+    "fingerprint": "0e51ebc0d71e5b8aafe1589748812e1da1b954c034fed1843c0ba2016ea1e10f",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T11:54:48.444226+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Production game sprite sheet of ONE character. First reference defines this character's identity. Second reference Rina defines rendering style and VERY LOW two-head proportions only; do NOT copy Rina's costume or face. Luna: silver-lilac bobbed hair, blue witch hat with gold crescent, short blue cape with gold crescent, tiny ivory dress and tiny separate dark shoes. Human female. Keep the witch hat.\nMatch Rina's huge head, tiny compact torso, almost no visible legs, two independent tiny shoes directly under hem. No thighs, knees or long pants visible when standing. Crisp stable dark outlines, flat cel shading, ivory/teal workshop detailing where already present. Keep unique species, colors, hat/ears/tail. No weapon in any pose.\nEXACT regular 4 columns by 3 rows on 1024x1024, each cell 256 wide and 341 high. Exactly TWELVE isolated sprites, centered in their own cell with generous magenta gutters. Pure uniform #FF00FF background. No text, labels, borders, shadows, floor, effects or extra sprites. Entire sprite including tail/hat fits cell. Same physical head size across all 12 poses, head about 130px wide excluding hat/ears. Do not independently fit each pose to the cell. Feet/hands contact a common baseline near bottom of each row. Slight elevated game camera, not cinematic.\nRows: TOP = front facing DOWN toward viewer; MIDDLE = true BACK facing UP away, NO face/eye/beak visible; BOTTOM = true RIGHT profile facing right. Left will be mirrored by game.\nColumns: 1 STANDING idle with both small shoes visible and separated, arms at sides; 2 TAKEOFF crouch with weight forward and compressed tiny legs; 3 ACTIVE EVASION; 4 LANDING crouch absorbing impact with hands low and shoes gathered beneath torso.\nActive evasion: A short floating evasive hop, knees and feet tucked up, hands outward and cape lifted, then feet gather for landing. Clearly airborne but no teleport or effects. Draw genuinely different bent limb/torso anatomy, never merely rotate a standing sprite. For down/front motion head leads toward bottom foreground, body/feet trail above and behind with foreshortening. For up/back head leads toward top, back torso and tucked shoes trail below, face hidden. For right motion head leads RIGHT and feet trail LEFT; show profile and clear movement direction. Preserve identical head mass, costume, outline weight and proportions throughout. Landing different from takeoff. All sprites are the same character, not variations.\nThis replaces a game's standing, walking source and dodge animation. Consistency and readable feet matter more than extra decoration.",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\design\\character-directions-2026-09-12\\05-luna\\identity.png",
+        "sha256": "f6a22696a7e154fa5d9d0105ecb2154c64a11dbf18e459033798c37639244dd7"
+      },
+      {
+        "path": "assets\\generated\\fw-rina-directions-v1.png",
+        "sha256": "b183d710f01c06778c1020572c7dcc26544975c3ccc333a8e26797f9ea1cdfa7"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 559,
+        "image_tokens": 1420
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1124375
+  },
+  {
+    "name": "fw-directions-06-rattle",
+    "fingerprint": "d7ef685233d358e6cb4fb2ef2c90a40706b3c500ce156c2cbd7d521b9f171a7a",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T11:58:30.424670+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Production game sprite sheet of ONE character. First reference defines this character's identity. Second reference Rina defines rendering style and VERY LOW two-head proportions only; do NOT copy Rina's costume or face. Rattle: a cute SKELETON gunslinger, bare ivory skull with dark eye sockets and gold pupils, broad brown cowboy hat, rust-red poncho with gold trim, tiny brown boots. No human skin or hair.\nMatch Rina's huge head, tiny compact torso, almost no visible legs, two independent tiny shoes directly under hem. No thighs, knees or long pants visible when standing. Crisp stable dark outlines, flat cel shading, ivory/teal workshop detailing where already present. Keep unique species, colors, hat/ears/tail. No weapon in any pose.\nEXACT regular 4 columns by 3 rows on 1024x1024, each cell 256 wide and 341 high. Exactly TWELVE isolated sprites, centered in their own cell with generous magenta gutters. Pure uniform #FF00FF background. No text, labels, borders, shadows, floor, effects or extra sprites. Entire sprite including tail/hat fits cell. Same physical head size across all 12 poses, head about 130px wide excluding hat/ears. Do not independently fit each pose to the cell. Feet/hands contact a common baseline near bottom of each row. Slight elevated game camera, not cinematic.\nRows: TOP = front facing DOWN toward viewer; MIDDLE = true BACK facing UP away, NO face/eye/beak visible; BOTTOM = true RIGHT profile facing right. Left will be mirrored by game.\nColumns: 1 STANDING idle with both small shoes visible and separated, arms at sides; 2 TAKEOFF crouch with weight forward and compressed tiny legs; 3 ACTIVE EVASION; 4 LANDING crouch absorbing impact with hands low and shoes gathered beneath torso.\nActive evasion: A compact evasive forward lunge, skull leading, body low and legs bent behind, hands balancing, then crouched recovery. Draw genuinely different bent limb/torso anatomy, never merely rotate a standing sprite. For down/front motion head leads toward bottom foreground, body/feet trail above and behind with foreshortening. For up/back head leads toward top, back torso and tucked shoes trail below, face hidden. For right motion head leads RIGHT and feet trail LEFT; show profile and clear movement direction. Preserve identical head mass, costume, outline weight and proportions throughout. Landing different from takeoff. All sprites are the same character, not variations.\nThis replaces a game's standing, walking source and dodge animation. Consistency and readable feet matter more than extra decoration.",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\design\\character-directions-2026-09-12\\06-rattle\\identity.png",
+        "sha256": "024849e953606ec8bb42774e9c0a449ec27926867a02fd15d5a9c14cef34e6f6"
+      },
+      {
+        "path": "assets\\generated\\fw-rina-directions-v1.png",
+        "sha256": "b183d710f01c06778c1020572c7dcc26544975c3ccc333a8e26797f9ea1cdfa7"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 555,
+        "image_tokens": 1347
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1121355
+  },
+  {
+    "name": "fw-directions-07-crow",
+    "fingerprint": "d666487b783887a5245992722c651c807fe088f8e89468682bfb8d762a9aadc3",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T12:02:09.503620+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Production game sprite sheet of ONE character. First reference defines this character's identity. Second reference Rina defines rendering style and VERY LOW two-head proportions only; do NOT copy Rina's costume or face. Crow: a dark navy CROW bird person with gray beak, dark feathers, orange scarf, short dark blue jacket, tiny olive lower body and dark shoes. No human face.\nMatch Rina's huge head, tiny compact torso, almost no visible legs, two independent tiny shoes directly under hem. No thighs, knees or long pants visible when standing. Crisp stable dark outlines, flat cel shading, ivory/teal workshop detailing where already present. Keep unique species, colors, hat/ears/tail. No weapon in any pose.\nEXACT regular 4 columns by 3 rows on 1024x1024, each cell 256 wide and 341 high. Exactly TWELVE isolated sprites, centered in their own cell with generous magenta gutters. Pure uniform #FF00FF background. No text, labels, borders, shadows, floor, effects or extra sprites. Entire sprite including tail/hat fits cell. Same physical head size across all 12 poses, head about 130px wide excluding hat/ears. Do not independently fit each pose to the cell. Feet/hands contact a common baseline near bottom of each row. Slight elevated game camera, not cinematic.\nRows: TOP = front facing DOWN toward viewer; MIDDLE = true BACK facing UP away, NO face/eye/beak visible; BOTTOM = true RIGHT profile facing right. Left will be mirrored by game.\nColumns: 1 STANDING idle with both small shoes visible and separated, arms at sides; 2 TAKEOFF crouch with weight forward and compressed tiny legs; 3 ACTIVE EVASION; 4 LANDING crouch absorbing impact with hands low and shoes gathered beneath torso.\nActive evasion: A heavy forward dive, beak and shoulders leading, wing arms reaching forward, short legs tucked behind, then weighty landing. Draw genuinely different bent limb/torso anatomy, never merely rotate a standing sprite. For down/front motion head leads toward bottom foreground, body/feet trail above and behind with foreshortening. For up/back head leads toward top, back torso and tucked shoes trail below, face hidden. For right motion head leads RIGHT and feet trail LEFT; show profile and clear movement direction. Preserve identical head mass, costume, outline weight and proportions throughout. Landing different from takeoff. All sprites are the same character, not variations.\nThis replaces a game's standing, walking source and dodge animation. Consistency and readable feet matter more than extra decoration.",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\design\\character-directions-2026-09-12\\07-crow\\identity.png",
+        "sha256": "ba45a2088054180c2f5f20bc6c2d42530036d9580997e0acd4ba86e63e9a3ee7"
+      },
+      {
+        "path": "assets\\generated\\fw-rina-directions-v1.png",
+        "sha256": "b183d710f01c06778c1020572c7dcc26544975c3ccc333a8e26797f9ea1cdfa7"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 546,
+        "image_tokens": 1369
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.112201
+  }
+]

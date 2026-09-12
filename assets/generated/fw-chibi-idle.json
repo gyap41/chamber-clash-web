@@ -1,0 +1,30 @@
+{
+  "name": "fw-chibi-idle",
+  "fingerprint": "e4b80fec49a0bb6de2a3ea7020d77e9faadf8d5d609aecbbf4126fa86f1e2a24",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T05:57:55.036991+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Production animation sheet for the EXACT approved chibi Rina in reference image 1. Preserve the reference's large head, compact torso, very short legs, oversized boots and gloves, chestnut hair tuft, brass goggles, teal eyes, ivory cropped jacket, rust scarf, dark shorts and opaque leggings, compact ivory/steel portable workshop backpack with teal panel. Match the approved proportions, clean anime outlines and cel shading; do not make her taller or more realistic. Empty hands for a separately rendered pistol. No weapons anywhere.\nExactly EIGHT full-body sprites in a regular 4-column, 2-row grid. Each 256x512 cell has one character, same camera, scale and foot baseline throughout. Row 1: four idle breathing frames facing diagonally screen RIGHT and DOWN, face visible. Row 2: the same four-frame breathing loop facing diagonally screen RIGHT and UP, back and workshop visible. Slightly elevated orthographic game camera in both rows, never eye-level, no perspective scale change. In each row frames 1-4: neutral, subtle inhale, inhale peak, exhale returning to neutral. Motion very small, feet fixed, no walking. Same limb lengths and head size in every frame; do not stretch to fill cells. Entire hair, hands, boots and backpack inside each cell with ample margin. Uniform solid saturated magenta #ff00ff background; no magenta on character, no ground, no cast shadow, no labels, no borders, no text. This is a game sprite sheet, not a presentation board.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\generated\\fw-rina-chibi-concept.png",
+      "sha256": "e9a360b1eda04b07588b45c930a1887492e4502ab9ab8c319bd813e7b8e36f0a"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 327,
+      "image_tokens": 1024
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1102735
+}

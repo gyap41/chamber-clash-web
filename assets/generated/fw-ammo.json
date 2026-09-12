@@ -1,0 +1,30 @@
+{
+  "name": "fw-ammo",
+  "fingerprint": "f3e71392d87cc54884b567ffbf7fc62a83a4c31688a96565e9b49388484ec75a",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T05:18:49.751341+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. One production ammunition supply box sprite for The First Workshop. Image 1 is world and material reference only. Small square dark steel field ammunition dispenser with worn ivory enamel edging, muted teal side insert and practical brass fasteners. A recessed top window clearly shows three upright warm brass pistol cartridges, a small amber latch light. Clearly a compact ammunition box and not a treasure chest. High orthographic overhead game view, front face shallow, horizontal top edges, no diamond isometric. Bold readable painterly Japanese adventure game illustration, useful at 40x36 pixels. Single centered isolated item with generous margins, no hands, no gun, no loose ammo outside the box, no floor or cast shadow. Pure uniform saturated magenta #ff00ff background, no magenta in object. No text, no numbers, no UI.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "docs\\design\\concepts\\first-workshop-2026-09-11\\04_portable_workshop.png",
+      "sha256": "0996833f7c2bd72193ec27232ccdc8a8ed4739ae78820c2032116c4e05da9f2c"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 178,
+      "image_tokens": 1536
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.111949
+}

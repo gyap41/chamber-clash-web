@@ -3,8 +3,9 @@ extends Node2D
 @export var effect_texture: Texture2D = preload("res://assets/effects/weapon-effects.png")
 @export var particle_limit := 650
 @export var weapon_effect_limit := 40
-const DURATIONS := [.22,.32,.2,.26]
-const SIZES := [58.0,94.0,54.0,62.0]
+const IMPACT = preload("res://assets/first-workshop/impact.png")
+const DURATIONS := [.22,.32,.2,.26,.16]
+const SIZES := [58.0,94.0,54.0,62.0,22.0]
 var particles: Array = []
 var weapon_effects: Array = []
 var rings: Array = []
@@ -24,7 +25,7 @@ func burst(pos: Vector2, color: Color, count: int) -> void:
 	queue_redraw()
 
 func weapon_effect(row: int, pos: Vector2, angle: float = 0.0) -> void:
-	if row < 0 or row >= 4: return
+	if row < 0 or row >= DURATIONS.size(): return
 	weapon_effects.append({"row":row,"pos":pos,"angle":angle,"age":0.0})
 	while weapon_effects.size() > maxi(0,weapon_effect_limit): weapon_effects.pop_front()
 	queue_redraw()
@@ -70,6 +71,10 @@ func _draw() -> void:
 	var cell := effect_texture.get_size()/4.0
 	for effect in weapon_effects:
 		var progress: float = effect.age/DURATIONS[effect.row]
+		if effect.row == 4:
+			draw_set_transform(effect.pos,effect.angle)
+			draw_texture_rect(IMPACT,Rect2(-11,-11,22,22),false,Color(1,1,1,1.0-progress))
+			continue
 		var frame := mini(3,floori(progress*4))
 		var size := Vector2(SIZES[effect.row],SIZES[effect.row]*cell.y/cell.x)
 		var alpha := .85*((1.0-progress)/.3 if progress > .7 else 1.0)

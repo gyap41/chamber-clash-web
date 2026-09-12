@@ -1,0 +1,64 @@
+{
+  "source": "assets\\generated\\fw-twohead-walk.png",
+  "sha256": "116ac863de7f11141bb23bc27e5745b06d4576eb2ea3f528331e91ac678abe88",
+  "scale": 0.2880886426592798,
+  "frames": [
+    {
+      "cell": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "crop": [
+        129,
+        77,
+        408,
+        433
+      ]
+    },
+    {
+      "cell": [
+        512,
+        0,
+        1024,
+        512
+      ],
+      "crop": [
+        109,
+        77,
+        389,
+        438
+      ]
+    },
+    {
+      "cell": [
+        0,
+        512,
+        512,
+        1024
+      ],
+      "crop": [
+        129,
+        55,
+        408,
+        415
+      ]
+    },
+    {
+      "cell": [
+        512,
+        512,
+        1024,
+        1024
+      ],
+      "crop": [
+        109,
+        55,
+        389,
+        407
+      ]
+    }
+  ],
+  "notes": "Constant scale, bottom alignment, no limb warping or invented gait; 8fps original 4 poses. Preview composite, not game capture."
+}

@@ -1,6 +1,7 @@
 extends Node2D
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const Relics = preload("res://scripts/catalog/relic_catalog.gd")
+const AMMO_ART = preload("res://assets/first-workshop/ammo.png")
 @export var display_size := Vector2(44,33)
 var kind := "weapon"
 var gun := 0
@@ -22,6 +23,12 @@ func configure(item_kind: String, id: int) -> void:
 	# （$ChestFrame、Polygon2D/Line2Dのみで構成した仮アート）をレア度／レリック色で表示する。
 	# 弾薬箱は従来どおり$Frameの単純な四角枠のまま（色も既定値のまま変更しない）。
 	$Frame.visible = kind == "ammo"
+	if kind == "ammo":
+		$Frame.visible = false
+		$Ammo.visible = false
+		$ChestArt.texture = AMMO_ART
+		$ChestArt.scale = Vector2(40,36)/AMMO_ART.get_size()
+	$ChestArt.visible = kind == "ammo"
 	$ChestFrame.visible = kind in ["weapon","relic"]
 	if kind == "relic":
 		var relic_color := Color(Relics.definition(id).color)
@@ -33,9 +40,7 @@ func configure(item_kind: String, id: int) -> void:
 		var rarity_color := Weapons.rarity_color(id) # 色分けレア度：C/B/A/Sの4段階
 		$ChestFrame/Body.color = rarity_color
 		$ChestFrame/Lid.color = rarity_color.darkened(.25)
-	# $ChestArt は将来の宝箱画像（レア度別）を差し込むためのプレースホルダー。本番素材が来たら
-	# ここへtextureを設定し、$ChestFrameは非表示にする想定（今回はテクスチャなし・非表示のまま
-	# で、configure()/refresh()からはまだ参照しない）。
+	# ChestArt currently holds the separate ammunition dispenser; loot chests retain their legacy art.
 func refresh(players: Array, ready_delay: float = .6, open_seconds: float = 0.0) -> void:
 	var text := "弾薬箱" if kind == "ammo" else str(Relics.definition(gun).name if kind == "relic" else Weapons.definition(gun).name)
 	if opening_player >= 0:

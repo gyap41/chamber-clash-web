@@ -146,6 +146,7 @@ func step(dt: float, arena, targets) -> void:
 				b.pos = previous
 				b.life = 0.0
 				burst_requested.emit(b.pos,Color(b.color),7)
+				if gun_id == 20: weapon_effect_requested.emit(4,b.pos,b.velocity.angle())
 				if switcher: weapon_effect_requested.emit(2,b.pos,b.velocity.angle()+PI/4)
 		else:
 			for target in enemies:
@@ -155,6 +156,7 @@ func step(dt: float, arena, targets) -> void:
 					if pass_key not in b.hits and target.hurt(damage,b.volley,false,log_origin): b.hits.append(pass_key)
 				else:
 					target.hurt(damage,b.volley,false,log_origin)
+					if gun_id == 20: weapon_effect_requested.emit(4,b.pos,b.velocity.angle())
 					if switcher: weapon_effect_requested.emit(2,b.pos,b.velocity.angle()+PI/4)
 					b.life = 0.0
 					break

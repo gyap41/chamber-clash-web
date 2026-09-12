@@ -1,5 +1,23 @@
 # 検証手順
 
+配布内容の確認：`Godot --headless --path . --export-pack Web .local/art-export-audit.zip` でローカル検証用ZIPを作成し、内容一覧にdocs/・tests/・tools/・assets/generated/、未接続のsample_battle_02/test_ui_click、旧twohead_rinaがないことを確認する。これはゲームデータ部分の検証で、Web実行エンジン込みの配布容量とは異なる。将来音響サンプルを正式採用するときは、そのファイルのexclude_filterを解除する。
+
+素材整理後の検証：`python -X utf8 tools/verify_art_organization.py` で移動先の存在、画像のハッシュ一致、docs/art内のリンクを確認する。旧リナ画像はtests/fixtures/artへ移動。連番撮影は不要候補のraw-frames、完成GIF・まとめ画像はdocs/art/reviewsへ保存する。
+
+整理後の全64ヘッドレステスト合格（`.local/logs/run_tests-20260912-212428.log`）。[整理・検証記録](../archive/2026-09-12/art-organization/REPORT.md)。
+
+全8人の方向別展開：`tests/character_directions.gd` で他7人の靴の支持中心・底辺、4方向選択、専用9ポーズと回避時間・無敵を検証。`tools/capture_direction_rollout.gd` で128フレームを撮影し、Pillow環境で `tools/package_direction_rollout.py` を実行して比較GIFを作る。全ヘッドレステスト合格（`.local/logs/run_tests-20260912-210616.log`）。[検証記録](../archive/2026-09-12/character-directions/REPORT.md)。
+
+リナ現行：`rina_directions` は靴の支持中心・底辺、足の交代と胴体の支点を検証。`rina_dodge_poses` は専用9素材・段階の時刻・空中の上下動を検証する。回避性能は `rina_dive`。撮影は `tools/capture_rina_directions.gd`、GIF化はPillow環境で `tools/package_rina_motion.py`。[今回の8テストと描画確認](../archive/2026-09-12/rina-gait-dodge/REPORT.md)。
+
+リナ4方向：`tests/rina_directions.gd` で方向選択、斜めの安定、正面の反転防止、後ろ歩き、回避方向優先、靴の交代と接地制約を検証。`tools/capture_rina_directions.gd` で実描画を撮影。[結果](../art/reviews/rina-directions-2026-09-12/README.md)。
+
+8キャラの差し替え・固定パーツ歩行・前後切替・キャラ別回避は `tests/character_animation.gd`。描画比較は `Godot --path . --script res://tools/capture_character_rigs.gd --quit-after 900`、対戦撮影は `tools/capture_character_battle.gd`。既存回避性能はrina_dive、武器重なり等はworkshop_visualsも確認。[検証記録](../archive/2026-09-12/character-integration/REPORT.md)。
+
+リナ飛び込みは `tests/rina_dive.gd` で距離の刻み幅非依存、0.31秒の無敵と着地中の被弾、他キャラの回避時間維持を検証。`tools/capture_rina_dive.gd` で連続画面を保存する。[実行結果](../archive/2026-09-12/rina-dive/REPORT.md)。
+
+2頭身リナ：全59件合格（`.local/logs/run_tests-20260912-163851.log`）、最終描画調整後の `tests/workshop_visuals.gd` も合格。実移動撮影は `Godot --path . --script res://tools/capture_twohead_motion.gd --quit-after 900`。上下左右ポーズ撮影は `Godot --path . --script res://tools/capture_chibi.gd --quit-after 900 -- --twohead`。Godotはローカル実行ファイルへ置換。[結果と制限](../archive/2026-09-12/rina-twohead/REPORT.md)。
+
 更新: 2026-09-12。現在の実行方法と受入条件を管理する。
 詳細な過去記録は[変更前の検証資料](../archive/2026-09-12/BEFORE_EXTENSION_TESTING.md)、
 今回の記録は[拡張リファクタリング](../archive/2026-09-12/EXTENSION_REFACTOR.md)。
@@ -77,8 +95,30 @@ HUDは簡易参加者情報のみ拡張している。正式モードではな�
 素材APIの有料生成は行わず、audio_assetsは保存済み素材のGodot Resource認識のみ。
 素材ツールの無料mock検証は[素材生成設定](ASSET_GENERATION_SETUP.md)に従う。
 
+## 始まりの工房・最小画像構成
+
+`tests/workshop_visuals.gd` は一括ランナーが自動検出する。リナ＋サービスピストルの移動、射撃、装填、補給、6コマの回避選択、照準と異なる回避方向、回避と無敵の0.05秒差を検証する。
+原画・加工・API使用履歴は `assets/first-workshop/README.md` を参照。
+
+```powershell
+python -m unittest discover -s tools/tests -v
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/workshop_visuals.gd --quit-after 120
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --path . --script res://tools/capture_workshop.gd -- --motion
+```
+
+最後のコマンドは描画可能な環境で1120×800の画面・各アニメキー・射撃/装填/補給を `docs/archive/2026-09-12/first-workshop/` に保存する。
+撮影は決定的な状態を作る自動検証。手動プレイの操作感評価とは区別する。スクリプトは有料APIを呼ばない。
+
 ## 未確認の受入
 
 人間による操作感・購入経済/チーム戦バランス、配布版の一試合完走、最大負荷、
 オンライン通信・同期・再接続は未確認。探索モード/階層/ボス/セーブは未実装。
 現在の検証結果とログは[今回の記録](../archive/2026-09-12/EXTENSION_REFACTOR.md)を参照。
+# 低頭身リナの描画確認（2026-09-12）
+
+`python -m unittest discover -s tools/tests -v` で予算等5テストが合格。
+`powershell -ExecutionPolicy Bypass -File run_tests.ps1` で全59件が合格（ログ `.local/logs/run_tests-20260912-150858.log`）。
+`Godot --headless --path . --script res://tests/workshop_visuals.gd` は前後切替、後退位相、武器位置、回避性能維持を検証する。
+`Godot --path . --script res://tools/capture_chibi.gd --quit-after 900` で上下左右のゲーム内ポーズを撮影する（Godotはローカルの実行ファイルへ置換）。
+Pillow入りPythonで `tools/review_chibi_capture.py` を実行すると比較GIFを作成する。
+[結果・制限](../archive/2026-09-12/rina-chibi/REPORT.md)。移動シートは不採用で、脚を交互に動かす描画を使用。手動プレイの自然さの最終評価は未実施。

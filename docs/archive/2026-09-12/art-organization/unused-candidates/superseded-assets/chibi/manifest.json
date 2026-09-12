@@ -1,0 +1,827 @@
+{
+  "reference": "assets/generated/fw-rina-chibi-concept.png",
+  "cell": [
+    128,
+    128
+  ],
+  "origin": [
+    64,
+    112
+  ],
+  "assets": [
+    {
+      "id": "idle",
+      "original": "assets\\generated\\fw-chibi-idle.png",
+      "sha256": "d406f853bdc73795ad25bb80a66c2ad77df28339cc359a6573bd774458f9b2a8",
+      "output": "docs\\archive\\2026-09-12\\art-organization\\unused-candidates\\superseded-assets\\chibi\\idle.png",
+      "scale": 0.2639593908629442,
+      "frames": [
+        {
+          "source_cell": [
+            0,
+            0,
+            256,
+            512
+          ],
+          "crop": [
+            68,
+            51,
+            239,
+            440
+          ],
+          "rect": [
+            0,
+            0,
+            128,
+            128
+          ],
+          "offset": [
+            41,
+            9
+          ]
+        },
+        {
+          "source_cell": [
+            256,
+            0,
+            512,
+            512
+          ],
+          "crop": [
+            62,
+            47,
+            229,
+            440
+          ],
+          "rect": [
+            128,
+            0,
+            128,
+            128
+          ],
+          "offset": [
+            42,
+            8
+          ]
+        },
+        {
+          "source_cell": [
+            512,
+            0,
+            768,
+            512
+          ],
+          "crop": [
+            39,
+            46,
+            206,
+            440
+          ],
+          "rect": [
+            256,
+            0,
+            128,
+            128
+          ],
+          "offset": [
+            42,
+            8
+          ]
+        },
+        {
+          "source_cell": [
+            768,
+            0,
+            1024,
+            512
+          ],
+          "crop": [
+            17,
+            48,
+            186,
+            440
+          ],
+          "rect": [
+            384,
+            0,
+            128,
+            128
+          ],
+          "offset": [
+            41,
+            9
+          ]
+        },
+        {
+          "source_cell": [
+            0,
+            512,
+            256,
+            1024
+          ],
+          "crop": [
+            62,
+            31,
+            231,
+            419
+          ],
+          "rect": [
+            0,
+            128,
+            128,
+            128
+          ],
+          "offset": [
+            41,
+            10
+          ]
+        },
+        {
+          "source_cell": [
+            256,
+            512,
+            512,
+            1024
+          ],
+          "crop": [
+            49,
+            32,
+            218,
+            419
+          ],
+          "rect": [
+            128,
+            128,
+            128,
+            128
+          ],
+          "offset": [
+            41,
+            10
+          ]
+        },
+        {
+          "source_cell": [
+            512,
+            512,
+            768,
+            1024
+          ],
+          "crop": [
+            32,
+            31,
+            200,
+            419
+          ],
+          "rect": [
+            256,
+            128,
+            128,
+            128
+          ],
+          "offset": [
+            42,
+            10
+          ]
+        },
+        {
+          "source_cell": [
+            768,
+            512,
+            1024,
+            1024
+          ],
+          "crop": [
+            13,
+            32,
+            181,
+            419
+          ],
+          "rect": [
+            384,
+            128,
+            128,
+            128
+          ],
+          "offset": [
+            42,
+            10
+          ]
+        }
+      ],
+      "adopted": true,
+      "consumer": "scripts/visuals/player_animation.gd"
+    },
+    {
+      "id": "move",
+      "original": "assets\\generated\\fw-chibi-move.png",
+      "sha256": "d6b860438558d29df0ec470edddac2478df95e8300ddba453127dffb7d85699c",
+      "output": "docs\\archive\\2026-09-12\\art-organization\\unused-candidates\\superseded-assets\\chibi\\move.png",
+      "scale": 0.40625,
+      "frames": [
+        {
+          "source_cell": [
+            0,
+            0,
+            341,
+            256
+          ],
+          "crop": [
+            126,
+            21,
+            275,
+            256
+          ],
+          "rect": [
+            0,
+            0,
+            128,
+            128
+          ],
+          "offset": [
+            33,
+            17
+          ]
+        },
+        {
+          "source_cell": [
+            341,
+            0,
+            682,
+            256
+          ],
+          "crop": [
+            85,
+            23,
+            238,
+            256
+          ],
+          "rect": [
+            128,
+            0,
+            128,
+            128
+          ],
+          "offset": [
+            33,
+            17
+          ]
+        },
+        {
+          "source_cell": [
+            682,
+            0,
+            1024,
+            256
+          ],
+          "crop": [
+            47,
+            24,
+            192,
+            256
+          ],
+          "rect": [
+            256,
+            0,
+            128,
+            128
+          ],
+          "offset": [
+            34,
+            18
+          ]
+        },
+        {
+          "source_cell": [
+            0,
+            256,
+            341,
+            512
+          ],
+          "crop": [
+            127,
+            0,
+            277,
+            256
+          ],
+          "rect": [
+            384,
+            0,
+            128,
+            128
+          ],
+          "offset": [
+            33,
+            8
+          ]
+        },
+        {
+          "source_cell": [
+            341,
+            256,
+            682,
+            512
+          ],
+          "crop": [
+            83,
+            0,
+            242,
+            256
+          ],
+          "rect": [
+            512,
+            0,
+            128,
+            128
+          ],
+          "offset": [
+            31,
+            8
+          ]
+        },
+        {
+          "source_cell": [
+            682,
+            256,
+            1024,
+            512
+          ],
+          "crop": [
+            38,
+            0,
+            200,
+            256
+          ],
+          "rect": [
+            640,
+            0,
+            128,
+            128
+          ],
+          "offset": [
+            31,
+            8
+          ]
+        },
+        {
+          "source_cell": [
+            0,
+            512,
+            341,
+            768
+          ],
+          "crop": [
+            134,
+            0,
+            278,
+            256
+          ],
+          "rect": [
+            0,
+            128,
+            128,
+            128
+          ],
+          "offset": [
+            35,
+            8
+          ]
+        },
+        {
+          "source_cell": [
+            341,
+            512,
+            682,
+            768
+          ],
+          "crop": [
+            107,
+            0,
+            241,
+            250
+          ],
+          "rect": [
+            128,
+            128,
+            128,
+            128
+          ],
+          "offset": [
+            37,
+            10
+          ]
+        },
+        {
+          "source_cell": [
+            682,
+            512,
+            1024,
+            768
+          ],
+          "crop": [
+            45,
+            0,
+            188,
+            256
+          ],
+          "rect": [
+            256,
+            128,
+            128,
+            128
+          ],
+          "offset": [
+            35,
+            8
+          ]
+        },
+        {
+          "source_cell": [
+            0,
+            768,
+            341,
+            1024
+          ],
+          "crop": [
+            134,
+            0,
+            276,
+            232
+          ],
+          "rect": [
+            384,
+            128,
+            128,
+            128
+          ],
+          "offset": [
+            35,
+            18
+          ]
+        },
+        {
+          "source_cell": [
+            341,
+            768,
+            682,
+            1024
+          ],
+          "crop": [
+            95,
+            0,
+            237,
+            232
+          ],
+          "rect": [
+            512,
+            128,
+            128,
+            128
+          ],
+          "offset": [
+            35,
+            18
+          ]
+        },
+        {
+          "source_cell": [
+            682,
+            768,
+            1024,
+            1024
+          ],
+          "crop": [
+            37,
+            0,
+            186,
+            218
+          ],
+          "rect": [
+            640,
+            128,
+            128,
+            128
+          ],
+          "offset": [
+            33,
+            23
+          ]
+        }
+      ],
+      "adopted": false,
+      "consumer": "review only: repeated leg poses"
+    },
+    {
+      "id": "roll",
+      "original": "assets\\generated\\fw-chibi-roll.png",
+      "sha256": "76e4f3612cf2bfd6cd2b91a2ff8d3873320bb6cb74811721a714de72c635ad96",
+      "output": "docs\\archive\\2026-09-12\\art-organization\\unused-candidates\\superseded-assets\\chibi\\roll.png",
+      "scale": 0.48148148148148145,
+      "frames": [
+        {
+          "source_cell": [
+            0,
+            0,
+            341,
+            256
+          ],
+          "crop": [
+            120,
+            52,
+            266,
+            228
+          ],
+          "rect": [
+            0,
+            0,
+            128,
+            128
+          ],
+          "offset": [
+            29,
+            27
+          ]
+        },
+        {
+          "source_cell": [
+            341,
+            0,
+            682,
+            256
+          ],
+          "crop": [
+            76,
+            78,
+            250,
+            221
+          ],
+          "rect": [
+            128,
+            0,
+            128,
+            128
+          ],
+          "offset": [
+            22,
+            43
+          ]
+        },
+        {
+          "source_cell": [
+            682,
+            0,
+            1024,
+            256
+          ],
+          "crop": [
+            27,
+            97,
+            206,
+            224
+          ],
+          "rect": [
+            256,
+            0,
+            128,
+            128
+          ],
+          "offset": [
+            21,
+            51
+          ]
+        },
+        {
+          "source_cell": [
+            0,
+            256,
+            341,
+            512
+          ],
+          "crop": [
+            112,
+            42,
+            258,
+            200
+          ],
+          "rect": [
+            384,
+            0,
+            128,
+            128
+          ],
+          "offset": [
+            29,
+            36
+          ]
+        },
+        {
+          "source_cell": [
+            341,
+            256,
+            682,
+            512
+          ],
+          "crop": [
+            87,
+            41,
+            238,
+            204
+          ],
+          "rect": [
+            512,
+            0,
+            128,
+            128
+          ],
+          "offset": [
+            27,
+            34
+          ]
+        },
+        {
+          "source_cell": [
+            682,
+            256,
+            1024,
+            512
+          ],
+          "crop": [
+            6,
+            60,
+            222,
+            197
+          ],
+          "rect": [
+            640,
+            0,
+            128,
+            128
+          ],
+          "offset": [
+            12,
+            46
+          ]
+        },
+        {
+          "source_cell": [
+            0,
+            512,
+            341,
+            768
+          ],
+          "crop": [
+            117,
+            24,
+            245,
+            193
+          ],
+          "rect": [
+            0,
+            128,
+            128,
+            128
+          ],
+          "offset": [
+            33,
+            31
+          ]
+        },
+        {
+          "source_cell": [
+            341,
+            512,
+            682,
+            768
+          ],
+          "crop": [
+            58,
+            47,
+            238,
+            196
+          ],
+          "rect": [
+            128,
+            128,
+            128,
+            128
+          ],
+          "offset": [
+            20,
+            40
+          ]
+        },
+        {
+          "source_cell": [
+            682,
+            512,
+            1024,
+            768
+          ],
+          "crop": [
+            16,
+            77,
+            211,
+            191
+          ],
+          "rect": [
+            256,
+            128,
+            128,
+            128
+          ],
+          "offset": [
+            17,
+            57
+          ]
+        },
+        {
+          "source_cell": [
+            0,
+            768,
+            341,
+            1024
+          ],
+          "crop": [
+            121,
+            6,
+            241,
+            183
+          ],
+          "rect": [
+            384,
+            128,
+            128,
+            128
+          ],
+          "offset": [
+            35,
+            27
+          ]
+        },
+        {
+          "source_cell": [
+            341,
+            768,
+            682,
+            1024
+          ],
+          "crop": [
+            76,
+            44,
+            239,
+            190
+          ],
+          "rect": [
+            512,
+            128,
+            128,
+            128
+          ],
+          "offset": [
+            25,
+            42
+          ]
+        },
+        {
+          "source_cell": [
+            682,
+            768,
+            1024,
+            1024
+          ],
+          "crop": [
+            31,
+            39,
+            198,
+            188
+          ],
+          "rect": [
+            640,
+            128,
+            128,
+            128
+          ],
+          "offset": [
+            24,
+            40
+          ]
+        }
+      ],
+      "adopted": true,
+      "consumer": "scripts/visuals/player_animation.gd"
+    }
+  ],
+  "runtime": {
+    "display_size": [
+      84,
+      84
+    ],
+    "display_origin": [
+      42,
+      73.5
+    ],
+    "gait": "six phase alternating lower-leg draws from idle; generated move rejected",
+    "facing": "aim for idle/walk; travel for roll; front/back hysteresis +/-0.15",
+    "portrait": "docs/archive/2026-09-12/art-organization/unused-candidates/superseded-assets/chibi/rina.png"
+  }
+}

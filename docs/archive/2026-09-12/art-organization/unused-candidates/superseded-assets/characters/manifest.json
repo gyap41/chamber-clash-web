@@ -1,0 +1,134 @@
+{
+  "cell": [
+    256,
+    256
+  ],
+  "origin": [
+    128,
+    240
+  ],
+  "display_scale": 0.25,
+  "method": "fixed cutouts; flood-connected paper removal; rear setting art refit; no API",
+  "characters": [
+    {
+      "id": 0,
+      "name": "00-rina",
+      "front_source": "tests/fixtures/art/legacy-rina-twohead/rina.png",
+      "back_source": "docs/art/settings/character-settings-2026-09-12/00-rina/back.png",
+      "front_original_size": [
+        525,
+        662
+      ],
+      "front_sha256": "5e2d382de5dd70853d1af8d2fd9592954e8e50a8ce283a70dab2c014f36356e4",
+      "back_sha256": "ff6dc8ba25c4430a610f07b73700ea09c28ede9b7e26d4ac9a0fcfd4cb623dbd",
+      "shoe_start": 0.94,
+      "rear_head_end": 0.22,
+      "trouser_scale": 1.0
+    },
+    {
+      "id": 1,
+      "name": "01-sora",
+      "front_source": "docs/art/settings/character-revision-2026-09-12/01-sora/chibi.png",
+      "back_source": "docs/art/settings/character-revision-2026-09-12/01-sora/back.png",
+      "front_original_size": [
+        222,
+        330
+      ],
+      "front_sha256": "5e284c5fc4f78674827e51708b9db89498721dc67ce9d03859aa39aadd40dfe2",
+      "back_sha256": "9a5d0289c009468ec50ae0cbce6deace5546d15ae92bf636c1c7b7152b0daec7",
+      "shoe_start": 0.93,
+      "rear_head_end": 0.23,
+      "trouser_scale": 0.45
+    },
+    {
+      "id": 2,
+      "name": "02-kohaku",
+      "front_source": "docs/art/settings/character-revision-2026-09-12/02-kohaku/chibi.png",
+      "back_source": "docs/art/settings/character-revision-2026-09-12/02-kohaku/back.png",
+      "front_original_size": [
+        222,
+        294
+      ],
+      "front_sha256": "475be1a2b9d2728df717bf6313e010ec6079b45163143912ba18cb8a503ee22a",
+      "back_sha256": "7a1304d47a57919d8dd726eacd583ab9555150da808cfc09e782b26094a14c80",
+      "shoe_start": 0.91,
+      "rear_head_end": 0.25,
+      "trouser_scale": 1.0
+    },
+    {
+      "id": 3,
+      "name": "03-bolt",
+      "front_source": "docs/art/settings/character-revision-2026-09-12/03-bolt/chibi.png",
+      "back_source": "docs/art/settings/character-revision-2026-09-12/03-bolt/back.png",
+      "front_original_size": [
+        165,
+        258
+      ],
+      "front_sha256": "b3ed3247abe2e20decea797bdf22c3160db9e282224fd92d5982a8addf0e1aa8",
+      "back_sha256": "ef3c6e890dee032a22f2e5a86dbcdbddf5811c735a875051e0bba98193e8f07c",
+      "shoe_start": 0.9,
+      "rear_head_end": 0.33,
+      "trouser_scale": 1.0
+    },
+    {
+      "id": 4,
+      "name": "04-mei",
+      "front_source": "docs/art/settings/character-revision-2026-09-12/04-mei/chibi.png",
+      "back_source": "docs/art/settings/character-revision-2026-09-12/04-mei/back.png",
+      "front_original_size": [
+        260,
+        327
+      ],
+      "front_sha256": "0a2dfb3b3f64ba28c983030b5a5ee6c5d32c454c4d82c0297646df1d9d819529",
+      "back_sha256": "4c7a85013ad89b15bf0523548fecdd89e9ab33dc82ae0cd801938e3f4faa6796",
+      "shoe_start": 0.95,
+      "rear_head_end": 0.29,
+      "trouser_scale": 0.45
+    },
+    {
+      "id": 5,
+      "name": "05-luna",
+      "front_source": "docs/art/settings/character-revision-2026-09-12/05-luna/chibi.png",
+      "back_source": "docs/art/settings/character-revision-2026-09-12/05-luna/back.png",
+      "front_original_size": [
+        281,
+        344
+      ],
+      "front_sha256": "f6a22696a7e154fa5d9d0105ecb2154c64a11dbf18e459033798c37639244dd7",
+      "back_sha256": "7924bfa1d244c615511d05623cb29e5d9c0c089bcf45b9c4a994fb2e07bbde0f",
+      "shoe_start": 0.94,
+      "rear_head_end": 0.27,
+      "trouser_scale": 1.0
+    },
+    {
+      "id": 6,
+      "name": "06-rattle",
+      "front_source": "docs/art/settings/character-revision-2026-09-12/06-rattle/chibi.png",
+      "back_source": "docs/art/settings/character-revision-2026-09-12/06-rattle/back.png",
+      "front_original_size": [
+        257,
+        294
+      ],
+      "front_sha256": "024849e953606ec8bb42774e9c0a449ec27926867a02fd15d5a9c14cef34e6f6",
+      "back_sha256": "d96b4d4ea820f4e49f7778009a1f05df5a459cfdfeb4c22596d36c543b74acfb",
+      "shoe_start": 0.91,
+      "rear_head_end": 0.22,
+      "trouser_scale": 1.0
+    },
+    {
+      "id": 7,
+      "name": "07-crow",
+      "front_source": "docs/art/settings/character-revision-2026-09-12/07-crow/chibi.png",
+      "back_source": "docs/art/settings/character-revision-2026-09-12/07-crow/back.png",
+      "front_original_size": [
+        232,
+        367
+      ],
+      "front_sha256": "ba45a2088054180c2f5f20bc6c2d42530036d9580997e0acd4ba86e63e9a3ee7",
+      "back_sha256": "23de79ece29172863b4a94a46943b35d52184674711251ff8a5e40b86fb6f0c0",
+      "shoe_start": 0.89,
+      "rear_head_end": 0.23,
+      "trouser_scale": 0.45
+    }
+  ]
+}

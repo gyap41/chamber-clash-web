@@ -1,0 +1,34 @@
+{
+  "name": "fw-twohead-design",
+  "fingerprint": "a6835f9c8ae0c7ddc40f02af718fd20a6adb97fe82fdabe2f0a36c7be3087db3",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T07:26:08.692342+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. ONE original game character, Rina the explorer artisan, redesigned specifically for a tiny top-down twin-stick shooter sprite. Image 1 is identity and palette reference ONLY, NOT proportions, rendering complexity or costume detail. Image 2 is reference for the tiny big-headed characters' graphic simplicity and chunky silhouette ONLY, not its environment or character identities.\nCRITICAL: extremely squat 1.7 to 2 heads tall including hair. Head and hair occupy SIXTY PERCENT of total silhouette height. Remaining forty percent contains the ENTIRE tiny body and feet. Short round bean-shaped body, no visible waist, no articulated thighs or shins, tiny rounded shoes directly beneath the jacket hem. No tall boots, no elongated legs, no long coat. This must be noticeably squatter than image 1, like a cute compact mascot for an overhead arcade shooter, NOT a detailed chibi figurine.\nRecognizable identity: a huge chestnut hair shape with one little tuft, large brass goggles, big teal eyes and a confident cute smile. Short ivory jacket as ONE simple color block with teal collar, tiny tucked rust scarf. Two small dark gloves. A miniature ivory box backpack with ONE teal square, no belts or latches drawn individually. Only a few broad flat colors with one shadow tone each, thick dark warm outlines, crisp contemporary cute anime-cartoon illustration. No painterly shading, realistic folds, stitching, buttons, straps, gear teeth, belts or micro-details. Modest fully clothed original heroine. Empty hands; gun will be a separate asset.\nSingle full-body three-quarter FRONT view facing diagonally screen right and down, mildly elevated orthographic game camera. Head large and body extremely compact. Both tiny shoes visible and separate, grounded neutral pose. Centered on uniform saturated magenta #ff00ff background, no ground or cast shadow, generous margins, no labels, no text, no palette, no multiple views, no scene. Clean isolated sprite concept filling about 75 percent of image height. Enforce the sixty-percent head silhouette, do not lengthen the legs to look anatomical.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\generated\\fw-rina-chibi-concept.png",
+      "sha256": "e9a360b1eda04b07588b45c930a1887492e4502ab9ab8c319bd813e7b8e36f0a"
+    },
+    {
+      "path": "docs\\design\\concepts\\rina-two-head-2026-09-12\\reference-gunner.png",
+      "sha256": "2a8db40f82ff011d7fa3edf927969490d5c0cbc3e9309e286026d6a02b3977c7"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 434,
+      "image_tokens": 1944
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.114221
+}
