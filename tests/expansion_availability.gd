@@ -35,32 +35,38 @@ func run() -> void:
 	assert(m.stage == 3 and m.capacity() == 20)
 	await process_frame
 	await process_frame
-	var list = prep.get_node("Root/Panel/Content/Cards/Rewards/Scroll/List")
+	var list = prep.get_node("Root/Panel/Content/Cards/Equipment/ExpansionPopup/List")
 	assert(list.get_node("Expansion_rectangle").disabled and "残り4" in list.get_node("Expansion_rectangle").text)
 	assert(not list.get_node("Expansion_square").disabled)
 	var money: int = m.gold[0]
+	prep.open_expansions()
+	await process_frame
+	await process_frame
 	click(list.get_node("Expansion_square").get_global_rect().get_center())
 	assert(prep.selected_expansion == "square" and m.gold[0] == money)
 	prep.cancel_placement()
 	assert(m.gold[0] == money and m.capacity() == 20)
+	prep.open_expansions()
+	await process_frame
+	await process_frame
 	click(list.get_node("Expansion_square").get_global_rect().get_center())
 	var grid = prep.get_node("Root/Panel/Content/Cards/Equipment/Grid")
 	click(grid.get_child(4).get_global_rect().get_center())
 	assert(m.capacity() == 24 and m.gold[0] == money-4)
 	await process_frame
 	await process_frame
-	list = prep.get_node("Root/Panel/Content/Cards/Rewards/Scroll/List")
+	list = prep.get_node("Root/Panel/Content/Cards/Equipment/ExpansionPopup/List")
 	assert(list.get_node("Expansion_square").disabled and "購入済み" in list.get_node("Expansion_square").text)
 	next_round(game,0)
 	assert(m.stage == 4 and "残り0" in m.expansion_offer_reason(0,"square"))
-	assert(prep.get_node("Root/Panel/Content/Cards/Rewards/Scroll/List/Expansion_square").disabled)
+	assert(prep.get_node("Root/Panel/Content/Cards/Equipment/ExpansionPopup/List/Expansion_square").disabled)
 	# Insufficient funds are visible before selection; refusal/cancellation never charge.
 	game.new_match(18)
 	m = game.match_state
 	m.gold[0] = 3
 	prep.refresh()
 	var before: Array = m.builds.duplicate(true)
-	assert(prep.get_node("Root/Panel/Content/Cards/Rewards/Scroll/List/Expansion_square").disabled)
+	assert(prep.get_node("Root/Panel/Content/Cards/Equipment/ExpansionPopup/List/Expansion_square").disabled)
 	prep.select_expansion("square")
 	assert("資金不足" in prep.detail_path().get_node("Status").text)
 	assert(prep.selected_expansion.is_empty() and m.gold[0] == 3 and m.builds == before)

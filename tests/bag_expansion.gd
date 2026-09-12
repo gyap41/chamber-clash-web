@@ -40,7 +40,10 @@ func run() -> void:
 	prep.select_expansion("square")
 	prep.cancel_placement()
 	assert(m.gold[0] == 100)
-	var choices = prep.get_node("Root/Panel/Content/Cards/Rewards/Scroll/List")
+	var choices = prep.get_node("Root/Panel/Content/Cards/Equipment/ExpansionPopup/List")
+	prep.open_expansions()
+	await process_frame
+	await process_frame
 	click(choices.get_node("Expansion_rectangle").get_global_rect().get_center())
 	assert(prep.selected_expansion == "rectangle")
 	assert(not prep.preview_expansion(Vector2i(0,0)))

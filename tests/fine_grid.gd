@@ -41,7 +41,7 @@ func run() -> void:
 	await process_frame
 	var grid = game.preparation.get_node("Root/Panel/Content/Cards/Equipment/Grid")
 	assert(grid.get_child_count() == 36 and grid.columns == 6)
-	assert(grid.size == Vector2(368,368))
+	assert(grid.size == Vector2(320,320))
 	assert(not grid.get_child(5)._can_drop_data(Vector2.ZERO,{"entry":18}))
 	assert(not game.preparation.preview_at(18,Vector2i(5,0)))
 	assert("未開放" in game.preparation.detail_path().get_node("Status").text)

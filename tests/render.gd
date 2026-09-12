@@ -98,7 +98,7 @@ func run() -> void:
 	prep.refresh()
 	prep.show_detail(start_gun)
 	await capture("-b-eight-reserve")
-	prep.get_node("Root/Panel/Content/Cards/Reserve/Scroll").scroll_horizontal = 10000
+	assert(prep.get_node("Root/Panel/Content/Cards/Reserve/Scroll").scroll_horizontal == 0)
 	await capture("-b-reserve-end")
 	var original_size := root.size
 	root.size = Vector2i(1120,800)

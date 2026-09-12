@@ -38,7 +38,7 @@ func run() -> void:
 	assert(game.preparation.claim(1))
 	var acquired = m.builds[0].owned.back()
 	assert(Items.relic_id(acquired) == 1 and typeof(acquired) == TYPE_STRING)
-	assert(game.preparation.placement_entry == acquired)
+	assert(game.preparation.placement_entry == null and game.preparation.selected_detail == acquired)
 	m.start_round()
 	assert(m.discard(0,acquired) and acquired in m.previous[0].owned)
 	m.migrate_relic_instances(1)

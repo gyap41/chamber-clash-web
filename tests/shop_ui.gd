@@ -37,6 +37,8 @@ func run() -> void:
 	panel = list.get_children().filter(func(n): return n is PanelContainer)[0]
 	assert(panel.get_child(0).get_node("Claim").disabled and panel.get_child(0).get_node("Claim").text == "売切")
 	var grid = prep.get_node("Root/Panel/Content/Cards/Equipment/Grid")
+	assert(prep.placement_entry == null and prep.selected_detail == token)
+	click(prep.detail_path().get_node("Place").get_global_rect().get_center())
 	click(grid.get_child(0).get_global_rect().get_center())
 	assert(m.builds[0].positions[token] == Vector2i.ZERO)
 	await process_frame
@@ -52,12 +54,12 @@ func run() -> void:
 	await process_frame
 	await process_frame
 	list = prep.get_node("Root/Panel/Content/Cards/Rewards/Scroll/List")
-	click(list.get_node("Refresh").get_global_rect().get_center())
+	click(prep.get_node("Root/Panel/Content/Cards/Rewards/Refresh").get_global_rect().get_center())
 	assert(m.gold[0] == 9 and m.temporary[0] == 19)
 	await process_frame
 	await process_frame
 	list = prep.get_node("Root/Panel/Content/Cards/Rewards/Scroll/List")
-	assert(list.get_node("Refresh").disabled)
+	assert(prep.get_node("Root/Panel/Content/Cards/Rewards/Refresh").disabled)
 	panel = list.get_children().filter(func(n): return n is PanelContainer)[0]
 	assert(panel.get_child(0).get_node("Claim").text == "無料確保")
 	click(panel.get_child(0).get_node("Claim").get_global_rect().get_center())

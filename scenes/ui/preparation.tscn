@@ -19,7 +19,7 @@ mouse_filter = 2
 offset_left = 24.0
 offset_top = 24.0
 offset_right = 1096.0
-offset_bottom = 776.0
+offset_bottom = 780.0
 [node name="Content" type="Control" parent="Root/Panel"]
 layout_mode = 1
 anchors_preset = 15
@@ -27,56 +27,56 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 [node name="Eyebrow" type="Label" parent="Root/Panel/Content"]
 offset_left = 0.0
-offset_top = 0.0
+offset_top = -10.0
 offset_right = 800.0
-offset_bottom = 24.0
+offset_bottom = 8.0
 text = "ROUND PREPARATION"
 theme_override_colors/font_color = Color(0.412,0.851,0.761,1)
 theme_override_font_sizes/font_size = 14
 [node name="Title" type="Label" parent="Root/Panel/Content"]
 offset_left = 0.0
-offset_top = 28.0
-offset_right = 1072.0
-offset_bottom = 66.0
+offset_top = 4.0
+offset_right = 960.0
+offset_bottom = 38.0
 theme_override_font_sizes/font_size = 28
 [node name="Info" type="Label" parent="Root/Panel/Content"]
 offset_left = 0.0
-offset_top = 72.0
-offset_right = 1072.0
-offset_bottom = 98.0
+offset_top = 44.0
+offset_right = 1000.0
+offset_bottom = 70.0
 mouse_filter = 0
 theme_override_colors/font_color = Color(0.569,0.655,0.737,1)
 theme_override_font_sizes/font_size = 16
 [node name="Cards" type="Control" parent="Root/Panel/Content"]
 offset_left = 0.0
-offset_top = 108.0
+offset_top = 80.0
 offset_right = 1072.0
-offset_bottom = 652.0
+offset_bottom = 682.0
 [node name="Footer" type="ColorRect" parent="Root/Panel/Content"]
 offset_left = 0.0
-offset_top = 668.0
+offset_top = 698.0
 offset_right = 1072.0
-offset_bottom = 752.0
+offset_bottom = 756.0
 color = Color(0.125,0.196,0.263,1)
 mouse_filter = 2
 [node name="Notice" type="Label" parent="Root/Panel/Content"]
 offset_left = 18.0
-offset_top = 682.0
-offset_right = 764.0
-offset_bottom = 712.0
-theme_override_font_sizes/font_size = 20
+offset_top = 704.0
+offset_right = 790.0
+offset_bottom = 731.0
+theme_override_font_sizes/font_size = 18
 [node name="Summary" type="Label" parent="Root/Panel/Content"]
 offset_left = 18.0
-offset_top = 718.0
-offset_right = 764.0
-offset_bottom = 742.0
+offset_top = 733.0
+offset_right = 790.0
+offset_bottom = 756.0
 text_overrun_behavior = 3
 mouse_filter = 0
 theme_override_colors/font_color = Color(0.569,0.655,0.737,1)
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 13
 [node name="Ready" type="Button" parent="Root/Panel/Content"]
-offset_left = 776.0
-offset_top = 682.0
-offset_right = 1056.0
-offset_bottom = 738.0
+offset_left = 800.0
+offset_top = 707.0
+offset_right = 1054.0
+offset_bottom = 747.0
 focus_mode = 2

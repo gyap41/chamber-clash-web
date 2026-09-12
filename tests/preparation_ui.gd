@@ -39,7 +39,7 @@ func run() -> void:
 	# Claim through the real reward button; acquisition remains storage-only.
 	var rewards = cards.get_node("Rewards/Scroll/List")
 	var entry = state.rewards[0][0]
-	rewards.get_children().filter(func(n): return n is PanelContainer)[0].get_child(0).mouse_entered.emit()
+	rewards.get_children().filter(func(n): return n is PanelContainer)[0].get_child(0).get_node("Inspect").pressed.emit()
 	assert(cards.get_node("Equipment/Details/Name").text == prep.reward_info(entry).name)
 	rewards.get_children().filter(func(n): return n is PanelContainer)[0].get_child(0).get_node("Claim").pressed.emit()
 	assert(state.relic_id(state.builds[0].owned.back()) == entry and state.builds[0].equipped.is_empty())
@@ -63,6 +63,8 @@ func run() -> void:
 	# Occupied anchors still receive drag events through their child chip.
 	assert(chip._can_drop_data(Vector2.ZERO,{"entry":gun}))
 	assert(not chip._can_drop_data(Vector2.ZERO,{"entry":4}))
+	assert(prep.placement_entry == null)
+	cards.get_node("Equipment/Details/Place").pressed.emit()
 	# A locked click selection must not change when passing over another item.
 	prep.show_detail(0)
 	assert(prep.same_entry(prep.placement_entry,gun))
@@ -96,7 +98,7 @@ func run() -> void:
 	tray._drop_data(Vector2.ZERO,{"entry":gun})
 	assert(gun not in state.builds[0].equipped)
 	var rows = cards.get_node("Reserve/Scroll/List")
-	assert(rows.get_child_count() == 4)
+	assert(rows.get_child_count() == 8)
 	rows.get_child(0).pressed.emit()
 	cards.get_node("Equipment/Details/Discard").pressed.emit()
 	assert(gun not in state.builds[0].owned)
@@ -107,7 +109,7 @@ func run() -> void:
 	await process_frame
 	var reserve_scroll = cards.get_node("Reserve/Scroll")
 	rows = reserve_scroll.get_node("List")
-	assert(rows.get_child_count() == 8 and rows.size.x > reserve_scroll.size.x)
+	assert(rows.get_child_count() == 8 and rows.size.x <= reserve_scroll.size.x)
 	reserve_scroll.scroll_horizontal = 10000
 	await process_frame
 	assert(reserve_scroll.get_global_rect().intersects(rows.get_child(7).get_global_rect()))
@@ -116,7 +118,7 @@ func run() -> void:
 	await process_frame
 	await process_frame
 	reserve_scroll = cards.get_node("Reserve/Scroll")
-	assert(reserve_scroll.scroll_horizontal == 120)
+	assert(reserve_scroll.scroll_horizontal == 0)
 	# Pane rectangles may not overlap; scroll content may extend only inside its clip.
 	var sections: Array = cards.get_children()
 	for a in range(sections.size()):
@@ -124,7 +126,7 @@ func run() -> void:
 			assert(not sections[a].get_global_rect().intersects(sections[b].get_global_rect()))
 	var details = cards.get_node("Equipment/Details")
 	assert(not details.get_global_rect().intersects(cards.get_node("Equipment/Grid").get_global_rect()))
-	assert(not reserve_scroll.get_global_rect().intersects(cards.get_node("Reserve/DropZone").get_global_rect()))
+	assert(cards.get_node("Reserve/DropZone").get_global_rect().encloses(reserve_scroll.get_global_rect()))
 	for card in cards.get_node("Rewards/Scroll/List").get_children():
 		if not card is PanelContainer: continue
 		for control in card.get_child(0).get_children():
@@ -146,7 +148,7 @@ func run() -> void:
 		assert(panel_rect.encloses(section.get_global_rect()))
 	assert(panel_rect.encloses(ready.get_global_rect()))
 	grid = cards.get_node("Equipment/Grid")
-	assert(grid.get_child(0).size.x == 58)
+	assert(grid.get_child(0).size.x == 50)
 	assert(cards.get_node("Equipment").get_global_rect().encloses(grid.get_global_rect()))
 	assert(prep.get_node("Root/Shade").color.a == 1.0)
 	# Exercise Godot's GUI hit testing and drag threshold, not only callback methods.
@@ -155,12 +157,13 @@ func run() -> void:
 	state.stage = 1
 	state.builds[1] = {"owned":[sidearm,0,4],"equipped":[],"positions":{},"mods":{}}
 	prep.cancel_placement()
-	prep.reserve_scroll = 0
 	prep.refresh()
 	await process_frame
 	await process_frame
 	rows = cards.get_node("Reserve/Scroll/List")
 	click_at(rows.get_child(0).get_global_rect().get_center())
+	assert(prep.placement_entry == null and prep.same_entry(prep.selected_detail,sidearm))
+	click_at(cards.get_node("Equipment/Details/Place").get_global_rect().get_center())
 	assert(prep.same_entry(prep.placement_entry,sidearm))
 	grid = cards.get_node("Equipment/Grid")
 	click_at(grid.get_child(0).get_global_rect().get_center())
@@ -181,6 +184,28 @@ func run() -> void:
 	mouse_button(target,false)
 	await process_frame
 	assert(state.builds[1].positions[4] == Vector2i(2,0))
+	# The reserve row accepts actual drops in gaps as well as empty/occupied slots.
+	for destination in [0,1,2]:
+		if 4 not in state.builds[1].equipped:
+			prep.place_relic(4,Vector2i(2,0))
+		await process_frame
+		await process_frame
+		grid = cards.get_node("Equipment/Grid")
+		rows = cards.get_node("Reserve/Scroll/List")
+		source = grid.get_child(2).get_global_rect().get_center()
+		motion(source)
+		mouse_button(source,true)
+		motion(source+Vector2(20,20),true,Vector2(20,20))
+		await process_frame
+		assert(root.gui_is_dragging())
+		target = rows.get_child(0).get_global_rect().get_center()
+		if destination == 1: target = rows.get_child(3).get_global_rect().get_center()
+		if destination == 2: target = rows.get_child(0).get_global_rect().end+Vector2(4,-20)
+		motion(target,true,target-source)
+		await process_frame
+		mouse_button(target,false)
+		await process_frame
+		assert(4 not in state.builds[1].equipped)
 	print("PASS: full-screen preparation, reward/detail/claim, grid and occupied-cell drops, reserve/discard, unarmed ready, turn reset and layout bounds")
 	game.queue_free()
 	quit()

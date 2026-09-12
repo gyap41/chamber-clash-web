@@ -1,5 +1,7 @@
 # 検証手順
 
+準備UI改修：`tests/preparation_redesign.gd` は通常5商品の表示、閲覧の非破壊性、購入後の明示配置、HP0〜3個加算、同時警告、Esc取消を検証。`preparation_ui.gd` は控えの所持品・空き枠・枠間への実ドロップも検証する。実画面撮影は `CHAMBER_SCREENSHOT` に既存の保存先ディレクトリを指定し、`Godot --path . --script res://tools/capture_preparation_revision.gd --quit-after 150`。[画面・実行記録](../art/reviews/preparation-ui-2026-09-12/README.md)。
+
 配布内容の確認：`Godot --headless --path . --export-pack Web .local/art-export-audit.zip` でローカル検証用ZIPを作成し、内容一覧にdocs/・tests/・tools/・assets/generated/、未接続のsample_battle_02/test_ui_click、旧twohead_rinaがないことを確認する。これはゲームデータ部分の検証で、Web実行エンジン込みの配布容量とは異なる。将来音響サンプルを正式採用するときは、そのファイルのexclude_filterを解除する。
 
 素材整理後の検証：`python -X utf8 tools/verify_art_organization.py` で移動先の存在、画像のハッシュ一致、docs/art内のリンクを確認する。旧リナ画像はtests/fixtures/artへ移動。連番撮影は不要候補のraw-frames、完成GIF・まとめ画像はdocs/art/reviewsへ保存する。
