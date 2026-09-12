@@ -65,6 +65,10 @@ const ITEM_TIMERS := ["cool_grip_cd","sole_time","shell_time","shell_cd","aid_ti
 # Set by character_select.gd when CPU mode is chosen (always player index 1, matching the
 # legacy web version's mode==='cpu' hardcoding). Persists across reset_round() like char_id.
 var is_cpu := false
+var participant_id := ""
+var team_id := ""
+var battle_roster
+var battle_slot := -1
 # Applies a character's base stats (HP, speed, reload multiplier, dodge cooldown, pulse
 # count, portrait frame). Mutates the live state dict in place rather than calling reset(),
 # so it is safe to call after reset() has already run this round (e.g. from a pre-match
@@ -109,27 +113,30 @@ func reset(spawn: Vector2) -> void:
 	inventory = []
 	update_weapon_art()
 	sync_visual()
+func begin_encounter(spawn: Vector2, replenish: bool = false) -> void:
+	var resources = preload("res://scripts/game/encounter_resources.gd")
+	var snapshot: Dictionary = resources.capture(self)
+	reset(spawn)
+	resources.restore(self,snapshot)
+	if replenish:
+		state.hp = state.max_hp
+		state.pulses = initial_pulses
+		for i in range(inventory.size()): inventory[i] = new_weapon_entry(inventory[i].id)
+	update_weapon_art()
+func move_to_room(spawn: Vector2) -> void:
+	# Merely changing rooms does not begin a battle or replenish resources.
+	clear_action_inputs()
+	state.pos = spawn
+	sync_visual()
 func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Dictionary = {}) -> bool:
 	if state.hp <= 0 or amount <= 0: return false
 	if state.roll > 0 or (volley >= 0 and state.blocked_volley == volley) or (state.inv > 0 and (volley < 0 or state.last_volley != volley)): return false
-	if not hazard and 3 in relics and state.shield <= 0:
-		state.blocked_volley = volley
-		state.last_volley = -1
-		state.shield = 12.0
-		state.inv = .3
-		ring_requested.emit(state.pos,Color("ffe2a0"),65.0)
-		sound_requested.emit("bell",0)
-		return false
-	if not hazard and 27 in relics and state.shell_time > 0:
-		state.shell_time = 0.0
-		amount = maxf(0.0,amount-relic_value(27,"shell_reduction"))
-		if amount <= 0: return false
+	amount = preload("res://scripts/combat/relic_effects.gd").incoming_damage(self,amount,volley,hazard)
+	if amount <= 0: return false
 	state.last_volley = volley
 	var actual := minf(state.hp,amount)
 	state.hp = maxf(0,state.hp-amount)
-	if not hazard and actual > 0 and state.hp > 0 and 28 in relics and state.aid_time <= 0 and state.aid_used < int(relic_value(28,"aid_limit")):
-		state.aid_used += 1
-		state.aid_time = relic_value(28,"aid_delay")
+	preload("res://scripts/combat/relic_effects.gd").damaged(self,actual,hazard)
 	if telemetry != null: telemetry.record("damage",{"player":str(name),"amount":actual,"volley":volley,"hazard":hazard,"origin":origin})
 	state.inv = .22
 	burst_requested.emit(state.pos,visual_color(),14)
@@ -138,31 +145,25 @@ func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Diction
 	return true
 func visual_color() -> Color:
 	return Color("64b5ee") if name == "P2" else Color("f39545")
-func handle_key(key: int, i: int, shots: Array, enemy, arena) -> bool:
+# Device compatibility adapter for existing effect tests. Runtime uses commands.
+func handle_key(key: int, i: int, _shots: Array, _enemy, _arena) -> bool:
+	if i != 0: return false
+	var command := preload("res://scripts/combat/human_input.gd").key(self,key)
+	if command.switch >= 0: request_switch(command.switch)
+	if command.reload: start_reload()
+	return try_dodge() if command.dodge else false
+func try_dodge() -> bool:
 	var p = state
-	var dodge_nova := false
-	if key == [KEY_E,KEY_K][i] and not inventory.is_empty(): request_switch((int(p.gun)+1) % inventory.size())
-	# P8z：携行数がグリッド由来で最大8丁になりうるため、直接指定も1〜8へ広げた（P1限定）。
-	if i == 0 and key >= KEY_1 and key <= KEY_8: request_switch(key-KEY_1)
-	if key == [KEY_R,KEY_P][i]: start_reload()
-	if key == [KEY_SPACE,KEY_SHIFT][i] and p.dodge <= 0:
-		p.last_volley = -1
-		p.roll = dodge_duration
-		p.dodge = dodge_cooldown * (relic_value(24,"dodge_ratio") if 24 in relics else 1.0)
-		p.inv = maxf(p.inv,dodge_invulnerability)
-		p.phase_load_used = false # すり抜け装填: fresh one-per-dodge opportunity
-		burst_requested.emit(p.pos,visual_color(),8)
-		sound_requested.emit("dodge",0)
-		if 5 in relics: dodge_nova = true
-	# P1's melee moved to a mouse right-click (see main.gd's _unhandled_input → try_melee()) as
-	# part of a fully mouse-driven control scheme (aim/shoot/melee on the mouse, movement on
-	# WASD). P2's local-keyboard fallback keeps N.
-	if i == 1 and key == KEY_N:
-		try_melee(i,shots,enemy,arena)
-	return dodge_nova
-# Shared melee body, reachable either from handle_key() (P2's N key) or directly from a mouse
-# click (P1's right-click, see main.gd). Cooldown/reload/roll guard is checked here so both
-# callers get it for free.
+	if p.hp <= 0 or p.dodge > 0: return false
+	p.last_volley = -1
+	p.roll = dodge_duration
+	p.dodge = dodge_cooldown * (relic_value(24,"dodge_ratio") if 24 in relics else 1.0)
+	p.inv = maxf(p.inv,dodge_invulnerability)
+	burst_requested.emit(p.pos,visual_color(),8)
+	sound_requested.emit("dodge",0)
+	return preload("res://scripts/combat/relic_effects.gd").dodge_started(self)
+func hostile_slot(other: int, own: int) -> bool:
+	return battle_roster.hostile(own,other) if battle_roster != null else own != other
 func try_melee(i: int, shots: Array, enemy, arena) -> void:
 	var p = state
 	if p.melee > 0 or p.reload > 0 or p.roll > 0: return
@@ -176,20 +177,15 @@ func try_melee(i: int, shots: Array, enemy, arena) -> void:
 		var offset: Vector2 = b.pos-p.pos
 		# Legacy inSlash() (game.js:47) requires !lineBlocked(p,target) for both the bullets
 		# melee eats and the enemy it can hit; a wall between the two blocks the swing.
-		if b.owner != i and not b.dead and offset.length() <= melee_range and absf(wrapf(offset.angle()-p.angle,-PI,PI)) <= PI/3 and removed < melee_limit and not arena.line_blocked(p.pos,b.pos):
+		if hostile_slot(b.owner,i) and not b.dead and offset.length() <= melee_range and absf(wrapf(offset.angle()-p.angle,-PI,PI)) <= PI/3 and removed < melee_limit and not arena.line_blocked(p.pos,b.pos):
 			b.dead = true
 			burst_requested.emit(b.pos,Color(b.color),6)
 			removed += 1
-	if removed > 0 and 10 in relics: p.dodge = maxf(0,p.dodge-.3)
-	# 余熱コンデンサ: melee that clears at least one bullet charges a bonus pellet for the next
-	# shot. removed>0 can only become true once per try_melee() call, so this is naturally
-	# "once per swing"; the flag itself caps the charge at one (no stacking).
-	if removed > 0 and 15 in relics: p.residual_heat_charge = true
-	if removed > 0 and 27 in relics and p.shell_cd <= 0:
-		p.shell_time = relic_value(27,"shell_duration")
-		p.shell_cd = relic_value(27,"shell_reuse")
-	var offset: Vector2 = enemy.state.pos-p.pos
-	if offset.length() < melee_range and absf(wrapf(offset.angle()-p.angle,-PI,PI)) <= PI/3 and not arena.line_blocked(p.pos,enemy.state.pos): enemy.hurt(melee_damage)
+	preload("res://scripts/combat/relic_effects.gd").melee_cleared(self,removed)
+	var targets: Array = enemy if enemy is Array else ([enemy] if enemy != null else [])
+	for target in targets:
+		var offset: Vector2 = target.state.pos-p.pos
+		if offset.length() < melee_range and absf(wrapf(offset.angle()-p.angle,-PI,PI)) <= PI/3 and not arena.line_blocked(p.pos,target.state.pos): target.hurt(melee_damage)
 func step(dt: float, i: int, enemy, arena, mouse_shooting: bool = false, ai: Dictionary = {}) -> bool:
 	var p = state
 	var fire_pending := buffered_fire > 0.0 and dt <= buffered_fire + 0.000001
@@ -213,27 +209,18 @@ func step(dt: float, i: int, enemy, arena, mouse_shooting: bool = false, ai: Dic
 		p.reload = maxf(0,p.reload-dt)
 		if p.reload == 0:
 			finish_reload()
-	var axis: Vector2
-	var jitter := 0.0
-	if not ai.is_empty():
-		# CPU-controlled: cpu_ai.gd already computed the (pre-normalization) move vector,
-		# shoot decision, and aim jitter for this frame; no physical input is read at all.
-		axis = Vector2(ai.dx,ai.dy).normalized()
-		jitter = ai.aim_jitter
-		p.angle = (enemy.state.pos-p.pos).angle() + jitter
-	else:
-		var keys: Array = [KEY_A,KEY_D,KEY_W,KEY_S] if i == 0 else [KEY_LEFT,KEY_RIGHT,KEY_UP,KEY_DOWN]
-		axis = Vector2(float(Input.is_physical_key_pressed(keys[1]))-float(Input.is_physical_key_pressed(keys[0])),float(Input.is_physical_key_pressed(keys[3]))-float(Input.is_physical_key_pressed(keys[2]))).normalized()
-		# P1 (human) aims freely at the mouse cursor rather than auto-locking onto the enemy —
-		# a deliberate departure from legacy (and from the CPU/P2 paths above and below), per
-		# the mouse-driven control scheme. P2's local-keyboard fallback keeps the legacy
-		# auto-lock-onto-enemy behavior, since it has no mouse of its own in this scheme.
-		p.angle = (get_global_mouse_position()-p.pos).angle() if i == 0 else (enemy.state.pos-p.pos).angle()
+	# Compatibility arguments adapt to the same data path; no device reads here.
+	var command := ai
+	if command.is_empty():
+		command = preload("res://scripts/combat/combat_command.gd").idle(p.angle)
+		command.shoot = mouse_shooting
+	var axis := Vector2(command.dx,command.dy).normalized()
+	p.angle = float(command.get("angle",(enemy.state.pos-p.pos).angle()+float(command.get("aim_jitter",0.0)) if enemy != null else p.angle))
 	if p.roll <= 0 and axis.length() > 0: p.dir = axis
 	arena.move_fighter(p,p.dir*roll_speed*dt if p.roll > 0 else axis*effective_move_speed()*dt,radius)
 	$Animation.advance(dt,axis.length() > 0)
 	sync_visual()
-	var shooting: bool = ai.shoot if not ai.is_empty() else ((mouse_shooting if i == 0 else keyboard_fire_held) or fire_pending)
+	var shooting: bool = command.shoot or fire_pending
 	if shooting and has_weapon() and weapon().clip == 0: start_reload()
 	var ready := shooting and can_fire()
 	if ready: buffered_fire = 0.0
@@ -311,9 +298,7 @@ func top_up_weapon(id: int) -> bool:
 			return true
 	return false
 func recover_projectile(id: int) -> void:
-	if 14 in relics: state.return_battery_charge = true
-	if 33 in relics and state.reel_cd <= 0 and top_up_weapon(id):
-		state.reel_cd = relic_value(33,"reel_reuse")
+	preload("res://scripts/combat/relic_effects.gd").recovered(self,id)
 func definition() -> Dictionary:
 	return resolved_definition(weapon().id) if has_weapon() else NO_WEAPON_DEF
 func owns(id: int) -> bool:
@@ -332,38 +317,7 @@ func equip_slot(index: int) -> void:
 	# P8z ステップA：下の2つのレリック効果はいずれも「切り替え前の武器」を必要とするため、
 	# 丸腰から1丁目を装備する場合は対象外になる（Weapons.definition(-1)が負数添字で配列末尾を
 	# 返してしまうのも、ここで防いでいる）。
-	if has_weapon() and 8 in relics and state.holster <= 0:
-		var old := weapon()
-		var old_def := resolved_definition(old.id)
-		if old.reserve > 0 and old.clip < int(old_def.mag):
-			old.clip += 1
-			old.reserve -= 1
-			state.holster = 1.5
-	# 残響ホルスター: on a genuine switch (guarded by the same index==state.gun no-op check
-	# above), reserve a weak follow-up shot from the *outgoing* weapon while it is still
-	# `weapon()`. Consumes 1 round from the outgoing weapon's own ammo (clip first, then
-	# reserve); an outgoing weapon with no ammo left simply misfires ("空なら不発") but the
-	# cooldown still starts, so rapid switching cannot spam the request. main.gd turns this
-	# into a delayed_shots entry (depth 1, no volley, can't re-trigger further generation) and
-	# already clears the *enemy's* delayed shots on pulse via the existing owner filter, so a
-	# pulse also removes any echo-holster shot the pulsing player had reserved against them.
-	if has_weapon() and 16 in relics and state.echo_holster_cd <= 0:
-		var outgoing := weapon()
-		var outgoing_def: Dictionary = resolved_definition(outgoing.id)
-		var relic16 := Relics.definition(16)
-		state.echo_holster_cd = float(relic16.get("holster_cooldown",2.5))
-		if int(outgoing.clip)+int(outgoing.reserve) > 0:
-			if outgoing.clip > 0: outgoing.clip -= 1
-			else: outgoing.reserve -= 1
-			delayed_shot_requested.emit({"gun":outgoing.id,"angle":state.angle,"delay":.22,"damage":float(outgoing_def.damage)*float(relic16.get("holster_ratio",.5)),"kind":"echo_holster","can_lens":false,"depth":1})
-	# 帰還バッテリー: a stored charge arms on the switch itself; the bonus is spent by the
-	# *next* fire() call (see main.gd), not by this switch.
-	if 14 in relics and state.return_battery_charge:
-		state.return_battery_charge = false
-		state.return_battery_armed = true
-	if has_weapon() and 30 in relics and state.sight_cd <= 0:
-		state.sight_time = relic_value(30,"sight_duration")
-		state.sight_cd = relic_value(30,"sight_reuse")
+	preload("res://scripts/combat/relic_effects.gd").switching(self)
 	state.gun = index
 	state.reload = 0.0
 	state.reload_slot = -1
@@ -387,15 +341,7 @@ func finish_reload() -> void:
 	var amount := mini(int(definition().mag)-int(w.clip), int(w.reserve))
 	w.clip += amount
 	w.reserve -= amount
-	if amount > 0 and 23 in relics and state.cool_grip_cd <= 0:
-		state.dodge = maxf(0.0,state.dodge-relic_value(23,"cool_reduction"))
-		state.cool_grip_cd = relic_value(23,"cool_reuse")
-	if amount > 0 and definition().get("switcher", false): w.mode = 1-w.mode
-	# 空薬莢の祝福: only a reload that both started from empty AND actually completed here
-	# (not interrupted — an interrupted reload never reaches finish_reload(), see the
-	# reload_slot guard above, and 予備マガジン's 1-round top-up never goes through
-	# start_reload()/finish_reload() at all) charges the next full-magazine shot.
-	if state.reload_started_empty and 13 in relics: state.empty_casing_charge = true
+	preload("res://scripts/combat/relic_effects.gd").reload_completed(self,amount,w)
 	state.reload_started_empty = false
 	state.reload_slot = -1
 func update_weapon_art() -> void:
@@ -488,7 +434,7 @@ func try_phase_load(shots: Array, index: int) -> void:
 		var phase_triggered := false
 		var phase_radius: float = float(Relics.definition(17).get("phase_radius",42.0))
 		for b in shots:
-			if b.state.owner != index and not b.state.dead and b.state.pos.distance_to(state.pos) < phase_radius:
+			if hostile_slot(b.state.owner,index) and not b.state.dead and b.state.pos.distance_to(state.pos) < phase_radius:
 				phase_triggered = true
 				break
 		# P8z ステップA：すり抜け装填には装填する武器が要る。丸腰ではWeapons.definition(-1)が

@@ -12,6 +12,7 @@ func run() -> void:
 	root.size = Vector2i(1120,800)
 	var game = load("res://scenes/game/main.tscn").instantiate()
 	root.add_child(game)
+	preload("res://tests/helpers/battle.gd").passive_opponents(game)
 	game.set_physics_process(false)
 	game.new_match(42)
 	game.assign_character(0,0)
@@ -100,7 +101,7 @@ func run() -> void:
 	q.is_cpu = false
 	game._physics_process(0)
 	await capture("local")
-	assert(hud.get_node("Root/Loadouts/P2").visible and hud.get_node("Root/Active1").visible)
+	assert(not hud.get_node("Root/Loadouts/P2").visible and not hud.get_node("Root/Active1").visible)
 	for row in hud.slots:
 		for slot in row:
 			if slot.visible: assert(dock.encloses(slot.get_global_rect()))

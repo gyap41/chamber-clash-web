@@ -11,14 +11,16 @@ func refresh(value: float) -> void:
 	queue_redraw()
 
 func safe_rect() -> Rect2:
-	return Rect2(inset+25.0,inset*.58+25.0,1120.0-2.0*inset-50.0,600.0-2.0*inset*.58-50.0)
+	return get_parent().safe_rect(inset)
 
 func _draw() -> void:
 	if inset <= 0.0: return
-	draw_rect(Rect2(28,35,inset,538),band_color)
-	draw_rect(Rect2(1092-inset,35,inset,538),band_color)
-	draw_rect(Rect2(28,35,1064,inset*.58),band_color)
-	draw_rect(Rect2(28,572-inset*.58,1064,inset*.58),band_color)
+	var field: Rect2 = get_parent().field_rect
+	var safe := safe_rect()
+	draw_rect(Rect2(field.position,Vector2(safe.position.x-field.position.x,field.size.y)),band_color)
+	draw_rect(Rect2(Vector2(safe.end.x,field.position.y),Vector2(field.end.x-safe.end.x,field.size.y)),band_color)
+	draw_rect(Rect2(field.position,Vector2(field.size.x,safe.position.y-field.position.y)),band_color)
+	draw_rect(Rect2(Vector2(field.position.x,safe.end.y),Vector2(field.size.x,field.end.y-safe.end.y)),band_color)
 	var rect := safe_rect()
 	# Canvas setLineDash([8,8]): preserve its phase around the whole rectangle.
 	var corners := [rect.position,Vector2(rect.end.x,rect.position.y),rect.end,Vector2(rect.position.x,rect.end.y),rect.position]

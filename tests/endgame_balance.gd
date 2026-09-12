@@ -11,6 +11,7 @@ func setup(game, weapon: int) -> void:
 func run() -> void:
 	var game = load("res://scenes/game/main.tscn").instantiate()
 	root.add_child(game)
+	preload("res://tests/helpers/battle.gd").passive_opponents(game)
 	game.set_physics_process(false)
 	setup(game,8)
 	var p = game.players[0]
@@ -66,7 +67,7 @@ func run() -> void:
 	well.step(.001,game.arena,game.players,game.shots)
 	assert(is_equal_approx(q.state.hp,5.4492)) # buffed seed 1.6 * core/cell + gravity .65
 	var hp_before_dodge: float = q.state.hp
-	q.handle_key(KEY_SHIFT,1,game.shots,p,game.arena)
+	q.try_dodge()
 	well.state.tick = 0.0
 	well.step(.001,game.arena,game.players,game.shots)
 	assert(q.state.hp == hp_before_dodge)
@@ -79,7 +80,7 @@ func run() -> void:
 		p.relics = [2,6,7,11,12,16]
 		game.fire(0)
 		var bullet = game.shots[0]
-		q.handle_key(KEY_SHIFT,1,game.shots,p,game.arena)
+		q.try_dodge()
 		var hp: float = q.state.hp
 		bullet.state.pos = q.state.pos
 		bullet.step(.001,game.arena,q)

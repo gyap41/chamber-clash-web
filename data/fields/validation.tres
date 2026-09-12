@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/world/field_definition.gd" id="1"]
+[resource]
+script = ExtResource("1")
+field_id = "validation"
+field_rect = Rect2(0,0,1440,900)
+fighter_bounds = Rect2(60,82,1320,758)
+projectile_bounds = Rect2(32,37,1376,833)
+walls = Array[Rect2]([Rect2(350.0,160.0,120.0,220.0), Rect2(970.0,355.0,120.0,305.0), Rect2(680.0,440.0,80.0,90.0)])
+spawns = PackedVector2Array(170,300,1270,300,1270,600,1270,780)
+supply_points = {
+"InitialWeapons": PackedVector2Array(560,125,560,475),
+"Weapons": PackedVector2Array(560,205,560,395),
+"Ammo": PackedVector2Array(450,300,670,300),
+"Legendary": PackedVector2Array(560,205,560,395),
+"Relics": PackedVector2Array(460,220,660,380)
+}

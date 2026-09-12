@@ -53,10 +53,10 @@ func refresh(players: Array, ready_delay: float = .6, open_seconds: float = 0.0)
 				hints.append("P%dが開封中" % (opening_player+1))
 			elif kind == "weapon":
 				var reason: String = p.field_weapon_reason(gun)
-				hints.append("P%d %s" % [i+1,("F：控えへ（次の準備で配置）" if i == 0 else "H：控えへ（次の準備で配置）") if reason.is_empty() else reason])
+				hints.append("P%d %s" % [i+1,("F：控えへ（次の準備で配置）" if i == 0 else "控えへ取得可能") if reason.is_empty() else reason])
 			elif kind == "relic":
 				var reason: String = p.field_relic_reason(gun)
-				hints.append("P%d %s" % [i+1,("F：開封" if i == 0 else "H：開封") if reason == "" else reason])
+				hints.append("P%d %s" % [i+1,("F：開封" if i == 0 else "開封可能") if reason == "" else reason])
 	$Label.text = text
 	$Hint.text = " / ".join(hints)
 	$Label.visible = not hints.is_empty() or (kind == "weapon" and Weapons.definition(gun).rarity == "S")

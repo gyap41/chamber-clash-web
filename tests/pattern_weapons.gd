@@ -13,6 +13,7 @@ func setup(game, id: int):
 func run() -> void:
 	var game = load("res://scenes/game/main.tscn").instantiate()
 	root.add_child(game)
+	preload("res://tests/helpers/battle.gd").passive_opponents(game)
 	game.set_physics_process(false)
 	for id in [2,14]:
 		var count := 8 if id == 2 else 4
@@ -110,7 +111,7 @@ func run() -> void:
 		b = setup(game,id)
 		game.players[1].state.pos = b.state.pos+Vector2(30,0)
 		game.players[1].state.angle = PI
-		game.players[1].handle_key(KEY_N,1,game.shots,game.players[0],game.arena)
+		game.apply_command(1,{"melee":true})
 		game._physics_process(.01)
 		assert(game.shots.is_empty())
 		assert(id in game.Weapons.rarity_pool(game.Weapons.definition(id).rarity))

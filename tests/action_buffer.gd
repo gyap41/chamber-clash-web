@@ -17,6 +17,7 @@ func key(game, code: int, pressed: bool = true, echo: bool = false) -> void:
 func run() -> void:
 	var game = load("res://scenes/game/main.tscn").instantiate()
 	root.add_child(game)
+	preload("res://tests/helpers/battle.gd").passive_opponents(game)
 	game.set_physics_process(false)
 	preload("res://tests/helpers/battle.gd").start(game)
 	var p = game.players[0]
@@ -111,10 +112,10 @@ func run() -> void:
 	key(game,KEY_L,false)
 	var qclip: int = q.weapon().clip
 	game._physics_process(.08)
-	assert(q.weapon().clip == qclip-1)
+	assert(q.weapon().clip == qclip) # Removed P2 keys cannot shoot.
 	key(game,KEY_L)
 	game._notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
 	assert(not q.keyboard_fire_held and q.buffered_fire == 0)
-	print("PASS: 100ms tap/hold/expiry, single switch, UI/latest slot, pause/focus/result/reset, local P2")
+	print("PASS: 100ms tap/hold/expiry, single switch, UI/latest slot, pause/focus/result/reset, P2 key removal")
 	game.queue_free()
 	quit()

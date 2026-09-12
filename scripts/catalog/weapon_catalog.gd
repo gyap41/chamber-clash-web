@@ -8,7 +8,7 @@ const EXTRA_SHEET = preload("res://assets/weapons/weapons-extra.png")
 static var textures: Dictionary = {}
 
 static func definition(id: int) -> Dictionary:
-	return Catalog.data.guns[id]
+	return Catalog.definition("guns",id)
 
 static func stats_text(g: Dictionary) -> String:
 	var output := "%d発同時" % int(g.get("count",1))
@@ -52,7 +52,7 @@ static func rarity_color(id: int) -> Color:
 # *duplicated* definition dict (see apply_mod) so the shared catalog entry itself is never
 # mutated — "所持定義を共有カタログへ書き戻さない".
 static func mods_for(id: int) -> Array:
-	return Catalog.data.guns[id].get("mods", [])
+	return Catalog.definition("guns",id).get("mods", [])
 static func moddable(id: int) -> bool:
 	return not mods_for(id).is_empty()
 static func mod_definition(id: int, key: String) -> Dictionary:

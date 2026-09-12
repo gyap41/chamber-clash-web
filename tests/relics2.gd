@@ -24,6 +24,7 @@ func key_event(code: int) -> InputEventKey:
 func run() -> void:
 	var game = load("res://scenes/game/main.tscn").instantiate()
 	root.add_child(game)
+	preload("res://tests/helpers/battle.gd").passive_opponents(game)
 	game.set_physics_process(false)
 	var p = game.players[0]
 	var q = game.players[1]

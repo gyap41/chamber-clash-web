@@ -18,21 +18,25 @@ func _ready() -> void:
 		var points := PackedVector2Array()
 		for i in range(65): points.append(Vector2.from_angle(i*TAU/64)*entry[1])
 		get_node(entry[0]).points = points
-func step(dt: float, arena, players: Array, shots: Array) -> void:
+func step(dt: float, arena, players: Array, shots: Array, roster = null) -> void:
 	state.life -= dt
 	state.tick -= dt
-	var enemy = players[1-state.owner]
-	var offset: Vector2 = position-enemy.state.pos
-	var distance := offset.length()
-	if distance < pull_radius and distance > 4.0 and enemy.state.roll <= 0:
-		arena.move_fighter(enemy.state,offset/distance*pull_speed*dt,enemy.radius)
-		enemy.sync_visual()
-	if state.tick <= 0:
-		state.tick = tick_interval
-		if distance < damage_radius and not arena.line_blocked(position,enemy.state.pos): enemy.hurt(tick_damage)
+	var tick: bool = state.tick <= 0
+	if tick: state.tick = tick_interval
+	for i in range(players.size()):
+		if not (roster.hostile(state.owner,i) if roster != null else i != state.owner): continue
+		var enemy = players[i]
+		if enemy.state.hp <= 0: continue
+		var offset: Vector2 = position-enemy.state.pos
+		var distance := offset.length()
+		if distance < pull_radius and distance > 4.0 and enemy.state.roll <= 0:
+			arena.move_fighter(enemy.state,offset/distance*pull_speed*dt,enemy.radius)
+			enemy.sync_visual()
+		if tick and distance < damage_radius and not arena.line_blocked(position,enemy.state.pos): enemy.hurt(tick_damage)
+
 	for shot in shots:
 		var b: Dictionary = shot.state
-		if b.dead or b.owner == state.owner: continue
+		if b.dead or not (roster.hostile(state.owner,b.owner) if roster != null else b.owner != state.owner): continue
 		var toward: Vector2 = position-b.pos
 		var d := toward.length()
 		if d < bullet_radius:

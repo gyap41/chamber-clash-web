@@ -10,6 +10,7 @@ func key(game, code: int, echo: bool = false) -> void:
 func run() -> void:
 	var game = load("res://scenes/game/main.tscn").instantiate()
 	root.add_child(game)
+	preload("res://tests/helpers/battle.gd").passive_opponents(game)
 	game.set_physics_process(false)
 	var p = game.players[0]
 	var q = game.players[1]
@@ -54,8 +55,12 @@ func run() -> void:
 	# P2 pulse reverted to legacy's O (was I); weapon switch reverted to legacy's K (was O).
 	var previous: int = q.state.gun
 	key(game,KEY_K)
+	assert(q.state.gun == previous and q.state.pulses == 4)
+	game.apply_command(1,{"switch":(previous+1)%q.inventory.size()})
 	assert(q.state.gun != previous and q.state.pulses == 4)
 	key(game,KEY_O)
+	assert(q.state.pulses == 4)
+	game.apply_command(1,{"pulse":true})
 	assert(q.state.pulses == 3 and game.shots.is_empty() and game.wells.is_empty())
 	p.state.inv = 1.0
 	assert(game.use_pulse(0) and p.state.inv == 1.0)

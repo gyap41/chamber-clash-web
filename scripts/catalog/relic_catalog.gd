@@ -11,7 +11,7 @@ static func additive_bonus(ids: Array, stat: String) -> float:
 static func supported(id: int) -> bool:
 	return id in SUPPORTED
 static func definition(id: int) -> Dictionary:
-	return Catalog.data.relics[id]
+	return Catalog.definition("relics",id)
 static func stacked_value(ids: Array, id: int, key: String) -> float:
 	var relic := definition(id)
 	var value := float(relic.get(key,0.0))

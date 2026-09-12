@@ -93,15 +93,8 @@ func discard(id) -> void:
 func ready_shop() -> void:
 	if game.phase != "prepare" or not game.match_state.confirm(turn): return
 	game.telemetry.record("preparation",{"player":turn,"seconds":(Time.get_ticks_msec()-started)/1000.0,"build":game.match_state.builds[turn]})
-	if turn == 0:
-		turn = 1
-		selected_expansion = ""
-		selected_detail = null
-		placement_entry = null
-		reserve_scroll = 0
-		scroll_to_latest = false
-		started = Time.get_ticks_msec()
-		if game.players[1].is_cpu: auto_prepare(1)
+	for i in range(game.players.size()):
+		if game.players[i].is_cpu and not game.match_state.ready[i]: auto_prepare(i)
 	game.launch_round()
 	refresh()
 # Deterministic tag-based heuristic; the same state methods enforce every CPU limit.
@@ -389,8 +382,8 @@ func refresh() -> void:
 	state.sync_mod_product(turn)
 	$Root/Panel/Content/Title.text = "P%d  ラウンド準備" % (turn+1)
 	$Root/Panel/Content/Info.text = "準備 %d / 5本先取 / SCORE %d : %d / %dG" % [state.stage,state.scores[0],state.scores[1],state.gold[turn]]
-	$Root/Panel/Content/Info.tooltip_text = "相手の前ラウンド確定ビルド：" + build_text(state.previous[1-turn]) + "\nローカル2人では選択を秘匿できません。"
-	$Root/Panel/Content/Ready.text = "準備完了・対戦開始" if turn == 1 or game.players[1].is_cpu else "準備完了・P2へ"
+	$Root/Panel/Content/Info.tooltip_text = "相手の前ラウンド確定ビルド：" + " / ".join(game.roster.enemies(turn,game.players).map(func(player): return build_text(state.previous[game.players.find(player)])))
+	$Root/Panel/Content/Ready.text = "準備完了・対戦開始"
 	$Root/Panel/Content/Ready.disabled = state.ready[turn]
 	var guns: Array = state.carried_guns(turn)
 	var names: Array = guns.map(func(id): return str(Weapons.definition(id).name))

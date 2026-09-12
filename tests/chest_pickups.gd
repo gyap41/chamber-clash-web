@@ -13,6 +13,7 @@ func mature(item) -> void:
 func run() -> void:
 	var game = load("res://scenes/game/main.tscn").instantiate()
 	root.add_child(game)
+	preload("res://tests/helpers/battle.gd").passive_opponents(game)
 	game.set_physics_process(false)
 	launch(game)
 	var s = game.supplies

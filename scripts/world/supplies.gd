@@ -74,7 +74,9 @@ func put_item(kind: String, id: int, pos: Vector2):
 func spawn_group(group: String, kind: String, id: int = 0) -> void:
 	# One shared drop per event. Seeded choice keeps replays reproducible; try the
 	# other authored marker if occupied, without duplicating the reward.
-	var markers: Array = get_node("Spawns/"+group).get_children()
+	var container = get_node_or_null("Spawns/"+group)
+	if container == null: return
+	var markers: Array = container.get_children()
 	if markers.is_empty(): return
 	var first: int = game.supply_generator.rng.randi_range(0,markers.size()-1)
 	for offset in range(markers.size()):
@@ -87,7 +89,7 @@ func periodic_supply() -> void:
 	spawn_group("Weapons","weapon",weighted_gun())
 	announce("武器補給：中央付近に共有の宝箱が1個出現")
 func acquire(player_index: int, item, replace: bool = false) -> bool:
-	if player_index not in [0,1]: return false
+	if player_index < 0 or player_index >= game.players.size(): return false
 	if not active() or not is_instance_valid(item) or item not in items or item.used or item.age < pickup_delay or item.age >= pickup_lifetime: return false
 	if item.opening_player != -1 and item.opening_player != player_index: return false
 	var player = game.players[player_index]
@@ -109,11 +111,11 @@ func acquire(player_index: int, item, replace: bool = false) -> bool:
 	if message.is_empty(): return false
 	game.telemetry.record("pickup",{"player":player_index,"kind":item.kind,"id":item.gun})
 	item.used = true
-	game.sound.play_sound("pickup")
+	game.presentation.play_sound("pickup")
 	var color := Color("a5e9ee")
 	if item.kind == "weapon": color = Weapons.rarity_color(item.gun)
 	elif item.kind == "relic": color = Color(Relics.definition(item.gun).color)
-	game.combat_visuals.burst(item.position,color,22)
+	game.presentation.burst(item.position,color,22)
 	item.visible = false
 	announce("P%d：%s" % [player_index+1,message])
 	return true
@@ -150,7 +152,7 @@ func step(dt: float) -> void:
 	if relic_timer <= 0:
 		relic_timer = relic_interval
 		spawn_group("Relics","relic",game.supply_generator.shuffled(Relics.SUPPORTED)[0])
-		announce("レリック補給：共有の宝箱1個・F / Hで開封")
+		announce("レリック補給：共有の宝箱1個・Fで開封")
 	supply_timer -= dt
 	if supply_timer <= 0:
 		supply_timer = supply_interval
@@ -164,14 +166,14 @@ func step(dt: float) -> void:
 			announce("あと5秒：中央付近にSレア武器を1個投下")
 	if elapsed >= legendary_time and legendary_selected and not legendary_spawned:
 		legendary_spawned = true
-		game.sound.play_sound("legendary")
+		game.presentation.play_sound("legendary")
 		spawn_group("Legendary","weapon",weighted_gun(true))
 		announce("Sレア武器が中央付近に1個到着")
 	for item in items:
 		item.age += dt
 		if item.age < pickup_lifetime:
 			if item.kind == "ammo":
-				for i in range(2): acquire(i,item)
+				for i in range(game.players.size()): acquire(i,item)
 			elif item.opening_player != -1:
 				# P7 宝箱演出：開封中のプレイヤーがinteract_radius内に留まっている間だけ進行。
 				# 無敵にはしないため、開封中も通常どおり被弾しうる。範囲外に出た／倒れたら中断。

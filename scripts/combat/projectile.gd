@@ -32,8 +32,9 @@ func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionar
 	speed = opts.get("speed", g.speed)
 	damage = opts.get("damage", g.damage)
 	var direct := int(opts.get("depth",0)) == 0
-	var damage_scale: float = (1.0+player.Relics.additive_bonus(player.relics,"shot_bonus") if direct else 1.0)*(1.0+player.relic_value(6,"heavy_bonus"))
-	var speed_scale: float = (1.0+player.Relics.additive_bonus(player.relics,"speed_bonus") if direct else 1.0)*player.relic_value(6,"heavy_ratio")
+	var scales: Vector2 = preload("res://scripts/combat/relic_effects.gd").scales(player,direct)
+	var damage_scale: float = scales.x
+	var speed_scale: float = scales.y
 	damage *= float(opts.get("damage_scale",damage_scale))
 	speed *= float(opts.get("speed_scale",speed_scale))
 	if g.get("comet",false): lifetime = 1.45
@@ -76,7 +77,15 @@ func _draw() -> void:
 		draw_arc(Vector2.ZERO,radius+6,0,TAU,24,Color("fff3b0"),1.5,true)
 	if source_player != null and source_player.temporary_relic >= 0 and state.depth > 0:
 		for n in range(4): draw_arc(Vector2.ZERO,radius+9,n*PI/2,n*PI/2+PI/4,6,Color("e6a0ff"),2.0,true)
-func step(dt: float, arena, enemy) -> void:
+func step(dt: float, arena, targets) -> void:
+	var enemies: Array = targets if targets is Array else ([targets] if targets != null else [])
+	var enemy = null
+	var nearest := INF
+	for target in enemies:
+		var distance: float = state.pos.distance_squared_to(target.state.pos)
+		if target.state.hp > 0 and distance < nearest:
+			nearest = distance
+			enemy = target
 	var b = state
 	var bounds: Rect2 = arena.projectile_bounds
 	if b.dead or b.life <= 0: return
@@ -86,7 +95,7 @@ func step(dt: float, arena, enemy) -> void:
 		b.cross_turned = true
 		b.velocity = b.velocity.rotated(b.cross_turn)
 	# Legacy update order: age, special velocity, then swept movement/collision.
-	if b.seed and b.age >= .6 and not b.launched:
+	if enemy != null and b.seed and b.age >= .6 and not b.launched:
 		b.velocity = Vector2.ZERO
 		var seed_def: Dictionary = source_player.resolved_definition(gun_id)
 		if b.pos.distance_to(enemy.state.pos) <= float(seed_def.get("seed_trigger_radius",100.0)) and not arena.line_blocked(b.pos,enemy.state.pos):
@@ -98,7 +107,7 @@ func step(dt: float, arena, enemy) -> void:
 	if b.bubble and b.age >= float(b.get("bubble_delay",1.0)) and not b.launched:
 		b.launched = true
 		b.velocity = b.velocity.normalized()*480.0
-	if b.homing:
+	if enemy != null and b.homing:
 		var desired: float = (enemy.state.pos-b.pos).angle()
 		var current: float = b.velocity.angle()
 		var turn_rate: float = b.turn_rate if absf(wrapf(desired-current,-PI,PI)) <= b.homing_cone else 0.0
@@ -127,15 +136,7 @@ func step(dt: float, arena, enemy) -> void:
 				b.rebounds += 1
 				if b.bank: weapon_effect_requested.emit(0,previous,(-b.velocity).angle()+PI/4)
 				if b.bank: damage += bank_bonus
-				if b.rebounds == 1 and 11 in source_player.relics: b.velocity *= 1.0+source_player.relic_value(11,"rebound_bonus")
-				if b.rebounds == 1 and b.depth == 0 and 31 in source_player.relics: damage *= 1.0+source_player.relic_value(31,"rubber_bonus")
-				# 反響の種: the *first* bounce of a directly-fired bullet drops a short-lived
-				# stationary pool at the bounce point. "echo_seed" in applied_effects makes this
-				# resilient even if rebounds==1 could somehow be re-entered; b.depth==0 keeps the
-				# pool itself (and any other derived bullet) from ever chaining another one.
-				if b.rebounds == 1 and b.depth == 0 and 12 in source_player.relics and "echo_seed" not in b.applied_effects:
-					b.applied_effects.append("echo_seed")
-					derived_shot_requested.emit(b.owner,previous,12)
+				preload("res://scripts/combat/relic_effects.gd").first_bounce(self,previous)
 				if b.pos.x < bounds.position.x or b.pos.x > bounds.end.x or arena.solid(Vector2(b.pos.x,previous.y),radius): b.velocity.x *= -1
 				else: b.velocity.y *= -1
 				b.pos = previous
@@ -146,14 +147,18 @@ func step(dt: float, arena, enemy) -> void:
 				b.life = 0.0
 				burst_requested.emit(b.pos,Color(b.color),7)
 				if switcher: weapon_effect_requested.emit(2,b.pos,b.velocity.angle()+PI/4)
-		elif b.pos.distance_to(enemy.state.pos) < enemy.radius + radius:
-			var pass_key := "back" if b.age > .7 else "out"
-			if b.boomerang:
-				if pass_key not in b.hits and enemy.hurt(damage,b.volley,false,log_origin): b.hits.append(pass_key)
-			else:
-				enemy.hurt(damage,b.volley,false,log_origin)
-				if switcher: weapon_effect_requested.emit(2,b.pos,b.velocity.angle()+PI/4)
-				b.life = 0.0
+		else:
+			for target in enemies:
+				if target.state.hp <= 0 or b.pos.distance_to(target.state.pos) >= target.radius+radius: continue
+				var pass_key := ("back" if b.age > .7 else "out")+":"+str(target.participant_id)
+				if b.boomerang:
+					if pass_key not in b.hits and target.hurt(damage,b.volley,false,log_origin): b.hits.append(pass_key)
+				else:
+					target.hurt(damage,b.volley,false,log_origin)
+					if switcher: weapon_effect_requested.emit(2,b.pos,b.velocity.angle()+PI/4)
+					b.life = 0.0
+					break
+
 	position = b.pos
 	$Art.refresh(b.age,b.velocity)
 	queue_redraw()

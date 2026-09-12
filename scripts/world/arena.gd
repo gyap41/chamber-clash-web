@@ -1,8 +1,18 @@
 extends Node2D
-@export var fighter_bounds := Rect2(60,82,1000,458)
-# Legacy's wall-bounce check (game.js:113) is b.y<37||b.y>H-30 (H=600): top=37, bottom=570.
-# Left/right (32 / W-32, W=1120) and bottom already matched; only the top was off by ~23px.
-@export var projectile_bounds := Rect2(32,37,1056,533)
+const Definition = preload("res://scripts/world/field_definition.gd")
+const Builder = preload("res://scripts/world/field_builder.gd")
+@export var definition: Definition
+var runtime_definition: Definition
+var field_rect: Rect2
+var fighter_bounds: Rect2
+var projectile_bounds: Rect2
+func _ready() -> void:
+	var errors := configure_field(definition,$Players.get_child_count())
+	assert(errors.is_empty(),"; ".join(errors))
+func configure_field(source: Definition, participant_count: int = 0, radius: float = 14.0) -> PackedStringArray:
+	var errors := Builder.apply(self,source,participant_count,radius)
+	if errors.is_empty(): definition = source
+	return errors
 func solid(pos: Vector2, radius: float) -> bool:
 	for node in $Walls.get_children():
 		var wall: Rect2 = node.collision_rect()
@@ -28,3 +38,17 @@ func line_blocked(from: Vector2, to: Vector2) -> bool:
 	for i in range(1,steps):
 		if solid(from.lerp(to,float(i)/steps),2.0): return true
 	return false
+
+func safe_rect(inset: float, padding: Vector2 = Vector2(25,25)) -> Rect2:
+	var margin := Vector2(inset,inset*.58)+padding
+	margin = margin.min(field_rect.size*.49)
+	return Rect2(field_rect.position+margin,field_rect.size-2*margin)
+func spawn_position(slot: int) -> Vector2:
+	var markers := $Spawns.get_children()
+	assert(slot >= 0 and slot < markers.size(), "Field needs a spawn for every participant")
+	return to_local(markers[slot].global_position)
+func apply_hazards(player, inset: float) -> void:
+	var safe := safe_rect(inset)
+	var pos: Vector2 = player.state.pos
+	if inset > 0 and (pos.x < safe.position.x or pos.x > safe.end.x or pos.y < safe.position.y or pos.y > safe.end.y):
+		player.hurt(.16,-1,true,{"kind":"danger_zone"})

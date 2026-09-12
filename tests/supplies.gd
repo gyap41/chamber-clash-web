@@ -9,6 +9,7 @@ func mature(item) -> void:
 func run() -> void:
 	var game = load("res://scenes/game/main.tscn").instantiate()
 	root.add_child(game)
+	preload("res://tests/helpers/battle.gd").passive_opponents(game)
 	game.set_physics_process(false)
 	var s = game.supplies
 	assert(is_equal_approx(s.legendary_chance,.3))
@@ -108,6 +109,8 @@ func run() -> void:
 	assert(not s.acquire(1,item))
 	key.keycode = KEY_H
 	game._unhandled_key_input(key)
+	assert(item.opening_player == -1) # P2 H was removed.
+	game.apply_command(1,{"interact":true})
 	assert(item.opening_player == 1 and not item.used)
 	# P1がHキー中の宝箱を横取りしようとしても無視される（p(P1)も同じ宝箱のinteract_radius内）。
 	key.keycode = KEY_F

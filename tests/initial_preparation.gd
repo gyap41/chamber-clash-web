@@ -13,13 +13,12 @@ func click(at: Vector2) -> void:
 		event.pressed = down
 		root.push_input(event,true)
 func run() -> void:
-	for cpu in [false,true]:
+	for cpu in [true]:
 		for character in range(Characters.count()):
 			var select = load("res://scenes/ui/character_select.tscn").instantiate()
 			root.add_child(select)
 			select.set_mode(cpu)
 			select.select_character(character)
-			if not cpu: select.select_character((character+1)%Characters.count())
 			var game = root.get_children().filter(func(n): return n.get_script() != null and n.get_script().resource_path.ends_with("main.gd"))[0]
 			game.set_physics_process(false)
 			var m = game.match_state
@@ -53,5 +52,5 @@ func run() -> void:
 			assert(m.builds[0].positions[gun] == Vector2i.ZERO)
 			game.queue_free()
 			await process_frame
-	print("PASS: all 8 characters/local+CPU initial UI identity, two-cell click placement, unplaced starter stable across relic purchase")
+	print("PASS: all 8 characters/CPU initial UI identity, two-cell click placement, unplaced starter stable across relic purchase")
 	quit()

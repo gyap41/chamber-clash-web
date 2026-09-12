@@ -34,3 +34,7 @@ static func start(game, gun: int = 1) -> void:
 		player.state.gun = maxi(0,player.inventory.size()-1)
 		player.update_weapon_art()
 		game.fighters[i] = player.state
+
+# Isolated weapon/economy tests opt out of autonomous opponents. CPU tests enable them explicitly.
+static func passive_opponents(game) -> void:
+	for player in game.players: player.is_cpu = false

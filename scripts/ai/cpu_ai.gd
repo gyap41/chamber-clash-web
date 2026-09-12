@@ -1,11 +1,19 @@
 extends RefCounted
-# CPU controls P2 through shared player actions and cooldowns. Movement and aim
-# feed Player.step(); roll, melee, reload and pickups use the normal gameplay APIs.
-# Combat timers tick in Player.step after decide, so newly ready actions may wait one frame.
+# Each CPU produces common commands for its own participant and a roster-selected enemy.
+# sample updates decision memory only; action effects belong to CombatSession.
+# Combat timers tick in Player.step after decisions, retaining the existing order.
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const Navigation = preload("res://scripts/ai/cpu_navigation.gd")
 
 static func decide(game, player, enemy, dt: float) -> Dictionary:
+	var command := sample(game,player,enemy,dt)
+	game.apply_command(game.players.find(player),command)
+	return command
+
+static func sample(game, player, enemy, dt: float) -> Dictionary:
+	var command := preload("res://scripts/combat/combat_command.gd").idle(player.state.angle)
+	if enemy == null or player.state.hp <= 0: return command
+	var index: int = game.players.find(player)
 	var p: Dictionary = player.state
 	var arena = game.arena
 	var elapsed: float = game.round_duration - game.remaining
@@ -20,7 +28,7 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 			if int(slot.clip)+int(slot.reserve) > 0:
 				switch_index = n
 				break
-		if switch_index >= 0: player.request_switch(switch_index)
+		if switch_index >= 0: command.switch = switch_index
 
 	# Pick the closest pickup the CPU actually wants; S-rarity weapons are weighted as if 35%
 	# closer so the CPU will detour further to grab one.
@@ -42,7 +50,7 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 			target = item
 
 	# Use the currently equipped definition (including mods and switcher mode).
-	var band := combat_range(player)
+	var band := combat_range(player,int(command.switch))
 	var to_enemy: Vector2 = enemy.state.pos - p.pos
 	var d: float = to_enemy.length()
 	var a: float = to_enemy.angle()
@@ -60,17 +68,7 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 		a = (target.position-p.pos).angle()
 		dx = cos(a)
 		dy = sin(a)
-		if p.pos.distance_to(target.position) < 45.0:
-			if target.kind in ["weapon","relic"]:
-				# P7 宝箱演出：CPUも人間と同じ開封待ち（supplies.step()のchest_open_duration）に
-				# 従う。横取り禁止ルールも共通（interact()と同じopening_playerの判定）。age条件も
-				# interact()と揃え、スポーン直後の無敵猶予（pickup_delay）中は開封を開始しない。
-				# CPUはtargetを再選定するたびにこの45px判定を通るため、開封中も自然にその場へ
-				# 留まり続け、追加の「待機」ロジックは不要。
-				if target.age >= game.supplies.pickup_delay and (target.opening_player == -1 or target.opening_player == 1):
-					target.opening_player = 1
-			else:
-				game.supplies.acquire(1,target)
+		if p.pos.distance_to(target.position) < 45.0: command.interact = true
 
 	# Predict closest approach, ignoring receding bullets and shots behind cover.
 	# Timers recover even while no bullet is nearby.
@@ -78,7 +76,7 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 	var threat = null
 	var soonest := INF
 	for shot in game.shots:
-		if shot.state.owner == 1 or shot.state.dead: continue
+		if not game.roster.hostile(index,shot.state.owner) or shot.state.dead: continue
 		var offset: Vector2 = p.pos-shot.state.pos
 		var velocity: Vector2 = shot.state.velocity
 		var approach := 0.0
@@ -104,8 +102,8 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 	if p.pulses > 0:
 		var nearby := 0
 		for shot in game.shots:
-			if shot.state.owner == 0 and not shot.state.dead and shot.state.pos.distance_to(p.pos) < 120.0: nearby += 1
-		if nearby > 5: game.use_pulse(1)
+			if game.roster.hostile(index,shot.state.owner) and not shot.state.dead and shot.state.pos.distance_to(p.pos) < 120.0: nearby += 1
+		if nearby > 5: command.pulse = true
 
 	# Retreat wins over pickups, kiting and outward bullet steering until well inside.
 	var escape := escape_direction(game,p)
@@ -127,24 +125,28 @@ static func decide(game, player, enemy, dt: float) -> Dictionary:
 	# Start the roll only after wall avoidance and set its direction before handle_key.
 	# Player.step deliberately preserves p.dir during a roll.
 	if threat != null and p.ai_cd <= 0.0 and p.dodge <= 0.0 and p.roll <= 0.0:
-		p.dir = Vector2(dx,dy).normalized()
-		if player.handle_key(KEY_SHIFT,1,game.shots,enemy,arena):
-			for n in range(6):
-				game.spawn_shot(1,0,n*TAU/6,{"kind":"dodge_nova","speed":250.0,"damage":.35,"life":1.2,"radius":4.0,"color":"#ecc5ff","can_lens":false,"depth":1})
+		command.dodge = true
 		p.ai_cd = randf_range(.35,.75)
-	if player.has_weapon() and player.weapon().clip == 0: player.start_reload()
-	p.angle = to_enemy.angle()
-	if d < 64.0: player.handle_key(KEY_N,1,game.shots,enemy,arena)
+	command.reload = player.has_weapon() and (player.inventory[command.switch].clip if command.switch >= 0 else player.weapon().clip) == 0
+	command.melee = d < 64.0
+	command.dx = dx
+	command.dy = dy
+	command.angle = to_enemy.angle()
 
 	# P8z：武器を1丁も置かなかったラウンドは丸腰になりうる。撃てないので射線を取りに行っても
 	# 意味がなく、近接の間合いへ詰めるのが唯一の攻め手になる。
 	if not player.has_weapon():
-		return {"dx":dx,"dy":dy,"shoot":false,"aim_jitter":sin(elapsed*2.2)*.09}
-	var def: Dictionary = player.definition()
+		command.aim_jitter = sin(elapsed*2.2)*.09
+		command.angle += command.aim_jitter
+		return command
+	var def: Dictionary = player.resolved_definition(player.inventory[command.switch].id) if command.switch >= 0 else player.definition()
 	var shoot: bool = not arena.line_blocked(p.pos,enemy.state.pos) or int(def.get("bounce",0)) > 0 or bool(def.get("boomerang",false))
 	var aim: Vector2 = predicted_target(p,enemy,def,dt,arena)
 	if arena.line_blocked(p.pos,aim): aim = enemy.state.pos
-	return {"dx":dx,"dy":dy,"shoot":shoot,"aim_jitter":wrapf((aim-p.pos).angle()-to_enemy.angle(),-PI,PI)+sin(elapsed*2.2)*.035}
+	command.shoot = shoot
+	command.aim_jitter = wrapf((aim-p.pos).angle()-to_enemy.angle(),-PI,PI)+sin(elapsed*2.2)*.035
+	command.angle += command.aim_jitter
+	return command
 
 static func predicted_target(p: Dictionary, enemy, def: Dictionary, dt: float, arena) -> Vector2:
 	# Infer motion from observed positions, never from human input. Clamp teleports/rolls
@@ -162,7 +164,7 @@ static func predicted_target(p: Dictionary, enemy, def: Dictionary, dt: float, a
 
 static func escape_direction(game, p: Dictionary) -> Vector2:
 	var inset: float = game.arena_inset()
-	var safe := Rect2(Vector2(inset+65.0,inset*.58+60.0),Vector2(1120.0-2*(inset+65.0),600.0-2*(inset*.58+60.0)))
+	var safe: Rect2 = game.arena.safe_rect(inset,Vector2(65,60))
 	var inner := safe.grow(-40.0)
 	if inset <= 0.0 or inner.has_point(p.pos):
 		p.ai_retreat = false
@@ -172,7 +174,7 @@ static func escape_direction(game, p: Dictionary) -> Vector2:
 	if not p.get("ai_retreat",false): return Vector2.ZERO
 	var path: Array = p.get("ai_escape_path",[])
 	while not path.is_empty() and p.pos.distance_to(path[0]) < 6.0: path.pop_front()
-	var direction: Vector2 = (Vector2(560,300)-p.pos).normalized() if path.is_empty() else (path[0]-p.pos).normalized()
+	var direction: Vector2 = (game.arena.field_rect.get_center()-p.pos).normalized() if path.is_empty() else (path[0]-p.pos).normalized()
 	var probe: Vector2 = p.pos+direction*45.0 if path.is_empty() else path[0]
 	if not escape_segment_clear(game.arena,p.pos,probe):
 		path = escape_path(game.arena,p.pos,inner)
@@ -183,10 +185,11 @@ static func escape_direction(game, p: Dictionary) -> Vector2:
 static func escape_segment_clear(arena, from: Vector2, to: Vector2) -> bool:
 	return Navigation.segment_clear(arena,from,to)
 
-static func combat_range(player) -> Vector2:
+static func combat_range(player, slot: int = -1) -> Vector2:
 	if not player.has_weapon(): return Vector2(0,45)
-	var def: Dictionary = player.definition()
-	if def.get("type","") == "SHOTGUN" or (def.get("switcher",false) and player.weapon().mode == 1):
+	var entry: Dictionary = player.inventory[slot] if slot >= 0 else player.weapon()
+	var def: Dictionary = player.resolved_definition(entry.id)
+	if def.get("type","") == "SHOTGUN" or (def.get("switcher",false) and entry.mode == 1):
 		return Vector2(90,170)
 	if def.get("seed",false):
 		# Seeds stop after .6s; include the muzzle offset and part of the sensor radius.

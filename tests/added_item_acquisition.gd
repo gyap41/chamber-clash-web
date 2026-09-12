@@ -33,6 +33,7 @@ func run() -> void:
 		assert(m.gold[0] == 12)
 	var game = load("res://scenes/game/main.tscn").instantiate()
 	root.add_child(game)
+	preload("res://tests/helpers/battle.gd").passive_opponents(game)
 	game.set_physics_process(false)
 	for entry in ["gun:28","gun:29"]+range(20,35):
 		game.new_match(77)

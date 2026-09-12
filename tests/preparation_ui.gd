@@ -23,6 +23,7 @@ func click_at(at: Vector2) -> void:
 func run() -> void:
 	var game = load("res://scenes/game/main.tscn").instantiate()
 	root.add_child(game)
+	preload("res://tests/helpers/battle.gd").passive_opponents(game)
 	game.set_physics_process(false)
 	game.new_match(1)
 	var prep = game.preparation
@@ -134,7 +135,7 @@ func run() -> void:
 	prep.refresh()
 	assert(not ready.disabled and "近接" in prep.get_node("Root/Panel/Content/Summary").text)
 	prep.ready_shop()
-	assert(game.phase == "prepare" and prep.turn == 1 and prep.selected_detail == null)
+	assert(game.phase == "prepare" and prep.turn == 0) # No local hand-off; remote readiness remains separate.
 	# Layout fits the 1120x800 logical viewport, including a maximum-size grid.
 	await process_frame
 	await process_frame
@@ -149,6 +150,7 @@ func run() -> void:
 	assert(cards.get_node("Equipment").get_global_rect().encloses(grid.get_global_rect()))
 	assert(prep.get_node("Root/Shade").color.a == 1.0)
 	# Exercise Godot's GUI hit testing and drag threshold, not only callback methods.
+	prep.turn = 1 # Explicit participant view for this fixture; no local hand-off exists.
 	var sidearm: String = state.gun_token(0)
 	state.stage = 1
 	state.builds[1] = {"owned":[sidearm,0,4],"equipped":[],"positions":{},"mods":{}}

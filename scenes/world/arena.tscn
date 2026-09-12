@@ -1,43 +1,21 @@
 [gd_scene load_steps=7 format=3]
 [ext_resource type="Script" path="res://scripts/world/arena.gd" id="1"]
-[ext_resource type="PackedScene" path="res://scenes/world/wall.tscn" id="2"]
+[ext_resource type="Resource" path="res://data/fields/duel.tres" id="2"]
 [ext_resource type="PackedScene" path="res://scenes/combat/player.tscn" id="3"]
 [ext_resource type="PackedScene" path="res://scenes/world/supplies.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://scenes/visuals/danger_zone_visual.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://scenes/visuals/combat_visuals.tscn" id="6"]
 [node name="Arena" type="Node2D"]
 script = ExtResource("1")
+definition = ExtResource("2")
 [node name="Floor" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(0,0,1120,0,1120,600,0,600)
-color = Color(0.188,0.208,0.196,1)
 [node name="Walls" type="Node2D" parent="."]
-[node name="Wall1" parent="Walls" instance=ExtResource("2")]
-offset_left = 240.0
-offset_top = 160.0
-offset_right = 320.0
-offset_bottom = 245.0
-[node name="Wall2" parent="Walls" instance=ExtResource("2")]
-offset_left = 800.0
-offset_top = 355.0
-offset_right = 880.0
-offset_bottom = 440.0
-[node name="Wall3" parent="Walls" instance=ExtResource("2")]
-offset_left = 515.0
-offset_top = 250.0
-offset_right = 605.0
-offset_bottom = 340.0
 [node name="DangerZone" parent="." instance=ExtResource("5")]
 [node name="Spawns" type="Node2D" parent="."]
-[node name="P1" type="Marker2D" parent="Spawns"]
-position = Vector2(170,300)
-[node name="P2" type="Marker2D" parent="Spawns"]
-position = Vector2(950,300)
 [node name="Supplies" parent="." instance=ExtResource("4")]
 [node name="Players" type="Node2D" parent="."]
 [node name="P1" parent="Players" instance=ExtResource("3")]
-position = Vector2(170,300)
 [node name="P2" parent="Players" instance=ExtResource("3")]
-position = Vector2(950,300)
 [node name="Sprite" parent="Players/P2" index="0"]
 frame = 1
 [node name="Effects" type="Node2D" parent="."]

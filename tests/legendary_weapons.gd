@@ -17,6 +17,7 @@ func setup(game, id: int = 0):
 func run() -> void:
 	var game = load("res://scenes/game/main.tscn").instantiate()
 	root.add_child(game)
+	preload("res://tests/helpers/battle.gd").passive_opponents(game)
 	game.set_physics_process(false)
 	var b = setup(game,9)
 	assert(b.radius == 11 and is_equal_approx(b.state.life,1.45))
@@ -55,7 +56,7 @@ func run() -> void:
 		b = setup(game,id)
 		game.players[1].state.pos = b.state.pos+Vector2(30,0)
 		game.players[1].state.angle = PI
-		game.players[1].handle_key(KEY_N,1,game.shots,game.players[0],game.arena)
+		game.apply_command(1,{"melee":true})
 		game._physics_process(.01)
 		assert(game.shots.is_empty() and game.wells.is_empty())
 	b = setup(game,10)

@@ -102,6 +102,7 @@ func run() -> void:
 	# --- UIグルー：RelicGridCell／RelicTrayのドロップ判定はmatch_state.fits()/place()に委譲 ---
 	var game = load("res://scenes/game/main.tscn").instantiate()
 	root.add_child(game)
+	preload("res://tests/helpers/battle.gd").passive_opponents(game)
 	game.set_physics_process(false)
 	game.new_match(3)
 	assert(game.phase == "prepare")

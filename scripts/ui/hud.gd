@@ -11,7 +11,6 @@ var slots: Array = []
 var relic_cards: Array = []
 var compact_relics: Array = []
 var actions: Array = []
-var local_mode := false
 var layout_initialized := false
 var reload_max := [0.0,0.0]
 
@@ -175,35 +174,47 @@ func _ready() -> void:
 	$Root/ResultActions.move_to_front()
 	button($Root/Relics,"Close",Rect2(878,0,166,30),"閉じる / ESC",toggle_details)
 
-func layout(is_local: bool) -> void:
-	if layout_initialized and local_mode == is_local: return
+func layout() -> void:
+	if layout_initialized: return
 	layout_initialized = true
-	local_mode = is_local
 	for i in range(2):
 		var active = get_node("Root/Active%d" % i)
-		active.visible = i == 0 or local_mode
-		active.position = Vector2(26,704+i*44) if local_mode else Vector2(26,706)
-		active.get_node("Name").visible = not local_mode
-		active.get_node("State").visible = not local_mode
-		active.get_node("Ammo").position.y = 0 if local_mode else 22
-		active.get_node("Ammo").position.x = 0 if local_mode else 46
-		active.get_node("Ammo").size.x = 214 if local_mode else 168
-		active.get_node("Art").visible = not local_mode
-		active.get_node("Ammo").add_theme_font_size_override("font_size",16 if local_mode else 24)
-		active.get_node("Reload").position.y = 34 if local_mode else 57
+		active.visible = i == 0
+		active.position = Vector2(26,706)
+		active.get_node("Ammo").position = Vector2(46,22)
+		active.get_node("Ammo").size.x = 168
+		active.get_node("Ammo").add_theme_font_size_override("font_size",24)
+		active.get_node("Reload").position.y = 57
 		var row = get_node("Root/Loadouts/P%d" % (i+1))
-		row.visible = i == 0 or local_mode
-		row.position = Vector2(244,704+i*44) if local_mode else Vector2(244,717)
-		row.size = Vector2(380,40 if local_mode else 56)
+		row.visible = i == 0
+		row.position = Vector2(244,717)
+		row.size = Vector2(380,56)
 		for slot in slots[i]:
-			slot.custom_minimum_size = Vector2(44,40 if local_mode else 56)
-			slot.add_theme_constant_override("icon_max_width",16 if local_mode else 30)
-			slot.vertical_icon_alignment = VERTICAL_ALIGNMENT_CENTER if local_mode else VERTICAL_ALIGNMENT_TOP
-			slot.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT if local_mode else HORIZONTAL_ALIGNMENT_CENTER
+			slot.custom_minimum_size = Vector2(44,56)
+			slot.add_theme_constant_override("icon_max_width",30)
+			slot.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
+			slot.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			slot.reset_size()
 		row.reset_size()
-	for action in actions: action.visible = not local_mode
-	$Root/LocalStatus.visible = local_mode
+	$Root/LocalStatus.hide()
+
+func refresh_roster(players: Array, scores: Array) -> void:
+	var summary = get_node_or_null("Root/ParticipantSummary")
+	if summary == null:
+		summary = Label.new()
+		summary.name = "ParticipantSummary"
+		summary.position = Vector2(24,8)
+		summary.size = Vector2(430,80)
+		summary.add_theme_font_size_override("font_size",12)
+		$Root.add_child(summary)
+	summary.visible = players.size() > 2
+	for path in ["Name0","Name1","HP1","HP2","Health0","Health1"]: get_node("Root/"+path).visible = players.size() == 2
+	if players.size() <= 2: return
+	var lines := PackedStringArray()
+	for i in range(players.size()):
+		lines.append("%s [%s]  HP %.1f/%.0f  勝数%d" % [players[i].participant_id,players[i].team_id,players[i].state.hp,players[i].state.max_hp,scores[i]])
+	summary.text = "\n".join(lines)
+	$Root/Score.text = "チーム戦（検証）"
 
 func refresh(players: Array, remaining: float, paused: bool, result: String, scores: Array, phase: String) -> void:
 	var game = get_parent()
@@ -212,7 +223,7 @@ func refresh(players: Array, remaining: float, paused: bool, result: String, sco
 	$Root/Relics.visible = paused and result.is_empty() and phase == "play"
 	$Root/Message.text = ""
 	$Root/Pause.text = "ESC 再開" if paused else "ESC 停止"
-	layout(not players[1].is_cpu)
+	layout()
 	$SoundControls/Toggle.text = "音 ON" if game.sound.enabled else "音 OFF"
 	$SoundControls/Toggle.visible = phase == "prepare"
 	$Root/Relics/Sound.text = $SoundControls/Toggle.text
@@ -245,10 +256,9 @@ func refresh(players: Array, remaining: float, paused: bool, result: String, sco
 		var active = get_node("Root/Active%d" % i)
 		active.get_node("Name").text = p.definition().name
 		active.get_node("Art").texture = Weapons.art(p.weapon().id) if p.has_weapon() else null
-		active.get_node("Ammo").text = ("P%d  %d / %d" % [i+1,p.weapon().clip,p.weapon().reserve] if local_mode else "%d · 予備%d" % [p.weapon().clip,p.weapon().reserve]) if p.has_weapon() else "丸腰"
+		active.get_node("Ammo").text = ("%d · 予備%d" % [p.weapon().clip,p.weapon().reserve]) if p.has_weapon() else "丸腰"
 		active.get_node("Ammo").tooltip_text = "装弾数 / 予備弾数"
 		var wait: float = p.state.reload
-		if local_mode and wait > 0: active.get_node("Ammo").text += " 装填"
 		if wait <= 0: reload_max[i] = 0.0
 		else: reload_max[i] = maxf(reload_max[i],wait)
 		active.get_node("Reload").visible = wait > 0
@@ -272,7 +282,8 @@ func refresh(players: Array, remaining: float, paused: bool, result: String, sco
 	actions[0].refresh(p.state.dodge,p.dodge_cooldown*(p.relic_value(24,"dodge_ratio") if 24 in p.relics else 1.0),usable and p.state.dodge <= 0,"%.1f秒" % p.state.dodge if p.state.dodge > 0 else "回避")
 	actions[1].refresh(p.state.melee,p.melee_cooldown*(p.relic_value(26,"melee_ratio") if 26 in p.relics else 1.0),usable and p.state.melee <= 0 and p.state.reload <= 0 and p.state.roll <= 0,"%.1f秒" % p.state.melee if p.state.melee > 0 else "近接")
 	actions[2].refresh(0,1,usable and p.state.pulses > 0,"パルス %d" % p.state.pulses)
-	$Root/LocalStatus.text = "P1  回避 %.1f  近接 %.1f  Q %d\nP2  回避 %.1f  近接 %.1f  O %d" % [p.state.dodge,p.state.melee,p.state.pulses,players[1].state.dodge,players[1].state.melee,players[1].state.pulses]
+
+	refresh_roster(players,scores)
 
 func relic_state(player, id: int) -> Dictionary:
 	var wait := 0.0

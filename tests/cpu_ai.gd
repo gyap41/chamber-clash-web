@@ -10,6 +10,7 @@ func enter_play(game) -> void:
 func run() -> void:
 	var game = load("res://scenes/game/main.tscn").instantiate()
 	root.add_child(game)
+	preload("res://tests/helpers/battle.gd").passive_opponents(game)
 	game.set_physics_process(false)
 	enter_play(game)
 	var p = game.players[1] # CPU always controls player index 1

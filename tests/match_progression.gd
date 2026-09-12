@@ -15,6 +15,7 @@ func end_round(game, winner: int) -> void:
 func run() -> void:
 	var game = load("res://scenes/game/main.tscn").instantiate()
 	root.add_child(game)
+	preload("res://tests/helpers/battle.gd").passive_opponents(game)
 	game.set_physics_process(false)
 	for sequence in [[0,0,0,0,0],[0,1,0,1,0,1,0,1,0]]:
 		game.new_match(902)

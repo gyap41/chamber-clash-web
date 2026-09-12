@@ -12,7 +12,8 @@
       "mag": 16,
       "stock": 64,
       "color": "#dce9ff",
-      "reload_time": 1.35
+      "reload_time": 1.35,
+      "id": 0
     },
     {
       "name": "跳弾キャンディ",
@@ -42,7 +43,8 @@
           "damage": 1.35,
           "speed": 332
         }
-      ]
+      ],
+      "id": 1
     },
     {
       "name": "ファイアワークス",
@@ -56,7 +58,8 @@
       "mag": 4,
       "stock": 16,
       "color": "#ffb8d8",
-      "split": true
+      "split": true,
+      "id": 2
     },
     {
       "name": "ハニービー",
@@ -71,7 +74,8 @@
       "stock": 32,
       "color": "#e8ed9a",
       "count": 3,
-      "homing": true
+      "homing": true,
+      "id": 3
     },
     {
       "name": "ダブルバック",
@@ -87,7 +91,8 @@
       "color": "#ffaec1",
       "count": 5,
       "spread": 0.16,
-      "reload_time": 1.45
+      "reload_time": 1.45,
+      "id": 4
     },
     {
       "name": "ムーンリーパー",
@@ -117,7 +122,8 @@
           "damage": 1.4,
           "speed": 332
         }
-      ]
+      ],
+      "id": 5
     },
     {
       "name": "アークレール",
@@ -131,7 +137,8 @@
       "mag": 4,
       "stock": 16,
       "color": "#b4e9ff",
-      "rail": true
+      "rail": true,
+      "id": 6
     },
     {
       "name": "ヘリックス",
@@ -146,7 +153,8 @@
       "stock": 36,
       "color": "#aaecc6",
       "helix": true,
-      "count": 2
+      "count": 2,
+      "id": 7
     },
     {
       "name": "プリズムバースト",
@@ -163,7 +171,8 @@
       "count": 5,
       "spread": 0.12,
       "prism": true,
-      "rail": true
+      "rail": true,
+      "id": 8
     },
     {
       "name": "コメットランチャー",
@@ -178,7 +187,8 @@
       "stock": 6,
       "color": "#ffcc87",
       "comet": true,
-      "homing": true
+      "homing": true,
+      "id": 9
     },
     {
       "name": "ブラックホール・ティー",
@@ -192,7 +202,8 @@
       "mag": 3,
       "stock": 9,
       "color": "#d7aaff",
-      "gravity": true
+      "gravity": true,
+      "id": 10
     },
     {
       "name": "シードマイン",
@@ -225,7 +236,8 @@
           "damage": 2.1,
           "seed_life": 3.1
         }
-      ]
+      ],
+      "id": 11
     },
     {
       "name": "ロケットペンシル",
@@ -239,7 +251,8 @@
       "mag": 6,
       "stock": 24,
       "color": "#ffe49a",
-      "boost": true
+      "boost": true,
+      "id": 12
     },
     {
       "name": "バブルクロック",
@@ -272,7 +285,8 @@
           "bubble_delay": 1.5,
           "damage": 0.77
         }
-      ]
+      ],
+      "id": 13
     },
     {
       "name": "クローバースプリッター",
@@ -286,7 +300,8 @@
       "mag": 5,
       "stock": 20,
       "color": "#97edba",
-      "clover": true
+      "clover": true,
+      "id": 14
     },
     {
       "name": "プラネタリウム",
@@ -305,7 +320,8 @@
       "homing_cone": 0.7853981634,
       "bounce": 1,
       "homing": true,
-      "count": 8
+      "count": 8,
+      "id": 15
     },
     {
       "name": "レシートリピーター",
@@ -322,7 +338,8 @@
       "bounce": 2,
       "bank": true,
       "reload_time": 1.15,
-      "bank_bonus": 0.6
+      "bank_bonus": 0.6,
+      "id": 16
     },
     {
       "name": "着払いキャノン",
@@ -336,7 +353,8 @@
       "mag": 5,
       "stock": 20,
       "color": "#f4a55e",
-      "parcel": true
+      "parcel": true,
+      "id": 17
     },
     {
       "name": "スイッチスパナ",
@@ -350,7 +368,8 @@
       "mag": 6,
       "stock": 30,
       "color": "#b4d9eb",
-      "switcher": true
+      "switcher": true,
+      "id": 18
     },
     {
       "name": "エコードラム",
@@ -365,7 +384,8 @@
       "stock": 32,
       "color": "#ceb2ec",
       "echo": true,
-      "reload_time": 1.25
+      "reload_time": 1.25,
+      "id": 19
     },
     {
       "name": "サービスピストル",
@@ -381,7 +401,8 @@
       "color": "#f5a7ce",
       "art_id": 0,
       "exclusive": true,
-      "reload_time": 0.95
+      "reload_time": 0.95,
+      "id": 20
     },
     {
       "name": "スカウトニードル",
@@ -397,7 +418,8 @@
       "color": "#98c7ff",
       "art_id": 6,
       "exclusive": true,
-      "reload_time": 0.9
+      "reload_time": 0.9,
+      "id": 21
     },
     {
       "name": "トリックコイン",
@@ -414,7 +436,8 @@
       "art_id": 1,
       "bounce": 1,
       "exclusive": true,
-      "reload_time": 1.15
+      "reload_time": 1.15,
+      "id": 22
     },
     {
       "name": "ガードリベット",
@@ -430,7 +453,8 @@
       "color": "#96e5d5",
       "art_id": 12,
       "exclusive": true,
-      "reload_time": 1.35
+      "reload_time": 1.35,
+      "id": 23
     },
     {
       "name": "ツインタッカー",
@@ -448,7 +472,8 @@
       "count": 2,
       "spread": 0.08,
       "exclusive": true,
-      "reload_time": 1.05
+      "reload_time": 1.05,
+      "id": 24
     },
     {
       "name": "ルーンペン",
@@ -467,7 +492,8 @@
       "turn_rate": 0.6,
       "homing_cone": 0.6108652382,
       "exclusive": true,
-      "reload_time": 1.1
+      "reload_time": 1.1,
+      "id": 25
     },
     {
       "name": "シックスノート",
@@ -483,7 +509,8 @@
       "color": "#d78063",
       "art_id": 0,
       "exclusive": true,
-      "reload_time": 1.5
+      "reload_time": 1.5,
+      "id": 26
     },
     {
       "name": "ミニガトル",
@@ -500,7 +527,8 @@
       "art_id": 7,
       "alternate_spread": 0.04,
       "exclusive": true,
-      "reload_time": 1.8
+      "reload_time": 1.8,
+      "id": 27
     },
     {
       "name": "ホチキスバースト",
@@ -516,7 +544,8 @@
       "color": "#b7d4ea",
       "art_id": 19,
       "burst_count": 3,
-      "burst_delay": 0.08
+      "burst_delay": 0.08,
+      "id": 28
     },
     {
       "name": "クロスステッチ",
@@ -532,7 +561,8 @@
       "color": "#eeadcc",
       "art_id": 7,
       "count": 4,
-      "cross": true
+      "cross": true,
+      "id": 29
     },
     {
       "name": "チョークライフル",
@@ -546,7 +576,8 @@
       "mag": 8,
       "stock": 40,
       "color": "#d9e7ee",
-      "art_id": 6
+      "art_id": 6,
+      "id": 30
     },
     {
       "name": "ペッパーボックス",
@@ -563,7 +594,8 @@
       "art_id": 4,
       "count": 4,
       "spread": 0.22,
-      "reload_time": 1.2
+      "reload_time": 1.2,
+      "id": 31
     },
     {
       "name": "ピンボールパドル",
@@ -580,7 +612,8 @@
       "art_id": 1,
       "count": 2,
       "spread": 0.22,
-      "bounce": 3
+      "bounce": 3,
+      "id": 32
     },
     {
       "name": "ツインクレセント",
@@ -597,7 +630,8 @@
       "art_id": 5,
       "count": 2,
       "spread": 0.24,
-      "boomerang": true
+      "boomerang": true,
+      "id": 33
     },
     {
       "name": "スパークフォーク",
@@ -614,7 +648,8 @@
       "art_id": 12,
       "count": 2,
       "spread": 0.16,
-      "boost": true
+      "boost": true,
+      "id": 34
     },
     {
       "name": "ベルフラワー",
@@ -634,7 +669,8 @@
       "seed": true,
       "seed_life": 3.6,
       "seed_trigger_radius": 80.0,
-      "seed_seek_speed": 400.0
+      "seed_seek_speed": 400.0,
+      "id": 35
     },
     {
       "name": "カーボンコピー",
@@ -651,7 +687,8 @@
       "art_id": 6,
       "rail": true,
       "echo": true,
-      "reload_time": 1.6
+      "reload_time": 1.6,
+      "id": 36
     },
     {
       "name": "オーロラファン",
@@ -671,7 +708,8 @@
       "homing": true,
       "turn_rate": 0.9,
       "homing_cone": 0.7853981634,
-      "bounce": 1
+      "bounce": 1,
+      "id": 37
     }
   ],
   "relics": [
@@ -685,7 +723,8 @@
       "stackable": true,
       "stack_stats": [
         "move_bonus"
-      ]
+      ],
+      "id": 0
     },
     {
       "name": "クイックギア",
@@ -697,21 +736,24 @@
       "stackable": true,
       "stack_stats": [
         "reload_ratio"
-      ]
+      ],
+      "id": 1
     },
     {
       "name": "プリズムレンズ",
       "glyph": "◇",
       "color": "#b5c4ff",
       "desc": "通常・散弾・追尾・螺旋・レール弾の壁反射を1回追加。",
-      "key": "lens"
+      "key": "lens",
+      "id": 2
     },
     {
       "name": "ガードベル",
       "glyph": "♧",
       "color": "#ffe2a0",
       "desc": "敵の攻撃を1回防ぐ。12秒で再び使える。危険地帯には無効。",
-      "key": "bell"
+      "key": "bell",
+      "id": 3
     },
     {
       "name": "ライフアンプ",
@@ -723,14 +765,16 @@
       "stackable": true,
       "stack_stats": [
         "hp_bonus"
-      ]
+      ],
+      "id": 4
     },
     {
       "name": "ドッジノヴァ",
       "glyph": "✶",
       "color": "#d8b4ff",
       "desc": "ドッジ開始時、6方向へ小さな星弾を放つ。",
-      "key": "comet"
+      "key": "comet",
+      "id": 5
     },
     {
       "name": "ヘビーコア",
@@ -744,7 +788,8 @@
       "stack_stats": [
         "heavy_bonus",
         "heavy_ratio"
-      ]
+      ],
+      "id": 6
     },
     {
       "name": "スターターセル",
@@ -756,28 +801,32 @@
       "stackable": true,
       "stack_stats": [
         "starter_bonus"
-      ]
+      ],
+      "id": 7
     },
     {
       "name": "予備マガジン",
       "glyph": "▤",
       "color": "#b7cca6",
       "desc": "武器切替時、しまう武器へ予備弾から1発装填。再使用1.5秒。",
-      "key": "holster"
+      "key": "holster",
+      "id": 8
     },
     {
       "name": "パルスリレー",
       "glyph": "⊕",
       "color": "#b8a5eb",
       "desc": "パルス使用時に6方向へ低速弾。各0.35ダメージ、追加パルスなし。",
-      "key": "relay"
+      "key": "relay",
+      "id": 9
     },
     {
       "name": "パリィダイナモ",
       "glyph": "⌁",
       "color": "#efc386",
       "desc": "近接で敵弾を消すと回避の残り待ち時間を0.3秒短縮。1振り1回。",
-      "key": "dynamo"
+      "key": "dynamo",
+      "id": 10
     },
     {
       "name": "リバウンドテープ",
@@ -789,7 +838,8 @@
       "stackable": true,
       "stack_stats": [
         "rebound_bonus"
-      ]
+      ],
+      "id": 11
     },
     {
       "name": "反響の種",
@@ -799,7 +849,8 @@
       "key": "echo_seed",
       "seed_damage": 0.4,
       "seed_life": 1.2,
-      "seed_radius": 5.0
+      "seed_radius": 5.0,
+      "id": 12
     },
     {
       "name": "空薬莢の祝福",
@@ -808,7 +859,8 @@
       "desc": "空の弾倉から装填が完了すると、次の初弾（満タンからの1射目）に小さな追加弾が加わる。途中装填や切替時の1発装填では発動しない。",
       "key": "empty_casing",
       "casing_damage": 0.5,
-      "casing_speed_ratio": 0.75
+      "casing_speed_ratio": 0.75,
+      "id": 13
     },
     {
       "name": "帰還バッテリー",
@@ -816,7 +868,8 @@
       "color": "#a0c9ff",
       "desc": "帰還する弾を持ち主が回収すると充電される（最大1つ）。武器切替の後、次の1射に追加ダメージを付与する。命中や寿命切れは回収扱いにしない。",
       "key": "return_battery",
-      "battery_bonus": 0.45
+      "battery_bonus": 0.45,
+      "id": 14
     },
     {
       "name": "余熱コンデンサ",
@@ -825,7 +878,8 @@
       "desc": "近接攻撃で敵弾を1発以上消すと、次の射撃に追加弾が加わる。1振りにつき1回、蓄積は1つまで。",
       "key": "residual_heat",
       "heat_damage": 0.4,
-      "heat_speed_ratio": 0.85
+      "heat_speed_ratio": 0.85,
+      "id": 15
     },
     {
       "name": "残響ホルスター",
@@ -834,7 +888,8 @@
       "desc": "武器を切り替えると、しまう武器の弾を1発消費して弱い追射を予約する。再使用には待ち時間があり、弾が空なら不発。",
       "key": "echo_holster",
       "holster_ratio": 0.5,
-      "holster_cooldown": 2.5
+      "holster_cooldown": 2.5,
+      "id": 16
     },
     {
       "name": "すり抜け装填",
@@ -842,7 +897,8 @@
       "color": "#9adbb0",
       "desc": "回避中に敵弾が近くを通過すると、装備中の武器へ予備弾から1発装填する。1回の回避につき1回まで。装填完了の効果は発動しない。",
       "key": "phase_load",
-      "phase_radius": 42.0
+      "phase_radius": 42.0,
+      "id": 17
     },
     {
       "name": "ミニフェザー",
@@ -854,7 +910,8 @@
       "move_bonus": 0.02,
       "stack_stats": [
         "move_bonus"
-      ]
+      ],
+      "id": 18
     },
     {
       "name": "パワーチップ",
@@ -866,7 +923,8 @@
       "shot_bonus": 0.02,
       "stack_stats": [
         "shot_bonus"
-      ]
+      ],
+      "id": 19
     },
     {
       "name": "ロングバレル",
@@ -878,7 +936,8 @@
       "stackable": true,
       "stack_stats": [
         "speed_bonus"
-      ]
+      ],
+      "id": 20
     },
     {
       "name": "ワイドマガジン",
@@ -890,7 +949,8 @@
       "stackable": true,
       "stack_stats": [
         "mag_bonus"
-      ]
+      ],
+      "id": 21
     },
     {
       "name": "ラストスタンプ",
@@ -902,7 +962,8 @@
       "stackable": true,
       "stack_stats": [
         "last_bonus"
-      ]
+      ],
+      "id": 22
     },
     {
       "name": "クールグリップ",
@@ -911,7 +972,8 @@
       "glyph": "❄",
       "color": "#9dcce5",
       "cool_reduction": 0.25,
-      "cool_reuse": 2.0
+      "cool_reuse": 2.0,
+      "id": 23
     },
     {
       "name": "ステップスプリング",
@@ -923,7 +985,8 @@
       "stackable": true,
       "stack_stats": [
         "dodge_ratio"
-      ]
+      ],
+      "id": 24
     },
     {
       "name": "セーフティソール",
@@ -936,7 +999,8 @@
       "stackable": true,
       "stack_stats": [
         "sole_bonus"
-      ]
+      ],
+      "id": 25
     },
     {
       "name": "クイックシース",
@@ -948,7 +1012,8 @@
       "stackable": true,
       "stack_stats": [
         "melee_ratio"
-      ]
+      ],
+      "id": 26
     },
     {
       "name": "パリィシェル",
@@ -958,7 +1023,8 @@
       "color": "#a7dcb7",
       "shell_duration": 2.0,
       "shell_reuse": 6.0,
-      "shell_reduction": 0.5
+      "shell_reduction": 0.5,
+      "id": 27
     },
     {
       "name": "応急パッチ",
@@ -968,7 +1034,8 @@
       "color": "#eabf89",
       "aid_delay": 2.0,
       "aid_heal": 0.5,
-      "aid_limit": 2
+      "aid_limit": 2,
+      "id": 28
     },
     {
       "name": "パルスブーツ",
@@ -981,7 +1048,8 @@
       "stackable": true,
       "stack_stats": [
         "boots_bonus"
-      ]
+      ],
+      "id": 29
     },
     {
       "name": "チェンジサイト",
@@ -995,7 +1063,8 @@
       "stackable": true,
       "stack_stats": [
         "sight_bonus"
-      ]
+      ],
+      "id": 30
     },
     {
       "name": "ラバーチップ",
@@ -1007,7 +1076,8 @@
       "stackable": true,
       "stack_stats": [
         "rubber_bonus"
-      ]
+      ],
+      "id": 31
     },
     {
       "name": "整流コイル",
@@ -1019,7 +1089,8 @@
       "stackable": true,
       "stack_stats": [
         "fragment_bonus"
-      ]
+      ],
+      "id": 32
     },
     {
       "name": "帰還リール",
@@ -1027,7 +1098,8 @@
       "desc": "往復弾回収で発射元武器へ予備から1発装填。再使用1秒。",
       "glyph": "⟲",
       "color": "#a7dcb7",
-      "reel_reuse": 1.0
+      "reel_reuse": 1.0,
+      "id": 33
     },
     {
       "name": "サプライキー",
@@ -1039,7 +1111,8 @@
       "stackable": true,
       "stack_stats": [
         "chest_ratio"
-      ]
+      ],
+      "id": 34
     }
   ],
   "characters": [
@@ -1054,7 +1127,8 @@
       "reload": 1.1,
       "dodge": 1.65,
       "blanks": 3,
-      "gun": 20
+      "gun": 20,
+      "id": 0
     },
     {
       "name": "ソラ",
@@ -1067,7 +1141,8 @@
       "reload": 0.85,
       "dodge": 1.8,
       "blanks": 2,
-      "gun": 21
+      "gun": 21,
+      "id": 1
     },
     {
       "name": "コハク",
@@ -1080,7 +1155,8 @@
       "reload": 1,
       "dodge": 1.4,
       "blanks": 2,
-      "gun": 22
+      "gun": 22,
+      "id": 2
     },
     {
       "name": "ボルト",
@@ -1093,7 +1169,8 @@
       "reload": 1,
       "dodge": 2,
       "blanks": 2,
-      "gun": 23
+      "gun": 23,
+      "id": 3
     },
     {
       "name": "メイ",
@@ -1106,7 +1183,8 @@
       "reload": 0.8,
       "dodge": 2,
       "blanks": 2,
-      "gun": 24
+      "gun": 24,
+      "id": 4
     },
     {
       "name": "ルナ",
@@ -1119,7 +1197,8 @@
       "reload": 0.9,
       "dodge": 1.65,
       "blanks": 3,
-      "gun": 25
+      "gun": 25,
+      "id": 5
     },
     {
       "name": "ラトル",
@@ -1132,7 +1211,8 @@
       "reload": 1.15,
       "dodge": 1.5,
       "blanks": 2,
-      "gun": 26
+      "gun": 26,
+      "id": 6
     },
     {
       "name": "クロウ",
@@ -1145,7 +1225,8 @@
       "reload": 0.9,
       "dodge": 1.9,
       "blanks": 2,
-      "gun": 27
+      "gun": 27,
+      "id": 7
     }
   ]
 }

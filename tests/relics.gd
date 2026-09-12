@@ -13,6 +13,7 @@ func press(code: int, down: bool) -> void:
 func run() -> void:
 	var game = load("res://scenes/game/main.tscn").instantiate()
 	root.add_child(game)
+	preload("res://tests/helpers/battle.gd").passive_opponents(game)
 	game.set_physics_process(false)
 	var p = game.players[0]
 	var q = game.players[1]
@@ -40,7 +41,7 @@ func run() -> void:
 	# Physical movement is increased, dodge speed is not.
 	press(KEY_D,true)
 	var start: Vector2 = p.state.pos
-	p.step(.1,0,q,game.arena)
+	p.step(.1,0,q,game.arena,false,game.HumanInput.sample(p,false))
 	press(KEY_D,false)
 	assert(is_equal_approx(p.state.pos.x-start.x,21.73))
 	p.state.roll = .26
