@@ -93,9 +93,8 @@ func run() -> void:
 		s.items.clear()
 		if second < 90: s.step(1.0)
 	assert(counts.weapon == 3 and counts.legendary == 1 and counts.relic == 1 and counts.ammo == 5)
-	# All equipped relics get an individual name, effect and functioning hover target.
-	# P8x：カードのプールはMAX_RELIC_CAPACITY（16）分確保されているが、表示はrelic_capacity分
-	# だけに絞られる（残りは非表示）。
+	# Each equipped individual has an icon and a full effect tooltip in the paused grid.
+	# Only actual relics are shown; the pool never displays empty capacity.
 	p.relic_capacity = 6
 	p.relics = [3,6,12,13,14,16]
 	p.temporary_relic = 16
@@ -106,13 +105,12 @@ func run() -> void:
 	for n in range(6):
 		var card = game.hud.relic_cards[0][n]
 		assert(card.mouse_filter == Control.MOUSE_FILTER_STOP)
-		assert(card.get_child(0).get_child(0).text.contains(game.Relics.definition(p.relics[n]).name))
-		assert(not card.get_child(0).get_child(1).text.is_empty())
+		assert(card.relic_id == p.relics[n] and card.art != null)
 		assert(card.tooltip_text.contains(game.Relics.definition(p.relics[n]).desc))
 	assert(game.hud.relic_cards[0][5].tooltip_text.contains("仮装備"))
 	p.relics = [0]
 	game.hud.refresh_relics(0,p)
-	assert(game.hud.relic_cards[0][1].get_child(0).get_child(0).text == "空き枠")
+	assert(not game.hud.relic_cards[0][1].visible)
 	print("PASS: proximity mine, directional star homing/bounce, stronger gravity/counterplay, 90s supply budget (3 weapons/1 relic/5 ammo), individual relic cards")
 	game.queue_free()
 	quit()

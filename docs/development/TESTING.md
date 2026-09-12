@@ -96,3 +96,18 @@ Web/Windows配布版、一試合完走、最大負荷、先行入力・音の実
 
 旧40本の詳しい記録は [移行前の検証記録](../archive/2026-09-11/BEFORE_PURCHASE_TESTING.md)、
 購入移行の経緯は [検証日誌](../archive/2026-09-11/PURCHASE_ECONOMY_VALIDATION.md) を参照。
+
+## 対戦HUD C案の検証（2026-09-12）
+
+実装仕様は [BATTLE_UI_C](../design/BATTLE_UI_C.md)、素材交換は [HUD素材README](../../assets/ui/hud/README.md)。
+
+```powershell
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/hud_compact.gd --quit-after 180
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --path . --script res://tests/hud_compact.gd --quit-after 180 -- --hud-screenshot
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --path . --script res://tests/render.gd --quit-after 300
+```
+
+専用テストはCPU/P2武器表示、最大8丁、36個一覧と末尾スクロール、仮装備/同種数/充電/待ち時間、ポーズ/ESC/射撃予約解除、背景に遮られないアイコンのマウス判定、装填、丸腰、素材fallback、カメラ表示移動と移動境界維持を検証する。
+画像保存時はCPU戦・多武器・一覧・一覧末尾・ローカル・丸腰・840×600・結果画面をdocs/design/concepts/battle-ui-2026-09-12/implemented-*.pngへ出力する。
+
+一括実行のheadless 56本PASS（ログ .local/logs/run_tests-20260912-104722.log）。同実行のrenderは背景パネルの入力遮断で失敗し、修正後のrender.gd単体・hud_compact.gd描画実行はともにPASS、終了コード0。専用画像も目視確認。人間による操作感・仮アイコンの識別性・正式素材交換後の受入は未完了。

@@ -14,11 +14,6 @@ func refresh(hp: float, maximum: float) -> void:
 
 func _draw() -> void:
 	if opacities.is_empty(): return
-	var gap := 3.0
-	var skew := tan(deg_to_rad(12.0))*size.y
-	var width := (size.x-skew-gap*(opacities.size()-1))/opacities.size()
-	for i in range(opacities.size()):
-		var x := i*(width+gap)
-		var color := segment_color
-		color.a *= opacities[i]
-		draw_colored_polygon(PackedVector2Array([Vector2(x+skew,0),Vector2(x+width+skew,0),Vector2(x+width,size.y),Vector2(x,size.y)]),color)
+	draw_rect(Rect2(Vector2.ZERO,size),Color("37434a"))
+	var ratio := clampf(current_hp / maximum_hp,0,1) if maximum_hp > 0 else 0.0
+	draw_rect(Rect2(Vector2.ZERO,Vector2(size.x*ratio,size.y)),segment_color)

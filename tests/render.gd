@@ -142,6 +142,10 @@ func run() -> void:
 	game.players[1].temporary_relic_slot = 5
 	game.hud.refresh(game.players,game.remaining,game.paused,game.result,game.scores,game.phase)
 	await capture("-relic-cards-six")
+	game.hud.toggle_details()
+	# The paused grid is laid out after it becomes visible; hover its final position.
+	await process_frame
+	await process_frame
 	var relic_hover := InputEventMouseMotion.new()
 	relic_hover.position = game.hud.relic_cards[1][5].get_global_rect().get_center()
 	relic_hover.global_position = relic_hover.position
@@ -154,6 +158,7 @@ func run() -> void:
 		root.push_input(relic_hover,true)
 	assert(root.gui_get_hovered_control() == game.hud.relic_cards[1][5])
 	await capture("-relic-tooltip")
+	game.hud.toggle_details()
 	game.use_pulse(1)
 	game._physics_process(.12)
 	await capture("-pulse")
@@ -236,6 +241,7 @@ func run() -> void:
 	game.players[0].temporary_relic = 18
 	game.players[0].temporary_relic_slot = 11
 	game.hud.refresh_relics(0,game.players[0])
+	game.hud.toggle_details()
 	var hud_scroll = game.hud.get_node("Root/Relics/P1/Scroll")
 	await process_frame
 	await process_frame
@@ -244,6 +250,7 @@ func run() -> void:
 	assert(hud_scroll.get_global_rect().intersects(game.hud.relic_cards[0][11].get_global_rect()))
 	assert(hud_scroll.get_global_rect().end.y <= 800)
 	assert("【このラウンドの仮装備】" in game.hud.relic_cards[0][11].tooltip_text)
+	game.hud.toggle_details()
 	game.new_match(811)
 	var clear_hover := InputEventMouseMotion.new()
 	clear_hover.position = Vector2(10,10)

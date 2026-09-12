@@ -46,6 +46,7 @@ frame = 1
 [node name="CombatVisuals" parent="." instance=ExtResource("6")]
 [node name="CombatCamera" type="Camera2D" parent="."]
 anchor_mode = 0
+position = Vector2(0, -90)
 position_smoothing_enabled = false
 [editable path="Players/P1"]
 [editable path="Players/P2"]
