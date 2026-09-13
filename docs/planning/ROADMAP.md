@@ -1,3 +1,8 @@
+Visual Hubの操作中心をWebへ移行。武器・キャラのライブ一覧とレリック情報一覧を実装。既存描画のGodot Web実行、武器一括切替、ShopCatalog価格・BuildGrid占有形状を接続。[現行手順](../../tools/visual_hub/README.md)。後続は別ブラウザ/低性能端末での負荷評価、独立VFXとUI状態ギャラリー、自動ファイル監視。
+
+Visual Hub v1 Hybridを実装。Godot実描画、Web一覧・比較・レビュー・履歴、Manifest/内容キャッシュを接続。[起動方法](../../tools/visual_hub/README.md)。
+Hubの後続課題は単独VFX、UI状態ギャラリー、音声試聴、自動監視、完全依存グラフ、画像差分・AI QA。新しい一覧はGodot Webでリアルタイム操作できる。
+
 ダブルバック本体改修を統合済み。左右表示と既存装備テスト確認済み。実プレイでの最終的な大きさの好みは確認待ち。
 
 # 現在地と残課題

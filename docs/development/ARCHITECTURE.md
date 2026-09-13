@@ -160,3 +160,18 @@ reset＋確定ビルドの全快適用を選ぶ。部屋・階層移動でこの
 ログはrun_logでuser://run-logsへ保存し、外部送信しない。
 ファイル構成の旧一覧・経緯は[変更前の構成](../archive/2026-09-12/BEFORE_EXTENSION_ARCHITECTURE.md)。
 素材環境は[素材生成設定](ASSET_GENERATION_SETUP.md)。今回有料生成は行っていない。
+
+
+## Visual Hub（開発専用）
+
+`tools/visual_hub/visual_hub.tscn` は通常ゲームと独立した入口。Collector → 値だけのRecord → Preview Registry/Adapter → UIの4層を分離する。
+既存Player/CombatSession/FieldDefinition/Sceneと描画処理を使用し、AI・補給・音声・ログを開始しない。通常のmain_sceneは変更しない。
+`export_catalog.gd` が内容ハッシュ・UID・参照規則付きManifestを出力し、`export_preview.gd` が同じAdapterから選択対象だけ描画する。
+React/TypeScriptのWeb画面はManifestとフレーム列を表示する。127.0.0.1限定のNodeサービスが収集・撮影・レビュー保存・Godot起動を仲介し、外部サービスには接続しない。
+原本は既存ゲーム定義、レビューだけ `tools/visual_hub/reviews.json`。再生成物・設定・PNGは `.local/visual-hub/` に分離し、exportからHubとnpm関連を除外する。
+[起動・操作・拡張契約](../../tools/visual_hub/README.md)。
+
+
+Visual Hubの新しい武器/キャラ一覧は `live_preview.gd` とJavaScriptBridgeを介したGodot Webリアルタイム描画を使う。Reactが表示中のDOM枠と条件を渡し、1エンジン内で最大24 SubViewportを管理する。画面外は解放する。`pack_live.gd` によるHub専用PCKだけで起動Sceneを変更し、通常project.godotと配布設定は維持する。価格はShopCatalog、占有形状はBuildGridからManifestへ出力する。既存の撮影Compare/Historyはレビュー用として併存する。
+
+Visual Hubライブ一覧の表示は、単一Godot WebのアトラスからDOMカード内Canvasへ描画完了時に同期転送する。スクロール座標をGodot描画へ追従させず、表示対象・寸法のみを送信する。レイアウト世代と描画面寸法が一致するフレームだけ転送し、スクロール時の白い残像を防止する。

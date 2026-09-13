@@ -1,0 +1,11 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:transparent;overflow:hidden}canvas{display:block;width:100vw;height:100vh;background:transparent}</style></head><body><canvas id="canvas"></canvas><pre id="diagnostic" style="display:none"></pre><script src="index.js"></script><script>
+window.hubSend = value => parent.postMessage({kind:'hub-live-state',value:JSON.parse(value)},location.origin);
+// Copy synchronously after Godot renders, before WebGL clears its drawing buffer.
+window.hubPaint=revision=>parent.dispatchEvent(new parent.CustomEvent('hub-live-frame',{detail:{source:window,revision,canvas:document.getElementById('canvas')}}));
+let latest;
+window.addEventListener('message',event=>{if(event.origin!==location.origin||event.source!==parent||event.data?.kind!=='hub-live-update')return;latest=event.data.value;if(window.hubReceive)window.hubReceive(JSON.stringify(latest));});
+window.hubReady=()=>{if(latest)window.hubReceive(JSON.stringify(latest));window.hubSend(JSON.stringify({ready:true}));};
+const log=(...args)=>{document.getElementById('diagnostic').textContent+=args.join(' ')+'\n';};
+const engine=new Engine({executable:'index',mainPack:'hub.pck',canvas:document.getElementById('canvas'),canvasResizePolicy:2,focusCanvas:false,args:[],onPrint:log,onPrintError:(...args)=>{log(...args);window.hubSend(JSON.stringify({error:document.getElementById('diagnostic').textContent.slice(-12000)}));}});
+engine.startGame().catch(error=>{log(error.stack||String(error));window.hubSend(JSON.stringify({error:document.getElementById('diagnostic').textContent.slice(-12000)}));});
+</script></body></html>

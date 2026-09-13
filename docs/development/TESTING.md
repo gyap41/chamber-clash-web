@@ -1,3 +1,18 @@
+Visual Hub Web Live：`tests/visual_hub_live.gd` は8キャラ×3動作の24枠、装備一括変更、停止、画面外解放を検証する。起動スクリプトはWebビルドとHub専用PCKを生成する。ブラウザでは装備変更に撮影を使わないこと、pause/step、スクロール、拡大、レリックの効果と形状、WebGLエラーを確認する。[今回の記録](../archive/2026-09-13/VISUAL_HUB_WEB_LIVE.md)。
+
+比較更新の受入確認：対象削除直後に古い枠を残さず、条件変更後に自動更新すること。更新中に再変更しても旧条件を表示しないこと。キャラ＋レリックの適用対象表示、静止素材だけの再生無効も確認する。
+
+## Visual Hubの現行検証
+
+起動は `powershell -ExecutionPolicy Bypass -File tools/visual_hub/start.ps1`。初回は `-Install`、Godot版のみは `-Mode Native`。
+Web再生の受入確認：未撮影・静止画・動作変更後の「再生」で現条件を撮影して自動再生し、一時停止で同一フレームを維持すること。
+Webの条件・レビュー競合・ローカル接続制限は `start.ps1 -Mode Test`。
+`tests/visual_hub.gd` は現行全キャラ・武器・レリック・ステージ、隔離試射、追加・削除・欠落・未対応と保存復元を検証する。
+`tools/visual_hub/verify_render.gd` はCompatibility実描画とクリック、停止・再開、比較PNG、再シミュレーションを検証する。
+`node tools/visual_hub/web/verify_pipeline.mjs` は実Godotの4武器・2ステージ撮影、同条件キャッシュと破損PNG修復を検証する（対応Nodeが必要）。
+配布検証は `Godot --headless --path . --export-pack Web .local/visual-hub/game-export-audit.zip`。tools/tests/docs/.local/node_modules/package*.jsonの非収録を確認する。
+今回の結果と既知の制約は[実装・検証記録](../archive/2026-09-13/VISUAL_HUB_HYBRID.md)。以下の過去の結果とは区別する。
+
 2026-09-13 ダブルバック改修: equipment_art / weapon_readability 成功。Compatibilityで38武器の左右を撮影。docs/art/reviews/doubleback-body-2026-09-13/ を参照。
 
 # 検証手順
@@ -152,3 +167,5 @@ python -m unittest discover -s tools/tests -v
 `Godot --path . --script res://tools/capture_chibi.gd --quit-after 900` で上下左右のゲーム内ポーズを撮影する（Godotはローカルの実行ファイルへ置換）。
 Pillow入りPythonで `tools/review_chibi_capture.py` を実行すると比較GIFを作成する。
 [結果・制限](../archive/2026-09-12/rina-chibi/REPORT.md)。移動シートは不採用で、脚を交互に動かす描画を使用。手動プレイの自然さの最終評価は未実施。
+
+Visual Hubのライブ表示変更時は、武器一覧を再生中・停止中に上下スクロールし、白い帯やカード外への描画漏れがないことを確認する。拡大と一覧への復帰、モーション一覧も確認する。表示はカード内Canvasで、画面内の対象のみGodotで動作する。

@@ -1,0 +1,25 @@
+{
+  "name": "chamber-clash-visual-hub",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "visual-hub": "node tools/visual_hub/web/service.mjs",
+    "visual-hub:update": "node tools/visual_hub/web/cli.mjs update",
+    "visual-hub:build": "tsc -p tools/visual_hub/web/tsconfig.json && vite build --config tools/visual_hub/web/vite.config.ts",
+    "visual-hub:test": "node --test tools/visual_hub/web/test/*.test.mjs",
+    "visual-hub:native": "node tools/visual_hub/web/cli.mjs native",
+    "visual-hub:live-build": "node tools/visual_hub/web/build-live.mjs"
+  },
+  "dependencies": {
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "sharp": "0.35.4"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "typescript": "7.0.2",
+    "vite": "8.3.0"
+  }
+}
