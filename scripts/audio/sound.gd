@@ -156,7 +156,8 @@ func play_sound(kind: String, id: int = 0) -> void:
 	# Coalesce simultaneous pellet impacts without changing projectile simulation.
 	if kind in ["wall_impact","ricochet"]:
 		var now := Time.get_ticks_msec()
-		if now-int(contact_times.get(kind,-1000)) < 80: return
+		var interval := 200 if kind == "wall_impact" else 120
+		if now-int(contact_times.get(kind,-1000)) < interval: return
 		contact_times[kind] = now
 	var sample := sample_key(kind,id)
 	if not sample.is_empty():
@@ -165,6 +166,8 @@ func play_sound(kind: String, id: int = 0) -> void:
 		generated_voice.stop()
 		generated_voice.bus = bus_name
 		generated_voice.volume_db = volume_db + (-18.0 if kind.begins_with("ui_") or kind == "toggle" else -12.0)
+		if kind == "wall_impact": generated_voice.volume_db -= 12.0
+		elif kind == "ricochet": generated_voice.volume_db -= 8.0
 		generated_voice.stream = GENERATED[sample]
 		generated_voice.play()
 		played.emit(kind,id)

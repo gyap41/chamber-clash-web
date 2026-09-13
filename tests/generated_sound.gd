@@ -13,6 +13,19 @@ func run() -> void:
 		events.append([kind,id])
 		playback_refs.append(weakref(audio.voices[(audio.next_voice+15)%16].get_stream_playback())))
 	assert(audio.GENERATED.size() == 50)
+	for kind in ["wall_impact","ricochet"]:
+		audio.contact_times.clear()
+		var before := events.size()
+		for i in range(20): audio.play_sound(kind)
+		assert(events.size() == before+1)
+		var contact_voice = audio.voices[(audio.next_voice+15)%16]
+		assert(contact_voice.volume_db == (-24.0 if kind == "wall_impact" else -20.0))
+		audio.contact_times[kind] = Time.get_ticks_msec()-100
+		audio.play_sound(kind)
+		assert(events.size() == before+1)
+		audio.contact_times[kind] = Time.get_ticks_msec()-250
+		audio.play_sound(kind)
+		assert(events.size() == before+2)
 	for key in audio.GENERATED:
 		assert(audio.GENERATED[key] is AudioStreamMP3)
 		assert(not audio.GENERATED[key].loop)
