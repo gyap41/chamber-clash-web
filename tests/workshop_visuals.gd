@@ -88,6 +88,7 @@ func run() -> void:
 	p.state.angle = 0.3
 	p.sync_visual()
 	p.weapon().reserve = 0
+	game.supplies.reset() # Isolate the visual fixture from random launch-time drops.
 	var ammo = game.supplies.put_item("ammo",0,p.state.pos)
 	assert(ammo.get_node("ChestArt").visible and not ammo.get_node("Frame").visible)
 	ammo.age = 1.0

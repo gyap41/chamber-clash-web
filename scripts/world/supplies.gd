@@ -1,6 +1,9 @@
 extends Node2D
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const Relics = preload("res://scripts/catalog/relic_catalog.gd")
+const Navigation = preload("res://scripts/ai/cpu_navigation.gd")
+@export var randomize_positions := true
+var reachable: Array[Vector2] = []
 @export var first_relic_delay := 35.0
 @export var relic_interval := 90.0
 @export var pickup_scene: PackedScene = preload("res://scenes/world/pickup.tscn")
@@ -38,6 +41,7 @@ func reset() -> void:
 		item.get_parent().remove_child(item)
 		item.queue_free()
 	items.clear()
+	reachable.clear()
 	elapsed = 0.0
 	supply_timer = first_supply_delay
 	relic_timer = first_relic_delay
@@ -78,18 +82,49 @@ func spawn_group(group: String, kind: String, id: int = 0) -> void:
 	if container == null: return
 	var markers: Array = container.get_children()
 	if markers.is_empty(): return
+	if randomize_positions:
+		spawn_random(kind,id)
+		return
 	var first: int = game.supply_generator.rng.randi_range(0,markers.size()-1)
 	for offset in range(markers.size()):
 		var marker = markers[(first+offset)%markers.size()]
 		if put_item(kind,id,to_local(marker.global_position)) != null:
 			if kind in ["weapon","relic"]: game.presentation.play_sound("chest_spawn")
 			return
+func spawn_random(kind: String, id: int) -> void:
+	# A connected lattice guarantees traversable paths, not just empty landing tiles.
+	if reachable.is_empty():
+		var start: Vector2 = game.arena.spawn_position(0)
+		var cells: Array[Vector2i] = [Vector2i.ZERO]
+		var visited := {Vector2i.ZERO:true}
+		var cursor := 0
+		while cursor < cells.size() and cursor < Navigation.MAX_NODES:
+			var cell := cells[cursor]
+			cursor += 1
+			var point := start+Vector2(cell)*32.0
+			reachable.append(point)
+			for offset in [Vector2i.RIGHT,Vector2i.DOWN,Vector2i.LEFT,Vector2i.UP]:
+				var next: Vector2i = cell+offset
+				if visited.has(next): continue
+				visited[next] = true
+				if Navigation.segment_clear(game.arena,point,start+Vector2(next)*32.0): cells.append(next)
+		# Do not place shared rewards in a component unavailable to another participant.
+		for player in game.players:
+			if not reachable.any(func(point): return point.distance_to(player.state.pos) < 48.0 and Navigation.segment_clear(game.arena,point,player.state.pos)):
+				reachable.clear()
+				return
+	var safe: Rect2 = game.arena.safe_rect(game.arena_inset(),Vector2(55,45))
+	var candidates: Array = reachable.filter(func(point):
+		return safe.has_point(point) and not game.arena.solid(point,30.0) and game.players.all(func(player): return player.state.pos.distance_to(point) >= 100.0) and items.all(func(item): return item.used or item.position.distance_to(point) >= 80.0))
+	if candidates.is_empty(): return
+	var pos: Vector2 = candidates[game.supply_generator.rng.randi_range(0,candidates.size()-1)]
+	if put_item(kind,id,pos) != null and kind in ["weapon","relic"]: game.presentation.play_sound("chest_spawn")
 func launch() -> void:
 	spawn_group("Ammo","ammo")
 	announce("選んだ主力で開戦。武器補給は%d秒後、レジェンダリーは抽選で%d秒後" % [int(first_supply_delay),int(legendary_time)])
 func periodic_supply() -> void:
 	spawn_group("Weapons","weapon",weighted_gun())
-	announce("武器補給：中央付近に共有の宝箱が1個出現")
+	announce("武器補給：フィールド内に共有の宝箱が1個出現")
 func acquire(player_index: int, item, replace: bool = false) -> bool:
 	if player_index < 0 or player_index >= game.players.size(): return false
 	if not active() or not is_instance_valid(item) or item not in items or item.used or item.age < pickup_delay or item.age >= pickup_lifetime: return false
@@ -167,11 +202,11 @@ func step(dt: float) -> void:
 		if legendary_selected:
 			legendary_warned = true
 			game.presentation.play_sound("legendary")
-			announce("あと5秒：中央付近にSレア武器を1個投下")
+			announce("あと5秒：フィールド内にSレア武器を1個投下")
 	if elapsed >= legendary_time and legendary_selected and not legendary_spawned:
 		legendary_spawned = true
 		spawn_group("Legendary","weapon",weighted_gun(true))
-		announce("Sレア武器が中央付近に1個到着")
+		announce("Sレア武器がフィールド内に1個到着")
 	for item in items:
 		item.age += dt
 		if item.age < pickup_lifetime:

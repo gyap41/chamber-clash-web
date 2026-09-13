@@ -183,3 +183,11 @@ Visual Hubのライブ表示変更時は、武器一覧を再生中・停止中�
 
 `Godot --headless --path . --script res://tests/generated_sound.gd --quit-after 180` で16素材・11武器ID振分け・合成フォールバック・初期ゲイン・準備操作成否・プレビュー無音・勝敗1回通知・再生解放を確認する。
 関連回帰：sound、preparation_ui、preparation_redesign、extension_boundaries。実試聴では準備画面の音をONにし、連射・パルス・UI・勝敗の音量差と声／音楽の混入を確認する。試聴品質は未確認。
+
+## CPUの取得判断・ランダム補給（2026-09-14）
+
+`Godot --headless --path . --script res://tests/cpu_loot_pressure.gd --quit-after 120` は通常弾の壁遮蔽、壁を通過する月刃への回避、取得要求の抑制、2.5秒の被弾記憶、600フレーム以内の補給への壁迂回を検証する。
+`Godot --headless --path . --script res://tests/random_supplies.gd --quit-after 120` は24シード・通常/縮小時の4補給、位置の多様性、同シード再現、到達領域、壁・補給間隔を検証する。suppliesの固定マーカー検証はrandomize_positions=falseを明示。workshop_visualsはランダムな初期補給を除去して専用の補給表示を検証する。
+
+全79スクリプトを実行。追加2件・cpu_tactics・field_layout・small_improvementsはPASS。workshop_visualsにランダム補給との重なりが見つかり、テスト配置を分離した後の個別再実行でPASSを確認。ほかのスクリプトは動作検証のPASSを出力したが、多数で終了時のObjectDB/Resource解放エラーがあり、一括実行は失敗扱い（全件合格ではない）。最終CPU迂回テストも個別再実行でPASS。実プレイでの勝率・取得頻度・操作感は未検証。
+ベルフラワー対応：`Godot --headless --path . --script res://tests/cpu_seed_avoidance.gd --quit-after 120` で待機中の警戒・取得抑制・離脱・回避クールダウン・実際の突進開始・壁遮蔽・味方/消滅弾の除外を検証する。cpu_ai / cpu_tactics / cpu_loot_pressure / cpu_seed_avoidance の動作アサーションはPASS。サンドボックス実行では証明書ストア読取エラー、一部テストでは終了時Resource/ObjectDB解放エラーが残る。実プレイ品質は未検証。

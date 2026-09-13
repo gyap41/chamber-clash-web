@@ -17,6 +17,10 @@ static func sample(game, player, enemy, dt: float) -> Dictionary:
 	var p: Dictionary = player.state
 	var arena = game.arena
 	var elapsed: float = game.round_duration - game.remaining
+	# Remember damage/pressure long enough to avoid immediately returning to a chest.
+	p.ai_loot_pause = maxf(0.0,float(p.get("ai_loot_pause",0.0))-dt)
+	if float(p.get("ai_last_hp",p.hp)) > float(p.hp): p.ai_loot_pause = 2.5
+	p.ai_last_hp = p.hp
 
 	# If the active weapon is completely dry (no clip, no reserve), switch to the first one
 	# in inventory that still has ammo.
@@ -35,7 +39,11 @@ static func sample(game, player, enemy, dt: float) -> Dictionary:
 	var target = null
 	var best := INF
 	for item in game.supplies.items:
-		if item.used: continue
+		if item.used or (item.opening_player >= 0 and item.opening_player != index): continue
+		if not arena.safe_rect(game.arena_inset()).has_point(item.position): continue
+		if p.ai_loot_pause > 0.0: continue
+		# A wall is not shelter from moon blades. Fight around it before looting.
+		if enemy.has_weapon() and enemy.definition().get("boomerang",false) and enemy.state.pos.distance_to(item.position) < 420.0: continue
 		var desired: bool
 		if item.kind == "ammo":
 			desired = player.inventory.any(func(x): return float(x.reserve) < float(Weapons.definition(x.id).stock)*.6)
@@ -63,11 +71,16 @@ static func sample(game, player, enemy, dt: float) -> Dictionary:
 		dx = route.x
 		dy = route.y
 
-	# A wanted pickup within cost 500 overrides movement entirely; within 45px, take it.
+	# Safe pickups get their own cached route; within 45px, attempt interaction.
 	if target != null and best < 500.0:
-		a = (target.position-p.pos).angle()
-		dx = cos(a)
-		dy = sin(a)
+		var toward: Vector2 = (target.position-p.pos).normalized()
+		if not Navigation.segment_clear(arena,p.pos,target.position):
+			var loot_route: Dictionary = p.get("ai_loot_route",{})
+			loot_route.pos = p.pos
+			toward = combat_direction(arena,loot_route,target.position,Vector2(0,24),toward,dt)
+			p.ai_loot_route = loot_route
+		dx = toward.x
+		dy = toward.y
 		if p.pos.distance_to(target.position) < 45.0: command.interact = true
 
 	# Predict closest approach, ignoring receding bullets and shots behind cover.
@@ -75,10 +88,21 @@ static func sample(game, player, enemy, dt: float) -> Dictionary:
 	p.ai_cd = maxf(0.0,p.ai_cd-dt)
 	var threat = null
 	var soonest := INF
+	var seed_warning := false
+	var seed_triggered := false
 	for shot in game.shots:
-		if not game.roster.hostile(index,shot.state.owner) or shot.state.dead: continue
+		if not game.roster.hostile(index,shot.state.owner) or shot.state.dead or shot.state.life <= 0.0: continue
 		var offset: Vector2 = p.pos-shot.state.pos
 		var velocity: Vector2 = shot.state.velocity
+		var waiting_seed: bool = shot.state.get("seed",false) and not shot.state.get("launched",false) and shot.state.age >= .6
+		var trigger := 0.0
+		if waiting_seed:
+			# Dormant flowers can accelerate toward us despite having zero velocity.
+			var seed_def: Dictionary = shot.source_player.resolved_definition(shot.gun_id)
+			trigger = float(seed_def.get("seed_trigger_radius",100.0))
+			var planned: Vector2 = p.pos+Vector2(dx,dy).limit_length(1.0)*player.effective_move_speed()*.25
+			if offset.length() > trigger+20.0 and planned.distance_to(shot.state.pos) > trigger+20.0: continue
+			velocity = offset.normalized()*float(seed_def.get("seed_seek_speed",440.0))
 		var approach := 0.0
 		if velocity.length_squared() > 1.0:
 			approach = offset.dot(velocity)/velocity.length_squared()
@@ -86,15 +110,25 @@ static func sample(game, player, enemy, dt: float) -> Dictionary:
 		elif offset.length() > 35.0:
 			continue
 		if (offset-velocity*approach).length() > player.radius+shot.radius+18.0: continue
-		if arena.line_blocked(shot.state.pos,p.pos): continue
+		if not shot.state.get("boomerang",false) and arena.line_blocked(shot.state.pos,p.pos): continue
 		if approach < soonest:
 			soonest = approach
 			threat = shot
+			seed_warning = waiting_seed
+			seed_triggered = waiting_seed and offset.length() <= trigger
 	if threat != null:
+		p.ai_loot_pause = 2.5
+		command.interact = false
+		# Discard pickup steering immediately, even while the roll is on cooldown.
+		dx = route.x
+		dy = route.y
 		var heading: Vector2 = threat.state.velocity.normalized()
 		if heading.is_zero_approx(): heading = (p.pos-threat.state.pos).normalized()
 		var evade := Vector2(-heading.y,heading.x)
 		if evade.dot(Vector2(dx,dy)) < 0: evade = -evade
+		if seed_warning:
+			# Back out of the sensor instead of circling inside its trigger zone.
+			evade = (p.pos-threat.state.pos).normalized()
 		dx += evade.x*2.0
 		dy += evade.y*2.0
 
@@ -124,7 +158,7 @@ static func sample(game, player, enemy, dt: float) -> Dictionary:
 
 	# Start the roll only after wall avoidance and set its direction before handle_key.
 	# Player.step deliberately preserves p.dir during a roll.
-	if threat != null and p.ai_cd <= 0.0 and p.dodge <= 0.0 and p.roll <= 0.0:
+	if threat != null and (not seed_warning or seed_triggered) and p.ai_cd <= 0.0 and p.dodge <= 0.0 and p.roll <= 0.0:
 		command.dodge = true
 		p.ai_cd = randf_range(.35,.75)
 	command.reload = player.has_weapon() and (player.inventory[command.switch].clip if command.switch >= 0 else player.weapon().clip) == 0

@@ -12,6 +12,8 @@ func run() -> void:
 	preload("res://tests/helpers/battle.gd").passive_opponents(game)
 	game.set_physics_process(false)
 	var s = game.supplies
+	# Authored-marker fallback remains available for custom fields.
+	s.randomize_positions = false
 	assert(is_equal_approx(s.legendary_chance,.3))
 	s.legendary_chance = 1.0
 	var p = game.players[0]
