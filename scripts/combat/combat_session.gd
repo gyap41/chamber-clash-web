@@ -116,8 +116,9 @@ func fire(index: int) -> void:
 		var relic15 := Relics.definition(15)
 		spawn_shot(index,0,player.state.angle,{"kind":"residual_heat","damage":float(relic15.get("heat_damage",.4)),"speed":g.speed*float(relic15.get("heat_speed_ratio",.85)),"life":1.6,"radius":4.0,"color":relic15.color,"can_lens":false,"depth":1})
 	player.consume_shot()
+	preload("res://scripts/combat/weapon_behaviors.gd").dispatch(w.id,&"fire",{"actor":player,"session":self,"weapon":w})
 	if g.get("comet",false) or g.get("prism",false): game.presentation.shake(3.0)
-	game.presentation.burst(player.state.pos+Vector2.from_angle(player.state.angle)*26,Color(g.color),12 if g.get("prism",false) else 4)
+	game.presentation.weapon_event({"kind":"fire","weapon":w.id,"owner":index,"pos":player.presentation_muzzle(w.id,player.state.angle),"angle":player.state.angle})
 	game.presentation.play_sound("shot",w.id)
 
 func spawn_shot(index: int, id: int, angle: float, opts: Dictionary = {}) -> void:
@@ -130,7 +131,7 @@ func spawn_shot(index: int, id: int, angle: float, opts: Dictionary = {}) -> voi
 	bullet.launch(game.players[index],index,id,angle,opts)
 	bullet.set_meta("origin",opts.root)
 	bullet.burst_requested.connect(game.presentation.burst)
-	bullet.weapon_effect_requested.connect(game.presentation.weapon_effect)
+	bullet.visual_event_requested.connect(game.presentation.weapon_event)
 	bullet.derived_shot_requested.connect(_on_projectile_derived_shot)
 	game.shots.append(bullet)
 	game.telemetry.record("projectile",{"player":index,"weapon":id,"root":opts.get("root",opts.get("volley",-1)),"kind":opts.get("kind","shot"),"volley":opts.get("volley",-1)})
@@ -149,7 +150,8 @@ func _step_delayed_shots(dt: float) -> void:
 		delayed.delay -= dt
 		if delayed.delay <= 0:
 			spawn_shot(delayed.owner,delayed.gun,delayed.angle,delayed)
-			game.presentation.weapon_effect(3,game.players[delayed.owner].state.pos+Vector2.from_angle(delayed.angle)*34,delayed.angle)
+			var actor = game.players[delayed.owner]
+			game.presentation.weapon_event({"kind":"fire","weapon":delayed.gun,"owner":delayed.owner,"pos":actor.presentation_muzzle(delayed.gun,delayed.angle),"angle":delayed.angle})
 			game.delayed_shots.remove_at(n)
 
 
@@ -159,7 +161,7 @@ func _step_projectiles(dt: float) -> void:
 		var b = game.shots[n]
 		if b.state.dead or b.state.life <= 0:
 			if not b.state.dead:
-				if b.state.parcel: game.presentation.weapon_effect(1,b.state.pos)
+				b.notify_visual("split" if not b.fragments().is_empty() else "expire",b.state.pos)
 				if b.state.parcel: game.presentation.ring(b.state.pos,Color(b.state.color),55.0)
 				if b.state.gravity: game.presentation.ring(b.state.pos,Color(b.state.color),100.0)
 				if b.state.split or b.state.clover or b.state.comet:
@@ -173,7 +175,7 @@ func _step_projectiles(dt: float) -> void:
 			var fragments: Dictionary = b.fragments()
 			if not fragments.is_empty():
 				for shard in range(fragments.count):
-					spawn_shot(b.state.owner,0,shard*TAU/fragments.count,{"kind":"fragment","root":b.get_meta("origin",-1),"pos":b.state.pos,"speed":fragments.speed,"damage":fragments.damage,"life":fragments.life,"color":fragments.color,"radius":4.0,"can_lens":false,"depth":1})
+					spawn_shot(b.state.owner,0,shard*TAU/fragments.count,{"kind":"fragment","visual_weapon":b.visual_id,"visual_variant":preload("res://scripts/catalog/weapon_visual_catalog.gd").profile(b.visual_id).get("fragment","derived"),"root":b.get_meta("origin",-1),"pos":b.state.pos,"speed":fragments.speed,"damage":fragments.damage,"life":fragments.life,"color":fragments.color,"radius":4.0,"can_lens":false,"depth":1})
 			game.shots.remove_at(n)
 			b.get_parent().remove_child(b)
 			b.queue_free()

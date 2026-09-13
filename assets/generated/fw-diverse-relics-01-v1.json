@@ -1,0 +1,25 @@
+{
+  "name": "fw-diverse-relics-01-v1",
+  "fingerprint": "6a3e23c5a90791e252c2f785bd069eaebc4b6c37f4ab639411b9d3ef11586ed4",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T19:50:24.819110+00:00",
+  "endpoint": "generations",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.\n1024x1024 sheet. Regular 3x3 grid, reading order left-to-right top-to-bottom. Exactly 9 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.\nRelics: one connected object per cell, slight three-quarter view. Bold simple silhouette readable at 24px. Symbols are engraved/inset in the object, not floating.\nCell 1: ID 9, パルスリレー. 電子機器。黒い薄型リング、青い6端子。円形のリレー.\nCell 2: ID 10, パリィダイナモ. 工業機器。傷のある銀の受け流し刃、銅の発電ローター.\nCell 3: ID 11, リバウンドテープ. 日用品。青い巻きテープ、大きな白い反射矢印を表面に印刷.\nCell 4: ID 12, 反響の種. 天然・魔法。茶色の殻付き種、緑の芽、殻に小さな反射紋.\nCell 5: ID 13, 空薬莢の祝福. 魔法。古びた薬莢に赤い布のお守りを結ぶ。火花や浮遊物は描かない.\nCell 6: ID 14, 帰還バッテリー. SF。濃紺の平たい充電池、黄色い戻り矢印、緑の充電窓.\nCell 7: ID 15, 余熱コンデンサ. 工業機器。赤銅の太いコンデンサ、黒い放熱フィン、橙の熱窓.\nCell 8: ID 16, 残響ホルスター. 装備品。濃茶の革ホルスター、銀の留め具、革に波紋の刻印.\nCell 9: ID 17, すり抜け装填. SF。銀色の細身弾倉、空隙を通る青い曲線を表面に刻印.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 604,
+      "image_tokens": 0
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.10687
+}

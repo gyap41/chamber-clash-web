@@ -1,6 +1,8 @@
 extends Node2D
+signal visual_event_requested(event: Dictionary)
+var visual_id := 0
+var visual_variant := ""
 signal burst_requested(pos: Vector2, color: Color, count: int)
-signal weapon_effect_requested(row: int, pos: Vector2, angle: float)
 # P3 synergy relic (反響の種): fired at most once per bullet, only from a depth-0 (directly
 # fired, non-derived) bullet's first wall bounce. main.gd owns the numeric relic definition and
 # turns this into an actual spawn_shot() call, keeping this script relic-number-agnostic.
@@ -20,6 +22,9 @@ var state: Dictionary
 var log_origin: Dictionary = {}
 func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionary = {}) -> void:
 	gun_id = id
+	visual_id = int(opts.get("visual_weapon",id))
+	visual_variant = str(opts.get("visual_variant",""))
+	if visual_variant.is_empty() and int(opts.get("depth",0))>0 and str(opts.get("kind","")) not in ["echo","burst"]: visual_variant = "derived"
 	log_origin = {"root":opts.get("root",-1),"kind":opts.get("kind","shot"),"weapon":id,"player":index}
 	source_player = player
 	var p = player.state
@@ -44,6 +49,8 @@ func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionar
 	if g.get("comet",false): radius = opts.get("radius",11.0)
 	elif g.get("gravity",false): radius = opts.get("radius",10.0)
 	elif g.get("seed",false): radius = opts.get("radius",9.0)
+	# Gameplay dimensions are independent of light, smoke and sprite bounds.
+	radius = float(opts.get("radius",g.get("parcel_radius",radius) if opts.get("parcel",false) else g.get("projectile_radius",radius)))
 	var special: bool = g.get("split",false) or g.get("comet",false) or g.get("gravity",false) or g.get("boomerang",false) or g.get("seed",false) or g.get("bubble",false) or g.get("clover",false)
 	var can_lens: bool = opts.get("can_lens", true)
 	var bounce: int = int(g.get("bounce",0)) + (1 if (not special and can_lens and 2 in player.relics) else 0)
@@ -55,6 +62,7 @@ func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionar
 	# only ever spawns one Echo Seed pool). Derived (depth>0) bullets are excluded from every P3
 	# synergy trigger below on purpose — "派生効果は原則さらに別の生成効果を発動しない".
 	state = {"comet":g.get("comet",false),"gravity":g.get("gravity",false),"split":g.get("split",false),"clover":g.get("clover",false),"boomerang":g.get("boomerang",false),"helix":g.get("helix",false),"phase":opts.get("phase",1),"hits":[],"color":opts.get("color",g.color),"age":0.0,"seed":g.get("seed",false),"boost":g.get("boost",false),"bubble":g.get("bubble",false),"bubble_delay":float(g.get("bubble_delay",1.0)),"homing":g.get("homing",false),"launched":false,"pos":opts.get("pos",p.pos+Vector2.from_angle(angle)*24),"velocity":Vector2.from_angle(angle)*speed,"owner":index,"life":lifetime,"bounce":bounce,"rebounds":0,"dead":false,"bank":g.get("bank",false),"parcel":opts.get("parcel",false),"volley":opts.get("volley",-1),"depth":int(opts.get("depth",0)),"applied_effects":opts.get("applied_effects",[]).duplicate()}
+	preload("res://scripts/combat/weapon_behaviors.gd").dispatch(gun_id,&"launch",{"actor":source_player,"projectile":self})
 	position = state.pos
 	state.cross_turn = float(opts.get("cross_turn",0.0))
 	state.cross_turned = false
@@ -62,21 +70,10 @@ func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionar
 	state.homing_cone = float(g.get("homing_cone",PI))
 	$Visual.modulate = Color(opts.get("color",g.color))
 	$Visual.scale = Vector2.ONE * radius/4.0
-	$Art.configure(id,bool(opts.get("parcel",false)),bool(opts.get("shard",false)))
+	$Art.configure(visual_id,bool(opts.get("parcel",false)),bool(opts.get("shard",false)),visual_variant)
 	$Art.refresh(state.age,state.velocity)
 	$Visual.visible = not $Art.visible
 	queue_redraw()
-func danger_marked() -> bool:
-	return damage >= 1.5 or state.comet or state.gravity or state.seed or state.split or state.clover or state.depth > 0
-func _draw() -> void:
-	if state == null or state.is_empty(): return
-	# Owner colors stay readable even when the weapon sprite uses a different palette.
-	var owner_color := Color("64b5ee") if state.owner == 1 else Color("f39545")
-	draw_arc(Vector2.ZERO,radius+3,0,TAU,24,owner_color,1.5,true)
-	if danger_marked():
-		draw_arc(Vector2.ZERO,radius+6,0,TAU,24,Color("fff3b0"),1.5,true)
-	if source_player != null and source_player.temporary_relic >= 0 and state.depth > 0:
-		for n in range(4): draw_arc(Vector2.ZERO,radius+9,n*PI/2,n*PI/2+PI/4,6,Color("e6a0ff"),2.0,true)
 func step(dt: float, arena, targets) -> void:
 	var enemies: Array = targets if targets is Array else ([targets] if targets != null else [])
 	var enemy = null
@@ -134,7 +131,8 @@ func step(dt: float, arena, targets) -> void:
 			if b.bounce > 0:
 				b.bounce -= 1
 				b.rebounds += 1
-				if b.bank: weapon_effect_requested.emit(0,previous,(-b.velocity).angle()+PI/4)
+				preload("res://scripts/combat/weapon_behaviors.gd").dispatch(gun_id,&"bounce",{"actor":source_player,"projectile":self,"pos":previous})
+				notify_visual("bounce",previous)
 				if b.bank: damage += bank_bonus
 				preload("res://scripts/combat/relic_effects.gd").first_bounce(self,previous)
 				if b.pos.x < bounds.position.x or b.pos.x > bounds.end.x or arena.solid(Vector2(b.pos.x,previous.y),radius): b.velocity.x *= -1
@@ -146,18 +144,20 @@ func step(dt: float, arena, targets) -> void:
 				b.pos = previous
 				b.life = 0.0
 				burst_requested.emit(b.pos,Color(b.color),7)
-				if gun_id == 20: weapon_effect_requested.emit(4,b.pos,b.velocity.angle())
-				if switcher: weapon_effect_requested.emit(2,b.pos,b.velocity.angle()+PI/4)
+				notify_visual("hit",b.pos)
 		else:
 			for target in enemies:
 				if target.state.hp <= 0 or b.pos.distance_to(target.state.pos) >= target.radius+radius: continue
 				var pass_key := ("back" if b.age > .7 else "out")+":"+str(target.participant_id)
 				if b.boomerang:
-					if pass_key not in b.hits and target.hurt(damage,b.volley,false,log_origin): b.hits.append(pass_key)
+					if pass_key not in b.hits and target.hurt(damage,b.volley,false,log_origin):
+						b.hits.append(pass_key)
+						preload("res://scripts/combat/weapon_behaviors.gd").dispatch(gun_id,&"hit",{"actor":source_player,"projectile":self,"target":target})
+						notify_visual("hit",b.pos)
 				else:
-					target.hurt(damage,b.volley,false,log_origin)
-					if gun_id == 20: weapon_effect_requested.emit(4,b.pos,b.velocity.angle())
-					if switcher: weapon_effect_requested.emit(2,b.pos,b.velocity.angle()+PI/4)
+					if target.hurt(damage,b.volley,false,log_origin):
+						preload("res://scripts/combat/weapon_behaviors.gd").dispatch(gun_id,&"hit",{"actor":source_player,"projectile":self,"target":target})
+					notify_visual("hit",b.pos)
 					b.life = 0.0
 					break
 
@@ -174,3 +174,7 @@ func fragments() -> Dictionary:
 	if state.split or state.clover:
 		return {"count":4 if state.clover else 8,"speed":280.0,"damage":.65*scale_damage,"life":.85 if state.clover else 1.5,"color":state.color}
 	return {}
+
+func notify_visual(kind: String, pos: Vector2) -> void:
+	if kind == "hit" and (state.parcel or state.comet or state.split or state.clover): return
+	visual_event_requested.emit({"kind":kind,"weapon":visual_id,"variant":("parcel" if state.parcel else visual_variant),"owner":state.owner,"pos":pos,"angle":state.velocity.angle()})

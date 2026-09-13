@@ -1,0 +1,7 @@
+Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.
+1024x1024 sheet. Regular 2x2 grid, reading order left-to-right top-to-bottom. Exactly 4 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.
+Weapons: flat side view, muzzle to RIGHT, grip down. Preserve natural proportion differences: stocked long rifles, shoulder launchers, bows, tools and toys. No generic pistol frame added to every object.
+Cell 1: ID 4, ダブルバック. 実銃寄り: 青黒い長い二連銃身、茶色の木製銃床、中折れ式.
+Cell 2: ID 3, ハニービー. SF: 黄黒の小型ミサイルポッド、三連セル、角張った航空機部品.
+Cell 3: ID 1, 跳弾キャンディ. コミカル: 丸い赤白のキャンディ射出器。玩具的な樹脂と透明な弾倉.
+Cell 4: ID 8, プリズムバースト. 魔法・光学: 透明な多面結晶と銀の細い支持枠、虹色は結晶内だけ.

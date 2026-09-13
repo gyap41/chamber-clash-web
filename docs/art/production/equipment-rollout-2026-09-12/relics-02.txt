@@ -1,0 +1,14 @@
+Use case: stylized-concept. Production sprites for a cute two-head-tall workshop adventure action game. Match reference ivory enamel, dark steel, teal/amber/brass accents, bold clean dark outlines and simple cel shading. Distinct silhouettes, limited tiny detail, no text, labels, numerals, borders, people, hands, floor, shadows or detached effects. Uniform pure #FF00FF background including holes and gutters; no pink/purple object colors. Each object centered in its cell with generous clear margins. Reference is style only: create the NEW items below. Do not draw names.
+Canvas 1024x1024. Regular 3 columns by 3 rows, reading order left to right, top to bottom. Exactly 9 objects; unused final cells blank magenta.
+Slight three-quarter view. Each relic is one connected functional module. Bold silhouette readable at 24px. No floating symbols or rays.
+Cell 1: ID 18 ミニフェザー. Design: 短い一枚羽。0の縮小コピーだけにしない. 
+Cell 2: ID 19 パワーチップ. Design: 力の印がある基板チップ. 
+Cell 3: ID 20 ロングバレル. Design: 延長銃身と前進線. 
+Cell 4: ID 21 ワイドマガジン. Design: 横に広い弾倉. 
+Cell 5: ID 22 ラストスタンプ. Design: 最後の薬莢に押すスタンプ. 
+Cell 6: ID 23 クールグリップ. Design: 冷却フィン付きグリップ. 
+Cell 7: ID 24 ステップスプリング. Design: 靴と圧縮ばね. 
+Cell 8: ID 25 セーフティソール. Design: 着地する厚底と短い走行線. 
+Cell 9: ID 26 クイックシース. Design: 素早く抜ける鞘. 
+
+Use the stated symbols as physical engravings or inset windows on one solid module, never as floating arrows, bullets, light rays or motion trails. Each cell contains only ONE relic icon.

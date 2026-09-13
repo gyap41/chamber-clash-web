@@ -60,11 +60,13 @@ func _ready() -> void:
 	preparation.game = self
 	for i in range(players.size()):
 		var player = players[i]
+		player.combat_service = weakref(combat)
 		player.participant_id = roster.participants[i].id
 		player.team_id = roster.participants[i].team
 		player.battle_slot = i
 		player.battle_roster = roster
 		player.is_cpu = roster.participants[i].controller == "cpu"
+		player.weapon_event_requested.connect(presentation.weapon_event)
 		player.burst_requested.connect(presentation.burst)
 		player.ring_requested.connect(presentation.ring)
 		player.shake_requested.connect(presentation.shake)

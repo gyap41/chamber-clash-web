@@ -15,9 +15,9 @@ class BudgetTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 validate_history([dict(status=status, name='a', fingerprint='b')], 'c', 'd')
     def test_limit_before_send(self):
-        history = [dict(status='success',name=str(i),fingerprint=str(i)) for i in range(45)]
+        history = [dict(status='success',name=str(i),fingerprint=str(i)) for i in range(72)]
         with self.assertRaises(ValueError): validate_history(history, 'new', 'new')
-        validate_history(history[:44], 'new', 'new')
+        validate_history(history[:71], 'new', 'new')
 
     def test_explicit_resume_keeps_unknown_and_limits_retry(self):
         record = dict(status='outcome_unknown', name='old', fingerprint='same')
@@ -33,6 +33,16 @@ class BudgetTests(unittest.TestCase):
     def test_duplicate(self):
         with self.assertRaises(ValueError):
             validate_history([dict(status='success', name='old', fingerprint='same')], 'new', 'same')
+
+    def test_interrupted_equipment_redesign_is_explicit_and_keeps_reservation(self):
+        record = dict(status='outcome_unknown',name='fw-equipment-rollout-guns-07',fingerprint='old-design',
+            reserved_usd=1.0,manual_resolution=dict(action='user_authorized_resume_keep_reservation',
+            user_message='一旦作成のし直しをお願いします。',recorded_at='2026-09-12',retry_name='fw-weapons-diversity-v1'))
+        validate_history([record],'fw-weapons-diversity-v1','new-design')
+        self.assertEqual(record['reserved_usd'],1.0)
+        with self.assertRaises(ValueError): validate_history([record],'unapproved-retry','old-design')
+        record['name']='another-unknown'
+        with self.assertRaises(ValueError): validate_history([record],'fw-weapons-diversity-v1','new-design')
     def test_usage(self):
         _, cost = usage_record(dict(input_tokens_details=dict(text_tokens=1000,image_tokens=1000),output_tokens=1000))
         self.assertAlmostEqual(cost, .0215)

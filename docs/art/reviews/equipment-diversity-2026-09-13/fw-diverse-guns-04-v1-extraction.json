@@ -1,0 +1,86 @@
+[
+  {
+    "id": 10,
+    "kind": "guns",
+    "name": "ブラックホール・ティー",
+    "source": "assets/generated/fw-diverse-guns-04-v1.png",
+    "sha256": "8f1c70a5eb73313d1cd9c01fdfe08f8c81dc1fd864a4e4041cc79c6a2d56a7f4",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      61,
+      57,
+      436,
+      400
+    ],
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/10.png"
+  },
+  {
+    "id": 19,
+    "kind": "guns",
+    "name": "エコードラム",
+    "source": "assets/generated/fw-diverse-guns-04-v1.png",
+    "sha256": "8f1c70a5eb73313d1cd9c01fdfe08f8c81dc1fd864a4e4041cc79c6a2d56a7f4",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      10,
+      142,
+      479,
+      342
+    ],
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/19.png"
+  },
+  {
+    "id": 2,
+    "kind": "guns",
+    "name": "ファイアワークス",
+    "source": "assets/generated/fw-diverse-guns-04-v1.png",
+    "sha256": "8f1c70a5eb73313d1cd9c01fdfe08f8c81dc1fd864a4e4041cc79c6a2d56a7f4",
+    "cell": [
+      0,
+      512,
+      512,
+      1024
+    ],
+    "crop": [
+      117,
+      17,
+      396,
+      439
+    ],
+    "rotation_degrees": 120,
+    "runtime": "assets/first-workshop/equipment/guns/02.png"
+  },
+  {
+    "id": 33,
+    "kind": "guns",
+    "name": "ツインクレセント",
+    "source": "assets/generated/fw-diverse-guns-04-v1.png",
+    "sha256": "8f1c70a5eb73313d1cd9c01fdfe08f8c81dc1fd864a4e4041cc79c6a2d56a7f4",
+    "cell": [
+      512,
+      512,
+      1024,
+      1024
+    ],
+    "crop": [
+      29,
+      55,
+      467,
+      450
+    ],
+    "rotation_degrees": -90,
+    "runtime": "assets/first-workshop/equipment/guns/33.png"
+  }
+]

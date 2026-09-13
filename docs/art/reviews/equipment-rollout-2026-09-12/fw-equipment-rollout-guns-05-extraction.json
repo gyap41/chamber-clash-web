@@ -1,0 +1,82 @@
+[
+  {
+    "id": 16,
+    "kind": "guns",
+    "name": "レシートリピーター",
+    "source": "assets/generated/fw-equipment-rollout-guns-05.png",
+    "sha256": "7a9a6de956902f1b728cefe3f2b42ea76b346b278f44796d8ef10f1df7908dfc",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      49,
+      163,
+      482,
+      416
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/16.png"
+  },
+  {
+    "id": 17,
+    "kind": "guns",
+    "name": "着払いキャノン",
+    "source": "assets/generated/fw-equipment-rollout-guns-05.png",
+    "sha256": "7a9a6de956902f1b728cefe3f2b42ea76b346b278f44796d8ef10f1df7908dfc",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      28,
+      120,
+      473,
+      426
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/17.png"
+  },
+  {
+    "id": 18,
+    "kind": "guns",
+    "name": "スイッチスパナ",
+    "source": "assets/generated/fw-equipment-rollout-guns-05.png",
+    "sha256": "7a9a6de956902f1b728cefe3f2b42ea76b346b278f44796d8ef10f1df7908dfc",
+    "cell": [
+      0,
+      512,
+      512,
+      1024
+    ],
+    "crop": [
+      50,
+      80,
+      476,
+      355
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/18.png"
+  },
+  {
+    "id": 19,
+    "kind": "guns",
+    "name": "エコードラム",
+    "source": "assets/generated/fw-equipment-rollout-guns-05.png",
+    "sha256": "7a9a6de956902f1b728cefe3f2b42ea76b346b278f44796d8ef10f1df7908dfc",
+    "cell": [
+      512,
+      512,
+      1024,
+      1024
+    ],
+    "crop": [
+      44,
+      76,
+      470,
+      366
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/19.png"
+  }
+]

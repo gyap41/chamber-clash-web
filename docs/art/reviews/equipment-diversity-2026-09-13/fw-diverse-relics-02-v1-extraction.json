@@ -1,0 +1,200 @@
+[
+  {
+    "id": 18,
+    "kind": "relics",
+    "name": "ミニフェザー",
+    "source": "assets/generated/fw-diverse-relics-02-v1.png",
+    "sha256": "ab1e79d4721131f76c7744fb0b5a76f2c5393b9da13e2ad0d4de336129e59b04",
+    "cell": [
+      0,
+      0,
+      341,
+      341
+    ],
+    "crop": [
+      56,
+      54,
+      284,
+      278
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/18.png"
+  },
+  {
+    "id": 19,
+    "kind": "relics",
+    "name": "パワーチップ",
+    "source": "assets/generated/fw-diverse-relics-02-v1.png",
+    "sha256": "ab1e79d4721131f76c7744fb0b5a76f2c5393b9da13e2ad0d4de336129e59b04",
+    "cell": [
+      341,
+      0,
+      682,
+      341
+    ],
+    "crop": [
+      36,
+      66,
+      304,
+      273
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/19.png"
+  },
+  {
+    "id": 20,
+    "kind": "relics",
+    "name": "ロングバレル",
+    "source": "assets/generated/fw-diverse-relics-02-v1.png",
+    "sha256": "ab1e79d4721131f76c7744fb0b5a76f2c5393b9da13e2ad0d4de336129e59b04",
+    "cell": [
+      682,
+      0,
+      1024,
+      341
+    ],
+    "crop": [
+      26,
+      51,
+      314,
+      264
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/20.png"
+  },
+  {
+    "id": 21,
+    "kind": "relics",
+    "name": "ワイドマガジン",
+    "source": "assets/generated/fw-diverse-relics-02-v1.png",
+    "sha256": "ab1e79d4721131f76c7744fb0b5a76f2c5393b9da13e2ad0d4de336129e59b04",
+    "cell": [
+      0,
+      341,
+      341,
+      677
+    ],
+    "crop": [
+      49,
+      43,
+      307,
+      269
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/21.png"
+  },
+  {
+    "id": 22,
+    "kind": "relics",
+    "name": "ラストスタンプ",
+    "source": "assets/generated/fw-diverse-relics-02-v1.png",
+    "sha256": "ab1e79d4721131f76c7744fb0b5a76f2c5393b9da13e2ad0d4de336129e59b04",
+    "cell": [
+      341,
+      341,
+      682,
+      677
+    ],
+    "crop": [
+      69,
+      25,
+      256,
+      283
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/22.png"
+  },
+  {
+    "id": 23,
+    "kind": "relics",
+    "name": "クールグリップ",
+    "source": "assets/generated/fw-diverse-relics-02-v1.png",
+    "sha256": "ab1e79d4721131f76c7744fb0b5a76f2c5393b9da13e2ad0d4de336129e59b04",
+    "cell": [
+      682,
+      341,
+      1024,
+      677
+    ],
+    "crop": [
+      64,
+      25,
+      252,
+      273
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/23.png"
+  },
+  {
+    "id": 24,
+    "kind": "relics",
+    "name": "ステップスプリング",
+    "source": "assets/generated/fw-diverse-relics-02-v1.png",
+    "sha256": "ab1e79d4721131f76c7744fb0b5a76f2c5393b9da13e2ad0d4de336129e59b04",
+    "cell": [
+      0,
+      677,
+      341,
+      1024
+    ],
+    "crop": [
+      51,
+      8,
+      246,
+      271
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/24.png"
+  },
+  {
+    "id": 25,
+    "kind": "relics",
+    "name": "セーフティソール",
+    "source": "assets/generated/fw-diverse-relics-02-v1.png",
+    "sha256": "ab1e79d4721131f76c7744fb0b5a76f2c5393b9da13e2ad0d4de336129e59b04",
+    "cell": [
+      341,
+      677,
+      682,
+      1024
+    ],
+    "crop": [
+      27,
+      58,
+      292,
+      258
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/25.png"
+  },
+  {
+    "id": 26,
+    "kind": "relics",
+    "name": "クイックシース",
+    "source": "assets/generated/fw-diverse-relics-02-v1.png",
+    "sha256": "ab1e79d4721131f76c7744fb0b5a76f2c5393b9da13e2ad0d4de336129e59b04",
+    "cell": [
+      682,
+      677,
+      1024,
+      1024
+    ],
+    "crop": [
+      10,
+      4,
+      305,
+      275
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/26.png"
+  }
+]

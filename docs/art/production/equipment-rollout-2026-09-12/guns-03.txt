@@ -1,0 +1,9 @@
+Use case: stylized-concept. Production sprites for a cute two-head-tall workshop adventure action game. Match reference ivory enamel, dark steel, teal/amber/brass accents, bold clean dark outlines and simple cel shading. Distinct silhouettes, limited tiny detail, no text, labels, numerals, borders, people, hands, floor, shadows or detached effects. Uniform pure #FF00FF background including holes and gutters; no pink/purple object colors. Each object centered in its cell with generous clear margins. Reference is style only: create the NEW items below. Do not draw names.
+Canvas 1024x1024. Regular 2 columns by 2 rows, reading order left to right, top to bottom. Exactly 4 objects; unused final cells blank magenta.
+Strict flat side elevation, muzzle RIGHT horizontally, grip downward, no foreshortening. Different shapes by function: long rails, heavy launchers, compact pistols. Each weapon one connected object.
+Cell 1: ID 8 プリズムバースト. Design: 五分岐の光学射出機. Mechanism context: 5つの結晶光弾. 
+Cell 2: ID 9 コメットランチャー. Design: 太い誘導弾発射筒. Mechanism context: 追尾弾→爆風＋12破片. 
+Cell 3: ID 10 ブラックホール・ティー. Design: 断熱容器と重力封入コア. Mechanism context: 重力弾→吸引域と中心危険域. 
+Cell 4: ID 11 シードマイン. Design: 感知端子付き設置弾射出器. Mechanism context: 投射→待機→突進. 
+
+Mechanism context describes function ONLY. Render only the weapon body. Do NOT illustrate firing, floating bullets, beam lines, trajectory arrows, sparks, explosions, or demonstration diagrams. Integrated barrel/core shapes only.

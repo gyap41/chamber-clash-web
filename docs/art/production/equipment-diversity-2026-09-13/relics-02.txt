@@ -1,0 +1,12 @@
+Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.
+1024x1024 sheet. Regular 3x3 grid, reading order left-to-right top-to-bottom. Exactly 9 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.
+Relics: one connected object per cell, slight three-quarter view. Bold simple silhouette readable at 24px. Symbols are engraved/inset in the object, not floating.
+Cell 1: ID 18, ミニフェザー. 天然素材。短く丸い赤茶の鳥の羽、白い先端。既存の長い白羽と区別.
+Cell 2: ID 19, パワーチップ. 電子機器。緑の小さな基板、黒い四角チップ、黄色い稲妻の印.
+Cell 3: ID 20, ロングバレル. 実銃部品。青黒い細長い延長銃身、銀の接続ねじ。発光なし.
+Cell 4: ID 21, ワイドマガジン. 実銃部品。幅広く低い黒い箱型弾倉、上部の真鍮色の弾.
+Cell 5: ID 22, ラストスタンプ. 日用品。赤い持ち手と四角いゴム面のスタンプ、底に弾の印.
+Cell 6: ID 23, クールグリップ. 装備品。水色の冷却グリップ、銀の薄い放熱板、黒いゴム.
+Cell 7: ID 24, ステップスプリング. コミカル装備。赤い小さな靴と大きな銀の圧縮ばね.
+Cell 8: ID 25, セーフティソール. 装備品。黄土色の分厚い靴底、黒い溝模様、低く平たい輪郭.
+Cell 9: ID 26, クイックシース. 装備品。深緑の細身の鞘、革ひもと銀の口金。刃は出さない.

@@ -1398,5 +1398,729 @@
       "output_tokens": 7024
     },
     "pricing_estimate_usd": 0.112201
+  },
+  {
+    "name": "fw-weapons-prototype-a",
+    "fingerprint": "c13f67fa973be975c8df712b0c6185d0a71b4a68537e0d0d82bc1a24b1715a9d",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T13:45:16.650312+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Asset type: production sprite prototype sheet for a cute two-head-tall Japanese action game. Reference image is the approved service pistol: match its dark ink outline, ivory enamel, charcoal metal, small teal and amber accents, simple cel-painted material shading. Simplify surface wear and small details for tiny game display. These are portable workshop adventure tools, charming but credible, strong differentiated silhouettes. No text, numbers, logos, labels, borders, hands, people, floor, drop shadows, effects, glow outside silhouette, or detached parts. Background everywhere is uniform pure #FF00FF for extraction; do not use pink or purple on objects. Each object isolated in its own cell with at least 55px clear margin; never crosses cell boundaries. Do not reproduce the reference pistol.\nComposition: exactly FOUR weapons, equal 2 columns by 2 rows on a 1024x1024 canvas. Strict flat side elevation, every muzzle points RIGHT horizontally; grips downward. Center each weapon inside its 512x512 cell, approximately 390px wide. No perspective or foreshortening. One whole weapon per cell.\nTop left: SCOUT NEEDLE, a sleek compact precision needle carbine, long narrow single needle barrel, slim blue-teal receiver, small sight, short pistol grip. Lightweight and fast.\nTop right: TRICK COIN, a compact round-disc launcher with a prominent circular brass coin magazine on its side and a short horizontal rectangular exit slot pointing right, green accent, pistol grip. Circular silhouette strongly unlike a rifle.\nBottom left: GUARD RIVET, heavy industrial rivet pistol, chunky ivory armored square receiver, very thick short muzzle, exposed large rivet head seated at muzzle, broad robust dark grip, amber power window. Compact and weighty.\nBottom right: TWIN TACKER, copper-and-teal workshop stapler gun, two clearly separate short parallel barrel tips slightly vertically offset so both visible, rectangular paired feed channels and practical short grip. Twin output silhouette; not a revolver.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-pistol.png",
+        "sha256": "45babc1b937ee1ddc10761dcea8b5fa4f0db52c3c0ea2b9ff4883d6dbd9cd35a"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 423,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1105135
+  },
+  {
+    "name": "fw-weapons-prototype-b",
+    "fingerprint": "27f5de146191f19e75623691b830c61b39c812856694ea60f0b9dc4f0ba54223",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T13:47:39.237843+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Asset type: production sprite prototype sheet for a cute two-head-tall Japanese action game. Reference image is the approved service pistol: match its dark ink outline, ivory enamel, charcoal metal, small teal and amber accents, simple cel-painted material shading. Simplify surface wear and small details for tiny game display. These are portable workshop adventure tools, charming but credible, strong differentiated silhouettes. No text, numbers, logos, labels, borders, hands, people, floor, drop shadows, effects, glow outside silhouette, or detached parts. Background everywhere is uniform pure #FF00FF for extraction; do not use pink or purple on objects. Each object isolated in its own cell with at least 55px clear margin; never crosses cell boundaries. Do not reproduce the reference pistol.\nComposition: THREE weapons in a 2 columns by 2 rows layout on a 1024x1024 canvas. Bottom right cell remains entirely blank magenta. Strict flat side elevation, every muzzle/tip points RIGHT horizontally; grips downward. Center each weapon in its 512x512 cell, approximately 390px wide. No perspective or foreshortening.\nTop left: RUNE PEN, a short thick magical engraving stylus with an elegant ivory pen body, a gold crescent-shaped protective collar around a small cyan rune core, a pointed right-facing nib emitting nothing, tiny dark handle below rear. Ancient craft technology, sparse engraved geometric marks, no writing. Slim distinctive silhouette.\nTop right: SIX NOTE, compact six-chamber revolver, clearly visible large six-chamber cylinder housing in side view, moderate single barrel to right, warm brass and ivory body, curved dark brown grip, one small amber inset. Western craftsman tool, no musical decorations.\nBottom left: MINI GATLER, short chunky compact rotary gun, a tight bundle of three dark barrels facing right, large teal ammunition drum below receiver, ivory rear armor and small rear pistol grip. Broad squat silhouette and visibly different from the long Scout Needle.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-pistol.png",
+        "sha256": "45babc1b937ee1ddc10761dcea8b5fa4f0db52c3c0ea2b9ff4883d6dbd9cd35a"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 417,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1104985
+  },
+  {
+    "name": "fw-relics-prototype-a",
+    "fingerprint": "ad2e5d59abf3cb0523fb07638a41ff929833177f3890fcc9196dbf2a0f9d12b8",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T13:50:32.377190+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Asset type: production sprite prototype sheet for a cute two-head-tall Japanese action game. Reference image is the approved service pistol: match its dark ink outline, ivory enamel, charcoal metal, small teal and amber accents, simple cel-painted material shading. Simplify surface wear and small details for tiny game display. These are portable workshop adventure tools, charming but credible, strong differentiated silhouettes. No text, numbers, logos, labels, borders, hands, people, floor, drop shadows, effects, glow outside silhouette, or detached parts. Background everywhere is uniform pure #FF00FF for extraction; do not use pink or purple on objects. Each object isolated in its own cell with at least 55px clear margin; never crosses cell boundaries. Do not reproduce the reference pistol.\nComposition: exactly NINE individual relic icons in a regular 3 columns by 3 rows grid on 1024x1024 canvas. Each icon centered in its own square cell, about 210px across, generous clear space. Slight three-quarter product view for solid objects. Bold simple shapes readable at 24px. Each is a single connected object, not a scene or badge background.\nReading order left-to-right, top-to-bottom:\n1 FEATHER: ivory feather-shaped lightweight mechanical fin with teal stem, elegant sweeping outline, speed upgrade.\n2 QUICK GEAR: one large brass gear attached to a short dark magazine insert with teal release lever, fast reload module.\n3 PRISM LENS: large triangular cyan glass prism inside a thin ivory triangular frame, one simple diagonal reflected light stripe INSIDE glass, no external rays.\n4 GUARD BELL: small warm brass bell inside a protective ivory horseshoe arch, dark clapper clearly visible, sturdy shield charm.\n5 LIFE AMP: upright ivory medical power ampoule with red-orange heart-shaped central window and two brass electrical terminals, health capacity module.\n6 DODGE NOVA: compact teal circular rotor with exactly six large amber star-like points integrated around its rim, energetic six-way dodge burst device.\n7 HEAVY CORE: dense charcoal cubic core held by thick brass corner clamps, central orange aperture, heavy broad compact silhouette.\n8 STARTER CELL: tall teal energy battery with a fully filled bright amber vertical window and ivory end caps, first-shot power cell.\n9 RESERVE MAGAZINE: curved dark gun magazine with ivory lower sleeve and a large teal returning arrow engraved on side, one brass cartridge at top. Strong curved silhouette distinct from battery and gear.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-pistol.png",
+        "sha256": "45babc1b937ee1ddc10761dcea8b5fa4f0db52c3c0ea2b9ff4883d6dbd9cd35a"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 516,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.110746
+  },
+  {
+    "name": "fw-equipment-rollout-guns-01",
+    "fingerprint": "ed90f49b0389c5b9c191f278118a63507332fefab51490b791856aac94534cdb",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T14:26:14.570728+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Production sprites for a cute two-head-tall workshop adventure action game. Match reference ivory enamel, dark steel, teal/amber/brass accents, bold clean dark outlines and simple cel shading. Distinct silhouettes, limited tiny detail, no text, labels, numerals, borders, people, hands, floor, shadows or detached effects. Uniform pure #FF00FF background including holes and gutters; no pink/purple object colors. Each object centered in its cell with generous clear margins. Reference is style only: create the NEW items below. Do not draw names.\nCanvas 1024x1024. Regular 2 columns by 2 rows, reading order left to right, top to bottom. Exactly 4 objects; unused final cells blank magenta.\nStrict flat side elevation, muzzle RIGHT horizontally, grip downward, no foreshortening. Different shapes by function: long rails, heavy launchers, compact pistols. Each weapon one connected object.\nCell 1: ID 0 P-12 サイドアーム. Design: 標準ピストル、箱型弾倉. Mechanism context: 小口径実弾。20と輪郭差. \nCell 2: ID 1 跳弾キャンディ. Design: 弾性被覆弾の射出器. Mechanism context: 2回反射する球と短い反射光. \nCell 3: ID 2 ファイアワークス. Design: 分裂弾用の発射筒. Mechanism context: 親弾から8方向の破片. \nCell 4: ID 3 ハニービー. Design: 三連の小型誘導弾ユニット. Mechanism context: 3個の誘導弾。蜂は機能上の愛称. \n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-weapons-prototype-a.png",
+        "sha256": "0fc6c39a8328798dc59fa3d33f17184a59445ae869ad987d28fa5df510c2ae1a"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 395,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1104435
+  },
+  {
+    "name": "fw-equipment-rollout-guns-02",
+    "fingerprint": "647cfd066f8325c29d8d2507c524048b1fbdf0a04ef0b49b668004aa6100506f",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T14:28:40.833621+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Production sprites for a cute two-head-tall workshop adventure action game. Match reference ivory enamel, dark steel, teal/amber/brass accents, bold clean dark outlines and simple cel shading. Distinct silhouettes, limited tiny detail, no text, labels, numerals, borders, people, hands, floor, shadows or detached effects. Uniform pure #FF00FF background including holes and gutters; no pink/purple object colors. Each object centered in its cell with generous clear margins. Reference is style only: create the NEW items below. Do not draw names.\nCanvas 1024x1024. Regular 2 columns by 2 rows, reading order left to right, top to bottom. Exactly 4 objects; unused final cells blank magenta.\nStrict flat side elevation, muzzle RIGHT horizontally, grip downward, no foreshortening. Different shapes by function: long rails, heavy launchers, compact pistols. Each weapon one connected object.\nCell 1: ID 4 ダブルバック. Design: 二連銃身・中折れ機構. Mechanism context: 5粒散弾、重い発砲. \nCell 2: ID 5 ムーンリーパー. Design: 三日月形の帰還刃射出器. Mechanism context: 往路/帰路が読める単独刃. \nCell 3: ID 6 アークレール. Design: 長い導電レールと電極. Mechanism context: 細い光芯. \nCell 4: ID 7 ヘリックス. Design: 対になった磁気制御管. Mechanism context: 2核の螺旋軌道. \n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-weapons-prototype-a.png",
+        "sha256": "0fc6c39a8328798dc59fa3d33f17184a59445ae869ad987d28fa5df510c2ae1a"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 373,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1103885
+  },
+  {
+    "name": "fw-equipment-rollout-guns-03",
+    "fingerprint": "5c3a01e3698ae435c293badc7834504d55d011e0f406ba37f0462f325038c0d4",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T14:31:09.751024+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Production sprites for a cute two-head-tall workshop adventure action game. Match reference ivory enamel, dark steel, teal/amber/brass accents, bold clean dark outlines and simple cel shading. Distinct silhouettes, limited tiny detail, no text, labels, numerals, borders, people, hands, floor, shadows or detached effects. Uniform pure #FF00FF background including holes and gutters; no pink/purple object colors. Each object centered in its cell with generous clear margins. Reference is style only: create the NEW items below. Do not draw names.\nCanvas 1024x1024. Regular 2 columns by 2 rows, reading order left to right, top to bottom. Exactly 4 objects; unused final cells blank magenta.\nStrict flat side elevation, muzzle RIGHT horizontally, grip downward, no foreshortening. Different shapes by function: long rails, heavy launchers, compact pistols. Each weapon one connected object.\nCell 1: ID 8 プリズムバースト. Design: 五分岐の光学射出機. Mechanism context: 5つの結晶光弾. \nCell 2: ID 9 コメットランチャー. Design: 太い誘導弾発射筒. Mechanism context: 追尾弾→爆風＋12破片. \nCell 3: ID 10 ブラックホール・ティー. Design: 断熱容器と重力封入コア. Mechanism context: 重力弾→吸引域と中心危険域. \nCell 4: ID 11 シードマイン. Design: 感知端子付き設置弾射出器. Mechanism context: 投射→待機→突進. \n\nMechanism context describes function ONLY. Render only the weapon body. Do NOT illustrate firing, floating bullets, beam lines, trajectory arrows, sparks, explosions, or demonstration diagrams. Integrated barrel/core shapes only.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-weapons-prototype-a.png",
+        "sha256": "0fc6c39a8328798dc59fa3d33f17184a59445ae869ad987d28fa5df510c2ae1a"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 425,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1105185
+  },
+  {
+    "name": "fw-equipment-rollout-guns-04",
+    "fingerprint": "c155b0043c85056a63758f7a074e1f470857a7788b75eb1a6da367830be8271a",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T14:32:56.935580+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Production sprites for a cute two-head-tall workshop adventure action game. Match reference ivory enamel, dark steel, teal/amber/brass accents, bold clean dark outlines and simple cel shading. Distinct silhouettes, limited tiny detail, no text, labels, numerals, borders, people, hands, floor, shadows or detached effects. Uniform pure #FF00FF background including holes and gutters; no pink/purple object colors. Each object centered in its cell with generous clear margins. Reference is style only: create the NEW items below. Do not draw names.\nCanvas 1024x1024. Regular 2 columns by 2 rows, reading order left to right, top to bottom. Exactly 4 objects; unused final cells blank magenta.\nStrict flat side elevation, muzzle RIGHT horizontally, grip downward, no foreshortening. Different shapes by function: long rails, heavy launchers, compact pistols. Each weapon one connected object.\nCell 1: ID 12 ロケットペンシル. Design: 細長い加速杭の射出器. Mechanism context: 加速する杭と噴射. \nCell 2: ID 13 バブルクロック. Design: 遅延起動の圧力球射出器. Mechanism context: 3球の待機→発進. \nCell 3: ID 14 クローバースプリッター. Design: 四分割の弾頭と発射筒. Mechanism context: 十字に4分裂. \nCell 4: ID 15 プラネタリウム. Design: 8ポートの環状誘導機. Mechanism context: 8方向の小さな誘導光弾. \n\nMechanism context describes function ONLY. Render only the weapon body. Do NOT illustrate firing, floating bullets, beam lines, trajectory arrows, sparks, explosions, or demonstration diagrams. Integrated barrel/core shapes only.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-weapons-prototype-a.png",
+        "sha256": "0fc6c39a8328798dc59fa3d33f17184a59445ae869ad987d28fa5df510c2ae1a"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 419,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1105035
+  },
+  {
+    "name": "fw-equipment-rollout-guns-05",
+    "fingerprint": "9a8fbaf694c9a0455eb2878bde2b394f52f604c022d65e424349f0476b3b2f99",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T14:34:43.683048+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Production sprites for a cute two-head-tall workshop adventure action game. Match reference ivory enamel, dark steel, teal/amber/brass accents, bold clean dark outlines and simple cel shading. Distinct silhouettes, limited tiny detail, no text, labels, numerals, borders, people, hands, floor, shadows or detached effects. Uniform pure #FF00FF background including holes and gutters; no pink/purple object colors. Each object centered in its cell with generous clear margins. Reference is style only: create the NEW items below. Do not draw names.\nCanvas 1024x1024. Regular 2 columns by 2 rows, reading order left to right, top to bottom. Exactly 4 objects; unused final cells blank magenta.\nStrict flat side elevation, muzzle RIGHT horizontally, grip downward, no foreshortening. Different shapes by function: long rails, heavy launchers, compact pistols. Each weapon one connected object.\nCell 1: ID 16 レシートリピーター. Design: 反射で励起する薄片射出器. Mechanism context: 薄片弾と反射段階の発光. \nCell 2: ID 17 着払いキャノン. Design: 通常弾/大型弾の複合給弾機. Mechanism context: 最終弾は装甲カプセル→5破片. \nCell 3: ID 18 スイッチスパナ. Design: 可動開口の工具型銃. Mechanism context: 装填完了時に単発/散弾へ変形. \nCell 4: ID 19 エコードラム. Design: 共鳴胴付き二段射出器. Mechanism context: 同方向へ0.24秒差の2発. \n\nMechanism context describes function ONLY. Render only the weapon body. Do NOT illustrate firing, floating bullets, beam lines, trajectory arrows, sparks, explosions, or demonstration diagrams. Integrated barrel/core shapes only.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-weapons-prototype-a.png",
+        "sha256": "0fc6c39a8328798dc59fa3d33f17184a59445ae869ad987d28fa5df510c2ae1a"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 439,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1105535
+  },
+  {
+    "name": "fw-equipment-rollout-guns-06",
+    "fingerprint": "062b786a5b2b9bc40e012dfe6cc4a9926e77944ba044bb0005d235f96c25743d",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T14:36:31.868841+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Production sprites for a cute two-head-tall workshop adventure action game. Match reference ivory enamel, dark steel, teal/amber/brass accents, bold clean dark outlines and simple cel shading. Distinct silhouettes, limited tiny detail, no text, labels, numerals, borders, people, hands, floor, shadows or detached effects. Uniform pure #FF00FF background including holes and gutters; no pink/purple object colors. Each object centered in its cell with generous clear margins. Reference is style only: create the NEW items below. Do not draw names.\nCanvas 1024x1024. Regular 2 columns by 2 rows, reading order left to right, top to bottom. Exactly 4 objects; unused final cells blank magenta.\nStrict flat side elevation, muzzle RIGHT horizontally, grip downward, no foreshortening. Different shapes by function: long rails, heavy launchers, compact pistols. Each weapon one connected object.\nCell 1: ID 28 ホチキスバースト. Design: 連続鋲打ちのレバー機構. Mechanism context: 3連射。24の同時射出と区別. \nCell 2: ID 29 クロスステッチ. Design: 左右の磁気偏向器と針弾倉. Mechanism context: 4針が時間差で交差. \nCell 3: ID 30 チョークライフル. Design: 白色セラミックの長銃身. Mechanism context: 細い高速弾と短い粉の尾. \nCell 4: ID 31 ペッパーボックス. Design: 多孔銃身の軽散弾銃. Mechanism context: 4粒散弾. \n\nMechanism context describes function ONLY. Render only the weapon body. Do NOT illustrate firing, floating bullets, beam lines, trajectory arrows, sparks, explosions, or demonstration diagrams. Integrated barrel/core shapes only.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-weapons-prototype-a.png",
+        "sha256": "0fc6c39a8328798dc59fa3d33f17184a59445ae869ad987d28fa5df510c2ae1a"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 430,
+        "image_tokens": 1024
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.110531
+  },
+  {
+    "name": "fw-equipment-rollout-guns-07",
+    "fingerprint": "388e5069b11e9ada0299f163dc8759d2f1079ec54eaad22230f17e2c4d8bad3c",
+    "status": "outcome_unknown",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T14:38:19.050030+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Production sprites for a cute two-head-tall workshop adventure action game. Match reference ivory enamel, dark steel, teal/amber/brass accents, bold clean dark outlines and simple cel shading. Distinct silhouettes, limited tiny detail, no text, labels, numerals, borders, people, hands, floor, shadows or detached effects. Uniform pure #FF00FF background including holes and gutters; no pink/purple object colors. Each object centered in its cell with generous clear margins. Reference is style only: create the NEW items below. Do not draw names.\nCanvas 1024x1024. Regular 2 columns by 2 rows, reading order left to right, top to bottom. Exactly 4 objects; unused final cells blank magenta.\nStrict flat side elevation, muzzle RIGHT horizontally, grip downward, no foreshortening. Different shapes by function: long rails, heavy launchers, compact pistols. Each weapon one connected object.\nCell 1: ID 32 ピンボールパドル. Design: 二球の弾性射出機構. Mechanism context: 2金属球、3回反射. \nCell 2: ID 33 ツインクレセント. Design: 対称の双帰還刃機構. Mechanism context: 2枚の月形刃. \nCell 3: ID 34 スパークフォーク. Design: 二股の加速電極. Mechanism context: 2本の加速火花. \nCell 4: ID 35 ベルフラワー. Design: 三連の感知機雷射出器. Mechanism context: 花状センサーの待機→突進. \n\nMechanism context describes function ONLY. Render only the weapon body. Do NOT illustrate firing, floating bullets, beam lines, trajectory arrows, sparks, explosions, or demonstration diagrams. Integrated barrel/core shapes only.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\fw-weapons-prototype-a.png",
+        "sha256": "0fc6c39a8328798dc59fa3d33f17184a59445ae869ad987d28fa5df510c2ae1a"
+      }
+    ],
+    "manual_resolution": {
+      "action": "user_authorized_resume_keep_reservation",
+      "user_message": "一旦作成のし直しをお願いします。",
+      "recorded_at": "2026-09-12T14:45:56.245734+00:00",
+      "retry_name": "fw-weapons-diversity-v1",
+      "note": "Interrupted old design; original charge remains unknown. New design comparison, not a resend of the interrupted sheet."
+    }
+  },
+  {
+    "name": "fw-weapons-diversity-v1",
+    "fingerprint": "c20c8921573065b49e948c13368749e36ac2ef0892514abc08bdaa23583347e1",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T14:46:15.980703+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Create FOUR radically different weapon sprite concepts for one top-down action game. 1024x1024 canvas, regular 2x2 grid, one weapon per 512x512 cell. All are fully visible, right-facing flat side profiles, no foreshortening. At least 45 pixels of clear margin around each. Pure uniform #FF00FF background and gaps for extraction. No ground, shadows, characters, hands, labels, words, symbols floating outside the object, projectiles, firing effects or trajectories.\nCRITICAL: NOT one manufacturer or matching weapon family. Do NOT share a palette, grip shape, circular core, ivory armor, brass screws or teal highlights across the four. Share only professional game illustration rendering: clean dark contours, restrained cel shading, readable silhouette at small sizes, minimal texture noise. Realistic-inspired weapons must remain illustrated sprites, not photographic renders. Bright magenta is background only.\nTOP LEFT: P-12, realistic contemporary compact semiautomatic pistol. Matte BLACK polymer frame with angular textured grip, brushed gunmetal-gray slide, short conventional barrel, simple small sights and dark box magazine. Restrained functional industrial design. No gold, no glowing lights, no fantasy core, no ivory. Compact believable handgun proportions.\nTOP RIGHT: ARC RAIL, futuristic precision RIFLE, long and low horizontal silhouette. Matte WHITE angular composite housing against black structural rails, cyan light strictly inside a long narrow open barrel channel, a full triangular shoulder stock at the LEFT end, pistol grip near rear-middle, small straight magazine and long paired accelerator rails to the RIGHT. Clearly a two-handed rifle, not an elongated pistol. No circular core or brass.\nBOTTOM LEFT: MOON REAPER, elegant dark-fantasy crescent blade launcher. A large SILVER crescent blade held inside a slender asymmetric dark NAVY bow-like frame; a short midnight-blue wrapped handle below its rear, two small deep BLUE gems in the frame. A small right-facing mechanical release tip indicates launch direction. Curved ceremonial silhouette, almost a hand crossbow, NO conventional pistol slide, NO brass, NO ivory armor, NO teal industrial panels. One attached silver crescent, not a floating blade.\nBOTTOM RIGHT: ROCKET PENCIL, playful comic oversized YELLOW wooden pencil weapon. A very long yellow hexagonal pencil body, sharpened wooden cone and dark graphite tip pointing RIGHT, pink-red eraser at LEFT in an aluminum ferrule, tiny red rocket tail fins near the eraser, compact red rounded handle attached UNDER the middle-left of the pencil. Cheerful simple solid shapes. The pencil itself IS the weapon, not a normal pistol with a pencil stuck onto its barrel. No conventional slide or circular core. No exhaust flame.\nMake the four designs visibly contrast: compact black real-world handgun / long white SF rifle / curved silver-blue fantasy launcher / yellow-red absurd pencil. Do not equalize their proportions. No additional variants or objects.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 608,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.10688
+  },
+  {
+    "name": "fw-diverse-guns-01-v1",
+    "fingerprint": "6be866995074216632189fb59a1cce06bbb2a712b7e8bf5e857687ee5f7a74ad",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T19:33:28.490788+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.\n1024x1024 sheet. Regular 2x2 grid, reading order left-to-right top-to-bottom. Exactly 4 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.\nWeapons: flat side view, muzzle to RIGHT, grip down. Preserve natural proportion differences: stocked long rifles, shoulder launchers, bows, tools and toys. No generic pistol frame added to every object.\nCell 1: ID 4, ダブルバック. 実銃寄り: 青黒い長い二連銃身、茶色の木製銃床、中折れ式.\nCell 2: ID 3, ハニービー. SF: 黄黒の小型ミサイルポッド、三連セル、角張った航空機部品.\nCell 3: ID 1, 跳弾キャンディ. コミカル: 丸い赤白のキャンディ射出器。玩具的な樹脂と透明な弾倉.\nCell 4: ID 8, プリズムバースト. 魔法・光学: 透明な多面結晶と銀の細い支持枠、虹色は結晶内だけ.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 394,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.106345
+  },
+  {
+    "name": "fw-diverse-guns-02-v1",
+    "fingerprint": "6ed70efa3b2436cf9d79ea0879e5e67345b1edadf73161956a84145d15a6afd1",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T19:36:26.618173+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.\n1024x1024 sheet. Regular 2x2 grid, reading order left-to-right top-to-bottom. Exactly 4 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.\nWeapons: flat side view, muzzle to RIGHT, grip down. Preserve natural proportion differences: stocked long rifles, shoulder launchers, bows, tools and toys. No generic pistol frame added to every object.\nCell 1: ID 9, コメットランチャー. 軍用SF: オリーブ色の肩撃ち発射筒、黒い保持部、巨大な口径.\nCell 2: ID 11, シードマイン. 生体・自然: 緑と土色の種莢、木質の外殻と根状の保持部.\nCell 3: ID 16, レシートリピーター. コミカル: グレーの携帯プリンター、ロール紙の巻胴と平たい射出口.\nCell 4: ID 31, ペッパーボックス. 古式銃: 暗い鋼の回転銃身群、ウォルナットの柄。発光なし.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 390,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.106335
+  },
+  {
+    "name": "fw-diverse-guns-03-v1",
+    "fingerprint": "b713ed05edba207ced8c8a44a34ab04e621decb05f1fba109bc051f88b9beb99",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T19:38:54.623196+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.\n1024x1024 sheet. Regular 2x2 grid, reading order left-to-right top-to-bottom. Exactly 4 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.\nWeapons: flat side view, muzzle to RIGHT, grip down. Preserve natural proportion differences: stocked long rifles, shoulder launchers, bows, tools and toys. No generic pistol frame added to every object.\nCell 1: ID 7, ヘリックス. SF・実験機: 紫と黒、二重らせんの透明管、実験装置の非対称な外形.\nCell 2: ID 14, クローバースプリッター. 魔法・自然: 緑の四葉形の先端と木製の短い柄、四分割の種.\nCell 3: ID 17, 着払いキャノン. 工業: 錆びた赤の大型装填箱、露出した給弾機構、太い黒い砲口.\nCell 4: ID 32, ピンボールパドル. コミカル: 赤青のアーケード部品、フリッパー形状と金属球のレーン.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 399,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1063575
+  },
+  {
+    "name": "fw-diverse-guns-04-v1",
+    "fingerprint": "a01f556995c996a33da0f00606e69b3a7570c91339c679c0cf16633caa9c5fa4",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T19:41:09.298773+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.\n1024x1024 sheet. Regular 2x2 grid, reading order left-to-right top-to-bottom. Exactly 4 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.\nWeapons: flat side view, muzzle to RIGHT, grip down. Preserve natural proportion differences: stocked long rifles, shoulder launchers, bows, tools and toys. No generic pistol frame added to every object.\nCell 1: ID 10, ブラックホール・ティー. 奇妙なSF: 黒い球状の重力容器、紫の中心、白い断熱ハンドル.\nCell 2: ID 19, エコードラム. 実銃・レトロ: 黒鉄、木製の銃床、大きなドラム弾倉の短機関銃.\nCell 3: ID 2, ファイアワークス. コミカル・火薬: 赤い花火筒、紙巻きと導火線。通常のピストル型を避ける.\nCell 4: ID 33, ツインクレセント. 魔法: 白銀と深紅、対になった湾曲刃、細い儀礼的な保持枠.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 403,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1063675
+  },
+  {
+    "name": "fw-diverse-guns-05-v1",
+    "fingerprint": "85452dcc1eac952916bcb4d57a367522c180f1ab163ce750c6750ad8ec5765c1",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T19:43:36.725043+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.\n1024x1024 sheet. Regular 2x2 grid, reading order left-to-right top-to-bottom. Exactly 4 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.\nWeapons: flat side view, muzzle to RIGHT, grip down. Preserve natural proportion differences: stocked long rifles, shoulder launchers, bows, tools and toys. No generic pistol frame added to every object.\nCell 1: ID 13, バブルクロック. レトロSF: 水色の透明圧力槽、クローム、時計の針状のバルブ.\nCell 2: ID 18, スイッチスパナ. 工具: 銀の実用的な可動スパナ、赤いゴムグリップ、短い工具形.\nCell 3: ID 30, チョークライフル. 実銃寄り: 長いマットグレーの精密銃、白いセラミック銃身、細い銃床.\nCell 4: ID 35, ベルフラワー. 生体・自然: 青紫の釣鐘形の花3つ、緑の茎と種莢の機雷.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 401,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1063625
+  },
+  {
+    "name": "fw-diverse-guns-06-v1",
+    "fingerprint": "465d2f41e4c66ed4709932dc14dc092096d4cb61c46486afb781a11b4b912e8f",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T19:45:44.368224+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.\n1024x1024 sheet. Regular 2x2 grid, reading order left-to-right top-to-bottom. Exactly 4 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.\nWeapons: flat side view, muzzle to RIGHT, grip down. Preserve natural proportion differences: stocked long rifles, shoulder launchers, bows, tools and toys. No generic pistol frame added to every object.\nCell 1: ID 15, プラネタリウム. 魔法・天文: 紺色の天球儀、細い金の環と8つの小さな星窓.\nCell 2: ID 28, ホチキスバースト. 工具・コミカル: 赤い大型タッカー、押し下げレバー、箱状の工具本体.\nCell 3: ID 34, スパークフォーク. 工業SF: 黄黒の絶縁部、長い二股電極、無骨な配線.\nCell 4: ID 36, カーボンコピー. SF: 黒い板状の二層レール、白いカーボン外装、平たい輪郭.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 392,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.10634
+  },
+  {
+    "name": "fw-diverse-guns-07-v1",
+    "fingerprint": "eeb34e790a2555b72ad0902ef2064bd7be2f0dfaccee5b0003524b8eaa8d11dd",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T19:48:16.878312+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.\n1024x1024 sheet. Regular 2x2 grid, reading order left-to-right top-to-bottom. Exactly 2 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.\nWeapons: flat side view, muzzle to RIGHT, grip down. Preserve natural proportion differences: stocked long rifles, shoulder launchers, bows, tools and toys. No generic pistol frame added to every object.\nCell 1: ID 29, クロスステッチ. 実験機: 白いミシン機構、糸巻き状の給弾部、細い交差ガイド.\nCell 2: ID 37, オーロラファン. SF・光学: 扇形の7本の細い発射フィン、白と青、扇に沿う光学窓.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 313,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1061425
+  },
+  {
+    "name": "fw-diverse-relics-01-v1",
+    "fingerprint": "6a3e23c5a90791e252c2f785bd069eaebc4b6c37f4ab639411b9d3ef11586ed4",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T19:50:24.819110+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.\n1024x1024 sheet. Regular 3x3 grid, reading order left-to-right top-to-bottom. Exactly 9 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.\nRelics: one connected object per cell, slight three-quarter view. Bold simple silhouette readable at 24px. Symbols are engraved/inset in the object, not floating.\nCell 1: ID 9, パルスリレー. 電子機器。黒い薄型リング、青い6端子。円形のリレー.\nCell 2: ID 10, パリィダイナモ. 工業機器。傷のある銀の受け流し刃、銅の発電ローター.\nCell 3: ID 11, リバウンドテープ. 日用品。青い巻きテープ、大きな白い反射矢印を表面に印刷.\nCell 4: ID 12, 反響の種. 天然・魔法。茶色の殻付き種、緑の芽、殻に小さな反射紋.\nCell 5: ID 13, 空薬莢の祝福. 魔法。古びた薬莢に赤い布のお守りを結ぶ。火花や浮遊物は描かない.\nCell 6: ID 14, 帰還バッテリー. SF。濃紺の平たい充電池、黄色い戻り矢印、緑の充電窓.\nCell 7: ID 15, 余熱コンデンサ. 工業機器。赤銅の太いコンデンサ、黒い放熱フィン、橙の熱窓.\nCell 8: ID 16, 残響ホルスター. 装備品。濃茶の革ホルスター、銀の留め具、革に波紋の刻印.\nCell 9: ID 17, すり抜け装填. SF。銀色の細身弾倉、空隙を通る青い曲線を表面に刻印.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 604,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.10687
+  },
+  {
+    "name": "fw-diverse-relics-02-v1",
+    "fingerprint": "b01f3cfad8a5d01efd7afe2760881101a48c3519e2cd67646c24f2e30bb23369",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T19:52:42.841747+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.\n1024x1024 sheet. Regular 3x3 grid, reading order left-to-right top-to-bottom. Exactly 9 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.\nRelics: one connected object per cell, slight three-quarter view. Bold simple silhouette readable at 24px. Symbols are engraved/inset in the object, not floating.\nCell 1: ID 18, ミニフェザー. 天然素材。短く丸い赤茶の鳥の羽、白い先端。既存の長い白羽と区別.\nCell 2: ID 19, パワーチップ. 電子機器。緑の小さな基板、黒い四角チップ、黄色い稲妻の印.\nCell 3: ID 20, ロングバレル. 実銃部品。青黒い細長い延長銃身、銀の接続ねじ。発光なし.\nCell 4: ID 21, ワイドマガジン. 実銃部品。幅広く低い黒い箱型弾倉、上部の真鍮色の弾.\nCell 5: ID 22, ラストスタンプ. 日用品。赤い持ち手と四角いゴム面のスタンプ、底に弾の印.\nCell 6: ID 23, クールグリップ. 装備品。水色の冷却グリップ、銀の薄い放熱板、黒いゴム.\nCell 7: ID 24, ステップスプリング. コミカル装備。赤い小さな靴と大きな銀の圧縮ばね.\nCell 8: ID 25, セーフティソール. 装備品。黄土色の分厚い靴底、黒い溝模様、低く平たい輪郭.\nCell 9: ID 26, クイックシース. 装備品。深緑の細身の鞘、革ひもと銀の口金。刃は出さない.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 602,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.106865
+  },
+  {
+    "name": "fw-diverse-relics-03-v1",
+    "fingerprint": "df908ea749034c2694d30f90f3ac80f7aea8296742e3c67128ac7fba69ba91e0",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T19:58:20.448350+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.\n1024x1024 sheet. Regular 3x3 grid, reading order left-to-right top-to-bottom. Exactly 8 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.\nRelics: one connected object per cell, slight three-quarter view. Bold simple silhouette readable at 24px. Symbols are engraved/inset in the object, not floating.\nCell 1: ID 27, パリィシェル. 天然・魔法。白い巻貝状の殻、小さな青い盾紋、受け流した傷.\nCell 2: ID 28, 応急パッチ. 医療・日用品。白い布製の補修パッチ、橙の十字、縫い目.\nCell 3: ID 29, パルスブーツ. SF装備。紺色の短いブーツ、足首に青い環状部品.\nCell 4: ID 30, チェンジサイト. 実銃部品。小さな黒い照準器、赤いレンズ、切替レバー.\nCell 5: ID 31, ラバーチップ. 工業部品。橙色の厚い弾性ゴム片、くぼんだ衝突跡.\nCell 6: ID 32, 整流コイル. 工業部品。太い銅線コイル、白い絶縁台、整った巻き線.\nCell 7: ID 33, 帰還リール. 道具。木製の糸巻き、紺の糸、巻胴に留めた一発の弾.\nCell 8: ID 34, サプライキー. 魔法・道具。古い銀の鍵、青い宝石、宝箱に合う大きな歯.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 545,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1067225
+  },
+  {
+    "name": "fw-projectile-bullets-01-v1",
+    "fingerprint": "663cced25d5ad3cd64a932646a5fefa06efcb49da3214ea1390296f8bde23efc",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T20:22:39.898017+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: game-sprite. Clean illustrated cel-shaded top-down shooter VFX, bold legible silhouette at 8-24px, restrained shading. Uniform pure #FF00FF background; NO magenta on artwork. No characters, guns, floor, shadows, labels, text, grid lines or surrounding scenes. Keep all artwork 30px inside its cell. Clear empty gutters. 1024x1024, fixed 4x4 grid, row-major. One isolated projectile per cell. All elongated projectiles point RIGHT. No trails or motion blur baked into sprites. Central solid body, short highlights only. Empty unused cells.\nCell 1: Short silver pointed bullet, copper base; no cartridge case.\nCell 2: Red and white striped round candy, dark rim.\nCell 3: Small red paper firework rocket, golden nose.\nCell 4: Yellow black bee micro missile, two short fins.\nCell 5: Compact copper round pellet with white highlight.\nCell 6: Silver crescent moon blade, navy inner edge.\nCell 7: Long narrow cyan white rail dart.\nCell 8: Purple glass plasma pearl, white nucleus.\nCell 9: White faceted diamond light shard, subtle rainbow edges.\nCell 10: Olive rocket shell with luminous gold star nose.\nCell 11: Black gravity orb with violet accretion ring.\nCell 12: Brown seed pod with green split husk.\nCell 13: Yellow miniature pencil rocket, graphite tip, red tail.\nCell 14: Cyan transparent bubble with clear white rim.\nCell 15: Green four leaf clover, small golden core.\nCell 16: Gold five pointed star, navy inner face.",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 352,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.10624
+  },
+  {
+    "name": "fw-projectile-bullets-02-v1",
+    "fingerprint": "0a33674527fb6fe54b177a1bcafac93509e88f0a20e711cb0250af2726f82ee4",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T20:24:51.811107+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: game-sprite. Clean illustrated cel-shaded top-down shooter VFX, bold legible silhouette at 8-24px, restrained shading. Uniform pure #FF00FF background; NO magenta on artwork. No characters, guns, floor, shadows, labels, text, grid lines or surrounding scenes. Keep all artwork 30px inside its cell. Clear empty gutters. 1024x1024, fixed 4x4 grid, row-major. One isolated projectile per cell. All elongated projectiles point RIGHT. No trails or motion blur baked into sprites. Central solid body, short highlights only. Empty unused cells.\nCell 1: Folded ivory receipt strip with simple dark marks, no readable text.\nCell 2: Small cream shipping tag with red stamp, no readable text.\nCell 3: Short silver hex bolt with red collar.\nCell 4: Copper bullet with two engraved dark rings.\nCell 5: Thin steel needle with blue tip.\nCell 6: Gold coin viewed at slight tilt, bold star engraving.\nCell 7: Thick brass rivet, broad flat head.\nCell 8: Small copper tack, short pointed shaft.\nCell 9: Violet diamond rune on compact pale blue ink droplet.\nCell 10: Large copper revolver bullet with cream highlight.\nCell 11: Stubby steel bullet with brass base.\nCell 12: Silver U shaped staple with sharp ends pointing right.\nCell 13: Silver sewing needle with short pink thread attached.\nCell 14: Long gray pointed rifle bullet, chalk white tip.\nCell 15: Dark bronze round pellet with bright copper highlight.",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 339,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1062075
+  },
+  {
+    "name": "fw-projectile-bullets-03-v1",
+    "fingerprint": "f5f5a8b3bda0363d27443faa2a032e9287a084d865a4454bc24ad22a6b1f769c",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T20:28:19.964896+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: game-sprite. Clean illustrated cel-shaded top-down shooter VFX, bold legible silhouette at 8-24px, restrained shading. Uniform pure #FF00FF background; NO magenta on artwork. No characters, guns, floor, shadows, labels, text, grid lines or surrounding scenes. Keep all artwork 30px inside its cell. Clear empty gutters. 1024x1024, fixed 4x4 grid, row-major. One isolated projectile per cell. All elongated projectiles point RIGHT. No trails or motion blur baked into sprites. Central solid body, short highlights only. Empty unused cells.\nCell 1: Reflective chrome pinball with cyan highlight.\nCell 2: Small silver crescent blade with red inner accent.\nCell 3: Sharp yellow white forked electric dart.\nCell 4: Small blue bellflower bulb with green calyx.\nCell 5: Flat white blue energy dart with two parallel dark rails.\nCell 6: Pale blue violet aurora shard shaped like a narrow feather.\nCell 7: Brown paper parcel bound in red string.\nCell 8: Angular ivory torn paper fragment.\nCell 9: Golden orange pointed firework ember.\nCell 10: Small golden star shard.\nCell 11: Single green leaf with luminous vein.\nCell 12: Neutral white compact light dart for relic generated attacks.\nCell 13: Small black void with violet spiral ring, top view.",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 302,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.106115
+  },
+  {
+    "name": "fw-projectile-muzzles-v1",
+    "fingerprint": "dc96f146ab4c17d73ea760445637d660305af51df4c89eeb804aaa15716dcee1",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T20:31:06.720355+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: game-sprite. Clean illustrated cel-shaded top-down shooter VFX, bold legible silhouette at 8-24px, restrained shading. Uniform pure #FF00FF background; NO magenta on artwork. No characters, guns, floor, shadows, labels, text, grid lines or surrounding scenes. Keep all artwork 30px inside its cell. Clear empty gutters. 1024x1024, fixed 4 columns x 2 rows, row-major. Exactly 8 isolated muzzle flashes, one per cell. Emission origin at left, opening to RIGHT. No weapon. Compact opaque cores and contained tapered tips, no haze across cell edges.\nCell 1: warm ivory orange short powder flash.\nCell 2: white gold angular metal spark.\nCell 3: cyan white forked electric flare.\nCell 4: orange gold short rocket flame.\nCell 5: violet silver star rune flare.\nCell 6: green gold leaf shaped pollen flare.\nCell 7: ivory paper curl and small red stamp-like accent, no writing.\nCell 8: cyan white bubble puff.",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 231,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1059375
+  },
+  {
+    "name": "fw-projectile-impacts-01-v1",
+    "fingerprint": "5e7471ac5dfe4063a4c6ffb93e7371a9d7cb37e781449f8f9a8bf0206d45e1b1",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T20:33:48.146613+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: game-sprite. Clean illustrated cel-shaded top-down shooter VFX, bold legible silhouette at 8-24px, restrained shading. Uniform pure #FF00FF background; NO magenta on artwork. No characters, guns, floor, shadows, labels, text, grid lines or surrounding scenes. Keep all artwork 30px inside its cell. Clear empty gutters. 1024x1024, fixed 4x4 grid. Each ROW is one 4-frame impact animation, LEFT to RIGHT: tight initial flash, expanding burst, separating fragments, few fading fragments. Same center and camera in all frames. Radial top view. Size grows through frame 3. Frame 4 is sparse, not blank. No large smoke blanket.\nRow 1: warm ivory orange impact sparks.\nRow 2: white gold angular metallic ricochet sparks.\nRow 3: cyan white electrical discharge.\nRow 4: orange gold explosive burst with small dark smoke wisps.",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 208,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.10588
+  },
+  {
+    "name": "fw-projectile-impacts-02-v1",
+    "fingerprint": "c0eff790483a2f497850358c028a16ef12486c8dda996858ff0f162ad8a620ef",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-12T20:38:00.547021+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: game-sprite. Clean illustrated cel-shaded top-down shooter VFX, bold legible silhouette at 8-24px, restrained shading. Uniform pure #FF00FF background; NO magenta on artwork. No characters, guns, floor, shadows, labels, text, grid lines or surrounding scenes. Keep all artwork 30px inside its cell. Clear empty gutters. 1024x1024, fixed 4x4 grid. Each ROW is one 4-frame impact animation, LEFT to RIGHT: tight initial flash, expanding burst, separating fragments, few fading fragments. Same center and camera in all frames. Radial top view. Size grows through frame 3. Frame 4 is sparse, not blank. No large smoke blanket.\nRow 1: violet silver starburst and curved arc.\nRow 2: green leaves and gold pollen puff.\nRow 3: ivory torn paper and cardboard flecks.\nRow 4: cyan bubble breaking into white rim droplets.",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 208,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.10588
   }
 ]

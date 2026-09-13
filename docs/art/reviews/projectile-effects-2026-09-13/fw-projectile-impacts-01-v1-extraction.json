@@ -1,0 +1,258 @@
+[
+  {
+    "key": "impact_ballistic",
+    "cell": 0,
+    "source_box": [
+      0,
+      0,
+      256,
+      256
+    ],
+    "alpha_box": [
+      95,
+      93,
+      153,
+      157
+    ]
+  },
+  {
+    "key": "impact_ballistic",
+    "cell": 1,
+    "source_box": [
+      256,
+      0,
+      512,
+      256
+    ],
+    "alpha_box": [
+      45,
+      47,
+      200,
+      205
+    ]
+  },
+  {
+    "key": "impact_ballistic",
+    "cell": 2,
+    "source_box": [
+      512,
+      0,
+      768,
+      256
+    ],
+    "alpha_box": [
+      24,
+      29,
+      230,
+      221
+    ]
+  },
+  {
+    "key": "impact_ballistic",
+    "cell": 3,
+    "source_box": [
+      768,
+      0,
+      1024,
+      256
+    ],
+    "alpha_box": [
+      54,
+      63,
+      186,
+      192
+    ]
+  },
+  {
+    "key": "impact_metal",
+    "cell": 4,
+    "source_box": [
+      0,
+      256,
+      256,
+      496
+    ],
+    "alpha_box": [
+      94,
+      75,
+      153,
+      139
+    ]
+  },
+  {
+    "key": "impact_metal",
+    "cell": 5,
+    "source_box": [
+      256,
+      256,
+      512,
+      496
+    ],
+    "alpha_box": [
+      66,
+      46,
+      193,
+      170
+    ]
+  },
+  {
+    "key": "impact_metal",
+    "cell": 6,
+    "source_box": [
+      512,
+      256,
+      768,
+      496
+    ],
+    "alpha_box": [
+      26,
+      15,
+      217,
+      197
+    ]
+  },
+  {
+    "key": "impact_metal",
+    "cell": 7,
+    "source_box": [
+      768,
+      256,
+      1024,
+      496
+    ],
+    "alpha_box": [
+      46,
+      42,
+      184,
+      169
+    ]
+  },
+  {
+    "key": "impact_energy",
+    "cell": 8,
+    "source_box": [
+      0,
+      496,
+      256,
+      744
+    ],
+    "alpha_box": [
+      95,
+      88,
+      157,
+      149
+    ]
+  },
+  {
+    "key": "impact_energy",
+    "cell": 9,
+    "source_box": [
+      256,
+      496,
+      512,
+      744
+    ],
+    "alpha_box": [
+      51,
+      37,
+      214,
+      200
+    ]
+  },
+  {
+    "key": "impact_energy",
+    "cell": 10,
+    "source_box": [
+      512,
+      496,
+      768,
+      744
+    ],
+    "alpha_box": [
+      12,
+      4,
+      238,
+      225
+    ]
+  },
+  {
+    "key": "impact_energy",
+    "cell": 11,
+    "source_box": [
+      768,
+      496,
+      1024,
+      744
+    ],
+    "alpha_box": [
+      47,
+      56,
+      178,
+      195
+    ]
+  },
+  {
+    "key": "impact_explosion",
+    "cell": 12,
+    "source_box": [
+      0,
+      744,
+      256,
+      1024
+    ],
+    "alpha_box": [
+      88,
+      79,
+      160,
+      155
+    ]
+  },
+  {
+    "key": "impact_explosion",
+    "cell": 13,
+    "source_box": [
+      256,
+      744,
+      512,
+      1024
+    ],
+    "alpha_box": [
+      52,
+      38,
+      215,
+      210
+    ]
+  },
+  {
+    "key": "impact_explosion",
+    "cell": 14,
+    "source_box": [
+      512,
+      744,
+      768,
+      1024
+    ],
+    "alpha_box": [
+      12,
+      4,
+      234,
+      241
+    ]
+  },
+  {
+    "key": "impact_explosion",
+    "cell": 15,
+    "source_box": [
+      768,
+      744,
+      1024,
+      1024
+    ],
+    "alpha_box": [
+      49,
+      48,
+      187,
+      206
+    ]
+  }
+]

@@ -1,0 +1,25 @@
+{
+  "name": "fw-projectile-impacts-02-v1",
+  "fingerprint": "c0eff790483a2f497850358c028a16ef12486c8dda996858ff0f162ad8a620ef",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T20:38:00.547021+00:00",
+  "endpoint": "generations",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: game-sprite. Clean illustrated cel-shaded top-down shooter VFX, bold legible silhouette at 8-24px, restrained shading. Uniform pure #FF00FF background; NO magenta on artwork. No characters, guns, floor, shadows, labels, text, grid lines or surrounding scenes. Keep all artwork 30px inside its cell. Clear empty gutters. 1024x1024, fixed 4x4 grid. Each ROW is one 4-frame impact animation, LEFT to RIGHT: tight initial flash, expanding burst, separating fragments, few fading fragments. Same center and camera in all frames. Radial top view. Size grows through frame 3. Frame 4 is sparse, not blank. No large smoke blanket.\nRow 1: violet silver starburst and curved arc.\nRow 2: green leaves and gold pollen puff.\nRow 3: ivory torn paper and cardboard flecks.\nRow 4: cyan bubble breaking into white rim droplets.",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 208,
+      "image_tokens": 0
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.10588
+}

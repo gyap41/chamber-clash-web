@@ -1,0 +1,130 @@
+[
+  {
+    "key": "muzzle_ballistic",
+    "cell": 0,
+    "source_box": [
+      0,
+      0,
+      256,
+      512
+    ],
+    "alpha_box": [
+      48,
+      243,
+      211,
+      360
+    ]
+  },
+  {
+    "key": "muzzle_metal",
+    "cell": 1,
+    "source_box": [
+      256,
+      0,
+      512,
+      512
+    ],
+    "alpha_box": [
+      42,
+      211,
+      214,
+      401
+    ]
+  },
+  {
+    "key": "muzzle_energy",
+    "cell": 2,
+    "source_box": [
+      512,
+      0,
+      768,
+      512
+    ],
+    "alpha_box": [
+      33,
+      212,
+      212,
+      393
+    ]
+  },
+  {
+    "key": "muzzle_explosion",
+    "cell": 3,
+    "source_box": [
+      768,
+      0,
+      1024,
+      512
+    ],
+    "alpha_box": [
+      26,
+      236,
+      222,
+      371
+    ]
+  },
+  {
+    "key": "muzzle_arcane",
+    "cell": 4,
+    "source_box": [
+      0,
+      512,
+      256,
+      1024
+    ],
+    "alpha_box": [
+      34,
+      119,
+      222,
+      311
+    ]
+  },
+  {
+    "key": "muzzle_organic",
+    "cell": 5,
+    "source_box": [
+      256,
+      512,
+      512,
+      1024
+    ],
+    "alpha_box": [
+      41,
+      133,
+      225,
+      284
+    ]
+  },
+  {
+    "key": "muzzle_paper",
+    "cell": 6,
+    "source_box": [
+      512,
+      512,
+      768,
+      1024
+    ],
+    "alpha_box": [
+      37,
+      143,
+      213,
+      295
+    ]
+  },
+  {
+    "key": "muzzle_water",
+    "cell": 7,
+    "source_box": [
+      768,
+      512,
+      1024,
+      1024
+    ],
+    "alpha_box": [
+      31,
+      130,
+      216,
+      300
+    ]
+  }
+]

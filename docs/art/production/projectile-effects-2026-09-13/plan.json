@@ -1,0 +1,440 @@
+{
+  "status": "complete",
+  "previous_sends": 66,
+  "new_sends": 6,
+  "max_total_sends": 72,
+  "additional_reservation_usd": 6,
+  "proposed_cli_limit": 73,
+  "weapons": [
+    {
+      "id": 0,
+      "name": "P-12 サイドアーム",
+      "family": "ballistic",
+      "design": "Short silver pointed bullet, copper base; no cartridge case",
+      "trail": "short",
+      "source": "new"
+    },
+    {
+      "id": 1,
+      "name": "跳弾キャンディ",
+      "family": "metal",
+      "design": "Red and white striped round candy, dark rim",
+      "trail": "dots",
+      "source": "new"
+    },
+    {
+      "id": 2,
+      "name": "ファイアワークス",
+      "family": "explosion",
+      "design": "Small red paper firework rocket, golden nose",
+      "trail": "embers",
+      "source": "new"
+    },
+    {
+      "id": 3,
+      "name": "ハニービー",
+      "family": "energy",
+      "design": "Yellow black bee micro missile, two short fins",
+      "trail": "short",
+      "source": "new"
+    },
+    {
+      "id": 4,
+      "name": "ダブルバック",
+      "family": "ballistic",
+      "design": "Compact copper round pellet with white highlight",
+      "trail": "none",
+      "source": "new"
+    },
+    {
+      "id": 5,
+      "name": "ムーンリーパー",
+      "family": "arcane",
+      "design": "Silver crescent moon blade, navy inner edge",
+      "trail": "arc",
+      "source": "new"
+    },
+    {
+      "id": 6,
+      "name": "アークレール",
+      "family": "energy",
+      "design": "Long narrow cyan white rail dart",
+      "trail": "rail",
+      "source": "new"
+    },
+    {
+      "id": 7,
+      "name": "ヘリックス",
+      "family": "energy",
+      "design": "Purple glass plasma pearl, white nucleus",
+      "trail": "helix",
+      "source": "new"
+    },
+    {
+      "id": 8,
+      "name": "プリズムバースト",
+      "family": "arcane",
+      "design": "White faceted diamond light shard, subtle rainbow edges",
+      "trail": "prism",
+      "source": "new"
+    },
+    {
+      "id": 9,
+      "name": "コメットランチャー",
+      "family": "explosion",
+      "design": "Olive rocket shell with luminous gold star nose",
+      "trail": "smoke",
+      "source": "new"
+    },
+    {
+      "id": 10,
+      "name": "ブラックホール・ティー",
+      "family": "arcane",
+      "design": "Black gravity orb with violet accretion ring",
+      "trail": "orbit",
+      "source": "new"
+    },
+    {
+      "id": 11,
+      "name": "シードマイン",
+      "family": "organic",
+      "design": "Brown seed pod with green split husk",
+      "trail": "leaves",
+      "source": "new"
+    },
+    {
+      "id": 12,
+      "name": "ロケットペンシル",
+      "family": "explosion",
+      "design": "Yellow miniature pencil rocket, graphite tip, red tail",
+      "trail": "embers",
+      "source": "new"
+    },
+    {
+      "id": 13,
+      "name": "バブルクロック",
+      "family": "water",
+      "design": "Cyan transparent bubble with clear white rim",
+      "trail": "bubble",
+      "source": "new"
+    },
+    {
+      "id": 14,
+      "name": "クローバースプリッター",
+      "family": "organic",
+      "design": "Green four leaf clover, small golden core",
+      "trail": "leaves",
+      "source": "new"
+    },
+    {
+      "id": 15,
+      "name": "プラネタリウム",
+      "family": "arcane",
+      "design": "Gold five pointed star, navy inner face",
+      "trail": "stars",
+      "source": "new"
+    },
+    {
+      "id": 16,
+      "name": "レシートリピーター",
+      "family": "paper",
+      "design": "Folded ivory receipt strip with simple dark marks, no readable text",
+      "trail": "paper",
+      "source": "new"
+    },
+    {
+      "id": 17,
+      "name": "着払いキャノン",
+      "family": "paper",
+      "design": "Small cream shipping tag with red stamp, no readable text",
+      "trail": "paper",
+      "source": "new"
+    },
+    {
+      "id": 18,
+      "name": "スイッチスパナ",
+      "family": "metal",
+      "design": "Short silver hex bolt with red collar",
+      "trail": "short",
+      "source": "new"
+    },
+    {
+      "id": 19,
+      "name": "エコードラム",
+      "family": "ballistic",
+      "design": "Copper bullet with two engraved dark rings",
+      "trail": "echo",
+      "source": "new"
+    },
+    {
+      "id": 20,
+      "name": "サービスピストル",
+      "family": "ballistic",
+      "design": "Keep existing service pistol bullet",
+      "trail": "short",
+      "source": "existing"
+    },
+    {
+      "id": 21,
+      "name": "スカウトニードル",
+      "family": "metal",
+      "design": "Thin steel needle with blue tip",
+      "trail": "needle",
+      "source": "new"
+    },
+    {
+      "id": 22,
+      "name": "トリックコイン",
+      "family": "metal",
+      "design": "Gold coin viewed at slight tilt, bold star engraving",
+      "trail": "dots",
+      "source": "new"
+    },
+    {
+      "id": 23,
+      "name": "ガードリベット",
+      "family": "metal",
+      "design": "Thick brass rivet, broad flat head",
+      "trail": "short",
+      "source": "new"
+    },
+    {
+      "id": 24,
+      "name": "ツインタッカー",
+      "family": "metal",
+      "design": "Small copper tack, short pointed shaft",
+      "trail": "short",
+      "source": "new"
+    },
+    {
+      "id": 25,
+      "name": "ルーンペン",
+      "family": "arcane",
+      "design": "Violet diamond rune on compact pale blue ink droplet",
+      "trail": "rune",
+      "source": "new"
+    },
+    {
+      "id": 26,
+      "name": "シックスノート",
+      "family": "ballistic",
+      "design": "Large copper revolver bullet with cream highlight",
+      "trail": "short",
+      "source": "new"
+    },
+    {
+      "id": 27,
+      "name": "ミニガトル",
+      "family": "ballistic",
+      "design": "Stubby steel bullet with brass base",
+      "trail": "short",
+      "source": "new"
+    },
+    {
+      "id": 28,
+      "name": "ホチキスバースト",
+      "family": "metal",
+      "design": "Silver U shaped staple with sharp ends pointing right",
+      "trail": "short",
+      "source": "new"
+    },
+    {
+      "id": 29,
+      "name": "クロスステッチ",
+      "family": "metal",
+      "design": "Silver sewing needle with short pink thread attached",
+      "trail": "thread",
+      "source": "new"
+    },
+    {
+      "id": 30,
+      "name": "チョークライフル",
+      "family": "ballistic",
+      "design": "Long gray pointed rifle bullet, chalk white tip",
+      "trail": "needle",
+      "source": "new"
+    },
+    {
+      "id": 31,
+      "name": "ペッパーボックス",
+      "family": "ballistic",
+      "design": "Dark bronze round pellet with bright copper highlight",
+      "trail": "none",
+      "source": "new"
+    },
+    {
+      "id": 32,
+      "name": "ピンボールパドル",
+      "family": "metal",
+      "design": "Reflective chrome pinball with cyan highlight",
+      "trail": "dots",
+      "source": "new"
+    },
+    {
+      "id": 33,
+      "name": "ツインクレセント",
+      "family": "arcane",
+      "design": "Small silver crescent blade with red inner accent",
+      "trail": "arc",
+      "source": "new"
+    },
+    {
+      "id": 34,
+      "name": "スパークフォーク",
+      "family": "energy",
+      "design": "Sharp yellow white forked electric dart",
+      "trail": "electric",
+      "source": "new"
+    },
+    {
+      "id": 35,
+      "name": "ベルフラワー",
+      "family": "organic",
+      "design": "Small blue bellflower bulb with green calyx",
+      "trail": "leaves",
+      "source": "new"
+    },
+    {
+      "id": 36,
+      "name": "カーボンコピー",
+      "family": "energy",
+      "design": "Flat white blue energy dart with two parallel dark rails",
+      "trail": "rail",
+      "source": "new"
+    },
+    {
+      "id": 37,
+      "name": "オーロラファン",
+      "family": "arcane",
+      "design": "Pale blue violet aurora shard shaped like a narrow feather",
+      "trail": "aurora",
+      "source": "new"
+    }
+  ],
+  "batches": [
+    {
+      "name": "fw-projectile-bullets-01-v1",
+      "prompt": "docs/art/production/projectile-effects-2026-09-13/bullets-01.txt",
+      "cells": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15"
+      ],
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "name": "fw-projectile-bullets-02-v1",
+      "prompt": "docs/art/production/projectile-effects-2026-09-13/bullets-02.txt",
+      "cells": [
+        "16",
+        "17",
+        "18",
+        "19",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31"
+      ],
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "name": "fw-projectile-bullets-03-v1",
+      "prompt": "docs/art/production/projectile-effects-2026-09-13/bullets-03.txt",
+      "cells": [
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "parcel",
+        "paper_shard",
+        "firework_shard",
+        "comet_shard",
+        "clover_shard",
+        "derived",
+        "gravity_core"
+      ],
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "name": "fw-projectile-muzzles-v1",
+      "prompt": "docs/art/production/projectile-effects-2026-09-13/muzzles.txt",
+      "cells": [
+        "ballistic",
+        "metal",
+        "energy",
+        "explosion",
+        "arcane",
+        "organic",
+        "paper",
+        "water"
+      ],
+      "grid": [
+        4,
+        2
+      ]
+    },
+    {
+      "name": "fw-projectile-impacts-01-v1",
+      "prompt": "docs/art/production/projectile-effects-2026-09-13/impacts-01.txt",
+      "rows": [
+        "ballistic",
+        "metal",
+        "energy",
+        "explosion"
+      ],
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "name": "fw-projectile-impacts-02-v1",
+      "prompt": "docs/art/production/projectile-effects-2026-09-13/impacts-02.txt",
+      "rows": [
+        "arcane",
+        "organic",
+        "paper",
+        "water"
+      ],
+      "grid": [
+        4,
+        4
+      ]
+    }
+  ],
+  "approval": "よいですが、コード上は作りやすい構成になっていますか？",
+  "architecture": "ARCHITECTURE.md",
+  "completed_sends": 6,
+  "usage_estimate_usd": 0.63626
+}

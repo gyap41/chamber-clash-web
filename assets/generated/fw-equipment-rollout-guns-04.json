@@ -1,0 +1,30 @@
+{
+  "name": "fw-equipment-rollout-guns-04",
+  "fingerprint": "c155b0043c85056a63758f7a074e1f470857a7788b75eb1a6da367830be8271a",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T14:32:56.935580+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Production sprites for a cute two-head-tall workshop adventure action game. Match reference ivory enamel, dark steel, teal/amber/brass accents, bold clean dark outlines and simple cel shading. Distinct silhouettes, limited tiny detail, no text, labels, numerals, borders, people, hands, floor, shadows or detached effects. Uniform pure #FF00FF background including holes and gutters; no pink/purple object colors. Each object centered in its cell with generous clear margins. Reference is style only: create the NEW items below. Do not draw names.\nCanvas 1024x1024. Regular 2 columns by 2 rows, reading order left to right, top to bottom. Exactly 4 objects; unused final cells blank magenta.\nStrict flat side elevation, muzzle RIGHT horizontally, grip downward, no foreshortening. Different shapes by function: long rails, heavy launchers, compact pistols. Each weapon one connected object.\nCell 1: ID 12 ロケットペンシル. Design: 細長い加速杭の射出器. Mechanism context: 加速する杭と噴射. \nCell 2: ID 13 バブルクロック. Design: 遅延起動の圧力球射出器. Mechanism context: 3球の待機→発進. \nCell 3: ID 14 クローバースプリッター. Design: 四分割の弾頭と発射筒. Mechanism context: 十字に4分裂. \nCell 4: ID 15 プラネタリウム. Design: 8ポートの環状誘導機. Mechanism context: 8方向の小さな誘導光弾. \n\nMechanism context describes function ONLY. Render only the weapon body. Do NOT illustrate firing, floating bullets, beam lines, trajectory arrows, sparks, explosions, or demonstration diagrams. Integrated barrel/core shapes only.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\generated\\fw-weapons-prototype-a.png",
+      "sha256": "0fc6c39a8328798dc59fa3d33f17184a59445ae869ad987d28fa5df510c2ae1a"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 419,
+      "image_tokens": 1024
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1105035
+}

@@ -1,0 +1,7 @@
+Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.
+1024x1024 sheet. Regular 2x2 grid, reading order left-to-right top-to-bottom. Exactly 4 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.
+Weapons: flat side view, muzzle to RIGHT, grip down. Preserve natural proportion differences: stocked long rifles, shoulder launchers, bows, tools and toys. No generic pistol frame added to every object.
+Cell 1: ID 15, プラネタリウム. 魔法・天文: 紺色の天球儀、細い金の環と8つの小さな星窓.
+Cell 2: ID 28, ホチキスバースト. 工具・コミカル: 赤い大型タッカー、押し下げレバー、箱状の工具本体.
+Cell 3: ID 34, スパークフォーク. 工業SF: 黄黒の絶縁部、長い二股電極、無骨な配線.
+Cell 4: ID 36, カーボンコピー. SF: 黒い板状の二層レール、白いカーボン外装、平たい輪郭.

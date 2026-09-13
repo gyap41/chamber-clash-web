@@ -1,0 +1,25 @@
+{
+  "name": "fw-diverse-guns-05-v1",
+  "fingerprint": "85452dcc1eac952916bcb4d57a367522c180f1ab163ce750c6750ad8ec5765c1",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T19:43:36.725043+00:00",
+  "endpoint": "generations",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.\n1024x1024 sheet. Regular 2x2 grid, reading order left-to-right top-to-bottom. Exactly 4 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.\nWeapons: flat side view, muzzle to RIGHT, grip down. Preserve natural proportion differences: stocked long rifles, shoulder launchers, bows, tools and toys. No generic pistol frame added to every object.\nCell 1: ID 13, バブルクロック. レトロSF: 水色の透明圧力槽、クローム、時計の針状のバルブ.\nCell 2: ID 18, スイッチスパナ. 工具: 銀の実用的な可動スパナ、赤いゴムグリップ、短い工具形.\nCell 3: ID 30, チョークライフル. 実銃寄り: 長いマットグレーの精密銃、白いセラミック銃身、細い銃床.\nCell 4: ID 35, ベルフラワー. 生体・自然: 青紫の釣鐘形の花3つ、緑の茎と種莢の機雷.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 401,
+      "image_tokens": 0
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1063625
+}

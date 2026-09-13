@@ -1,0 +1,82 @@
+[
+  {
+    "id": 0,
+    "kind": "guns",
+    "name": "P-12 サイドアーム",
+    "source": "assets/generated/fw-equipment-rollout-guns-01.png",
+    "sha256": "7688aaf92f3d0473501c546bf57fe99f4137899b033351df59300d9db0ec7e03",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      88,
+      136,
+      407,
+      405
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/00.png"
+  },
+  {
+    "id": 1,
+    "kind": "guns",
+    "name": "跳弾キャンディ",
+    "source": "assets/generated/fw-equipment-rollout-guns-01.png",
+    "sha256": "7688aaf92f3d0473501c546bf57fe99f4137899b033351df59300d9db0ec7e03",
+    "cell": [
+      512,
+      0,
+      823,
+      512
+    ],
+    "crop": [
+      43,
+      134,
+      309,
+      365
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/01.png"
+  },
+  {
+    "id": 2,
+    "kind": "guns",
+    "name": "ファイアワークス",
+    "source": "assets/generated/fw-equipment-rollout-guns-01.png",
+    "sha256": "7688aaf92f3d0473501c546bf57fe99f4137899b033351df59300d9db0ec7e03",
+    "cell": [
+      0,
+      512,
+      512,
+      1024
+    ],
+    "crop": [
+      78,
+      48,
+      471,
+      329
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/02.png"
+  },
+  {
+    "id": 3,
+    "kind": "guns",
+    "name": "ハニービー",
+    "source": "assets/generated/fw-equipment-rollout-guns-01.png",
+    "sha256": "7688aaf92f3d0473501c546bf57fe99f4137899b033351df59300d9db0ec7e03",
+    "cell": [
+      512,
+      512,
+      1024,
+      1024
+    ],
+    "crop": [
+      65,
+      64,
+      437,
+      329
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/03.png"
+  }
+]

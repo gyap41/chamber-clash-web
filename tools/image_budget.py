@@ -5,10 +5,10 @@ import math
 import struct
 from pathlib import Path
 
-# 2026-09-12: Rina standard rollout approved; one combined sheet for each of seven characters.
+# Revised scope: six projectile/effect sheets, maximum 72 total sends.
 # Previous unknown Sora reservation remains retained.
-LIMIT_USD = 46.0
-LIMIT_REQUESTS = 50
+LIMIT_USD = 73.0
+LIMIT_REQUESTS = 73
 RESERVATION_USD = 1.0
 
 def save(path, data):
@@ -22,7 +22,10 @@ def validate_history(history, name, fingerprint):
         resolution = x.get('manual_resolution', {})
         return (x['status'] == 'outcome_unknown'
                 and resolution.get('action') == 'user_authorized_resume_keep_reservation'
-                and resolution.get('user_message') == '進めてください。'
+                and (resolution.get('user_message') == '進めてください。' or
+                     (x['name'] == 'fw-equipment-rollout-guns-07'
+                      and resolution.get('user_message') == '一旦作成のし直しをお願いします。'
+                      and resolution.get('retry_name') == 'fw-weapons-diversity-v1'))
                 and bool(resolution.get('recorded_at'))
                 and bool(resolution.get('retry_name')))
     if any(x['status'] != 'success' and not acknowledged_unknown(x) for x in history):

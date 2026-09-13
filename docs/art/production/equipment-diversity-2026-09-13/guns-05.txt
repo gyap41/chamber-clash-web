@@ -1,0 +1,7 @@
+Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.
+1024x1024 sheet. Regular 2x2 grid, reading order left-to-right top-to-bottom. Exactly 4 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.
+Weapons: flat side view, muzzle to RIGHT, grip down. Preserve natural proportion differences: stocked long rifles, shoulder launchers, bows, tools and toys. No generic pistol frame added to every object.
+Cell 1: ID 13, バブルクロック. レトロSF: 水色の透明圧力槽、クローム、時計の針状のバルブ.
+Cell 2: ID 18, スイッチスパナ. 工具: 銀の実用的な可動スパナ、赤いゴムグリップ、短い工具形.
+Cell 3: ID 30, チョークライフル. 実銃寄り: 長いマットグレーの精密銃、白いセラミック銃身、細い銃床.
+Cell 4: ID 35, ベルフラワー. 生体・自然: 青紫の釣鐘形の花3つ、緑の茎と種莢の機雷.

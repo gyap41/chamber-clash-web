@@ -32,7 +32,7 @@ func run() -> void:
 	assert(not game.shots.back().get_node("Visual").visible)
 	game.spawn_shot(0,20,0,{"pos":Vector2(1086,100)})
 	game.shots.back().step(.02,game.arena,q)
-	assert(game.combat_visuals.weapon_effects.any(func(e): return e.row == 4))
+	assert(game.combat_visuals.named_effects.any(func(e): return e.kind == "hit" and e.weapon == 20))
 	p.start_reload()
 	assert(p.state.reload > 0)
 	var reload_time: float = p.state.reload

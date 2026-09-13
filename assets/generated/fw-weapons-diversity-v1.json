@@ -1,0 +1,25 @@
+{
+  "name": "fw-weapons-diversity-v1",
+  "fingerprint": "c20c8921573065b49e948c13368749e36ac2ef0892514abc08bdaa23583347e1",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T14:46:15.980703+00:00",
+  "endpoint": "generations",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Create FOUR radically different weapon sprite concepts for one top-down action game. 1024x1024 canvas, regular 2x2 grid, one weapon per 512x512 cell. All are fully visible, right-facing flat side profiles, no foreshortening. At least 45 pixels of clear margin around each. Pure uniform #FF00FF background and gaps for extraction. No ground, shadows, characters, hands, labels, words, symbols floating outside the object, projectiles, firing effects or trajectories.\nCRITICAL: NOT one manufacturer or matching weapon family. Do NOT share a palette, grip shape, circular core, ivory armor, brass screws or teal highlights across the four. Share only professional game illustration rendering: clean dark contours, restrained cel shading, readable silhouette at small sizes, minimal texture noise. Realistic-inspired weapons must remain illustrated sprites, not photographic renders. Bright magenta is background only.\nTOP LEFT: P-12, realistic contemporary compact semiautomatic pistol. Matte BLACK polymer frame with angular textured grip, brushed gunmetal-gray slide, short conventional barrel, simple small sights and dark box magazine. Restrained functional industrial design. No gold, no glowing lights, no fantasy core, no ivory. Compact believable handgun proportions.\nTOP RIGHT: ARC RAIL, futuristic precision RIFLE, long and low horizontal silhouette. Matte WHITE angular composite housing against black structural rails, cyan light strictly inside a long narrow open barrel channel, a full triangular shoulder stock at the LEFT end, pistol grip near rear-middle, small straight magazine and long paired accelerator rails to the RIGHT. Clearly a two-handed rifle, not an elongated pistol. No circular core or brass.\nBOTTOM LEFT: MOON REAPER, elegant dark-fantasy crescent blade launcher. A large SILVER crescent blade held inside a slender asymmetric dark NAVY bow-like frame; a short midnight-blue wrapped handle below its rear, two small deep BLUE gems in the frame. A small right-facing mechanical release tip indicates launch direction. Curved ceremonial silhouette, almost a hand crossbow, NO conventional pistol slide, NO brass, NO ivory armor, NO teal industrial panels. One attached silver crescent, not a floating blade.\nBOTTOM RIGHT: ROCKET PENCIL, playful comic oversized YELLOW wooden pencil weapon. A very long yellow hexagonal pencil body, sharpened wooden cone and dark graphite tip pointing RIGHT, pink-red eraser at LEFT in an aluminum ferrule, tiny red rocket tail fins near the eraser, compact red rounded handle attached UNDER the middle-left of the pencil. Cheerful simple solid shapes. The pencil itself IS the weapon, not a normal pistol with a pencil stuck onto its barrel. No conventional slide or circular core. No exhaust flame.\nMake the four designs visibly contrast: compact black real-world handgun / long white SF rifle / curved silver-blue fantasy launcher / yellow-red absurd pencil. Do not equalize their proportions. No additional variants or objects.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 608,
+      "image_tokens": 0
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.10688
+}

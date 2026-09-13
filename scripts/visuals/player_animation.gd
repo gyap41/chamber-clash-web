@@ -1,5 +1,6 @@
 extends Node2D
-const MUZZLE = preload("res://assets/first-workshop/muzzle.png")
+const Visuals = preload("res://scripts/catalog/weapon_visual_catalog.gd")
+var reload_event: Dictionary = {}
 const Rig = preload("res://scripts/visuals/character_rig.gd")
 const Directions = preload("res://scripts/visuals/character_direction.gd")
 const TRAIL = preload("res://assets/first-workshop/trail.png")
@@ -29,6 +30,7 @@ func _ready() -> void:
 	source.hide()
 
 func reset() -> void:
+	reload_event.clear()
 	elapsed = 0.0
 	walk = 0.0
 	moving = false
@@ -78,9 +80,10 @@ func refresh() -> void:
 	if p.roll > 0.0 and player.char_id < 0:
 		pose *= Transform2D((player.dodge_duration-p.roll)/player.dodge_duration*TAU,Vector2(1,.8),0.0,Vector2.ZERO)
 	weapon.transform = pose*Transform2D(p.angle,Vector2.ZERO)*Transform2D(0.0,Vector2(-recoil*3.0,0))*weapon_base
-	if player.char_id >= 0 and p.reload > 0:
-		var progress: float = 1.0-p.reload/player.effective_reload_duration()
-		var tilt: float = sin(progress*PI)*.65*(-1 if cos(p.angle)<0 else 1)
+	if player.char_id >= 0 and p.reload > 0 and not reload_event.is_empty():
+		var progress: float = clampf(1.0-p.reload/maxf(float(reload_event.duration),.001),0,1)
+		var style: String = str(Visuals.profile(int(reload_event.weapon)).get("reload_style","mechanical"))
+		var tilt: float = sin(progress*PI)*(.65 if style == "mechanical" else .15)*(-1 if cos(p.angle)<0 else 1)
 		weapon.transform = pose*Transform2D(p.angle+tilt,Vector2(0,-3*sin(progress*PI)))*weapon_base
 	weapon.modulate.a = .55 if p.inv > 0 and int(elapsed*22)%2 else 1.0
 	if player.char_id >= 0:
@@ -134,16 +137,19 @@ func _draw() -> void:
 			draw_texture_rect_region(source.texture,Rect2(dest.position+offset+local_shift,size),Rect2(origin+offset,size),color)
 		draw_texture_rect_region(source.texture,Rect2(dest.position,Vector2(cell.x,cell.y*.72)),Rect2(origin,Vector2(cell.x,cell.y*.72)),color)
 	draw_set_transform_matrix(Transform2D.IDENTITY)
-	if muzzle > 0 and p.roll <= 0:
+	if not reload_event.is_empty() and p.reload > 0 and p.hp > 0 and p.roll <= 0:
+		var spec := Visuals.profile(int(reload_event.weapon))
+		var progress := clampf(1.0-float(p.reload)/maxf(float(reload_event.duration),.001),0,1)
+		var tint := Color(spec.get("color","#ffffff"));tint.a = .65
 		draw_set_transform_matrix(weapon.transform)
-		var flash := Color("b4edff") if player.definition().get("rail",false) else Color("fff0b0")
-		flash.a = minf(1.0,muzzle/.035)
-		if player.has_weapon() and player.weapon().id == 20:
-			var muzzle_y := 7.0 if cos(p.angle)<0 else -7.0
-			draw_texture_rect(MUZZLE,Rect2(28,muzzle_y-8,22,16),false,Color(1,1,1,flash.a))
-		else:
-			draw_line(Vector2(26,0),Vector2(40+recoil*8,0),flash,4)
-			for sign_value in [-1,1]: draw_line(Vector2(27,0),Vector2(36,sign_value*7),flash,2)
+		var center := Vector2(15,0)
+		match str(spec.get("reload_style","mechanical")):
+			"charge": draw_arc(center,10,0,TAU*progress,24,tint,1.5,true)
+			"rune":
+				for i in range(4):
+					var v := Vector2.from_angle(i*PI/2+progress*TAU)*(14-7*progress)
+					draw_line(center+v,center+v*.55,tint,1.5,true)
+			_: draw_line(center+Vector2(-3,5),center+Vector2(-3,5+7*sin(progress*PI)),tint,3.0)
 		draw_set_transform_matrix(Transform2D.IDENTITY)
 	if 3 in player.relics and p.shield <= 0.0:
 		draw_arc(Vector2(0,-7),33,0,TAU,64,Color("ffe2a0aa"),2.0,true)
@@ -153,3 +159,8 @@ func _draw() -> void:
 		for n in range(10):
 			points.append(orbit_positions[i]+Vector2.from_angle(-PI/2+n*PI/5+angle)*(3.0 if n%2==0 else 1.35))
 		draw_colored_polygon(points,Color(player.Relics.definition(player.relics[i]).color))
+
+func weapon_event(event: Dictionary) -> void:
+	if event.kind == "reload_start": reload_event = event.duplicate()
+	elif event.kind in ["reload_cancel","reload_complete"] and int(event.token) == int(reload_event.get("token",-1)):
+		reload_event.clear()

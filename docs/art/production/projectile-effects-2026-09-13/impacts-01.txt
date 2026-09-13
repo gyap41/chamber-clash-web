@@ -1,0 +1,5 @@
+Use case: game-sprite. Clean illustrated cel-shaded top-down shooter VFX, bold legible silhouette at 8-24px, restrained shading. Uniform pure #FF00FF background; NO magenta on artwork. No characters, guns, floor, shadows, labels, text, grid lines or surrounding scenes. Keep all artwork 30px inside its cell. Clear empty gutters. 1024x1024, fixed 4x4 grid. Each ROW is one 4-frame impact animation, LEFT to RIGHT: tight initial flash, expanding burst, separating fragments, few fading fragments. Same center and camera in all frames. Radial top view. Size grows through frame 3. Frame 4 is sparse, not blank. No large smoke blanket.
+Row 1: warm ivory orange impact sparks.
+Row 2: white gold angular metallic ricochet sparks.
+Row 3: cyan white electrical discharge.
+Row 4: orange gold explosive burst with small dark smoke wisps.

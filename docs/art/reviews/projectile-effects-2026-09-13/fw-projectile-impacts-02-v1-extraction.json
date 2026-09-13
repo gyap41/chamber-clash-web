@@ -1,0 +1,258 @@
+[
+  {
+    "key": "impact_arcane",
+    "cell": 0,
+    "source_box": [
+      0,
+      0,
+      256,
+      256
+    ],
+    "alpha_box": [
+      78,
+      78,
+      161,
+      171
+    ]
+  },
+  {
+    "key": "impact_arcane",
+    "cell": 1,
+    "source_box": [
+      256,
+      0,
+      512,
+      256
+    ],
+    "alpha_box": [
+      40,
+      37,
+      212,
+      219
+    ]
+  },
+  {
+    "key": "impact_arcane",
+    "cell": 2,
+    "source_box": [
+      512,
+      0,
+      768,
+      256
+    ],
+    "alpha_box": [
+      12,
+      24,
+      227,
+      234
+    ]
+  },
+  {
+    "key": "impact_arcane",
+    "cell": 3,
+    "source_box": [
+      768,
+      0,
+      1024,
+      256
+    ],
+    "alpha_box": [
+      50,
+      66,
+      184,
+      195
+    ]
+  },
+  {
+    "key": "impact_organic",
+    "cell": 4,
+    "source_box": [
+      0,
+      256,
+      256,
+      512
+    ],
+    "alpha_box": [
+      77,
+      80,
+      160,
+      161
+    ]
+  },
+  {
+    "key": "impact_organic",
+    "cell": 5,
+    "source_box": [
+      256,
+      256,
+      512,
+      512
+    ],
+    "alpha_box": [
+      39,
+      32,
+      210,
+      189
+    ]
+  },
+  {
+    "key": "impact_organic",
+    "cell": 6,
+    "source_box": [
+      512,
+      256,
+      768,
+      512
+    ],
+    "alpha_box": [
+      5,
+      15,
+      222,
+      214
+    ]
+  },
+  {
+    "key": "impact_organic",
+    "cell": 7,
+    "source_box": [
+      768,
+      256,
+      1024,
+      512
+    ],
+    "alpha_box": [
+      49,
+      42,
+      198,
+      187
+    ]
+  },
+  {
+    "key": "impact_paper",
+    "cell": 8,
+    "source_box": [
+      0,
+      512,
+      256,
+      761
+    ],
+    "alpha_box": [
+      84,
+      68,
+      160,
+      153
+    ]
+  },
+  {
+    "key": "impact_paper",
+    "cell": 9,
+    "source_box": [
+      256,
+      512,
+      512,
+      761
+    ],
+    "alpha_box": [
+      37,
+      19,
+      207,
+      194
+    ]
+  },
+  {
+    "key": "impact_paper",
+    "cell": 10,
+    "source_box": [
+      512,
+      512,
+      768,
+      761
+    ],
+    "alpha_box": [
+      14,
+      4,
+      220,
+      200
+    ]
+  },
+  {
+    "key": "impact_paper",
+    "cell": 11,
+    "source_box": [
+      768,
+      512,
+      1024,
+      761
+    ],
+    "alpha_box": [
+      71,
+      75,
+      171,
+      151
+    ]
+  },
+  {
+    "key": "impact_water",
+    "cell": 12,
+    "source_box": [
+      0,
+      761,
+      256,
+      1024
+    ],
+    "alpha_box": [
+      85,
+      71,
+      156,
+      141
+    ]
+  },
+  {
+    "key": "impact_water",
+    "cell": 13,
+    "source_box": [
+      256,
+      761,
+      512,
+      1024
+    ],
+    "alpha_box": [
+      38,
+      23,
+      209,
+      186
+    ]
+  },
+  {
+    "key": "impact_water",
+    "cell": 14,
+    "source_box": [
+      512,
+      761,
+      768,
+      1024
+    ],
+    "alpha_box": [
+      12,
+      4,
+      223,
+      206
+    ]
+  },
+  {
+    "key": "impact_water",
+    "cell": 15,
+    "source_box": [
+      768,
+      761,
+      1024,
+      1024
+    ],
+    "alpha_box": [
+      75,
+      72,
+      149,
+      150
+    ]
+  }
+]

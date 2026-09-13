@@ -1,0 +1,25 @@
+{
+  "name": "fw-projectile-muzzles-v1",
+  "fingerprint": "dc96f146ab4c17d73ea760445637d660305af51df4c89eeb804aaa15716dcee1",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T20:31:06.720355+00:00",
+  "endpoint": "generations",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: game-sprite. Clean illustrated cel-shaded top-down shooter VFX, bold legible silhouette at 8-24px, restrained shading. Uniform pure #FF00FF background; NO magenta on artwork. No characters, guns, floor, shadows, labels, text, grid lines or surrounding scenes. Keep all artwork 30px inside its cell. Clear empty gutters. 1024x1024, fixed 4 columns x 2 rows, row-major. Exactly 8 isolated muzzle flashes, one per cell. Emission origin at left, opening to RIGHT. No weapon. Compact opaque cores and contained tapered tips, no haze across cell edges.\nCell 1: warm ivory orange short powder flash.\nCell 2: white gold angular metal spark.\nCell 3: cyan white forked electric flare.\nCell 4: orange gold short rocket flame.\nCell 5: violet silver star rune flare.\nCell 6: green gold leaf shaped pollen flare.\nCell 7: ivory paper curl and small red stamp-like accent, no writing.\nCell 8: cyan white bubble puff.",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 231,
+      "image_tokens": 0
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1059375
+}

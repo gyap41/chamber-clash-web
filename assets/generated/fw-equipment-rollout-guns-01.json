@@ -1,0 +1,30 @@
+{
+  "name": "fw-equipment-rollout-guns-01",
+  "fingerprint": "ed90f49b0389c5b9c191f278118a63507332fefab51490b791856aac94534cdb",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T14:26:14.570728+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Production sprites for a cute two-head-tall workshop adventure action game. Match reference ivory enamel, dark steel, teal/amber/brass accents, bold clean dark outlines and simple cel shading. Distinct silhouettes, limited tiny detail, no text, labels, numerals, borders, people, hands, floor, shadows or detached effects. Uniform pure #FF00FF background including holes and gutters; no pink/purple object colors. Each object centered in its cell with generous clear margins. Reference is style only: create the NEW items below. Do not draw names.\nCanvas 1024x1024. Regular 2 columns by 2 rows, reading order left to right, top to bottom. Exactly 4 objects; unused final cells blank magenta.\nStrict flat side elevation, muzzle RIGHT horizontally, grip downward, no foreshortening. Different shapes by function: long rails, heavy launchers, compact pistols. Each weapon one connected object.\nCell 1: ID 0 P-12 サイドアーム. Design: 標準ピストル、箱型弾倉. Mechanism context: 小口径実弾。20と輪郭差. \nCell 2: ID 1 跳弾キャンディ. Design: 弾性被覆弾の射出器. Mechanism context: 2回反射する球と短い反射光. \nCell 3: ID 2 ファイアワークス. Design: 分裂弾用の発射筒. Mechanism context: 親弾から8方向の破片. \nCell 4: ID 3 ハニービー. Design: 三連の小型誘導弾ユニット. Mechanism context: 3個の誘導弾。蜂は機能上の愛称. \n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\generated\\fw-weapons-prototype-a.png",
+      "sha256": "0fc6c39a8328798dc59fa3d33f17184a59445ae869ad987d28fa5df510c2ae1a"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 395,
+      "image_tokens": 1024
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1104435
+}

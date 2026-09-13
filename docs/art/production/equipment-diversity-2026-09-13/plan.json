@@ -1,0 +1,144 @@
+{
+  "status": "complete",
+  "previous_sends": 56,
+  "new_sends": 10,
+  "max_total_sends": 66,
+  "additional_reservation_usd": 10,
+  "batches": [
+    {
+      "name": "fw-diverse-guns-01-v1",
+      "kind": "guns",
+      "ids": [
+        4,
+        3,
+        1,
+        8
+      ],
+      "prompt": "docs/art/production/equipment-diversity-2026-09-13/guns-01.txt",
+      "references": []
+    },
+    {
+      "name": "fw-diverse-guns-02-v1",
+      "kind": "guns",
+      "ids": [
+        9,
+        11,
+        16,
+        31
+      ],
+      "prompt": "docs/art/production/equipment-diversity-2026-09-13/guns-02.txt",
+      "references": []
+    },
+    {
+      "name": "fw-diverse-guns-03-v1",
+      "kind": "guns",
+      "ids": [
+        7,
+        14,
+        17,
+        32
+      ],
+      "prompt": "docs/art/production/equipment-diversity-2026-09-13/guns-03.txt",
+      "references": []
+    },
+    {
+      "name": "fw-diverse-guns-04-v1",
+      "kind": "guns",
+      "ids": [
+        10,
+        19,
+        2,
+        33
+      ],
+      "prompt": "docs/art/production/equipment-diversity-2026-09-13/guns-04.txt",
+      "references": []
+    },
+    {
+      "name": "fw-diverse-guns-05-v1",
+      "kind": "guns",
+      "ids": [
+        13,
+        18,
+        30,
+        35
+      ],
+      "prompt": "docs/art/production/equipment-diversity-2026-09-13/guns-05.txt",
+      "references": []
+    },
+    {
+      "name": "fw-diverse-guns-06-v1",
+      "kind": "guns",
+      "ids": [
+        15,
+        28,
+        34,
+        36
+      ],
+      "prompt": "docs/art/production/equipment-diversity-2026-09-13/guns-06.txt",
+      "references": []
+    },
+    {
+      "name": "fw-diverse-guns-07-v1",
+      "kind": "guns",
+      "ids": [
+        29,
+        37
+      ],
+      "prompt": "docs/art/production/equipment-diversity-2026-09-13/guns-07.txt",
+      "references": []
+    },
+    {
+      "name": "fw-diverse-relics-01-v1",
+      "kind": "relics",
+      "ids": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "prompt": "docs/art/production/equipment-diversity-2026-09-13/relics-01.txt",
+      "references": []
+    },
+    {
+      "name": "fw-diverse-relics-02-v1",
+      "kind": "relics",
+      "ids": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "prompt": "docs/art/production/equipment-diversity-2026-09-13/relics-02.txt",
+      "references": []
+    },
+    {
+      "name": "fw-diverse-relics-03-v1",
+      "kind": "relics",
+      "ids": [
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34
+      ],
+      "prompt": "docs/art/production/equipment-diversity-2026-09-13/relics-03.txt",
+      "references": []
+    }
+  ],
+  "approval": "お願いします。",
+  "completed_sends": 10,
+  "usage_estimate_usd": 1.0647075
+}

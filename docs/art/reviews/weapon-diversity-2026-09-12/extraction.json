@@ -1,0 +1,90 @@
+[
+  {
+    "id": 0,
+    "source": "assets\\generated\\fw-weapons-diversity-v1.png",
+    "source_sha256": "d85c401c00f1e569cecd9c8621f87844a4186d4eb9db661ca30d2e773b7efc3a",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      60,
+      114,
+      413,
+      370
+    ],
+    "preview_size": [
+      32,
+      23
+    ],
+    "processing": "Existing magenta key, tight crop, Lanczos preview, nearest 2x; no anatomical/redrawing edits."
+  },
+  {
+    "id": 6,
+    "source": "assets\\generated\\fw-weapons-diversity-v1.png",
+    "source_sha256": "d85c401c00f1e569cecd9c8621f87844a4186d4eb9db661ca30d2e773b7efc3a",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      8,
+      188,
+      480,
+      308
+    ],
+    "preview_size": [
+      62,
+      16
+    ],
+    "processing": "Existing magenta key, tight crop, Lanczos preview, nearest 2x; no anatomical/redrawing edits."
+  },
+  {
+    "id": 5,
+    "source": "assets\\generated\\fw-weapons-diversity-v1.png",
+    "source_sha256": "d85c401c00f1e569cecd9c8621f87844a4186d4eb9db661ca30d2e773b7efc3a",
+    "cell": [
+      0,
+      512,
+      512,
+      1024
+    ],
+    "crop": [
+      36,
+      57,
+      468,
+      396
+    ],
+    "preview_size": [
+      46,
+      36
+    ],
+    "processing": "Existing magenta key, tight crop, Lanczos preview, nearest 2x; no anatomical/redrawing edits."
+  },
+  {
+    "id": 12,
+    "source": "assets\\generated\\fw-weapons-diversity-v1.png",
+    "source_sha256": "d85c401c00f1e569cecd9c8621f87844a4186d4eb9db661ca30d2e773b7efc3a",
+    "cell": [
+      512,
+      512,
+      1024,
+      1024
+    ],
+    "crop": [
+      11,
+      160,
+      479,
+      348
+    ],
+    "preview_size": [
+      54,
+      22
+    ],
+    "processing": "Existing magenta key, tight crop, Lanczos preview, nearest 2x; no anatomical/redrawing edits."
+  }
+]

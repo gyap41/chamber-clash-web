@@ -1,0 +1,25 @@
+{
+  "name": "fw-projectile-bullets-02-v1",
+  "fingerprint": "0a33674527fb6fe54b177a1bcafac93509e88f0a20e711cb0250af2726f82ee4",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T20:24:51.811107+00:00",
+  "endpoint": "generations",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: game-sprite. Clean illustrated cel-shaded top-down shooter VFX, bold legible silhouette at 8-24px, restrained shading. Uniform pure #FF00FF background; NO magenta on artwork. No characters, guns, floor, shadows, labels, text, grid lines or surrounding scenes. Keep all artwork 30px inside its cell. Clear empty gutters. 1024x1024, fixed 4x4 grid, row-major. One isolated projectile per cell. All elongated projectiles point RIGHT. No trails or motion blur baked into sprites. Central solid body, short highlights only. Empty unused cells.\nCell 1: Folded ivory receipt strip with simple dark marks, no readable text.\nCell 2: Small cream shipping tag with red stamp, no readable text.\nCell 3: Short silver hex bolt with red collar.\nCell 4: Copper bullet with two engraved dark rings.\nCell 5: Thin steel needle with blue tip.\nCell 6: Gold coin viewed at slight tilt, bold star engraving.\nCell 7: Thick brass rivet, broad flat head.\nCell 8: Small copper tack, short pointed shaft.\nCell 9: Violet diamond rune on compact pale blue ink droplet.\nCell 10: Large copper revolver bullet with cream highlight.\nCell 11: Stubby steel bullet with brass base.\nCell 12: Silver U shaped staple with sharp ends pointing right.\nCell 13: Silver sewing needle with short pink thread attached.\nCell 14: Long gray pointed rifle bullet, chalk white tip.\nCell 15: Dark bronze round pellet with bright copper highlight.",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 339,
+      "image_tokens": 0
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1062075
+}

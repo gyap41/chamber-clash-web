@@ -1,0 +1,14 @@
+Use case: game-sprite. Clean illustrated cel-shaded top-down shooter VFX, bold legible silhouette at 8-24px, restrained shading. Uniform pure #FF00FF background; NO magenta on artwork. No characters, guns, floor, shadows, labels, text, grid lines or surrounding scenes. Keep all artwork 30px inside its cell. Clear empty gutters. 1024x1024, fixed 4x4 grid, row-major. One isolated projectile per cell. All elongated projectiles point RIGHT. No trails or motion blur baked into sprites. Central solid body, short highlights only. Empty unused cells.
+Cell 1: Reflective chrome pinball with cyan highlight.
+Cell 2: Small silver crescent blade with red inner accent.
+Cell 3: Sharp yellow white forked electric dart.
+Cell 4: Small blue bellflower bulb with green calyx.
+Cell 5: Flat white blue energy dart with two parallel dark rails.
+Cell 6: Pale blue violet aurora shard shaped like a narrow feather.
+Cell 7: Brown paper parcel bound in red string.
+Cell 8: Angular ivory torn paper fragment.
+Cell 9: Golden orange pointed firework ember.
+Cell 10: Small golden star shard.
+Cell 11: Single green leaf with luminous vein.
+Cell 12: Neutral white compact light dart for relic generated attacks.
+Cell 13: Small black void with violet spiral ring, top view.

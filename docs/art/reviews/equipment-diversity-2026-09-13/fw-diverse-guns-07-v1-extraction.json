@@ -1,0 +1,46 @@
+[
+  {
+    "id": 29,
+    "kind": "guns",
+    "name": "クロスステッチ",
+    "source": "assets/generated/fw-diverse-guns-07-v1.png",
+    "sha256": "706062f982b30a623c1febcdd0130e8ed330e96bc5bdc8417d718807a2b2fe99",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      30,
+      110,
+      487,
+      434
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/29.png"
+  },
+  {
+    "id": 37,
+    "kind": "guns",
+    "name": "オーロラファン",
+    "source": "assets/generated/fw-diverse-guns-07-v1.png",
+    "sha256": "706062f982b30a623c1febcdd0130e8ed330e96bc5bdc8417d718807a2b2fe99",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      31,
+      115,
+      475,
+      417
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/37.png"
+  }
+]

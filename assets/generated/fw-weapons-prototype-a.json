@@ -1,0 +1,30 @@
+{
+  "name": "fw-weapons-prototype-a",
+  "fingerprint": "c13f67fa973be975c8df712b0c6185d0a71b4a68537e0d0d82bc1a24b1715a9d",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T13:45:16.650312+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Asset type: production sprite prototype sheet for a cute two-head-tall Japanese action game. Reference image is the approved service pistol: match its dark ink outline, ivory enamel, charcoal metal, small teal and amber accents, simple cel-painted material shading. Simplify surface wear and small details for tiny game display. These are portable workshop adventure tools, charming but credible, strong differentiated silhouettes. No text, numbers, logos, labels, borders, hands, people, floor, drop shadows, effects, glow outside silhouette, or detached parts. Background everywhere is uniform pure #FF00FF for extraction; do not use pink or purple on objects. Each object isolated in its own cell with at least 55px clear margin; never crosses cell boundaries. Do not reproduce the reference pistol.\nComposition: exactly FOUR weapons, equal 2 columns by 2 rows on a 1024x1024 canvas. Strict flat side elevation, every muzzle points RIGHT horizontally; grips downward. Center each weapon inside its 512x512 cell, approximately 390px wide. No perspective or foreshortening. One whole weapon per cell.\nTop left: SCOUT NEEDLE, a sleek compact precision needle carbine, long narrow single needle barrel, slim blue-teal receiver, small sight, short pistol grip. Lightweight and fast.\nTop right: TRICK COIN, a compact round-disc launcher with a prominent circular brass coin magazine on its side and a short horizontal rectangular exit slot pointing right, green accent, pistol grip. Circular silhouette strongly unlike a rifle.\nBottom left: GUARD RIVET, heavy industrial rivet pistol, chunky ivory armored square receiver, very thick short muzzle, exposed large rivet head seated at muzzle, broad robust dark grip, amber power window. Compact and weighty.\nBottom right: TWIN TACKER, copper-and-teal workshop stapler gun, two clearly separate short parallel barrel tips slightly vertically offset so both visible, rectangular paired feed channels and practical short grip. Twin output silhouette; not a revolver.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\generated\\fw-pistol.png",
+      "sha256": "45babc1b937ee1ddc10761dcea8b5fa4f0db52c3c0ea2b9ff4883d6dbd9cd35a"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 423,
+      "image_tokens": 1024
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1105135
+}

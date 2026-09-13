@@ -28,16 +28,9 @@ func _initialize() -> void:
 		assert(Characters.art(id) == portrait and portrait.filter_clip)
 	for id in Weapons.SUPPORTED:
 		var art := Weapons.art(id)
-		if id == 20:
-			assert(art.atlas.resource_path == "res://assets/first-workshop/pistol.png")
-			assert(art.region == Rect2(Vector2.ZERO,art.atlas.get_size()))
-			assert(Weapons.art(id) == art and art.filter_clip)
-			continue
-		var art_id := int(Weapons.definition(id).get("art_id",id))
-		var columns := 4 if art_id < 16 else 2
-		var cell_size := art.atlas.get_size() / columns
-		var index: int = art_id if art_id < 16 else art_id - 16
-		assert(art.region == Rect2(Vector2(index % columns, floori(float(index) / columns)) * cell_size, cell_size))
+		var expected := "res://assets/first-workshop/pistol.png" if id == 20 else "res://assets/first-workshop/equipment/guns/%02d.png" % id
+		assert(art.atlas.resource_path == expected)
+		assert(art.region == Rect2(Vector2.ZERO,art.atlas.get_size()))
 		assert(Weapons.art(id) == art and art.filter_clip)
 	print("PASS: independent inventory and cached character/weapon atlas regions")
 	quit()

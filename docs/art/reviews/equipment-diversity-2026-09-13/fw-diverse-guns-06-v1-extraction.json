@@ -1,0 +1,90 @@
+[
+  {
+    "id": 15,
+    "kind": "guns",
+    "name": "プラネタリウム",
+    "source": "assets/generated/fw-diverse-guns-06-v1.png",
+    "sha256": "55ab7ed65e163323dc6613f3026b1cff3f177c8118f471861e0e82553287cc9b",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      41,
+      49,
+      466,
+      444
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/15.png"
+  },
+  {
+    "id": 28,
+    "kind": "guns",
+    "name": "ホチキスバースト",
+    "source": "assets/generated/fw-diverse-guns-06-v1.png",
+    "sha256": "55ab7ed65e163323dc6613f3026b1cff3f177c8118f471861e0e82553287cc9b",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      34,
+      68,
+      479,
+      417
+    ],
+    "mirrored": true,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/28.png"
+  },
+  {
+    "id": 34,
+    "kind": "guns",
+    "name": "スパークフォーク",
+    "source": "assets/generated/fw-diverse-guns-06-v1.png",
+    "sha256": "55ab7ed65e163323dc6613f3026b1cff3f177c8118f471861e0e82553287cc9b",
+    "cell": [
+      0,
+      512,
+      512,
+      1024
+    ],
+    "crop": [
+      32,
+      152,
+      494,
+      347
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/34.png"
+  },
+  {
+    "id": 36,
+    "kind": "guns",
+    "name": "カーボンコピー",
+    "source": "assets/generated/fw-diverse-guns-06-v1.png",
+    "sha256": "55ab7ed65e163323dc6613f3026b1cff3f177c8118f471861e0e82553287cc9b",
+    "cell": [
+      512,
+      512,
+      1024,
+      1024
+    ],
+    "crop": [
+      26,
+      170,
+      480,
+      318
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/36.png"
+  }
+]

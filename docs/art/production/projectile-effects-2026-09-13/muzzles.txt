@@ -1,0 +1,9 @@
+Use case: game-sprite. Clean illustrated cel-shaded top-down shooter VFX, bold legible silhouette at 8-24px, restrained shading. Uniform pure #FF00FF background; NO magenta on artwork. No characters, guns, floor, shadows, labels, text, grid lines or surrounding scenes. Keep all artwork 30px inside its cell. Clear empty gutters. 1024x1024, fixed 4 columns x 2 rows, row-major. Exactly 8 isolated muzzle flashes, one per cell. Emission origin at left, opening to RIGHT. No weapon. Compact opaque cores and contained tapered tips, no haze across cell edges.
+Cell 1: warm ivory orange short powder flash.
+Cell 2: white gold angular metal spark.
+Cell 3: cyan white forked electric flare.
+Cell 4: orange gold short rocket flame.
+Cell 5: violet silver star rune flare.
+Cell 6: green gold leaf shaped pollen flare.
+Cell 7: ivory paper curl and small red stamp-like accent, no writing.
+Cell 8: cyan white bubble puff.

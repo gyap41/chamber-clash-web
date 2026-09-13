@@ -1,0 +1,7 @@
+Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.
+1024x1024 sheet. Regular 2x2 grid, reading order left-to-right top-to-bottom. Exactly 4 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.
+Weapons: flat side view, muzzle to RIGHT, grip down. Preserve natural proportion differences: stocked long rifles, shoulder launchers, bows, tools and toys. No generic pistol frame added to every object.
+Cell 1: ID 9, コメットランチャー. 軍用SF: オリーブ色の肩撃ち発射筒、黒い保持部、巨大な口径.
+Cell 2: ID 11, シードマイン. 生体・自然: 緑と土色の種莢、木質の外殻と根状の保持部.
+Cell 3: ID 16, レシートリピーター. コミカル: グレーの携帯プリンター、ロール紙の巻胴と平たい射出口.
+Cell 4: ID 31, ペッパーボックス. 古式銃: 暗い鋼の回転銃身群、ウォルナットの柄。発光なし.

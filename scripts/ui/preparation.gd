@@ -392,6 +392,21 @@ func _process(_delta: float) -> void:
 	else:
 		clear_preview()
 		set_status("バッグの配置先をクリック\n配置確定で支払い / Esc取消" if not selected_expansion.is_empty() else "配置中："+entry_info(entry).name+"\n配置先をクリック / Esc取消",Color("83deca"))
+func add_item_art(parent: Node, entry, rect: Rect2, show_shape: bool = true) -> void:
+	var state = game.match_state
+	var texture: Texture2D
+	if state.is_gun(entry): texture = Weapons.art(state.gun_id(entry))
+	else: texture = preload("res://scripts/ui/hud_assets.gd").texture("relic_%02d" % state.relic_id(entry))
+	var art := TextureRect.new()
+	art.texture = texture
+	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	art.position = rect.position
+	art.size = rect.size
+	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(art)
+	if show_shape: add_footprint(parent,entry,Rect2(rect.end-Vector2(9,9),Vector2(9,9)))
+
 func add_footprint(parent: Node, entry, rect: Rect2) -> void:
 	var icon := Footprint.new()
 	icon.shape = game.match_state.shape_of(entry)
@@ -501,7 +516,7 @@ func build_product(reward_list: Node, offer: Dictionary, state) -> void:
 	for key in ["normal","hover","pressed"]: inspect.add_theme_stylebox_override(key,StyleBoxEmpty.new())
 	inspect.tooltip_text = info.name+"\n"+info.desc+"\n"+reason
 	inspect.focus_entered.connect(inspect_offer.bind(str(offer.id)))
-	if not str(entry).begins_with("mod:"): add_footprint(inspect,entry,Rect2(10,10,26,24))
+	if not str(entry).begins_with("mod:"): add_item_art(inspect,entry,Rect2(10,10,26,24))
 	else: text_at(inspect,"Mod","改",Rect2(10,10,26,24),17)
 	text_at(inspect,"Name",info.name,Rect2(44,6,192,28),16)
 	var effect := text_at(inspect,"Effect",info.desc if reason.is_empty() else reason,Rect2(10,39,230,24),13,Color("b2c6d8") if reason.is_empty() else Color("ffad83"))
@@ -556,7 +571,7 @@ func build_reserve(reserve: Node, state, build: Dictionary) -> void:
 		chip.pressed.connect(browse_entry.bind(entry))
 		chip.focus_entered.connect(focus_entry.bind(entry))
 		list.add_child(chip)
-		add_footprint(chip,entry,Rect2(6,8,19,22))
+		add_item_art(chip,entry,Rect2(6,8,19,22))
 		var caption := text_at(chip,"Caption",entry_info(entry).name,Rect2(29,12,89,22),13)
 		caption.autowrap_mode = TextServer.AUTOWRAP_OFF
 
@@ -705,7 +720,7 @@ func build_relic_grid(parent: Node, state, i: int, build: Dictionary) -> void:
 						art.size = Vector2(40,25)
 						art.mouse_filter = Control.MOUSE_FILTER_IGNORE
 						chip.add_child(art)
-					else: add_footprint(chip,entry,Rect2(17,4,22,22))
+					else: add_item_art(chip,entry,Rect2(17,4,22,22),false)
 				# Connect cells from the same item across gutters without blocking input.
 				for direction in [Vector2i.RIGHT,Vector2i.DOWN]:
 					if occupied.has(cell+direction) and same_entry(occupied[cell+direction],entry):

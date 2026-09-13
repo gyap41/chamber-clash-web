@@ -1,0 +1,90 @@
+[
+  {
+    "id": 13,
+    "kind": "guns",
+    "name": "バブルクロック",
+    "source": "assets/generated/fw-diverse-guns-05-v1.png",
+    "sha256": "7c94a00ce021a1d5bc8a146e3c40dd612f95b9b15277a2332780f99f841ca686",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      36,
+      101,
+      466,
+      403
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/13.png"
+  },
+  {
+    "id": 18,
+    "kind": "guns",
+    "name": "スイッチスパナ",
+    "source": "assets/generated/fw-diverse-guns-05-v1.png",
+    "sha256": "7c94a00ce021a1d5bc8a146e3c40dd612f95b9b15277a2332780f99f841ca686",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      44,
+      129,
+      471,
+      333
+    ],
+    "mirrored": true,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/18.png"
+  },
+  {
+    "id": 30,
+    "kind": "guns",
+    "name": "チョークライフル",
+    "source": "assets/generated/fw-diverse-guns-05-v1.png",
+    "sha256": "7c94a00ce021a1d5bc8a146e3c40dd612f95b9b15277a2332780f99f841ca686",
+    "cell": [
+      0,
+      512,
+      532,
+      1024
+    ],
+    "crop": [
+      32,
+      160,
+      529,
+      273
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/30.png"
+  },
+  {
+    "id": 35,
+    "kind": "guns",
+    "name": "ベルフラワー",
+    "source": "assets/generated/fw-diverse-guns-05-v1.png",
+    "sha256": "7c94a00ce021a1d5bc8a146e3c40dd612f95b9b15277a2332780f99f841ca686",
+    "cell": [
+      532,
+      512,
+      1024,
+      1024
+    ],
+    "crop": [
+      83,
+      36,
+      409,
+      434
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/35.png"
+  }
+]

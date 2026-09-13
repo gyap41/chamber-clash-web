@@ -1,0 +1,200 @@
+[
+  {
+    "id": 9,
+    "kind": "relics",
+    "name": "パルスリレー",
+    "source": "assets/generated/fw-diverse-relics-01-v1.png",
+    "sha256": "ee0b51ac90a2645df9045beea0ac66e694b7ecd41e566c58e427c80778da6287",
+    "cell": [
+      0,
+      0,
+      341,
+      341
+    ],
+    "crop": [
+      45,
+      54,
+      302,
+      302
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/09.png"
+  },
+  {
+    "id": 10,
+    "kind": "relics",
+    "name": "パリィダイナモ",
+    "source": "assets/generated/fw-diverse-relics-01-v1.png",
+    "sha256": "ee0b51ac90a2645df9045beea0ac66e694b7ecd41e566c58e427c80778da6287",
+    "cell": [
+      341,
+      0,
+      682,
+      341
+    ],
+    "crop": [
+      30,
+      28,
+      310,
+      317
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/10.png"
+  },
+  {
+    "id": 11,
+    "kind": "relics",
+    "name": "リバウンドテープ",
+    "source": "assets/generated/fw-diverse-relics-01-v1.png",
+    "sha256": "ee0b51ac90a2645df9045beea0ac66e694b7ecd41e566c58e427c80778da6287",
+    "cell": [
+      682,
+      0,
+      1024,
+      341
+    ],
+    "crop": [
+      35,
+      53,
+      279,
+      306
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/11.png"
+  },
+  {
+    "id": 12,
+    "kind": "relics",
+    "name": "反響の種",
+    "source": "assets/generated/fw-diverse-relics-01-v1.png",
+    "sha256": "ee0b51ac90a2645df9045beea0ac66e694b7ecd41e566c58e427c80778da6287",
+    "cell": [
+      0,
+      341,
+      341,
+      673
+    ],
+    "crop": [
+      69,
+      27,
+      279,
+      272
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/12.png"
+  },
+  {
+    "id": 13,
+    "kind": "relics",
+    "name": "空薬莢の祝福",
+    "source": "assets/generated/fw-diverse-relics-01-v1.png",
+    "sha256": "ee0b51ac90a2645df9045beea0ac66e694b7ecd41e566c58e427c80778da6287",
+    "cell": [
+      341,
+      341,
+      682,
+      673
+    ],
+    "crop": [
+      66,
+      31,
+      278,
+      287
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/13.png"
+  },
+  {
+    "id": 14,
+    "kind": "relics",
+    "name": "帰還バッテリー",
+    "source": "assets/generated/fw-diverse-relics-01-v1.png",
+    "sha256": "ee0b51ac90a2645df9045beea0ac66e694b7ecd41e566c58e427c80778da6287",
+    "cell": [
+      682,
+      341,
+      1024,
+      673
+    ],
+    "crop": [
+      7,
+      44,
+      290,
+      279
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/14.png"
+  },
+  {
+    "id": 15,
+    "kind": "relics",
+    "name": "余熱コンデンサ",
+    "source": "assets/generated/fw-diverse-relics-01-v1.png",
+    "sha256": "ee0b51ac90a2645df9045beea0ac66e694b7ecd41e566c58e427c80778da6287",
+    "cell": [
+      0,
+      673,
+      341,
+      1024
+    ],
+    "crop": [
+      38,
+      21,
+      305,
+      265
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/15.png"
+  },
+  {
+    "id": 16,
+    "kind": "relics",
+    "name": "残響ホルスター",
+    "source": "assets/generated/fw-diverse-relics-01-v1.png",
+    "sha256": "ee0b51ac90a2645df9045beea0ac66e694b7ecd41e566c58e427c80778da6287",
+    "cell": [
+      341,
+      673,
+      682,
+      1024
+    ],
+    "crop": [
+      41,
+      4,
+      303,
+      298
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/16.png"
+  },
+  {
+    "id": 17,
+    "kind": "relics",
+    "name": "すり抜け装填",
+    "source": "assets/generated/fw-diverse-relics-01-v1.png",
+    "sha256": "ee0b51ac90a2645df9045beea0ac66e694b7ecd41e566c58e427c80778da6287",
+    "cell": [
+      682,
+      673,
+      1024,
+      1024
+    ],
+    "crop": [
+      24,
+      9,
+      257,
+      295
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/17.png"
+  }
+]

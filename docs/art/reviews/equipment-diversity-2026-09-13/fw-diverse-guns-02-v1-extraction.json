@@ -1,0 +1,86 @@
+[
+  {
+    "id": 9,
+    "kind": "guns",
+    "name": "コメットランチャー",
+    "source": "assets/generated/fw-diverse-guns-02-v1.png",
+    "sha256": "a305dc8f91b870cb793fb16c37cf6c287e58c30427f24fef4a803c4ea64a5436",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      25,
+      108,
+      497,
+      379
+    ],
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/09.png"
+  },
+  {
+    "id": 11,
+    "kind": "guns",
+    "name": "シードマイン",
+    "source": "assets/generated/fw-diverse-guns-02-v1.png",
+    "sha256": "a305dc8f91b870cb793fb16c37cf6c287e58c30427f24fef4a803c4ea64a5436",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      45,
+      42,
+      462,
+      465
+    ],
+    "rotation_degrees": -90,
+    "runtime": "assets/first-workshop/equipment/guns/11.png"
+  },
+  {
+    "id": 16,
+    "kind": "guns",
+    "name": "レシートリピーター",
+    "source": "assets/generated/fw-diverse-guns-02-v1.png",
+    "sha256": "a305dc8f91b870cb793fb16c37cf6c287e58c30427f24fef4a803c4ea64a5436",
+    "cell": [
+      0,
+      512,
+      512,
+      1024
+    ],
+    "crop": [
+      63,
+      62,
+      457,
+      409
+    ],
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/16.png"
+  },
+  {
+    "id": 31,
+    "kind": "guns",
+    "name": "ペッパーボックス",
+    "source": "assets/generated/fw-diverse-guns-02-v1.png",
+    "sha256": "a305dc8f91b870cb793fb16c37cf6c287e58c30427f24fef4a803c4ea64a5436",
+    "cell": [
+      512,
+      512,
+      1024,
+      1024
+    ],
+    "crop": [
+      15,
+      100,
+      471,
+      380
+    ],
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/31.png"
+  }
+]

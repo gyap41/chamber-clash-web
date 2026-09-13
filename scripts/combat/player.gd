@@ -1,6 +1,12 @@
 extends Node2D
 const BuildGrid = preload("res://scripts/game/build_grid.gd")
 const Items = preload("res://scripts/game/item_identity.gd")
+signal weapon_event_requested(event: Dictionary)
+var combat_service: WeakRef
+var reload_visual_token := 0
+var reload_visual_active := false
+var reload_visual_weapon := -1
+var reload_visual_duration := 0.0
 signal burst_requested(pos: Vector2, color: Color, count: int)
 signal ring_requested(pos: Vector2, color: Color, expansion: float)
 signal shake_requested(strength: float)
@@ -21,6 +27,7 @@ signal delayed_shot_requested(data: Dictionary)
 @export var roll_speed: float = 590.0
 @export var radius: float = 14.0
 @export var weapon_display_size := Vector2(40,30)
+var equipment_offset := Vector2.ZERO
 @export var reload_duration: float = 1.15
 @export var dodge_duration: float = 0.26
 @export var dodge_cooldown: float = 1.65
@@ -89,6 +96,7 @@ func set_character(id: int) -> void:
 		state.pulses = initial_pulses
 	$Sprite.frame = int(c.cell)
 func reset(spawn: Vector2) -> void:
+	cancel_reload_visual()
 	clear_action_inputs()
 	$Animation.reset()
 	relics.clear()
@@ -137,6 +145,7 @@ func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Diction
 	state.last_volley = volley
 	var actual := minf(state.hp,amount)
 	state.hp = maxf(0,state.hp-amount)
+	if state.hp <= 0: cancel_reload_visual()
 	preload("res://scripts/combat/relic_effects.gd").damaged(self,actual,hazard)
 	if telemetry != null: telemetry.record("damage",{"player":str(name),"amount":actual,"volley":volley,"hazard":hazard,"origin":origin})
 	state.inv = .22
@@ -267,6 +276,8 @@ func sync_visual() -> void:
 	$Identity.tooltip_text = Relics.definition(temporary_relic).desc if temporary_relic >= 0 else ""
 	$Weapon.rotation = state.angle
 	$Weapon/Sprite.flip_v = cos(state.angle) < 0
+	if has_weapon() and Weapons.EQUIPMENT_POINTS.has(weapon().id):
+		$Weapon/Sprite.position = equipment_offset * Vector2(1,-1 if $Weapon/Sprite.flip_v else 1)
 	$Slash.visible = state.slash > 0
 	$Slash.rotation = state.angle
 	$Animation.refresh()
@@ -329,6 +340,7 @@ func equip_slot(index: int) -> void:
 	# 丸腰から1丁目を装備する場合は対象外になる（Weapons.definition(-1)が負数添字で配列末尾を
 	# 返してしまうのも、ここで防いでいる）。
 	preload("res://scripts/combat/relic_effects.gd").switching(self)
+	cancel_reload_visual()
 	state.gun = index
 	state.reload = 0.0
 	state.reload_slot = -1
@@ -341,6 +353,12 @@ func start_reload() -> void:
 	# P8z ステップA：装填中の武器をインベントリの添字ではなく武器idで覚える。ステップBで携行
 	# 武器の並びがグリッド由来になると添字が動きうるため（idはadd_gun()が重複を弾くので一意）。
 	state.reload_slot = weapon().id
+	reload_visual_token += 1
+	reload_visual_active = true
+	reload_visual_weapon = weapon().id
+	reload_visual_duration = state.reload
+	emit_weapon_event("reload_start",reload_visual_weapon)
+	preload("res://scripts/combat/weapon_behaviors.gd").dispatch(reload_visual_weapon,&"reload_start",{"actor":self})
 	# 空薬莢の祝福 only cares about a reload that began from a *fully* empty clip; partial
 	# top-ups never reach here anyway (guarded above), but this keeps the "empty" distinction
 	# explicit and independent of that guard's exact bounds.
@@ -353,6 +371,10 @@ func finish_reload() -> void:
 	w.clip += amount
 	w.reserve -= amount
 	preload("res://scripts/combat/relic_effects.gd").reload_completed(self,amount,w)
+	if reload_visual_active:
+		emit_weapon_event("reload_complete" if amount>0 and state.hp>0 else "reload_cancel",reload_visual_weapon)
+	if amount>0: preload("res://scripts/combat/weapon_behaviors.gd").dispatch(w.id,&"reload_complete",{"actor":self,"amount":amount})
+	reload_visual_active = false
 	state.reload_started_empty = false
 	state.reload_slot = -1
 func update_weapon_art() -> void:
@@ -360,12 +382,24 @@ func update_weapon_art() -> void:
 	if not has_weapon(): return
 	$Weapon/Sprite.texture = Weapons.art(weapon().id)
 	$Weapon/Sprite.scale = weapon_display_size / $Weapon/Sprite.texture.get_size()
-	if weapon().id == 20:
-		# Tight original: fit inside the existing envelope, with grip and muzzle metadata.
-		$Weapon/Sprite.scale = Vector2.ONE*28.0/$Weapon/Sprite.texture.get_width()
-		$Weapon/Sprite.position = Vector2(15,0)
+	if Weapons.EQUIPMENT_POINTS.has(weapon().id):
+		var size: Vector2 = $Weapon/Sprite.texture.get_size()
+		var ratio := minf(weapon_display_size.x/size.x,weapon_display_size.y/size.y)
+		ratio *= float(Weapons.EQUIPMENT_SCALE.get(weapon().id,1.0))
+		$Weapon/Sprite.scale = Vector2.ONE*ratio
+		equipment_offset = Vector2(8,0)+(Vector2(.5,.5)-Weapons.EQUIPMENT_POINTS[weapon().id][0])*size*ratio
+		$Weapon/Sprite.position = equipment_offset * Vector2(1,-1 if cos(float(state.get("angle",0.0)))<0 else 1)
+	elif Weapons.Visuals.profile(weapon().id).get("body",{}).has("fixed_width"):
+		var body: Dictionary = Weapons.Visuals.profile(weapon().id).body
+		$Weapon/Sprite.scale = Vector2.ONE*float(body.fixed_width)/$Weapon/Sprite.texture.get_width()
+		$Weapon/Sprite.position = Weapons.Visuals.vec(body.offset)
 	else:
 		$Weapon/Sprite.position = Vector2(23,0)
+
+func equipment_muzzle() -> Vector2:
+	var sprite: Sprite2D = $Weapon/Sprite
+	var point: Vector2 = Weapons.EQUIPMENT_POINTS[weapon().id][1]
+	return sprite.position+(point-Vector2(.5,.5))*sprite.texture.get_size()*sprite.scale*Vector2(1,-1 if sprite.flip_v else 1)
 
 # No field pickup may change active ammunition, reload, weapon mode or slot.
 func field_weapon_reason(id: int) -> String:
@@ -463,3 +497,22 @@ func try_phase_load(shots: Array, index: int) -> void:
 			if phase_weapon.reserve > 0 and phase_weapon.clip < int(phase_def.mag):
 				phase_weapon.clip += 1
 				phase_weapon.reserve -= 1
+
+func cancel_reload_visual() -> void:
+	if not reload_visual_active: return
+	emit_weapon_event("reload_cancel",reload_visual_weapon)
+	preload("res://scripts/combat/weapon_behaviors.gd").dispatch(reload_visual_weapon,&"reload_cancel",{"actor":self})
+	reload_visual_active = false
+
+func emit_weapon_event(kind: String, id: int) -> void:
+	var event := {"kind":kind,"weapon":id,"owner":participant_id,"token":reload_visual_token,"duration":reload_visual_duration,"anchor":weakref(self),"pos":position,"angle":float(state.get("angle",0.0))}
+	$Animation.weapon_event(event)
+	weapon_event_requested.emit(event)
+
+func presentation_muzzle(id: int, angle: float) -> Vector2:
+	if has_weapon() and weapon().id == id and $Weapon/Sprite.texture != null:
+		if Weapons.EQUIPMENT_POINTS.has(id): return $Weapon.to_global(equipment_muzzle())
+		var offset: Vector2 = Weapons.Visuals.vec(Weapons.Visuals.profile(id).get("body",{}).get("muzzle_offset",[30,0]))
+		return $Weapon.to_global(offset*Vector2(1,-1 if cos(angle)<0 else 1))
+	# A delayed shot retains its source weapon even if the actor has switched away.
+	return position+Vector2.from_angle(angle)*30.0

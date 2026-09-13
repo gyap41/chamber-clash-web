@@ -1,0 +1,7 @@
+Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.
+1024x1024 sheet. Regular 2x2 grid, reading order left-to-right top-to-bottom. Exactly 4 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.
+Weapons: flat side view, muzzle to RIGHT, grip down. Preserve natural proportion differences: stocked long rifles, shoulder launchers, bows, tools and toys. No generic pistol frame added to every object.
+Cell 1: ID 7, ヘリックス. SF・実験機: 紫と黒、二重らせんの透明管、実験装置の非対称な外形.
+Cell 2: ID 14, クローバースプリッター. 魔法・自然: 緑の四葉形の先端と木製の短い柄、四分割の種.
+Cell 3: ID 17, 着払いキャノン. 工業: 錆びた赤の大型装填箱、露出した給弾機構、太い黒い砲口.
+Cell 4: ID 32, ピンボールパドル. コミカル: 赤青のアーケード部品、フリッパー形状と金属球のレーン.

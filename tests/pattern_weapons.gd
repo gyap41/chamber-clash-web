@@ -65,7 +65,7 @@ func run() -> void:
 	b.step(.2,game.arena,game.players[1])
 	assert(b.state.life <= 0)
 	b = setup(game,5)
-	assert(b.radius == 8 and is_equal_approx(b.state.life,1.8))
+	assert(b.radius == 13 and is_equal_approx(b.state.life,1.8))
 	b.state.pos = Vector2(210,190)
 	b.step(.3,game.arena,game.players[1])
 	assert(b.state.pos.x > 320 and b.state.life > 0) # through entire wall

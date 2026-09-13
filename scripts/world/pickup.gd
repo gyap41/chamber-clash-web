@@ -29,6 +29,11 @@ func configure(item_kind: String, id: int) -> void:
 		$ChestArt.texture = AMMO_ART
 		$ChestArt.scale = Vector2(40,36)/AMMO_ART.get_size()
 	$ChestArt.visible = kind == "ammo"
+	if kind == "relic" and id in range(35):
+		$Ammo.visible = false
+		$ChestArt.texture = preload("res://scripts/ui/hud_assets.gd").texture("relic_%02d" % id)
+		$ChestArt.scale = Vector2.ONE*24.0/96.0
+		$ChestArt.visible = true
 	$ChestFrame.visible = kind in ["weapon","relic"]
 	if kind == "relic":
 		var relic_color := Color(Relics.definition(id).color)
@@ -37,6 +42,8 @@ func configure(item_kind: String, id: int) -> void:
 	if kind == "weapon":
 		$Weapon.texture = Weapons.art(id)
 		$Weapon.scale = display_size / $Weapon.texture.get_size()
+		if Weapons.EQUIPMENT_POINTS.has(id):
+			$Weapon.scale = Vector2.ONE*minf(display_size.x/$Weapon.texture.get_width(),display_size.y/$Weapon.texture.get_height())
 		var rarity_color := Weapons.rarity_color(id) # 色分けレア度：C/B/A/Sの4段階
 		$ChestFrame/Body.color = rarity_color
 		$ChestFrame/Lid.color = rarity_color.darkened(.25)

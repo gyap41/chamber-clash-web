@@ -1,0 +1,390 @@
+{
+  "status": "prototype_pending_user_review",
+  "processing": "Existing key_alpha; crop only. Lanczos preview, nearest 4x.",
+  "items": [
+    {
+      "kind": "guns",
+      "id": 21,
+      "name": "スカウトニードル",
+      "source": "assets\\generated\\fw-weapons-prototype-a.png",
+      "source_sha256": "0fc6c39a8328798dc59fa3d33f17184a59445ae869ad987d28fa5df510c2ae1a",
+      "cell": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "alpha_crop": [
+        37,
+        133,
+        500,
+        367
+      ],
+      "output": "docs\\art\\reviews\\weapon-relic-prototype-2026-09-12\\guns\\21.png",
+      "preview_pixels": [
+        40,
+        20
+      ]
+    },
+    {
+      "kind": "guns",
+      "id": 22,
+      "name": "トリックコイン",
+      "source": "assets\\generated\\fw-weapons-prototype-a.png",
+      "source_sha256": "0fc6c39a8328798dc59fa3d33f17184a59445ae869ad987d28fa5df510c2ae1a",
+      "cell": [
+        512,
+        0,
+        1024,
+        512
+      ],
+      "alpha_crop": [
+        82,
+        86,
+        478,
+        405
+      ],
+      "output": "docs\\art\\reviews\\weapon-relic-prototype-2026-09-12\\guns\\22.png",
+      "preview_pixels": [
+        37,
+        30
+      ]
+    },
+    {
+      "kind": "guns",
+      "id": 23,
+      "name": "ガードリベット",
+      "source": "assets\\generated\\fw-weapons-prototype-a.png",
+      "source_sha256": "0fc6c39a8328798dc59fa3d33f17184a59445ae869ad987d28fa5df510c2ae1a",
+      "cell": [
+        0,
+        512,
+        512,
+        1024
+      ],
+      "alpha_crop": [
+        60,
+        51,
+        448,
+        384
+      ],
+      "output": "docs\\art\\reviews\\weapon-relic-prototype-2026-09-12\\guns\\23.png",
+      "preview_pixels": [
+        35,
+        30
+      ]
+    },
+    {
+      "kind": "guns",
+      "id": 24,
+      "name": "ツインタッカー",
+      "source": "assets\\generated\\fw-weapons-prototype-a.png",
+      "source_sha256": "0fc6c39a8328798dc59fa3d33f17184a59445ae869ad987d28fa5df510c2ae1a",
+      "cell": [
+        512,
+        512,
+        1024,
+        1024
+      ],
+      "alpha_crop": [
+        69,
+        49,
+        464,
+        404
+      ],
+      "output": "docs\\art\\reviews\\weapon-relic-prototype-2026-09-12\\guns\\24.png",
+      "preview_pixels": [
+        33,
+        30
+      ]
+    },
+    {
+      "kind": "guns",
+      "id": 25,
+      "name": "ルーンペン",
+      "source": "assets\\generated\\fw-weapons-prototype-b.png",
+      "source_sha256": "2c0a1ef020aff7e54f94c407c8ef68d664b43eb9bab26dabd0c932b1f04119dc",
+      "cell": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "alpha_crop": [
+        57,
+        199,
+        483,
+        379
+      ],
+      "output": "docs\\art\\reviews\\weapon-relic-prototype-2026-09-12\\guns\\25.png",
+      "preview_pixels": [
+        40,
+        17
+      ]
+    },
+    {
+      "kind": "guns",
+      "id": 26,
+      "name": "シックスノート",
+      "source": "assets\\generated\\fw-weapons-prototype-b.png",
+      "source_sha256": "2c0a1ef020aff7e54f94c407c8ef68d664b43eb9bab26dabd0c932b1f04119dc",
+      "cell": [
+        512,
+        0,
+        1024,
+        512
+      ],
+      "alpha_crop": [
+        27,
+        133,
+        453,
+        422
+      ],
+      "output": "docs\\art\\reviews\\weapon-relic-prototype-2026-09-12\\guns\\26.png",
+      "preview_pixels": [
+        40,
+        27
+      ]
+    },
+    {
+      "kind": "guns",
+      "id": 27,
+      "name": "ミニガトル",
+      "source": "assets\\generated\\fw-weapons-prototype-b.png",
+      "source_sha256": "2c0a1ef020aff7e54f94c407c8ef68d664b43eb9bab26dabd0c932b1f04119dc",
+      "cell": [
+        0,
+        512,
+        512,
+        1024
+      ],
+      "alpha_crop": [
+        50,
+        71,
+        488,
+        341
+      ],
+      "output": "docs\\art\\reviews\\weapon-relic-prototype-2026-09-12\\guns\\27.png",
+      "preview_pixels": [
+        40,
+        25
+      ]
+    },
+    {
+      "kind": "relics",
+      "id": 0,
+      "name": "フェザー",
+      "source": "assets\\generated\\fw-relics-prototype-a.png",
+      "source_sha256": "4b87430bc9d07ee2f91c42dbcc9eb39d2fb26fa5723772a5dab2051ffff4a2d7",
+      "cell": [
+        0,
+        0,
+        341,
+        341
+      ],
+      "alpha_crop": [
+        107,
+        40,
+        299,
+        331
+      ],
+      "output": "docs\\art\\reviews\\weapon-relic-prototype-2026-09-12\\relics\\00.png",
+      "preview_pixels": [
+        16,
+        24
+      ]
+    },
+    {
+      "kind": "relics",
+      "id": 1,
+      "name": "クイックギア",
+      "source": "assets\\generated\\fw-relics-prototype-a.png",
+      "source_sha256": "4b87430bc9d07ee2f91c42dbcc9eb39d2fb26fa5723772a5dab2051ffff4a2d7",
+      "cell": [
+        341,
+        0,
+        682,
+        341
+      ],
+      "alpha_crop": [
+        75,
+        56,
+        242,
+        330
+      ],
+      "output": "docs\\art\\reviews\\weapon-relic-prototype-2026-09-12\\relics\\01.png",
+      "preview_pixels": [
+        15,
+        24
+      ]
+    },
+    {
+      "kind": "relics",
+      "id": 2,
+      "name": "プリズムレンズ",
+      "source": "assets\\generated\\fw-relics-prototype-a.png",
+      "source_sha256": "4b87430bc9d07ee2f91c42dbcc9eb39d2fb26fa5723772a5dab2051ffff4a2d7",
+      "cell": [
+        682,
+        0,
+        1024,
+        341
+      ],
+      "alpha_crop": [
+        10,
+        78,
+        244,
+        316
+      ],
+      "output": "docs\\art\\reviews\\weapon-relic-prototype-2026-09-12\\relics\\02.png",
+      "preview_pixels": [
+        24,
+        24
+      ]
+    },
+    {
+      "kind": "relics",
+      "id": 3,
+      "name": "ガードベル",
+      "source": "assets\\generated\\fw-relics-prototype-a.png",
+      "source_sha256": "4b87430bc9d07ee2f91c42dbcc9eb39d2fb26fa5723772a5dab2051ffff4a2d7",
+      "cell": [
+        0,
+        341,
+        341,
+        682
+      ],
+      "alpha_crop": [
+        76,
+        51,
+        268,
+        271
+      ],
+      "output": "docs\\art\\reviews\\weapon-relic-prototype-2026-09-12\\relics\\03.png",
+      "preview_pixels": [
+        21,
+        24
+      ]
+    },
+    {
+      "kind": "relics",
+      "id": 4,
+      "name": "ライフアンプ",
+      "source": "assets\\generated\\fw-relics-prototype-a.png",
+      "source_sha256": "4b87430bc9d07ee2f91c42dbcc9eb39d2fb26fa5723772a5dab2051ffff4a2d7",
+      "cell": [
+        341,
+        341,
+        682,
+        682
+      ],
+      "alpha_crop": [
+        87,
+        26,
+        213,
+        275
+      ],
+      "output": "docs\\art\\reviews\\weapon-relic-prototype-2026-09-12\\relics\\04.png",
+      "preview_pixels": [
+        12,
+        24
+      ]
+    },
+    {
+      "kind": "relics",
+      "id": 5,
+      "name": "ドッジノヴァ",
+      "source": "assets\\generated\\fw-relics-prototype-a.png",
+      "source_sha256": "4b87430bc9d07ee2f91c42dbcc9eb39d2fb26fa5723772a5dab2051ffff4a2d7",
+      "cell": [
+        640,
+        340,
+        1024,
+        650
+      ],
+      "alpha_crop": [
+        43,
+        34,
+        277,
+        282
+      ],
+      "output": "docs\\art\\reviews\\weapon-relic-prototype-2026-09-12\\relics\\05.png",
+      "preview_pixels": [
+        23,
+        24
+      ]
+    },
+    {
+      "kind": "relics",
+      "id": 6,
+      "name": "ヘビーコア",
+      "source": "assets\\generated\\fw-relics-prototype-a.png",
+      "source_sha256": "4b87430bc9d07ee2f91c42dbcc9eb39d2fb26fa5723772a5dab2051ffff4a2d7",
+      "cell": [
+        0,
+        650,
+        341,
+        1024
+      ],
+      "alpha_crop": [
+        74,
+        49,
+        290,
+        268
+      ],
+      "output": "docs\\art\\reviews\\weapon-relic-prototype-2026-09-12\\relics\\06.png",
+      "preview_pixels": [
+        24,
+        24
+      ]
+    },
+    {
+      "kind": "relics",
+      "id": 7,
+      "name": "スターターセル",
+      "source": "assets\\generated\\fw-relics-prototype-a.png",
+      "source_sha256": "4b87430bc9d07ee2f91c42dbcc9eb39d2fb26fa5723772a5dab2051ffff4a2d7",
+      "cell": [
+        341,
+        650,
+        682,
+        1024
+      ],
+      "alpha_crop": [
+        86,
+        32,
+        222,
+        277
+      ],
+      "output": "docs\\art\\reviews\\weapon-relic-prototype-2026-09-12\\relics\\07.png",
+      "preview_pixels": [
+        13,
+        24
+      ]
+    },
+    {
+      "kind": "relics",
+      "id": 8,
+      "name": "予備マガジン",
+      "source": "assets\\generated\\fw-relics-prototype-a.png",
+      "source_sha256": "4b87430bc9d07ee2f91c42dbcc9eb39d2fb26fa5723772a5dab2051ffff4a2d7",
+      "cell": [
+        682,
+        650,
+        1024,
+        1024
+      ],
+      "alpha_crop": [
+        38,
+        26,
+        221,
+        282
+      ],
+      "output": "docs\\art\\reviews\\weapon-relic-prototype-2026-09-12\\relics\\08.png",
+      "preview_pixels": [
+        17,
+        24
+      ]
+    }
+  ]
+}

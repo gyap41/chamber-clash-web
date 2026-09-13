@@ -1,0 +1,82 @@
+[
+  {
+    "id": 4,
+    "kind": "guns",
+    "name": "ダブルバック",
+    "source": "assets/generated/fw-diverse-guns-01-v1.png",
+    "sha256": "3b577e7b0b7c675374d2283996bfcf1196b705769af56da9c79f0d3302caffe4",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      26,
+      163,
+      483,
+      313
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/04.png"
+  },
+  {
+    "id": 3,
+    "kind": "guns",
+    "name": "ハニービー",
+    "source": "assets/generated/fw-diverse-guns-01-v1.png",
+    "sha256": "3b577e7b0b7c675374d2283996bfcf1196b705769af56da9c79f0d3302caffe4",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      69,
+      110,
+      445,
+      354
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/03.png"
+  },
+  {
+    "id": 1,
+    "kind": "guns",
+    "name": "跳弾キャンディ",
+    "source": "assets/generated/fw-diverse-guns-01-v1.png",
+    "sha256": "3b577e7b0b7c675374d2283996bfcf1196b705769af56da9c79f0d3302caffe4",
+    "cell": [
+      0,
+      512,
+      512,
+      1024
+    ],
+    "crop": [
+      76,
+      70,
+      413,
+      433
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/01.png"
+  },
+  {
+    "id": 8,
+    "kind": "guns",
+    "name": "プリズムバースト",
+    "source": "assets/generated/fw-diverse-guns-01-v1.png",
+    "sha256": "3b577e7b0b7c675374d2283996bfcf1196b705769af56da9c79f0d3302caffe4",
+    "cell": [
+      512,
+      512,
+      1024,
+      1024
+    ],
+    "crop": [
+      32,
+      135,
+      492,
+      379
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/08.png"
+  }
+]

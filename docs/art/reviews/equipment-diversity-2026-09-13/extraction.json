@@ -1,0 +1,1146 @@
+[
+  {
+    "id": 4,
+    "kind": "guns",
+    "name": "ダブルバック",
+    "source": "assets/generated/fw-diverse-guns-01-v1.png",
+    "sha256": "3b577e7b0b7c675374d2283996bfcf1196b705769af56da9c79f0d3302caffe4",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      26,
+      163,
+      483,
+      313
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/04.png"
+  },
+  {
+    "id": 3,
+    "kind": "guns",
+    "name": "ハニービー",
+    "source": "assets/generated/fw-diverse-guns-01-v1.png",
+    "sha256": "3b577e7b0b7c675374d2283996bfcf1196b705769af56da9c79f0d3302caffe4",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      69,
+      110,
+      445,
+      354
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/03.png"
+  },
+  {
+    "id": 1,
+    "kind": "guns",
+    "name": "跳弾キャンディ",
+    "source": "assets/generated/fw-diverse-guns-01-v1.png",
+    "sha256": "3b577e7b0b7c675374d2283996bfcf1196b705769af56da9c79f0d3302caffe4",
+    "cell": [
+      0,
+      512,
+      512,
+      1024
+    ],
+    "crop": [
+      76,
+      70,
+      413,
+      433
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/01.png"
+  },
+  {
+    "id": 8,
+    "kind": "guns",
+    "name": "プリズムバースト",
+    "source": "assets/generated/fw-diverse-guns-01-v1.png",
+    "sha256": "3b577e7b0b7c675374d2283996bfcf1196b705769af56da9c79f0d3302caffe4",
+    "cell": [
+      512,
+      512,
+      1024,
+      1024
+    ],
+    "crop": [
+      32,
+      135,
+      492,
+      379
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/08.png"
+  },
+  {
+    "id": 9,
+    "kind": "guns",
+    "name": "コメットランチャー",
+    "source": "assets/generated/fw-diverse-guns-02-v1.png",
+    "sha256": "a305dc8f91b870cb793fb16c37cf6c287e58c30427f24fef4a803c4ea64a5436",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      25,
+      108,
+      497,
+      379
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/09.png"
+  },
+  {
+    "id": 11,
+    "kind": "guns",
+    "name": "シードマイン",
+    "source": "assets/generated/fw-diverse-guns-02-v1.png",
+    "sha256": "a305dc8f91b870cb793fb16c37cf6c287e58c30427f24fef4a803c4ea64a5436",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      45,
+      42,
+      462,
+      465
+    ],
+    "mirrored": false,
+    "rotation_degrees": -90,
+    "runtime": "assets/first-workshop/equipment/guns/11.png"
+  },
+  {
+    "id": 16,
+    "kind": "guns",
+    "name": "レシートリピーター",
+    "source": "assets/generated/fw-diverse-guns-02-v1.png",
+    "sha256": "a305dc8f91b870cb793fb16c37cf6c287e58c30427f24fef4a803c4ea64a5436",
+    "cell": [
+      0,
+      512,
+      512,
+      1024
+    ],
+    "crop": [
+      63,
+      62,
+      457,
+      409
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/16.png"
+  },
+  {
+    "id": 31,
+    "kind": "guns",
+    "name": "ペッパーボックス",
+    "source": "assets/generated/fw-diverse-guns-02-v1.png",
+    "sha256": "a305dc8f91b870cb793fb16c37cf6c287e58c30427f24fef4a803c4ea64a5436",
+    "cell": [
+      512,
+      512,
+      1024,
+      1024
+    ],
+    "crop": [
+      15,
+      100,
+      471,
+      380
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/31.png"
+  },
+  {
+    "id": 7,
+    "kind": "guns",
+    "name": "ヘリックス",
+    "source": "assets/generated/fw-diverse-guns-03-v1.png",
+    "sha256": "ab8905006a7f25347004bd6262af40b09d8806ba0a3651c987d09f1062930f0d",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      35,
+      98,
+      495,
+      397
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/07.png"
+  },
+  {
+    "id": 14,
+    "kind": "guns",
+    "name": "クローバースプリッター",
+    "source": "assets/generated/fw-diverse-guns-03-v1.png",
+    "sha256": "ab8905006a7f25347004bd6262af40b09d8806ba0a3651c987d09f1062930f0d",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      94,
+      78,
+      416,
+      433
+    ],
+    "mirrored": false,
+    "rotation_degrees": -45,
+    "runtime": "assets/first-workshop/equipment/guns/14.png"
+  },
+  {
+    "id": 17,
+    "kind": "guns",
+    "name": "着払いキャノン",
+    "source": "assets/generated/fw-diverse-guns-03-v1.png",
+    "sha256": "ab8905006a7f25347004bd6262af40b09d8806ba0a3651c987d09f1062930f0d",
+    "cell": [
+      0,
+      512,
+      512,
+      1024
+    ],
+    "crop": [
+      29,
+      73,
+      490,
+      385
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/17.png"
+  },
+  {
+    "id": 32,
+    "kind": "guns",
+    "name": "ピンボールパドル",
+    "source": "assets/generated/fw-diverse-guns-03-v1.png",
+    "sha256": "ab8905006a7f25347004bd6262af40b09d8806ba0a3651c987d09f1062930f0d",
+    "cell": [
+      512,
+      512,
+      1024,
+      1024
+    ],
+    "crop": [
+      25,
+      100,
+      484,
+      401
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/32.png"
+  },
+  {
+    "id": 10,
+    "kind": "guns",
+    "name": "ブラックホール・ティー",
+    "source": "assets/generated/fw-diverse-guns-04-v1.png",
+    "sha256": "8f1c70a5eb73313d1cd9c01fdfe08f8c81dc1fd864a4e4041cc79c6a2d56a7f4",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      61,
+      57,
+      436,
+      400
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/10.png"
+  },
+  {
+    "id": 19,
+    "kind": "guns",
+    "name": "エコードラム",
+    "source": "assets/generated/fw-diverse-guns-04-v1.png",
+    "sha256": "8f1c70a5eb73313d1cd9c01fdfe08f8c81dc1fd864a4e4041cc79c6a2d56a7f4",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      10,
+      142,
+      479,
+      342
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/19.png"
+  },
+  {
+    "id": 2,
+    "kind": "guns",
+    "name": "ファイアワークス",
+    "source": "assets/generated/fw-diverse-guns-04-v1.png",
+    "sha256": "8f1c70a5eb73313d1cd9c01fdfe08f8c81dc1fd864a4e4041cc79c6a2d56a7f4",
+    "cell": [
+      0,
+      512,
+      512,
+      1024
+    ],
+    "crop": [
+      117,
+      17,
+      396,
+      439
+    ],
+    "mirrored": false,
+    "rotation_degrees": 120,
+    "runtime": "assets/first-workshop/equipment/guns/02.png"
+  },
+  {
+    "id": 33,
+    "kind": "guns",
+    "name": "ツインクレセント",
+    "source": "assets/generated/fw-diverse-guns-04-v1.png",
+    "sha256": "8f1c70a5eb73313d1cd9c01fdfe08f8c81dc1fd864a4e4041cc79c6a2d56a7f4",
+    "cell": [
+      512,
+      512,
+      1024,
+      1024
+    ],
+    "crop": [
+      29,
+      55,
+      467,
+      450
+    ],
+    "mirrored": false,
+    "rotation_degrees": -90,
+    "runtime": "assets/first-workshop/equipment/guns/33.png"
+  },
+  {
+    "id": 13,
+    "kind": "guns",
+    "name": "バブルクロック",
+    "source": "assets/generated/fw-diverse-guns-05-v1.png",
+    "sha256": "7c94a00ce021a1d5bc8a146e3c40dd612f95b9b15277a2332780f99f841ca686",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      36,
+      101,
+      466,
+      403
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/13.png"
+  },
+  {
+    "id": 18,
+    "kind": "guns",
+    "name": "スイッチスパナ",
+    "source": "assets/generated/fw-diverse-guns-05-v1.png",
+    "sha256": "7c94a00ce021a1d5bc8a146e3c40dd612f95b9b15277a2332780f99f841ca686",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      44,
+      129,
+      471,
+      333
+    ],
+    "mirrored": true,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/18.png"
+  },
+  {
+    "id": 30,
+    "kind": "guns",
+    "name": "チョークライフル",
+    "source": "assets/generated/fw-diverse-guns-05-v1.png",
+    "sha256": "7c94a00ce021a1d5bc8a146e3c40dd612f95b9b15277a2332780f99f841ca686",
+    "cell": [
+      0,
+      512,
+      532,
+      1024
+    ],
+    "crop": [
+      32,
+      160,
+      529,
+      273
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/30.png"
+  },
+  {
+    "id": 35,
+    "kind": "guns",
+    "name": "ベルフラワー",
+    "source": "assets/generated/fw-diverse-guns-05-v1.png",
+    "sha256": "7c94a00ce021a1d5bc8a146e3c40dd612f95b9b15277a2332780f99f841ca686",
+    "cell": [
+      532,
+      512,
+      1024,
+      1024
+    ],
+    "crop": [
+      83,
+      36,
+      409,
+      434
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/35.png"
+  },
+  {
+    "id": 15,
+    "kind": "guns",
+    "name": "プラネタリウム",
+    "source": "assets/generated/fw-diverse-guns-06-v1.png",
+    "sha256": "55ab7ed65e163323dc6613f3026b1cff3f177c8118f471861e0e82553287cc9b",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      41,
+      49,
+      466,
+      444
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/15.png"
+  },
+  {
+    "id": 28,
+    "kind": "guns",
+    "name": "ホチキスバースト",
+    "source": "assets/generated/fw-diverse-guns-06-v1.png",
+    "sha256": "55ab7ed65e163323dc6613f3026b1cff3f177c8118f471861e0e82553287cc9b",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      34,
+      68,
+      479,
+      417
+    ],
+    "mirrored": true,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/28.png"
+  },
+  {
+    "id": 34,
+    "kind": "guns",
+    "name": "スパークフォーク",
+    "source": "assets/generated/fw-diverse-guns-06-v1.png",
+    "sha256": "55ab7ed65e163323dc6613f3026b1cff3f177c8118f471861e0e82553287cc9b",
+    "cell": [
+      0,
+      512,
+      512,
+      1024
+    ],
+    "crop": [
+      32,
+      152,
+      494,
+      347
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/34.png"
+  },
+  {
+    "id": 36,
+    "kind": "guns",
+    "name": "カーボンコピー",
+    "source": "assets/generated/fw-diverse-guns-06-v1.png",
+    "sha256": "55ab7ed65e163323dc6613f3026b1cff3f177c8118f471861e0e82553287cc9b",
+    "cell": [
+      512,
+      512,
+      1024,
+      1024
+    ],
+    "crop": [
+      26,
+      170,
+      480,
+      318
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/36.png"
+  },
+  {
+    "id": 29,
+    "kind": "guns",
+    "name": "クロスステッチ",
+    "source": "assets/generated/fw-diverse-guns-07-v1.png",
+    "sha256": "706062f982b30a623c1febcdd0130e8ed330e96bc5bdc8417d718807a2b2fe99",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      30,
+      110,
+      487,
+      434
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/29.png"
+  },
+  {
+    "id": 37,
+    "kind": "guns",
+    "name": "オーロラファン",
+    "source": "assets/generated/fw-diverse-guns-07-v1.png",
+    "sha256": "706062f982b30a623c1febcdd0130e8ed330e96bc5bdc8417d718807a2b2fe99",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      31,
+      115,
+      475,
+      417
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/37.png"
+  },
+  {
+    "id": 9,
+    "kind": "relics",
+    "name": "パルスリレー",
+    "source": "assets/generated/fw-diverse-relics-01-v1.png",
+    "sha256": "ee0b51ac90a2645df9045beea0ac66e694b7ecd41e566c58e427c80778da6287",
+    "cell": [
+      0,
+      0,
+      341,
+      341
+    ],
+    "crop": [
+      45,
+      54,
+      302,
+      302
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/09.png"
+  },
+  {
+    "id": 10,
+    "kind": "relics",
+    "name": "パリィダイナモ",
+    "source": "assets/generated/fw-diverse-relics-01-v1.png",
+    "sha256": "ee0b51ac90a2645df9045beea0ac66e694b7ecd41e566c58e427c80778da6287",
+    "cell": [
+      341,
+      0,
+      682,
+      341
+    ],
+    "crop": [
+      30,
+      28,
+      310,
+      317
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/10.png"
+  },
+  {
+    "id": 11,
+    "kind": "relics",
+    "name": "リバウンドテープ",
+    "source": "assets/generated/fw-diverse-relics-01-v1.png",
+    "sha256": "ee0b51ac90a2645df9045beea0ac66e694b7ecd41e566c58e427c80778da6287",
+    "cell": [
+      682,
+      0,
+      1024,
+      341
+    ],
+    "crop": [
+      35,
+      53,
+      279,
+      306
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/11.png"
+  },
+  {
+    "id": 12,
+    "kind": "relics",
+    "name": "反響の種",
+    "source": "assets/generated/fw-diverse-relics-01-v1.png",
+    "sha256": "ee0b51ac90a2645df9045beea0ac66e694b7ecd41e566c58e427c80778da6287",
+    "cell": [
+      0,
+      341,
+      341,
+      673
+    ],
+    "crop": [
+      69,
+      27,
+      279,
+      272
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/12.png"
+  },
+  {
+    "id": 13,
+    "kind": "relics",
+    "name": "空薬莢の祝福",
+    "source": "assets/generated/fw-diverse-relics-01-v1.png",
+    "sha256": "ee0b51ac90a2645df9045beea0ac66e694b7ecd41e566c58e427c80778da6287",
+    "cell": [
+      341,
+      341,
+      682,
+      673
+    ],
+    "crop": [
+      66,
+      31,
+      278,
+      287
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/13.png"
+  },
+  {
+    "id": 14,
+    "kind": "relics",
+    "name": "帰還バッテリー",
+    "source": "assets/generated/fw-diverse-relics-01-v1.png",
+    "sha256": "ee0b51ac90a2645df9045beea0ac66e694b7ecd41e566c58e427c80778da6287",
+    "cell": [
+      682,
+      341,
+      1024,
+      673
+    ],
+    "crop": [
+      7,
+      44,
+      290,
+      279
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/14.png"
+  },
+  {
+    "id": 15,
+    "kind": "relics",
+    "name": "余熱コンデンサ",
+    "source": "assets/generated/fw-diverse-relics-01-v1.png",
+    "sha256": "ee0b51ac90a2645df9045beea0ac66e694b7ecd41e566c58e427c80778da6287",
+    "cell": [
+      0,
+      673,
+      341,
+      1024
+    ],
+    "crop": [
+      38,
+      21,
+      305,
+      265
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/15.png"
+  },
+  {
+    "id": 16,
+    "kind": "relics",
+    "name": "残響ホルスター",
+    "source": "assets/generated/fw-diverse-relics-01-v1.png",
+    "sha256": "ee0b51ac90a2645df9045beea0ac66e694b7ecd41e566c58e427c80778da6287",
+    "cell": [
+      341,
+      673,
+      682,
+      1024
+    ],
+    "crop": [
+      41,
+      4,
+      303,
+      298
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/16.png"
+  },
+  {
+    "id": 17,
+    "kind": "relics",
+    "name": "すり抜け装填",
+    "source": "assets/generated/fw-diverse-relics-01-v1.png",
+    "sha256": "ee0b51ac90a2645df9045beea0ac66e694b7ecd41e566c58e427c80778da6287",
+    "cell": [
+      682,
+      673,
+      1024,
+      1024
+    ],
+    "crop": [
+      24,
+      9,
+      257,
+      295
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/17.png"
+  },
+  {
+    "id": 18,
+    "kind": "relics",
+    "name": "ミニフェザー",
+    "source": "assets/generated/fw-diverse-relics-02-v1.png",
+    "sha256": "ab1e79d4721131f76c7744fb0b5a76f2c5393b9da13e2ad0d4de336129e59b04",
+    "cell": [
+      0,
+      0,
+      341,
+      341
+    ],
+    "crop": [
+      56,
+      54,
+      284,
+      278
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/18.png"
+  },
+  {
+    "id": 19,
+    "kind": "relics",
+    "name": "パワーチップ",
+    "source": "assets/generated/fw-diverse-relics-02-v1.png",
+    "sha256": "ab1e79d4721131f76c7744fb0b5a76f2c5393b9da13e2ad0d4de336129e59b04",
+    "cell": [
+      341,
+      0,
+      682,
+      341
+    ],
+    "crop": [
+      36,
+      66,
+      304,
+      273
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/19.png"
+  },
+  {
+    "id": 20,
+    "kind": "relics",
+    "name": "ロングバレル",
+    "source": "assets/generated/fw-diverse-relics-02-v1.png",
+    "sha256": "ab1e79d4721131f76c7744fb0b5a76f2c5393b9da13e2ad0d4de336129e59b04",
+    "cell": [
+      682,
+      0,
+      1024,
+      341
+    ],
+    "crop": [
+      26,
+      51,
+      314,
+      264
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/20.png"
+  },
+  {
+    "id": 21,
+    "kind": "relics",
+    "name": "ワイドマガジン",
+    "source": "assets/generated/fw-diverse-relics-02-v1.png",
+    "sha256": "ab1e79d4721131f76c7744fb0b5a76f2c5393b9da13e2ad0d4de336129e59b04",
+    "cell": [
+      0,
+      341,
+      341,
+      677
+    ],
+    "crop": [
+      49,
+      43,
+      307,
+      269
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/21.png"
+  },
+  {
+    "id": 22,
+    "kind": "relics",
+    "name": "ラストスタンプ",
+    "source": "assets/generated/fw-diverse-relics-02-v1.png",
+    "sha256": "ab1e79d4721131f76c7744fb0b5a76f2c5393b9da13e2ad0d4de336129e59b04",
+    "cell": [
+      341,
+      341,
+      682,
+      677
+    ],
+    "crop": [
+      69,
+      25,
+      256,
+      283
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/22.png"
+  },
+  {
+    "id": 23,
+    "kind": "relics",
+    "name": "クールグリップ",
+    "source": "assets/generated/fw-diverse-relics-02-v1.png",
+    "sha256": "ab1e79d4721131f76c7744fb0b5a76f2c5393b9da13e2ad0d4de336129e59b04",
+    "cell": [
+      682,
+      341,
+      1024,
+      677
+    ],
+    "crop": [
+      64,
+      25,
+      252,
+      273
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/23.png"
+  },
+  {
+    "id": 24,
+    "kind": "relics",
+    "name": "ステップスプリング",
+    "source": "assets/generated/fw-diverse-relics-02-v1.png",
+    "sha256": "ab1e79d4721131f76c7744fb0b5a76f2c5393b9da13e2ad0d4de336129e59b04",
+    "cell": [
+      0,
+      677,
+      341,
+      1024
+    ],
+    "crop": [
+      51,
+      8,
+      246,
+      271
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/24.png"
+  },
+  {
+    "id": 25,
+    "kind": "relics",
+    "name": "セーフティソール",
+    "source": "assets/generated/fw-diverse-relics-02-v1.png",
+    "sha256": "ab1e79d4721131f76c7744fb0b5a76f2c5393b9da13e2ad0d4de336129e59b04",
+    "cell": [
+      341,
+      677,
+      682,
+      1024
+    ],
+    "crop": [
+      27,
+      58,
+      292,
+      258
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/25.png"
+  },
+  {
+    "id": 26,
+    "kind": "relics",
+    "name": "クイックシース",
+    "source": "assets/generated/fw-diverse-relics-02-v1.png",
+    "sha256": "ab1e79d4721131f76c7744fb0b5a76f2c5393b9da13e2ad0d4de336129e59b04",
+    "cell": [
+      682,
+      677,
+      1024,
+      1024
+    ],
+    "crop": [
+      10,
+      4,
+      305,
+      275
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/26.png"
+  },
+  {
+    "id": 27,
+    "kind": "relics",
+    "name": "パリィシェル",
+    "source": "assets/generated/fw-diverse-relics-03-v1.png",
+    "sha256": "4c977d76ee56c370f3e9b81ed181646fc303fe295aeb9be3769bf51634983f1d",
+    "cell": [
+      0,
+      0,
+      341,
+      341
+    ],
+    "crop": [
+      64,
+      55,
+      306,
+      308
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/27.png"
+  },
+  {
+    "id": 28,
+    "kind": "relics",
+    "name": "応急パッチ",
+    "source": "assets/generated/fw-diverse-relics-03-v1.png",
+    "sha256": "4c977d76ee56c370f3e9b81ed181646fc303fe295aeb9be3769bf51634983f1d",
+    "cell": [
+      341,
+      0,
+      682,
+      341
+    ],
+    "crop": [
+      34,
+      71,
+      309,
+      308
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/28.png"
+  },
+  {
+    "id": 29,
+    "kind": "relics",
+    "name": "パルスブーツ",
+    "source": "assets/generated/fw-diverse-relics-03-v1.png",
+    "sha256": "4c977d76ee56c370f3e9b81ed181646fc303fe295aeb9be3769bf51634983f1d",
+    "cell": [
+      682,
+      0,
+      1024,
+      341
+    ],
+    "crop": [
+      13,
+      39,
+      273,
+      324
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/29.png"
+  },
+  {
+    "id": 30,
+    "kind": "relics",
+    "name": "チェンジサイト",
+    "source": "assets/generated/fw-diverse-relics-03-v1.png",
+    "sha256": "4c977d76ee56c370f3e9b81ed181646fc303fe295aeb9be3769bf51634983f1d",
+    "cell": [
+      0,
+      341,
+      341,
+      682
+    ],
+    "crop": [
+      54,
+      57,
+      302,
+      289
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/30.png"
+  },
+  {
+    "id": 31,
+    "kind": "relics",
+    "name": "ラバーチップ",
+    "source": "assets/generated/fw-diverse-relics-03-v1.png",
+    "sha256": "4c977d76ee56c370f3e9b81ed181646fc303fe295aeb9be3769bf51634983f1d",
+    "cell": [
+      341,
+      341,
+      682,
+      682
+    ],
+    "crop": [
+      41,
+      52,
+      287,
+      294
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/31.png"
+  },
+  {
+    "id": 32,
+    "kind": "relics",
+    "name": "整流コイル",
+    "source": "assets/generated/fw-diverse-relics-03-v1.png",
+    "sha256": "4c977d76ee56c370f3e9b81ed181646fc303fe295aeb9be3769bf51634983f1d",
+    "cell": [
+      682,
+      341,
+      1024,
+      682
+    ],
+    "crop": [
+      26,
+      44,
+      270,
+      305
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/32.png"
+  },
+  {
+    "id": 33,
+    "kind": "relics",
+    "name": "帰還リール",
+    "source": "assets/generated/fw-diverse-relics-03-v1.png",
+    "sha256": "4c977d76ee56c370f3e9b81ed181646fc303fe295aeb9be3769bf51634983f1d",
+    "cell": [
+      0,
+      682,
+      341,
+      1024
+    ],
+    "crop": [
+      65,
+      5,
+      296,
+      248
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/33.png"
+  },
+  {
+    "id": 34,
+    "kind": "relics",
+    "name": "サプライキー",
+    "source": "assets/generated/fw-diverse-relics-03-v1.png",
+    "sha256": "4c977d76ee56c370f3e9b81ed181646fc303fe295aeb9be3769bf51634983f1d",
+    "cell": [
+      341,
+      682,
+      682,
+      1024
+    ],
+    "crop": [
+      46,
+      17,
+      337,
+      282
+    ],
+    "mirrored": false,
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/relics/34.png"
+  }
+]

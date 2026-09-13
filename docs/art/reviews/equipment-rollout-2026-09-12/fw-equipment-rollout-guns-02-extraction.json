@@ -1,0 +1,82 @@
+[
+  {
+    "id": 4,
+    "kind": "guns",
+    "name": "ダブルバック",
+    "source": "assets/generated/fw-equipment-rollout-guns-02.png",
+    "sha256": "9464f3cb2e95e869e5e166de1ba627b7daa0666b5f948c40eea1da854436f6e8",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      35,
+      122,
+      491,
+      398
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/04.png"
+  },
+  {
+    "id": 5,
+    "kind": "guns",
+    "name": "ムーンリーパー",
+    "source": "assets/generated/fw-equipment-rollout-guns-02.png",
+    "sha256": "9464f3cb2e95e869e5e166de1ba627b7daa0666b5f948c40eea1da854436f6e8",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      75,
+      78,
+      481,
+      389
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/05.png"
+  },
+  {
+    "id": 6,
+    "kind": "guns",
+    "name": "アークレール",
+    "source": "assets/generated/fw-equipment-rollout-guns-02.png",
+    "sha256": "9464f3cb2e95e869e5e166de1ba627b7daa0666b5f948c40eea1da854436f6e8",
+    "cell": [
+      0,
+      512,
+      521,
+      1024
+    ],
+    "crop": [
+      32,
+      79,
+      518,
+      320
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/06.png"
+  },
+  {
+    "id": 7,
+    "kind": "guns",
+    "name": "ヘリックス",
+    "source": "assets/generated/fw-equipment-rollout-guns-02.png",
+    "sha256": "9464f3cb2e95e869e5e166de1ba627b7daa0666b5f948c40eea1da854436f6e8",
+    "cell": [
+      521,
+      512,
+      1024,
+      1024
+    ],
+    "crop": [
+      58,
+      66,
+      461,
+      339
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/07.png"
+  }
+]

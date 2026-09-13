@@ -174,7 +174,7 @@ func run() -> void:
 	game.phase = "play"
 	game.preparation.refresh()
 	for row in range(4):
-		game.combat_visuals.weapon_effect(row,Vector2(340+row*145,380))
+		game.combat_visuals.weapon_event({"kind":["bounce","split","hit","fire"][row],"weapon":[16,17,18,19][row],"pos":Vector2(340+row*145,380)})
 	game.players[0].hurt(1)
 	game.players[1].handle_key(KEY_SHIFT,1,game.shots,game.players[0],game.arena)
 	game.hud.refresh(game.players,game.remaining,game.paused,game.result,game.scores,game.phase)

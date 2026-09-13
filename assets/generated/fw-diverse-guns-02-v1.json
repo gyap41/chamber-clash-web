@@ -1,0 +1,25 @@
+{
+  "name": "fw-diverse-guns-02-v1",
+  "fingerprint": "6ed70efa3b2436cf9d79ea0879e5e67345b1edadf73161956a84145d15a6afd1",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T19:36:26.618173+00:00",
+  "endpoint": "generations",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.\n1024x1024 sheet. Regular 2x2 grid, reading order left-to-right top-to-bottom. Exactly 4 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.\nWeapons: flat side view, muzzle to RIGHT, grip down. Preserve natural proportion differences: stocked long rifles, shoulder launchers, bows, tools and toys. No generic pistol frame added to every object.\nCell 1: ID 9, コメットランチャー. 軍用SF: オリーブ色の肩撃ち発射筒、黒い保持部、巨大な口径.\nCell 2: ID 11, シードマイン. 生体・自然: 緑と土色の種莢、木質の外殻と根状の保持部.\nCell 3: ID 16, レシートリピーター. コミカル: グレーの携帯プリンター、ロール紙の巻胴と平たい射出口.\nCell 4: ID 31, ペッパーボックス. 古式銃: 暗い鋼の回転銃身群、ウォルナットの柄。発光なし.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 390,
+      "image_tokens": 0
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.106335
+}

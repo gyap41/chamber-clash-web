@@ -1,0 +1,86 @@
+[
+  {
+    "id": 7,
+    "kind": "guns",
+    "name": "ヘリックス",
+    "source": "assets/generated/fw-diverse-guns-03-v1.png",
+    "sha256": "ab8905006a7f25347004bd6262af40b09d8806ba0a3651c987d09f1062930f0d",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      35,
+      98,
+      495,
+      397
+    ],
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/07.png"
+  },
+  {
+    "id": 14,
+    "kind": "guns",
+    "name": "クローバースプリッター",
+    "source": "assets/generated/fw-diverse-guns-03-v1.png",
+    "sha256": "ab8905006a7f25347004bd6262af40b09d8806ba0a3651c987d09f1062930f0d",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      94,
+      78,
+      416,
+      433
+    ],
+    "rotation_degrees": -45,
+    "runtime": "assets/first-workshop/equipment/guns/14.png"
+  },
+  {
+    "id": 17,
+    "kind": "guns",
+    "name": "着払いキャノン",
+    "source": "assets/generated/fw-diverse-guns-03-v1.png",
+    "sha256": "ab8905006a7f25347004bd6262af40b09d8806ba0a3651c987d09f1062930f0d",
+    "cell": [
+      0,
+      512,
+      512,
+      1024
+    ],
+    "crop": [
+      29,
+      73,
+      490,
+      385
+    ],
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/17.png"
+  },
+  {
+    "id": 32,
+    "kind": "guns",
+    "name": "ピンボールパドル",
+    "source": "assets/generated/fw-diverse-guns-03-v1.png",
+    "sha256": "ab8905006a7f25347004bd6262af40b09d8806ba0a3651c987d09f1062930f0d",
+    "cell": [
+      512,
+      512,
+      1024,
+      1024
+    ],
+    "crop": [
+      25,
+      100,
+      484,
+      401
+    ],
+    "rotation_degrees": 0,
+    "runtime": "assets/first-workshop/equipment/guns/32.png"
+  }
+]

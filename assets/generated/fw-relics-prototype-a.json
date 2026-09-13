@@ -1,0 +1,30 @@
+{
+  "name": "fw-relics-prototype-a",
+  "fingerprint": "ad2e5d59abf3cb0523fb07638a41ff929833177f3890fcc9196dbf2a0f9d12b8",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T13:50:32.377190+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Asset type: production sprite prototype sheet for a cute two-head-tall Japanese action game. Reference image is the approved service pistol: match its dark ink outline, ivory enamel, charcoal metal, small teal and amber accents, simple cel-painted material shading. Simplify surface wear and small details for tiny game display. These are portable workshop adventure tools, charming but credible, strong differentiated silhouettes. No text, numbers, logos, labels, borders, hands, people, floor, drop shadows, effects, glow outside silhouette, or detached parts. Background everywhere is uniform pure #FF00FF for extraction; do not use pink or purple on objects. Each object isolated in its own cell with at least 55px clear margin; never crosses cell boundaries. Do not reproduce the reference pistol.\nComposition: exactly NINE individual relic icons in a regular 3 columns by 3 rows grid on 1024x1024 canvas. Each icon centered in its own square cell, about 210px across, generous clear space. Slight three-quarter product view for solid objects. Bold simple shapes readable at 24px. Each is a single connected object, not a scene or badge background.\nReading order left-to-right, top-to-bottom:\n1 FEATHER: ivory feather-shaped lightweight mechanical fin with teal stem, elegant sweeping outline, speed upgrade.\n2 QUICK GEAR: one large brass gear attached to a short dark magazine insert with teal release lever, fast reload module.\n3 PRISM LENS: large triangular cyan glass prism inside a thin ivory triangular frame, one simple diagonal reflected light stripe INSIDE glass, no external rays.\n4 GUARD BELL: small warm brass bell inside a protective ivory horseshoe arch, dark clapper clearly visible, sturdy shield charm.\n5 LIFE AMP: upright ivory medical power ampoule with red-orange heart-shaped central window and two brass electrical terminals, health capacity module.\n6 DODGE NOVA: compact teal circular rotor with exactly six large amber star-like points integrated around its rim, energetic six-way dodge burst device.\n7 HEAVY CORE: dense charcoal cubic core held by thick brass corner clamps, central orange aperture, heavy broad compact silhouette.\n8 STARTER CELL: tall teal energy battery with a fully filled bright amber vertical window and ivory end caps, first-shot power cell.\n9 RESERVE MAGAZINE: curved dark gun magazine with ivory lower sleeve and a large teal returning arrow engraved on side, one brass cartridge at top. Strong curved silhouette distinct from battery and gear.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\generated\\fw-pistol.png",
+      "sha256": "45babc1b937ee1ddc10761dcea8b5fa4f0db52c3c0ea2b9ff4883d6dbd9cd35a"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 516,
+      "image_tokens": 1024
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.110746
+}

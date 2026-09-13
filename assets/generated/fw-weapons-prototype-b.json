@@ -1,0 +1,30 @@
+{
+  "name": "fw-weapons-prototype-b",
+  "fingerprint": "27f5de146191f19e75623691b830c61b39c812856694ea60f0b9dc4f0ba54223",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T13:47:39.237843+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Asset type: production sprite prototype sheet for a cute two-head-tall Japanese action game. Reference image is the approved service pistol: match its dark ink outline, ivory enamel, charcoal metal, small teal and amber accents, simple cel-painted material shading. Simplify surface wear and small details for tiny game display. These are portable workshop adventure tools, charming but credible, strong differentiated silhouettes. No text, numbers, logos, labels, borders, hands, people, floor, drop shadows, effects, glow outside silhouette, or detached parts. Background everywhere is uniform pure #FF00FF for extraction; do not use pink or purple on objects. Each object isolated in its own cell with at least 55px clear margin; never crosses cell boundaries. Do not reproduce the reference pistol.\nComposition: THREE weapons in a 2 columns by 2 rows layout on a 1024x1024 canvas. Bottom right cell remains entirely blank magenta. Strict flat side elevation, every muzzle/tip points RIGHT horizontally; grips downward. Center each weapon in its 512x512 cell, approximately 390px wide. No perspective or foreshortening.\nTop left: RUNE PEN, a short thick magical engraving stylus with an elegant ivory pen body, a gold crescent-shaped protective collar around a small cyan rune core, a pointed right-facing nib emitting nothing, tiny dark handle below rear. Ancient craft technology, sparse engraved geometric marks, no writing. Slim distinctive silhouette.\nTop right: SIX NOTE, compact six-chamber revolver, clearly visible large six-chamber cylinder housing in side view, moderate single barrel to right, warm brass and ivory body, curved dark brown grip, one small amber inset. Western craftsman tool, no musical decorations.\nBottom left: MINI GATLER, short chunky compact rotary gun, a tight bundle of three dark barrels facing right, large teal ammunition drum below receiver, ivory rear armor and small rear pistol grip. Broad squat silhouette and visibly different from the long Scout Needle.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\generated\\fw-pistol.png",
+      "sha256": "45babc1b937ee1ddc10761dcea8b5fa4f0db52c3c0ea2b9ff4883d6dbd9cd35a"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 417,
+      "image_tokens": 1024
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1104985
+}

@@ -3,9 +3,12 @@ extends RefCounted
 const SUPPORTED := [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37]
 const Catalog = preload("res://scripts/catalog/game_catalog.gd")
 const AtlasRegions = preload("res://scripts/visuals/atlas_regions.gd")
-const BASE_SHEET = preload("res://assets/weapons/weapons.png")
-const EXTRA_SHEET = preload("res://assets/weapons/weapons-extra.png")
 static var textures: Dictionary = {}
+# Combat-only size variation; inventory icons retain their UI bounds.
+const Visuals = preload("res://scripts/catalog/weapon_visual_catalog.gd")
+# Compatibility accessors backed by the single presentation registry.
+static var EQUIPMENT_SCALE: Dictionary = Visuals.body_scales()
+static var EQUIPMENT_POINTS: Dictionary = Visuals.body_points()
 
 static func definition(id: int) -> Dictionary:
 	return Catalog.definition("guns",id)
@@ -26,14 +29,8 @@ static func supported(id: int) -> bool:
 
 static func art(id: int) -> AtlasTexture:
 	if not textures.has(id):
-		if id == 20:
-			var pistol = preload("res://assets/first-workshop/pistol.png")
-			textures[id] = AtlasRegions.region(pistol,Rect2(Vector2.ZERO,pistol.get_size()))
-			return textures[id]
-		var art_id := int(definition(id).get("art_id",id))
-		var columns := 4 if art_id < 16 else 2
-		var index := art_id if art_id < 16 else art_id - 16
-		textures[id] = AtlasRegions.grid_cell(BASE_SHEET if art_id < 16 else EXTRA_SHEET, Vector2i(columns, columns), index)
+		var image: Texture2D = Visuals.texture(str(Visuals.profile(id).get("body",{}).get("texture","")))
+		textures[id] = AtlasRegions.region(image,Rect2(Vector2.ZERO,image.get_size()))
 	return textures[id]
 
 # 初期専用ID20〜27はexclusive指定。ショップ・フィールドの抽選はこのプールを共用する。

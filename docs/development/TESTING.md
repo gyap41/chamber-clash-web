@@ -1,5 +1,25 @@
 # 検証手順
 
+レジェンド重力場：legendary_weapons / gravity_legendary 合格。`tools/check_gravity_legendary_render.gd` は4個同時描画、停止中のピクセル一致、再開時の変化を検証。`tools/capture_gravity_legendary.gd` は実戦96フレーム。[ログと映像](../art/reviews/gravity-legendary-2026-09-13/README.md)。
+
+重力場の残留演出（2026-09-13、渦の強調後も96フレーム再描画）：legendary_weapons 合格（`.local/logs/gravity-residue-test.log`）。実戦描画は `tools/capture_gravity_residue.gd`、96フレーム。吸引・ダメージ・壁・敵弾吸収・持続と停止の既存テストを使用。
+
+弾の差別化（2026-09-13）：全69件実行、66件初回合格。旧半径を検査していた equipment / legendary_weapons / pattern_weapons の3件は新仕様へ更新し再実行で合格。新規 projectile_personality はかすり接触・半径の上書き・小包の対比・泡の伸縮・軌跡上限を検証。ログ `.local/logs/run_tests-20260913-110705.log` と `.local/logs/personality-{equipment,legendary,pattern}.log`。12種類の飛行描画と実戦描画、最新Webデータパックの起動・不要素材除外も確認。[詳細と動画](../art/reviews/projectile-personality-2026-09-13/README.md)。
+
+弾の識別リング撤去：projectile_hpテスト合格。全38武器の再描画で輪が消えていることを確認。当たり判定・速度・威力は変更なし。ログ .local/logs/projectile-no-rings-test.log。
+
+弾・VFX統合（2026-09-13）：全68テスト合格、ログ `.local/logs/run_tests-20260913-054400.log`。`weapon_visual_assets` は全38武器・派生画像・8系統VFXの実在を検証、`weapon_visual_events` は装填開始／完了／中断、派生元、遅延射撃、専用シーンの停止、ゲーム効果の登録を検証。後続の戦闘サービス参照の追加も同テストで合格。実描画は `tools/capture_projectile_effects.gd` と `tools/capture_projectile_battle.gd`。[動画と結果](../art/reviews/projectile-effects-2026-09-13/README.md)。
+
+WebデータZIP `.local/projectile-effects-export.zip` に新素材60 PNGと `data/weapon_visuals.json` を収録。旧弾／VFXシート・旧共通muzzle/impact・docs・生成原画等の非収録と起動を確認。データZIPは約16.2MB（Web実行エンジンを含まない）。画像予算テスト7件合格、今回6送信すべて成功、累計72回。
+
+2026-09-13：全38武器・35レリックを接続。全66テストに合格（`.local/logs/run_tests-20260913-050332.log`）。初回実行で戦闘前の `apply_build` による未設定の照準角度参照を検出し、初期角度0で処理するよう修正した後、全件を再実行した。
+
+`equipment_art` は37新装備武器の縦横比・四方向の握り点・銃口・回避中非表示と全35レリック参照を検証。`catalog` は既存ピストルを含む全38画像の共有参照を検証。`tools/capture_all_equipment.gd` で左右の武器描画と35アイコンを撮影し、`capture_preparation_revision.gd` で実UIを確認。[確認資料](../art/reviews/equipment-diversity-2026-09-13/README.md)。
+
+`python -m unittest discover -s tools/tests -v` の画像予算7件に合格。`python -X utf8 tools/verify_art_organization.py` は699移動先・507画像の同一性・資料リンクを検証し、エラー0。累計66送信、今回10送信すべて成功。
+
+`Godot --headless --path . --export-pack Web .local/diverse-equipment-export.zip` とZIPの起動に成功。採用装備72 PNGのインポート参照を確認。docs・tests・tools・生成原画・旧武器シート・旧レリックSVGは非収録。Webエンジンを含まないゲームデータZIPの確認である。
+
 準備UI改修：`tests/preparation_redesign.gd` は通常5商品の表示、閲覧の非破壊性、購入後の明示配置、HP0〜3個加算、同時警告、Esc取消を検証。`preparation_ui.gd` は控えの所持品・空き枠・枠間への実ドロップも検証する。実画面撮影は `CHAMBER_SCREENSHOT` に既存の保存先ディレクトリを指定し、`Godot --path . --script res://tools/capture_preparation_revision.gd --quit-after 150`。[画面・実行記録](../art/reviews/preparation-ui-2026-09-12/README.md)。
 
 配布内容の確認：`Godot --headless --path . --export-pack Web .local/art-export-audit.zip` でローカル検証用ZIPを作成し、内容一覧にdocs/・tests/・tools/・assets/generated/、未接続のsample_battle_02/test_ui_click、旧twohead_rinaがないことを確認する。これはゲームデータ部分の検証で、Web実行エンジン込みの配布容量とは異なる。将来音響サンプルを正式採用するときは、そのファイルのexclude_filterを解除する。

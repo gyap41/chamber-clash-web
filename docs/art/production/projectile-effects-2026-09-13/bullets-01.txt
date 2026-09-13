@@ -1,0 +1,17 @@
+Use case: game-sprite. Clean illustrated cel-shaded top-down shooter VFX, bold legible silhouette at 8-24px, restrained shading. Uniform pure #FF00FF background; NO magenta on artwork. No characters, guns, floor, shadows, labels, text, grid lines or surrounding scenes. Keep all artwork 30px inside its cell. Clear empty gutters. 1024x1024, fixed 4x4 grid, row-major. One isolated projectile per cell. All elongated projectiles point RIGHT. No trails or motion blur baked into sprites. Central solid body, short highlights only. Empty unused cells.
+Cell 1: Short silver pointed bullet, copper base; no cartridge case.
+Cell 2: Red and white striped round candy, dark rim.
+Cell 3: Small red paper firework rocket, golden nose.
+Cell 4: Yellow black bee micro missile, two short fins.
+Cell 5: Compact copper round pellet with white highlight.
+Cell 6: Silver crescent moon blade, navy inner edge.
+Cell 7: Long narrow cyan white rail dart.
+Cell 8: Purple glass plasma pearl, white nucleus.
+Cell 9: White faceted diamond light shard, subtle rainbow edges.
+Cell 10: Olive rocket shell with luminous gold star nose.
+Cell 11: Black gravity orb with violet accretion ring.
+Cell 12: Brown seed pod with green split husk.
+Cell 13: Yellow miniature pencil rocket, graphite tip, red tail.
+Cell 14: Cyan transparent bubble with clear white rim.
+Cell 15: Green four leaf clover, small golden core.
+Cell 16: Gold five pointed star, navy inner face.

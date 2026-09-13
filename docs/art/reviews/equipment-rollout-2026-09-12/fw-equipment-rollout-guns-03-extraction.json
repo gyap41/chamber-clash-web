@@ -1,0 +1,82 @@
+[
+  {
+    "id": 8,
+    "kind": "guns",
+    "name": "プリズムバースト",
+    "source": "assets/generated/fw-equipment-rollout-guns-03.png",
+    "sha256": "a2987e6a3332b1d045b2afa95549431ff208691049d8d425ba2907231925cc40",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      46,
+      90,
+      479,
+      377
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/08.png"
+  },
+  {
+    "id": 9,
+    "kind": "guns",
+    "name": "コメットランチャー",
+    "source": "assets/generated/fw-equipment-rollout-guns-03.png",
+    "sha256": "a2987e6a3332b1d045b2afa95549431ff208691049d8d425ba2907231925cc40",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      27,
+      128,
+      468,
+      396
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/09.png"
+  },
+  {
+    "id": 10,
+    "kind": "guns",
+    "name": "ブラックホール・ティー",
+    "source": "assets/generated/fw-equipment-rollout-guns-03.png",
+    "sha256": "a2987e6a3332b1d045b2afa95549431ff208691049d8d425ba2907231925cc40",
+    "cell": [
+      0,
+      512,
+      512,
+      1024
+    ],
+    "crop": [
+      90,
+      55,
+      445,
+      350
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/10.png"
+  },
+  {
+    "id": 11,
+    "kind": "guns",
+    "name": "シードマイン",
+    "source": "assets/generated/fw-equipment-rollout-guns-03.png",
+    "sha256": "a2987e6a3332b1d045b2afa95549431ff208691049d8d425ba2907231925cc40",
+    "cell": [
+      512,
+      512,
+      1024,
+      1024
+    ],
+    "crop": [
+      75,
+      21,
+      449,
+      346
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/11.png"
+  }
+]

@@ -1,0 +1,7 @@
+Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.
+1024x1024 sheet. Regular 2x2 grid, reading order left-to-right top-to-bottom. Exactly 4 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.
+Weapons: flat side view, muzzle to RIGHT, grip down. Preserve natural proportion differences: stocked long rifles, shoulder launchers, bows, tools and toys. No generic pistol frame added to every object.
+Cell 1: ID 10, ブラックホール・ティー. 奇妙なSF: 黒い球状の重力容器、紫の中心、白い断熱ハンドル.
+Cell 2: ID 19, エコードラム. 実銃・レトロ: 黒鉄、木製の銃床、大きなドラム弾倉の短機関銃.
+Cell 3: ID 2, ファイアワークス. コミカル・火薬: 赤い花火筒、紙巻きと導火線。通常のピストル型を避ける.
+Cell 4: ID 33, ツインクレセント. 魔法: 白銀と深紅、対になった湾曲刃、細い儀礼的な保持枠.

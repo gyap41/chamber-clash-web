@@ -1,0 +1,25 @@
+{
+  "name": "fw-projectile-bullets-01-v1",
+  "fingerprint": "663cced25d5ad3cd64a932646a5fefa06efcb49da3214ea1390296f8bde23efc",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T20:22:39.898017+00:00",
+  "endpoint": "generations",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: game-sprite. Clean illustrated cel-shaded top-down shooter VFX, bold legible silhouette at 8-24px, restrained shading. Uniform pure #FF00FF background; NO magenta on artwork. No characters, guns, floor, shadows, labels, text, grid lines or surrounding scenes. Keep all artwork 30px inside its cell. Clear empty gutters. 1024x1024, fixed 4x4 grid, row-major. One isolated projectile per cell. All elongated projectiles point RIGHT. No trails or motion blur baked into sprites. Central solid body, short highlights only. Empty unused cells.\nCell 1: Short silver pointed bullet, copper base; no cartridge case.\nCell 2: Red and white striped round candy, dark rim.\nCell 3: Small red paper firework rocket, golden nose.\nCell 4: Yellow black bee micro missile, two short fins.\nCell 5: Compact copper round pellet with white highlight.\nCell 6: Silver crescent moon blade, navy inner edge.\nCell 7: Long narrow cyan white rail dart.\nCell 8: Purple glass plasma pearl, white nucleus.\nCell 9: White faceted diamond light shard, subtle rainbow edges.\nCell 10: Olive rocket shell with luminous gold star nose.\nCell 11: Black gravity orb with violet accretion ring.\nCell 12: Brown seed pod with green split husk.\nCell 13: Yellow miniature pencil rocket, graphite tip, red tail.\nCell 14: Cyan transparent bubble with clear white rim.\nCell 15: Green four leaf clover, small golden core.\nCell 16: Gold five pointed star, navy inner face.",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 352,
+      "image_tokens": 0
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.10624
+}

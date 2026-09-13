@@ -1,0 +1,82 @@
+[
+  {
+    "id": 12,
+    "kind": "guns",
+    "name": "ロケットペンシル",
+    "source": "assets/generated/fw-equipment-rollout-guns-04.png",
+    "sha256": "783a6ed59255cc08ec1b4c8a0f011f94a158fd30025f7fb460de404428acc077",
+    "cell": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "crop": [
+      34,
+      113,
+      504,
+      368
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/12.png"
+  },
+  {
+    "id": 13,
+    "kind": "guns",
+    "name": "バブルクロック",
+    "source": "assets/generated/fw-equipment-rollout-guns-04.png",
+    "sha256": "783a6ed59255cc08ec1b4c8a0f011f94a158fd30025f7fb460de404428acc077",
+    "cell": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "crop": [
+      70,
+      116,
+      479,
+      390
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/13.png"
+  },
+  {
+    "id": 14,
+    "kind": "guns",
+    "name": "クローバースプリッター",
+    "source": "assets/generated/fw-equipment-rollout-guns-04.png",
+    "sha256": "783a6ed59255cc08ec1b4c8a0f011f94a158fd30025f7fb460de404428acc077",
+    "cell": [
+      0,
+      512,
+      512,
+      1024
+    ],
+    "crop": [
+      48,
+      61,
+      446,
+      367
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/14.png"
+  },
+  {
+    "id": 15,
+    "kind": "guns",
+    "name": "プラネタリウム",
+    "source": "assets/generated/fw-equipment-rollout-guns-04.png",
+    "sha256": "783a6ed59255cc08ec1b4c8a0f011f94a158fd30025f7fb460de404428acc077",
+    "cell": [
+      512,
+      512,
+      1024,
+      1024
+    ],
+    "crop": [
+      64,
+      30,
+      410,
+      388
+    ],
+    "runtime": "assets/first-workshop/equipment/guns/15.png"
+  }
+]

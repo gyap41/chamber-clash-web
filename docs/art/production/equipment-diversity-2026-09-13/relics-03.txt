@@ -1,0 +1,11 @@
+Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.
+1024x1024 sheet. Regular 3x3 grid, reading order left-to-right top-to-bottom. Exactly 8 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.
+Relics: one connected object per cell, slight three-quarter view. Bold simple silhouette readable at 24px. Symbols are engraved/inset in the object, not floating.
+Cell 1: ID 27, パリィシェル. 天然・魔法。白い巻貝状の殻、小さな青い盾紋、受け流した傷.
+Cell 2: ID 28, 応急パッチ. 医療・日用品。白い布製の補修パッチ、橙の十字、縫い目.
+Cell 3: ID 29, パルスブーツ. SF装備。紺色の短いブーツ、足首に青い環状部品.
+Cell 4: ID 30, チェンジサイト. 実銃部品。小さな黒い照準器、赤いレンズ、切替レバー.
+Cell 5: ID 31, ラバーチップ. 工業部品。橙色の厚い弾性ゴム片、くぼんだ衝突跡.
+Cell 6: ID 32, 整流コイル. 工業部品。太い銅線コイル、白い絶縁台、整った巻き線.
+Cell 7: ID 33, 帰還リール. 道具。木製の糸巻き、紺の糸、巻胴に留めた一発の弾.
+Cell 8: ID 34, サプライキー. 魔法・道具。古い銀の鍵、青い宝石、宝箱に合う大きな歯.

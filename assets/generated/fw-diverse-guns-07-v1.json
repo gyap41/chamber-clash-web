@@ -1,0 +1,25 @@
+{
+  "name": "fw-diverse-guns-07-v1",
+  "fingerprint": "eeb34e790a2555b72ad0902ef2064bd7be2f0dfaccee5b0003524b8eaa8d11dd",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-12T19:48:16.878312+00:00",
+  "endpoint": "generations",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Illustrated game equipment sprites, clean dark contours and restrained cel shading. Different materials, palettes, structures and eras; NOT one manufacturer or a uniform ivory/teal/brass family. Do not repeat grips or round cores. Realistic items are illustrated, not photographic. Render only solid objects, no hands, characters, floor, cast shadows, labels, writing, floating projectiles, trajectories or firing effects. Color is specified per item; do not transfer a palette from one cell to another. Background uniformly pure #FF00FF, generous clear gutters. Avoid magenta on objects.\n1024x1024 sheet. Regular 2x2 grid, reading order left-to-right top-to-bottom. Exactly 2 objects. Any unused last cells remain empty. Keep each whole object inside its cell with at least 35px margin.\nWeapons: flat side view, muzzle to RIGHT, grip down. Preserve natural proportion differences: stocked long rifles, shoulder launchers, bows, tools and toys. No generic pistol frame added to every object.\nCell 1: ID 29, クロスステッチ. 実験機: 白いミシン機構、糸巻き状の給弾部、細い交差ガイド.\nCell 2: ID 37, オーロラファン. SF・光学: 扇形の7本の細い発射フィン、白と青、扇に沿う光学窓.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 313,
+      "image_tokens": 0
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1061425
+}

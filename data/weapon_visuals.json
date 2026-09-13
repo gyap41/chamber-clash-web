@@ -1,0 +1,1380 @@
+{
+  "default_family": "ballistic",
+  "families": {
+    "ballistic": {
+      "color": "#ffe2a0",
+      "muzzle": "muzzle_ballistic",
+      "hit": "impact_ballistic",
+      "bounce": "impact_ballistic",
+      "split": "impact_ballistic",
+      "reload_complete": "impact_ballistic",
+      "reload_style": "mechanical"
+    },
+    "metal": {
+      "color": "#e3efff",
+      "muzzle": "muzzle_metal",
+      "hit": "impact_metal",
+      "bounce": "impact_metal",
+      "split": "impact_metal",
+      "reload_complete": "impact_metal",
+      "reload_style": "mechanical"
+    },
+    "energy": {
+      "color": "#8ceaff",
+      "muzzle": "muzzle_energy",
+      "hit": "impact_energy",
+      "bounce": "impact_energy",
+      "split": "impact_energy",
+      "reload_complete": "impact_energy",
+      "reload_style": "charge"
+    },
+    "explosion": {
+      "color": "#ffc166",
+      "muzzle": "muzzle_explosion",
+      "hit": "impact_explosion",
+      "bounce": "impact_explosion",
+      "split": "impact_explosion",
+      "reload_complete": "impact_explosion",
+      "reload_style": "mechanical"
+    },
+    "arcane": {
+      "color": "#cfb7ff",
+      "muzzle": "muzzle_arcane",
+      "hit": "impact_arcane",
+      "bounce": "impact_arcane",
+      "split": "impact_arcane",
+      "reload_complete": "impact_arcane",
+      "reload_style": "rune"
+    },
+    "organic": {
+      "color": "#afdf94",
+      "muzzle": "muzzle_organic",
+      "hit": "impact_organic",
+      "bounce": "impact_organic",
+      "split": "impact_organic",
+      "reload_complete": "impact_organic",
+      "reload_style": "rune"
+    },
+    "paper": {
+      "color": "#eadbc4",
+      "muzzle": "muzzle_paper",
+      "hit": "impact_paper",
+      "bounce": "impact_paper",
+      "split": "impact_paper",
+      "reload_complete": "impact_paper",
+      "reload_style": "mechanical"
+    },
+    "water": {
+      "color": "#9be7fa",
+      "muzzle": "muzzle_water",
+      "hit": "impact_water",
+      "bounce": "impact_water",
+      "split": "impact_water",
+      "reload_complete": "impact_water",
+      "reload_style": "charge"
+    }
+  },
+  "weapons": {
+    "0": {
+      "family": "ballistic",
+      "bullet": "res://assets/first-workshop/projectiles/00.png",
+      "bullet_size": [
+        11,
+        6
+      ],
+      "trail": "short",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/00.png",
+        "scale": 0.8,
+        "grip": [
+          0.22,
+          0.68
+        ],
+        "muzzle": [
+          0.995,
+          0.14
+        ]
+      },
+      "trail_length": 14,
+      "trail_width": 1,
+      "trail_samples": 10,
+      "impact_scale": 0.75,
+      "muzzle_scale": 0.75
+    },
+    "1": {
+      "family": "metal",
+      "bullet": "res://assets/first-workshop/projectiles/01.png",
+      "bullet_size": [
+        19,
+        14
+      ],
+      "trail": "dots",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/01.png",
+        "scale": 1.0,
+        "grip": [
+          0.15,
+          0.76
+        ],
+        "muzzle": [
+          0.995,
+          0.44
+        ]
+      },
+      "color": "#ffc4bb",
+      "trail_length": 28,
+      "trail_width": 1.4,
+      "trail_samples": 10
+    },
+    "2": {
+      "family": "explosion",
+      "bullet": "res://assets/first-workshop/projectiles/02.png",
+      "bullet_size": [
+        23,
+        14
+      ],
+      "trail": "embers",
+      "spin": 0.0,
+      "fragment": "firework_shard",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/02.png",
+        "scale": 1.25,
+        "grip": [
+          0.3,
+          0.6
+        ],
+        "muzzle": [
+          0.995,
+          0.5
+        ]
+      },
+      "trail_length": 42,
+      "trail_width": 1.5,
+      "trail_samples": 18,
+      "thruster": 9
+    },
+    "3": {
+      "family": "energy",
+      "bullet": "res://assets/first-workshop/projectiles/03.png",
+      "bullet_size": [
+        24,
+        17
+      ],
+      "trail": "short",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/03.png",
+        "scale": 1.25,
+        "grip": [
+          0.26,
+          0.9
+        ],
+        "muzzle": [
+          0.995,
+          0.6
+        ]
+      },
+      "color": "#ffe584",
+      "trail_length": 32,
+      "trail_width": 1.4,
+      "trail_samples": 10,
+      "thruster": 9
+    },
+    "4": {
+      "family": "ballistic",
+      "bullet": "res://assets/first-workshop/projectiles/04.png",
+      "bullet_size": [
+        8,
+        6
+      ],
+      "trail": "none",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/04.png",
+        "scale": 1.3,
+        "grip": [
+          0.39,
+          0.46
+        ],
+        "muzzle": [
+          0.995,
+          0.12
+        ]
+      },
+      "trail_length": 0,
+      "trail_width": 1,
+      "trail_samples": 10,
+      "impact_scale": 0.7,
+      "muzzle_scale": 0.7
+    },
+    "5": {
+      "family": "arcane",
+      "bullet": "res://assets/first-workshop/projectiles/05.png",
+      "bullet_size": [
+        36,
+        34
+      ],
+      "trail": "arc",
+      "spin": 9,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/05.png",
+        "scale": 1.3,
+        "grip": [
+          0.12,
+          0.75
+        ],
+        "muzzle": [
+          0.995,
+          0.465
+        ]
+      },
+      "color": "#c0c9ff",
+      "trail_length": 48,
+      "trail_width": 2.5,
+      "trail_samples": 18
+    },
+    "6": {
+      "family": "energy",
+      "bullet": "res://assets/first-workshop/projectiles/06.png",
+      "bullet_size": [
+        42,
+        6
+      ],
+      "trail": "rail",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/06.png",
+        "scale": 1.55,
+        "grip": [
+          0.23,
+          0.8
+        ],
+        "muzzle": [
+          0.995,
+          0.39
+        ]
+      },
+      "trail_length": 100,
+      "trail_width": 1.5,
+      "trail_samples": 18,
+      "impact_scale": 1.4,
+      "muzzle_scale": 1.4,
+      "fit": "stretch"
+    },
+    "7": {
+      "family": "energy",
+      "bullet": "res://assets/first-workshop/projectiles/07.png",
+      "bullet_size": [
+        20,
+        16
+      ],
+      "trail": "helix",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/07.png",
+        "scale": 1.25,
+        "grip": [
+          0.13,
+          0.8
+        ],
+        "muzzle": [
+          0.995,
+          0.45
+        ]
+      },
+      "color": "#ce99ff",
+      "trail_length": 38,
+      "trail_width": 1.8,
+      "trail_samples": 10
+    },
+    "8": {
+      "family": "arcane",
+      "bullet": "res://assets/first-workshop/projectiles/08.png",
+      "bullet_size": [
+        26,
+        9
+      ],
+      "trail": "prism",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/08.png",
+        "scale": 1.2,
+        "grip": [
+          0.13,
+          0.81
+        ],
+        "muzzle": [
+          0.995,
+          0.33
+        ]
+      },
+      "trail_length": 52,
+      "trail_width": 1.2,
+      "trail_samples": 18
+    },
+    "9": {
+      "family": "explosion",
+      "bullet": "res://assets/first-workshop/projectiles/09.png",
+      "bullet_size": [
+        38,
+        25
+      ],
+      "trail": "smoke",
+      "spin": 0.0,
+      "fragment": "comet_shard",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/09.png",
+        "scale": 1.5,
+        "grip": [
+          0.3,
+          0.76
+        ],
+        "muzzle": [
+          0.995,
+          0.32
+        ]
+      },
+      "color": "#ffd68a",
+      "trail_length": 70,
+      "trail_width": 3.2,
+      "trail_samples": 18,
+      "thruster": 15,
+      "impact_scale": 2.5,
+      "muzzle_scale": 1.6
+    },
+    "10": {
+      "family": "arcane",
+      "bullet": "res://assets/first-workshop/projectiles/10.png",
+      "bullet_size": [
+        34,
+        32
+      ],
+      "trail": "orbit",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/10.png",
+        "scale": 1.2,
+        "grip": [
+          0.075,
+          0.76
+        ],
+        "muzzle": [
+          0.995,
+          0.36
+        ]
+      },
+      "color": "#c09aff",
+      "trail_length": 30,
+      "trail_width": 2.5,
+      "trail_samples": 10,
+      "motion": "pulse",
+      "impact_scale": 1.8,
+      "muzzle_scale": 1.6
+    },
+    "11": {
+      "family": "organic",
+      "bullet": "res://assets/first-workshop/projectiles/11.png",
+      "bullet_size": [
+        25,
+        23
+      ],
+      "trail": "leaves",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/11.png",
+        "scale": 1.1,
+        "grip": [
+          0.25,
+          0.55
+        ],
+        "muzzle": [
+          0.995,
+          0.5
+        ]
+      },
+      "trail_length": 24,
+      "trail_width": 1.4,
+      "trail_samples": 10,
+      "motion": "pulse"
+    },
+    "12": {
+      "family": "explosion",
+      "bullet": "res://assets/first-workshop/projectiles/12.png",
+      "bullet_size": [
+        32,
+        12
+      ],
+      "trail": "embers",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/12.png",
+        "scale": 1.35,
+        "grip": [
+          0.365,
+          0.8
+        ],
+        "muzzle": [
+          0.995,
+          0.36
+        ]
+      },
+      "color": "#ffdc6b",
+      "trail_length": 48,
+      "trail_width": 1.5,
+      "trail_samples": 18,
+      "thruster": 9,
+      "impact_scale": 1.25,
+      "muzzle_scale": 1.25
+    },
+    "13": {
+      "family": "water",
+      "bullet": "res://assets/first-workshop/projectiles/13.png",
+      "bullet_size": [
+        27,
+        25
+      ],
+      "trail": "bubble",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/13.png",
+        "scale": 1.15,
+        "grip": [
+          0.2,
+          0.8
+        ],
+        "muzzle": [
+          0.995,
+          0.355
+        ]
+      },
+      "trail_length": 28,
+      "trail_width": 1.5,
+      "trail_samples": 10,
+      "motion": "bubble",
+      "impact_scale": 1.25,
+      "muzzle_scale": 1.25
+    },
+    "14": {
+      "family": "organic",
+      "bullet": "res://assets/first-workshop/projectiles/14.png",
+      "bullet_size": [
+        22,
+        20
+      ],
+      "trail": "leaves",
+      "spin": 6.0,
+      "fragment": "clover_shard",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/14.png",
+        "scale": 1.1,
+        "grip": [
+          0.2,
+          0.5
+        ],
+        "muzzle": [
+          0.995,
+          0.5
+        ]
+      },
+      "color": "#a3dc73",
+      "trail_length": 30,
+      "trail_width": 1.4,
+      "trail_samples": 10
+    },
+    "15": {
+      "family": "arcane",
+      "bullet": "res://assets/first-workshop/projectiles/15.png",
+      "bullet_size": [
+        20,
+        18
+      ],
+      "trail": "stars",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/15.png",
+        "scale": 1.2,
+        "grip": [
+          0.57,
+          0.875
+        ],
+        "muzzle": [
+          0.995,
+          0.4
+        ]
+      },
+      "color": "#ffdfa2",
+      "trail_length": 36,
+      "trail_width": 1.3,
+      "trail_samples": 10
+    },
+    "16": {
+      "family": "paper",
+      "bullet": "res://assets/first-workshop/projectiles/16.png",
+      "bullet_size": [
+        34,
+        16
+      ],
+      "trail": "paper",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/16.png",
+        "scale": 1.15,
+        "grip": [
+          0.15,
+          0.8
+        ],
+        "muzzle": [
+          0.995,
+          0.63
+        ]
+      },
+      "trail_length": 36,
+      "trail_width": 1.2,
+      "trail_samples": 10,
+      "motion": "flutter",
+      "fit": "stretch"
+    },
+    "17": {
+      "family": "paper",
+      "bullet": "res://assets/first-workshop/projectiles/17.png",
+      "bullet_size": [
+        14,
+        10
+      ],
+      "trail": "paper",
+      "spin": 0.0,
+      "fragment": "paper_shard",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/17.png",
+        "scale": 1.45,
+        "grip": [
+          0.3,
+          0.8
+        ],
+        "muzzle": [
+          0.995,
+          0.4
+        ]
+      },
+      "trail_length": 16,
+      "trail_width": 1,
+      "trail_samples": 10,
+      "impact_scale": 1.0,
+      "muzzle_scale": 1.0
+    },
+    "18": {
+      "family": "metal",
+      "bullet": "res://assets/first-workshop/projectiles/18.png",
+      "bullet_size": [
+        19,
+        11
+      ],
+      "trail": "short",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/18.png",
+        "scale": 1.15,
+        "grip": [
+          0.2,
+          0.55
+        ],
+        "muzzle": [
+          0.995,
+          0.5
+        ]
+      },
+      "color": "#e2b4b4",
+      "trail_length": 20,
+      "trail_width": 1.1,
+      "trail_samples": 10
+    },
+    "19": {
+      "family": "ballistic",
+      "bullet": "res://assets/first-workshop/projectiles/19.png",
+      "bullet_size": [
+        11,
+        6
+      ],
+      "trail": "echo",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/19.png",
+        "scale": 1.25,
+        "grip": [
+          0.38,
+          0.6
+        ],
+        "muzzle": [
+          0.995,
+          0.26
+        ]
+      },
+      "trail_length": 18,
+      "trail_width": 1,
+      "trail_samples": 10
+    },
+    "20": {
+      "family": "ballistic",
+      "bullet": "res://assets/first-workshop/bullet.png",
+      "bullet_size": [
+        12,
+        7
+      ],
+      "trail": "short",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/pistol.png",
+        "scale": 1,
+        "fixed_width": 28,
+        "offset": [
+          15,
+          0
+        ],
+        "muzzle_offset": [
+          30,
+          -7
+        ]
+      },
+      "trail_length": 16,
+      "trail_width": 1,
+      "trail_samples": 10,
+      "impact_scale": 0.8,
+      "muzzle_scale": 0.8
+    },
+    "21": {
+      "family": "metal",
+      "bullet": "res://assets/first-workshop/projectiles/21.png",
+      "bullet_size": [
+        27,
+        4
+      ],
+      "trail": "needle",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/21.png",
+        "scale": 1.1,
+        "grip": [
+          0.15,
+          0.75
+        ],
+        "muzzle": [
+          0.99,
+          0.32
+        ]
+      },
+      "color": "#b5daff",
+      "trail_length": 28,
+      "trail_width": 0.7,
+      "trail_samples": 10
+    },
+    "22": {
+      "family": "metal",
+      "bullet": "res://assets/first-workshop/projectiles/22.png",
+      "bullet_size": [
+        16,
+        15
+      ],
+      "trail": "dots",
+      "spin": 8,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/22.png",
+        "scale": 1.0,
+        "grip": [
+          0.18,
+          0.78
+        ],
+        "muzzle": [
+          0.99,
+          0.36
+        ]
+      },
+      "color": "#ffd46e",
+      "trail_length": 26,
+      "trail_width": 1,
+      "trail_samples": 10
+    },
+    "23": {
+      "family": "metal",
+      "bullet": "res://assets/first-workshop/projectiles/23.png",
+      "bullet_size": [
+        20,
+        11
+      ],
+      "trail": "short",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/23.png",
+        "scale": 1.15,
+        "grip": [
+          0.18,
+          0.77
+        ],
+        "muzzle": [
+          0.99,
+          0.25
+        ]
+      },
+      "color": "#e9ce84",
+      "trail_length": 20,
+      "trail_width": 1.2,
+      "trail_samples": 10
+    },
+    "24": {
+      "family": "metal",
+      "bullet": "res://assets/first-workshop/projectiles/24.png",
+      "bullet_size": [
+        12,
+        6
+      ],
+      "trail": "short",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/24.png",
+        "scale": 1.0,
+        "grip": [
+          0.2,
+          0.78
+        ],
+        "muzzle": [
+          0.99,
+          0.28
+        ]
+      },
+      "trail_length": 14,
+      "trail_width": 0.8,
+      "trail_samples": 10
+    },
+    "25": {
+      "family": "arcane",
+      "bullet": "res://assets/first-workshop/projectiles/25.png",
+      "bullet_size": [
+        21,
+        19
+      ],
+      "trail": "rune",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/25.png",
+        "scale": 1.0,
+        "grip": [
+          0.11,
+          0.76
+        ],
+        "muzzle": [
+          0.99,
+          0.3
+        ]
+      },
+      "color": "#b5b3fa",
+      "trail_length": 34,
+      "trail_width": 1.4,
+      "trail_samples": 10
+    },
+    "26": {
+      "family": "ballistic",
+      "bullet": "res://assets/first-workshop/projectiles/26.png",
+      "bullet_size": [
+        15,
+        7
+      ],
+      "trail": "short",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/26.png",
+        "scale": 1.0,
+        "grip": [
+          0.17,
+          0.76
+        ],
+        "muzzle": [
+          0.99,
+          0.25
+        ]
+      },
+      "trail_length": 22,
+      "trail_width": 1.2,
+      "trail_samples": 10
+    },
+    "27": {
+      "family": "ballistic",
+      "bullet": "res://assets/first-workshop/projectiles/27.png",
+      "bullet_size": [
+        9,
+        5
+      ],
+      "trail": "short",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/27.png",
+        "scale": 1.25,
+        "grip": [
+          0.13,
+          0.65
+        ],
+        "muzzle": [
+          0.99,
+          0.32
+        ]
+      },
+      "trail_length": 14,
+      "trail_width": 0.8,
+      "trail_samples": 10,
+      "impact_scale": 0.7,
+      "muzzle_scale": 0.7
+    },
+    "28": {
+      "family": "metal",
+      "bullet": "res://assets/first-workshop/projectiles/28.png",
+      "bullet_size": [
+        16,
+        9
+      ],
+      "trail": "short",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/28.png",
+        "scale": 1.2,
+        "grip": [
+          0.08,
+          0.75
+        ],
+        "muzzle": [
+          0.995,
+          0.55
+        ]
+      },
+      "trail_length": 18,
+      "trail_width": 0.9,
+      "trail_samples": 10
+    },
+    "29": {
+      "family": "metal",
+      "bullet": "res://assets/first-workshop/projectiles/29.png",
+      "bullet_size": [
+        25,
+        5
+      ],
+      "trail": "thread",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/29.png",
+        "scale": 1.2,
+        "grip": [
+          0.197,
+          0.815
+        ],
+        "muzzle": [
+          0.995,
+          0.367
+        ]
+      },
+      "color": "#efaec8",
+      "trail_length": 44,
+      "trail_width": 0.8,
+      "trail_samples": 18
+    },
+    "30": {
+      "family": "ballistic",
+      "bullet": "res://assets/first-workshop/projectiles/30.png",
+      "bullet_size": [
+        25,
+        5
+      ],
+      "trail": "needle",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/30.png",
+        "scale": 1.55,
+        "grip": [
+          0.28,
+          0.8
+        ],
+        "muzzle": [
+          0.995,
+          0.37
+        ]
+      },
+      "trail_length": 30,
+      "trail_width": 0.8,
+      "trail_samples": 10
+    },
+    "31": {
+      "family": "ballistic",
+      "bullet": "res://assets/first-workshop/projectiles/31.png",
+      "bullet_size": [
+        8,
+        6
+      ],
+      "trail": "none",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/31.png",
+        "scale": 1.1,
+        "grip": [
+          0.13,
+          0.76
+        ],
+        "muzzle": [
+          0.995,
+          0.27
+        ]
+      },
+      "trail_length": 0,
+      "trail_width": 1,
+      "trail_samples": 10,
+      "impact_scale": 0.7,
+      "muzzle_scale": 0.7
+    },
+    "32": {
+      "family": "metal",
+      "bullet": "res://assets/first-workshop/projectiles/32.png",
+      "bullet_size": [
+        18,
+        18
+      ],
+      "trail": "dots",
+      "spin": 0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/32.png",
+        "scale": 1.2,
+        "grip": [
+          0.2,
+          0.8
+        ],
+        "muzzle": [
+          0.995,
+          0.43
+        ]
+      },
+      "trail_length": 32,
+      "trail_width": 1.3,
+      "trail_samples": 10
+    },
+    "33": {
+      "family": "arcane",
+      "bullet": "res://assets/first-workshop/projectiles/33.png",
+      "bullet_size": [
+        28,
+        27
+      ],
+      "trail": "arc",
+      "spin": -10,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/33.png",
+        "scale": 1.35,
+        "grip": [
+          0.32,
+          0.49
+        ],
+        "muzzle": [
+          0.995,
+          0.5
+        ]
+      },
+      "color": "#eea9c6",
+      "trail_length": 40,
+      "trail_width": 2,
+      "trail_samples": 10
+    },
+    "34": {
+      "family": "energy",
+      "bullet": "res://assets/first-workshop/projectiles/34.png",
+      "bullet_size": [
+        28,
+        10
+      ],
+      "trail": "electric",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/34.png",
+        "scale": 1.35,
+        "grip": [
+          0.1,
+          0.8
+        ],
+        "muzzle": [
+          0.995,
+          0.27
+        ]
+      },
+      "color": "#ffeaa1",
+      "trail_length": 42,
+      "trail_width": 1.2,
+      "trail_samples": 18
+    },
+    "35": {
+      "family": "organic",
+      "bullet": "res://assets/first-workshop/projectiles/35.png",
+      "bullet_size": [
+        24,
+        23
+      ],
+      "trail": "leaves",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/35.png",
+        "scale": 1.3,
+        "grip": [
+          0.54,
+          0.8
+        ],
+        "muzzle": [
+          0.95,
+          0.31
+        ]
+      },
+      "color": "#a8b6ed",
+      "trail_length": 26,
+      "trail_width": 1.5,
+      "trail_samples": 10,
+      "motion": "pulse"
+    },
+    "36": {
+      "family": "energy",
+      "bullet": "res://assets/first-workshop/projectiles/36.png",
+      "bullet_size": [
+        36,
+        5
+      ],
+      "trail": "rail",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/36.png",
+        "scale": 1.45,
+        "grip": [
+          0.246,
+          0.47
+        ],
+        "muzzle": [
+          0.995,
+          0.51
+        ]
+      },
+      "color": "#b5d8f6",
+      "trail_length": 84,
+      "trail_width": 1.2,
+      "trail_samples": 18,
+      "impact_scale": 1.3,
+      "muzzle_scale": 1.3,
+      "fit": "stretch"
+    },
+    "37": {
+      "family": "arcane",
+      "bullet": "res://assets/first-workshop/projectiles/37.png",
+      "bullet_size": [
+        26,
+        12
+      ],
+      "trail": "aurora",
+      "spin": 0.0,
+      "fragment": "derived",
+      "body": {
+        "texture": "res://assets/first-workshop/equipment/guns/37.png",
+        "scale": 1.3,
+        "grip": [
+          0.057,
+          0.81
+        ],
+        "muzzle": [
+          0.995,
+          0.5
+        ]
+      },
+      "color": "#bfc7ff",
+      "trail_length": 38,
+      "trail_width": 1.1,
+      "trail_samples": 10
+    }
+  },
+  "effects": {
+    "muzzle_ballistic": {
+      "texture": "res://assets/first-workshop/projectiles/muzzle_ballistic.png",
+      "duration": 0.075,
+      "size": [
+        22,
+        16
+      ],
+      "frames": 1,
+      "anchor": [
+        0,
+        0.5
+      ]
+    },
+    "impact_ballistic": {
+      "texture": "res://assets/first-workshop/projectiles/impact_ballistic.png",
+      "duration": 0.22,
+      "size": [
+        26,
+        26
+      ],
+      "frames": 4,
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "muzzle_metal": {
+      "texture": "res://assets/first-workshop/projectiles/muzzle_metal.png",
+      "duration": 0.075,
+      "size": [
+        22,
+        16
+      ],
+      "frames": 1,
+      "anchor": [
+        0,
+        0.5
+      ]
+    },
+    "impact_metal": {
+      "texture": "res://assets/first-workshop/projectiles/impact_metal.png",
+      "duration": 0.22,
+      "size": [
+        26,
+        26
+      ],
+      "frames": 4,
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "muzzle_energy": {
+      "texture": "res://assets/first-workshop/projectiles/muzzle_energy.png",
+      "duration": 0.075,
+      "size": [
+        22,
+        16
+      ],
+      "frames": 1,
+      "anchor": [
+        0,
+        0.5
+      ]
+    },
+    "impact_energy": {
+      "texture": "res://assets/first-workshop/projectiles/impact_energy.png",
+      "duration": 0.22,
+      "size": [
+        26,
+        26
+      ],
+      "frames": 4,
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "muzzle_explosion": {
+      "texture": "res://assets/first-workshop/projectiles/muzzle_explosion.png",
+      "duration": 0.075,
+      "size": [
+        22,
+        16
+      ],
+      "frames": 1,
+      "anchor": [
+        0,
+        0.5
+      ]
+    },
+    "impact_explosion": {
+      "texture": "res://assets/first-workshop/projectiles/impact_explosion.png",
+      "duration": 0.32,
+      "size": [
+        26,
+        26
+      ],
+      "frames": 4,
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "muzzle_arcane": {
+      "texture": "res://assets/first-workshop/projectiles/muzzle_arcane.png",
+      "duration": 0.075,
+      "size": [
+        22,
+        16
+      ],
+      "frames": 1,
+      "anchor": [
+        0,
+        0.5
+      ]
+    },
+    "impact_arcane": {
+      "texture": "res://assets/first-workshop/projectiles/impact_arcane.png",
+      "duration": 0.22,
+      "size": [
+        26,
+        26
+      ],
+      "frames": 4,
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "muzzle_organic": {
+      "texture": "res://assets/first-workshop/projectiles/muzzle_organic.png",
+      "duration": 0.075,
+      "size": [
+        22,
+        16
+      ],
+      "frames": 1,
+      "anchor": [
+        0,
+        0.5
+      ]
+    },
+    "impact_organic": {
+      "texture": "res://assets/first-workshop/projectiles/impact_organic.png",
+      "duration": 0.22,
+      "size": [
+        26,
+        26
+      ],
+      "frames": 4,
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "muzzle_paper": {
+      "texture": "res://assets/first-workshop/projectiles/muzzle_paper.png",
+      "duration": 0.075,
+      "size": [
+        22,
+        16
+      ],
+      "frames": 1,
+      "anchor": [
+        0,
+        0.5
+      ]
+    },
+    "impact_paper": {
+      "texture": "res://assets/first-workshop/projectiles/impact_paper.png",
+      "duration": 0.22,
+      "size": [
+        26,
+        26
+      ],
+      "frames": 4,
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "muzzle_water": {
+      "texture": "res://assets/first-workshop/projectiles/muzzle_water.png",
+      "duration": 0.075,
+      "size": [
+        22,
+        16
+      ],
+      "frames": 1,
+      "anchor": [
+        0,
+        0.5
+      ]
+    },
+    "impact_water": {
+      "texture": "res://assets/first-workshop/projectiles/impact_water.png",
+      "duration": 0.22,
+      "size": [
+        26,
+        26
+      ],
+      "frames": 4,
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    }
+  },
+  "variants": {
+    "parcel": {
+      "texture": "res://assets/first-workshop/projectiles/parcel.png",
+      "size": [
+        38,
+        32
+      ],
+      "impact_scale": 1.9
+    },
+    "paper_shard": {
+      "texture": "res://assets/first-workshop/projectiles/paper_shard.png",
+      "size": [
+        10,
+        8
+      ]
+    },
+    "firework_shard": {
+      "texture": "res://assets/first-workshop/projectiles/firework_shard.png",
+      "size": [
+        10,
+        8
+      ]
+    },
+    "comet_shard": {
+      "texture": "res://assets/first-workshop/projectiles/comet_shard.png",
+      "size": [
+        10,
+        8
+      ]
+    },
+    "clover_shard": {
+      "texture": "res://assets/first-workshop/projectiles/clover_shard.png",
+      "size": [
+        10,
+        8
+      ]
+    },
+    "derived": {
+      "texture": "res://assets/first-workshop/projectiles/derived.png",
+      "size": [
+        10,
+        8
+      ]
+    }
+  },
+  "gravity_core": "res://assets/first-workshop/projectiles/gravity_core.png"
+}
