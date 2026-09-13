@@ -19,6 +19,10 @@ config/version="0.1.0-dev"
 run/main_scene="res://scenes/ui/title.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 
+[autoload]
+
+Music="*res://scripts/audio/music.gd"
+
 [display]
 
 window/size/viewport_width=1120

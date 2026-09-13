@@ -118,6 +118,7 @@ func reset_round(check_new: bool = true) -> void:
 	combat.reset_outcome()
 	paused = false
 	phase = "prepare"
+	get_node("/root/Music").play_context("prepare")
 	preparation.begin()
 	if replay: launch_round()
 	hud.refresh(players,remaining,paused,result,scores,phase)
@@ -191,6 +192,7 @@ func launch_round() -> void:
 	if phase != "prepare" or not match_state.ready.all(func(value): return value): return
 	mouse_fire_held = false
 	phase = "play"
+	get_node("/root/Music").play_context("play")
 	for i in range(players.size()):
 		players[i].reset(arena.spawn_position(i))
 		players[i].apply_build(match_state.builds[i],match_state.capacity(i),true,match_state.usable_cells(i))
@@ -251,6 +253,7 @@ func _settle_round() -> void:
 	battle_outcome = outcome
 	result = "DRAW" if outcome.draw else ("P%d WINS" % (outcome.slots[0]+1) if players.size() == 2 else "TEAM %s WINS" % str(outcome.team))
 	phase = "result"
+	get_node("/root/Music").play_context("result")
 	sound.stop_all()
 	if remaining <= 0: sound.play_sound("time_up")
 	sound.play_sound("draw" if outcome.draw else ("win" if 0 in outcome.slots else "lose"))
@@ -260,6 +263,7 @@ func _settle_round() -> void:
 	telemetry.record("round_end",{"result":result,"seconds":round_duration-remaining,"scores":scores,"outcome":outcome})
 
 func _process(dt: float) -> void:
+	get_node("/root/Music").set_ducked(paused)
 	if phase == "play" and not paused and result == "" and telemetry != null:
 		telemetry.frame(dt,shots.size())
 

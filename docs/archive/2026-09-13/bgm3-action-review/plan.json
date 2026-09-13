@@ -1,0 +1,26 @@
+{
+  "maximum_paid_submissions": 3,
+  "maximum_credits": 60,
+  "credits_per_success": 20,
+  "price_source": "https://platform.stability.ai/pricing",
+  "tracks": [
+    {
+      "name": "fw_title_02",
+      "duration": 60,
+      "purpose": "Title and character selection; action-adventure revision of bgm:fw_title_01; material review only",
+      "prompt": "Instrumental melodic action-adventure title theme, around 108 BPM. Bright forward-looking adventure, confident cool heroes and excitement to set out. Memorable clean electric guitar lead answered by a clear synth motif, buoyant warm bass, light tight snare and kick groove, restrained supporting strings. Catchy and welcoming, energetic but comfortable during menu waiting. Open diatonic harmony, spacious arrangement, no extended guitar solo. Cohesive modern melodic action-adventure soundtrack for explorer-artisans with high-tech crafted equipment. Clean electric guitar, warm electric bass, crisp compact drum kit and precise restrained synth accents; tiny wooden accents only. Short original rising hook with a confident answering phrase. Dry close studio mix, short room ambience, clear separation, moderate dynamics and clean transients with headroom. Steady 4/4 and recurring four-bar phrases for loop editing; start immediately with the groove, no fade-out or final cadence. No vocals, speech, lyrics, gunshots, clicks, alarms or environmental sound effects. No folk or world-music styling, hand-drum ensembles, ethnic flutes, cavernous reverb, dark ambient drones, military marches, horror, heavy metal, aggressive EDM drops or epic boss orchestra."
+    },
+    {
+      "name": "fw_preparation_02",
+      "duration": 90,
+      "purpose": "Preparation and inventory; action-adventure revision of bgm:fw_preparation_01; material review only",
+      "prompt": "Instrumental equipment-loadout menu music for a stylish adventure shooter, around 96 BPM. Calm readiness and quiet confidence while assembling gear before deployment. Muted clean electric guitar rhythm, rounded electric bass groove, soft dry kick and snare, sparse warm synth phrases. Relaxed understated momentum, low melodic density and stable volume for thinking. Brief hints of an optimistic adventure hook, no build-ups or showy solos. Cohesive modern melodic action-adventure soundtrack for explorer-artisans with high-tech crafted equipment. Clean electric guitar, warm electric bass, crisp compact drum kit and precise restrained synth accents; tiny wooden accents only. Short original rising hook with a confident answering phrase. Dry close studio mix, short room ambience, clear separation, moderate dynamics and clean transients with headroom. Steady 4/4 and recurring four-bar phrases for loop editing; start immediately with the groove, no fade-out or final cadence. No vocals, speech, lyrics, gunshots, clicks, alarms or environmental sound effects. No folk or world-music styling, hand-drum ensembles, ethnic flutes, cavernous reverb, dark ambient drones, military marches, horror, heavy metal, aggressive EDM drops or epic boss orchestra."
+    },
+    {
+      "name": "fw_battle_02",
+      "duration": 120,
+      "purpose": "Normal arena gun-action battle; revision of bgm:fw_battle_01; material review only",
+      "prompt": "Instrumental agile gun-action battle music for a stylish adventure shooter, around 136 BPM. Confident daring, forward momentum, cool precision and controlled tension. Tight syncopated electric guitar riffs with light crunch, crisp kick and snare backbeat, focused warm electric bass and short precise synth responses. Melodic action rock with restrained electronic support, catchy compact riffs and breathing gaps; no wall of guitars or long solo. Sparse lead melody, restrained cymbals, no piercing highs, dense sustained midrange or excessive sub-bass. Leave space for gameplay gunfire, hits and alerts without putting these effects in the music. Cohesive modern melodic action-adventure soundtrack for explorer-artisans with high-tech crafted equipment. Clean electric guitar, warm electric bass, crisp compact drum kit and precise restrained synth accents; tiny wooden accents only. Short original rising hook with a confident answering phrase. Dry close studio mix, short room ambience, clear separation, moderate dynamics and clean transients with headroom. Steady 4/4 and recurring four-bar phrases for loop editing; start immediately with the groove, no fade-out or final cadence. No vocals, speech, lyrics, gunshots, clicks, alarms or environmental sound effects. No folk or world-music styling, hand-drum ensembles, ethnic flutes, cavernous reverb, dark ambient drones, military marches, horror, heavy metal, aggressive EDM drops or epic boss orchestra."
+    }
+  ]
+}

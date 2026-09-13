@@ -1,0 +1,22 @@
+{
+  "asset_id": "bgm:fw_preparation_01",
+  "type": "bgm",
+  "provider": "stability",
+  "file_path": "res://assets/audio/bgm/fw_preparation_01.wav",
+  "purpose": "Preparation and inventory between arena rounds; First Workshop; one approved candidate; material review only",
+  "prompt": "Instrumental preparation and inventory-screen music for an original adventure game about explorer-artisans selecting parts and assembling equipment inside a portable workshop between arena rounds. Calm concentration, tactile craftsmanship, and a safe pause before entering an ancient stone manufacturing facility. Around 90 BPM in steady 4/4, delicate wooden percussion, muted plucked strings, a soft warm bass pulse, sparse wooden mallet notes, and restrained electronic patterns suggesting precision. Low melodic density, occasional short upward gestures with gentle answering phrases, steady gentle rhythm, understated harmony, no dramatic build-ups. A cohesive warm wood, muted strings and subtle electronics palette. Begin directly with the recurring texture, use recurring four-bar phrases and stable dynamics, and avoid a final cadence so the piece can be edited into a loop. No vocals, speech, lyrics, gunshots, workshop or environmental sound effects, clicks, alarms, comedic toy music, military heaviness, horror, aggressive EDM, oversized boss-battle orchestra, long intro, or fade-out.",
+  "loop": true,
+  "generation_parameters": {
+    "model": "stable-audio-2.5",
+    "duration": 90.0,
+    "output_format": "wav",
+    "steps": 8
+  },
+  "endpoint": "https://api.stability.ai/v2beta/audio/stable-audio-2/text-to-audio",
+  "api_calls": 0,
+  "candidates": 1,
+  "retries": 0,
+  "timeout_seconds": 180,
+  "allow_repeat": false,
+  "output_exists": false
+}

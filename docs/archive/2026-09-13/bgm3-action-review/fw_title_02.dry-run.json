@@ -1,0 +1,22 @@
+{
+  "asset_id": "bgm:fw_title_02",
+  "type": "bgm",
+  "provider": "stability",
+  "file_path": "res://assets/audio/bgm/fw_title_02.wav",
+  "purpose": "Title and character selection; action-adventure revision of bgm:fw_title_01; material review only",
+  "prompt": "Instrumental melodic action-adventure title theme, around 108 BPM. Bright forward-looking adventure, confident cool heroes and excitement to set out. Memorable clean electric guitar lead answered by a clear synth motif, buoyant warm bass, light tight snare and kick groove, restrained supporting strings. Catchy and welcoming, energetic but comfortable during menu waiting. Open diatonic harmony, spacious arrangement, no extended guitar solo. Cohesive modern melodic action-adventure soundtrack for explorer-artisans with high-tech crafted equipment. Clean electric guitar, warm electric bass, crisp compact drum kit and precise restrained synth accents; tiny wooden accents only. Short original rising hook with a confident answering phrase. Dry close studio mix, short room ambience, clear separation, moderate dynamics and clean transients with headroom. Steady 4/4 and recurring four-bar phrases for loop editing; start immediately with the groove, no fade-out or final cadence. No vocals, speech, lyrics, gunshots, clicks, alarms or environmental sound effects. No folk or world-music styling, hand-drum ensembles, ethnic flutes, cavernous reverb, dark ambient drones, military marches, horror, heavy metal, aggressive EDM drops or epic boss orchestra.",
+  "loop": true,
+  "generation_parameters": {
+    "model": "stable-audio-2.5",
+    "duration": 60.0,
+    "output_format": "wav",
+    "steps": 8
+  },
+  "endpoint": "https://api.stability.ai/v2beta/audio/stable-audio-2/text-to-audio",
+  "api_calls": 0,
+  "candidates": 1,
+  "retries": 0,
+  "timeout_seconds": 180,
+  "allow_repeat": false,
+  "output_exists": false
+}

@@ -1,3 +1,5 @@
+BGM改訂02の3曲をユーザー暫定採用し、タイトル／選択・準備・戦闘へ接続。結果停止、ポーズ減音、独立ON/OFFを実装。残課題は実機ミックス、Web操作後の音声開始、仮ループ位置の3周試聴と調整。追加生成なし。[素材記録](../archive/2026-09-13/bgm3-action-review/README.md)。
+
 Visual Hubの操作中心をWebへ移行。武器・キャラのライブ一覧とレリック情報一覧を実装。既存描画のGodot Web実行、武器一括切替、ShopCatalog価格・BuildGrid占有形状を接続。[現行手順](../../tools/visual_hub/README.md)。後続は別ブラウザ/低性能端末での負荷評価、独立VFXとUI状態ギャラリー、自動ファイル監視。
 
 Visual Hub v1 Hybridを実装。Godot実描画、Web一覧・比較・レビュー・履歴、Manifest/内容キャッシュを接続。[起動方法](../../tools/visual_hub/README.md)。

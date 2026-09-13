@@ -1,0 +1,22 @@
+{
+  "asset_id": "bgm:fw_battle_01",
+  "type": "bgm",
+  "provider": "stability",
+  "file_path": "res://assets/audio/bgm/fw_battle_01.wav",
+  "purpose": "Normal arena battle; First Workshop; one approved candidate; material review only",
+  "prompt": "Instrumental normal arena-battle music for an original adventure game set inside ancient stone architecture integrated with advanced manufacturing machinery. Explorer-artisans duel using crafted mechanical firearms, energy weapons and melee tools. Around 132 BPM in steady 4/4, tight restrained percussion with wooden mallet accents, rhythmic muted plucked strings, warm focused bass, and sparse precise electronic arpeggios. Adventurous momentum and controlled tension, agile rather than militaristic, energetic without becoming chaotic. Occasional short upward melodic gestures with gentle answering phrases, keeping the main melody sparse. Leave sonic space for the game's rapid gunfire, hit and warning cues without including those sounds in the music. Avoid piercing high frequencies, dense sustained midrange, excessive sub-bass and dramatic volume jumps. Maintain stable tempo, moderate dynamics and recurring four-bar phrases suitable for loop editing. No vocals, speech, lyrics, gunshots, clicks, alarms, environmental or other sound effects, comedic toy music, horror, aggressive EDM or drops, oversized boss-battle orchestra, long intro, fade-out, or triumphant ending.",
+  "loop": true,
+  "generation_parameters": {
+    "model": "stable-audio-2.5",
+    "duration": 120.0,
+    "output_format": "wav",
+    "steps": 8
+  },
+  "endpoint": "https://api.stability.ai/v2beta/audio/stable-audio-2/text-to-audio",
+  "api_calls": 0,
+  "candidates": 1,
+  "retries": 0,
+  "timeout_seconds": 180,
+  "allow_repeat": false,
+  "output_exists": false
+}

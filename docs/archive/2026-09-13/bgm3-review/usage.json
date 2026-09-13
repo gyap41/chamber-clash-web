@@ -1,0 +1,9 @@
+{
+  "credits_before": 1005.0000000000001,
+  "credits_after": 944.9999999999999,
+  "observed_balance_decrease": 60.00000000000023,
+  "successful_generation_posts": 3,
+  "pricing_estimate_credits": 60,
+  "pricing_estimate_usd": 0.6,
+  "note": "Balance difference, not a per-request billing receipt."
+}

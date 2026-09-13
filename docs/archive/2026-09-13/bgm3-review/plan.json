@@ -1,0 +1,29 @@
+{
+  "provider": "stability",
+  "model": "stable-audio-2.5",
+  "price_source": "https://platform.stability.ai/pricing",
+  "price_checked_date": "2026-09-13",
+  "credits_per_success": 20,
+  "maximum_paid_submissions": 3,
+  "maximum_estimated_credits": 60,
+  "tracks": [
+    {
+      "name": "fw_title_01",
+      "purpose": "Title and character selection; First Workshop; one approved candidate; material review only",
+      "duration": 60,
+      "prompt": "Instrumental title and character-selection music for an original adventure game about explorer-artisans carrying portable workshops into an ancient underground manufacturing complex. Warm craftsmanship, quiet curiosity, and anticipation of a journey. Around 100 BPM in steady 4/4, soft wooden mallet percussion, gentle muted plucked strings, warm restrained bass, and subtle precise electronic textures. A short memorable original motif with a small upward gesture and a gentle answering phrase, spacious and easy to remember. A clear but unhurried pulse, light arrangement, moderate stable dynamics, comfortable during repeated waiting. Welcoming rather than comedic, mysterious rather than frightening. Establish the musical texture immediately and maintain recurring four-bar phrases suitable for loop editing. No vocals, speech, lyrics, gunshots, clicks, alarms, environmental or other sound effects, cinematic impacts, military heaviness, horror, aggressive EDM, oversized boss-battle orchestra, long intro, fade-out, or grand final cadence."
+    },
+    {
+      "name": "fw_preparation_01",
+      "purpose": "Preparation and inventory between arena rounds; First Workshop; one approved candidate; material review only",
+      "duration": 90,
+      "prompt": "Instrumental preparation and inventory-screen music for an original adventure game about explorer-artisans selecting parts and assembling equipment inside a portable workshop between arena rounds. Calm concentration, tactile craftsmanship, and a safe pause before entering an ancient stone manufacturing facility. Around 90 BPM in steady 4/4, delicate wooden percussion, muted plucked strings, a soft warm bass pulse, sparse wooden mallet notes, and restrained electronic patterns suggesting precision. Low melodic density, occasional short upward gestures with gentle answering phrases, steady gentle rhythm, understated harmony, no dramatic build-ups. A cohesive warm wood, muted strings and subtle electronics palette. Begin directly with the recurring texture, use recurring four-bar phrases and stable dynamics, and avoid a final cadence so the piece can be edited into a loop. No vocals, speech, lyrics, gunshots, workshop or environmental sound effects, clicks, alarms, comedic toy music, military heaviness, horror, aggressive EDM, oversized boss-battle orchestra, long intro, or fade-out."
+    },
+    {
+      "name": "fw_battle_01",
+      "purpose": "Normal arena battle; First Workshop; one approved candidate; material review only",
+      "duration": 120,
+      "prompt": "Instrumental normal arena-battle music for an original adventure game set inside ancient stone architecture integrated with advanced manufacturing machinery. Explorer-artisans duel using crafted mechanical firearms, energy weapons and melee tools. Around 132 BPM in steady 4/4, tight restrained percussion with wooden mallet accents, rhythmic muted plucked strings, warm focused bass, and sparse precise electronic arpeggios. Adventurous momentum and controlled tension, agile rather than militaristic, energetic without becoming chaotic. Occasional short upward melodic gestures with gentle answering phrases, keeping the main melody sparse. Leave sonic space for the game's rapid gunfire, hit and warning cues without including those sounds in the music. Avoid piercing high frequencies, dense sustained midrange, excessive sub-bass and dramatic volume jumps. Maintain stable tempo, moderate dynamics and recurring four-bar phrases suitable for loop editing. No vocals, speech, lyrics, gunshots, clicks, alarms, environmental or other sound effects, comedic toy music, horror, aggressive EDM or drops, oversized boss-battle orchestra, long intro, fade-out, or triumphant ending."
+    }
+  ]
+}

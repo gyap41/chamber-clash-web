@@ -1371,6 +1371,225 @@
       "fingerprint": "17eca35294183b42604914032f5bba3dd03605f6af785478b26f42d2f4d3affb",
       "sha256": "66a616dd59e0e55e643aa1464cf42bf4cc8f7b9dd873d2d8c310480e2cc7d26a",
       "loop_verified": false
+    },
+    {
+      "asset_id": "bgm:fw_title_01",
+      "type": "bgm",
+      "provider": "stability",
+      "file_path": "res://assets/audio/bgm/fw_title_01.wav",
+      "purpose": "Title and character selection; First Workshop; one approved candidate; material review only",
+      "prompt": "Instrumental title and character-selection music for an original adventure game about explorer-artisans carrying portable workshops into an ancient underground manufacturing complex. Warm craftsmanship, quiet curiosity, and anticipation of a journey. Around 100 BPM in steady 4/4, soft wooden mallet percussion, gentle muted plucked strings, warm restrained bass, and subtle precise electronic textures. A short memorable original motif with a small upward gesture and a gentle answering phrase, spacious and easy to remember. A clear but unhurried pulse, light arrangement, moderate stable dynamics, comfortable during repeated waiting. Welcoming rather than comedic, mysterious rather than frightening. Establish the musical texture immediately and maintain recurring four-bar phrases suitable for loop editing. No vocals, speech, lyrics, gunshots, clicks, alarms, environmental or other sound effects, cinematic impacts, military heaviness, horror, aggressive EDM, oversized boss-battle orchestra, long intro, fade-out, or grand final cadence.",
+      "loop": true,
+      "generation_parameters": {
+        "model": "stable-audio-2.5",
+        "duration": 60.0,
+        "output_format": "wav",
+        "steps": 8
+      },
+      "duration": 60.0,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-13T12:51:34.380393+00:00",
+      "fingerprint": "10dbab986d2aa539182c9f82b6757c5683d3a73c64fa885e1f4105fc78e23f90",
+      "sha256": "a3838aeb5dbce30fe199d32e2969d8737222dde99b5c2702a844a735e2dbeb34",
+      "loop_verified": false,
+      "review": {
+        "status": "needs_listening_and_loop_edit_review",
+        "source_preserved": true,
+        "local_edits": [],
+        "godot_resource_verified": true,
+        "auditioned": false,
+        "loop_listening_passes": 0,
+        "analysis_path": "docs/archive/2026-09-13/bgm3-review/audio-analysis.json",
+        "warnings": [
+          "Full-scale PCM samples detected; audible clipping unverified.",
+          "Leading/trailing low-level audio detected; loop boundary and bar positions unverified."
+        ]
+      }
+    },
+    {
+      "asset_id": "bgm:fw_preparation_01",
+      "type": "bgm",
+      "provider": "stability",
+      "file_path": "res://assets/audio/bgm/fw_preparation_01.wav",
+      "purpose": "Preparation and inventory between arena rounds; First Workshop; one approved candidate; material review only",
+      "prompt": "Instrumental preparation and inventory-screen music for an original adventure game about explorer-artisans selecting parts and assembling equipment inside a portable workshop between arena rounds. Calm concentration, tactile craftsmanship, and a safe pause before entering an ancient stone manufacturing facility. Around 90 BPM in steady 4/4, delicate wooden percussion, muted plucked strings, a soft warm bass pulse, sparse wooden mallet notes, and restrained electronic patterns suggesting precision. Low melodic density, occasional short upward gestures with gentle answering phrases, steady gentle rhythm, understated harmony, no dramatic build-ups. A cohesive warm wood, muted strings and subtle electronics palette. Begin directly with the recurring texture, use recurring four-bar phrases and stable dynamics, and avoid a final cadence so the piece can be edited into a loop. No vocals, speech, lyrics, gunshots, workshop or environmental sound effects, clicks, alarms, comedic toy music, military heaviness, horror, aggressive EDM, oversized boss-battle orchestra, long intro, or fade-out.",
+      "loop": true,
+      "generation_parameters": {
+        "model": "stable-audio-2.5",
+        "duration": 90.0,
+        "output_format": "wav",
+        "steps": 8
+      },
+      "duration": 90.0,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-13T12:52:03.575625+00:00",
+      "fingerprint": "d52f4d6631b2ebd29ebda2eac3356a255e9e1051025f55355282dd256f441d33",
+      "sha256": "5bc7fe74a03c3f39345e8eaea8dfe3c0d5156e3a8d15e04f4f5411fc675bd9bb",
+      "loop_verified": false,
+      "review": {
+        "status": "needs_listening_and_loop_edit_review",
+        "source_preserved": true,
+        "local_edits": [],
+        "godot_resource_verified": true,
+        "auditioned": false,
+        "loop_listening_passes": 0,
+        "analysis_path": "docs/archive/2026-09-13/bgm3-review/audio-analysis.json",
+        "warnings": [
+          "Full-scale PCM samples detected; audible clipping unverified.",
+          "Leading/trailing low-level audio detected; loop boundary and bar positions unverified."
+        ]
+      }
+    },
+    {
+      "asset_id": "bgm:fw_battle_01",
+      "type": "bgm",
+      "provider": "stability",
+      "file_path": "res://assets/audio/bgm/fw_battle_01.wav",
+      "purpose": "Normal arena battle; First Workshop; one approved candidate; material review only",
+      "prompt": "Instrumental normal arena-battle music for an original adventure game set inside ancient stone architecture integrated with advanced manufacturing machinery. Explorer-artisans duel using crafted mechanical firearms, energy weapons and melee tools. Around 132 BPM in steady 4/4, tight restrained percussion with wooden mallet accents, rhythmic muted plucked strings, warm focused bass, and sparse precise electronic arpeggios. Adventurous momentum and controlled tension, agile rather than militaristic, energetic without becoming chaotic. Occasional short upward melodic gestures with gentle answering phrases, keeping the main melody sparse. Leave sonic space for the game's rapid gunfire, hit and warning cues without including those sounds in the music. Avoid piercing high frequencies, dense sustained midrange, excessive sub-bass and dramatic volume jumps. Maintain stable tempo, moderate dynamics and recurring four-bar phrases suitable for loop editing. No vocals, speech, lyrics, gunshots, clicks, alarms, environmental or other sound effects, comedic toy music, horror, aggressive EDM or drops, oversized boss-battle orchestra, long intro, fade-out, or triumphant ending.",
+      "loop": true,
+      "generation_parameters": {
+        "model": "stable-audio-2.5",
+        "duration": 120.0,
+        "output_format": "wav",
+        "steps": 8
+      },
+      "duration": 120.0,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-13T12:52:33.899524+00:00",
+      "fingerprint": "0bfa75c843a68deef59a13e647d5959a1508200d123624987c12e456a73b7a22",
+      "sha256": "26283e61c49d8349ea16bfa6cf9a798dd3edad5af41fd6f04bd78ba4dc86b958",
+      "loop_verified": false,
+      "review": {
+        "status": "needs_listening_and_loop_edit_review",
+        "source_preserved": true,
+        "local_edits": [],
+        "godot_resource_verified": true,
+        "auditioned": false,
+        "loop_listening_passes": 0,
+        "analysis_path": "docs/archive/2026-09-13/bgm3-review/audio-analysis.json",
+        "warnings": [
+          "Full-scale PCM samples detected; audible clipping unverified.",
+          "Leading/trailing low-level audio detected; loop boundary and bar positions unverified."
+        ]
+      }
+    },
+    {
+      "asset_id": "bgm:fw_title_02",
+      "type": "bgm",
+      "provider": "stability",
+      "file_path": "res://assets/audio/bgm/fw_title_02.wav",
+      "purpose": "Title and character selection; action-adventure revision of bgm:fw_title_01; material review only",
+      "prompt": "Instrumental melodic action-adventure title theme, around 108 BPM. Bright forward-looking adventure, confident cool heroes and excitement to set out. Memorable clean electric guitar lead answered by a clear synth motif, buoyant warm bass, light tight snare and kick groove, restrained supporting strings. Catchy and welcoming, energetic but comfortable during menu waiting. Open diatonic harmony, spacious arrangement, no extended guitar solo. Cohesive modern melodic action-adventure soundtrack for explorer-artisans with high-tech crafted equipment. Clean electric guitar, warm electric bass, crisp compact drum kit and precise restrained synth accents; tiny wooden accents only. Short original rising hook with a confident answering phrase. Dry close studio mix, short room ambience, clear separation, moderate dynamics and clean transients with headroom. Steady 4/4 and recurring four-bar phrases for loop editing; start immediately with the groove, no fade-out or final cadence. No vocals, speech, lyrics, gunshots, clicks, alarms or environmental sound effects. No folk or world-music styling, hand-drum ensembles, ethnic flutes, cavernous reverb, dark ambient drones, military marches, horror, heavy metal, aggressive EDM drops or epic boss orchestra.",
+      "loop": true,
+      "generation_parameters": {
+        "model": "stable-audio-2.5",
+        "duration": 60.0,
+        "output_format": "wav",
+        "steps": 8
+      },
+      "duration": 60.0,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-13T13:13:18.388157+00:00",
+      "fingerprint": "0125e9859a05d6f530ec033dab30a77690a6332cad85117e7e10829652f8a1dc",
+      "sha256": "c9cd7aea44792ebada9e3416912306b2d1da02878a507476d8fe7c9848cdb2c7",
+      "loop_verified": false,
+      "review": {
+        "status": "provisionally_accepted_by_user_and_integrated",
+        "revision_of_asset_id": "bgm:fw_title_01",
+        "godot_resource_verified": true,
+        "auditioned": false,
+        "loop_listening_passes": 0,
+        "local_edits": [],
+        "analysis_path": "docs/archive/2026-09-13/bgm3-action-review/audio-analysis.json"
+      },
+      "runtime": {
+        "controller": "res://scripts/audio/music.gd",
+        "context": "title/character_select",
+        "volume_db": -18,
+        "loop_begin_seconds": 0,
+        "loop_end_seconds": 60,
+        "source_file_unchanged": true,
+        "loop_points_provisional": true
+      }
+    },
+    {
+      "asset_id": "bgm:fw_preparation_02",
+      "type": "bgm",
+      "provider": "stability",
+      "file_path": "res://assets/audio/bgm/fw_preparation_02.wav",
+      "purpose": "Preparation and inventory; action-adventure revision of bgm:fw_preparation_01; material review only",
+      "prompt": "Instrumental equipment-loadout menu music for a stylish adventure shooter, around 96 BPM. Calm readiness and quiet confidence while assembling gear before deployment. Muted clean electric guitar rhythm, rounded electric bass groove, soft dry kick and snare, sparse warm synth phrases. Relaxed understated momentum, low melodic density and stable volume for thinking. Brief hints of an optimistic adventure hook, no build-ups or showy solos. Cohesive modern melodic action-adventure soundtrack for explorer-artisans with high-tech crafted equipment. Clean electric guitar, warm electric bass, crisp compact drum kit and precise restrained synth accents; tiny wooden accents only. Short original rising hook with a confident answering phrase. Dry close studio mix, short room ambience, clear separation, moderate dynamics and clean transients with headroom. Steady 4/4 and recurring four-bar phrases for loop editing; start immediately with the groove, no fade-out or final cadence. No vocals, speech, lyrics, gunshots, clicks, alarms or environmental sound effects. No folk or world-music styling, hand-drum ensembles, ethnic flutes, cavernous reverb, dark ambient drones, military marches, horror, heavy metal, aggressive EDM drops or epic boss orchestra.",
+      "loop": true,
+      "generation_parameters": {
+        "model": "stable-audio-2.5",
+        "duration": 90.0,
+        "output_format": "wav",
+        "steps": 8
+      },
+      "duration": 90.0,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-13T13:13:47.484890+00:00",
+      "fingerprint": "352aeba4a5dcca7dbe079ab2f1fb6711003729bec6eba29ee9c12771a3d8e4f7",
+      "sha256": "1854a05acc7992a8dfa511f113708951bf6f52ef374861b54c7eaad98876a879",
+      "loop_verified": false,
+      "review": {
+        "status": "provisionally_accepted_by_user_and_integrated",
+        "revision_of_asset_id": "bgm:fw_preparation_01",
+        "godot_resource_verified": true,
+        "auditioned": false,
+        "loop_listening_passes": 0,
+        "local_edits": [],
+        "analysis_path": "docs/archive/2026-09-13/bgm3-action-review/audio-analysis.json"
+      },
+      "runtime": {
+        "controller": "res://scripts/audio/music.gd",
+        "context": "prepare",
+        "volume_db": -22,
+        "loop_begin_seconds": 0,
+        "loop_end_seconds": 85.96,
+        "source_file_unchanged": true,
+        "loop_points_provisional": true
+      }
+    },
+    {
+      "asset_id": "bgm:fw_battle_02",
+      "type": "bgm",
+      "provider": "stability",
+      "file_path": "res://assets/audio/bgm/fw_battle_02.wav",
+      "purpose": "Normal arena gun-action battle; revision of bgm:fw_battle_01; material review only",
+      "prompt": "Instrumental agile gun-action battle music for a stylish adventure shooter, around 136 BPM. Confident daring, forward momentum, cool precision and controlled tension. Tight syncopated electric guitar riffs with light crunch, crisp kick and snare backbeat, focused warm electric bass and short precise synth responses. Melodic action rock with restrained electronic support, catchy compact riffs and breathing gaps; no wall of guitars or long solo. Sparse lead melody, restrained cymbals, no piercing highs, dense sustained midrange or excessive sub-bass. Leave space for gameplay gunfire, hits and alerts without putting these effects in the music. Cohesive modern melodic action-adventure soundtrack for explorer-artisans with high-tech crafted equipment. Clean electric guitar, warm electric bass, crisp compact drum kit and precise restrained synth accents; tiny wooden accents only. Short original rising hook with a confident answering phrase. Dry close studio mix, short room ambience, clear separation, moderate dynamics and clean transients with headroom. Steady 4/4 and recurring four-bar phrases for loop editing; start immediately with the groove, no fade-out or final cadence. No vocals, speech, lyrics, gunshots, clicks, alarms or environmental sound effects. No folk or world-music styling, hand-drum ensembles, ethnic flutes, cavernous reverb, dark ambient drones, military marches, horror, heavy metal, aggressive EDM drops or epic boss orchestra.",
+      "loop": true,
+      "generation_parameters": {
+        "model": "stable-audio-2.5",
+        "duration": 120.0,
+        "output_format": "wav",
+        "steps": 8
+      },
+      "duration": 120.0,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-13T13:14:11.809376+00:00",
+      "fingerprint": "f2d7c5ef355206a3fc504fd9d5421eae5417bbb4f5fce1a16c435443d1965eeb",
+      "sha256": "908ce5c29ea62653d44e2401f53f7e8b48f82079a768b5a034bbe525efc4b9d5",
+      "loop_verified": false,
+      "review": {
+        "status": "provisionally_accepted_by_user_and_integrated",
+        "revision_of_asset_id": "bgm:fw_battle_01",
+        "godot_resource_verified": true,
+        "auditioned": false,
+        "loop_listening_passes": 0,
+        "local_edits": [],
+        "analysis_path": "docs/archive/2026-09-13/bgm3-action-review/audio-analysis.json"
+      },
+      "runtime": {
+        "controller": "res://scripts/audio/music.gd",
+        "context": "play",
+        "volume_db": -22,
+        "loop_begin_seconds": 0,
+        "loop_end_seconds": 114.07,
+        "source_file_unchanged": true,
+        "loop_points_provisional": true
+      }
     }
   ]
 }

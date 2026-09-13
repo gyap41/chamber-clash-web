@@ -20,8 +20,9 @@ func run() -> void:
 	select.set_mode(false)
 	assert(select.cpu_mode) # obsolete callers cannot enable local mode
 	select.select_character(3)
-	assert(root.get_child_count() == 1)
-	var cpu_game = root.get_child(0)
+	var games = root.get_children().filter(func(n): return n.get_script() == load("res://scripts/game/main.gd"))
+	assert(games.size() == 1)
+	var cpu_game = games[0]
 	assert(cpu_game.players[0].char_id == 3 and not cpu_game.players[0].is_cpu)
 	assert(cpu_game.players[1].char_id != 3 and cpu_game.players[1].is_cpu)
 	assert(cpu_game.fighters[0].max_hp == 10.0)

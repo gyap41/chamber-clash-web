@@ -1,3 +1,5 @@
+現行BGM：ユーザー採用のfw_title_02／fw_preparation_02／fw_battle_02をMusic Autoloadで接続。冒険・ガンアクション寄りのギター／ベース／ドラムが現行方針。既定ON、タイトル-18dB、準備・戦闘-22dB、ポーズ追加-8dB。元音源保持、ループ範囲は60／85.96／114.07秒の仮設定。3周試聴未確認・loop_verified=false。以下の旧「BGM未接続」は構築時点の記録。
+
 # Chamber Clash 音響設計基準
 
 更新: 2026-09-11。生成前に、対象の最新実装、本書、`assets/audio/asset_manifest.json` を必ず読む。

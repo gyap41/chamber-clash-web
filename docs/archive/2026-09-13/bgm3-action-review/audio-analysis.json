@@ -1,0 +1,53 @@
+[
+  {
+    "asset_id": "bgm:fw_title_02",
+    "duration_seconds": 60.0,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits_per_sample": 16,
+    "peak_dbfs": -0.7025346743672616,
+    "full_scale_samples": 0,
+    "leading_quiet_seconds": 0.0,
+    "trailing_quiet_seconds": 0.0,
+    "longest_quiet_seconds": 0.0,
+    "quiet_threshold_dbfs": -60,
+    "quiet_window_seconds": 0.01,
+    "sha256": "c9cd7aea44792ebada9e3416912306b2d1da02878a507476d8fe7c9848cdb2c7",
+    "auditioned": false,
+    "loop_verified": false
+  },
+  {
+    "asset_id": "bgm:fw_preparation_02",
+    "duration_seconds": 90.0,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits_per_sample": 16,
+    "peak_dbfs": 0.0,
+    "full_scale_samples": 1548,
+    "leading_quiet_seconds": 0.0,
+    "trailing_quiet_seconds": 4.04,
+    "longest_quiet_seconds": 4.04,
+    "quiet_threshold_dbfs": -60,
+    "quiet_window_seconds": 0.01,
+    "sha256": "1854a05acc7992a8dfa511f113708951bf6f52ef374861b54c7eaad98876a879",
+    "auditioned": false,
+    "loop_verified": false
+  },
+  {
+    "asset_id": "bgm:fw_battle_02",
+    "duration_seconds": 120.0,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits_per_sample": 16,
+    "peak_dbfs": -2.5380942972752174,
+    "full_scale_samples": 0,
+    "leading_quiet_seconds": 0.0,
+    "trailing_quiet_seconds": 5.93,
+    "longest_quiet_seconds": 5.93,
+    "quiet_threshold_dbfs": -60,
+    "quiet_window_seconds": 0.01,
+    "sha256": "908ce5c29ea62653d44e2401f53f7e8b48f82079a768b5a034bbe525efc4b9d5",
+    "auditioned": false,
+    "loop_verified": false
+  }
+]

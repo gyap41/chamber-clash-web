@@ -1,0 +1,22 @@
+{
+  "asset_id": "bgm:fw_preparation_02",
+  "type": "bgm",
+  "provider": "stability",
+  "file_path": "res://assets/audio/bgm/fw_preparation_02.wav",
+  "purpose": "Preparation and inventory; action-adventure revision of bgm:fw_preparation_01; material review only",
+  "prompt": "Instrumental equipment-loadout menu music for a stylish adventure shooter, around 96 BPM. Calm readiness and quiet confidence while assembling gear before deployment. Muted clean electric guitar rhythm, rounded electric bass groove, soft dry kick and snare, sparse warm synth phrases. Relaxed understated momentum, low melodic density and stable volume for thinking. Brief hints of an optimistic adventure hook, no build-ups or showy solos. Cohesive modern melodic action-adventure soundtrack for explorer-artisans with high-tech crafted equipment. Clean electric guitar, warm electric bass, crisp compact drum kit and precise restrained synth accents; tiny wooden accents only. Short original rising hook with a confident answering phrase. Dry close studio mix, short room ambience, clear separation, moderate dynamics and clean transients with headroom. Steady 4/4 and recurring four-bar phrases for loop editing; start immediately with the groove, no fade-out or final cadence. No vocals, speech, lyrics, gunshots, clicks, alarms or environmental sound effects. No folk or world-music styling, hand-drum ensembles, ethnic flutes, cavernous reverb, dark ambient drones, military marches, horror, heavy metal, aggressive EDM drops or epic boss orchestra.",
+  "loop": true,
+  "generation_parameters": {
+    "model": "stable-audio-2.5",
+    "duration": 90.0,
+    "output_format": "wav",
+    "steps": 8
+  },
+  "endpoint": "https://api.stability.ai/v2beta/audio/stable-audio-2/text-to-audio",
+  "api_calls": 0,
+  "candidates": 1,
+  "retries": 0,
+  "timeout_seconds": 180,
+  "allow_repeat": false,
+  "output_exists": false
+}

@@ -1,3 +1,5 @@
+BGM接続：`Godot --headless --path . --script res://tests/music.gd` でタイトル→選択の継続、準備→戦闘→結果→次準備、ミュート保持、ポーズ減音、元Resource不変を検証。実機では右下BGM切替、SEとの音量バランス、各曲3周の継ぎ目を確認する。Webはブラウザ操作後の音声開始も確認する。
+
 追加SE接続検証：generated_sound / sound / supplies / projectile_personality / added_relics / extension_boundaries / preparation_ui / preparation_redesign が成功。generated_soundは全38武器、Sレア予告1回、出現・開封・レア取得、危険警告1回、時間切れ・開始音保留を検証。実試聴は別途必要。
 
 Visual Hub Web Live：`tests/visual_hub_live.gd` は8キャラ×3動作の24枠、装備一括変更、停止、画面外解放を検証する。起動スクリプトはWebビルドとHub専用PCKを生成する。ブラウザでは装備変更に撮影を使わないこと、pause/step、スクロール、拡大、レリックの効果と形状、WebGLエラーを確認する。[今回の記録](../archive/2026-09-13/VISUAL_HUB_WEB_LIVE.md)。

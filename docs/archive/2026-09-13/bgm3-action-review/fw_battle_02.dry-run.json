@@ -1,0 +1,22 @@
+{
+  "asset_id": "bgm:fw_battle_02",
+  "type": "bgm",
+  "provider": "stability",
+  "file_path": "res://assets/audio/bgm/fw_battle_02.wav",
+  "purpose": "Normal arena gun-action battle; revision of bgm:fw_battle_01; material review only",
+  "prompt": "Instrumental agile gun-action battle music for a stylish adventure shooter, around 136 BPM. Confident daring, forward momentum, cool precision and controlled tension. Tight syncopated electric guitar riffs with light crunch, crisp kick and snare backbeat, focused warm electric bass and short precise synth responses. Melodic action rock with restrained electronic support, catchy compact riffs and breathing gaps; no wall of guitars or long solo. Sparse lead melody, restrained cymbals, no piercing highs, dense sustained midrange or excessive sub-bass. Leave space for gameplay gunfire, hits and alerts without putting these effects in the music. Cohesive modern melodic action-adventure soundtrack for explorer-artisans with high-tech crafted equipment. Clean electric guitar, warm electric bass, crisp compact drum kit and precise restrained synth accents; tiny wooden accents only. Short original rising hook with a confident answering phrase. Dry close studio mix, short room ambience, clear separation, moderate dynamics and clean transients with headroom. Steady 4/4 and recurring four-bar phrases for loop editing; start immediately with the groove, no fade-out or final cadence. No vocals, speech, lyrics, gunshots, clicks, alarms or environmental sound effects. No folk or world-music styling, hand-drum ensembles, ethnic flutes, cavernous reverb, dark ambient drones, military marches, horror, heavy metal, aggressive EDM drops or epic boss orchestra.",
+  "loop": true,
+  "generation_parameters": {
+    "model": "stable-audio-2.5",
+    "duration": 120.0,
+    "output_format": "wav",
+    "steps": 8
+  },
+  "endpoint": "https://api.stability.ai/v2beta/audio/stable-audio-2/text-to-audio",
+  "api_calls": 0,
+  "candidates": 1,
+  "retries": 0,
+  "timeout_seconds": 180,
+  "allow_repeat": false,
+  "output_exists": false
+}

@@ -7,6 +7,7 @@ var picked: Array = [-1, -1]
 # player[1].is_cpu, matching legacy's mode==='cpu' selectCharacter() branch.
 var cpu_mode := true
 func _ready() -> void:
+	get_node("/root/Music").play_context("title")
 	$Panel/Content/ModeRow.hide()
 	refresh()
 func set_mode(_cpu: bool) -> void:
