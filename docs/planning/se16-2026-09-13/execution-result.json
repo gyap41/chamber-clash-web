@@ -1,0 +1,21 @@
+{
+  "generation_requests": 1,
+  "successful_assets": 0,
+  "http_status": 400,
+  "reason": "invalid parameter; raw response not stored",
+  "attempts": [
+    {
+      "asset_id": "se:fw_pistol_01",
+      "status": "failed_or_uncertain",
+      "api_post_attempts": 1,
+      "attempted_at": "2026-09-13T10:51:25.959614+00:00"
+    }
+  ],
+  "usage_before": 5,
+  "usage_after": 5,
+  "observed_usage_delta": 0,
+  "remaining_not_sent": 15,
+  "retry": false,
+  "godot_validation": "not applicable: no new audio",
+  "auditioned": false
+}

@@ -1,0 +1,71 @@
+[
+  {
+    "asset_id": "se:fw_chest_spawn_01",
+    "type": "se",
+    "provider": "elevenlabs",
+    "file_path": "res://assets/audio/se/fw_chest_spawn_01.mp3",
+    "purpose": "宝箱出現; review revision; not connected",
+    "prompt": "One heavy wooden treasure chest landing on stone, a hollow oak thud with a brief brass latch rattle, dry close sound.",
+    "loop": false,
+    "generation_parameters": {
+      "model_id": "eleven_text_to_sound_v2",
+      "duration_seconds": 1.0,
+      "prompt_influence": 0.3,
+      "loop": false,
+      "output_format": "mp3_44100_128"
+    },
+    "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+    "api_calls": 0,
+    "candidates": 1,
+    "retries": 0,
+    "timeout_seconds": 180,
+    "allow_repeat": false,
+    "output_exists": false
+  },
+  {
+    "asset_id": "se:fw_rare_drop_02",
+    "type": "se",
+    "provider": "elevenlabs",
+    "file_path": "res://assets/audio/se/fw_rare_drop_02.mp3",
+    "purpose": "Sレア投下通知・特別感; review revision; not connected",
+    "prompt": "One exceptional ancient treasure arrival signal, a deep power bloom crowned by a brilliant resonant brass shimmer, non-musical and brief.",
+    "loop": false,
+    "generation_parameters": {
+      "model_id": "eleven_text_to_sound_v2",
+      "duration_seconds": 1.0,
+      "prompt_influence": 0.3,
+      "loop": false,
+      "output_format": "mp3_44100_128"
+    },
+    "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+    "api_calls": 0,
+    "candidates": 1,
+    "retries": 0,
+    "timeout_seconds": 180,
+    "allow_repeat": false,
+    "output_exists": false
+  },
+  {
+    "asset_id": "se:fw_danger_warning_02",
+    "type": "se",
+    "provider": "elevenlabs",
+    "file_path": "res://assets/audio/se/fw_danger_warning_02.mp3",
+    "purpose": "危険地帯警告・長い警告音; review revision; not connected",
+    "prompt": "One urgent industrial warning siren sweep, a tense rising electronic alarm with a strong metallic edge, sustained briefly then cut cleanly, no voice.",
+    "loop": false,
+    "generation_parameters": {
+      "model_id": "eleven_text_to_sound_v2",
+      "duration_seconds": 2.0,
+      "prompt_influence": 0.3,
+      "loop": false,
+      "output_format": "mp3_44100_128"
+    },
+    "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+    "api_calls": 0,
+    "candidates": 1,
+    "retries": 0,
+    "timeout_seconds": 180,
+    "allow_repeat": false,
+    "output_exists": false
+  }
+]

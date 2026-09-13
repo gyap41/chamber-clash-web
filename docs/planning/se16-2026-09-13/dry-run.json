@@ -1,0 +1,434 @@
+[
+  {
+    "asset_id": "se:fw_pistol_01",
+    "exit_code": 0,
+    "result": {
+      "asset_id": "se:fw_pistol_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_pistol_01.mp3",
+      "purpose": "標準拳銃：ID 0/20、0.32/0.38秒間隔",
+      "prompt": "One service pistol shot from a compact precision steel sidearm with a worn ivory housing. Dry mechanical snap and restrained ballistic punch, body 0.12 seconds, damped tail under 0.22 seconds. Isolated single game sound effect for an explorer-artisan world of ancient stone facilities and advanced manufacturing. Start promptly; remaining clip is quiet. No music, voices, singing, background ambience, long reverberation, echoes, multiple separate events or repetition. No toy or comic sound.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.0,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+      "api_calls": 0,
+      "candidates": 1,
+      "retries": 0,
+      "timeout_seconds": 180,
+      "allow_repeat": false,
+      "output_exists": false
+    }
+  },
+  {
+    "asset_id": "se:fw_heavy_01",
+    "exit_code": 0,
+    "result": {
+      "asset_id": "se:fw_heavy_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_heavy_01.mp3",
+      "purpose": "重い単発：ID 23/26、1.5ダメージ",
+      "prompt": "One heavy rivet handgun shot. Dense low-mid steel mechanism impact and firm compact discharge, weighty without excessive sub bass, body 0.22 seconds, damped tail under 0.4 seconds. Isolated single game sound effect for an explorer-artisan world of ancient stone facilities and advanced manufacturing. Start promptly; remaining clip is quiet. No music, voices, singing, background ambience, long reverberation, echoes, multiple separate events or repetition. No toy or comic sound.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.0,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+      "api_calls": 0,
+      "candidates": 1,
+      "retries": 0,
+      "timeout_seconds": 180,
+      "allow_repeat": false,
+      "output_exists": false
+    }
+  },
+  {
+    "asset_id": "se:fw_rapid_01",
+    "exit_code": 0,
+    "result": {
+      "asset_id": "se:fw_rapid_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_rapid_01.mp3",
+      "purpose": "連射：ID 19/27/28、ゲーム側反復用",
+      "prompt": "Exactly one shot from a compact rotary-barrel firearm, a light tightly damped steel attack with a small dry ballistic punch. Body 0.05 seconds, tail under 0.08 seconds, softened high frequencies for comfortable rapid layering. No burst, no automatic firing sequence, no motor spin-up. Isolated single game sound effect for an explorer-artisan world of ancient stone facilities and advanced manufacturing. Start promptly; remaining clip is quiet. No music, voices, singing, background ambience, long reverberation, echoes, multiple separate events or repetition. No toy or comic sound.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.0,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+      "api_calls": 0,
+      "candidates": 1,
+      "retries": 0,
+      "timeout_seconds": 180,
+      "allow_repeat": false,
+      "output_exists": false
+    }
+  },
+  {
+    "asset_id": "se:fw_energy_01",
+    "exit_code": 0,
+    "result": {
+      "asset_id": "se:fw_energy_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_energy_01.mp3",
+      "purpose": "エネルギー：ID 6を代表、3/7/36共用案",
+      "prompt": "One precision electromagnetic rail discharge from a long metal emitter. Tight restrained electrical snap with a brief low-mid powered body, subtle smooth high-frequency edge, body 0.16 seconds, tail under 0.3 seconds. No charge-up, no cartoon laser pew. Isolated single game sound effect for an explorer-artisan world of ancient stone facilities and advanced manufacturing. Start promptly; remaining clip is quiet. No music, voices, singing, background ambience, long reverberation, echoes, multiple separate events or repetition. No toy or comic sound.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.0,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+      "api_calls": 0,
+      "candidates": 1,
+      "retries": 0,
+      "timeout_seconds": 180,
+      "allow_repeat": false,
+      "output_exists": false
+    }
+  },
+  {
+    "asset_id": "se:fw_hit_01",
+    "exit_code": 0,
+    "result": {
+      "asset_id": "se:fw_hit_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_hit_01.mp3",
+      "purpose": "被弾：hurtの鈍い衝撃",
+      "prompt": "One blunt impact against padded leather over a solid protective plate. Rounded dry low-mid thud, softer attack than a gunshot, body 0.12 seconds, tail under 0.22 seconds. No flesh squelch, no pain vocalization. Isolated single game sound effect for an explorer-artisan world of ancient stone facilities and advanced manufacturing. Start promptly; remaining clip is quiet. No music, voices, singing, background ambience, long reverberation, echoes, multiple separate events or repetition. No toy or comic sound.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.0,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+      "api_calls": 0,
+      "candidates": 1,
+      "retries": 0,
+      "timeout_seconds": 180,
+      "allow_repeat": false,
+      "output_exists": false
+    }
+  },
+  {
+    "asset_id": "se:fw_dodge_01",
+    "exit_code": 0,
+    "result": {
+      "asset_id": "se:fw_dodge_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_dodge_01.mp3",
+      "purpose": "軽い回避：回避開始",
+      "prompt": "One swift light evasive movement by an explorer carrying a compact workshop case. A single cohesive soft leather-and-cloth swish with a tightly secured case shifting and a short air cut, body 0.18 seconds, tail under 0.3 seconds. No footsteps or landing, no loose rattling. Isolated single game sound effect for an explorer-artisan world of ancient stone facilities and advanced manufacturing. Start promptly; remaining clip is quiet. No music, voices, singing, background ambience, long reverberation, echoes, multiple separate events or repetition. No toy or comic sound.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.0,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+      "api_calls": 0,
+      "candidates": 1,
+      "retries": 0,
+      "timeout_seconds": 180,
+      "allow_repeat": false,
+      "output_exists": false
+    }
+  },
+  {
+    "asset_id": "se:fw_reload_01",
+    "exit_code": 0,
+    "result": {
+      "asset_id": "se:fw_reload_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_reload_01.mp3",
+      "purpose": "機械式リロード：装填操作用、全装填時間は表現しない",
+      "prompt": "One short precision loading mechanism actuation: a steel spring-loaded breech sliding directly into a firm damped lock, one cohesive mechanical gesture, body 0.25 seconds, tail under 0.4 seconds. No magazine removal sequence, no repeated clicks, no firing. Isolated single game sound effect for an explorer-artisan world of ancient stone facilities and advanced manufacturing. Start promptly; remaining clip is quiet. No music, voices, singing, background ambience, long reverberation, echoes, multiple separate events or repetition. No toy or comic sound.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.0,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+      "api_calls": 0,
+      "candidates": 1,
+      "retries": 0,
+      "timeout_seconds": 180,
+      "allow_repeat": false,
+      "output_exists": false
+    }
+  },
+  {
+    "asset_id": "se:fw_pulse_01",
+    "exit_code": 0,
+    "result": {
+      "asset_id": "se:fw_pulse_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_pulse_01.mp3",
+      "purpose": "パルス：boom、敵弾消去",
+      "prompt": "One expanding defensive energy pulse from a portable advanced workshop power cell. Smooth broad outward pressure whoom with restrained electromagnetic texture, rounded onset, body 0.35 seconds, tail under 0.6 seconds. No explosive bang, debris, fire, rumbling ambience or repeated pulses. Isolated single game sound effect for an explorer-artisan world of ancient stone facilities and advanced manufacturing. Start promptly; remaining clip is quiet. No music, voices, singing, background ambience, long reverberation, echoes, multiple separate events or repetition. No toy or comic sound.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.0,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+      "api_calls": 0,
+      "candidates": 1,
+      "retries": 0,
+      "timeout_seconds": 180,
+      "allow_repeat": false,
+      "output_exists": false
+    }
+  },
+  {
+    "asset_id": "se:fw_ui_select_01",
+    "exit_code": 0,
+    "result": {
+      "asset_id": "se:fw_ui_select_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_ui_select_01.mp3",
+      "purpose": "選択クリック：選択変更",
+      "prompt": "One tiny tactile precision metal selector click on a wood-backed portable workshop control. Soft dry tick, body 0.04 seconds, tail under 0.09 seconds, unobtrusive. Isolated single game sound effect for an explorer-artisan world of ancient stone facilities and advanced manufacturing. Start promptly; remaining clip is quiet. No music, voices, singing, background ambience, long reverberation, echoes, multiple separate events or repetition. No toy or comic sound.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+      "api_calls": 0,
+      "candidates": 1,
+      "retries": 0,
+      "timeout_seconds": 180,
+      "allow_repeat": false,
+      "output_exists": false
+    }
+  },
+  {
+    "asset_id": "se:fw_ui_confirm_01",
+    "exit_code": 0,
+    "result": {
+      "asset_id": "se:fw_ui_confirm_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_ui_confirm_01.mp3",
+      "purpose": "決定：操作確定",
+      "prompt": "One positive precision control engagement, a clean small metal latch with a subtle upward powered inflection fused into the same attack. Body 0.1 seconds, tail under 0.18 seconds. No melodic notes. Isolated single game sound effect for an explorer-artisan world of ancient stone facilities and advanced manufacturing. Start promptly; remaining clip is quiet. No music, voices, singing, background ambience, long reverberation, echoes, multiple separate events or repetition. No toy or comic sound.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+      "api_calls": 0,
+      "candidates": 1,
+      "retries": 0,
+      "timeout_seconds": 180,
+      "allow_repeat": false,
+      "output_exists": false
+    }
+  },
+  {
+    "asset_id": "se:fw_ui_cancel_01",
+    "exit_code": 0,
+    "result": {
+      "asset_id": "se:fw_ui_cancel_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_ui_cancel_01.mp3",
+      "purpose": "取消：操作取消",
+      "prompt": "One gentle control disengagement, a soft wooden-and-metal release with a subtle downward inflection fused into one gesture. Body 0.09 seconds, tail under 0.16 seconds. No warning alarm. Isolated single game sound effect for an explorer-artisan world of ancient stone facilities and advanced manufacturing. Start promptly; remaining clip is quiet. No music, voices, singing, background ambience, long reverberation, echoes, multiple separate events or repetition. No toy or comic sound.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+      "api_calls": 0,
+      "candidates": 1,
+      "retries": 0,
+      "timeout_seconds": 180,
+      "allow_repeat": false,
+      "output_exists": false
+    }
+  },
+  {
+    "asset_id": "se:fw_ui_place_01",
+    "exit_code": 0,
+    "result": {
+      "asset_id": "se:fw_ui_place_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_ui_place_01.mp3",
+      "purpose": "装備配置：配置成功時",
+      "prompt": "One compact equipment module seating into a leather-lined workshop grid socket, a small solid metal-and-wood clunk with a damped locking contact fused into one impact. Body 0.12 seconds, tail under 0.2 seconds. No dragging or rattling. Isolated single game sound effect for an explorer-artisan world of ancient stone facilities and advanced manufacturing. Start promptly; remaining clip is quiet. No music, voices, singing, background ambience, long reverberation, echoes, multiple separate events or repetition. No toy or comic sound.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+      "api_calls": 0,
+      "candidates": 1,
+      "retries": 0,
+      "timeout_seconds": 180,
+      "allow_repeat": false,
+      "output_exists": false
+    }
+  },
+  {
+    "asset_id": "se:fw_ui_purchase_01",
+    "exit_code": 0,
+    "result": {
+      "asset_id": "se:fw_ui_purchase_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_ui_purchase_01.mp3",
+      "purpose": "購入成功：支払確定時",
+      "prompt": "One satisfying workshop transaction confirmation: a warm small brass mechanism contact with a brief restrained luminous power shimmer, one unified onset. Body 0.14 seconds, tail under 0.23 seconds. No coins spilling, cash register or melody. Isolated single game sound effect for an explorer-artisan world of ancient stone facilities and advanced manufacturing. Start promptly; remaining clip is quiet. No music, voices, singing, background ambience, long reverberation, echoes, multiple separate events or repetition. No toy or comic sound.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+      "api_calls": 0,
+      "candidates": 1,
+      "retries": 0,
+      "timeout_seconds": 180,
+      "allow_repeat": false,
+      "output_exists": false
+    }
+  },
+  {
+    "asset_id": "se:fw_ui_blocked_01",
+    "exit_code": 0,
+    "result": {
+      "asset_id": "se:fw_ui_blocked_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_ui_blocked_01.mp3",
+      "purpose": "操作不可：失敗通知",
+      "prompt": "One muted mechanical stop against a padded steel control, a low dry resistant tok with a tiny downward powered inflection. Body 0.09 seconds, tail under 0.16 seconds. Clearly restrained negative feedback, no harsh buzzer or alarm. Isolated single game sound effect for an explorer-artisan world of ancient stone facilities and advanced manufacturing. Start promptly; remaining clip is quiet. No music, voices, singing, background ambience, long reverberation, echoes, multiple separate events or repetition. No toy or comic sound.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+      "api_calls": 0,
+      "candidates": 1,
+      "retries": 0,
+      "timeout_seconds": 180,
+      "allow_repeat": false,
+      "output_exists": false
+    }
+  },
+  {
+    "asset_id": "se:fw_victory_01",
+    "exit_code": 0,
+    "result": {
+      "asset_id": "se:fw_victory_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_victory_01.mp3",
+      "purpose": "勝利：ラウンド・試合結果共用SE",
+      "prompt": "One non-musical success sound from an ancient precision fabrication device completing its work: a confident warm metal closure fused with one smoothly brightening amber power bloom. Single onset, body 0.55 seconds, restrained decay fully quiet by 0.95 seconds. No tune, melody, arpeggio, chord progression, fanfare or jingle. Isolated single game sound effect for an explorer-artisan world of ancient stone facilities and advanced manufacturing. Start promptly; remaining clip is quiet. No music, voices, singing, background ambience, long reverberation, echoes, multiple separate events or repetition. No toy or comic sound.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 2.0,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+      "api_calls": 0,
+      "candidates": 1,
+      "retries": 0,
+      "timeout_seconds": 180,
+      "allow_repeat": false,
+      "output_exists": false
+    }
+  },
+  {
+    "asset_id": "se:fw_defeat_01",
+    "exit_code": 0,
+    "result": {
+      "asset_id": "se:fw_defeat_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_defeat_01.mp3",
+      "purpose": "敗北：ラウンド・試合結果共用SE",
+      "prompt": "One non-musical subdued shutdown sound from an explorer workshop device: a soft weighty damped metal closure fused with a smoothly descending power release. Single onset, body 0.45 seconds, restrained decay fully quiet by 0.85 seconds. Calm and dignified, no tune, melody, arpeggio, chord progression, buzzer or jingle. Isolated single game sound effect for an explorer-artisan world of ancient stone facilities and advanced manufacturing. Start promptly; remaining clip is quiet. No music, voices, singing, background ambience, long reverberation, echoes, multiple separate events or repetition. No toy or comic sound.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 2.0,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+      "api_calls": 0,
+      "candidates": 1,
+      "retries": 0,
+      "timeout_seconds": 180,
+      "allow_repeat": false,
+      "output_exists": false
+    }
+  }
+]

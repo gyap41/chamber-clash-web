@@ -170,6 +170,7 @@ func _step_projectiles(dt: float) -> void:
 					game.presentation.burst(b.state.pos,Color(b.state.color),32 if b.state.comet else 20)
 					game.presentation.ring(b.state.pos,Color(b.state.color),95.0 if b.state.comet else 45.0)
 				if b.state.comet:
+					game.presentation.play_sound("explosion")
 					for enemy in game.roster.enemies(b.state.owner,game.players):
 						if b.state.pos.distance_to(enemy.state.pos) < b.comet_blast_radius and not game.arena.line_blocked(b.state.pos,enemy.state.pos): enemy.hurt(b.comet_blast_damage)
 					game.presentation.shake(5.0)

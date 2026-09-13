@@ -170,7 +170,7 @@ func try_dodge() -> bool:
 	p.dodge = dodge_cooldown * (relic_value(24,"dodge_ratio") if 24 in relics else 1.0)
 	p.inv = maxf(p.inv,dodge_invulnerability)
 	burst_requested.emit(p.pos,visual_color(),8)
-	sound_requested.emit("dodge",0)
+	sound_requested.emit("heavy_dodge" if char_id in [3,7] else "dodge",0)
 	return preload("res://scripts/combat/relic_effects.gd").dodge_started(self)
 func hostile_slot(other: int, own: int) -> bool:
 	return battle_roster.hostile(own,other) if battle_roster != null else own != other
@@ -191,6 +191,7 @@ func try_melee(i: int, shots: Array, enemy, arena) -> void:
 			b.dead = true
 			burst_requested.emit(b.pos,Color(b.color),6)
 			removed += 1
+	if removed > 0: sound_requested.emit("melee_clear",0)
 	preload("res://scripts/combat/relic_effects.gd").melee_cleared(self,removed)
 	var targets: Array = enemy if enemy is Array else ([enemy] if enemy != null else [])
 	for target in targets:
@@ -206,8 +207,10 @@ func step(dt: float, i: int, enemy, arena, mouse_shooting: bool = false, ai: Dic
 	var previous_aid: float = p.aid_time
 	for timer in ITEM_TIMERS: p[timer] = maxf(0.0,p[timer]-dt)
 	if previous_aid > 0 and p.aid_time == 0 and p.hp > 0 and 28 in relics:
+		if p.hp < p.max_hp: sound_requested.emit("heal",0)
 		p.hp = minf(p.max_hp,p.hp+relic_value(28,"aid_heal"))
 	for timer in ["shot","roll","dodge","slash","melee","inv","shield","holster","echo_holster_cd"]: p[timer] = maxf(0,p[timer]-dt)
+	if previous_roll > 0 and p.roll <= 0 and char_id == 0 and p.hp > 0: sound_requested.emit("landing",0)
 	if previous_roll > 0 and p.roll <= 0 and 25 in relics:
 		p.sole_time = maxf(0.0,relic_value(25,"sole_duration")-(dt-previous_roll))
 	if p.roll <= 0 and switch_pending:
@@ -363,7 +366,7 @@ func start_reload() -> void:
 	# top-ups never reach here anyway (guarded above), but this keeps the "empty" distinction
 	# explicit and independent of that guard's exact bounds.
 	state.reload_started_empty = weapon().clip == 0
-	sound_requested.emit("reload",0)
+	sound_requested.emit("reload",weapon().id)
 func finish_reload() -> void:
 	if not has_weapon() or state.reload_slot != weapon().id: return
 	var w := weapon()

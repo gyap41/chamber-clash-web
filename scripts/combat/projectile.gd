@@ -133,6 +133,7 @@ func step(dt: float, arena, targets) -> void:
 			if b.bounce > 0:
 				b.bounce -= 1
 				b.rebounds += 1
+				source_player.sound_requested.emit("ricochet",0)
 				preload("res://scripts/combat/weapon_behaviors.gd").dispatch(gun_id,&"bounce",{"actor":source_player,"projectile":self,"pos":previous})
 				notify_visual("bounce",previous)
 				if b.bank: damage += bank_bonus
@@ -145,6 +146,7 @@ func step(dt: float, arena, targets) -> void:
 			else:
 				b.pos = previous
 				b.life = 0.0
+				source_player.sound_requested.emit("wall_impact",0)
 				burst_requested.emit(b.pos,Color(b.color),7)
 				notify_visual("hit",b.pos)
 		else:

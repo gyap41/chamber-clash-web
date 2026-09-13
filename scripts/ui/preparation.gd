@@ -45,7 +45,10 @@ func claim(id) -> bool:
 		entry = state.temporary[turn]
 		success = state.claim_temporary(turn)
 	else: success = state.purchase(turn,str(id)) if not card.is_empty() else state.claim(turn,id)
-	if not success: return false
+	if not success:
+		game.sound.play_sound("ui_blocked")
+		return false
+	game.sound.play_sound("ui_purchase")
 	selected_expansion = ""
 	game.telemetry.record("purchase",{"player":turn,"card":id,"entry":entry,"gold":state.gold[turn]})
 	selected_reward = str(entry).begins_with("mod:")
@@ -68,8 +71,10 @@ func refresh_shop() -> void:
 func place_relic(id, cell: Vector2i) -> void:
 	if game.phase != "prepare": return
 	if not game.match_state.place(turn,id,cell):
+		game.sound.play_sound("ui_blocked")
 		preview_at(id,cell)
 		return
+	game.sound.play_sound("ui_place")
 	game.telemetry.record("place_relic",{"player":turn,"id":id,"cell":cell})
 	placement_entry = null
 	refresh()
@@ -80,17 +85,25 @@ func unequip_relic(id) -> void:
 	if not game.match_state.toggle(turn,id):
 		set_status("控えが満杯：先に配置か破棄",Color("ffad83"))
 		return
+	game.sound.play_sound("ui_remove")
 	game.telemetry.record("unequip_relic",{"player":turn,"id":id})
 	placement_entry = null
 	refresh()
 func discard(id) -> void:
 	if game.phase != "prepare": return
-	if game.match_state.sell(turn,id): game.telemetry.record("discard",{"player":turn,"id":id})
+	if game.match_state.sell(turn,id):
+		game.sound.play_sound("ui_sell")
+		game.telemetry.record("discard",{"player":turn,"id":id})
+	else: game.sound.play_sound("ui_blocked")
 	placement_entry = null
 	selected_detail = null
 	refresh()
 func ready_shop() -> void:
-	if game.phase != "prepare" or not game.match_state.confirm(turn): return
+	if game.phase != "prepare": return
+	if not game.match_state.confirm(turn):
+		game.sound.play_sound("ui_blocked")
+		return
+	game.sound.play_sound("ui_confirm")
 	game.telemetry.record("preparation",{"player":turn,"seconds":(Time.get_ticks_msec()-started)/1000.0,"build":game.match_state.builds[turn]})
 	for i in range(game.players.size()):
 		if game.players[i].is_cpu and not game.match_state.ready[i]: auto_prepare(i)
@@ -268,13 +281,15 @@ func show_detail(entry, reward: bool = false) -> void:
 		var before: float = (game.players[turn].reload_duration / 1.15) * Relics.stacked_value(ids,1,"reload_ratio")
 		detail_description.text += "\n装填倍率 %.2f → %.2f" % [before,before*float(Relics.definition(1).reload_ratio)]
 func select_entry(entry) -> void:
+	game.sound.play_sound("ui_select")
 	selected_offer = ""
 	selected_expansion = ""
 	placement_entry = entry
 	show_detail(entry)
 	detail_path().get_node("Cancel").disabled = false
 	set_status("配置中："+entry_info(entry).name+"\n配置先をクリック / Esc取消",Color("83deca"))
-func cancel_placement() -> void:
+func cancel_placement(audible: bool = true) -> void:
+	if audible and (placement_entry != null or not selected_expansion.is_empty()): game.sound.play_sound("ui_cancel")
 	selected_expansion = ""
 	placement_entry = null
 	var popup := get_node_or_null("Root/Panel/Content/Cards/Equipment/ExpansionPopup")
@@ -287,11 +302,14 @@ func click_cell(cell: Vector2i) -> void:
 	if not selected_expansion.is_empty():
 		if game.phase != "prepare": return
 		if game.match_state.place_expansion(turn,selected_expansion,cell):
+			game.sound.play_sound("ui_expand")
 			game.telemetry.record("bag_expansion",{"player":turn,"shape":selected_expansion,"anchor":cell})
 			selected_expansion = ""
 			selected_detail = null
 			refresh()
-		else: preview_expansion(cell)
+		else:
+			game.sound.play_sound("ui_blocked")
+			preview_expansion(cell)
 		return
 	if placement_entry != null:
 		place_relic(placement_entry,cell)
@@ -416,16 +434,20 @@ func add_footprint(parent: Node, entry, rect: Rect2) -> void:
 	icon.size = rect.size
 	parent.add_child(icon)
 func browse_entry(entry) -> void:
-	cancel_placement()
+	game.sound.play_sound("ui_select")
+	cancel_placement(false)
 	selected_offer = ""
 	show_detail(entry)
 
 func focus_entry(entry) -> void:
 	# Tab navigation can inspect items; drag/placement retains its explicit selection.
-	if placement_entry == null and selected_expansion.is_empty(): show_detail(entry)
+	if placement_entry == null and selected_expansion.is_empty():
+		if not same_entry(selected_detail,entry): game.sound.play_sound("ui_select")
+		show_detail(entry)
 
 func inspect_offer(offer_id: String) -> void:
-	cancel_placement()
+	if selected_offer != offer_id: game.sound.play_sound("ui_select")
+	cancel_placement(false)
 	var state = game.match_state
 	var offer: Dictionary = state.product(turn,offer_id)
 	if offer_id == "field" and state.temporary[turn] >= 0:

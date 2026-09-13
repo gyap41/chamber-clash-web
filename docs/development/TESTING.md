@@ -1,3 +1,5 @@
+追加SE接続検証：generated_sound / sound / supplies / projectile_personality / added_relics / extension_boundaries / preparation_ui / preparation_redesign が成功。generated_soundは全38武器、Sレア予告1回、出現・開封・レア取得、危険警告1回、時間切れ・開始音保留を検証。実試聴は別途必要。
+
 Visual Hub Web Live：`tests/visual_hub_live.gd` は8キャラ×3動作の24枠、装備一括変更、停止、画面外解放を検証する。起動スクリプトはWebビルドとHub専用PCKを生成する。ブラウザでは装備変更に撮影を使わないこと、pause/step、スクロール、拡大、レリックの効果と形状、WebGLエラーを確認する。[今回の記録](../archive/2026-09-13/VISUAL_HUB_WEB_LIVE.md)。
 
 比較更新の受入確認：対象削除直後に古い枠を残さず、条件変更後に自動更新すること。更新中に再変更しても旧条件を表示しないこと。キャラ＋レリックの適用対象表示、静止素材だけの再生無効も確認する。
@@ -169,3 +171,7 @@ Pillow入りPythonで `tools/review_chibi_capture.py` を実行すると比較GI
 [結果・制限](../archive/2026-09-12/rina-chibi/REPORT.md)。移動シートは不採用で、脚を交互に動かす描画を使用。手動プレイの自然さの最終評価は未実施。
 
 Visual Hubのライブ表示変更時は、武器一覧を再生中・停止中に上下スクロールし、白い帯やカード外への描画漏れがないことを確認する。拡大と一覧への復帰、モーション一覧も確認する。表示はカード内Canvasで、画面内の対象のみGodotで動作する。
+# 生成SE接続の確認
+
+`Godot --headless --path . --script res://tests/generated_sound.gd --quit-after 180` で16素材・11武器ID振分け・合成フォールバック・初期ゲイン・準備操作成否・プレビュー無音・勝敗1回通知・再生解放を確認する。
+関連回帰：sound、preparation_ui、preparation_redesign、extension_boundaries。実試聴では準備画面の音をONにし、連射・パルス・UI・勝敗の音量差と声／音楽の混入を確認する。試聴品質は未確認。

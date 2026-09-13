@@ -2,11 +2,65 @@ extends Node
 signal played(kind: String, id: int)
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const RATE := 44100
+const GENERATED := {
+	"shotgun": preload("res://assets/audio/se/fw_shotgun_01.mp3"),
+	"needle": preload("res://assets/audio/se/fw_needle_01.mp3"),
+	"metal_shot": preload("res://assets/audio/se/fw_metal_shot_01.mp3"),
+	"launcher": preload("res://assets/audio/se/fw_launcher_01.mp3"),
+	"return_blade": preload("res://assets/audio/se/fw_return_blade_01.mp3"),
+	"seed_launch": preload("res://assets/audio/se/fw_seed_launch_01.mp3"),
+	"pressure_ball": preload("res://assets/audio/se/fw_pressure_ball_01.mp3"),
+	"sheet_launch": preload("res://assets/audio/se/fw_sheet_launch_01.mp3"),
+	"tool_switch_shot": preload("res://assets/audio/se/fw_tool_switch_shot_01.mp3"),
+	"ancient_shot": preload("res://assets/audio/se/fw_ancient_shot_01.mp3"),
+	"wall_impact": preload("res://assets/audio/se/fw_wall_impact_01.mp3"),
+	"ricochet": preload("res://assets/audio/se/fw_ricochet_01.mp3"),
+	"explosion": preload("res://assets/audio/se/fw_explosion_01.mp3"),
+	"melee_clear": preload("res://assets/audio/se/fw_melee_clear_01.mp3"),
+	"heavy_dodge": preload("res://assets/audio/se/fw_heavy_dodge_01.mp3"),
+	"landing": preload("res://assets/audio/se/fw_landing_01.mp3"),
+	"power_reload": preload("res://assets/audio/se/fw_power_reload_01.mp3"),
+	"heal": preload("res://assets/audio/se/fw_heal_01.mp3"),
+	"gravity": preload("res://assets/audio/se/fw_gravity_01.mp3"),
+	"ui_remove": preload("res://assets/audio/se/fw_ui_remove_01.mp3"),
+	"ui_sell": preload("res://assets/audio/se/fw_ui_sell_01.mp3"),
+	"ui_expand": preload("res://assets/audio/se/fw_ui_expand_01.mp3"),
+	"chest_open": preload("res://assets/audio/se/fw_chest_open_01.mp3"),
+	"ammo_pickup": preload("res://assets/audio/se/fw_ammo_pickup_01.mp3"),
+	"rare_pickup": preload("res://assets/audio/se/fw_rare_pickup_01.mp3"),
+	"draw": preload("res://assets/audio/se/fw_draw_01.mp3"),
+	"time_up": preload("res://assets/audio/se/fw_time_up_01.mp3"),
+	"slash": preload("res://assets/audio/se/fw_melee_swing_01.mp3"),
+	"equip": preload("res://assets/audio/se/fw_weapon_switch_01.mp3"),
+	"bell": preload("res://assets/audio/se/fw_defense_01.mp3"),
+	"pickup": preload("res://assets/audio/se/fw_item_pickup_01.mp3"),
+	"legendary": preload("res://assets/audio/se/fw_rare_drop_02.mp3"),
+	"danger_warning": preload("res://assets/audio/se/fw_danger_warning_02.mp3"),
+	"chest_spawn": preload("res://assets/audio/se/fw_chest_spawn_01.mp3"),
+
+	"pistol": preload("res://assets/audio/se/fw_pistol_short_01.mp3"),
+	"heavy": preload("res://assets/audio/se/fw_heavy_short_01.mp3"),
+	"rapid": preload("res://assets/audio/se/fw_rapid_short_01.mp3"),
+	"energy": preload("res://assets/audio/se/fw_energy_short_01.mp3"),
+	"hit": preload("res://assets/audio/se/fw_hit_short_01.mp3"),
+	"dodge": preload("res://assets/audio/se/fw_dodge_short_01.mp3"),
+	"reload": preload("res://assets/audio/se/fw_reload_short_01.mp3"),
+	"boom": preload("res://assets/audio/se/fw_pulse_short_01.mp3"),
+	"ui_select": preload("res://assets/audio/se/fw_ui_select_short_01.mp3"),
+	"ui_confirm": preload("res://assets/audio/se/fw_ui_confirm_short_01.mp3"),
+	"ui_cancel": preload("res://assets/audio/se/fw_ui_cancel_short_01.mp3"),
+	"ui_place": preload("res://assets/audio/se/fw_ui_place_short_01.mp3"),
+	"ui_purchase": preload("res://assets/audio/se/fw_ui_purchase_short_01.mp3"),
+	"ui_blocked": preload("res://assets/audio/se/fw_ui_blocked_short_01.mp3"),
+	"win": preload("res://assets/audio/se/fw_victory_short_01.mp3"),
+	"lose": preload("res://assets/audio/se/fw_defeat_short_01.mp3")
+}
 @export var enabled := false
 @export_range(-40,0) var volume_db := 0.0
 var voices: Array[AudioStreamPlayer] = []
 var cache: Dictionary = {}
 var next_voice := 0
+var contact_times: Dictionary = {}
 var bus_name: String
 var rng := RandomNumberGenerator.new()
 
@@ -96,7 +150,23 @@ func synthesize(p: Dictionary) -> AudioStreamWAV:
 	return stream
 
 func play_sound(kind: String, id: int = 0) -> void:
-	if not enabled: return
+	if not enabled or kind == "start": return
+	# Coalesce simultaneous pellet impacts without changing projectile simulation.
+	if kind in ["wall_impact","ricochet"]:
+		var now := Time.get_ticks_msec()
+		if now-int(contact_times.get(kind,-1000)) < 80: return
+		contact_times[kind] = now
+	var sample := sample_key(kind,id)
+	if not sample.is_empty():
+		var generated_voice := voices[next_voice]
+		next_voice = (next_voice+1)%voices.size()
+		generated_voice.stop()
+		generated_voice.bus = bus_name
+		generated_voice.volume_db = volume_db + (-18.0 if kind.begins_with("ui_") or kind == "toggle" else -12.0)
+		generated_voice.stream = GENERATED[sample]
+		generated_voice.play()
+		played.emit(kind,id)
+		return
 	var p := profile(kind,id)
 	var key := str(p)
 	if not cache.has(key): cache[key] = synthesize(p)
@@ -108,3 +178,25 @@ func play_sound(kind: String, id: int = 0) -> void:
 	voice.stream = cache[key]
 	voice.play()
 	played.emit(kind,id)
+
+func sample_key(kind: String, id: int = 0) -> String:
+	if kind == "shot":
+		if id in [0,20]: return "pistol"
+		if id in [23,26]: return "heavy"
+		if id in [19,27,28]: return "rapid"
+		if id in [3,6,7,36]: return "energy"
+		if id in [4, 31]: return "shotgun"
+		if id in [21, 24, 29, 30]: return "needle"
+		if id in [1, 22, 32]: return "metal_shot"
+		if id in [2, 9, 12, 34]: return "launcher"
+		if id in [5, 33]: return "return_blade"
+		if id in [11, 14, 35]: return "seed_launch"
+		if id in [13]: return "pressure_ball"
+		if id in [16, 17]: return "sheet_launch"
+		if id in [18]: return "tool_switch_shot"
+		if id in [8, 10, 15, 25, 37]: return "ancient_shot"
+		return ""
+	if kind == "reload" and preload("res://scripts/catalog/weapon_visual_catalog.gd").profile(id).get("reload_style","mechanical") in ["charge","rune"]: return "power_reload"
+	if kind == "start": return ""
+	if kind == "toggle": return "ui_confirm"
+	return kind if GENERATED.has(kind) else ""

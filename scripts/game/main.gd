@@ -221,7 +221,9 @@ func _physics_process(dt: float) -> void:
 		# well absorption, and settlement observes all damage from this frame.
 		combat_visuals.step(dt)
 		_step_pulse_effects(dt)
+		var previous_inset := arena_inset()
 		combat.step(dt)
+		if previous_inset <= 0 and arena_inset() > 0: sound.play_sound("danger_warning")
 		_settle_round()
 	arena.get_node("DangerZone").refresh(arena_inset() if phase in ["play","result"] else 0.0)
 	arena.get_node("CombatCamera").offset = -combat_visuals.shake_offset
@@ -249,6 +251,9 @@ func _settle_round() -> void:
 	battle_outcome = outcome
 	result = "DRAW" if outcome.draw else ("P%d WINS" % (outcome.slots[0]+1) if players.size() == 2 else "TEAM %s WINS" % str(outcome.team))
 	phase = "result"
+	sound.stop_all()
+	if remaining <= 0: sound.play_sound("time_up")
+	sound.play_sound("draw" if outcome.draw else ("win" if 0 in outcome.slots else "lose"))
 	delayed_shots.clear()
 	clear_action_inputs()
 	match_state.finish_team(outcome.slots,players)

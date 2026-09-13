@@ -81,7 +81,9 @@ func spawn_group(group: String, kind: String, id: int = 0) -> void:
 	var first: int = game.supply_generator.rng.randi_range(0,markers.size()-1)
 	for offset in range(markers.size()):
 		var marker = markers[(first+offset)%markers.size()]
-		if put_item(kind,id,to_local(marker.global_position)) != null: return
+		if put_item(kind,id,to_local(marker.global_position)) != null:
+			if kind in ["weapon","relic"]: game.presentation.play_sound("chest_spawn")
+			return
 func launch() -> void:
 	spawn_group("Ammo","ammo")
 	announce("選んだ主力で開戦。武器補給は%d秒後、レジェンダリーは抽選で%d秒後" % [int(first_supply_delay),int(legendary_time)])
@@ -111,7 +113,8 @@ func acquire(player_index: int, item, replace: bool = false) -> bool:
 	if message.is_empty(): return false
 	game.telemetry.record("pickup",{"player":player_index,"kind":item.kind,"id":item.gun})
 	item.used = true
-	game.presentation.play_sound("pickup")
+	if item.kind != "ammo": game.presentation.play_sound("chest_open")
+	game.presentation.play_sound("ammo_pickup" if item.kind == "ammo" else ("rare_pickup" if item.kind == "weapon" and Weapons.definition(item.gun).rarity == "S" else "pickup"))
 	var color := Color("a5e9ee")
 	if item.kind == "weapon": color = Weapons.rarity_color(item.gun)
 	elif item.kind == "relic": color = Color(Relics.definition(item.gun).color)
@@ -163,10 +166,10 @@ func step(dt: float) -> void:
 		legendary_selected = game.supply_generator.rng.randf() < legendary_chance
 		if legendary_selected:
 			legendary_warned = true
+			game.presentation.play_sound("legendary")
 			announce("あと5秒：中央付近にSレア武器を1個投下")
 	if elapsed >= legendary_time and legendary_selected and not legendary_spawned:
 		legendary_spawned = true
-		game.presentation.play_sound("legendary")
 		spawn_group("Legendary","weapon",weighted_gun(true))
 		announce("Sレア武器が中央付近に1個到着")
 	for item in items:

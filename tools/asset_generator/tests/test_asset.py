@@ -219,6 +219,9 @@ class ProtocolTests(unittest.TestCase):
                 with self.assertRaises(transport.GenerationError) as caught:
                     transport.generate("https://example.test", {}, b"{}", 5)
                 self.assertNotIn("SECRET", str(caught.exception))
+                if status == 400:
+                    self.assertIn("specific cause unavailable", str(caught.exception))
+                    self.assertNotIn("invalid parameter", str(caught.exception))
                 factory.return_value.open.assert_called_once()
 
     def test_redirect_never_forwards_credentials(self):

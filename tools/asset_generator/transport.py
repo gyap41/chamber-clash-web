@@ -73,7 +73,7 @@ def generate(url, headers, body, timeout):
                 chunks.append(chunk)
             return b"".join(chunks)
     except urllib.error.HTTPError as exc:
-        reasons = {400: "invalid parameter", 401: "authentication failed", 402: "payment/credits required",
+        reasons = {400: "bad request; specific cause unavailable (response body hidden)", 401: "authentication failed", 402: "payment/credits required",
                    403: "permission or moderation rejection", 404: "endpoint/model unavailable",
                    422: "request rejected / invalid parameter", 429: "rate/concurrency limit",
                    500: "provider internal error", 503: "provider unavailable"}
