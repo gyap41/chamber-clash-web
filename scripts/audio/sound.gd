@@ -55,7 +55,7 @@ const GENERATED := {
 	"win": preload("res://assets/audio/se/fw_victory_short_01.mp3"),
 	"lose": preload("res://assets/audio/se/fw_defeat_short_01.mp3")
 }
-@export var enabled := false
+@export var enabled := true
 @export_range(-40,0) var volume_db := 0.0
 var voices: Array[AudioStreamPlayer] = []
 var cache: Dictionary = {}
@@ -77,6 +77,8 @@ func _ready() -> void:
 	AudioServer.add_bus_effect(index,compressor)
 	for i in range(16):
 		var voice := AudioStreamPlayer.new()
+		# Keep generated/synthesized audio and the compressor on the same mixer on Web.
+		voice.playback_type = AudioServer.PLAYBACK_TYPE_STREAM
 		add_child(voice)
 		voices.append(voice)
 

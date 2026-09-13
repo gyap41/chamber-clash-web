@@ -3,6 +3,7 @@ func _initialize() -> void:
 	call_deferred("run")
 func run() -> void:
 	var music = root.get_node("Music")
+	assert(music.player.playback_type == AudioServer.PLAYBACK_TYPE_STREAM)
 	var title = load("res://scenes/ui/title.tscn").instantiate()
 	root.add_child(title)
 	assert(music.current_track == "title" and music.player.playing)

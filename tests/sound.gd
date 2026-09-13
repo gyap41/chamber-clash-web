@@ -8,6 +8,9 @@ func run() -> void:
 	preload("res://tests/helpers/battle.gd").passive_opponents(game)
 	game.set_physics_process(false)
 	var audio = game.sound
+	assert(audio.enabled)
+	assert(audio.voices.all(func(voice): return voice.playback_type == AudioServer.PLAYBACK_TYPE_STREAM))
+	audio.set_enabled(false)
 	var p = game.players[0]
 	audio.played.connect(func(kind,id): events.append([kind,id]))
 	audio.play_sound("shot")

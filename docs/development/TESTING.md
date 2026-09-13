@@ -1,3 +1,5 @@
+2026-09-14 Web音響：music / sound / generated_sound / result_flow合格。soundは既定SE ONとStream再生を検証。ローカルWebデータを再出力し、Chromiumでタイトル→選択→準備（SE ON）→戦闘を確認、Webコンソールerror/warnなし。出音の聴取は未実施。公開Web版反映後はキャッシュ更新、準備曲・戦闘曲とSEの実音を確認する。
+
 BGM接続：`Godot --headless --path . --script res://tests/music.gd` でタイトル→選択の継続、準備→戦闘→結果→次準備、ミュート保持、ポーズ減音、元Resource不変を検証。実機では右下BGM切替、SEとの音量バランス、各曲3周の継ぎ目を確認する。Webはブラウザ操作後の音声開始も確認する。
 
 追加SE接続検証：generated_sound / sound / supplies / projectile_personality / added_relics / extension_boundaries / preparation_ui / preparation_redesign が成功。generated_soundは全38武器、Sレア予告1回、出現・開封・レア取得、危険警告1回、時間切れ・開始音保留を検証。実試聴は別途必要。

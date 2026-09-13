@@ -17,6 +17,8 @@ var streams: Dictionary = {}
 
 func _ready() -> void:
 	player = AudioStreamPlayer.new()
+	# Web Sample playback does not use Godot's normal mixer/stream lifecycle.
+	player.playback_type = AudioServer.PLAYBACK_TYPE_STREAM
 	add_child(player)
 	var controls := CanvasLayer.new()
 	controls.layer = 20

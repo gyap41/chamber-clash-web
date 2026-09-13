@@ -224,7 +224,7 @@ func refresh(players: Array, remaining: float, paused: bool, result: String, sco
 	$Root/Message.text = ""
 	$Root/Pause.text = "ESC 再開" if paused else "ESC 停止"
 	layout()
-	$SoundControls/Toggle.text = "音 ON" if game.sound.enabled else "音 OFF"
+	$SoundControls/Toggle.text = "SE ON" if game.sound.enabled else "SE OFF"
 	$SoundControls/Toggle.visible = phase == "prepare"
 	$Root/Relics/Sound.text = $SoundControls/Toggle.text
 	$Root/Round.text = "ROUND %d" % game.match_state.stage
