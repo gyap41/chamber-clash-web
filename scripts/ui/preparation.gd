@@ -399,6 +399,7 @@ func add_item_art(parent: Node, entry, rect: Rect2, show_shape: bool = true) -> 
 	else: texture = preload("res://scripts/ui/hud_assets.gd").texture("relic_%02d" % state.relic_id(entry))
 	var art := TextureRect.new()
 	art.texture = texture
+	if state.is_gun(entry): art.material = Weapons.Visuals.body_material(state.gun_id(entry),rect.size)
 	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	art.position = rect.position
@@ -718,6 +719,7 @@ func build_relic_grid(parent: Node, state, i: int, build: Dictionary) -> void:
 						art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 						art.position = Vector2(7,3)
 						art.size = Vector2(40,25)
+						art.material = Weapons.Visuals.body_material(state.gun_id(entry),art.size)
 						art.mouse_filter = Control.MOUSE_FILTER_IGNORE
 						chip.add_child(art)
 					else: add_item_art(chip,entry,Rect2(17,4,22,22),false)

@@ -79,6 +79,10 @@ def process(batch, catalog):
             canvas.alpha_composite(small,((96-small.width)//2,(96-small.height)//2))
             small=canvas
         small.save(runtime / f'{item_id:02d}.png')
+        if batch['kind'] == 'guns' and item_id == 4 and (ROOT / 'assets/generated/doubleback-body-v2.png').exists():
+            # Preserve the approved single-weapon revision on historical repacks.
+            from package_doubleback_body import main as restore_doubleback
+            restore_doubleback()
         records.append(dict(id=item_id, kind=batch['kind'], name=catalog[batch['kind']][item_id]['name'],
                             source=source.relative_to(ROOT).as_posix(), sha256=hashlib.sha256(source.read_bytes()).hexdigest(),
                             cell=cell, crop=box, mirrored=mirrored, rotation_degrees=rotation, runtime=(runtime / f'{item_id:02d}.png').relative_to(ROOT).as_posix()))

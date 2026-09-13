@@ -256,6 +256,7 @@ func refresh(players: Array, remaining: float, paused: bool, result: String, sco
 		var active = get_node("Root/Active%d" % i)
 		active.get_node("Name").text = p.definition().name
 		active.get_node("Art").texture = Weapons.art(p.weapon().id) if p.has_weapon() else null
+		active.get_node("Art").material = Weapons.Visuals.body_material(p.weapon().id,Vector2(40,28)) if p.has_weapon() else null
 		active.get_node("Ammo").text = ("%d · 予備%d" % [p.weapon().clip,p.weapon().reserve]) if p.has_weapon() else "丸腰"
 		active.get_node("Ammo").tooltip_text = "装弾数 / 予備弾数"
 		var wait: float = p.state.reload

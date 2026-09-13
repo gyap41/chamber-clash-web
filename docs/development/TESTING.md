@@ -1,4 +1,12 @@
+2026-09-13 ダブルバック改修: equipment_art / weapon_readability 成功。Compatibilityで38武器の左右を撮影。docs/art/reviews/doubleback-body-2026-09-13/ を参照。
+
 # 検証手順
+
+オーロラの虹の帯：weapon_readability / aurora_ribbon / projectile_hp が合格。曲線の連続性・距離上限・7色補間・既存弾の停止／方向を検証。実戦48フレームを再描画。[結果](../art/reviews/aurora-ribbon-2026-09-13/README.md)。
+
+武器視認性修正：全71件合格（`.local/logs/run_tests-20260913-122418.log`）。weapon_readability は発射色→専用Sprite→着弾、軌跡の材質分離、厚みと判定維持、材質解除を検証。ID 4 / 8 / 20 / 37 の実戦各48フレームと全38種左右表示を確認。[結果](../art/reviews/weapon-readability-fix-2026-09-13/README.md)。
+
+武器視認性レビュー：`tools/audit_weapon_readability.gd` で38武器を倍率1・同一キャラ・左右方向から描画して寸法と半径を計測。`tools/capture_weapon_audit_battle.gd -- 4`（20 / 37も対応）で実戦背景の自動射撃48フレームを確認。今回、ゲーム実装に変更なし。[資料](../art/reviews/weapon-readability-audit-2026-09-13/README.md)。
 
 レジェンド重力場：legendary_weapons / gravity_legendary 合格。`tools/check_gravity_legendary_render.gd` は4個同時描画、停止中のピクセル一致、再開時の変化を検証。`tools/capture_gravity_legendary.gd` は実戦96フレーム。[ログと映像](../art/reviews/gravity-legendary-2026-09-13/README.md)。
 

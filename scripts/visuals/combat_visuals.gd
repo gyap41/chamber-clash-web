@@ -82,6 +82,16 @@ func _draw() -> void:
 		var anchor := Visuals.vec(e.spec.get("anchor",[.5,.5]))
 		draw_set_transform(e.pos,e.angle)
 		draw_texture_rect_region(tex,Rect2(-size*anchor,size),Rect2(Vector2(frame*source_size.x,0),source_size),Color(1,1,1,1.0-progress*.6))
+		var palette: Array = e.get("palette",[])
+		if e.kind=="fire" and not palette.is_empty():
+			for i in range(palette.size()):
+				var ray := Vector2.from_angle((i-(palette.size()-1)*.5)*.14)
+				canvas_rainbow_ray(ray,Color(palette[i]),progress)
+		elif not str(e.get("visual_color","")).is_empty():
+			var tint := Color(e.visual_color);tint.a = 1.0-progress
+			for i in range(5):
+				var ray := Vector2.from_angle(i*TAU/5.0)
+				draw_line(ray*(3+progress*10),ray*(7+progress*17),tint,2.0,true)
 	draw_set_transform(Vector2.ZERO)
 	for p in particles:
 		var color: Color = p.color
@@ -123,6 +133,10 @@ func weapon_event(event: Dictionary) -> void:
 		factor *= float(profile.get("impact_scale",1.0))
 		var variant_spec: Dictionary = Visuals.data.get("variants",{}).get(str(event.get("variant","")),{})
 		factor *= float(variant_spec.get("impact_scale",1.0))
-	named_effects.append({"spec":spec,"kind":kind,"owner":event.get("owner"),"token":event.get("token"),"anchor":event.get("anchor") if kind=="reload_start" else null,"weapon":int(event.get("weapon",-1)),"pos":event.get("pos",Vector2.ZERO),"angle":float(event.get("angle",0.0)),"age":0.0,"scale":factor})
+	named_effects.append({"spec":spec,"kind":kind,"owner":event.get("owner"),"token":event.get("token"),"anchor":event.get("anchor") if kind=="reload_start" else null,"weapon":int(event.get("weapon",-1)),"pos":event.get("pos",Vector2.ZERO),"angle":float(event.get("angle",0.0)),"age":0.0,"scale":factor,"palette":profile.get("palette",[]),"visual_color":event.get("visual_color","")})
 	while named_effects.size()>maxi(0,weapon_effect_limit): named_effects.pop_front()
 	queue_redraw()
+
+func canvas_rainbow_ray(ray: Vector2, tint: Color, progress: float) -> void:
+	tint.a = 1.0-progress
+	draw_line(ray*6.0,ray*(30.0-progress*8.0),tint,2.3,true)

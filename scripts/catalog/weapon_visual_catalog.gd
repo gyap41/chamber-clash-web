@@ -42,3 +42,21 @@ static func body_points() -> Dictionary:
 		if body.has("grip") and body.has("muzzle"):
 			result[int(id)] = [vec(body.grip),vec(body.muzzle)]
 	return result
+
+static var body_materials: Dictionary = {}
+static func body_material(id: int, bounds: Vector2) -> ShaderMaterial:
+	var body: Dictionary = profile(id).get("body",{})
+	if not body.get("readable",false) and not body.get("rainbow",false): return null
+	var key := "%d:%s" % [id,bounds]
+	if not body_materials.has(key):
+		var tex := texture(str(body.get("texture","")))
+		var size := tex.get_size()*minf(bounds.x/tex.get_width(),bounds.y/tex.get_height())
+		var mat := ShaderMaterial.new();mat.shader = preload("res://assets/shaders/equipment_readability.gdshader")
+		mat.set_shader_parameter("outline",.6)
+		mat.set_shader_parameter("outline_step",Vector2.ONE/size)
+		mat.set_shader_parameter("rainbow",1.0 if body.get("rainbow",false) else 0.0)
+		var colors := PackedColorArray()
+		for color in profile(id).get("palette",["#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff"]):colors.append(Color(color))
+		mat.set_shader_parameter("rainbow_palette",colors)
+		body_materials[key]=mat
+	return body_materials[key]

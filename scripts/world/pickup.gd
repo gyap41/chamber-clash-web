@@ -44,6 +44,7 @@ func configure(item_kind: String, id: int) -> void:
 		$Weapon.scale = display_size / $Weapon.texture.get_size()
 		if Weapons.EQUIPMENT_POINTS.has(id):
 			$Weapon.scale = Vector2.ONE*minf(display_size.x/$Weapon.texture.get_width(),display_size.y/$Weapon.texture.get_height())
+		$Weapon.material = Weapons.Visuals.body_material(id,display_size)
 		var rarity_color := Weapons.rarity_color(id) # 色分けレア度：C/B/A/Sの4段階
 		$ChestFrame/Body.color = rarity_color
 		$ChestFrame/Lid.color = rarity_color.darkened(.25)

@@ -396,6 +396,8 @@ func update_weapon_art() -> void:
 	else:
 		$Weapon/Sprite.position = Vector2(23,0)
 
+	$Weapon/Sprite.material = Weapons.Visuals.body_material(weapon().id,$Weapon/Sprite.texture.get_size()*$Weapon/Sprite.scale)
+
 func equipment_muzzle() -> Vector2:
 	var sprite: Sprite2D = $Weapon/Sprite
 	var point: Vector2 = Weapons.EQUIPMENT_POINTS[weapon().id][1]

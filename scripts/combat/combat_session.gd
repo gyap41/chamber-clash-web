@@ -96,6 +96,8 @@ func fire(index: int) -> void:
 			opts.cross_turn = .20 if i < 2 else -.20
 			opts.pos = player.state.pos+Vector2.from_angle(angle)*(21.0 if i%2 == 0 else 29.0)
 		if g.get("prism", false): opts.color = ["#ff9bbd","#ffe99b","#98efd0","#a4d9ff","#dfafff"][i % 5]
+		var palette: Array = preload("res://scripts/catalog/weapon_visual_catalog.gd").profile(w.id).get("palette",[])
+		if not palette.is_empty(): opts.visual_color = palette[i%palette.size()]
 		spawn_shot(index, w.id, angle, opts)
 		for followup in range(1,burst_count):
 			var delayed := opts.duplicate(true)

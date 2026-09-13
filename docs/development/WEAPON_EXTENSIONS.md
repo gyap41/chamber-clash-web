@@ -69,3 +69,9 @@ context.actorは所有者、実ゲーム内ではcontext.sessionから戦闘サ�
 ## 持続場のネイティブ粒子とシェーダー
 
 重力場は `gravity_legendary.gd` に描画を分離。CPUParticles2D は speed_scale=0 と request_particles_process(dt) で戦闘時間に同期し、シェーダーにも effect_age を渡す。独立した実時間や TIME で進行させない。ShaderMaterial は場ごとに作り、親の削除で描画一式も消す。screen texture を読む際はコピー範囲・複数効果の重なり・カメラを含めて実描画を検証する。現在は互換描画でビューポートコピーを使用するため、同時場数が増える変更では負荷測定も必要。
+
+## 弾ごとの色と輪郭
+
+武器の `palette` は発射順の配色。combat_session が `visual_color` を各弾へ渡し、Spriteの色変換・軌跡・命中通知へ接続する。性能側の color と独立し、威力等は変更しない。`readable` は輪郭補強、`fit: stretch` は縦横独立のサイズ指定。軌跡は projectile_trail.gd の別CanvasItemに描き、SpriteのShaderMaterialを継承しない。
+
+本体の `body.readable` / `body.rainbow` は body_material(id,bounds) から材質を取得。材質は武器・表示枠でキャッシュし、共有した材質を呼び出し側で変更しない。虹材質は前方の明るい部分だけを着色する。

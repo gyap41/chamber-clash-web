@@ -79,8 +79,8 @@
       "family": "ballistic",
       "bullet": "res://assets/first-workshop/projectiles/00.png",
       "bullet_size": [
-        11,
-        6
+        16,
+        9
       ],
       "trail": "short",
       "spin": 0.0,
@@ -97,11 +97,13 @@
           0.14
         ]
       },
-      "trail_length": 14,
-      "trail_width": 1,
+      "trail_length": 28,
+      "trail_width": 1.8,
       "trail_samples": 10,
       "impact_scale": 0.75,
-      "muzzle_scale": 0.75
+      "muzzle_scale": 0.75,
+      "fit": "stretch",
+      "readable": true
     },
     "1": {
       "family": "metal",
@@ -189,29 +191,32 @@
       "family": "ballistic",
       "bullet": "res://assets/first-workshop/projectiles/04.png",
       "bullet_size": [
-        8,
-        6
+        10,
+        10
       ],
-      "trail": "none",
+      "trail": "short",
       "spin": 0.0,
       "fragment": "derived",
       "body": {
         "texture": "res://assets/first-workshop/equipment/guns/04.png",
-        "scale": 1.3,
+        "scale": 1.56,
         "grip": [
-          0.39,
-          0.46
+          0.35,
+          0.4
         ],
         "muzzle": [
-          0.995,
-          0.12
-        ]
+          0.994,
+          0.2
+        ],
+        "readable": true
       },
-      "trail_length": 0,
-      "trail_width": 1,
+      "trail_length": 28,
+      "trail_width": 1.8,
       "trail_samples": 10,
       "impact_scale": 0.7,
-      "muzzle_scale": 0.7
+      "muzzle_scale": 0.7,
+      "fit": "stretch",
+      "readable": true
     },
     "5": {
       "family": "arcane",
@@ -300,8 +305,8 @@
       "family": "arcane",
       "bullet": "res://assets/first-workshop/projectiles/08.png",
       "bullet_size": [
-        26,
-        9
+        25,
+        11
       ],
       "trail": "prism",
       "spin": 0.0,
@@ -318,9 +323,17 @@
           0.33
         ]
       },
-      "trail_length": 52,
-      "trail_width": 1.2,
-      "trail_samples": 18
+      "trail_length": 56,
+      "trail_width": 2,
+      "trail_samples": 18,
+      "palette": [
+        "#ff799f",
+        "#ffd86b",
+        "#75edb4",
+        "#70d7ff",
+        "#cf8bff"
+      ],
+      "fit": "stretch"
     },
     "9": {
       "family": "explosion",
@@ -609,8 +622,8 @@
       "family": "ballistic",
       "bullet": "res://assets/first-workshop/projectiles/19.png",
       "bullet_size": [
-        11,
-        6
+        16,
+        9
       ],
       "trail": "echo",
       "spin": 0.0,
@@ -627,16 +640,18 @@
           0.26
         ]
       },
-      "trail_length": 18,
-      "trail_width": 1,
-      "trail_samples": 10
+      "trail_length": 28,
+      "trail_width": 1.8,
+      "trail_samples": 10,
+      "fit": "stretch",
+      "readable": true
     },
     "20": {
       "family": "ballistic",
       "bullet": "res://assets/first-workshop/bullet.png",
       "bullet_size": [
-        12,
-        7
+        16,
+        9
       ],
       "trail": "short",
       "spin": 0.0,
@@ -654,18 +669,20 @@
           -7
         ]
       },
-      "trail_length": 16,
-      "trail_width": 1,
+      "trail_length": 28,
+      "trail_width": 1.8,
       "trail_samples": 10,
       "impact_scale": 0.8,
-      "muzzle_scale": 0.8
+      "muzzle_scale": 0.8,
+      "fit": "stretch",
+      "readable": true
     },
     "21": {
       "family": "metal",
       "bullet": "res://assets/first-workshop/projectiles/21.png",
       "bullet_size": [
-        27,
-        4
+        28,
+        8
       ],
       "trail": "needle",
       "spin": 0.0,
@@ -684,8 +701,10 @@
       },
       "color": "#b5daff",
       "trail_length": 28,
-      "trail_width": 0.7,
-      "trail_samples": 10
+      "trail_width": 1.8,
+      "trail_samples": 10,
+      "fit": "stretch",
+      "readable": true
     },
     "22": {
       "family": "metal",
@@ -739,14 +758,15 @@
       "color": "#e9ce84",
       "trail_length": 20,
       "trail_width": 1.2,
-      "trail_samples": 10
+      "trail_samples": 10,
+      "readable": true
     },
     "24": {
       "family": "metal",
       "bullet": "res://assets/first-workshop/projectiles/24.png",
       "bullet_size": [
-        12,
-        6
+        14,
+        9
       ],
       "trail": "short",
       "spin": 0.0,
@@ -763,9 +783,11 @@
           0.28
         ]
       },
-      "trail_length": 14,
-      "trail_width": 0.8,
-      "trail_samples": 10
+      "trail_length": 28,
+      "trail_width": 1.8,
+      "trail_samples": 10,
+      "fit": "stretch",
+      "readable": true
     },
     "25": {
       "family": "arcane",
@@ -798,8 +820,8 @@
       "family": "ballistic",
       "bullet": "res://assets/first-workshop/projectiles/26.png",
       "bullet_size": [
-        15,
-        7
+        18,
+        9
       ],
       "trail": "short",
       "spin": 0.0,
@@ -816,16 +838,18 @@
           0.25
         ]
       },
-      "trail_length": 22,
-      "trail_width": 1.2,
-      "trail_samples": 10
+      "trail_length": 28,
+      "trail_width": 1.8,
+      "trail_samples": 10,
+      "fit": "stretch",
+      "readable": true
     },
     "27": {
       "family": "ballistic",
       "bullet": "res://assets/first-workshop/projectiles/27.png",
       "bullet_size": [
-        9,
-        5
+        14,
+        9
       ],
       "trail": "short",
       "spin": 0.0,
@@ -842,11 +866,13 @@
           0.32
         ]
       },
-      "trail_length": 14,
-      "trail_width": 0.8,
+      "trail_length": 28,
+      "trail_width": 1.8,
       "trail_samples": 10,
       "impact_scale": 0.7,
-      "muzzle_scale": 0.7
+      "muzzle_scale": 0.7,
+      "fit": "stretch",
+      "readable": true
     },
     "28": {
       "family": "metal",
@@ -872,14 +898,15 @@
       },
       "trail_length": 18,
       "trail_width": 0.9,
-      "trail_samples": 10
+      "trail_samples": 10,
+      "readable": true
     },
     "29": {
       "family": "metal",
       "bullet": "res://assets/first-workshop/projectiles/29.png",
       "bullet_size": [
-        25,
-        5
+        24,
+        8
       ],
       "trail": "thread",
       "spin": 0.0,
@@ -897,23 +924,25 @@
         ]
       },
       "color": "#efaec8",
-      "trail_length": 44,
-      "trail_width": 0.8,
-      "trail_samples": 18
+      "trail_length": 28,
+      "trail_width": 1.8,
+      "trail_samples": 18,
+      "fit": "stretch",
+      "readable": true
     },
     "30": {
       "family": "ballistic",
       "bullet": "res://assets/first-workshop/projectiles/30.png",
       "bullet_size": [
-        25,
-        5
+        26,
+        8
       ],
       "trail": "needle",
       "spin": 0.0,
       "fragment": "derived",
       "body": {
         "texture": "res://assets/first-workshop/equipment/guns/30.png",
-        "scale": 1.55,
+        "scale": 1.7,
         "grip": [
           0.28,
           0.8
@@ -921,25 +950,28 @@
         "muzzle": [
           0.995,
           0.37
-        ]
+        ],
+        "readable": true
       },
-      "trail_length": 30,
-      "trail_width": 0.8,
-      "trail_samples": 10
+      "trail_length": 28,
+      "trail_width": 1.8,
+      "trail_samples": 10,
+      "fit": "stretch",
+      "readable": true
     },
     "31": {
       "family": "ballistic",
       "bullet": "res://assets/first-workshop/projectiles/31.png",
       "bullet_size": [
-        8,
-        6
+        10,
+        10
       ],
-      "trail": "none",
+      "trail": "short",
       "spin": 0.0,
       "fragment": "derived",
       "body": {
         "texture": "res://assets/first-workshop/equipment/guns/31.png",
-        "scale": 1.1,
+        "scale": 1.35,
         "grip": [
           0.13,
           0.76
@@ -947,13 +979,16 @@
         "muzzle": [
           0.995,
           0.27
-        ]
+        ],
+        "readable": true
       },
-      "trail_length": 0,
-      "trail_width": 1,
+      "trail_length": 28,
+      "trail_width": 1.8,
       "trail_samples": 10,
       "impact_scale": 0.7,
-      "muzzle_scale": 0.7
+      "muzzle_scale": 0.7,
+      "fit": "stretch",
+      "readable": true
     },
     "32": {
       "family": "metal",
@@ -1097,8 +1132,8 @@
       "family": "arcane",
       "bullet": "res://assets/first-workshop/projectiles/37.png",
       "bullet_size": [
-        26,
-        12
+        30,
+        14
       ],
       "trail": "aurora",
       "spin": 0.0,
@@ -1113,12 +1148,25 @@
         "muzzle": [
           0.995,
           0.5
-        ]
+        ],
+        "rainbow": true
       },
       "color": "#bfc7ff",
-      "trail_length": 38,
-      "trail_width": 1.1,
-      "trail_samples": 10
+      "trail_length": 80,
+      "trail_width": 3.8,
+      "trail_samples": 24,
+      "palette": [
+        "#ff657d",
+        "#ffa64d",
+        "#ffe36a",
+        "#7fea8e",
+        "#60e7ef",
+        "#799bff",
+        "#d184ff"
+      ],
+      "fit": "stretch",
+      "impact_scale": 1.3,
+      "muzzle_scale": 1.25
     }
   },
   "effects": {

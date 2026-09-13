@@ -2,6 +2,7 @@ extends Node2D
 signal visual_event_requested(event: Dictionary)
 var visual_id := 0
 var visual_variant := ""
+var visual_color := ""
 signal burst_requested(pos: Vector2, color: Color, count: int)
 # P3 synergy relic (反響の種): fired at most once per bullet, only from a depth-0 (directly
 # fired, non-derived) bullet's first wall bounce. main.gd owns the numeric relic definition and
@@ -22,6 +23,7 @@ var state: Dictionary
 var log_origin: Dictionary = {}
 func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionary = {}) -> void:
 	gun_id = id
+	visual_color = str(opts.get("visual_color",opts.get("color","")))
 	visual_id = int(opts.get("visual_weapon",id))
 	visual_variant = str(opts.get("visual_variant",""))
 	if visual_variant.is_empty() and int(opts.get("depth",0))>0 and str(opts.get("kind","")) not in ["echo","burst"]: visual_variant = "derived"
@@ -70,7 +72,7 @@ func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionar
 	state.homing_cone = float(g.get("homing_cone",PI))
 	$Visual.modulate = Color(opts.get("color",g.color))
 	$Visual.scale = Vector2.ONE * radius/4.0
-	$Art.configure(visual_id,bool(opts.get("parcel",false)),bool(opts.get("shard",false)),visual_variant)
+	$Art.configure(visual_id,bool(opts.get("parcel",false)),bool(opts.get("shard",false)),visual_variant,visual_color)
 	$Art.refresh(state.age,state.velocity)
 	$Visual.visible = not $Art.visible
 	queue_redraw()
@@ -177,4 +179,4 @@ func fragments() -> Dictionary:
 
 func notify_visual(kind: String, pos: Vector2) -> void:
 	if kind == "hit" and (state.parcel or state.comet or state.split or state.clover): return
-	visual_event_requested.emit({"kind":kind,"weapon":visual_id,"variant":("parcel" if state.parcel else visual_variant),"owner":state.owner,"pos":pos,"angle":state.velocity.angle()})
+	visual_event_requested.emit({"kind":kind,"weapon":visual_id,"visual_color":visual_color,"variant":("parcel" if state.parcel else visual_variant),"owner":state.owner,"pos":pos,"angle":state.velocity.angle()})
