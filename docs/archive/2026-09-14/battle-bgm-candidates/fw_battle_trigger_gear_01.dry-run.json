@@ -1,0 +1,22 @@
+{
+  "asset_id": "bgm:fw_battle_trigger_gear_01",
+  "type": "bgm",
+  "provider": "stability",
+  "file_path": "res://assets/audio/bgm/fw_battle_trigger_gear_01.wav",
+  "purpose": "Battle candidate 2: technical funk rock; comparison only, not integrated",
+  "prompt": "Agile technical funk rock battle theme, 132 BPM. Cool precision, skillful dodging and stylish crafted gun-action. Tight muted syncopated electric guitar, nimble rounded electric bass, dry kick and snare, economical bright synth answers. Straight driving sixteenth-note groove with breathing rests, confident and playful in rhythm but never comedic. A catchy original two-bar riff and short melodic response anchor an instrumental chorus around 20 to 30 seconds, returning around 60 to 75 seconds. The chorus is rhythmically memorable rather than a huge orchestral melody. Restrained tiny wooden accents suggest craftsmanship, not folk music. Instrumental soundtrack for a fast readable 2D action game about explorer-artisans using crafted firearms and advanced devices. Cool, adventurous and exciting, moderate stable dynamics. Catchiness comes from melody and rhythm, not louder mastering. Leave gaps for gameplay shots, hits and alerts; controlled bass, restrained cymbals, uncluttered midrange. Dry clear mix with short room ambience and clean transients. Steady 4/4, recurring phrases suited to loop editing. Begin immediately with the groove; no long introduction, fade-out or final cadence. No voices, singing, speech, lyrics, gunshots, clicks, alarms or environmental sound effects. No folk or tribal instrumentation, cavernous reverb, dark drones, horror, military marches, heavy metal walls, EDM drops or oversized boss-battle orchestra.",
+  "loop": true,
+  "generation_parameters": {
+    "model": "stable-audio-2.5",
+    "duration": 120.0,
+    "output_format": "wav",
+    "steps": 8
+  },
+  "endpoint": "https://api.stability.ai/v2beta/audio/stable-audio-2/text-to-audio",
+  "api_calls": 0,
+  "candidates": 1,
+  "retries": 0,
+  "timeout_seconds": 180,
+  "allow_repeat": false,
+  "output_exists": false
+}

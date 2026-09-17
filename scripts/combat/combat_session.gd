@@ -172,7 +172,7 @@ func _step_projectiles(dt: float) -> void:
 				if b.state.comet:
 					game.presentation.play_sound("explosion")
 					for enemy in game.roster.enemies(b.state.owner,game.players):
-						if b.state.pos.distance_to(enemy.state.pos) < b.comet_blast_radius and not game.arena.line_blocked(b.state.pos,enemy.state.pos): enemy.hurt(b.comet_blast_damage)
+						if b.state.pos.distance_to(enemy.state.pos) < b.comet_blast_radius and not game.arena.line_blocked(b.state.pos,enemy.state.pos): enemy.hurt(b.comet_blast_damage,-1,false,b.log_origin,b.source_player)
 					game.presentation.shake(5.0)
 				if b.state.gravity: spawn_well(b.state.pos,b.state.owner)
 			var fragments: Dictionary = b.fragments()

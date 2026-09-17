@@ -21,6 +21,7 @@ func run() -> void:
 	game.set_physics_process(false)
 	preload("res://tests/helpers/battle.gd").start(game)
 	var p = game.players[0]
+	p.set_character(1) # Generic .26s roll; Rina landing is tested in dodge_flow.
 	p.equip_slot(0)
 	p.state.shot = 0.0
 	p.state.roll = .08
@@ -63,8 +64,8 @@ func run() -> void:
 	assert(p.state.gun == 1 and game.delayed_shots.size() == 1)
 	game._physics_process(.01)
 	assert(p.state.gun == 1 and game.delayed_shots.size() == 1)
-	# Simultaneous requests prioritize switching; its normal 150ms delay prevents
-	# the 100ms fire tap from becoming a shot from either weapon.
+	# Queued switching precedes the tap without adding a post-roll delay.
+	p.state.shot = 0.0
 	p.state.roll = .08
 	var old_clip: int = p.inventory[0].clip
 	var new_clip: int = p.inventory[1].clip
@@ -73,7 +74,7 @@ func run() -> void:
 	game.equip_slot(0,0)
 	game._physics_process(.08)
 	game._physics_process(.2)
-	assert(p.state.gun == 0 and p.inventory[0].clip == old_clip and p.inventory[1].clip == new_clip)
+	assert(p.state.gun == 0 and p.inventory[0].clip == old_clip-1 and p.inventory[1].clip == new_clip)
 	p.equip_slot(1)
 	# UI slot selection shares the same buffer; latest explicit slot wins.
 	p.state.roll = .08
@@ -84,7 +85,7 @@ func run() -> void:
 	p.state.roll = .2
 	game.equip_slot(0,0)
 	game._physics_process(.2)
-	assert(p.state.gun == 1)
+	assert(p.state.gun == 0) # Early switch survives the whole dodge.
 	# Pause, focus loss, result and new round discard both actions.
 	for reason in ["pause","focus","result","reset"]:
 		p.state.roll = .08

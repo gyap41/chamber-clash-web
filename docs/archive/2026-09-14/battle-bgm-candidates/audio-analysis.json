@@ -1,0 +1,53 @@
+[
+  {
+    "asset_id": "bgm:fw_battle_blueprint_dash_01",
+    "duration_seconds": 120.0,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits_per_sample": 16,
+    "peak_dbfs": -0.9072601310176948,
+    "full_scale_samples": 0,
+    "leading_quiet_seconds": 0.0,
+    "trailing_quiet_seconds": 3.43,
+    "longest_quiet_seconds": 3.43,
+    "quiet_threshold_dbfs": -60,
+    "quiet_window_seconds": 0.01,
+    "sha256": "41d402eabc17245d2bb53ec7bb7fdcd8eccc9267dfdb9f7aea485e3dbd05c7ed",
+    "auditioned": false,
+    "loop_verified": false
+  },
+  {
+    "asset_id": "bgm:fw_battle_trigger_gear_01",
+    "duration_seconds": 120.0,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits_per_sample": 16,
+    "peak_dbfs": -0.11930291471555513,
+    "full_scale_samples": 0,
+    "leading_quiet_seconds": 0.0,
+    "trailing_quiet_seconds": 4.48,
+    "longest_quiet_seconds": 4.48,
+    "quiet_threshold_dbfs": -60,
+    "quiet_window_seconds": 0.01,
+    "sha256": "a1d8b1cd15d9ab04a2cd4b078f5b51d31617546517601c233088dca7f54c5455",
+    "auditioned": false,
+    "loop_verified": false
+  },
+  {
+    "asset_id": "bgm:fw_battle_azure_blueprint_01",
+    "duration_seconds": 120.0,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits_per_sample": 16,
+    "peak_dbfs": -3.3090807139372314,
+    "full_scale_samples": 0,
+    "leading_quiet_seconds": 0.0,
+    "trailing_quiet_seconds": 5.6000000000000005,
+    "longest_quiet_seconds": 5.6000000000000005,
+    "quiet_threshold_dbfs": -60,
+    "quiet_window_seconds": 0.01,
+    "sha256": "55953e280f92b10084d1c64c19842324729125cb47658b7464e671c74bad2e89",
+    "auditioned": false,
+    "loop_verified": false
+  }
+]

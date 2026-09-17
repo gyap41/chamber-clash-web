@@ -50,7 +50,7 @@ func run() -> void:
 		assert(anim.animation_name == "roll" and anim.animation_frame == i)
 		assert(is_equal_approx(anim.pose.get_rotation(),0.0))
 		assert(anim.body_facing == -1)
-		assert(not p.get_node("Weapon").visible)
+		assert(p.get_node("Weapon").visible == (i == 5)) # Vulnerable landing restores the gun.
 	p.state.roll = .01
 	p.state.inv = .06
 	p.step(.01,0,q,game.arena,false,{"dx":0.0,"dy":0.0,"shoot":false,"aim_jitter":0.0})

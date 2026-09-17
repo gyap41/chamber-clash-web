@@ -83,7 +83,7 @@ func _ready() -> void:
 		hp.position = Vector2(x,40)
 		hp.size = Vector2(280,16)
 		hp.move_to_front()
-		label($Root,"Health%d" % i,Rect2(x,58,130,22),17)
+		label($Root,"Health%d" % i,Rect2(x,58,280,22),17)
 	label($Root,"Round",Rect2(440,8,240,19),14).horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label($Root,"Timer",Rect2(440,24,240,39),34).horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label($Root,"Score",Rect2(440,62,240,20),15).horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -250,8 +250,10 @@ func refresh(players: Array, remaining: float, paused: bool, result: String, sco
 		var char_name: String = Characters.definition(p.char_id).name if p.char_id >= 0 else ""
 		get_node("Root/Name%d" % i).text = tag + "  " + char_name
 		get_node("Root/Name%d" % i).modulate = Color("f39545") if i == 0 else Color("64b5ee")
-		get_node("Root/HP%d" % (i+1)).refresh(p.state.hp,p.state.max_hp)
-		get_node("Root/Health%d" % i).text = "%.1f / %.0f" % [p.state.hp,p.state.max_hp]
+		var rally: float = p.rally_available()
+		get_node("Root/HP%d" % (i+1)).refresh(p.state.hp,p.state.max_hp,rally)
+		get_node("Root/HP%d" % (i+1)).tooltip_text = "黄色は反撃で回復できるHP。被ダメージの50%、各被弾から3秒以内に攻撃を当てて回収。"
+		get_node("Root/Health%d" % i).text = "%.1f / %.0f" % [p.state.hp,p.state.max_hp] + ("  反撃回復 +%.1f" % rally if rally > 0 else "")
 		get_node("Root/Health%d" % i).modulate = Color("ff9d83") if p.state.hp <= p.state.max_hp*.25 else Color.WHITE
 		var active = get_node("Root/Active%d" % i)
 		active.get_node("Name").text = p.definition().name

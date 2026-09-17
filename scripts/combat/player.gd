@@ -36,6 +36,10 @@ var buffered_fire := 0.0
 var buffered_switch := 0.0
 var buffered_slot := -1
 var keyboard_fire_held := false
+const RALLY_RATIO := 0.5
+const RALLY_DURATION := 3.0
+# Each wound expires independently: taking another hit never extends old recovery.
+var rally_wounds: Array[Dictionary] = []
 # Legacy roll()/damage() keep invincibility (p.inv) separate from the roll animation timer
 # Default characters roll for .26s; Rina dives for .38s with a vulnerable landing.
 # p.inv is independently set to .31s, which gates Rina's incoming damage.
@@ -82,6 +86,7 @@ var battle_slot := -1
 # character-select screen) without disturbing position/inventory or the fighters[] reference
 # main.gd keeps into this same dict.
 func set_character(id: int) -> void:
+	rally_wounds.clear()
 	char_id = id
 	dodge_duration = .38 if id == 0 else .26
 	var c: Dictionary = Characters.definition(id)
@@ -96,6 +101,7 @@ func set_character(id: int) -> void:
 		state.pulses = initial_pulses
 	$Sprite.frame = int(c.cell)
 func reset(spawn: Vector2) -> void:
+	rally_wounds.clear()
 	cancel_reload_visual()
 	clear_action_inputs()
 	$Animation.reset()
@@ -137,7 +143,7 @@ func move_to_room(spawn: Vector2) -> void:
 	clear_action_inputs()
 	state.pos = spawn
 	sync_visual()
-func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Dictionary = {}) -> bool:
+func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Dictionary = {}, attacker = null) -> bool:
 	if state.hp <= 0 or amount <= 0: return false
 	if (char_id != 0 and state.roll > 0) or (volley >= 0 and state.blocked_volley == volley) or (state.inv > 0 and (volley < 0 or state.last_volley != volley)): return false
 	amount = preload("res://scripts/combat/relic_effects.gd").incoming_damage(self,amount,volley,hazard)
@@ -145,6 +151,13 @@ func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Diction
 	state.last_volley = volley
 	var actual := minf(state.hp,amount)
 	state.hp = maxf(0,state.hp-amount)
+	if state.hp <= 0:
+		rally_wounds.clear()
+	elif not hazard and attacker != self and (not is_instance_valid(attacker) or team_id.is_empty() or attacker.team_id.is_empty() or team_id != attacker.team_id):
+		rally_wounds.append({"amount":actual*RALLY_RATIO,"time":RALLY_DURATION})
+	if not hazard and is_instance_valid(attacker) and attacker != self:
+		if team_id.is_empty() or attacker.team_id.is_empty() or team_id != attacker.team_id:
+			attacker.recover_rally(actual)
 	if state.hp <= 0: cancel_reload_visual()
 	preload("res://scripts/combat/relic_effects.gd").damaged(self,actual,hazard)
 	if telemetry != null: telemetry.record("damage",{"player":str(name),"amount":actual,"volley":volley,"hazard":hazard,"origin":origin})
@@ -153,6 +166,36 @@ func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Diction
 	shake_requested.emit(4.0)
 	sound_requested.emit("hit",0)
 	return true
+func rally_available() -> float:
+	if state.hp <= 0: return 0.0
+	var total := 0.0
+	for wound in rally_wounds: total += float(wound.amount)
+	return minf(total,maxf(0.0,state.max_hp-state.hp))
+func recover_rally(dealt: float) -> void:
+	var recovered := minf(maxf(0.0,dealt),rally_available())
+	if recovered <= 0: return
+	var remaining := recovered
+	# Consume oldest wounds first, before their earlier expiration.
+	for wound in rally_wounds:
+		var used := minf(remaining,float(wound.amount))
+		wound.amount -= used
+		remaining -= used
+	rally_wounds = rally_wounds.filter(func(w): return w.amount > 0)
+	state.hp = minf(state.max_hp,state.hp+recovered)
+	if telemetry != null: telemetry.record("rally",{"player":str(name),"amount":recovered})
+	ring_requested.emit(state.pos,Color("ffd680"),24.0)
+func advance_rally(dt: float) -> void:
+	for wound in rally_wounds: wound.time -= dt
+	rally_wounds = rally_wounds.filter(func(w): return w.time > 0 and w.amount > 0)
+func trim_rally() -> void:
+	var total := 0.0
+	for wound in rally_wounds: total += float(wound.amount)
+	var excess := maxf(0.0,total-maxf(0.0,state.max_hp-state.hp))
+	for wound in rally_wounds:
+		var removed := minf(excess,float(wound.amount))
+		wound.amount -= removed
+		excess -= removed
+	rally_wounds = rally_wounds.filter(func(w): return w.amount > 0)
 func visual_color() -> Color:
 	return Color("64b5ee") if name == "P2" else Color("f39545")
 # Device compatibility adapter for existing effect tests. Runtime uses commands.
@@ -196,8 +239,9 @@ func try_melee(i: int, shots: Array, enemy, arena) -> void:
 	var targets: Array = enemy if enemy is Array else ([enemy] if enemy != null else [])
 	for target in targets:
 		var offset: Vector2 = target.state.pos-p.pos
-		if offset.length() < melee_range and absf(wrapf(offset.angle()-p.angle,-PI,PI)) <= PI/3 and not arena.line_blocked(p.pos,target.state.pos): target.hurt(melee_damage)
+		if offset.length() < melee_range and absf(wrapf(offset.angle()-p.angle,-PI,PI)) <= PI/3 and not arena.line_blocked(p.pos,target.state.pos): target.hurt(melee_damage,-1,false,{"kind":"melee"},self)
 func step(dt: float, i: int, enemy, arena, mouse_shooting: bool = false, ai: Dictionary = {}) -> bool:
+	advance_rally(dt)
 	var p = state
 	var fire_pending := buffered_fire > 0.0 and dt <= buffered_fire + 0.000001
 	var switch_pending := buffered_switch > 0.0 and dt <= buffered_switch + 0.000001
@@ -209,15 +253,16 @@ func step(dt: float, i: int, enemy, arena, mouse_shooting: bool = false, ai: Dic
 	if previous_aid > 0 and p.aid_time == 0 and p.hp > 0 and 28 in relics:
 		if p.hp < p.max_hp: sound_requested.emit("heal",0)
 		p.hp = minf(p.max_hp,p.hp+relic_value(28,"aid_heal"))
+	trim_rally()
 	for timer in ["shot","roll","dodge","slash","melee","inv","shield","holster","echo_holster_cd"]: p[timer] = maxf(0,p[timer]-dt)
 	if previous_roll > 0 and p.roll <= 0 and char_id == 0 and p.hp > 0: sound_requested.emit("landing",0)
 	if previous_roll > 0 and p.roll <= 0 and 25 in relics:
 		p.sole_time = maxf(0.0,relic_value(25,"sole_duration")-(dt-previous_roll))
-	if p.roll <= 0 and switch_pending:
+	if dodge_action_wait() <= 0 and switch_pending:
 		var slot := buffered_slot
 		buffered_switch = 0.0
 		buffered_slot = -1
-		equip_slot(slot)
+		equip_slot(slot, false)
 	if p.reload > 0:
 		p.reload = maxf(0,p.reload-dt)
 		if p.reload == 0:
@@ -254,18 +299,23 @@ func clear_action_inputs() -> void:
 	buffered_slot = -1
 	keyboard_fire_held = false
 func request_fire() -> void:
-	if state.roll > 0.0 and state.roll <= input_buffer_duration:
+	if state.roll > 0.0 and dodge_action_wait() <= input_buffer_duration:
 		buffered_fire = input_buffer_duration
+func dodge_action_wait() -> float:
+	# Rina can attack during vulnerable landing; other rolls keep their timing.
+	var landing := maxf(0.0,dodge_duration-dodge_invulnerability) if char_id == 0 else 0.0
+	return maxf(0.0,float(state.roll)-landing)
+func switch_selection() -> int:
+	return buffered_slot if buffered_switch > 0 else int(state.gun)
 func request_switch(index: int) -> void:
 	if index < 0 or index >= inventory.size(): return
-	if state.roll > 0.0:
-		if state.roll <= input_buffer_duration:
-			buffered_slot = index
-			buffered_switch = input_buffer_duration
+	if dodge_action_wait() > 0.0:
+		buffered_slot = index
+		buffered_switch = dodge_action_wait()+input_buffer_duration
 		return
 	equip_slot(index)
 func can_fire() -> bool:
-	return has_weapon() and state.shot <= 0 and state.reload <= 0 and state.roll <= 0 and weapon().clip > 0
+	return state.hp > 0 and has_weapon() and state.shot <= 0 and state.reload <= 0 and dodge_action_wait() <= 0 and weapon().clip > 0
 func consume_shot() -> void:
 	if not has_weapon(): return
 	weapon().clip -= 1
@@ -337,7 +387,7 @@ func add_gun(id: int) -> bool:
 	inventory.append(new_weapon_entry(id))
 	equip_slot(inventory.size()-1)
 	return true
-func equip_slot(index: int) -> void:
+func equip_slot(index: int, apply_switch_delay: bool = true) -> void:
 	if index < 0 or index >= inventory.size() or index == state.gun: return
 	# P8z ステップA：下の2つのレリック効果はいずれも「切り替え前の武器」を必要とするため、
 	# 丸腰から1丁目を装備する場合は対象外になる（Weapons.definition(-1)が負数添字で配列末尾を
@@ -347,7 +397,8 @@ func equip_slot(index: int) -> void:
 	state.gun = index
 	state.reload = 0.0
 	state.reload_slot = -1
-	state.shot = maxf(state.shot, .15)
+	# Queued switching uses the dodge; preserve the previous shot's cooldown.
+	if apply_switch_delay: state.shot = maxf(state.shot, .15)
 	update_weapon_art()
 	sound_requested.emit("equip",0)
 func start_reload() -> void:
@@ -477,6 +528,7 @@ func apply_build(build: Dictionary, capacity: int, heal: bool = false, usable: D
 	state.max_hp = max_hp + relic_value(4,"hp_bonus")
 	state.hp = state.max_hp if heal else minf(state.hp,state.max_hp)
 	if heal:
+		rally_wounds.clear()
 		inventory = []
 		for id in BuildGrid.carried_guns(build):
 			if Weapons.supported(id) and not owns(id): inventory.append(new_weapon_entry(id))

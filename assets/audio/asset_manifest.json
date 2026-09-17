@@ -1590,6 +1590,96 @@
         "source_file_unchanged": true,
         "loop_points_provisional": true
       }
+    },
+    {
+      "asset_id": "bgm:fw_battle_blueprint_dash_01",
+      "type": "bgm",
+      "provider": "stability",
+      "file_path": "res://assets/audio/bgm/fw_battle_blueprint_dash_01.wav",
+      "purpose": "Battle candidate 1: melodic adventure rock; comparison only, not integrated",
+      "prompt": "Melodic adventure rock battle theme, 140 BPM. Bright daring momentum, setting out with handmade high-tech equipment. Crisp rhythmic electric guitar, tuneful warm electric bass, tight punchy acoustic drum kit and clear optimistic synth responses. An original short rising four-bar guitar hook with a memorable answering phrase. Rhythmic sparse A section, opening into a catchy instrumental chorus around 20 to 30 seconds, returning around 60 to 75 seconds. Chorus lifts the melodic contour and harmony without filling every frequency or becoming an extended solo. Keep the sense of a human-scale adventurous workshop world. Instrumental soundtrack for a fast readable 2D action game about explorer-artisans using crafted firearms and advanced devices. Cool, adventurous and exciting, moderate stable dynamics. Catchiness comes from melody and rhythm, not louder mastering. Leave gaps for gameplay shots, hits and alerts; controlled bass, restrained cymbals, uncluttered midrange. Dry clear mix with short room ambience and clean transients. Steady 4/4, recurring phrases suited to loop editing. Begin immediately with the groove; no long introduction, fade-out or final cadence. No voices, singing, speech, lyrics, gunshots, clicks, alarms or environmental sound effects. No folk or tribal instrumentation, cavernous reverb, dark drones, horror, military marches, heavy metal walls, EDM drops or oversized boss-battle orchestra.",
+      "loop": true,
+      "generation_parameters": {
+        "model": "stable-audio-2.5",
+        "duration": 120.0,
+        "output_format": "wav",
+        "steps": 8
+      },
+      "duration": 120.0,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-13T17:23:12.545656+00:00",
+      "fingerprint": "07ee757e0722d4fb28b493e42f587f0f23b5f0ba678816a57dc2d4c2afbdd124",
+      "sha256": "41d402eabc17245d2bb53ec7bb7fdcd8eccc9267dfdb9f7aea485e3dbd05c7ed",
+      "loop_verified": false,
+      "review": {
+        "status": "candidate_awaiting_user_listening",
+        "godot_resource_verified": true,
+        "auditioned": false,
+        "loop_listening_passes": 0,
+        "local_edits": [],
+        "analysis_path": "docs/archive/2026-09-14/battle-bgm-candidates/audio-analysis.json",
+        "chorus_timing_verified": false
+      }
+    },
+    {
+      "asset_id": "bgm:fw_battle_trigger_gear_01",
+      "type": "bgm",
+      "provider": "stability",
+      "file_path": "res://assets/audio/bgm/fw_battle_trigger_gear_01.wav",
+      "purpose": "Battle candidate 2: technical funk rock; comparison only, not integrated",
+      "prompt": "Agile technical funk rock battle theme, 132 BPM. Cool precision, skillful dodging and stylish crafted gun-action. Tight muted syncopated electric guitar, nimble rounded electric bass, dry kick and snare, economical bright synth answers. Straight driving sixteenth-note groove with breathing rests, confident and playful in rhythm but never comedic. A catchy original two-bar riff and short melodic response anchor an instrumental chorus around 20 to 30 seconds, returning around 60 to 75 seconds. The chorus is rhythmically memorable rather than a huge orchestral melody. Restrained tiny wooden accents suggest craftsmanship, not folk music. Instrumental soundtrack for a fast readable 2D action game about explorer-artisans using crafted firearms and advanced devices. Cool, adventurous and exciting, moderate stable dynamics. Catchiness comes from melody and rhythm, not louder mastering. Leave gaps for gameplay shots, hits and alerts; controlled bass, restrained cymbals, uncluttered midrange. Dry clear mix with short room ambience and clean transients. Steady 4/4, recurring phrases suited to loop editing. Begin immediately with the groove; no long introduction, fade-out or final cadence. No voices, singing, speech, lyrics, gunshots, clicks, alarms or environmental sound effects. No folk or tribal instrumentation, cavernous reverb, dark drones, horror, military marches, heavy metal walls, EDM drops or oversized boss-battle orchestra.",
+      "loop": true,
+      "generation_parameters": {
+        "model": "stable-audio-2.5",
+        "duration": 120.0,
+        "output_format": "wav",
+        "steps": 8
+      },
+      "duration": 120.0,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-13T17:23:36.761391+00:00",
+      "fingerprint": "2dfb32161ea5387fca74aa86236e3ee62cc3aed6922ac1b831c76a917523438c",
+      "sha256": "a1d8b1cd15d9ab04a2cd4b078f5b51d31617546517601c233088dca7f54c5455",
+      "loop_verified": false,
+      "review": {
+        "status": "candidate_awaiting_user_listening",
+        "godot_resource_verified": true,
+        "auditioned": false,
+        "loop_listening_passes": 0,
+        "local_edits": [],
+        "analysis_path": "docs/archive/2026-09-14/battle-bgm-candidates/audio-analysis.json",
+        "chorus_timing_verified": false
+      }
+    },
+    {
+      "asset_id": "bgm:fw_battle_azure_blueprint_01",
+      "type": "bgm",
+      "provider": "stability",
+      "file_path": "res://assets/audio/bgm/fw_battle_azure_blueprint_01.wav",
+      "purpose": "Battle candidate 4: fantasy action rock; comparison only, not integrated",
+      "prompt": "Fantasy action rock battle theme, 140 BPM. Luminous adventurous wonder, brave explorer-artisans discovering mysterious advanced technology, and agile gun-action excitement. Crisp electric guitar and warm electric bass with tight drums form the rhythmic foundation; nimble light orchestral strings and sparkling bell-like synth accents add fantasy color. Fantasy comes from magical melodic intervals, rich uplifting harmony and luminous timbre, not folk instruments or cave ambience. An original catchy rising melody with a slightly wistful answering phrase, shared by guitar and strings in an instrumental chorus around 20 to 30 seconds and again around 60 to 75 seconds. Sparse rhythmic passages contrast with the broad memorable chorus. Heroic but intimate, not a grand boss battle or film trailer. Instrumental soundtrack for a fast readable 2D action game about explorer-artisans using crafted firearms and advanced devices. Cool, adventurous and exciting, moderate stable dynamics. Catchiness comes from melody and rhythm, not louder mastering. Leave gaps for gameplay shots, hits and alerts; controlled bass, restrained cymbals, uncluttered midrange. Dry clear mix with short room ambience and clean transients. Steady 4/4, recurring phrases suited to loop editing. Begin immediately with the groove; no long introduction, fade-out or final cadence. No voices, singing, speech, lyrics, gunshots, clicks, alarms or environmental sound effects. No folk or tribal instrumentation, cavernous reverb, dark drones, horror, military marches, heavy metal walls, EDM drops or oversized boss-battle orchestra.",
+      "loop": true,
+      "generation_parameters": {
+        "model": "stable-audio-2.5",
+        "duration": 120.0,
+        "output_format": "wav",
+        "steps": 8
+      },
+      "duration": 120.0,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-13T17:24:11.278433+00:00",
+      "fingerprint": "3f9c45d8ff79c31d97459981145c429fcb061ff3c5fc6c5643fb36304220813a",
+      "sha256": "55953e280f92b10084d1c64c19842324729125cb47658b7464e671c74bad2e89",
+      "loop_verified": false,
+      "review": {
+        "status": "candidate_awaiting_user_listening",
+        "godot_resource_verified": true,
+        "auditioned": false,
+        "loop_listening_passes": 0,
+        "local_edits": [],
+        "analysis_path": "docs/archive/2026-09-14/battle-bgm-candidates/audio-analysis.json",
+        "chorus_timing_verified": false
+      }
     }
   ]
 }

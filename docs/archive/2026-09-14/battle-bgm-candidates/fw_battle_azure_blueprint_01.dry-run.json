@@ -1,0 +1,22 @@
+{
+  "asset_id": "bgm:fw_battle_azure_blueprint_01",
+  "type": "bgm",
+  "provider": "stability",
+  "file_path": "res://assets/audio/bgm/fw_battle_azure_blueprint_01.wav",
+  "purpose": "Battle candidate 4: fantasy action rock; comparison only, not integrated",
+  "prompt": "Fantasy action rock battle theme, 140 BPM. Luminous adventurous wonder, brave explorer-artisans discovering mysterious advanced technology, and agile gun-action excitement. Crisp electric guitar and warm electric bass with tight drums form the rhythmic foundation; nimble light orchestral strings and sparkling bell-like synth accents add fantasy color. Fantasy comes from magical melodic intervals, rich uplifting harmony and luminous timbre, not folk instruments or cave ambience. An original catchy rising melody with a slightly wistful answering phrase, shared by guitar and strings in an instrumental chorus around 20 to 30 seconds and again around 60 to 75 seconds. Sparse rhythmic passages contrast with the broad memorable chorus. Heroic but intimate, not a grand boss battle or film trailer. Instrumental soundtrack for a fast readable 2D action game about explorer-artisans using crafted firearms and advanced devices. Cool, adventurous and exciting, moderate stable dynamics. Catchiness comes from melody and rhythm, not louder mastering. Leave gaps for gameplay shots, hits and alerts; controlled bass, restrained cymbals, uncluttered midrange. Dry clear mix with short room ambience and clean transients. Steady 4/4, recurring phrases suited to loop editing. Begin immediately with the groove; no long introduction, fade-out or final cadence. No voices, singing, speech, lyrics, gunshots, clicks, alarms or environmental sound effects. No folk or tribal instrumentation, cavernous reverb, dark drones, horror, military marches, heavy metal walls, EDM drops or oversized boss-battle orchestra.",
+  "loop": true,
+  "generation_parameters": {
+    "model": "stable-audio-2.5",
+    "duration": 120.0,
+    "output_format": "wav",
+    "steps": 8
+  },
+  "endpoint": "https://api.stability.ai/v2beta/audio/stable-audio-2/text-to-audio",
+  "api_calls": 0,
+  "candidates": 1,
+  "retries": 0,
+  "timeout_seconds": 180,
+  "allow_repeat": false,
+  "output_exists": false
+}

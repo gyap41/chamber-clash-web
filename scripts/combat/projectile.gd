@@ -155,12 +155,12 @@ func step(dt: float, arena, targets) -> void:
 				if target.state.hp <= 0 or b.pos.distance_to(target.state.pos) >= target.radius+radius: continue
 				var pass_key := ("back" if b.age > .7 else "out")+":"+str(target.participant_id)
 				if b.boomerang:
-					if pass_key not in b.hits and target.hurt(damage,b.volley,false,log_origin):
+					if pass_key not in b.hits and target.hurt(damage,b.volley,false,log_origin,source_player):
 						b.hits.append(pass_key)
 						preload("res://scripts/combat/weapon_behaviors.gd").dispatch(gun_id,&"hit",{"actor":source_player,"projectile":self,"target":target})
 						notify_visual("hit",b.pos)
 				else:
-					if target.hurt(damage,b.volley,false,log_origin):
+					if target.hurt(damage,b.volley,false,log_origin,source_player):
 						preload("res://scripts/combat/weapon_behaviors.gd").dispatch(gun_id,&"hit",{"actor":source_player,"projectile":self,"target":target})
 					notify_visual("hit",b.pos)
 					b.life = 0.0

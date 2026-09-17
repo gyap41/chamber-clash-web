@@ -8,7 +8,7 @@ static func sample(player, shooting: bool) -> Dictionary:
 	return command
 static func key(player, code: int) -> Dictionary:
 	var command := Command.idle(player.state.angle)
-	if code == KEY_E and not player.inventory.is_empty(): command.switch = (int(player.state.gun)+1)%player.inventory.size()
+	if code == KEY_E and not player.inventory.is_empty(): command.switch = (player.switch_selection()+1)%player.inventory.size()
 	if code >= KEY_1 and code <= KEY_8: command.switch = code-KEY_1
 	command.reload = code == KEY_R
 	command.dodge = code == KEY_SPACE

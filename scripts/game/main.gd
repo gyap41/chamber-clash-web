@@ -145,9 +145,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			var inv_size: int = p0.inventory.size()
 			if inv_size > 0:
 				if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-					apply_command(0,{"switch":(int(p0.state.gun)+1) % inv_size})
+					apply_command(0,{"switch":(p0.switch_selection()+1) % inv_size})
 				elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-					apply_command(0,{"switch":(int(p0.state.gun)-1+inv_size) % inv_size})
+					apply_command(0,{"switch":(p0.switch_selection()-1+inv_size) % inv_size})
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT: clear_action_inputs()
 func clear_action_inputs() -> void:

@@ -87,7 +87,7 @@ func refresh() -> void:
 		weapon.transform = pose*Transform2D(p.angle+tilt,Vector2(0,-3*sin(progress*PI)))*weapon_base
 	weapon.modulate.a = .55 if p.inv > 0 and int(elapsed*22)%2 else 1.0
 	if player.char_id >= 0:
-		weapon.visible = player.has_weapon() and p.roll <= 0
+		weapon.visible = player.has_weapon() and player.dodge_action_wait() <= 0
 		texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 		weapon.z_index = -1 if body_back else 1
 		weapon.position += Vector2(0,8) # Grip below the compact character's large face.

@@ -77,6 +77,24 @@ WebデータZIP `.local/projectile-effects-export.zip` に新素材60 PNGと `da
 詳細な過去記録は[変更前の検証資料](../archive/2026-09-12/BEFORE_EXTENSION_TESTING.md)、
 今回の記録は[拡張リファクタリング](../archive/2026-09-12/EXTENSION_REFACTOR.md)。
 
+## 回避から反撃への接続（2026-09-15）
+
+`Godot --headless --path . --script res://tests/dodge_flow.gd --quit-after 120` で、8キャラの射撃開始時刻、リナの着地中の武器表示、他7人の回避後無敵、予約切替と短押し射撃、ホイール往復での発射待ち・弾数維持、Eからホイール逆回転での予約取消を確認する。
+
+関連回帰は action_buffer / mouse_input / rina_dive / equipment_art / synergies / added_relics。action_bufferは回避前半の切替予約、切替直後の短押し射撃、停止・フォーカス離脱・決着・再初期化での予約破棄を含む。全体ランナーはdodge_flowを自動検出する。
+
+手動受入：リナと他キャラで回避しながら左ボタン長押し／終盤短押し、E／数字／ホイール／HUDでの予約切替を試す。リナが着地中に照準方向へ撃てるか、武器表示が自然か、連射や無敵射撃が過剰でないかを確認する。動作アサーションと実プレイの気持ちよさは別に評価する。
+
+実行結果：全81スクリプトを実行（`.local/logs/run_tests-20260915-202110.log`）。80件は動作検証のPASSを出力。workshop_visualsの「回避中は常に武器非表示」という旧期待値を新仕様に更新し、個別再実行でPASSを確認した。一括判定は33件PASS・48件FAILで、上記修正後もObjectDB/Resourceの終了時解放エラーが残るため全件合格とは扱わない。実プレイの操作感・バランスと着地射撃の見え方は未確認。
+
+## 反撃回復（2026-09-15）
+
+`Godot --headless --path . --script res://tests/rally_recovery.gd --quit-after 120` で、50%回収枠、3秒の被弾別期限、部分回収、実ダメージ・過剰ダメージ・無敵/軽減・危険地帯・死亡/初期化、弾/近接/重力/爆発の攻撃者帰属、HUD表示を確認する。関連回帰はprojectile_hp / legendary_weapons / added_relics / synergies / hud_compact / extension_boundaries / endgame_balance。
+
+描画確認は `Godot --path . --script res://tests/rally_recovery.gd --quit-after 120 -- --capture`。`.local/rally-recovery.png` に実HUDを保存する。黄色の回収可能分と現在HPが区別でき、左右の説明が収まることを確認した。手動プレイの戦闘フィーリング、武器間バランス、リングの見やすさは未検証。
+
+全82スクリプトで動作検証のPASS出力を確認（`.local/logs/run_tests-20260915-211235.log`、SCRIPT ERROR・Assertion失敗なし）。一括判定は28件PASS・54件FAILで、終了時のObjectDB/Resource解放エラーが残る。軽減と既存回復の併用を追加した最終版のrally_recoveryも個別実行で動作PASS。描画ありの回復テストは終了コード0・エラーなし。ヘッドレスの解放エラーが未解決のため、全体回帰の完全合格とは扱わない。
+
 ## 全体回帰
 
 プロジェクトルートのPowerShellで実行する。

@@ -37,7 +37,7 @@ func step(dt: float, arena, players: Array, shots: Array, roster = null) -> void
 		if distance < pull_radius and distance > 4.0 and enemy.state.roll <= 0:
 			arena.move_fighter(enemy.state,offset/distance*pull_speed*dt,enemy.radius)
 			enemy.sync_visual()
-		if tick and distance < damage_radius and not arena.line_blocked(position,enemy.state.pos): enemy.hurt(tick_damage)
+		if tick and distance < damage_radius and not arena.line_blocked(position,enemy.state.pos): enemy.hurt(tick_damage,-1,false,{"kind":"gravity","player":state.owner},players[state.owner])
 
 	for shot in shots:
 		var b: Dictionary = shot.state
