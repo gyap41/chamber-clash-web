@@ -1,0 +1,12 @@
+{
+	"alpha_recipe": "border-connected RGB min >= .91",
+	"asset": "material-crate",
+	"crop": [
+		110,
+		145,
+		321,
+		253
+	],
+	"resized": false,
+	"source": "assets/generated/fw-low-workshop-props-v1.png"
+}

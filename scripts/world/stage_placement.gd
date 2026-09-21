@@ -9,6 +9,12 @@ extends Resource
 @export var light_radius := 0.0
 @export var light_color := Color(1,.65,.3)
 @export var light_energy := 1.0
+@export var light_offset := Vector2.ZERO
+@export var contact_shadow := false
+@export var wall_shadow := false
+# A short rear elbow connects a furnace outlet to the wall behind it.
+@export var wall_flue := false
+@export_enum("None", "Soot", "Scuff") var floor_mark := 0
 
 func validation_errors(field: Rect2) -> PackedStringArray:
 	var errors := PackedStringArray()
@@ -20,4 +26,6 @@ func validation_errors(field: Rect2) -> PackedStringArray:
 			errors.append("Invalid placement collision")
 	if layer not in [0,1] or not is_finite(light_radius) or light_radius < 0 or not is_finite(light_energy) or light_energy < 0:
 		errors.append("Invalid placement layer or light")
+	if not light_offset.is_finite(): errors.append("Invalid light offset")
+	if floor_mark not in [0,1,2]: errors.append("Invalid floor mark")
 	return errors

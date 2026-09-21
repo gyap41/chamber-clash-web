@@ -15,9 +15,9 @@ class BudgetTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 validate_history([dict(status=status, name='a', fingerprint='b')], 'c', 'd')
     def test_limit_before_send(self):
-        history = [dict(status='success',name=str(i),fingerprint=str(i)) for i in range(73)]
+        history = [dict(status='success',name=str(i),fingerprint=str(i)) for i in range(78)]
         with self.assertRaises(ValueError): validate_history(history, 'new', 'new')
-        validate_history(history[:72], 'new', 'new')
+        validate_history(history[:77], 'new', 'new')
 
     def test_explicit_resume_keeps_unknown_and_limits_retry(self):
         record = dict(status='outcome_unknown', name='old', fingerprint='same')

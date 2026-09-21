@@ -1,0 +1,11 @@
+{
+	"alpha_recipe": "border-connected RGB min >= .91",
+	"crop": [
+		84,
+		285,
+		885,
+		401
+	],
+	"resized": false,
+	"source": "assets/generated/fw-workbench-overhead-v1.png"
+}

@@ -113,6 +113,13 @@ func refresh(dt: float = 0.0) -> void:
 		weapon.visible = snapshot.weapon_visible()
 		texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 		weapon.z_index = -1 if body_back else 1
+		# Keep the whole actor in one depth band when furniture is Y-sorted.
+		if get_parent().get_parent() is Node2D and get_parent().get_parent().y_sort_enabled:
+			weapon.z_index = 0
+			var actor := get_parent()
+			var body_index: int = get_index()
+			if body_back and weapon.get_index() > body_index: actor.move_child(weapon,body_index)
+			elif not body_back and weapon.get_index() < body_index: actor.move_child(weapon,body_index)
 		weapon.position += Vector2(0,8) # Grip below the compact character's large face.
 		weapon.position += state_machine.parts.grip_offset()
 		aim.visible = false # Painted weapon supplies the silhouette/aim cue.

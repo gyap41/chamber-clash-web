@@ -2,6 +2,8 @@ extends "res://scripts/game/combat_context.gd"
 const ExplorationState = preload("res://scripts/game/exploration_state.gd")
 const Rooms = preload("res://scripts/game/exploration_rooms.gd")
 const Door = preload("res://scripts/world/exploration_door.gd")
+var room_catalog: Dictionary = Rooms.ROOMS
+var start_room := Rooms.START_ROOM
 var exploration
 var pause_reasons: Dictionary = {}
 var doors: Array = []
@@ -26,13 +28,19 @@ func _ready() -> void:
 	var seed_value := Time.get_ticks_usec()
 	for argument in OS.get_cmdline_user_args():
 		if argument.begins_with("--seed="): seed_value = int(argument.trim_prefix("--seed="))
+	if "--stage-four-way" in OS.get_cmdline_user_args():
+		room_catalog = preload("res://scripts/world/four_way_demo.gd").catalog()
+		start_room = "crossroads"
 	start_exploration(seed_value)
 func start_exploration(seed_value: int) -> void:
-	var errors := Rooms.validation_errors(players[0].radius)
+	if not room_catalog.has(start_room):
+		push_error("Start room is not in the room catalog")
+		return
+	var errors := Rooms.validation_errors(players[0].radius,room_catalog)
 	if not errors.is_empty():
 		push_error("; ".join(errors))
 		return
-	errors = arena.configure_field(Rooms.room(Rooms.START_ROOM).field,1,players[0].radius)
+	errors = arena.configure_field(room_data(start_room).field,1,players[0].radius)
 	if not errors.is_empty():
 		push_error("; ".join(errors))
 		return
@@ -41,6 +49,8 @@ func start_exploration(seed_value: int) -> void:
 	combat_visuals.clear()
 	combat.reset_outcome()
 	exploration = ExplorationState.new(seed_value)
+	exploration.room_id = start_room
+	exploration.visited_rooms = {start_room:true}
 	telemetry = RunLog.new(seed_value)
 	result = ""
 	phase = "play"
@@ -69,14 +79,14 @@ func rebuild_doors() -> void:
 		node.get_parent().remove_child(node)
 		node.queue_free()
 	doors.clear()
-	for entry in Rooms.room(exploration.room_id).doors:
+	for entry in room_data(exploration.room_id).doors:
 		var node := Door.new()
-		node.configure(entry,Rooms.room(entry.target_room).name,arena.runtime_definition.theme)
+		node.configure(entry,room_data(entry.target_room).name,arena.runtime_definition.theme)
 		arena.add_child(node)
 		arena.move_child(node,arena.get_node("Players").get_index())
 		doors.append(node)
 func nearby_door() -> Dictionary:
-	for entry in Rooms.room(exploration.room_id).doors:
+	for entry in room_data(exploration.room_id).doors:
 		if players[0].state.pos.distance_to(entry.position) <= Rooms.INTERACT_RADIUS and not arena.line_blocked(players[0].state.pos,entry.position):
 			return entry
 	return {}
@@ -85,9 +95,9 @@ func try_enter_door() -> bool:
 	if exploration.status != "active" or exploration.encounter_status == "active": return false
 	var entry := nearby_door()
 	if entry.is_empty(): return false
-	var partner := Rooms.door(entry.target_room,entry.target_door)
+	var partner := door_data(entry.target_room,entry.target_door)
 	if partner.is_empty(): return false
-	var definition: FieldDefinition = Rooms.room(entry.target_room).field.duplicate(true)
+	var definition: FieldDefinition = room_data(entry.target_room).field.duplicate(true)
 	definition.spawns = PackedVector2Array([partner.arrival])
 	var was_firing: bool = mouse_fire_held or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 	phase = "transition"
@@ -117,7 +127,7 @@ func refresh_hud() -> void:
 	var allowed: bool = phase == "play" and not paused and result.is_empty() and not players[0].is_cpu
 	var view := preload("res://scripts/ui/combat_hud_view.gd").capture(players[0],allowed)
 	hud.present(view,{"paused":paused,"result":result,"sound_enabled":sound.enabled,
-		"room_name":Rooms.room(exploration.room_id).name,"door_hint":door_hint(),
+		"room_name":room_data(exploration.room_id).name,"door_hint":door_hint(),
 		"encounter_active":exploration.encounter_status == "active",
 		"enemies_alive":players.slice(1).filter(func(player): return player.state.hp > 0).size()})
 	var nearby := nearby_door()
@@ -126,7 +136,7 @@ func door_hint() -> String:
 	var entry := nearby_door()
 	if entry.is_empty(): return "扉に近づいて F で移動  ·  装備整理は今後追加"
 	if exploration.encounter_status == "active": return "戦闘中は移動できません"
-	return "F：%s へ移動" % Rooms.room(entry.target_room).name
+	return "F：%s へ移動" % room_data(entry.target_room).name
 func toggle_pause() -> void:
 	if phase != "play" or not result.is_empty(): return
 	if pause_reasons.has("focus"): set_pause_reason("focus",false)
@@ -175,3 +185,8 @@ func return_to_title() -> void:
 	get_tree().root.add_child(title)
 	get_parent().remove_child(self)
 	queue_free()
+
+func room_data(id: String) -> Dictionary:
+	return Rooms.room(id,room_catalog)
+func door_data(room_id: String, id: String) -> Dictionary:
+	return Rooms.door(room_id,id,room_catalog)

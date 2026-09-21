@@ -10,6 +10,10 @@ static func apply(arena, source: Definition, participant_count: int = 0, radius:
 	var definition: Definition = source.duplicate(true)
 	var errors := definition.validation_errors(participant_count,radius)
 	if not errors.is_empty(): return errors
+	if arena.has_node("ConnectedWallSurface"):
+		var old_surface = arena.get_node("ConnectedWallSurface")
+		arena.remove_child(old_surface)
+		old_surface.queue_free()
 	clear_children(arena.get_node("Walls"))
 	clear_children(arena.get_node("Spawns"))
 	clear_children(arena.get_node("Supplies/Spawns"))
@@ -23,6 +27,15 @@ static func apply(arena, source: Definition, participant_count: int = 0, radius:
 	arena.field_rect = definition.field_rect
 	arena.fighter_bounds = definition.fighter_bounds
 	arena.projectile_bounds = definition.projectile_bounds
+	var depth: bool = definition.theme != null and definition.theme.depth_sort
+	arena.y_sort_enabled = depth
+	arena.get_node("Players").y_sort_enabled = depth
+	arena.get_node("StageBackground").y_sort_enabled = depth
+	arena.get_node("Floor").z_index = -20 if depth else 0
+	arena.get_node("Walls").z_index = -10 if depth else 0
+	arena.get_node("StageForeground").z_index = 5 if depth else 0
+	for layer in ["Effects","Wells","Projectiles","CombatVisuals","DangerZone"]:
+		if arena.has_node(layer): arena.get_node(layer).z_index = 10 if depth else 0
 	var bounds := definition.field_rect
 	arena.get_node("Floor").polygon = PackedVector2Array([bounds.position,Vector2(bounds.end.x,bounds.position.y),bounds.end,Vector2(bounds.position.x,bounds.end.y)])
 	arena.get_node("Floor").color = definition.floor_color
@@ -39,6 +52,15 @@ static func apply(arena, source: Definition, participant_count: int = 0, radius:
 			if role != "cover": wall.surface_texture = definition.theme.wall_top
 			if role == "face": wall.face_texture = definition.theme.wall_face
 		arena.get_node("Walls").add_child(wall)
+	for wall in arena.get_node("Walls").get_children():
+		wall.connect_faces(arena.get_node("Walls").get_children())
+	if definition.theme != null and definition.theme.connected_walls:
+		var surface := preload("res://scripts/world/connected_wall_surface.gd").new()
+		surface.name = "ConnectedWallSurface"
+		surface.z_index = -9 if depth else 0
+		arena.add_child(surface)
+		arena.move_child(surface,arena.get_node("Players").get_index())
+		surface.configure(arena.get_node("Walls").get_children(),definition.theme)
 	for placement in definition.placements:
 		var prop := Prop.new()
 		prop.definition = placement

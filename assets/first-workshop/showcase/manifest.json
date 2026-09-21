@@ -1,0 +1,53 @@
+{
+	"grid": [
+		2,
+		2
+	],
+	"props": [
+		{
+			"crop": [
+				70,
+				37,
+				371,
+				420
+			],
+			"id": "furnace",
+			"source_cell": 0
+		},
+		{
+			"crop": [
+				0,
+				119,
+				497,
+				343
+			],
+			"id": "workbench",
+			"source_cell": 1
+		},
+		{
+			"crop": [
+				76,
+				29,
+				355,
+				413
+			],
+			"id": "cabinet",
+			"source_cell": 2
+		},
+		{
+			"crop": [
+				165,
+				53,
+				221,
+				396
+			],
+			"id": "lamp",
+			"source_cell": 3
+		}
+	],
+	"sources": [
+		"fw-showcase-surfaces-v1.png",
+		"fw-showcase-props-v1.png"
+	],
+	"white_removal": "border-connected RGB minimum >= 0.91; lantern enclosed whites also removed; furnace cell x>=480 excluded as neighboring bench tip"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "fw-low-workshop-props-v1",
+  "fingerprint": "c21321b1d23476720cb6065c45286a98c929265de8d9a9e76cf7bf49ab2c2798",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-21T15:17:27.289910+00:00",
+  "endpoint": "generations",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Production sprite atlas for three LOW workshop obstacles in a top-down game with two-head-tall chibi characters. Exactly 1024x1024, strict 2x2 grid of 512x512 cells, NO grid lines or labels. TOP LEFT one low reinforced wooden material crate. TOP RIGHT one low wooden pallet with neatly bundled short steel billets. BOTTOM LEFT one compact anvil on a very short sturdy wooden block. BOTTOM RIGHT completely blank white. Exactly three objects, no other objects or variations.\nEach object fully contained in its cell, at least 64 pixels of pure white margin on every side. Plain pure white background, no shadows outside silhouettes, no floors, no text, no vignette. Warm dark wood, desaturated teal steel, worn aged brass fasteners, small ivory details. Hand-painted game art with broad readable shapes, no photorealism, no pixel art.\nAll three use the SAME steep overhead orthographic view about 70 degrees above the floor. Top surfaces dominate. Horizontal object edges remain horizontal, no isometric diamond rotation, no perspective convergence. Only a short south-facing front visible, at most 15 percent of the object image height. No tall legs or tall plinth. These must read as waist-low working objects, not tall furniture. Subtle neutral light from upper left; the game adds floor shadows.\nCrate: closed broad wooden lid, dark teal metal straps, chunky corner protectors, aspect ratio approximately 1.4:1. Pallet: broad low rectangle, four short heavy metal bars bundled with two dark bands on wood runners, aspect ratio about 1.8:1. Anvil: broad top with recognisable tapered horn oriented horizontally, extremely squat block beneath, aspect ratio about 1.4:1. Keep clear silhouettes at 64 to 88 pixels wide. No loose tools crossing the cell margins.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 387,
+      "image_tokens": 0
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1063275
+}

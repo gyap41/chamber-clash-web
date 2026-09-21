@@ -129,8 +129,11 @@ func run() -> void:
 		key(game,false)
 		assert(snapshot(player,inventory) == before)
 		assert(game.doors.size() == 1 and game.players.size() == 1)
-		assert(game.arena.get_node("Walls").get_child_count() == 10)
+		assert(game.arena.get_node("Walls").get_child_count() == game.arena.runtime_definition.walls.size())
 		assert(game.arena.get_node("Spawns").get_child_count() == 1)
+		assert(game.arena.get_node("StageBackground").get_child_count() == game.arena.runtime_definition.placements.size())
+		for prop in game.arena.get_node("StageBackground").get_children():
+			assert(prop.get_child_count() == (1 if prop.definition.light_radius > 0 else 0))
 	assert(game.exploration.visited_rooms.size() == 2)
 	# Real simulation advances retained timers once; ordinary reload completes normally.
 	game.command_source = func(_i,_dt): return game.Command.idle(0)
@@ -172,7 +175,7 @@ func check_boundary(arena, opening: Vector2, closed: Vector2) -> void:
 	assert(actor.pos.y >= 142)
 	arena.move_fighter(actor,Vector2(0,1000))
 	assert(actor.pos.y <= 498)
-	var wall = arena.get_node("Walls").get_child(3)
+	var wall = arena.get_node("Walls").get_child(arena.runtime_definition.wall_ids.find("north"))
 	var original: Rect2 = wall.collision_rect()
 	var texture = wall.surface_texture
 	wall.surface_texture = null

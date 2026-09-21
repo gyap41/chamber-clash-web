@@ -316,3 +316,56 @@ Visual Hubのライブ表示変更時は、武器一覧を再生中・停止中�
 ```
 
 併せてexploration_rooms（描画あり）とfield_layoutを実行。新規テストと2部屋描画はPASS。既存field_layoutのヘッドレス終了時Resource解放警告は残る。Webと照明の美術品質は未検証。
+## 工房見本（2026-09-21）
+
+exploration_roomsの20往復で、現在の部屋定義と配置物数が一致し、光源あり配置にはPointLight2Dが1個だけ存在することを追加検証。描画ログは `.local/showcase.log` / `.local/showcase-errors.log`、プレビューはdocs/art/production/workshop-showcase/room-preview.png。stage_templatesは家具あり部屋を基準に変更し、追加配置の衝突・光・後片付けを検証する。画像CLIの予算境界7テストもPASS。
+## ステージの奥行き
+
+stage_depthに北壁と側壁の上面高さ一致、右通路の上下接続数、側壁の衝突矩形不変性を追加。描画付きexploration_roomsで両部屋の継ぎ目と20往復を確認（`.local/joins.log`）。
+
+`tests/stage_depth.gd` は壁の高さ変更後も衝突矩形が同じこと、家具の足元補正、Yソート用レイヤー、作業台の奥/手前の有効な立ち位置、隣室でソート設定が戻ることを検証。`-- --capture`で`.local/depth-behind-bench.png`と`depth-front-bench.png`を出力し、人物と武器の隠れ方を目視確認した。stage_templates / exploration_rooms / player_animationもPASS。終了時のObjectDB/Resource解放警告は一部に残る。追加のAPI生成なし。
+## 家具の縮尺
+
+stage_depthのcaptureに作業台の横へキャラを配置した比較画像 `.local/depth-beside-bench.png` を追加。その立ち位置に衝突がないことと、前後関係も検証。机・棚の衝突縮小後はexploration_roomsで到達性と20往復を再確認する。
+## 見下ろし作業台（2026-09-22）
+
+stage_depthの描画実行で奥・手前・横の立ち位置、前後関係、衝突と壁接続の維持を確認。ログは `.local/table-overhead.log` / `.local/table-overhead-errors.log`。ゲーム内比較はdocs/art/production/workshop-showcase/workbench-overhead-preview.png。画像CLIの予算検証7件もPASS。Webと手動プレイは未確認。
+
+## 工房の馴染み調整（2026-09-22）
+
+stage_templatesは3つの新遮蔽物の中心がsolidで、旧石ブロックの空いた角は通れることを検証する。壁数は各部屋定義から取得し、並べ替え後も壁IDの材質が維持されることを確認。stage_templates / stage_depth / field_layoutのアサーションPASS。stage_depthは終了時ObjectDB解放警告あり。描画付きexploration_roomsで20往復と入口案内を再確認し、プレビューをdocs/art/production/workshop-showcase/workshop-polish-preview.pngへ保存。手動プレイとWebは未確認。
+
+## 出入口の石材接続（2026-09-22）
+
+描画付きexploration_roomsで両部屋の到達性・20往復・状態保持をPASS、stderr空。stage_depthの接続数・衝突・前後関係もPASS（終了時の既存ObjectDB警告あり）。旧金属扉枠、棒状の敷居、下側の角材の連続を解消した画面を目視確認。ログ.local/door-stone.log、プレビューdocs/art/production/workshop-showcase/door-stone-preview.png。
+
+炉の排煙管・出口壁灯修正：描画付きexploration_roomsで20往復と資源保持、配置・光源数を検証してPASS、stderr空（.local/fixture-review.log）。壁灯が通路上側の壁正面に収まり、炉の口が壁接続管で覆われることを目視確認。
+
+## 四方向の扉（2026-09-22）
+
+通常の探索は工房2部屋。四方向5部屋を手動操作する場合：
+
+```powershell
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --path . res://scenes/game/exploration.tscn -- --stage-four-way
+```
+
+自動検証（描画画像が不要なら--headlessを追加し、-- --captureを省く）：
+
+```powershell
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --path . --script res://tests/four_way_rooms.gd --quit-after 600 -- --capture
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/wall_junctions.gd --quit-after 180
+```
+
+four_way_roomsは上下144px・左右112pxの開口、方向/幅の不正値拒否、接続先不整合、通路の横方向の衝突、到達性、20往復（40回遷移）の資源保持、F押下解除、再挑戦を検証。wall_junctionsはL字/T字・縦壁下端の正面接続、24px厚、配列順に依存しない接続、衝突不変性を検証する。
+
+両テストと既存exploration_rooms/stage_templates/stage_depth/field_layoutのアサーションはPASS。four_way_roomsの描画実行はstderr空。ヘッドレスでは一部終了時ObjectDB/Resource解放警告が残る。描画ログ.local/four-way.log、画像.local/two-rooms-four-way-{north,south,east,west}.png。四方向の通常サイズ表示を目視確認。Webと人間による操作感は未確認。
+
+## 接続用壁材v2
+
+`tests/connected_wall_surface.gd`はL字/T字/十字と分割矩形で外周バンドが内部を横切らないこと、配列順に依存しないこと、必須素材欠落の拒否、部屋切替時の描画ノード削除/再作成と衝突不変性を検証する。実行は他のSceneTreeテストと同じGodot --headless --path . --script res://tests/connected_wall_surface.gd --quit-after 180。
+
+新規テストとstage_templates/stage_depth/wall_junctions/field_layoutのアサーションはPASS。一部のヘッドレス終了時に既存と同種のObjectDB/Resource警告あり。exploration_roomsとfour_way_roomsは描画実行でPASS、stderr空（.local/wall-kit.log、.local/wall-kit-four.log）。工房の通路接合と四方向開口を通常サイズで目視確認。生成予算7テストもPASS。Web性能と手動操作感は未確認。
+
+壁正面の接続修正：connected_wall_surfaceに右通路の側壁厚みが正面となり、正面と上面の面積重複がないことを追加。four_way_roomsには左右両方の接合を追加。両テストPASS（前者のヘッドレス終了時に既存ObjectDB警告あり）。exploration_rooms/four_way_roomsの描画付き20往復もPASS。exploration_roomsはstderr空、four_way_roomsは終了時ObjectDB警告あり。工房と四方向検証室を目視確認。ログ.local/wall-return*.log。
+
+上側の角の再修正：connected_wall_surfaceで左右北角が上面、通路終端が正面であることを同時に検証してPASS。正面と上面の重複なしも維持。ヘッドレス終了時ObjectDB警告あり。exploration_roomsの描画・20回遷移はPASS、stderr空（.local/wall-upper-corner.log）。上側の連続と下側の石積み維持を目視確認。

@@ -1,0 +1,12 @@
+{
+	"alpha_recipe": "border-connected RGB min >= .91",
+	"asset": "metal-pallet",
+	"crop": [
+		67,
+		152,
+		364,
+		242
+	],
+	"resized": false,
+	"source": "assets/generated/fw-low-workshop-props-v1.png"
+}

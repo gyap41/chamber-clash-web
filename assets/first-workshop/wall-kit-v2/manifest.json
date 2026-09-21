@@ -1,0 +1,68 @@
+{
+  "source": "assets/generated/fw-wall-materials-v2.png",
+  "runtime_copy": "materials.png",
+  "sha256": "9d990352adb5437ab3be1d6ce88f2773330fcc7e6e76319e56a26c986cde7e54",
+  "dimensions": [
+    1024,
+    1024
+  ],
+  "extraction": "AtlasTexture regions, no resampling or modification",
+  "materials": {
+    "top": {
+      "resource": "top.tres",
+      "region": [
+        0,
+        0,
+        512,
+        512
+      ]
+    },
+    "face": {
+      "resource": "face.tres",
+      "region": [
+        512,
+        0,
+        512,
+        512
+      ]
+    },
+    "edge": {
+      "resource": "edge.tres",
+      "region": [
+        0,
+        512,
+        512,
+        512
+      ]
+    },
+    "end": {
+      "resource": "end.tres",
+      "region": [
+        512,
+        512,
+        512,
+        512
+      ]
+    }
+  },
+  "rendering": {
+    "top_repeat": [
+      128,
+      128
+    ],
+    "face_repeat": [
+      144,
+      128
+    ],
+    "edge_repeat": [
+      64,
+      64
+    ],
+    "edge_width": 2,
+    "end_width": 4
+  },
+  "limitations": [
+    "Generated masonry has about 8 courses per quadrant rather than requested 4",
+    "Exact pixel-periodic texture seams are not guaranteed; inspected at game scale"
+  ]
+}

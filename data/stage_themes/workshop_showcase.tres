@@ -1,0 +1,32 @@
+[gd_resource type="Resource" load_steps=10 format=3]
+[ext_resource type="Script" path="res://scripts/world/stage_theme.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/first-workshop/showcase/floor.png" id="floor"]
+[ext_resource type="Texture2D" path="res://assets/first-workshop/cover.png" id="cover"]
+[ext_resource type="Texture2D" path="res://assets/first-workshop/wall-kit-v2/top.tres" id="top"]
+[ext_resource type="Texture2D" path="res://assets/first-workshop/wall-kit-v2/face.tres" id="face"]
+[ext_resource type="Texture2D" path="res://assets/first-workshop/showcase/corner.png" id="corner"]
+[ext_resource type="Texture2D" path="res://assets/first-workshop/environment/door-jamb.tres" id="door"]
+[ext_resource type="Texture2D" path="res://assets/first-workshop/wall-kit-v2/edge.tres" id="edge"]
+[ext_resource type="Texture2D" path="res://assets/first-workshop/wall-kit-v2/end.tres" id="end"]
+[resource]
+script = ExtResource("script")
+floor_texture = ExtResource("floor")
+cover_texture = ExtResource("cover")
+wall_top = ExtResource("top")
+wall_face = ExtResource("face")
+connected_walls = true
+wall_edge = ExtResource("edge")
+wall_end = ExtResource("end")
+foundation = ExtResource("face")
+corner = ExtResource("corner")
+door_jamb = ExtResource("door")
+
+floor_repeat = 256
+floor_tint = Color(0.73,0.75,0.76,1)
+face_repeat = 144
+
+wall_rise = 36.0
+depth_sort = true
+shadow_length = 26.0
+
+floor_wash = Color(0.22,0.235,0.24,0.22)

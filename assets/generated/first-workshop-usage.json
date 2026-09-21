@@ -2152,5 +2152,130 @@
       "output_tokens": 7024
     },
     "pricing_estimate_usd": 0.107649
+  },
+  {
+    "name": "fw-showcase-surfaces-v1",
+    "fingerprint": "0ce1a69c9cfd4a21fda5a4198890bc1c293bd9a960fa011b4ddae7c3e389b446",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-21T14:25:04.948824+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Production game environment material atlas. Exactly 1024x1024 pixels, four equally sized 512x512 panels in a precise 2x2 grid, no gutters, no labels. Each panel filled edge to edge. Ancient artisan workshop, hand-painted detailed 2D game art, worn ivory limestone, charcoal teal metal, subtle aged brass, restrained warm colors. Cohesive scale and broad readable shapes. Not pixel art. No perspective scene, no text, no baked point lights.\nTOP LEFT: seamless overhead floor texture, four by four square slate-gray stone pavers, subtle alternate gray-brown tones, thin recessed mortar, light wear, no metal rails, no large cracks, no objects. Flat low-contrast ground, darker than the walls. Seamless all four edges.\nTOP RIGHT: wall front elevation texture, three rows of thick warm ivory stone blocks, deep but restrained mortar, visibly beveled chipped edges, subtle occlusion underneath each stone. No cap on top, no columns, no floor. Seamless horizontally.\nBOTTOM LEFT: overhead stone wall coping strip material. Broad pale stone surface, narrow dark teal metal rails along the top and bottom edge, tiny brass rivets spaced evenly. Seamless horizontally, no rails at left and right edges. Not a perspective block.\nBOTTOM RIGHT: overhead square corner pier cap, broad bevel and worn ivory stone center with a sturdy charcoal teal steel border on all four edges and four small brass rivets. Symmetric square, no empty margins or floor. Subtle light from upper left. All panels meet exactly at x=512 and y=512. No border around the atlas, no lettering, no watermark.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 342,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.106215
+  },
+  {
+    "name": "fw-showcase-props-v1",
+    "fingerprint": "15bf99feef87a398a84dd00a6536a9666b5f437ee69f0486746aab0a71369b34",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-21T14:28:04.063685+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Production sprite sheet for a top-down 2D action game's ancient artisan workshop. 1024x1024, exactly four separate isolated objects in a precise 2x2 grid of 512x512 cells. Flat pure white background everywhere outside objects, no cast shadows on background, no ground tiles, no vignette, no text, no panel lines. Keep each object fully within its own cell with at least 40 pixels white margin. Hand-painted game art with broad readable shapes and believable thickness, NOT photorealistic, NOT isometric, NOT pixel art. Consistent orthographic elevated front view: see each object's top and south-facing front, verticals upright, horizontal edges horizontal. Worn ivory limestone, charcoal teal steel, restrained aged brass, warm dark wood. Subtle neutral light from upper left, no glow bleeding outside silhouette.\nTOP LEFT: substantial squat blacksmith furnace, ivory stone surround, teal iron framing, wide arched dark opening with a small contained orange ember glow, thick beveled stone top, sturdy base. Short chimney only, no smoke. Occupies about 390x400 pixels centered in its cell. Front faces bottom of image.\nTOP RIGHT: wide wooden artisan workbench with thick top, steel corner fittings, four sturdy visible legs, a small vise on right edge, a rolled blueprint and two small tools resting on top. Occupies about 420x300 pixels centered. No loose objects outside its silhouette.\nBOTTOM LEFT: compact wall-mounted wooden tool cabinet with teal steel frame, two shelves, a few brass tools and folded cloth, solid dark backboard, clearly organized broad forms. Occupies about 380x370 pixels centered.\nBOTTOM RIGHT: one decorative wall lamp, substantial dark teal brass-trimmed bracket and a warm amber glass lantern, small simple wall backplate. Occupies about 200x320 pixels centered. Glass softly luminous but no glow outside silhouette; the game adds lighting. Match every asset's visual style and viewing angle. No additional props, no duplicate objects.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 414,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.106395
+  },
+  {
+    "name": "fw-workbench-overhead-v1",
+    "fingerprint": "ec37e09c001bc0d5d576e5c903782a08d10a20ef007ee195b680b3b65f2b486e",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-21T15:08:13.352704+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "One production game sprite: a LOW artisan workbench seen from a STEEP OVERHEAD orthographic camera, approximately 70 degrees above the floor (20 degrees away from straight down). The TOP of the tabletop must dominate the object. This is for a two-head-tall chibi character in a top-down action game. It must read as a low working surface, never a tall frontal table.\n1024x1024 image, exactly one centered isolated object, generous plain pure-white background around the entire silhouette, no scene, no ground, no cast shadow outside the object, no text, no frame. Painterly game art, broad readable shapes, matching an ancient workshop with dark warm wooden planks, dark desaturated teal iron corner fittings and restrained aged brass rivets. No photorealism or pixel art.\nLong horizontal rectangular tabletop, roughly 1.9:1 width to depth in the final image. Horizontal edges stay horizontal, vertical screen edges stay vertical: no isometric diamond, no diagonal rotation, no perspective convergence. The entire tabletop is visible from above. A very thin SOUTH/front apron shows the board thickness, at most 8 percent of the object's image height. Legs are hidden beneath the top: no long vertical supports and no view underneath the table. Tiny hints of feet may extend no more than 3 percent of its height.\nOn the tabletop: one modest rolled blueprint lying flat toward the left, a small hammer and pliers near the middle, a compact vise fixed on the right edge. All tools viewed from the SAME steep overhead angle. Blueprint uses dark faint abstract construction lines, NO writing or labels. Tools occupy no more than a third of the surface; keep the wood visible. Neutral soft upper-left light, no dramatic side shading. Entire object must fit comfortably within image margins. Deliver clean usable sprite artwork, no additional variations.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 380,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.10631
+  },
+  {
+    "name": "fw-low-workshop-props-v1",
+    "fingerprint": "c21321b1d23476720cb6065c45286a98c929265de8d9a9e76cf7bf49ab2c2798",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-21T15:17:27.289910+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Production sprite atlas for three LOW workshop obstacles in a top-down game with two-head-tall chibi characters. Exactly 1024x1024, strict 2x2 grid of 512x512 cells, NO grid lines or labels. TOP LEFT one low reinforced wooden material crate. TOP RIGHT one low wooden pallet with neatly bundled short steel billets. BOTTOM LEFT one compact anvil on a very short sturdy wooden block. BOTTOM RIGHT completely blank white. Exactly three objects, no other objects or variations.\nEach object fully contained in its cell, at least 64 pixels of pure white margin on every side. Plain pure white background, no shadows outside silhouettes, no floors, no text, no vignette. Warm dark wood, desaturated teal steel, worn aged brass fasteners, small ivory details. Hand-painted game art with broad readable shapes, no photorealism, no pixel art.\nAll three use the SAME steep overhead orthographic view about 70 degrees above the floor. Top surfaces dominate. Horizontal object edges remain horizontal, no isometric diamond rotation, no perspective convergence. Only a short south-facing front visible, at most 15 percent of the object image height. No tall legs or tall plinth. These must read as waist-low working objects, not tall furniture. Subtle neutral light from upper left; the game adds floor shadows.\nCrate: closed broad wooden lid, dark teal metal straps, chunky corner protectors, aspect ratio approximately 1.4:1. Pallet: broad low rectangle, four short heavy metal bars bundled with two dark bands on wood runners, aspect ratio about 1.8:1. Anvil: broad top with recognisable tapered horn oriented horizontally, extremely squat block beneath, aspect ratio about 1.4:1. Keep clear silhouettes at 64 to 88 pixels wide. No loose tools crossing the cell margins.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 387,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1063275
+  },
+  {
+    "name": "fw-wall-materials-v2",
+    "fingerprint": "bca8dd7edb776bb6d34949a9b27dbb3bf35155e2ee510d923c2d1771fb0f8c82",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-21T16:01:11.605208+00:00",
+    "endpoint": "generations",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Production texture atlas for a detailed pixel-art top-down fantasy workshop game. ONE 1024x1024 image divided exactly at x=512 and y=512 into FOUR edge-to-edge 512x512 material swatches. Absolutely NO spacing, separators, frames, margin, labels, text, perspectives, props or scene. These are flat material samples, not complete walls. Restrained aged ivory limestone and charcoal teal iron palette, matching a medieval artisan workshop. Crisp subtle pixel texture, not blurry painting. Low contrast diffuse lighting, no directional cast shadows. ALL quadrants filled to their outer edges, no white background.\nTOP LEFT (0,0,512,512): uninterrupted warm gray ivory limestone coping surface seen exactly from above. Fine weathering, tiny irregular pores and delicate hairline cracks. NO border, NO metal trim, NO studs, NO large stone-block grid or straight dividing lines. Seamless repeating surface with similar color at all four edges. Quiet mid-light stone, not bright cream.\nTOP RIGHT (512,0,512,512): flat front-facing limestone masonry material, exactly four horizontal courses of roughly rectangular small ashlar stones, staggered joints. Same muted ivory stone as top left, restrained thin mortar seams. Orthographic elevation, no top surface, no pillar, no edge bands, no bevel around the quadrant. Uniform block size, tiling horizontally and vertically, no giant cracks or unique focal feature.\nBOTTOM LEFT (0,512,512,512): uninterrupted flat charcoal teal aged iron material, finely mottled oxide and subtle worn flecks. Seamless neutral material field. NO frames, NO rivets, NO stripes, NO separate panels, NO light gradient. Intended to be clipped into thin wall-edge bands by the game renderer, so texture must fill the whole quadrant.\nBOTTOM RIGHT (512,512,512,512): exposed limestone wall-end masonry material, flat orthographic elevation. Same four horizontal courses and mortar elevations as top right, matching stone size, slightly darker neutral stone. NO framing pillar, NO top face, NO protruding borders or decorative columns. Seamless edges.\nAll four swatches are individually flat full-bleed materials. Do not draw example rooms, L shapes or T shapes: junction outlines will be provided by code. No lighting highlights suggesting an object silhouette. Four equal square quadrants only.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 487,
+        "image_tokens": 0
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1065775
   }
 ]

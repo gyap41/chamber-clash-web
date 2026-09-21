@@ -1,0 +1,12 @@
+{
+	"alpha_recipe": "border-connected RGB min >= .91",
+	"asset": "anvil",
+	"crop": [
+		119,
+		121,
+		349,
+		207
+	],
+	"resized": false,
+	"source": "assets/generated/fw-low-workshop-props-v1.png"
+}

@@ -18,5 +18,11 @@ func validation_errors(radius: float = 14.0) -> PackedStringArray:
 			if not entry.get(key) is Vector2:
 				errors.append("Door vector is required: "+key)
 			elif not entry[key].is_finite(): errors.append("Door vector must be finite")
-		if entry.get("direction") not in [Vector2.LEFT,Vector2.RIGHT]: errors.append("Door renderer currently supports left/right only")
+		if entry.get("direction") not in [Vector2.LEFT,Vector2.RIGHT,Vector2.UP,Vector2.DOWN]: errors.append("Door direction must be cardinal")
+
+		var width = entry.get("width",112.0)
+		if not (width is float or width is int):
+			errors.append("Door width must be numeric")
+		elif not is_finite(float(width)) or width < radius*2+4:
+			errors.append("Door width must allow actor clearance")
 	return errors

@@ -1,0 +1,25 @@
+{
+  "name": "fw-showcase-surfaces-v1",
+  "fingerprint": "0ce1a69c9cfd4a21fda5a4198890bc1c293bd9a960fa011b4ddae7c3e389b446",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-21T14:25:04.948824+00:00",
+  "endpoint": "generations",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Production game environment material atlas. Exactly 1024x1024 pixels, four equally sized 512x512 panels in a precise 2x2 grid, no gutters, no labels. Each panel filled edge to edge. Ancient artisan workshop, hand-painted detailed 2D game art, worn ivory limestone, charcoal teal metal, subtle aged brass, restrained warm colors. Cohesive scale and broad readable shapes. Not pixel art. No perspective scene, no text, no baked point lights.\nTOP LEFT: seamless overhead floor texture, four by four square slate-gray stone pavers, subtle alternate gray-brown tones, thin recessed mortar, light wear, no metal rails, no large cracks, no objects. Flat low-contrast ground, darker than the walls. Seamless all four edges.\nTOP RIGHT: wall front elevation texture, three rows of thick warm ivory stone blocks, deep but restrained mortar, visibly beveled chipped edges, subtle occlusion underneath each stone. No cap on top, no columns, no floor. Seamless horizontally.\nBOTTOM LEFT: overhead stone wall coping strip material. Broad pale stone surface, narrow dark teal metal rails along the top and bottom edge, tiny brass rivets spaced evenly. Seamless horizontally, no rails at left and right edges. Not a perspective block.\nBOTTOM RIGHT: overhead square corner pier cap, broad bevel and worn ivory stone center with a sturdy charcoal teal steel border on all four edges and four small brass rivets. Symmetric square, no empty margins or floor. Subtle light from upper left. All panels meet exactly at x=512 and y=512. No border around the atlas, no lettering, no watermark.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 342,
+      "image_tokens": 0
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.106215
+}
