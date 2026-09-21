@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=8 format=3]
+[ext_resource type="Script" path="res://scripts/world/stage_theme.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/first-workshop/floor.png" id="floor"]
+[ext_resource type="Texture2D" path="res://assets/first-workshop/cover.png" id="cover"]
+[ext_resource type="Texture2D" path="res://assets/first-workshop/environment/wall-top.tres" id="top"]
+[ext_resource type="Texture2D" path="res://assets/first-workshop/environment/wall-face.tres" id="face"]
+[ext_resource type="Texture2D" path="res://assets/first-workshop/environment/corner-cap.tres" id="corner"]
+[ext_resource type="Texture2D" path="res://assets/first-workshop/environment/door-jamb.tres" id="door"]
+[resource]
+script = ExtResource("script")
+floor_texture = ExtResource("floor")
+cover_texture = ExtResource("cover")
+wall_top = ExtResource("top")
+wall_face = ExtResource("face")
+foundation = ExtResource("face")
+corner = ExtResource("corner")
+door_jamb = ExtResource("door")

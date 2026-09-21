@@ -5,10 +5,10 @@ import math
 import struct
 from pathlib import Path
 
-# Revised scope: six projectile/effect sheets, maximum 72 total sends.
+# Revised scope: one modular workshop wall sheet, maximum 73 total sends.
 # Previous unknown Sora reservation remains retained.
-LIMIT_USD = 73.0
-LIMIT_REQUESTS = 73
+LIMIT_USD = 74.0
+LIMIT_REQUESTS = 74
 RESERVATION_USD = 1.0
 
 def save(path, data):

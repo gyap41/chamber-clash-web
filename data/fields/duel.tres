@@ -1,7 +1,9 @@
-[gd_resource type="Resource" load_steps=2 format=3]
+[gd_resource type="Resource" load_steps=3 format=3]
 [ext_resource type="Script" path="res://scripts/world/field_definition.gd" id="1"]
+[ext_resource type="Resource" path="res://data/stage_themes/workshop.tres" id="theme"]
 [resource]
 script = ExtResource("1")
+theme = ExtResource("theme")
 field_id = "duel"
 field_rect = Rect2(0,0,1120,600)
 fighter_bounds = Rect2(60,82,1000,458)

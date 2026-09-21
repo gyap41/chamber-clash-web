@@ -3,6 +3,7 @@ extends RefCounted
 const Start = preload("res://scripts/game/exploration_start.gd")
 var seed_value: int
 var room_id := "workshop_trial"
+var visited_rooms: Dictionary = {"workshop_trial":true}
 var status := "active"
 var encounter_status := "none"
 var inventory

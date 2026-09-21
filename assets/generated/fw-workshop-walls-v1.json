@@ -1,0 +1,30 @@
+{
+  "name": "fw-workshop-walls-v1",
+  "fingerprint": "2178b32d4e11fac2052cd2af20210a5a099b737696e5a1f8c2d8c4d0c212e9ca",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-21T13:23:54.365959+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Use case: stylized-concept. Asset type: production texture atlas for modular outer walls in a top-down 2D action game, The First Workshop.\nCreate exactly ONE 1024x1024 image divided into FOUR perfectly aligned 512x512 square texture panels in a 2 by 2 grid. No padding, no gutters, no labels, no text. Each square is completely filled by its material, edge to edge, no white background or transparent empty space. These are usable flat texture swatches, NOT a scene or perspective illustration.\nInput image 1 is the existing stone/metal cover sprite: match its painterly worn ivory stone, dark desaturated teal steel and restrained aged brass. Do not copy its isolated-object outline. The new walls must read as the structural boundary of an ancient artisan workshop, distinctly more substantial than low cover crates. Adventurous handcrafted Japanese game art, tactile broad forms readable at 64 pixels, calm stone colors, no sci-fi neon, no excessive gears, no characters, no props, no floor plan.\nTOP LEFT square: wall face material, orthographic straight-on weathered pale limestone masonry, three horizontal courses of substantial rectangular blocks, subtle irregular cracks, recessed mortar, darker lower edge, seamless left-to-right. Completely fill the square.\nTOP RIGHT square: wall top coping material viewed directly from above, broad limestone cap slabs with restrained dark teal metal rails along top and bottom edges, small aged brass rivets. Seamless left-to-right. Fill the square. Used as long horizontal and vertical strips by the game.\nBOTTOM LEFT square: square corner pier cap viewed directly overhead, a solid ivory stone block bounded on all four sides by a dark teal steel rim with four small brass rivets. Symmetrical, no perspective convergence. Fill the square, no background beyond the cap.\nBOTTOM RIGHT square: doorway jamb cladding, orthographic straight-on aged dark teal metal plate with stone insets, thick inset vertical rails on the left and right and small brass fasteners, one tiny muted amber maintenance detail. Material panel only: do not paint an arch, open doorway, hole, door leaf, surrounding wall, white background or scene. Completely fill the square.\nConsistent scale, texture detail and palette across the four squares. Soft directional light from upper left, no cast shadows outside panels. Deliver clean separate flat material panels whose artwork ends exactly at x=512 and y=512. No decorative grid lines, no outer border, no watermark.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\first-workshop\\cover.png",
+      "sha256": "01c112bcdefd79183ddde355926c6e917395f81929ffc97678d4d3285dacacaa"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 506,
+      "image_tokens": 256
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.107649
+}

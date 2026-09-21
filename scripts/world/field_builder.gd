@@ -1,6 +1,7 @@
 extends RefCounted
 const Definition = preload("res://scripts/world/field_definition.gd")
 const Wall = preload("res://scenes/world/wall.tscn")
+const Prop = preload("res://scripts/world/stage_prop.gd")
 
 # Validate a private snapshot before replacing any live geometry. Actors and inventory
 # are deliberately outside this builder; their transition policy belongs to the caller.
@@ -12,6 +13,13 @@ static func apply(arena, source: Definition, participant_count: int = 0, radius:
 	clear_children(arena.get_node("Walls"))
 	clear_children(arena.get_node("Spawns"))
 	clear_children(arena.get_node("Supplies/Spawns"))
+	for layer in ["StageBackground","StageForeground"]:
+		if not arena.has_node(layer):
+			var container := Node2D.new()
+			container.name = layer
+			arena.add_child(container)
+			if layer == "StageBackground": arena.move_child(container,arena.get_node("Players").get_index())
+		clear_children(arena.get_node(layer))
 	arena.field_rect = definition.field_rect
 	arena.fighter_bounds = definition.fighter_bounds
 	arena.projectile_bounds = definition.projectile_bounds
@@ -23,7 +31,18 @@ static func apply(arena, source: Definition, participant_count: int = 0, radius:
 		wall.name = "Wall%d" % (i+1)
 		wall.position = definition.walls[i].position
 		wall.size = definition.walls[i].size
+		wall.surface_texture = definition.wall_textures.get(i,null)
+		wall.face_texture = definition.wall_face_textures.get(i,null)
+		if definition.theme != null: wall.apply_theme(definition.theme)
+		if not definition.wall_ids.is_empty():
+			var role: String = definition.wall_materials.get(definition.wall_ids[i],"cover")
+			if role != "cover": wall.surface_texture = definition.theme.wall_top
+			if role == "face": wall.face_texture = definition.theme.wall_face
 		arena.get_node("Walls").add_child(wall)
+	for placement in definition.placements:
+		var prop := Prop.new()
+		prop.definition = placement
+		arena.get_node("StageBackground" if placement.layer == 0 else "StageForeground").add_child(prop)
 	for i in range(definition.spawns.size()):
 		marker(arena.get_node("Spawns"),"P%d" % (i+1),definition.spawns[i])
 	for group in definition.supply_points:

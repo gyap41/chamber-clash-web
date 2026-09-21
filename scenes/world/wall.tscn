@@ -4,5 +4,5 @@
 offset_right = 80.0
 offset_bottom = 85.0
 mouse_filter = 2
-color = Color(0.522,0.537,0.459,1)
+color = Color(0.522,0.537,0.459,0)
 script = ExtResource("1")

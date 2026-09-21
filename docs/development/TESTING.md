@@ -1,3 +1,18 @@
+## 固定2部屋・扉移動（2026-09-21）
+
+タイトル→ストーリーモード（試作）。工房の右側の扉に近づいてFで作業室へ移動し、作業室の左側の扉でFを押すと戻る。到着後は扉へ近づき直し、Fを離してから再操作する。両部屋とも敵なし。部屋名は上部、近くの扉の操作案内は下部に表示する。
+
+```powershell
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/exploration_rooms.gd --quit-after 180
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --path . --script res://tests/exploration_rooms.gd --quit-after 240 -- --capture
+```
+
+相互接続・壁/到着位置と扉への歩行到達性、20回連続移動でHP/弾薬/モード/所持金/装備/装填/回避/無敵/反撃回復/レリック充電の保持、前部屋の弾/重力場/遅延射撃/入力予約消去、Fリピート/左押下継続、停止/死亡/戦闘中の拒否、通常更新での装填完了、再挑戦で工房へ戻ることを検証する。
+
+追加テストと exploration_mode / shared_combat_hud / field_layout の動作検証はPASS。描画ありの最終exploration_roomsは終了コード0・エラーなし（`.local/two-rooms-capture.log` / `.local/two-rooms-capture-errors.log`）。ヘッドレスのexploration_roomsとfield_layoutには既存と同種のObjectDB/Resource終了時解放エラーが残る。全体回帰の再実行・手動プレイ・Web検証はしていない。
+
+両部屋の画像は `.local/two-rooms-workshop-door.png` / `.local/two-rooms-annex-door.png`。扉が主人公を覆わない描画順、行き先名とF案内、同じ倍率の部屋表示を目視確認。[記録](../archive/2026-09-21/two-room-exploration/REPORT.md)。
+
 ## 敵なし探索のテストプレイ（2026-09-21）
 
 タイトルの「ストーリーモード（試作）」は敵なしで開始する。通常CPU対戦は従来どおり。上部に敵なしの案内を表示し、敵0人でも自動クリアしない。終了は「タイトルへ」。弾薬/パルスは有限の既存設定を維持する。
@@ -263,7 +278,7 @@ python -m unittest discover -s tools/tests -v
 ## 未確認の受入
 
 人間による操作感・購入経済/チーム戦バランス、配布版の一試合完走、最大負荷、
-オンライン通信・同期・再接続は未確認。探索の部屋移動/階層/ボス/セーブは未実装。P0の試作と検証範囲は冒頭を参照。
+オンライン通信・同期・再接続は未確認。探索の階層/ボス/セーブは未実装。固定2部屋の移動は冒頭を参照。P0の試作と検証範囲は冒頭を参照。
 現在の検証結果とログは[今回の記録](../archive/2026-09-12/EXTENSION_REFACTOR.md)を参照。
 # 低頭身リナの描画確認（2026-09-12）
 
@@ -287,3 +302,17 @@ Visual Hubのライブ表示変更時は、武器一覧を再生中・停止中�
 
 全79スクリプトを実行。追加2件・cpu_tactics・field_layout・small_improvementsはPASS。workshop_visualsにランダム補給との重なりが見つかり、テスト配置を分離した後の個別再実行でPASSを確認。ほかのスクリプトは動作検証のPASSを出力したが、多数で終了時のObjectDB/Resource解放エラーがあり、一括実行は失敗扱い（全件合格ではない）。最終CPU迂回テストも個別再実行でPASS。実プレイでの勝率・取得頻度・操作感は未検証。
 ベルフラワー対応：`Godot --headless --path . --script res://tests/cpu_seed_avoidance.gd --quit-after 120` で待機中の警戒・取得抑制・離脱・回避クールダウン・実際の突進開始・壁遮蔽・味方/消滅弾の除外を検証する。cpu_ai / cpu_tactics / cpu_loot_pressure / cpu_seed_avoidance の動作アサーションはPASS。サンドボックス実行では証明書ストア読取エラー、一部テストでは終了時Resource/ObjectDB解放エラーが残る。実プレイ品質は未検証。
+## 外周壁の確認（2026-09-21）
+
+継ぎ目修正後は左右2部屋の角柱・通路接続・細壁の両側の縁・暗い室外基礎を描画確認。ログは `.local/stage-joints.log` と `.local/stage-joints-errors.log`。描画テストで20往復・衝突の回帰もPASS。変更前の比較画像は `.local/stage-before-joints.png`。
+
+`tests/exploration_rooms.gd` に外周壁と開口部のsolid判定、上下壁への移動阻止、Texture2Dを外した場合の衝突不変性を追加。2部屋の到達性と20往復も継続検証する。参考画像への対応後、通路の上下壁、不正な床描画領域・壁正面参照の拒否も追加した。描画確認は下記と同じ `--capture` オプションを使う。`field_layout.gd` で既存マップも検証。両テストはPASS、描画実行は終了コード0・stderr空。ヘッドレス終了時の既存と同種のResource解放警告は残る。Web・手動プレイは未確認。
+## ステージテンプレート（2026-09-21）
+
+`tests/stage_templates.gd` は未知の部屋ID、素材セット交換、壁IDを保持した並べ替え、家具の独立衝突、照明生成、室外solid、不正データの組み立て前拒否、5回の部屋再構築を検証する。
+
+```powershell
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/stage_templates.gd --quit-after 180
+```
+
+併せてexploration_rooms（描画あり）とfield_layoutを実行。新規テストと2部屋描画はPASS。既存field_layoutのヘッドレス終了時Resource解放警告は残る。Webと照明の美術品質は未検証。

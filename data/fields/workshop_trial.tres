@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/world/field_definition.gd" id="1"]
+[ext_resource type="Resource" path="res://data/stage_themes/workshop.tres" id="theme"]
+[resource]
+script = ExtResource("1")
+theme = ExtResource("theme")
+field_id = "workshop_trial"
+floor_color = Color(0.035,0.05,0.063,1)
+floor_regions = Array[Rect2]([Rect2(128,128,864,384), Rect2(992,244,112,112)])
+walls = Array[Rect2]([Rect2(240,160,80,85), Rect2(800,355,80,85), Rect2(515,250,90,90), Rect2(96,80,928,48), Rect2(96,512,928,32), Rect2(96,128,32,384), Rect2(992,128,32,116), Rect2(992,356,32,156), Rect2(1024,212,80,32), Rect2(1024,356,80,32)])
+spawns = PackedVector2Array(170,300)
+constrain_to_floor = true
+wall_ids = PackedStringArray("cover_a", "cover_b", "cover_c", "north", "south", "side", "door_upper", "door_lower", "passage_upper", "passage_lower")
+wall_materials = {"north": "face", "south": "top", "side": "top", "door_upper": "top", "door_lower": "top", "passage_upper": "face", "passage_lower": "top"}

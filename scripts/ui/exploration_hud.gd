@@ -56,7 +56,10 @@ func _ready() -> void:
 		action.configure(["dodge","melee","pulse"][i],["SPACE","右クリック","Q"][i],["回避","近接","パルス"][i])
 		actions.append(action)
 	Widgets.button(canvas,"Sound",Rect2(904,710,180,30),"SE ON",func(): sound_requested.emit())
-	Widgets.label(canvas,"Help",Rect2(24,667,1072,25),14).text = "WASD 移動  ·  マウス 照準 / 左 射撃  ·  部屋移動・装備整理は今後追加"
+	var help = Widgets.label(canvas,"Help",Rect2(24,667,1072,25),16)
+	help.add_theme_color_override("font_shadow_color",Color.BLACK)
+	help.add_theme_constant_override("shadow_offset_x",2)
+	help.add_theme_constant_override("shadow_offset_y",2)
 	var outcome := Widgets.box(canvas,"Outcome",Rect2(310,280,500,150))
 	Widgets.label(outcome,"Message",Rect2(16,20,468,36),26).horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	Widgets.button(outcome,"Retry",Rect2(140,82,220,46),"もう一度挑戦",func(): retry_requested.emit())
@@ -68,7 +71,8 @@ func present(view: Dictionary, mode: Dictionary) -> void:
 	$Root/Active.refresh(view)
 	for slot in slots: slot.refresh(view)
 	View.refresh_actions(actions,view)
-	$Root/Heading.text = "ストーリーモード試作 ／ 始まりの工房"
+	$Root/Heading.text = "探索試作 ／ "+mode.room_name
+	$Root/Help.text = mode.door_hint if not mode.paused and mode.result.is_empty() else ""
 	$Root/Status.text = "敵なし  ·  移動・射撃・UIを自由に確認できます"
 	if mode.encounter_active: $Root/Status.text = "敵を倒す  ·  残り%d体" % mode.enemies_alive
 	if mode.paused: $Root/Status.text = "停止中  ·  Escで再開"

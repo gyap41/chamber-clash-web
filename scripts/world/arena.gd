@@ -14,6 +14,12 @@ func configure_field(source: Definition, participant_count: int = 0, radius: flo
 	if errors.is_empty(): definition = source
 	return errors
 func solid(pos: Vector2, radius: float) -> bool:
+	if runtime_definition != null:
+		if not runtime_definition.floor_contains(pos): return true
+		for placement in runtime_definition.placements:
+			if placement.collision == Rect2(): continue
+			var rect := Rect2(placement.position+placement.collision.position,placement.collision.size)
+			if pos.distance_to(pos.clamp(rect.position,rect.end)) < radius: return true
 	for node in $Walls.get_children():
 		var wall: Rect2 = node.collision_rect()
 		var closest := Vector2(clampf(pos.x,wall.position.x,wall.end.x),clampf(pos.y,wall.position.y,wall.end.y))

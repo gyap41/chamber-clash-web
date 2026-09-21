@@ -1,7 +1,12 @@
 extends "res://scripts/game/combat_context.gd"
 const ExplorationState = preload("res://scripts/game/exploration_state.gd")
+const Rooms = preload("res://scripts/game/exploration_rooms.gd")
+const Door = preload("res://scripts/world/exploration_door.gd")
 var exploration
 var pause_reasons: Dictionary = {}
+var doors: Array = []
+var door_armed := true
+var fire_requires_release := false
 func _ready() -> void:
 	# This prototype starts in a non-combat room. Remove the duel scene's extra
 	# actors before registering participants/signals; never mutate a live roster.
@@ -23,6 +28,14 @@ func _ready() -> void:
 		if argument.begins_with("--seed="): seed_value = int(argument.trim_prefix("--seed="))
 	start_exploration(seed_value)
 func start_exploration(seed_value: int) -> void:
+	var errors := Rooms.validation_errors(players[0].radius)
+	if not errors.is_empty():
+		push_error("; ".join(errors))
+		return
+	errors = arena.configure_field(Rooms.room(Rooms.START_ROOM).field,1,players[0].radius)
+	if not errors.is_empty():
+		push_error("; ".join(errors))
+		return
 	clear_field_objects()
 	clear_action_inputs()
 	combat_visuals.clear()
@@ -34,6 +47,8 @@ func start_exploration(seed_value: int) -> void:
 	pause_reasons.clear()
 	paused = false
 	remaining = 0.0
+	door_armed = true
+	fire_requires_release = false
 	fighters.clear()
 	for i in range(players.size()):
 		var player = players[i]
@@ -45,14 +60,73 @@ func start_exploration(seed_value: int) -> void:
 		player.match_player_index = 0
 		player.apply_build(inventory.builds[0],inventory.capacity(0),true,inventory.usable_cells(0))
 		fighters.append(player.state)
+	fit_field_camera()
+	rebuild_doors()
 	get_node("/root/Music").play_context("play")
 	refresh_hud()
+func rebuild_doors() -> void:
+	for node in doors:
+		node.get_parent().remove_child(node)
+		node.queue_free()
+	doors.clear()
+	for entry in Rooms.room(exploration.room_id).doors:
+		var node := Door.new()
+		node.configure(entry,Rooms.room(entry.target_room).name,arena.runtime_definition.theme)
+		arena.add_child(node)
+		arena.move_child(node,arena.get_node("Players").get_index())
+		doors.append(node)
+func nearby_door() -> Dictionary:
+	for entry in Rooms.room(exploration.room_id).doors:
+		if players[0].state.pos.distance_to(entry.position) <= Rooms.INTERACT_RADIUS and not arena.line_blocked(players[0].state.pos,entry.position):
+			return entry
+	return {}
+func try_enter_door() -> bool:
+	if phase != "play" or paused or not result.is_empty() or players[0].state.hp <= 0 or not door_armed: return false
+	if exploration.status != "active" or exploration.encounter_status == "active": return false
+	var entry := nearby_door()
+	if entry.is_empty(): return false
+	var partner := Rooms.door(entry.target_room,entry.target_door)
+	if partner.is_empty(): return false
+	var definition: FieldDefinition = Rooms.room(entry.target_room).field.duplicate(true)
+	definition.spawns = PackedVector2Array([partner.arrival])
+	var was_firing: bool = mouse_fire_held or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+	phase = "transition"
+	var errors := switch_field(definition)
+	phase = "play"
+	if not errors.is_empty():
+		push_error("; ".join(errors))
+		return false
+	exploration.room_id = entry.target_room
+	exploration.visited_rooms[entry.target_room] = true
+	door_armed = false
+	fire_requires_release = was_firing
+	rebuild_doors()
+	refresh_hud()
+	return true
+func _input(event: InputEvent) -> void:
+	super._input(event)
+	if event is InputEventKey and event.keycode == KEY_F and not event.pressed: door_armed = true
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
+		fire_requires_release = false
+func _unhandled_input(event: InputEvent) -> void:
+	if fire_requires_release and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		get_viewport().set_input_as_handled()
+		return
+	super._unhandled_input(event)
 func refresh_hud() -> void:
 	var allowed: bool = phase == "play" and not paused and result.is_empty() and not players[0].is_cpu
 	var view := preload("res://scripts/ui/combat_hud_view.gd").capture(players[0],allowed)
 	hud.present(view,{"paused":paused,"result":result,"sound_enabled":sound.enabled,
+		"room_name":Rooms.room(exploration.room_id).name,"door_hint":door_hint(),
 		"encounter_active":exploration.encounter_status == "active",
 		"enemies_alive":players.slice(1).filter(func(player): return player.state.hp > 0).size()})
+	var nearby := nearby_door()
+	for node in doors: node.set_available(allowed and nearby.get("id","") == node.door_id)
+func door_hint() -> String:
+	var entry := nearby_door()
+	if entry.is_empty(): return "扉に近づいて F で移動  ·  装備整理は今後追加"
+	if exploration.encounter_status == "active": return "戦闘中は移動できません"
+	return "F：%s へ移動" % Rooms.room(entry.target_room).name
 func toggle_pause() -> void:
 	if phase != "play" or not result.is_empty(): return
 	if pause_reasons.has("focus"): set_pause_reason("focus",false)
@@ -71,6 +145,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		toggle_pause()
 		return
 	if phase == "play" and not paused and result.is_empty():
+		if event.keycode == KEY_F:
+			try_enter_door()
+			get_viewport().set_input_as_handled()
+			return
 		apply_command(0,HumanInput.key(players[0],event.keycode))
 func _physics_process(dt: float) -> void:
 	if phase == "play" and not paused and result.is_empty():
