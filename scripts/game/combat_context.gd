@@ -202,6 +202,9 @@ func fit_field_camera() -> void:
 	camera.position = arena.field_rect.position-Vector2((1120.0/scale_factor-arena.field_rect.size.x)*.5,90.0/scale_factor)
 	camera.offset = Vector2.ZERO
 
+func refresh_hud() -> void:
+	hud.refresh(players,remaining,paused,result,scores,phase)
+
 # Geometry replacement is synchronous. Failure leaves the current field and battle intact.
 # A room transition keeps actor resources/timers; an encounter boundary resets only transient
 # actor state through begin_encounter. Neither policy restarts the match or grants resources.
@@ -223,5 +226,5 @@ func switch_field(definition: FieldDefinition, new_encounter: bool = false) -> P
 		fighters[i] = player.state
 	fit_field_camera()
 	arena.get_node("DangerZone").refresh(arena_inset() if phase in ["play","result"] else 0.0)
-	hud.refresh(players,remaining,paused,result,scores,phase)
+	refresh_hud()
 	return errors

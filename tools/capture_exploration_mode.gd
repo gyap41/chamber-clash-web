@@ -19,7 +19,7 @@ func run() -> void:
 	game._physics_process(0)
 	await capture("pause")
 	game.set_pause_reason("menu",false)
-	game.players[1].state.hp = 0
+	game.players[0].state.hp = 0
 	game._physics_process(.01)
 	await capture("result")
 	game.queue_free()

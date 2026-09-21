@@ -1,10 +1,12 @@
 extends CanvasLayer
-const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const Relics = preload("res://scripts/catalog/relic_catalog.gd")
 const Characters = preload("res://scripts/catalog/character_catalog.gd")
 const RelicIcon = preload("res://scripts/ui/hud_relic_icon.gd")
 const Action = preload("res://scripts/ui/hud_action.gd")
-const Art = preload("res://scripts/ui/hud_assets.gd")
+const Widgets = preload("res://scripts/ui/hud_widgets.gd")
+const View = preload("res://scripts/ui/combat_hud_view.gd")
+const WeaponPanel = preload("res://scripts/ui/hud_weapon_panel.gd")
+const WeaponSlot = preload("res://scripts/ui/hud_weapon_slot.gd")
 const MAX_RELIC_CAPACITY := 36
 const MAX_WEAPON_SLOTS := 8
 var slots: Array = []
@@ -12,55 +14,13 @@ var relic_cards: Array = []
 var compact_relics: Array = []
 var actions: Array = []
 var layout_initialized := false
-var reload_max := [0.0,0.0]
 
 func box(parent: Node, title: String, rect: Rect2) -> Panel:
-	var panel := Panel.new()
-	panel.name = title
-	panel.position = rect.position
-	panel.size = rect.size
-	panel.mouse_filter = Control.MOUSE_FILTER_STOP
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color("192126")
-	style.border_color = Color("44535b")
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(6)
-	panel.add_theme_stylebox_override("panel",style)
-	var background := Art.optional_texture("panel")
-	if background:
-		var textured := StyleBoxTexture.new()
-		textured.texture = background
-		textured.texture_margin_left = 8
-		textured.texture_margin_top = 8
-		textured.texture_margin_right = 8
-		textured.texture_margin_bottom = 8
-		panel.add_theme_stylebox_override("panel",textured)
-	parent.add_child(panel)
-	return panel
-
+	return Widgets.box(parent,title,rect)
 func label(parent: Node, title: String, rect: Rect2, font_size: int = 16) -> Label:
-	var item := Label.new()
-	item.name = title
-	item.position = rect.position
-	item.size = rect.size
-	item.add_theme_font_size_override("font_size",font_size)
-	item.add_theme_color_override("font_color",Color("e5edf0"))
-	item.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	item.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	parent.add_child(item)
-	return item
-
+	return Widgets.label(parent,title,rect,font_size)
 func button(parent: Node, title: String, rect: Rect2, caption: String, callback: Callable) -> Button:
-	var item := Button.new()
-	item.name = title
-	item.position = rect.position
-	item.size = rect.size
-	item.text = caption
-	item.focus_mode = Control.FOCUS_NONE
-	item.add_theme_font_size_override("font_size",14)
-	item.pressed.connect(callback)
-	parent.add_child(item)
-	return item
+	return Widgets.button(parent,title,rect,caption,callback)
 
 func toggle_details() -> void:
 	var game = get_parent()
@@ -97,40 +57,15 @@ func _ready() -> void:
 	label($Root/Relics,"Title",Rect2(16,10,650,30),20).text = "一時停止  ·  所持レリック"
 	button($Root/Relics,"Sound",Rect2(704,4,140,30),"音 切替",func(): $SoundControls/Toggle.pressed.emit())
 	for i in range(2):
-		var active := Control.new()
+		var active := WeaponPanel.new()
 		active.name = "Active%d" % i
-		active.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		$Root.add_child(active)
-		label(active,"Name",Rect2(0,0,214,21),15)
-		label(active,"Ammo",Rect2(0,22,214,35),24)
-		label(active,"State",Rect2(0,60,214,18),12)
-		var weapon_art := TextureRect.new()
-		weapon_art.name = "Art"
-		weapon_art.position = Vector2(0,25)
-		weapon_art.size = Vector2(40,28)
-		weapon_art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		weapon_art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		weapon_art.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		active.add_child(weapon_art)
-		var progress := ProgressBar.new()
-		progress.name = "Reload"
-		progress.position = Vector2(0,57)
-		progress.size = Vector2(210,4)
-		progress.show_percentage = false
-		progress.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		active.add_child(progress)
 		var row: Array = []
 		var loadout = get_node("Root/Loadouts/P%d" % (i+1))
 		for n in range(MAX_WEAPON_SLOTS):
-			var slot := Button.new()
-			slot.custom_minimum_size = Vector2(44,56)
-			slot.focus_mode = Control.FOCUS_NONE
-			slot.expand_icon = true
-			slot.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			slot.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
-			slot.add_theme_constant_override("icon_max_width",30)
-			slot.add_theme_font_size_override("font_size",12)
-			slot.pressed.connect(func(): get_parent().equip_slot(i,n))
+			var slot := WeaponSlot.new()
+			slot.slot_index = n
+			slot.slot_requested.connect(func(index): get_parent().equip_slot(i,index))
 			loadout.add_child(slot)
 			row.append(slot)
 		slots.append(row)
@@ -181,19 +116,11 @@ func layout() -> void:
 		var active = get_node("Root/Active%d" % i)
 		active.visible = i == 0
 		active.position = Vector2(26,706)
-		active.get_node("Ammo").position = Vector2(46,22)
-		active.get_node("Ammo").size.x = 168
-		active.get_node("Ammo").add_theme_font_size_override("font_size",24)
-		active.get_node("Reload").position.y = 57
 		var row = get_node("Root/Loadouts/P%d" % (i+1))
 		row.visible = i == 0
 		row.position = Vector2(244,717)
 		row.size = Vector2(380,56)
 		for slot in slots[i]:
-			slot.custom_minimum_size = Vector2(44,56)
-			slot.add_theme_constant_override("icon_max_width",30)
-			slot.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
-			slot.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			slot.reset_size()
 		row.reset_size()
 	$Root/LocalStatus.hide()
@@ -250,41 +177,12 @@ func refresh(players: Array, remaining: float, paused: bool, result: String, sco
 		var char_name: String = Characters.definition(p.char_id).name if p.char_id >= 0 else ""
 		get_node("Root/Name%d" % i).text = tag + "  " + char_name
 		get_node("Root/Name%d" % i).modulate = Color("f39545") if i == 0 else Color("64b5ee")
-		var rally: float = p.rally_available()
-		get_node("Root/HP%d" % (i+1)).refresh(p.state.hp,p.state.max_hp,rally)
-		get_node("Root/HP%d" % (i+1)).tooltip_text = "黄色は反撃で回復できるHP。被ダメージの50%、各被弾から3秒以内に攻撃を当てて回収。"
-		get_node("Root/Health%d" % i).text = "%.1f / %.0f" % [p.state.hp,p.state.max_hp] + ("  反撃回復 +%.1f" % rally if rally > 0 else "")
-		get_node("Root/Health%d" % i).modulate = Color("ff9d83") if p.state.hp <= p.state.max_hp*.25 else Color.WHITE
-		var active = get_node("Root/Active%d" % i)
-		active.get_node("Name").text = p.definition().name
-		active.get_node("Art").texture = Weapons.art(p.weapon().id) if p.has_weapon() else null
-		active.get_node("Art").material = Weapons.Visuals.body_material(p.weapon().id,Vector2(40,28)) if p.has_weapon() else null
-		active.get_node("Ammo").text = ("%d · 予備%d" % [p.weapon().clip,p.weapon().reserve]) if p.has_weapon() else "丸腰"
-		active.get_node("Ammo").tooltip_text = "装弾数 / 予備弾数"
-		var wait: float = p.state.reload
-		if wait <= 0: reload_max[i] = 0.0
-		else: reload_max[i] = maxf(reload_max[i],wait)
-		active.get_node("Reload").visible = wait > 0
-		active.get_node("Reload").value = (1.0-wait/reload_max[i])*100 if wait > 0 else 0
-		active.get_node("State").text = "装填中 %.1f秒" % wait if wait > 0 else ("R 装填  ·  E / ホイール 切替" if p.has_weapon() else "近接攻撃で戦えます")
-		for n in range(MAX_WEAPON_SLOTS):
-			var slot: Button = slots[i][n]
-			slot.visible = n < p.inventory.size()
-			slot.disabled = not slot.visible or phase != "play" or paused or not result.is_empty() or p.is_cpu
-			if not slot.visible: continue
-			var w: Dictionary = p.inventory[n]
-			var g: Dictionary = p.resolved_definition(w.id)
-			slot.icon = Weapons.art(w.id)
-			slot.text = str(n+1)
-			slot.modulate = Color("ffc980") if p.state.gun == n else Color("aebdc5")
-			slot.tooltip_text = "%s\n弾倉 %d / 予備 %d\n%s" % [g.name,w.clip,w.reserve,g.desc]
-			if g.has("mod_name"): slot.tooltip_text += "\n改造：" + str(g.mod_name)
+		var view := View.capture(p,phase == "play" and not paused and result.is_empty() and not p.is_cpu)
+		View.refresh_health(get_node("Root/HP%d" % (i+1)),get_node("Root/Health%d" % i),view)
+		get_node("Root/Active%d" % i).refresh(view)
+		for slot in slots[i]: slot.refresh(view)
 		refresh_relics(i,p)
-	var p = players[0]
-	var usable: bool = phase == "play" and not paused and result.is_empty() and p.state.hp > 0
-	actions[0].refresh(p.state.dodge,p.dodge_cooldown*(p.relic_value(24,"dodge_ratio") if 24 in p.relics else 1.0),usable and p.state.dodge <= 0,"%.1f秒" % p.state.dodge if p.state.dodge > 0 else "回避")
-	actions[1].refresh(p.state.melee,p.melee_cooldown*(p.relic_value(26,"melee_ratio") if 26 in p.relics else 1.0),usable and p.state.melee <= 0 and p.state.reload <= 0 and p.state.roll <= 0,"%.1f秒" % p.state.melee if p.state.melee > 0 else "近接")
-	actions[2].refresh(0,1,usable and p.state.pulses > 0,"パルス %d" % p.state.pulses)
+	View.refresh_actions(actions,View.capture(players[0],phase == "play" and not paused and result.is_empty() and not players[0].is_cpu))
 
 	refresh_roster(players,scores)
 

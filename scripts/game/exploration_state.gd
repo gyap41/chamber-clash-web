@@ -4,7 +4,7 @@ const Start = preload("res://scripts/game/exploration_start.gd")
 var seed_value: int
 var room_id := "workshop_trial"
 var status := "active"
-var encounter_status := "active"
+var encounter_status := "none"
 var inventory
 func _init(value: int = 1) -> void:
 	seed_value = value

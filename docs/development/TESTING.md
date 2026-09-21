@@ -1,3 +1,24 @@
+## 敵なし探索のテストプレイ（2026-09-21）
+
+タイトルの「ストーリーモード（試作）」は敵なしで開始する。通常CPU対戦は従来どおり。上部に敵なしの案内を表示し、敵0人でも自動クリアしない。終了は「タイトルへ」。弾薬/パルスは有限の既存設定を維持する。
+
+`exploration_mode.gd`は参加者/Actorが主人公1人であること、100秒経過でHPを失わず継続、敵なしの移動/射撃、弾owner、再挑戦後も敵なし、通常CPU対戦に2人が残ることを検証する。戦闘を明示開始した状態の全滅/相打ちは状態単体テストで確認する。動作PASS、終了時ObjectDB警告あり（`.local/enemy-free-exploration.log`）。
+
+共有HUDの描画あり統合テストもPASS・終了コード0・エラーなし（`.local/enemy-free-hud.log` / `.local/enemy-free-hud-errors.log`）。敵なし案内と主人公のみの画面を目視確認。`capture_exploration_mode.gd`の結果画面は主人公のHPを0にして撮影する。手動プレイの操作感・Web実機は未確認。
+
+## P1冒頭・戦闘UI共通化（2026-09-21）
+
+```powershell
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/shared_combat_hud.gd --quit-after 180
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --path . --script res://tests/shared_combat_hud.gd --quit-after 240 -- --capture
+```
+
+`shared_combat_hud`は両モードの同一部品利用、表示スナップショットの非破壊性、探索側へのフィールド切替後のHUD更新、HP/反撃回復、実クリックによる武器切替と射撃漏れ防止、装填途中からの進捗、停止時の弾薬/装填保持、複数停止理由、直接の切替要求も停止中は拒否されること、8武器の配置・丸腰・死亡結果を検証する。描画ありでは `.local/shared-hud-{duel,exploration,paused,eight-weapons,small,unarmed,result}.png` を保存する。
+
+追加1本と関連7本（exploration_mode / hud_compact / mouse_input / rally_recovery / field_layout / result_flow / initial_preparation）の動作検証はPASS。最終の描画あり統合テストとhud_compactは終了コード0・エラーなし。一部ヘッドレス実行はObjectDB/Resourceの終了時解放エラーが残り、全体完全合格とは扱わない。今回の全スイート再実行はしていない。
+
+通常1120×800と縮小840×600で対戦・探索、8武器・丸腰・結果の画面配置を目視確認した。人間による操作感、Web実機、インベントリ/装備詳細は未検証。[検証記録](../archive/2026-09-21/shared-combat-hud/REPORT.md)。
+
 ## ストーリーモードP0の検証（2026-09-21）
 
 タイトルの「ストーリーモード（試作）」で起動する。直接起動・seed指定と回帰テスト：
@@ -7,7 +28,7 @@
 & .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/exploration_mode.gd --quit-after 120
 ```
 
-`exploration_mode`はタイトル経由の開始、MatchState不使用、所持品の独立、初期装備/資金、取引と通常時の装備変更拒否、対戦準備ロックとの分離、複数停止理由/入力破棄、100秒経過しても時間切れ/縮小/補給なし、相打ち死亡優先、一度だけの終了、再挑戦、タイトル経由でCPU対戦へ戻る際の初期状態を検証する。
+`exploration_mode`はタイトル経由の開始、MatchState不使用、所持品の独立、初期装備/資金、取引と通常時の装備変更拒否、対戦準備ロックとの分離、複数停止理由/入力破棄、敵なしで100秒経過しても即クリア/時間切れ/縮小/補給なし、状態単体で相打ち死亡優先、一度だけの終了、再挑戦、タイトル経由でCPU対戦へ戻る際の初期状態を検証する。
 
 描画確認は `Godot --path . --script res://tools/capture_exploration_mode.gd --quit-after 180`（Godotは上記exeへ置換）。`.local/exploration-{title,play,pause,result}.png`へ保存する。タイトル・戦闘・試作クリアの画面配置と文字の収まりを目視確認。手動プレイの操作感・音の品質・Web配布は未検証。
 
