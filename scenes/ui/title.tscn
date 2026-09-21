@@ -65,3 +65,10 @@ custom_minimum_size = Vector2(0, 56)
 focus_mode = 0
 theme_override_font_sizes/font_size = 22
 text = "CPU対戦をはじめる"
+
+[node name="Story" type="Button" parent="Panel/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 50)
+focus_mode = 0
+theme_override_font_sizes/font_size = 20
+text = "ストーリーモード（試作）"

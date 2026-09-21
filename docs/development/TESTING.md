@@ -1,3 +1,20 @@
+## ストーリーモードP0の検証（2026-09-21）
+
+タイトルの「ストーリーモード（試作）」で起動する。直接起動・seed指定と回帰テスト：
+
+```powershell
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --path . res://scenes/game/exploration.tscn -- --seed=42
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/exploration_mode.gd --quit-after 120
+```
+
+`exploration_mode`はタイトル経由の開始、MatchState不使用、所持品の独立、初期装備/資金、取引と通常時の装備変更拒否、対戦準備ロックとの分離、複数停止理由/入力破棄、100秒経過しても時間切れ/縮小/補給なし、相打ち死亡優先、一度だけの終了、再挑戦、タイトル経由でCPU対戦へ戻る際の初期状態を検証する。
+
+描画確認は `Godot --path . --script res://tools/capture_exploration_mode.gd --quit-after 180`（Godotは上記exeへ置換）。`.local/exploration-{title,play,pause,result}.png`へ保存する。タイトル・戦闘・試作クリアの画面配置と文字の収まりを目視確認。手動プレイの操作感・音の品質・Web配布は未検証。
+
+全85スクリプトで動作検証のPASS出力を確認、SCRIPT ERROR・Assertion失敗なし（`.local/logs/run_tests-20260921-201724.log`）。一括判定は37 PASS・48 FAIL。47件は終了時Resource解放エラー、探索テスト1件はPASS末尾のコロン欠落による検出漏れで、表記修正後の個別再実行でPASSを確認（`.local/exploration-final.log`）。探索テストに残るObjectDB警告の対象はAudioStreamWAV/AudioStreamPlaybackWAV。既存資料にもある終了時解放問題が残るため、全体の完全合格とは扱わない。CPU対戦の5-0・5-4・引分け・初期化の動作検証もPASS。
+
+P1以降の未検証項目：空部屋/増援待ち、扉往復と旧敵の退場、資源/タイマー持越し、着脱による補充防止、控え満杯、乱数と報酬の独立、室内到達可能性、敵/報酬の再訪状態、死亡/中断保存の整合性。段階別の条件は[探索ロードマップ](../planning/EXPLORATION_ROADMAP.md)を参照。
+
 ## 待機・歩行モーションの検証（2026-09-21）
 
 振幅強化後の通常サイズ描画は `Godot --path . --script res://tools/capture_dynamic_motion.gd --quit-after 900`。
@@ -225,7 +242,7 @@ python -m unittest discover -s tools/tests -v
 ## 未確認の受入
 
 人間による操作感・購入経済/チーム戦バランス、配布版の一試合完走、最大負荷、
-オンライン通信・同期・再接続は未確認。探索モード/階層/ボス/セーブは未実装。
+オンライン通信・同期・再接続は未確認。探索の部屋移動/階層/ボス/セーブは未実装。P0の試作と検証範囲は冒頭を参照。
 現在の検証結果とログは[今回の記録](../archive/2026-09-12/EXTENSION_REFACTOR.md)を参照。
 # 低頭身リナの描画確認（2026-09-12）
 

@@ -10,12 +10,14 @@ var game:
 func _init(value) -> void: context = weakref(value)
 func step(dt: float) -> void:
 	if game.phase != "play" or game.paused or not game.result.is_empty() or not settled_outcome.is_empty(): return
-	game.remaining -= dt
+	if countdown_enabled: game.remaining -= dt
 	_step_delayed_shots(dt)
 	_step_players(dt)
-	game.supplies.step(dt)
+	if supplies_enabled: game.supplies.step(dt)
 	_step_projectiles(dt)
 	_step_wells(dt)
+var countdown_enabled := true
+var supplies_enabled := true
 var settled_outcome: Dictionary = {}
 func reset_outcome() -> void: settled_outcome = {}
 func outcome() -> Dictionary:
@@ -213,7 +215,7 @@ func apply_command(index: int, command: Dictionary) -> void:
 	if command.get("reload",false): player.start_reload()
 	if command.get("melee",false): player.try_melee(index,game.shots,game.roster.enemies(index,game.players),game.arena)
 	if command.get("pulse",false): use_pulse(index)
-	if command.get("interact",false): game.supplies.interact(index)
+	if supplies_enabled and command.get("interact",false): game.supplies.interact(index)
 	if command.get("fire_pressed",false): player.request_fire()
 # Authority caller supplies a participant ID, never an arbitrary array address from payload.
 

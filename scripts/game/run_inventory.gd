@@ -73,7 +73,7 @@ static func shape_of(entry) -> Array:
 
 func _new_build() -> Dictionary:
 	return {"owned":[],"equipped":[],"positions":{},"mods":{},"next_item_serial":0,"acquisitions":{},"bag_expansions":[]}
-func _init(value: int = 1, participant_count: int = 2) -> void:
+func _init(value: int = 1, participant_count: int = 2, create_shop: bool = true) -> void:
 	for array in [gold,products,refreshed,expansion_bought,rewards,ready,purchase_counts,temporary,start_guns]:
 		var initial = array[0]
 		array.clear()
@@ -84,7 +84,7 @@ func _init(value: int = 1, participant_count: int = 2) -> void:
 	for i in range(participant_count): builds.append(_new_build())
 	for i in range(builds.size()): _acquire(i,gun_token(start_guns[i]),"initial",0,"")
 	previous = builds.duplicate(true)
-	generate_rewards()
+	if create_shop: generate_rewards()
 # P8z：キャラクター選択で確定した初期武器へ差し替える。main.tscnの_ready()がnew_match()を先に
 # 走らせてしまう（キャラはその後に適用される）ため、既定の初期武器しか持っていない＝まだ何も
 # 動かしていない状態のときだけ差し替える。start_gunsに覚えておくのは、5本先取でマッチが終わって
@@ -109,10 +109,10 @@ func usable_cells(i: int = 0) -> Dictionary:
 func capacity(i: int = 0) -> int:
 	return usable_cells(i).size()
 func expansion_pending(i: int) -> bool:
-	return valid_slot(i) and not ended and not expansion_bought[i] and capacity(i) <= 20
+	return valid_slot(i) and can_trade(i) and not expansion_bought[i] and capacity(i) <= 20
 func expansion_purchase_reason(i: int, shape: String) -> String:
 	if not valid_slot(i) or not Expansions.SHAPES.has(shape): return "無効な拡張"
-	if ready[i] or ended: return "準備完了"
+	if not can_trade(i): return "現在は購入・売却できません"
 	if expansion_bought[i]: return "この準備では購入済み"
 	if capacity(i)+Expansions.SHAPES[shape].size() > BuildGrid.MAX_AREA: return "上限24マス（残り%d）" % (BuildGrid.MAX_AREA-capacity(i))
 	if gold[i] < Expansions.SHAPES[shape].size(): return "資金不足（必要%dG）" % Expansions.SHAPES[shape].size()
@@ -166,10 +166,10 @@ func store_field_weapon(i: int, id: int) -> bool:
 	_acquire(i,gun_token(id),"field",0,"")
 	return true
 func allows_field_acquisition() -> bool:
-	return true
+	return not ended
 # Atomic CPU rearrangement: a greedy packing must not overflow reserve or lose items.
 func arrange(i: int, order: Array) -> bool:
-	if ready[i] or ended: return false
+	if not can_edit(i): return false
 	var equipped: Array = builds[i].equipped.duplicate()
 	var positions: Dictionary = builds[i].positions.duplicate()
 	builds[i].equipped = []
@@ -207,7 +207,7 @@ func auto_place(i: int, id) -> Vector2i:
 # ドラッグ＆ドロップなど、置き場所を明示的に指定する経路。既装備品の移動にも使う。P8xにより
 # 着脱可否はfits()（実際にその位置へ収まるか）だけで決まる——個数上限は撤廃済み。
 func place(i: int, id, anchor: Vector2i) -> bool:
-	if ready[i] or ended or id not in builds[i].owned: return false
+	if not can_edit(i) or id not in builds[i].owned: return false
 	var already: bool = id in builds[i].equipped
 	if not already and is_gun(id) and carried_guns(i).size() >= MAX_CARRIED_WEAPONS: return false
 	if not fits(i,id,anchor,id if already else -1): return false
@@ -228,7 +228,7 @@ func _base_products() -> Array:
 	for slot in range(2):
 		var roll: int = generator.rng.randi_range(0,99)
 		var rarity: String
-		if stage < 3: rarity = "C" if roll < 35 else ("B" if roll < 75 else "A")
+		if shop_stage() < 3: rarity = "C" if roll < 35 else ("B" if roll < 75 else "A")
 		else: rarity = "C" if roll < 25 else ("B" if roll < 60 else ("A" if roll < 85 else "S"))
 		var pool: Array = Weapons.rarity_pool(rarity)
 		result.append(gun_token(pool[generator.rng.randi_range(0,pool.size()-1)]))
@@ -249,7 +249,7 @@ func generate_rewards() -> void:
 	var base := _base_products()
 	for i in range(builds.size()): _set_products(i,base)
 func sync_mod_product(i: int) -> void:
-	if ready[i] or ended: return
+	if not can_trade(i): return
 	# Once offered, retain even an unavailable mod: moving equipment is not a free reroll.
 	var cards: Array = products[i].filter(func(card): return str(card.entry).begins_with("mod:"))
 	if not cards.is_empty(): return
@@ -257,7 +257,7 @@ func sync_mod_product(i: int) -> void:
 	if not candidates.is_empty(): products[i].append(_card(candidates[generator.rng.randi_range(0,candidates.size()-1)]))
 	_sync_rewards(i)
 func refresh_shop(i: int) -> bool:
-	if not valid_slot(i) or ready[i] or ended or refreshed[i] or gold[i] < Shop.REFRESH_PRICE: return false
+	if not can_trade(i) or refreshed[i] or gold[i] < Shop.REFRESH_PRICE: return false
 	gold[i] -= Shop.REFRESH_PRICE
 	refreshed[i] = true
 	_set_products(i,_base_products())
@@ -275,7 +275,7 @@ func mod_candidates(i: int) -> Array:
 	return result
 func acquisition_reason(i: int, entry) -> String:
 	if not valid_slot(i): return "無効"
-	if ready[i] or ended: return "準備完了"
+	if not can_trade(i): return "現在は購入・売却できません"
 	return storage_reason(i,entry)
 func storage_reason(i: int, entry) -> String:
 	if not valid_slot(i): return "無効"
@@ -290,7 +290,7 @@ func storage_reason(i: int, entry) -> String:
 # Room loot/rewards can enter the same inventory without a preparation screen.
 # Mod purchases keep their separate weapon/branch rules; this grants weapons/relics only.
 func grant_item(i: int, entry, source: String = "loot") -> bool:
-	if str(entry).begins_with("mod:") or not storage_reason(i,entry).is_empty(): return false
+	if ended or str(entry).begins_with("mod:") or not storage_reason(i,entry).is_empty(): return false
 	_acquire(i,entry,source,0,"")
 	return true
 func purchase_reason(i: int, card_id: String) -> String:
@@ -349,7 +349,7 @@ func claim(i: int, entry) -> bool:
 		if typeof(card.entry) == typeof(entry) and card.entry == entry: return purchase(i,card.id)
 	return false
 func mod_reason(i: int, token: String) -> String:
-	if ready[i] or ended: return "準備完了"
+	if not can_trade(i): return "現在は購入・売却できません"
 	var parsed := Weapons.parse_mod_token(token)
 	if parsed.is_empty(): return "無効"
 	if gun_token(parsed.weapon_id) not in builds[i].equipped: return "携行していない"
@@ -358,7 +358,7 @@ func mod_reason(i: int, token: String) -> String:
 func sale_value(i: int, entry) -> int:
 	return int(builds[i].get("acquisitions",{}).get(entry,{}).get("paid",0)/2)
 func sell(i: int, entry) -> bool:
-	if not valid_slot(i) or ready[i] or ended or entry not in builds[i].owned: return false
+	if not can_trade(i) or entry not in builds[i].owned: return false
 	var value := sale_value(i,entry)
 	if not discard(i,entry): return false
 	gold[i] += value
@@ -377,7 +377,7 @@ func _equip_if_fits(i: int, id) -> bool:
 	builds[i].positions[id] = anchor
 	return true
 func toggle(i: int, id) -> bool:
-	if ready[i] or ended or id not in builds[i].owned: return false
+	if not can_edit(i) or id not in builds[i].owned: return false
 	if id in builds[i].equipped:
 		if reserve_full(i): return false
 		builds[i].equipped.erase(id)
@@ -385,7 +385,7 @@ func toggle(i: int, id) -> bool:
 	elif not _equip_if_fits(i,id): return false
 	return true
 func discard(i: int, id) -> bool:
-	if ready[i] or ended or id not in builds[i].owned: return false
+	if not can_edit(i) or id not in builds[i].owned: return false
 	builds[i].equipped.erase(id)
 	builds[i].get("positions",{}).erase(id)
 	builds[i].owned.erase(id)
@@ -406,3 +406,11 @@ static func filled(count: int, value) -> Array:
 	var values: Array = []
 	for i in range(count): values.append(value.duplicate(true) if value is Array else value)
 	return values
+
+# Mode boundaries: placement, commerce and offer tier are independently overridable.
+func can_edit(i: int) -> bool:
+	return valid_slot(i) and not ready[i] and not ended
+func can_trade(i: int) -> bool:
+	return can_edit(i)
+func shop_stage() -> int:
+	return stage
