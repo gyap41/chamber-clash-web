@@ -27,11 +27,10 @@ func run() -> void:
 		for i in range(actors.size()):
 			var p=actors[i]
 			var row:=i/8
-			var anim=p.get_node("Animation")
 			p.state.angle=-PI/2 if row==1 else 0.0
 			p.state.dir=Vector2.UP if row==1 else Vector2.RIGHT
 			p.state.roll=p.dodge_duration*(1.0-float(frame%30)/30.0) if row==2 else 0.0
-			anim.advance(.025,row!=2)
+			p.advance_visual(.025,row!=2)
 			p.sync_visual()
 		await process_frame
 		await RenderingServer.frame_post_draw

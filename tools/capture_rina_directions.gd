@@ -35,7 +35,7 @@ func run() -> void:
 			var row:=i/4
 			# Include the return to standing so size/pivot discontinuities are visible.
 			p.state.roll=.38*(1.0-float(frame%32)/24.0) if row==2 and frame%32<24 else 0.0
-			p.get_node("Animation").advance(.025,row==1)
+			p.advance_visual(.025,row==1)
 			p.sync_visual()
 		await process_frame
 		await RenderingServer.frame_post_draw

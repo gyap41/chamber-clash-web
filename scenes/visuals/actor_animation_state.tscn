@@ -1,0 +1,547 @@
+[gd_scene load_steps=62 format=3]
+
+[ext_resource type="Script" path="res://scripts/visuals/actor_animation_state.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/visuals/character_parts.gd" id="2"]
+[ext_resource type="Texture2D" path="res://assets/first-workshop/rina-directions/front-body.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/first-workshop/rina-directions/front-foot-0.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/first-workshop/rina-directions/front-foot-1.png" id="5"]
+
+[sub_resource type="Animation" id="Body_RESET"]
+resource_name = "RESET"
+length = 1.0
+loop_mode = 0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Parts/Lean/Body:rotation")
+tracks/0/interp = 2
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Parts/Lean/Body:scale")
+tracks/1/interp = 2
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Parts/Foot0:position")
+tracks/2/interp = 1
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Parts/Foot1:position")
+tracks/3/interp = 1
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Body_idle"]
+resource_name = "idle"
+length = 2.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Parts/Lean/Body:rotation")
+tracks/0/interp = 2
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.65, 1.3, 1.95, 2.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [-0.03, 0.0, 0.03, 0.0, -0.03]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Parts/Lean/Body:scale")
+tracks/1/interp = 2
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.65, 1.3, 1.95, 2.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1.01, 0.975), Vector2(1, 1), Vector2(0.988, 1.028), Vector2(1, 1), Vector2(1.01, 0.975)]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Parts/Foot0:position")
+tracks/2/interp = 1
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.65, 1.3, 1.95, 2.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, 0), Vector2(0, 0), Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Parts/Foot1:position")
+tracks/3/interp = 1
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.65, 1.3, 1.95, 2.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, 0), Vector2(0, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Body_move"]
+resource_name = "move"
+length = 0.52
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Parts/Lean/Body:rotation")
+tracks/0/interp = 2
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.065, 0.13, 0.195, 0.26, 0.325, 0.39, 0.455, 0.52),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.045, 0.065, 0.045, 0.0, -0.045, -0.065, -0.045, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Parts/Lean/Body:scale")
+tracks/1/interp = 2
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.065, 0.13, 0.195, 0.26, 0.325, 0.39, 0.455, 0.52),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1.028, 0.94), Vector2(1, 0.985), Vector2(0.985, 1.025), Vector2(1, 0.985), Vector2(1.028, 0.94), Vector2(1, 0.985), Vector2(0.985, 1.025), Vector2(1, 0.985), Vector2(1.028, 0.94)]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Parts/Foot0:position")
+tracks/2/interp = 1
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.065, 0.13, 0.195, 0.26, 0.325, 0.39, 0.455, 0.52),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(3.6, 0), Vector2(2.1, -2.8), Vector2(0, -4.4), Vector2(-2.1, -2.8), Vector2(-3.6, 0), Vector2(-1.8, 0), Vector2(0, 0), Vector2(1.8, 0), Vector2(3.6, 0)]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Parts/Foot1:position")
+tracks/3/interp = 1
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.065, 0.13, 0.195, 0.26, 0.325, 0.39, 0.455, 0.52),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-3.6, 0), Vector2(-1.8, 0), Vector2(0, 0), Vector2(1.8, 0), Vector2(3.6, 0), Vector2(2.1, -2.8), Vector2(0, -4.4), Vector2(-2.1, -2.8), Vector2(-3.6, 0)]
+}
+
+[sub_resource type="Animation" id="Body_roll"]
+resource_name = "roll"
+length = 1.0
+loop_mode = 0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Parts/Lean/Body:rotation")
+tracks/0/interp = 2
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Parts/Lean/Body:scale")
+tracks/1/interp = 2
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Parts/Foot0:position")
+tracks/2/interp = 1
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Parts/Foot1:position")
+tracks/3/interp = 1
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Body_dead"]
+resource_name = "dead"
+length = 1.0
+loop_mode = 0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Parts/Lean/Body:rotation")
+tracks/0/interp = 2
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Parts/Lean/Body:scale")
+tracks/1/interp = 2
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Parts/Foot0:position")
+tracks/2/interp = 1
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Parts/Foot1:position")
+tracks/3/interp = 1
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="BodyLibrary"]
+_data = {
+&"RESET": SubResource("Body_RESET"),
+&"idle": SubResource("Body_idle"),
+&"move": SubResource("Body_move"),
+&"roll": SubResource("Body_roll"),
+&"dead": SubResource("Body_dead")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="BodyNode_idle"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="BodyNode_move"]
+animation = &"move"
+
+[sub_resource type="AnimationNodeAnimation" id="BodyNode_roll"]
+animation = &"roll"
+
+[sub_resource type="AnimationNodeAnimation" id="BodyNode_dead"]
+animation = &"dead"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Body_idle_to_move"]
+advance_mode = 1
+xfade_time = 0.12
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Body_idle_to_roll"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Body_idle_to_dead"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Body_move_to_idle"]
+advance_mode = 1
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Body_move_to_roll"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Body_move_to_dead"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Body_roll_to_idle"]
+advance_mode = 1
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Body_roll_to_move"]
+advance_mode = 1
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Body_roll_to_dead"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Body_dead_to_idle"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Body_dead_to_move"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Body_dead_to_roll"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachine" id="BodyGraph"]
+states/idle/node = SubResource("BodyNode_idle")
+states/idle/position = Vector2(250, 80)
+states/move/node = SubResource("BodyNode_move")
+states/move/position = Vector2(450, 80)
+states/roll/node = SubResource("BodyNode_roll")
+states/roll/position = Vector2(650, 80)
+states/dead/node = SubResource("BodyNode_dead")
+states/dead/position = Vector2(250, 240)
+transitions = ["idle", "move", SubResource("Body_idle_to_move"), "idle", "roll", SubResource("Body_idle_to_roll"), "idle", "dead", SubResource("Body_idle_to_dead"), "move", "idle", SubResource("Body_move_to_idle"), "move", "roll", SubResource("Body_move_to_roll"), "move", "dead", SubResource("Body_move_to_dead"), "roll", "idle", SubResource("Body_roll_to_idle"), "roll", "move", SubResource("Body_roll_to_move"), "roll", "dead", SubResource("Body_roll_to_dead"), "dead", "idle", SubResource("Body_dead_to_idle"), "dead", "move", SubResource("Body_dead_to_move"), "dead", "roll", SubResource("Body_dead_to_roll")]
+
+[sub_resource type="Animation" id="Weapon_RESET"]
+resource_name = "RESET"
+length = 1.0
+loop_mode = 0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:weapon_state")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"disabled"]
+}
+
+[sub_resource type="Animation" id="Weapon_disabled"]
+resource_name = "disabled"
+length = 1.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:weapon_state")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"disabled"]
+}
+
+[sub_resource type="Animation" id="Weapon_ready"]
+resource_name = "ready"
+length = 1.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:weapon_state")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"ready"]
+}
+
+[sub_resource type="Animation" id="Weapon_fire"]
+resource_name = "fire"
+length = 1.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:weapon_state")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"fire"]
+}
+
+[sub_resource type="Animation" id="Weapon_reload"]
+resource_name = "reload"
+length = 1.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:weapon_state")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"reload"]
+}
+
+[sub_resource type="Animation" id="Weapon_melee"]
+resource_name = "melee"
+length = 1.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:weapon_state")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"melee"]
+}
+
+[sub_resource type="AnimationLibrary" id="WeaponLibrary"]
+_data = {
+&"RESET": SubResource("Weapon_RESET"),
+&"disabled": SubResource("Weapon_disabled"),
+&"ready": SubResource("Weapon_ready"),
+&"fire": SubResource("Weapon_fire"),
+&"reload": SubResource("Weapon_reload"),
+&"melee": SubResource("Weapon_melee")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="WeaponNode_disabled"]
+animation = &"disabled"
+
+[sub_resource type="AnimationNodeAnimation" id="WeaponNode_ready"]
+animation = &"ready"
+
+[sub_resource type="AnimationNodeAnimation" id="WeaponNode_fire"]
+animation = &"fire"
+
+[sub_resource type="AnimationNodeAnimation" id="WeaponNode_reload"]
+animation = &"reload"
+
+[sub_resource type="AnimationNodeAnimation" id="WeaponNode_melee"]
+animation = &"melee"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_disabled_to_ready"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_disabled_to_fire"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_disabled_to_reload"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_disabled_to_melee"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_ready_to_disabled"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_ready_to_fire"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_ready_to_reload"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_ready_to_melee"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_fire_to_disabled"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_fire_to_ready"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_fire_to_reload"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_fire_to_melee"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_reload_to_disabled"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_reload_to_ready"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_reload_to_fire"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_reload_to_melee"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_melee_to_disabled"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_melee_to_ready"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_melee_to_fire"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Weapon_melee_to_reload"]
+advance_mode = 1
+
+[sub_resource type="AnimationNodeStateMachine" id="WeaponGraph"]
+states/disabled/node = SubResource("WeaponNode_disabled")
+states/disabled/position = Vector2(250, 80)
+states/ready/node = SubResource("WeaponNode_ready")
+states/ready/position = Vector2(450, 80)
+states/fire/node = SubResource("WeaponNode_fire")
+states/fire/position = Vector2(650, 80)
+states/reload/node = SubResource("WeaponNode_reload")
+states/reload/position = Vector2(250, 240)
+states/melee/node = SubResource("WeaponNode_melee")
+states/melee/position = Vector2(450, 240)
+transitions = ["disabled", "ready", SubResource("Weapon_disabled_to_ready"), "disabled", "fire", SubResource("Weapon_disabled_to_fire"), "disabled", "reload", SubResource("Weapon_disabled_to_reload"), "disabled", "melee", SubResource("Weapon_disabled_to_melee"), "ready", "disabled", SubResource("Weapon_ready_to_disabled"), "ready", "fire", SubResource("Weapon_ready_to_fire"), "ready", "reload", SubResource("Weapon_ready_to_reload"), "ready", "melee", SubResource("Weapon_ready_to_melee"), "fire", "disabled", SubResource("Weapon_fire_to_disabled"), "fire", "ready", SubResource("Weapon_fire_to_ready"), "fire", "reload", SubResource("Weapon_fire_to_reload"), "fire", "melee", SubResource("Weapon_fire_to_melee"), "reload", "disabled", SubResource("Weapon_reload_to_disabled"), "reload", "ready", SubResource("Weapon_reload_to_ready"), "reload", "fire", SubResource("Weapon_reload_to_fire"), "reload", "melee", SubResource("Weapon_reload_to_melee"), "melee", "disabled", SubResource("Weapon_melee_to_disabled"), "melee", "ready", SubResource("Weapon_melee_to_ready"), "melee", "fire", SubResource("Weapon_melee_to_fire"), "melee", "reload", SubResource("Weapon_melee_to_reload")]
+
+[node name="StateMachine" type="Node2D"]
+script = ExtResource("1")
+
+[node name="BodyPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("BodyLibrary")
+}
+
+[node name="BodyTree" type="AnimationTree" parent="."]
+root_node = NodePath("..")
+callback_mode_process = 2
+tree_root = SubResource("BodyGraph")
+anim_player = NodePath("../BodyPlayer")
+active = true
+
+[node name="WeaponPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("WeaponLibrary")
+}
+
+[node name="WeaponTree" type="AnimationTree" parent="."]
+root_node = NodePath("..")
+callback_mode_process = 2
+tree_root = SubResource("WeaponGraph")
+anim_player = NodePath("../WeaponPlayer")
+active = true
+
+[node name="Parts" type="Node2D" parent="."]
+texture_filter = 2
+script = ExtResource("2")
+
+[node name="Foot1" type="Node2D" parent="Parts"]
+
+[node name="Sprite" type="Sprite2D" parent="Parts/Foot1"]
+texture = ExtResource("5")
+position = Vector2(0, -13)
+scale = Vector2(0.25, 0.25)
+
+[node name="Foot0" type="Node2D" parent="Parts"]
+
+[node name="Sprite" type="Sprite2D" parent="Parts/Foot0"]
+texture = ExtResource("4")
+position = Vector2(0, -13)
+scale = Vector2(0.25, 0.25)
+
+[node name="Lean" type="Node2D" parent="Parts"]
+position = Vector2(0, 15)
+
+[node name="Body" type="Node2D" parent="Parts/Lean"]
+
+[node name="Sprite" type="Sprite2D" parent="Parts/Lean/Body"]
+texture = ExtResource("3")
+position = Vector2(0, -28)
+scale = Vector2(0.25, 0.25)

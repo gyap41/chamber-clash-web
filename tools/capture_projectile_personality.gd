@@ -32,7 +32,7 @@ func run() -> void:
 			b.step(1.0/30,lanes[i],null)
 			if b.state.life<=0:fx.weapon_event({"kind":"split" if IDS[i] in [9,17] else "hit","weapon":IDS[i],"variant":"parcel" if IDS[i]==17 else "","pos":b.position,"angle":0})
 			b.visible=b.state.life>0
-			p.get_node("Animation").advance(1.0/30,false);p.sync_visual()
+			p.advance_visual(1.0/30,false);p.sync_visual()
 		await process_frame;await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png(RAW+"%03d.png"%frame)
 		if frame==8:root.get_texture().get_image().save_png(OUT+"comparison.png")

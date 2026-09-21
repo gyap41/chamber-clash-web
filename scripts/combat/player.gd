@@ -71,6 +71,8 @@ var field_occupied := {}
 var telemetry
 var state: Dictionary = {}
 var char_id := -1
+const VisualState = preload("res://scripts/visuals/actor_visual_state.gd")
+var visual_moving := false
 # Equipment-triggered timers are separate from persistent character stats.
 const ITEM_TIMERS := ["cool_grip_cd","sole_time","shell_time","shell_cd","aid_time","boots_time","sight_time","sight_cd","reel_cd"]
 # Set by character_select.gd when CPU mode is chosen (always player index 1, matching the
@@ -105,6 +107,7 @@ func reset(spawn: Vector2) -> void:
 	cancel_reload_visual()
 	clear_action_inputs()
 	$Animation.reset()
+	visual_moving = false
 	relics.clear()
 	owned_relics.clear()
 	field_region.clear()
@@ -141,6 +144,7 @@ func begin_encounter(spawn: Vector2, replenish: bool = false) -> void:
 func move_to_room(spawn: Vector2) -> void:
 	# Merely changing rooms does not begin a battle or replenish resources.
 	clear_action_inputs()
+	visual_moving = false
 	state.pos = spawn
 	sync_visual()
 func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Dictionary = {}, attacker = null) -> bool:
@@ -165,6 +169,8 @@ func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Diction
 	burst_requested.emit(state.pos,visual_color(),14)
 	shake_requested.emit(4.0)
 	sound_requested.emit("hit",0)
+	# Dead actors are skipped by CombatSession on the next tick; publish now.
+	sync_visual()
 	return true
 func rally_available() -> float:
 	if state.hp <= 0: return 0.0
@@ -286,7 +292,7 @@ func step(dt: float, i: int, enemy, arena, mouse_shooting: bool = false, ai: Dic
 	else:
 		if p.roll <= 0 and axis.length() > 0: p.dir = axis
 		arena.move_fighter(p,p.dir*roll_speed*dt if p.roll > 0 else axis*effective_move_speed()*dt,radius)
-	$Animation.advance(dt,axis.length() > 0)
+	advance_visual(dt,axis.length() > 0)
 	sync_visual()
 	var shooting: bool = command.shoot or fire_pending
 	if shooting and has_weapon() and weapon().clip == 0: start_reload()
@@ -321,7 +327,35 @@ func consume_shot() -> void:
 	weapon().clip -= 1
 	state.alternate_shots += 1
 	state.shot = definition().rate
+	$Animation.present(visual_snapshot())
 	$Animation.fire()
+
+func visual_snapshot() -> VisualState:
+	# The only adapter from combat's mutable dictionary/inventory to presentation.
+	# Other actor types can supply this value contract without inheriting Player.
+	var value := VisualState.new()
+	value.character_id = char_id
+	value.alive = state.hp > 0
+	value.moving = visual_moving
+	value.move_speed = effective_move_speed()
+	value.angle = state.angle
+	value.direction = state.dir
+	value.dodge_remaining = state.roll
+	value.dodge_duration = dodge_duration
+	value.dodge_action_locked = dodge_action_wait() > 0
+	value.reload_remaining = state.reload
+	value.melee_active = state.slash > 0
+	value.invulnerable = state.inv > 0
+	value.armed = has_weapon()
+	value.shield_visible = 3 in relics and state.shield <= 0
+	value.idle_offset = 1.0 if name == "P2" else 0.0
+	for id in relics: value.relic_colors.append(Color(Relics.definition(id).color))
+	return value
+
+func advance_visual(dt: float, has_movement: bool) -> void:
+	visual_moving = has_movement
+	$Animation.present(visual_snapshot(),dt)
+
 func sync_visual() -> void:
 	position = state.pos
 	$Aim.rotation = state.angle
@@ -333,7 +367,7 @@ func sync_visual() -> void:
 		$Weapon/Sprite.position = equipment_offset * Vector2(1,-1 if $Weapon/Sprite.flip_v else 1)
 	$Slash.visible = state.slash > 0
 	$Slash.rotation = state.angle
-	$Animation.refresh()
+	$Animation.present(visual_snapshot())
 
 # P8z ステップA 丸腰耐性：ステップBで武器をグリッドに置く方式へ移ると、1丁も置かなかった
 # プレイヤーはinventoryが空のままラウンドを迎えうる。weapon()はinventory[state.gun]を無条件に
@@ -401,6 +435,7 @@ func equip_slot(index: int, apply_switch_delay: bool = true) -> void:
 	if apply_switch_delay: state.shot = maxf(state.shot, .15)
 	update_weapon_art()
 	sound_requested.emit("equip",0)
+	$Animation.present(visual_snapshot())
 func start_reload() -> void:
 	if not has_weapon() or state.reload > 0 or weapon().clip >= definition().mag or weapon().reserve <= 0: return
 	state.reload = effective_reload_duration()
@@ -418,6 +453,7 @@ func start_reload() -> void:
 	# explicit and independent of that guard's exact bounds.
 	state.reload_started_empty = weapon().clip == 0
 	sound_requested.emit("reload",weapon().id)
+	$Animation.present(visual_snapshot())
 func finish_reload() -> void:
 	if not has_weapon() or state.reload_slot != weapon().id: return
 	var w := weapon()

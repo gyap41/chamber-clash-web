@@ -59,7 +59,7 @@ func run() -> void:
 	assert(p.get_node("Sprite").transform == source_transform)
 	assert(p.dodge_duration == .38 and p.roll_speed == 590 and p.radius == 14)
 	# Up/down aim uses back/front art; small horizontal jitter preserves the row.
-	anim.moving = false
+	p.visual_moving = false
 	p.state.angle = -PI/2
 	p.sync_visual()
 	assert(anim.body_back and p.get_node("Weapon").z_index == -1)
@@ -75,11 +75,11 @@ func run() -> void:
 	# Moving away from aim reverses the stride, while a roll follows travel.
 	p.state.angle = 0.0
 	p.state.dir = Vector2.LEFT
-	anim.moving = true
+	p.visual_moving = true
 	anim.move_phase = 1.0
 	p.sync_visual()
 	assert(anim.animation_frame == 5 and anim.body_facing == 1)
-	anim.moving = false
+	p.visual_moving = false
 	p.state.dir = Vector2.UP
 	p.state.roll = .13
 	p.sync_visual()

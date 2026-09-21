@@ -147,7 +147,7 @@ func advance(dt: float) -> void:
 			var local_time := fposmod(time,1.2)
 			if conditions.sync == "進捗": local_time = fposmod(time,1.2)/1.2*duration
 			player.state.roll = maxf(0.0,duration-local_time)
-		player.get_node("Animation").advance(dt,action == "歩行")
+		player.advance_visual(dt,action == "歩行")
 		player.sync_visual()
 	else:
 		var command := Command.idle(direction(conditions.aim).angle())

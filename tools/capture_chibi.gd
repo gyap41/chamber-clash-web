@@ -30,16 +30,16 @@ func run() -> void:
 		var label: String = "down" if direction.y > 0 else ("up" if direction.y < 0 else ("left" if direction.x < 0 else "right"))
 		p.state.angle = direction.angle()
 		p.state.dir = direction
-		anim.moving = false
+		p.visual_moving = false
 		p.sync_visual()
 		game.hud.refresh(game.players,game.remaining,game.paused,game.result,game.scores,game.phase)
 		await capture("idle-"+label)
-		anim.moving = true
+		p.visual_moving = true
 		for frame in range(6):
-			anim.move_phase = float(frame)
+			p.advance_visual(.52/6.0,true)
 			p.sync_visual()
 			await capture("move-"+label+"-%02d" % frame)
-		anim.moving = false
+		p.visual_moving = false
 		for frame in range(6):
 			p.state.roll = p.dodge_duration*(1.0-(frame+.1)/6.0)
 			p.sync_visual()
@@ -49,11 +49,11 @@ func run() -> void:
 	# Aim remains independent of vertical travel.
 	p.state.angle = .3
 	p.state.dir = Vector2.UP
-	anim.moving = true
-	anim.move_phase = 2.0
+	p.visual_moving = true
+	p.advance_visual(.52/3.0,true)
 	p.sync_visual()
 	await capture("strafe-up-aim-right")
-	anim.moving = false
+	p.visual_moving = false
 	game.fire(0)
 	p.sync_visual()
 	game.hud.refresh(game.players,game.remaining,game.paused,game.result,game.scores,game.phase)

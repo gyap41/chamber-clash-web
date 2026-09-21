@@ -1,3 +1,43 @@
+## 待機・歩行モーションの検証（2026-09-21）
+
+振幅強化後の通常サイズ描画は `Godot --path . --script res://tools/capture_dynamic_motion.gd --quit-after 900`。
+Pillow環境で `python tools/package_dynamic_motion.py` を実行し、1120×800の戦闘画面GIFを作成する。
+CPUと戦闘時計を止め、指定軌跡で待機・移動・停止を撮影する。実プレイ録画とは区別する。
+標準デスクトップウィンドウは1120×800。Godotの埋め込み実行では表示領域も確認する。
+
+`Godot --headless --path . --script res://tests/character_motion.gd --quit-after 120`
+で8人の描画位置/倍率継承、呼吸ループ、4方向の支持足、停止時の姿勢連続、短い入力の反転、
+回避/死亡の即時中断、照準角度維持、停止時計、30/120fpsの傾き応答を検証する。
+関連回帰は actor_animation_state / player_animation / character_animation / rina_directions /
+rina_dive / dodge_flow / equipment_art / workshop_visuals / visual_hub_live。
+
+実描画は `Godot --path . --script res://tools/capture_character_motion.gd --quit-after 900`。
+旧式と新式を同じ素材・照準・移動意図で並べた210フレームと、装備付きの実戦画面を出力する。
+Pillow環境で `python tools/package_character_motion.py` を実行すると比較GIFになる。
+[レビュー素材](../art/reviews/character-motion-2026-09-21/README.md)。
+8人の新モーションはAnimationTreeの時計で進むため、撮影時はmove_phase/elapsedの代入ではなく
+`advance_visual(dt, moving)`を使う。停止状態の再描画では時刻を進めない。
+
+## キャラクター状態遷移の検証（2026-09-21）
+
+`Godot --headless --path . --script res://tests/actor_animation_state.gd --quit-after 120`
+で、Actorなしの標準グラフ再生、個体/身体/武器の独立、同一状態の再生継続、連射イベントの再始動、
+手動時計、移動装填・回避装填・8人の回避射撃窓、装備変更の装填中断、死亡即時通知、初期化、
+スナップショットの独立と戦闘データ非変更を検証する。
+ポーズ・決着・部屋移動、表示だけの更新で時間が進まないことも対象。
+
+関連回帰は player_animation / character_animation / character_directions / rina_directions /
+rina_dive / rina_dodge_poses / dodge_flow / action_buffer / weapon_visual_events / equipment_art /
+workshop_visuals / extension_boundaries / visual_hub_live / synergies / added_relics /
+rally_recovery / projectile_hp / combat_visuals / characters / visual_hub。
+撮影・Hubでは旧`Animation.advance()`や`Animation.moving`への直接操作を使わず、
+`Player.advance_visual(dt, moving)`または`visual_moving`設定後の`sync_visual()`を使う。
+
+今回の21スクリプトは動作アサーションのPASSを確認。旧描画と新描画の48条件で実画像が一致。
+詳細と制限は[検証記録](../archive/2026-09-21/ACTOR_ANIMATION_STATE.md)。
+証明書ストア読込と既存の終了時ObjectDB/Resource解放エラーが出るため、
+エラーを含めた一括検証の完全成功とは区別する。手動プレイ・Web配布は未確認。
+
 `tests/projectile_sound.gd`：通常弾の画面端着弾が無音、コメット着弾が爆発音1回・汎用着弾音なしを検証してPASS。
 
 着弾音調整：generated_soundは20回同時要求の1発への集約、100ms後の抑制、250ms後の再発音と着弾-24dB／跳弾-20dBを検証しPASS。聴感は実機確認が必要。

@@ -31,16 +31,16 @@ func run() -> void:
 		var p = game.players[0]
 		var anim = p.get_node("Animation")
 		for i in range(4):
-			anim.elapsed = i/3.0
-			anim.moving = false
+			p.advance_visual(2.6/4.0,false)
+			p.visual_moving = false
 			p.sync_visual()
 			await capture("idle-%02d" % i)
 		for i in range(6):
-			anim.move_phase = float(i)
-			anim.moving = true
+			p.advance_visual(.52/6.0,true)
+			p.visual_moving = true
 			p.sync_visual()
 			await capture("move-%02d" % i)
-		anim.moving = false
+		p.visual_moving = false
 		p.state.dir = Vector2.RIGHT
 		for i in range(6):
 			p.state.roll = .26*(1.0-(i+.1)/6.0)

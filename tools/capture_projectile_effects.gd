@@ -27,7 +27,7 @@ func run() -> void:
 		fx.step(1.0/24)
 		for id in range(38):
 			var p=actors[id];var b=bullets[id]
-			p.get_node("Animation").advance(1.0/24,false);p.sync_visual()
+			p.advance_visual(1.0/24,false);p.sync_visual()
 			b.position=p.position+Vector2(62+(frame%24)*2,-10)
 			if frame%24==0:
 				b.get_node("Art").samples.clear()
@@ -56,7 +56,7 @@ func run() -> void:
 		for i in range(3):
 			var p=actors[i]
 			p.state.reload=p.reload_visual_duration*(1.0-float(frame%30)/30.0)
-			p.get_node("Animation").advance(1.0/24,false);p.sync_visual()
+			p.advance_visual(1.0/24,false);p.sync_visual()
 		await snapshot(RAW+"reload-%03d.png"%frame)
 	print("PASS: all projectile sprites/trails/muzzles/impacts and three reload styles rendered")
 	quit()

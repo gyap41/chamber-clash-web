@@ -26,7 +26,7 @@ func run() -> void:
 			var p=actors[i];var row=i/8
 			p.state.angle=angles[view];p.state.dir=Vector2.from_angle(angles[view])
 			p.state.roll=p.dodge_duration*(1-float(tick)/24) if row==2 and tick<24 else 0.0
-			p.get_node("Animation").advance(.025,row==1);p.sync_visual()
+			p.advance_visual(.025,row==1);p.sync_visual()
 		await process_frame;await RenderingServer.frame_post_draw
 		assert(root.get_texture().get_image().save_png(RAW+"motion-%03d.png"%frame)==OK)
 	print("PASS: Eight-character four-direction idle/walk/dodge capture")

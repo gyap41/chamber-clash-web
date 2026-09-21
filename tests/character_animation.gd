@@ -33,7 +33,7 @@ func run() -> void:
 		assert(anim.animation_name == "roll" and anim.body_facing == -1)
 		assert(not p.get_node("Weapon").visible)
 		p.state.roll=0
-		anim.moving=true
+		p.visual_moving=true
 		anim.move_phase=1
 		p.sync_visual()
 		assert(anim.animation_frame==5 and anim.animation_name=="move")

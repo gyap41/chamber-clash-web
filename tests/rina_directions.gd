@@ -48,7 +48,7 @@ func run() -> void:
 	# Moving left while aiming right is a backpedal, not a mirrored face.
 	p.state.angle=0
 	p.state.dir=Vector2.LEFT
-	a.moving=true
+	p.visual_moving=true
 	a.move_phase=1
 	p.sync_visual()
 	assert(a.body_view=="right" and a.body_facing==1 and a.animation_frame==5)
