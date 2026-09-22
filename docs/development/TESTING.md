@@ -406,9 +406,9 @@ P2ランダム階層：タイトルの「ストーリーモード（ランダム
 
 タイトルのランダム階層から通常の作業室へFで入ると2体が出現する。固定の工房テストは敵なし。
 
-- `Godot --headless --path . --script res://tests/exploration_encounter.gd --quit-after 1200`：通常6室、安全室4室、予告と被弾/空振り/壁越し拒否、家具迂回、停止、射撃/近接による被弾、出口利用拒否/解放、owner付き弾/重力場/追射破棄、再訪、資源持越し、戦闘中再初期化、相打ち死亡優先、再挑戦。
+- `Godot --headless --path . --script res://tests/exploration_encounter.gd --quit-after 1200`：通常6室、安全室4室、構え中の照準固定/停止時の表示スナップショット保持と被弾/空振り/壁越し拒否、家具迂回、停止、射撃/近接による被弾、出口利用拒否/解放、owner付き弾/重力場/追射破棄、再訪、資源持越し、戦闘中再初期化、相打ち死亡優先、再挑戦。
 - `Godot --headless --path . --script res://tests/exploration_enemy_spawns.gd --quit-after 1800`：10seed/108入口で2体の出現位置、入口と敵同士の距離、衝突なし、主人公までの経路。
-- 描画ありは最初のコマンドから--headlessを外して `-- --capture` を付ける。1120×800の予告画像を.local/two-rooms-enemy-windup.pngへ保存。
+- 描画ありは最初のコマンドから--headlessを外して `-- --capture` を付ける。1120×800の構え・打撃・硬直を.local/two-rooms-enemy-{windup,strike,recover}.pngへ保存。通常サイズの比較はdocs/art/production/exploration-first-enemy/README.md。
 - exploration_mode、random_floor_play、exploration_bag、extension_boundaries、shared_combat_hudもPASS。headlessの一部は既存の終了時ObjectDB/Resource警告あり。描画ありの遭遇テストも実行終了時にObjectDB警告が出る場合がある。手動操作感・Web負荷・正式美術の採用は別確認。
 
 ## 資料整理の検証（2026-09-22）
@@ -423,3 +423,26 @@ python tools/docs_index.py --check
 ```
 
 全件索引の更新漏れとローカルのインラインリンク先を確認する。外部URL・見出しアンカー・参照形式リンク・本文中の裸のパスは対象外。仕様内容の正しさは対象コードと個別に照合する。運用は[資料の配置と更新](../DOCUMENTATION_GUIDE.md)。
+
+## 火袋トカゲと混成戦
+
+`Godot --headless --path . --script res://tests/fire_pouch_lizard.gd --quit-after 1200`。初戦/混成、射撃前の待機、狙い固定の2発、硬直、停止、横回避、被弾、無敵、敵同士非被弾、壁/口の壁貫通防止、パルス、画面外での開始禁止と中止、死亡・再挑戦を確認。描画ありでは--headlessを外し末尾に `-- --capture` を付け、.local/two-rooms-lizard-{windup,shot}.pngを保存する。
+
+関連回帰はexploration_encounter、exploration_enemy_spawns、random_floor_play、projectile_personality。手動の混成戦・難度・連続アニメーションの読みやすさは別途評価する。[制作仕様と確認記録](../art/production/fire-pouch-lizard/README.md)。
+## 探索敵SEの検証
+
+`Godot --headless --path . --script res://tests/enemy_audio.gd --quit-after 600` で、構え・空振り・2連射の発火回数、死亡後と画面外キャンセルの無音、同時発音の抑制、SEオフを確認する。`tests/audio_assets.gd` はmanifest全件のResource認識、`tests/sound.gd` は既存音響の回帰確認。いずれも聴感を保証しない。音響の仮接続と試聴残項目は[AUDIO_BIBLE](../AUDIO_BIBLE.md)を参照。
+
+
+## 敵の移動アニメーション
+
+`Godot --headless --path . --script res://tests/enemy_motion.gd --quit-after 600` は移動距離で位相が進むこと、停止・壁押し時の足運び停止、prepareでのリセット、専用4コマ・左向き・撃破コマの選択と撃破表示の寿命・停止・離室消去を確認する。描画ありのfire_pouch_lizardで通常サイズの構えを確認。連続歩行の聴覚・視覚受入や負荷測定は自動テスト成功に含めない。
+
+
+## 初戦報酬の宝箱
+
+`Godot --path . --script res://tests/exploration_reward.gd --quit-after 900 -- --capture` で出現・開封・押し直し・停止・控え満杯・空き復元・再構築・再挑戦・死亡優先を確認。画像は.local/two-rooms-reward-closed.pngとreward-open.png。描画ありでPASS。全seedの報酬配置と手動の楽しさ・SE聴感は未確認。
+
+`Godot --path . --script res://tests/enemy_animation_review.gd --quit-after 600` はv2の全方向・連続コマ比較を.local/enemy-animation-v2-review.pngへ保存する。静止連続コマの比較であり連続プレイの受入とは別。
+
+撃破粒子の比較は `Godot --path . --script res://tests/enemy_death_review.gd --quit-after 600` 。enemy_motionは火花／有機粒子の区別と1.1秒の終了も検証する。

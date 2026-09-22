@@ -18,6 +18,16 @@ func configure(id: int, parcel: bool, shard: bool, visual_variant: String = "", 
 	variant = visual_variant if not visual_variant.is_empty() else ("parcel" if parcel else ("derived" if shard else ""))
 	shot_color = Color(color_override if not color_override.is_empty() else str(profile.get("color","#ffffff")))
 	profile.color = shot_color.to_html()
+	if variant == "enemy_fire_seed":
+		texture = null
+		material = null
+		base_scale = Vector2.ONE
+		scale = Vector2.ONE
+		profile.trail = "none"
+		visible = true
+		samples.clear()
+		queue_redraw()
+		return
 	var spec := Visuals.bullet(id,variant)
 	texture = Visuals.texture(str(spec.texture))
 	centered = true
@@ -42,6 +52,10 @@ func configure(id: int, parcel: bool, shard: bool, visual_variant: String = "", 
 	last_age = -1.0
 
 func refresh(age: float, velocity: Vector2) -> void:
+	if variant == "enemy_fire_seed":
+		rotation = velocity.angle()
+		queue_redraw()
+		return
 	animation_age = age
 	flight_speed = velocity.length()
 	if flight_speed > .01: flight_angle = velocity.angle()
@@ -166,3 +180,10 @@ func draw_aurora(canvas: Node2D, max_length: float, width: float) -> void:
 		canvas.draw_line(points[i-1],points[i],Color(tint,.12*fade),body_width*2.7,true)
 		canvas.draw_line(points[i-1],points[i],Color(tint,.42*fade),body_width*1.65,true)
 		canvas.draw_line(points[i-1],points[i],Color(tint,.88*fade),body_width,true)
+
+func _draw() -> void:
+	if variant != "enemy_fire_seed": return
+	# Radius 6 core matches gameplay; the short tail is decorative only.
+	draw_colored_polygon(PackedVector2Array([Vector2(-3,-4),Vector2(-14,0),Vector2(-3,4)]),Color("dd6536"))
+	draw_circle(Vector2.ZERO,6,Color("f3943e"))
+	draw_circle(Vector2(1,0),3,Color("fff0ae"))

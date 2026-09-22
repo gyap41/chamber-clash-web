@@ -1,0 +1,59 @@
+{
+  "generator": "built-in image_gen",
+  "calls": 2,
+  "pixel_edits": false,
+  "status": "runtime integrated; user visual acceptance pending",
+  "recipe": "scripts/visuals/enemy_sheet_visual.gd",
+  "images": {
+    "sentry": {
+      "file": "assets/first-workshop/enemies/sentry-sheet-v2.png",
+      "sha256": "a646cfeac27af54dc8728edf2cc07cf23f965ad830e975426ef4d0603817f8c2",
+      "size": [
+        887,
+        1774
+      ],
+      "columns": [
+        "front",
+        "back",
+        "right",
+        "left"
+      ],
+      "rows": [
+        "walk_contact_a",
+        "walk_pass_a",
+        "walk_contact_b",
+        "walk_pass_b",
+        "windup",
+        "attack",
+        "recover_idle",
+        "down"
+      ],
+      "scale": 0.36
+    },
+    "lizard": {
+      "file": "assets/first-workshop/enemies/lizard-sheet-v2.png",
+      "sha256": "88537959a6a34d999c27ab6378abb17a3f9a8c9df1f058e1b8c1b6e684c01d28",
+      "size": [
+        887,
+        1774
+      ],
+      "columns": [
+        "front",
+        "back",
+        "right",
+        "left"
+      ],
+      "rows": [
+        "walk_contact_a",
+        "walk_pass_a",
+        "walk_contact_b",
+        "walk_pass_b",
+        "windup",
+        "attack",
+        "recover_idle",
+        "down"
+      ],
+      "scale": 0.32
+    }
+  }
+}

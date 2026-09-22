@@ -5,6 +5,8 @@ const Door = preload("res://scripts/world/exploration_door.gd")
 const Floor = preload("res://scripts/game/exploration_floor.gd")
 const FollowCamera = preload("res://scripts/visuals/exploration_camera.gd")
 const Encounter = preload("res://scripts/game/exploration_encounter.gd")
+const Reward = preload("res://scripts/game/exploration_reward.gd")
+var chest_node
 var encounters_enabled := true
 var random_floor := false
 var floor_data: Dictionary = {}
@@ -49,6 +51,7 @@ func _ready() -> void:
 		start_room = "crossroads"
 	start_exploration(seed_value)
 func start_exploration(seed_value: int) -> void:
+	clear_enemy_deaths()
 	if floor_map != null: close_map()
 	if bag != null: close_bag()
 	if random_floor:
@@ -119,6 +122,7 @@ func start_exploration(seed_value: int) -> void:
 	refresh_hud()
 func rebuild_doors() -> void:
 	rebuild_loot()
+	rebuild_chest()
 	for node in doors:
 		node.get_parent().remove_child(node)
 		node.queue_free()
@@ -145,6 +149,7 @@ func try_enter_door() -> bool:
 	definition.spawns = PackedVector2Array([partner.arrival])
 	var was_firing: bool = mouse_fire_held or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 	phase = "transition"
+	clear_enemy_deaths()
 	var errors := switch_field(definition)
 	phase = "play"
 	if not errors.is_empty():
@@ -194,6 +199,10 @@ func refresh_hud() -> void:
 		node.set_available(allowed and exploration.encounter_status != "active" and nearby.get("id","") == node.door_id)
 func door_hint() -> String:
 	if exploration.encounter_status == "active": return "敵を全滅させると出口が開きます  ·  Tab：バッグ"
+	if Reward.nearby(self):
+		if Reward.current(self).state == "closed": return "F：宝箱を開く"
+		if loot_message.begins_with("取得できません"): return loot_message
+		return "F："+str(Reward.current(self).label)+"を控えへ取得  ·  Tab：バッグ"
 	var loot := nearby_loot()
 	if not loot.is_empty():
 		if not loot_message.is_empty() and loot_message.begins_with("取得できません"): return loot_message
@@ -235,12 +244,15 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		return
 	if phase == "play" and not paused and result.is_empty():
 		if event.keycode == KEY_F:
-			if not try_collect_loot(): try_enter_door()
+			if not try_chest() and not try_collect_loot(): try_enter_door()
 			get_viewport().set_input_as_handled()
 			return
 		apply_command(0,HumanInput.key(players[0],event.keycode))
 func _physics_process(dt: float) -> void:
 	if phase == "play" and not paused and result.is_empty():
+		for remains in get_tree().get_nodes_in_group("enemy_death_visuals"):
+			if is_ancestor_of(remains): remains.step(dt)
+		if is_instance_valid(chest_node): chest_node.step(dt)
 		combat_visuals.step(dt)
 		_step_pulse_effects(dt)
 		var previous_weapon: int = players[0].weapon().id if players[0].has_weapon() else -1
@@ -253,6 +265,11 @@ func _physics_process(dt: float) -> void:
 		if was_active and exploration.encounter_status == "cleared":
 			Encounter.retire(self)
 			loot_message = "部屋クリア · 出口が開きました"
+			if Reward.ensure(self):
+				rebuild_chest()
+				chest_node.spawning = .4
+				sound.play_sound("chest_spawn")
+				loot_message = "部屋クリア · 宝箱が出現しました"
 		if exploration.status != "active":
 			result = "探索終了" if exploration.status == "dead" else "試作戦闘クリア"
 			phase = "result"
@@ -357,3 +374,44 @@ func try_collect_loot() -> bool:
 	return true
 func rebuild_loot() -> void:
 	Loot.rebuild(arena,room_loot(),exploration.collected_loot,loot_nodes)
+
+func rebuild_chest() -> void:
+	if is_instance_valid(chest_node):
+		chest_node.get_parent().remove_child(chest_node)
+		chest_node.queue_free()
+	chest_node = null
+	var reward := Reward.current(self)
+	if reward.is_empty(): return
+	chest_node = preload("res://scripts/world/exploration_chest.gd").new()
+	chest_node.reward = reward
+	chest_node.position = reward.pos
+	arena.get_node("Players").add_child(chest_node)
+
+func clear_enemy_deaths() -> void:
+	if not is_inside_tree(): return
+	for remains in get_tree().get_nodes_in_group("enemy_death_visuals"):
+		if is_ancestor_of(remains):
+			remains.get_parent().remove_child(remains)
+			remains.queue_free()
+
+func try_chest() -> bool:
+	if paused or phase != "play" or exploration.status != "active" or players[0].state.hp <= 0 or exploration.encounter_status == "active": return false
+	if not Reward.nearby(self): return false
+	# Use the same release latch as doors so opening cannot also acquire or leave.
+	if not door_armed: return true
+	door_armed = false
+	var reward := Reward.current(self)
+	if reward.state == "closed":
+		reward.state = "open"
+		chest_node.opening = .35
+		sound.play_sound("chest_open")
+		loot_message = "宝箱を開きました · Fで中身を取得"
+	elif chest_node.opening <= 0:
+		var outcome := Loot.collect(reward,exploration)
+		loot_message = outcome.message
+		if outcome.acquired:
+			reward.state = "empty"
+			sound.play_sound("pickup")
+	chest_node.queue_redraw()
+	refresh_hud()
+	return true

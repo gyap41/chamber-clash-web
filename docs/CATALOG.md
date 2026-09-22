@@ -4,7 +4,7 @@
 
 自動生成: `python tools/docs_index.py`。表題は本文の最初の見出しから取得。分類は役割の案内で、内容の検証完了や採用を示しません。過去計画は元のパスを維持して履歴に分類しています。
 
-対象 182 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
+対象 187 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
 
 ## 入口・運用
 
@@ -60,6 +60,7 @@
 |ファイル|表題・内容の手掛かり|
 |---|---|
 |[docs/AUDIO_BIBLE.md](<AUDIO_BIBLE.md>)|Chamber Clash 音響設計基準|
+|[docs/art/ENEMY_CREATION_TEMPLATE.md](<art/ENEMY_CREATION_TEMPLATE.md>)|敵素材の制作テンプレート|
 |[docs/art/ROOM_VISUAL_DIRECTION.md](<art/ROOM_VISUAL_DIRECTION.md>)|探索部屋の空間表現|
 |[docs/art/STAGE_ASSET_GUIDE.md](<art/STAGE_ASSET_GUIDE.md>)|ステージ素材の制作ガイド|
 |[docs/art/STAGE_CREATION_TEMPLATE.md](<art/STAGE_CREATION_TEMPLATE.md>)|ステージ制作テンプレート|
@@ -69,10 +70,14 @@
 |ファイル|表題・内容の手掛かり|
 |---|---|
 |[docs/art/production/README.md](<art/production/README.md>)|必要：制作指示|
+|[docs/art/production/enemy-animation-v2/README.md](<art/production/enemy-animation-v2/README.md>)|通常敵アニメーション v2 制作記録|
+|[docs/art/production/enemy-appearance-v1/README.md](<art/production/enemy-appearance-v1/README.md>)|通常敵2種：外見候補 v1|
 |[docs/art/production/equipment-diversity-2026-09-13/README.md](<art/production/equipment-diversity-2026-09-13/README.md>)|多様な武器・レリックの残り制作|
 |[docs/art/production/equipment-rollout-2026-09-12/DESIGN_REVISION.md](<art/production/equipment-rollout-2026-09-12/DESIGN_REVISION.md>)|武器・レリックのデザイン見直し|
 |[docs/art/production/equipment-rollout-2026-09-12/README.md](<art/production/equipment-rollout-2026-09-12/README.md>)|残り武器・レリックの制作指示|
+|[docs/art/production/exploration-chest/README.md](<art/production/exploration-chest/README.md>)|初戦報酬箱：仮演出|
 |[docs/art/production/exploration-first-enemy/README.md](<art/production/exploration-first-enemy/README.md>)|探索の最初の敵・仮表示（2026-09-22）|
+|[docs/art/production/fire-pouch-lizard/README.md](<art/production/fire-pouch-lizard/README.md>)|火袋トカゲ：射撃・混成の試作と素材仕様|
 |[docs/art/production/projectile-effects-2026-09-13/ARCHITECTURE.md](<art/production/projectile-effects-2026-09-13/ARCHITECTURE.md>)|武器・弾・効果の追加に備える構成|
 |[docs/art/production/projectile-effects-2026-09-13/README.md](<art/production/projectile-effects-2026-09-13/README.md>)|弾・発射・飛翔・着弾の専用化|
 |[docs/art/production/random-workshop-floor/README.md](<art/production/random-workshop-floor/README.md>)|ランダム工房階層（P2試作）|

@@ -24,18 +24,32 @@ func check_attack(game) -> void:
 	assert(enemy.attack_phase == "windup" and player.state.hp == hp)
 	game.set_pause_reason("menu",true)
 	var remaining: float = enemy.attack_time
+	var paused_view: Dictionary = enemy.enemy_visual_snapshot()
 	game._physics_process(.5)
 	assert(enemy.attack_time == remaining and player.state.hp == hp)
+	assert(enemy.enemy_visual_snapshot() == paused_view)
 	game.set_pause_reason("menu",false)
 	player.sync_visual()
 	game.fit_field_camera()
 	game.refresh_hud()
+	# Observe the raised tool after the windup has started, without changing hit timing.
+	enemy.step(.30,1,player,game.arena)
+	assert(player.state.hp == hp and enemy.attack_phase == "windup")
 	await capture("enemy-windup")
-	enemy.step(.66,1,player,game.arena)
+	var locked_angle: float = enemy.enemy_visual_snapshot().angle
+	player.state.pos = enemy.state.pos-direction*40
+	enemy.step(.20,1,player,game.arena)
+	assert(is_equal_approx(enemy.enemy_visual_snapshot().angle,locked_angle))
+	assert(player.state.hp == hp)
+	player.state.pos = enemy.state.pos+direction*40
+	enemy.step(.16,1,player,game.arena)
 	assert(is_equal_approx(player.state.hp,hp-.8) and enemy.attack_phase == "recover")
+	game.refresh_hud()
+	await capture("enemy-strike")
 	var damaged: float = player.state.hp
 	enemy.step(.5,1,player,game.arena)
 	assert(player.state.hp == damaged)
+	await capture("enemy-recover")
 	# Leaving the locked attack direction evades the hit.
 	enemy.attack_phase = "windup"
 	enemy.attack_time = .01

@@ -1,0 +1,280 @@
+{
+  "generator": "built-in image_gen",
+  "calls": 2,
+  "status": "runtime integrated; visual refinement pending",
+  "pixel_edits": false,
+  "images": {
+    "sentry": {
+      "file": "assets/first-workshop/enemies/sentry-sheet-v1.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "b37835b8788a51e693e794bb3a2b8a2bdf26fb163949262f80ca38e11089edda",
+      "alpha_nonzero_bounds_diagnostic_only": [
+        [
+          41,
+          9,
+          377,
+          409
+        ],
+        [
+          419,
+          33,
+          411,
+          385
+        ],
+        [
+          861,
+          35,
+          363,
+          383
+        ],
+        [
+          25,
+          418,
+          391,
+          410
+        ],
+        [
+          427,
+          418,
+          409,
+          410
+        ],
+        [
+          839,
+          418,
+          397,
+          418
+        ],
+        [
+          0,
+          836,
+          418,
+          418
+        ],
+        [
+          419,
+          841,
+          417,
+          413
+        ],
+        [
+          836,
+          837,
+          393,
+          417
+        ]
+      ],
+      "regions": [
+        [
+          0,
+          0,
+          418,
+          418
+        ],
+        [
+          418,
+          0,
+          418,
+          418
+        ],
+        [
+          836,
+          0,
+          418,
+          418
+        ],
+        [
+          0,
+          418,
+          418,
+          418
+        ],
+        [
+          418,
+          418,
+          418,
+          418
+        ],
+        [
+          836,
+          418,
+          418,
+          418
+        ],
+        [
+          0,
+          836,
+          418,
+          418
+        ],
+        [
+          418,
+          836,
+          418,
+          418
+        ],
+        [
+          836,
+          836,
+          418,
+          418
+        ]
+      ],
+      "preview_scale": 0.14
+    },
+    "lizard": {
+      "file": "assets/first-workshop/enemies/lizard-sheet-v1.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "395694b82f2536f8064947336b621b7ff0b30eb8f377db902e44979e1024e61c",
+      "alpha_nonzero_bounds_diagnostic_only": [
+        [
+          0,
+          19,
+          418,
+          391
+        ],
+        [
+          425,
+          37,
+          411,
+          381
+        ],
+        [
+          836,
+          17,
+          396,
+          387
+        ],
+        [
+          0,
+          421,
+          418,
+          415
+        ],
+        [
+          425,
+          418,
+          411,
+          418
+        ],
+        [
+          836,
+          419,
+          398,
+          417
+        ],
+        [
+          0,
+          839,
+          416,
+          415
+        ],
+        [
+          441,
+          837,
+          395,
+          397
+        ],
+        [
+          836,
+          841,
+          384,
+          413
+        ]
+      ],
+      "regions": [
+        [
+          0,
+          0,
+          418,
+          418
+        ],
+        [
+          418,
+          0,
+          418,
+          418
+        ],
+        [
+          836,
+          0,
+          418,
+          418
+        ],
+        [
+          0,
+          418,
+          418,
+          418
+        ],
+        [
+          418,
+          418,
+          418,
+          418
+        ],
+        [
+          836,
+          418,
+          418,
+          418
+        ],
+        [
+          0,
+          836,
+          418,
+          418
+        ],
+        [
+          418,
+          836,
+          418,
+          418
+        ],
+        [
+          836,
+          836,
+          418,
+          418
+        ]
+      ],
+      "preview_scale": 0.15
+    }
+  },
+  "layout": {
+    "columns": [
+      "front",
+      "back",
+      "right"
+    ],
+    "rows": [
+      "idle",
+      "windup",
+      "attack"
+    ],
+    "cell_size": [
+      418,
+      418
+    ],
+    "anchor_status": "not calibrated; preview uses full cells",
+    "preview": "tests/enemy_art_preview.gd"
+  },
+  "runtime_recipe": "scripts/visuals/enemy_sheet_visual.gd",
+  "runtime_notes": "3 directional views with left mirrored; per-pose ground anchors; source pixels unchanged. Preview recipe retained separately."
+}

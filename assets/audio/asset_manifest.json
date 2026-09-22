@@ -1680,6 +1680,182 @@
         "analysis_path": "docs/archive/2026-09-14/battle-bgm-candidates/audio-analysis.json",
         "chorus_timing_verified": false
       }
+    },
+    {
+      "asset_id": "se:fw_sentry_windup_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_sentry_windup_01.mp3",
+      "purpose": "Sentry windup start; one candidate for exploration enemies",
+      "prompt": "A small brass automaton cocks a heavy hammer, dry ratchet and strained metal creak, no impact, no music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-22T08:33:16.535398+00:00",
+      "fingerprint": "261c06fae06799b4daa9b527d7b6cdaf02326cecab57598fc006b035101c554a",
+      "sha256": "d92de3910d53c7eb65550b80d844aa7683eff039fce26161ca3b2da3e79a9970",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_lizard_inhale_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_lizard_inhale_01.mp3",
+      "purpose": "Fire pouch lizard windup start; one candidate for exploration enemies",
+      "prompt": "A small reptile inflates its throat pouch with one soft raspy inhale, dry close sound, no voice or music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-22T08:33:35.765927+00:00",
+      "fingerprint": "e5d53092e0d9c3a81c1add99f1f13284834451047a55b356baa284c9468b61f8",
+      "sha256": "b16d28b177abc91559c9e4a5a67de47076946e2715a840a54e87d60de0d31450",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_lizard_spit_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_lizard_spit_01.mp3",
+      "purpose": "Fire pouch lizard projectile emission; one candidate for exploration enemies",
+      "prompt": "One small reptile spits an ember, short organic puff with a dry fiery crackle, no explosion or music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-22T08:33:53.613607+00:00",
+      "fingerprint": "c4bb8b119d7be3b2a9cd9211076a16370f0874478ae8bb7e68d29be900bcfb2f",
+      "sha256": "71c2ed0488a30d364684a0715e71068df8c70154fa054b0d8dd7029be7df346d",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_sentry_swing_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_sentry_swing_01.mp3",
+      "purpose": "Sentry attack swing replaces generic melee; one requested candidate",
+      "prompt": "One heavy metal hammer swings down with a short weighty air rush and brass mechanism clack, no impact, no music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-22T08:41:50.824383+00:00",
+      "fingerprint": "10b09a3c6ae9302bc62bad18e5aa3a7ee5db6d546d49a7052f072ed312d643bd",
+      "sha256": "5c84957cd1bf95b96506306c6369f96dcade591363052c1ab235ce5edbb14b10",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_sentry_down_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_sentry_down_01.mp3",
+      "purpose": "Sentry defeat replaces landing placeholder; one requested candidate",
+      "prompt": "A small brass automaton collapses, short metal clatter and winding down gears, dry quick tail, no explosion or music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.7,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.7314285714285714,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-22T08:41:58.932868+00:00",
+      "fingerprint": "28738821a080821ed5c5825eda489ee636e6da469d504f2e95243987a725672c",
+      "sha256": "77d4e51354b5bfd88091d423a6aca4a19d579f286edd35d9ad2b49f96f8bb7f5",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_lizard_down_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_lizard_down_01.mp3",
+      "purpose": "Fire pouch lizard defeat replaces landing placeholder; one requested candidate",
+      "prompt": "A small reptile falls limp onto stone, soft body thud and brief breath release, no metal, no scream or music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.6,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.626938775510204,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-22T08:42:06.192130+00:00",
+      "fingerprint": "1e763d37f911d99511f47216ef1e2ccc6033e7f9fdf08deb1c284ce3dafb6444",
+      "sha256": "2f717d3d575935e8f45c784f339b39046e6e460799338febeb57bd5fabe946d1",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_lizard_spit_02",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_lizard_spit_02.mp3",
+      "purpose": "User requested stronger fire emission; replaces se:fw_lizard_spit_01; one candidate",
+      "prompt": "One punchy fireball launch, deep forceful whoomp with a sharp ignition attack and brief roaring flame, fast dry decay, no music or voice.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-22T08:52:09.562585+00:00",
+      "fingerprint": "d83d6c2abfd66fbe0c4c390765db309fb0f5c4826915145d620229703924f15d",
+      "sha256": "c7f4a865bd30254aeb823ba7088624f04c9f8d35d07b2f5780568e9c471d1c4d",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_lizard_spit_03",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_lizard_spit_03.mp3",
+      "purpose": "User revision of se:fw_lizard_spit_02: rounded low flame whoomph instead of metallic attack; one candidate",
+      "prompt": "One low soft WHOOOMPH of flame blooming from a gas burner. Rounded bassy breath of fire, muffled warm airy roar, quick smooth fade. No metal, no clank, no click, no crackle, no impact, no music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-22T08:54:39.325667+00:00",
+      "fingerprint": "1bec2a4b7a0d0a0bdb32e3989b477970c1b6eda31b9cf6d9f8db88d46579ea71",
+      "sha256": "a66bc4ee204fe3af19b62cb2d14b213c48bafd2f1ca81ce6393463997a5862b5",
+      "loop_verified": false
     }
   ]
 }

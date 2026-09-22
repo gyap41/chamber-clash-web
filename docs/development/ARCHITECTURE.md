@@ -261,3 +261,9 @@ ExplorationCameraがfield_rectとプレイヤー座標からCamera2Dの左上位
 `exploration_encounter.gd` は入室後（CombatSession.step外）に到着点から通行可能な位置を探索し、通常室だけ2体を登録する。探索主人公は常にslot 0。敵は部屋インスタンスID/個体番号の参加者IDとenemy controllerを使う。`bind_combat_actor` は新規役者に一度だけ適用し、主人公のsignalを再登録しない。`exploration_enemy_catalog.gd` が性能、`exploration_enemy.gd` が予告/接近/攻撃/硬直と仮描画を担当する。現段階ではPlayerシーンの共通被弾・移動アダプターを継承し、購入/装備・対戦CPU判断は使用しない。将来の別Actor化では共通CombatSessionのactor契約を維持する。
 
 全滅判定はstepの後に行い、探索状態の部屋をclearedへ変更する。`Encounter.retire` は弾・遅延射撃・重力場・入力キューを先に消し、敵ノードとfighters/participantsを退役させる。生存中のowner slotを途中で詰めず、死亡役者も部屋全滅まで保持する。移動/再挑戦前に旧owner参照が残らない。通常の攻略はrunを終了せず、死亡が優先する。進行はメモリ上のみで、戦闘中の離脱と途中敵HP復元は対象外。
+
+## 探索の射撃敵と編成
+
+exploration_encounter.gdは初回の通常室で番機2体、その後で番機＋トカゲを選び、ExplorationStateの部屋ごとのenemy_idsに記録する。地形生成版は2のまま。編成は入場順による導入で、seedのみから編成を固定する方式ではない。保存形式を実装する際はenemy_idsも保存対象とする。
+
+fire_pouch_lizard.gdは探索Actorの被弾・移動を共有し、構え／2発射撃／硬直の判断を持つ。Playerの武器ビルドは使わない。FIRE_SEED_ID=-1は武器カタログ外で、独自のresolved_definitionを使い、共通CombatSession.spawn_shotへ渡す。味方判定、壁、パルス、owner退役は既存経路。仮の火種はprojectile_art.gdのenemy_fire_seed表示で、画像や描画サイズから判定を作らない。音響の新規接続は行わない。

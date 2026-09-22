@@ -32,6 +32,7 @@
 
 |変更内容|主な反映先|関連して更新するもの|
 |---|---|---|
+|敵・ボスの素材制作|[敵素材の制作テンプレート](art/ENEMY_CREATION_TEMPLATE.md)から必要素材を整理|不足分はENEMY_BOSS_ART_PLAN、個別台帳と確認資料はart/production、表示実装はACTOR_ANIMATION|
 |操作、戦闘、装備、探索進行|[GAME_RULES](design/GAME_RULES.md)|操作が変わればルートREADME。未実装分はROADMAP|
 |武器・レリックの性能、価格、形状|カタログ等の実装データ → [ITEM_CATALOG](design/ITEM_CATALOG.md)|生成表はexport_item_catalog.pyで再出力。バッグ説明等の手書き部分は個別確認。設計方針変更はITEM_FOOTPRINT_BALANCE|
 |対戦HUD・準備画面|[BATTLE_UI_C](design/BATTLE_UI_C.md) / [PREPARATION_UI_B](design/PREPARATION_UI_B.md)|共通部品の責務変更はARCHITECTURE。探索固有の操作はGAME_RULES|

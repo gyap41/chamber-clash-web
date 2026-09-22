@@ -1,6 +1,7 @@
 extends "res://scripts/combat/player.gd"
 # Combat adapter only: no duel AI, purchases, equipment build or enemy rally healing.
 const Spec = preload("res://scripts/catalog/exploration_enemy_catalog.gd")
+const SentryVisual = preload("res://scripts/visuals/sentry_visual.gd")
 const Navigation = preload("res://scripts/ai/cpu_navigation.gd")
 var spec: Dictionary = Spec.SENTRY
 var attack_phase := "grace"
@@ -8,6 +9,10 @@ var attack_time := 1.0
 var attack_angle := 0.0
 var route: Array = []
 var route_time := 0.0
+var gait_phase := 0.0
+var motion_weight := 0.0
+var visual_time := 0.0
+var previous_visual_position := Vector2.ZERO
 
 func prepare(spawn: Vector2) -> void:
 	max_hp = spec.hp
@@ -15,13 +20,36 @@ func prepare(spawn: Vector2) -> void:
 	radius = spec.radius
 	initial_pulses = 0
 	attack_time = spec.entry_grace
+	gait_phase = 0.0
+	motion_weight = 0.0
+	visual_time = 0.0
+	previous_visual_position = spawn
 	reset(spawn)
 
 func recover_rally(_dealt: float) -> void:
 	pass
 
-func advance_visual(_dt: float, _moving: bool) -> void:
-	pass
+func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Dictionary = {}, attacker = null) -> bool:
+	var alive: bool = state.hp > 0
+	var applied := super.hurt(amount,volley,hazard,origin,attacker)
+	if applied and alive and state.hp <= 0:
+		sound_requested.emit(spec.death_sound,0)
+		var remains := preload("res://scripts/visuals/enemy_death.gd").new()
+		remains.snapshot = enemy_visual_snapshot()
+		remains.organic = spec.id == "fire_pouch_lizard"
+		remains.position = state.pos
+		remains.add_to_group("enemy_death_visuals")
+		get_parent().add_child(remains)
+	return applied
+
+func advance_visual(dt: float, _moving: bool) -> void:
+	var distance: float = state.pos.distance_to(previous_visual_position)
+	previous_visual_position = state.pos
+	visual_time += dt
+	# Actual displacement drives feet; pushing against a wall does not walk in place.
+	var walking := distance > .01 and distance < 50 and attack_phase == "chase"
+	if walking: gait_phase += distance / 38.0 * TAU
+	motion_weight = move_toward(motion_weight,1.0 if walking else 0.0,dt*10)
 
 func sync_visual() -> void:
 	position = state.pos
@@ -30,16 +58,16 @@ func sync_visual() -> void:
 
 func step(dt: float, i: int, enemy, arena, _mouse_shooting: bool = false, _ai: Dictionary = {}) -> bool:
 	var command := preload("res://scripts/combat/combat_command.gd").idle(state.angle)
-	if enemy == null or enemy.state.hp <= 0: return false
+	if state.hp <= 0 or enemy == null or enemy.state.hp <= 0: return false
 	attack_time = maxf(0.0,attack_time-dt)
 	var delta: Vector2 = enemy.state.pos-state.pos
 	if attack_phase == "windup":
 		command.angle = attack_angle
 		if attack_time <= 0:
+			sound_requested.emit("sentry_swing",0)
 			# Aim locks when the tell starts; stepping away or behind a wall avoids it.
 			if delta.length() <= spec.range and absf(angle_difference(attack_angle,delta.angle())) <= PI/3 and not arena.line_blocked(state.pos,enemy.state.pos):
 				enemy.hurt(spec.damage,-1,false,{"kind":"enemy_melee","enemy":participant_id},self)
-			ring_requested.emit(state.pos,Color("ffb65c"),spec.range)
 			attack_phase = "recover"
 			attack_time = spec.recovery
 	elif attack_time <= 0:
@@ -49,6 +77,7 @@ func step(dt: float, i: int, enemy, arena, _mouse_shooting: bool = false, _ai: D
 			attack_phase = "windup"
 			attack_time = spec.windup
 			attack_angle = delta.angle()
+			sound_requested.emit("sentry_windup",0)
 		elif Navigation.segment_clear(arena,state.pos,enemy.state.pos):
 			command.dx = delta.normalized().x
 			command.dy = delta.normalized().y
@@ -63,22 +92,21 @@ func step(dt: float, i: int, enemy, arena, _mouse_shooting: bool = false, _ai: D
 				var axis: Vector2 = (route[0]-state.pos).normalized()
 				command.dx = axis.x
 				command.dy = axis.y
+	return move_with_command(dt,i,enemy,arena,command)
+
+func move_with_command(dt: float, i: int, enemy, arena, command: Dictionary) -> bool:
 	super.step(dt,i,enemy,arena,false,command)
 	return false
 
+# Values only: rendering cannot advance attacks or modify the combat state.
+func enemy_visual_snapshot() -> Dictionary:
+	return {"alive":not state.is_empty() and state.hp > 0,
+		"phase":attack_phase,"remaining":attack_time,"windup":float(spec.windup),
+		"gait":gait_phase,"motion":motion_weight,"visual_time":visual_time,
+		"hit":clampf(float(state.get("inv",0))/.22,0,1),
+		"recovery":float(spec.recovery),"reach":float(spec.range),
+		"angle":attack_angle if attack_phase in ["windup","recover"] else float(state.get("angle",0)),
+		"hp_ratio":float(state.get("hp",0))/maxf(1.0,float(state.get("max_hp",1)))}
+
 func _draw() -> void:
-	if state.is_empty() or state.hp <= 0: return
-	if attack_phase == "windup":
-		var points := PackedVector2Array([Vector2.ZERO])
-		for n in range(25): points.append(Vector2.from_angle(attack_angle-PI/3+n*PI/36)*float(spec.range))
-		draw_colored_polygon(points,Color(1.0,.42,.12,.22))
-		draw_arc(Vector2.ZERO,spec.range,attack_angle-PI/3,attack_angle+PI/3,24,Color("ffb65c"),2)
-	draw_set_transform(Vector2(0,5),0,Vector2(1,.45))
-	draw_circle(Vector2.ZERO,19,Color(0,0,0,.4))
-	draw_set_transform(Vector2.ZERO)
-	draw_rect(Rect2(-15,-23,30,30),Color("343d41"))
-	draw_rect(Rect2(-13,-23,26,22),Color("b79a68"))
-	draw_rect(Rect2(-10,-21,20,7),Color("d7bf89"))
-	draw_circle(Vector2.from_angle(state.angle)*8+Vector2(0,-10),4,Color("ff884d"))
-	draw_line(Vector2(-12,9),Vector2(12,9),Color("3b2924"),3)
-	draw_line(Vector2(-12,9),Vector2(-12+24*state.hp/state.max_hp,9),Color("e69258"),3)
+	SentryVisual.paint(self,enemy_visual_snapshot())

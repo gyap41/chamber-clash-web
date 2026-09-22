@@ -103,3 +103,19 @@ Godotのtravelは遷移元のサンプル後に遷移を解決するため、状
 
 参照：[AnimationTree](https://docs.godotengine.org/en/stable/classes/class_animationtree.html)、
 [StateMachinePlayback](https://docs.godotengine.org/en/stable/classes/class_animationnodestatemachineplayback.html)。
+
+## 探索の工房番機
+
+番機は人間用AnimationTreeを使用せず、exploration_enemy.gdの`enemy_visual_snapshot()`から位相・残り時間・固定角度を値として渡し、sentry_visual.gdで仮の身体と工具を描く。描画側に独立した時計・攻撃通知・戦闘状態の書き戻しはない。停止時も同じ姿勢を保つ。正式素材への置換ではこの入力と戦闘時間を維持し、画像の再生長から攻撃時刻を逆算しない。工房番機以外への共通化は次の敵の要求を確認して行う。
+
+
+## 通常敵の画像表示
+
+現在は[アニメーションv2](../art/production/enemy-animation-v2/README.md)の専用32コマ×2種を使用する。各4方向に歩行4コマ・構え・攻撃・復帰・倒れを持つ。左右は別画像。enemy_sheet_visual.gdの領域と原点で描画し、全身メッシュ変形は撤去した。実移動距離で38px周期を進め、停止中・壁押しでは足運びを進めない。
+
+構え・攻撃は戦闘時間、被弾反応は被弾後の短い時間へ追従する。撃破時はenemy_death.gdへ値のスナップショットだけを渡す。残像NodeはActorや攻撃判定を持たず、0.85秒で退色。exploration.gdが停止条件に従って更新し、離室・再挑戦で消去する。敵退役と報酬を演出待ちにしない。
+
+専用関節リグではなくコマ方式を採用。原画の切出し・倍率・未確認事項は制作記録を参照。
+
+
+撃破後の消失演出: 本体は0.85秒で退色し、番機は短い火花6粒と埃、トカゲは控えめな土色の粒子を残す。全体は1.1秒で消去。粒子は描画のみで、追加SE・衝突・報酬遅延なし。停止・離室・再挑戦の消去は従来の撃破表示と共通。

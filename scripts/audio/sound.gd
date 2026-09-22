@@ -3,6 +3,12 @@ signal played(kind: String, id: int)
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const RATE := 44100
 const GENERATED := {
+	"sentry_swing": preload("res://assets/audio/se/fw_sentry_swing_01.mp3"),
+	"sentry_down": preload("res://assets/audio/se/fw_sentry_down_01.mp3"),
+	"lizard_down": preload("res://assets/audio/se/fw_lizard_down_01.mp3"),
+	"sentry_windup": preload("res://assets/audio/se/fw_sentry_windup_01.mp3"),
+	"lizard_inhale": preload("res://assets/audio/se/fw_lizard_inhale_01.mp3"),
+	"lizard_spit": preload("res://assets/audio/se/fw_lizard_spit_03.mp3"),
 	"shotgun": preload("res://assets/audio/se/fw_shotgun_01.mp3"),
 	"needle": preload("res://assets/audio/se/fw_needle_01.mp3"),
 	"metal_shot": preload("res://assets/audio/se/fw_metal_shot_01.mp3"),
@@ -154,9 +160,9 @@ func synthesize(p: Dictionary) -> AudioStreamWAV:
 func play_sound(kind: String, id: int = 0) -> void:
 	if not enabled or kind == "start": return
 	# Coalesce simultaneous pellet impacts without changing projectile simulation.
-	if kind in ["wall_impact","ricochet"]:
+	if kind in ["wall_impact","ricochet","sentry_windup","lizard_inhale","sentry_swing","lizard_spit","sentry_down","lizard_down"]:
 		var now := Time.get_ticks_msec()
-		var interval := 200 if kind == "wall_impact" else 120
+		var interval := 200 if kind == "wall_impact" else 120 if kind == "ricochet" else 60
 		if now-int(contact_times.get(kind,-1000)) < interval: return
 		contact_times[kind] = now
 	var sample := sample_key(kind,id)
@@ -168,6 +174,8 @@ func play_sound(kind: String, id: int = 0) -> void:
 		generated_voice.volume_db = volume_db + (-18.0 if kind.begins_with("ui_") or kind == "toggle" else -12.0)
 		if kind == "wall_impact": generated_voice.volume_db -= 12.0
 		elif kind == "ricochet": generated_voice.volume_db -= 8.0
+		elif kind in ["sentry_windup","lizard_inhale"]: generated_voice.volume_db -= 6.0
+		elif kind in ["sentry_swing","lizard_spit","sentry_down","lizard_down"]: generated_voice.volume_db -= 3.0
 		generated_voice.stream = GENERATED[sample]
 		generated_voice.play()
 		played.emit(kind,id)

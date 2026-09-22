@@ -1,5 +1,6 @@
 extends RefCounted
 const Actor = preload("res://scripts/combat/exploration_enemy.gd")
+const Lizard = preload("res://scripts/combat/fire_pouch_lizard.gd")
 const ActorScene = preload("res://scenes/combat/player.tscn")
 const Navigation = preload("res://scripts/ai/cpu_navigation.gd")
 
@@ -34,17 +35,22 @@ static func begin(game) -> void:
 		game.phase = "result"
 		game.result = "敵の配置に失敗しました。再挑戦してください"
 		return
+	# Persist the introduction choice per room; revisits never reroll the composition.
+	var room_state: Dictionary = game.exploration.room_state(id)
+	if not room_state.has("enemy_ids"):
+		var introduced: bool = game.exploration.room_states.values().any(func(value): return value.has("enemy_ids"))
+		room_state.enemy_ids = ["workshop_sentry","fire_pouch_lizard" if introduced else "workshop_sentry"]
 	# Entry is outside CombatSession.step; the previous room has no live owners.
 	for index in range(positions.size()):
 		var actor = ActorScene.instantiate()
-		actor.set_script(Actor)
-		actor.name = "Sentry%d" % index
+		actor.set_script(Lizard if room_state.enemy_ids[index] == "fire_pouch_lizard" else Actor)
+		actor.name = "Enemy%d" % index
 		game.arena.get_node("Players").add_child(actor)
 		actor.prepare(positions[index])
 		actor.telemetry = game.telemetry
 		game.players.append(actor)
 		game.fighters.append(actor.state)
-		game.participant_config.append({"id":id+"/sentry%d" % index,"team":"enemies","controller":"enemy"})
+		game.participant_config.append({"id":id+"/enemy%d" % index,"team":"enemies","controller":"enemy"})
 	game.roster.configure(game.participant_config)
 	for index in range(1,game.players.size()): game.bind_combat_actor(index)
 	game.exploration.encounter_status = "active"

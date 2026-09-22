@@ -15,6 +15,8 @@
 
 # AI素材生成環境の参照・更新
 
+敵・ボスの素材制作では、最初に `docs/art/ENEMY_CREATION_TEMPLATE.md` を読み、`docs/planning/ENEMY_BOSS_ART_PLAN.md` と対象実装から必要な方向・歩行コマ・関節パーツ・SEを洗い出す。生成前に敵ごとの素材台帳へ不足分・寸法・原点・接続点・今回の範囲を記録する。生成済み、本編接続済み、連続動作確認済み、ユーザー採用を区別する。
+
 - 画像・SE・BGMの環境設定、API連携変更、通信障害対応では、最初に `docs/development/ASSET_GENERATION_SETUP.md` と対象CLIのREADMEを読む。
 - provider、model、endpoint、認証、依存関係、TLS/HTTP設定、保存形式を変えるときは正式API仕様を確認し、実装と同時に共通設定ガイドと対象READMEを更新する。
 - 環境設定や資料更新だけの依頼では有料生成しない。ローカル検証を先に行い、実生成はユーザーが求めた範囲に限定する。
