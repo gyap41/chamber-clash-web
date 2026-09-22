@@ -4,6 +4,7 @@ var door_id := ""
 var direction := Vector2.RIGHT
 var opening_width := 112.0
 var available := false
+var locked := false
 var caption: Label
 func configure(entry: Dictionary, destination: String, _theme = null) -> void:
 	door_id = entry.id
@@ -30,12 +31,20 @@ func set_available(value: bool) -> void:
 	available = value
 	caption.visible = value
 	queue_redraw()
+func set_locked(value: bool) -> void:
+	if locked == value: return
+	locked = value
+	queue_redraw()
 func _draw() -> void:
 	# The field walls already form the stone returns. Do not cover them with
 	# unrelated jamb sprites, or stretch wall coping across the walkable floor.
 	# A flush, translucent sill preserves the continuous floor texture beneath it.
 	var extent := Vector2(6,opening_width) if direction.x != 0 else Vector2(opening_width,6)
 	draw_rect(Rect2(-extent*.5,extent),Color(.58,.55,.46,.09))
+	if locked:
+		var tangent := Vector2(-direction.y,direction.x)*(opening_width*.5-8)
+		draw_line(-tangent-direction*3,tangent+direction*3,Color("b98852"),5)
+		draw_line(-tangent+direction*3,tangent-direction*3,Color("e4c38b"),1)
 	if available:
 		var tangent := Vector2(-direction.y,direction.x)
 		draw_circle(-direction*13+tangent*(opening_width*.5-10),2,Color("d5b575"))

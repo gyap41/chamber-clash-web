@@ -388,3 +388,38 @@ four_way_roomsは上下144px・左右112pxの開口、方向/幅の不正値拒�
 隣室更新：stage_templatesで共通接続壁テーマ、家具5点の衝突、旧石ブロック位置と西扉・到着点の空きを検証。exploration_roomsの描画あり実行で20往復・重複生成防止を確認。画像はdocs/art/production/workshop-annex/room-preview.png。
 
 商取引・拾得物の分離後の回帰確認：`purchase_economy.gd`（支払い・売却・二重購入拒否）、`bag_expansion.gd`（拡張配置と課金）、`reward_generation.gd`（seedと共有商品）、`preparation_boundaries.gd`（CPU20試合）、`exploration_bag.gd`（拾得・満杯・状態保持）、`exploration_rooms.gd`（20往復）。いずれも `Godot --headless --path . --script res://tests/<ファイル名> --quit-after 600` で実行。`exploration_bag_ui.gd` は描画ありで実クリックを確認する。終了時のObjectDB/Resource警告はテストのPASSと分けて扱う。
+
+P2配置ID：Godot --headless --path . --script res://tests/room_instances.gd --quit-after 600。同じテンプレートの取得/戦闘状態の独立、配置IDを変更した2部屋の実遷移、再訪と再挑戦を検証する。exploration_mode / exploration_bagも回帰確認。通常入口のランダム化や敵の復元はこのテストの対象外。
+
+P2ランダム階層：タイトルの「ストーリーモード（ランダム階層・試作）」、F移動、Mマップ、Tabバッグ。直接起動は `Godot --path . res://scenes/game/exploration.tscn -- --random-floor --seed=22`。
+
+- `Godot --headless --path . --script res://tests/exploration_floor.gd --quit-after 3000`：100seed、8〜12室、再現性、4役割、扉相互参照、重複なし、274形状/家具/開口組合せの到達性、通路封鎖/重複配置の拒否。
+- `Godot --headless --path . --script res://tests/random_floor_play.gd --quit-after 1200`：タイトル起動、全室往復、資源と取得済み状態、マップ表示範囲/停止理由/M入力、同seed再挑戦と異seed変更。
+- 描画確認は後者から--headlessを外し末尾に `-- --capture`。画像は.local/two-rooms-random-{title,start,map}.png。採用確認用コピーはdocs/art/production/random-workshop-floor/。描画テストPASS、終了時ObjectDB/Resource警告あり。Webと手動操作感は未確認。
+- 回帰：four_way_rooms、room_instances、exploration_mode、shared_combat_hudがPASS。この回帰は敵生成を無効化した形状/移動の検証。敵はP3専用テスト、特殊部屋機能は未実装。
+
+探索カメラ：Godot --headless --path . --script res://tests/exploration_camera.gd --quit-after 600。小部屋/同寸法/大部屋/縦長、端制限、表示倍率、HUDを除いた中央への座標変換、停止、部屋切替を検証。exploration_roomsとshared_combat_hudも回帰PASS。大部屋はテスト用の空フィールドで、正式な大型ステージの美術と手動の追従操作感は未確認。
+
+部屋バリエーションは同じexploration_floorテストで全6形状の出現保証、ボス寸法、壁/床の同seed再現も検証。random_floor_play -- --captureで.local/two-rooms-variant-{standard,compact,wide,tall,elbow,hall}.pngを保存する。生成版2、seed22の通常表示画像はdocs/art/production/workshop-room-variants/。既存四方向扉とカメラテストもPASS。
+
+### P3最初の近接敵
+
+タイトルのランダム階層から通常の作業室へFで入ると2体が出現する。固定の工房テストは敵なし。
+
+- `Godot --headless --path . --script res://tests/exploration_encounter.gd --quit-after 1200`：通常6室、安全室4室、予告と被弾/空振り/壁越し拒否、家具迂回、停止、射撃/近接による被弾、出口利用拒否/解放、owner付き弾/重力場/追射破棄、再訪、資源持越し、戦闘中再初期化、相打ち死亡優先、再挑戦。
+- `Godot --headless --path . --script res://tests/exploration_enemy_spawns.gd --quit-after 1800`：10seed/108入口で2体の出現位置、入口と敵同士の距離、衝突なし、主人公までの経路。
+- 描画ありは最初のコマンドから--headlessを外して `-- --capture` を付ける。1120×800の予告画像を.local/two-rooms-enemy-windup.pngへ保存。
+- exploration_mode、random_floor_play、exploration_bag、extension_boundaries、shared_combat_hudもPASS。headlessの一部は既存の終了時ObjectDB/Resource警告あり。描画ありの遭遇テストも実行終了時にObjectDB警告が出る場合がある。手動操作感・Web負荷・正式美術の採用は別確認。
+
+## 資料整理の検証（2026-09-22）
+
+探索企画3資料、索引、ロードマップ、引き継ぎと退避先について、Markdown内のローカルファイルリンク210件の存在を確認（欠落0件）。古いグリッド計画へのリンクは退避先へ変更し、重複したリナ導入案内を削除。git diff --checkが成功。今回は資料のみの変更で、ゲーム動作テストや素材生成・音の試聴は追加実行していない。企画の数値・ボス候補・報酬演出は未実装/未採用案として区別する。
+
+## 資料の追加・移動時の確認
+
+```powershell
+python tools/docs_index.py
+python tools/docs_index.py --check
+```
+
+全件索引の更新漏れとローカルのインラインリンク先を確認する。外部URL・見出しアンカー・参照形式リンク・本文中の裸のパスは対象外。仕様内容の正しさは対象コードと個別に照合する。運用は[資料の配置と更新](../DOCUMENTATION_GUIDE.md)。

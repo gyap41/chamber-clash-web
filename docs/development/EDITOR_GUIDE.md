@@ -1,27 +1,19 @@
 # エディタでの調整
 
-## エディタで調整する場所
-|ファイル / ノード|編集内容|
+更新: 2026-09-22。ステージ変更前には[制作テンプレート](../art/STAGE_CREATION_TEMPLATE.md)と[データ定義](STAGE_TEMPLATES.md)を読む。
+
+|調整対象|編集元と注意点|
 |---|---|
-|scenes/game/main.tscn / Game|Round Duration、Projectile Scene。進行・停止・勝敗を管理|
-|scenes/world/arena.tscn / Walls / Wall1〜3|2Dで選択して移動・サイズ変更。ColorRectのPosition/Sizeを衝突判定にも使用。wall.tscnのインスタンスを複製して壁を追加可能|
-|scenes/world/arena.tscn / Spawns / P1・P2|Marker2DのPositionが開始・再戦位置。プレイヤーの実行時位置はこちらから設定|
-|scenes/world/arena.tscn / Players / P1・P2|HP、速度、回避、近接、装填時間、Weapon Display SizeをInspectorで変更|
-|Players / P1・P2 / Sprite|Frame 0〜7で静止画を変更。位置・Scaleも編集可能。キャラ選択画面を経由した対戦ではset_character()がここへ選択キャラのcellを上書きするため、直接編集は対戦開始前のプレビュー表示にのみ影響|
-|scenes/ui/character_select.tscn|Panel/Content内の見出し、Info、Cardsグリッドの配置。カードはcharacter_select.gdが8キャラ分生成し、立ち絵はcharacter_catalog.gdのart()がfighters.pngから切り出す|
-|scenes/combat/pulse_effect.tscn|拡大リングの表示時間・拡大速度。消去効果自体は距離に関係なく即時適用|
-|scenes/combat/player.tscn|Sprite、照準Line2D、識別Label、近接Line2D、Weapon/Spriteの共通表示。武器画像とScaleは装備時に更新|
-|scenes/world/supplies.tscn / Spawns|InitialWeapons・Weapons・Ammo・LegendaryのMarker2Dで補給位置を編集。Supplies/Itemsは原点・等倍を維持|
-|scenes/world/supplies.tscn / Supplies|出現間隔、Sレア時刻、取得待ち時間、寿命、取得範囲をInspectorで調整|
-|scenes/world/pickup.tscn|武器画像・弾薬箱・名前・交換案内の共通表示。Label/Hintはマウス入力を遮らない|
-|scenes/ui/preparation.tscn|Root/Panel/Contentの見出し・Notice・Ready等と、preparation.gdが動的生成するB案の各パネル。寸法はPREPARATION_UI_B.mdを参照|
-|data/catalog.json / scripts/catalog/weapon_catalog.gd|元の武器数値と、実装済みIDの許可リスト・画像対応|
-|scenes/combat/gravity_well.tscn|寿命・吸引/ダメージ/弾吸収の範囲・強さ・周期をInspectorで調整。Line2Dの色・太さを編集可。円の頂点は実行時に範囲から生成|
-|scenes/combat/projectile.tscn|寿命とVisual（Polygon2D）。弾速・威力・半径・跳弾数は発射時に武器定義/効果から設定|
-|scenes/ui/hud.tscn / Root|Status・Message・LoadoutsをControlとして配置。武器枠はhud.gdが生成|
+|部屋の床・壁・開始位置・境界|`data/fields/`のFieldDefinition。`arena.gd`のdefinitionをFieldBuilderが読み、壁・スポーン等を生成する。生成後のWalls/Spawnsノードを編集元にしない|
+|探索の接続・扉・家具・照明・テーマ|RoomTemplate、StagePlacement、StageTheme。固定部屋とランダム生成の経路は[ステージ定義](STAGE_TEMPLATES.md)を参照|
+|対戦進行|`scenes/game/main.tscn`と`scripts/game/main.gd`。探索の進行はexploration側で管理|
+|キャラ・武器・レリック性能|`data/catalog.json`と対応catalog。PlayerのInspector値はキャラ設定や装備適用で上書きされるため、実行時の正本を確認する|
+|キャラと武器の表示|[Actor表示](ACTOR_ANIMATION.md)。Spriteの静止プレビューだけで実行時表示を変更したと判断しない|
+|対戦HUD・準備|`scenes/ui/hud.tscn`、`preparation.tscn`と各スクリプト。動的生成部品はスクリプト側を調整|
+|探索HUD|`exploration_hud.gd`。共有部品と画面固有配置は[構成](ARCHITECTURE.md)を参照|
+|補給|`supplies.tscn`と`supplies.gd`。ランダム位置選択とフィールド定義の経路を確認し、Markerの変更だけで出現位置が固定されると考えない|
+|弾・重力場|対応するcombatシーンとスクリプト。武器定義から渡す性能と見た目を分けて調整|
 
-表示領域はproject.godotで1120×800に設定しています。アリーナの座標・壁・スポーン・移動境界は従来のままです。
+論理画面は1120×800。探索の部屋サイズは画面サイズに限定せず、カメラ追従を使う。Arenaのコンテナは原点・等倍を維持する。壁の衝突は軸平行矩形で、画像寸法や見た目の高さと分ける。プレイヤーの半径を含め、開始点・扉到着点と通行幅を確認する。
 
-Arenaの各コンテナは原点・等倍を維持してください。壁は軸平行の矩形のみ対応し、回転やScaleによる変更は未対応です。壁の大きさはSizeで変更します。出現位置は壁の外かつFighter Bounds内に置いてください。境界はArenaのFighter Bounds（プレイヤー中心の許容範囲）とProjectile Boundsで調整します。床表示を変える場合はFloorも編集します。プレイヤー半径とSpriteの大きさ、弾半径とVisualの大きさは別なので、両方確認してください。
-
-arena.tscnを直接開いて編集し、動作確認にはF5を使います。各部品単体のF6では試合は開始しません。scenes/game/main.tscnから子を編集する場合はインスタンスの「編集可能な子」を有効にします。プレイヤー本体のPositionは配置プレビュー用で、開始時にSpawnsの位置へ戻ります。
+F5はタイトルからの起動。F6は選択シーンの単体実行で、任意の部品だけではゲーム進行は始まらない。データ変更後は[検証手順](TESTING.md)から対象テストと通常倍率の画面確認を行う。

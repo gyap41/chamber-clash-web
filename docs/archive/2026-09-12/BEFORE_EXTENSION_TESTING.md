@@ -1,7 +1,7 @@
 # 検証手順
 
 更新: 2026-09-12。実行方法と残る受入を管理する。過去の件数・失敗修正・ログは
-[検証履歴](../archive/2026-09-11/BEFORE_TESTING.md) を参照する。
+[検証履歴](../2026-09-11/BEFORE_TESTING.md) を参照する。
 
 ## 実行
 
@@ -31,7 +31,7 @@ powershell -ExecutionPolicy Bypass -File run_tests.ps1 -IncludeRender
 ```
 
 render.gdは画面描画可能な環境で実行する。準備・所持品・HUD・戦闘・補給・演出を確認する。
-B案の座標/操作基準は [準備UI仕様](../design/PREPARATION_UI_B.md)。
+B案の座標/操作基準は [準備UI仕様](../../design/PREPARATION_UI_B.md)。
 スクリプトによるGUI入力や静止画確認と、人間による操作感評価を区別する。
 
 ## 重点回帰
@@ -55,7 +55,7 @@ tests/helpers/battle.gdを活用し、レリックの追射予約・一時フラ
 & .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/audio_assets.gd
 ```
 
-Pythonテストは通信mockで課金なし。環境と無料確認は [素材生成設定](ASSET_GENERATION_SETUP.md)。
+Pythonテストは通信mockで課金なし。環境と無料確認は [素材生成設定](../../development/ASSET_GENERATION_SETUP.md)。
 直近の音響検証ではPython19件とBGM/SEのGodot Resource認識が成功。全ゲームテストの再実行とは別。
 
 ## 最新の記録と未完了の受入
@@ -78,7 +78,7 @@ CPUの武器別間合い・通常戦闘の迂回は `tests/cpu_tactics.gd` で�
 
 既存の `cpu_ai.gd` は予測射撃・回避・補給取得、`endgame_balance.gd` は回避クールダウン、`small_improvements.gd` は8地点からの縮小エリア退避と補給より退避を優先することを確認する。
 
-共有補給・30%のレジェンド抽選・Fキー開封・星弾追尾・勝敗画面の実装と以前の検証記録は [CPU間合い・迂回前の検証記録](../archive/2026-09-12/BEFORE_CPU_TACTICS_TESTING.md) を参照する。
+共有補給・30%のレジェンド抽選・Fキー開封・星弾追尾・勝敗画面の実装と以前の検証記録は [CPU間合い・迂回前の検証記録](BEFORE_CPU_TACTICS_TESTING.md) を参照する。
 
 今回の描画・人間による実プレイは未確認。CPUの勝率、武器別間合いの適正値、移動する相手への経路追従、補給競争との優先度は未評価。自動テスト成功を対人バランスの確定とは扱わない。
 
@@ -94,12 +94,12 @@ CPUの投資判断、8方向化したプラネタリウムの避けやすさ・�
 Web/Windows配布版、一試合完走、最大負荷、先行入力・音の実プレイ確認も残る。
 音響生成は行っていない。audio_assetsは保存済み素材の読み込みのみ。
 
-旧40本の詳しい記録は [移行前の検証記録](../archive/2026-09-11/BEFORE_PURCHASE_TESTING.md)、
-購入移行の経緯は [検証日誌](../archive/2026-09-11/PURCHASE_ECONOMY_VALIDATION.md) を参照。
+旧40本の詳しい記録は [移行前の検証記録](../2026-09-11/BEFORE_PURCHASE_TESTING.md)、
+購入移行の経緯は [検証日誌](../2026-09-11/PURCHASE_ECONOMY_VALIDATION.md) を参照。
 
 ## 対戦HUD C案の検証（2026-09-12）
 
-実装仕様は [BATTLE_UI_C](../design/BATTLE_UI_C.md)、素材交換は [HUD素材README](../../assets/ui/hud/README.md)。
+実装仕様は [BATTLE_UI_C](../../design/BATTLE_UI_C.md)、素材交換は [HUD素材README](../../../assets/ui/hud/README.md)。
 
 ```powershell
 & .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/hud_compact.gd --quit-after 180

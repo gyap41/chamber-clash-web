@@ -56,7 +56,7 @@ MatchStateの既存の形状・識別APIは委譲メソッドとして維持し�
 
 武器は `gun:<id>`、レリック個体は `relic:<種類ID>:<連番>` として扱う。item_identity.gdが種類との変換境界。
 装備容量はグリッド面積と形状の収まりで判定し、主力IDと自動サイドアームは使用しない。
-生成ツールはゲーム本体と分離し、[素材生成設定](ASSET_GENERATION_SETUP.md)を参照する。
+生成ツールはゲーム本体と分離し、[素材生成設定](../../development/ASSET_GENERATION_SETUP.md)を参照する。
 
 ## 戦闘フレームの順序
 

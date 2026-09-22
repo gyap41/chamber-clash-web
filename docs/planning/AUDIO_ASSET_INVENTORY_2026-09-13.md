@@ -1,3 +1,5 @@
+> 資料区分（2026-09-22監査）：過去の制作計画・素材案を含む参照資料。本文の未制作一覧・費用・承認枠を現在の作業指示として使わない。現行の残課題はdocs/planning/ROADMAP.md、探索の素材案はENEMY_BOSS_ART_PLAN.mdとEXPLORATION_REWARDS.md、実際の採用素材は各catalog・skin.json・音響manifestを確認する。
+
 # 現行ゲームの音響素材数
 
 後続制作でSE50種が各1候補揃った。先行16種はゲーム接続済み、追加34種は未接続・未試聴。[追加34種レビュー](../archive/2026-09-13/se34-review/README.md)。以下は生成前の個数調査。

@@ -4,8 +4,8 @@
 
 2026-09-11、選択式の無料バッグ拡張を含む最終状態で39本（headless38本＋描画1本）PASS、終了コード0。
 実行：run_tests.ps1 -IncludeRender。ログ .local/logs/run_tests-20260911-210340.log。ERROR/WARNING/FAILなし。
-以前の段階検証は [拡張選択前の記録](../archive/2026-09-11/P9_BEFORE_SELECTABLE_EXPANSION_TESTING.md) と
-[細分化の検証履歴](../archive/2026-09-11/P9_FINE_GRID_VALIDATION.md) に保存した。
+以前の段階検証は [拡張選択前の記録](P9_BEFORE_SELECTABLE_EXPANSION_TESTING.md) と
+[細分化の検証履歴](P9_FINE_GRID_VALIDATION.md) に保存した。
 
 - bag_expansion：段階5で両者へ同じ2候補、通常報酬と独立した無料1回、未配置時の完了防止、重複/範囲外/無効形状の非破壊拒否。
 - 実GUI入力で候補を選択し、下側のグリッドへクリック配置。別プレイヤーに領域が漏れないこと、CPUが同じAPIで右側へ配置することを確認。

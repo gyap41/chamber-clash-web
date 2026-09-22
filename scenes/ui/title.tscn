@@ -71,4 +71,11 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 50)
 focus_mode = 0
 theme_override_font_sizes/font_size = 20
-text = "ストーリーモード（試作）"
+text = "工房テスト（固定2部屋）"
+
+[node name="RandomFloor" type="Button" parent="Panel/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 50)
+focus_mode = 0
+theme_override_font_sizes/font_size = 20
+text = "ストーリーモード（ランダム階層・試作）"

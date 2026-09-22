@@ -55,23 +55,26 @@ func initialize_combat_context() -> void:
 	combat = preload("res://scripts/combat/combat_session.gd").new(self)
 	fit_field_camera()
 	supplies.game = self
-	for i in range(players.size()):
-		var player = players[i]
-		player.combat_service = weakref(combat)
-		player.participant_id = roster.participants[i].id
-		player.team_id = roster.participants[i].team
-		player.battle_slot = i
-		player.battle_roster = roster
-		player.is_cpu = roster.participants[i].controller == "cpu"
-		player.weapon_event_requested.connect(presentation.weapon_event)
-		player.burst_requested.connect(presentation.burst)
-		player.ring_requested.connect(presentation.ring)
-		player.shake_requested.connect(presentation.shake)
-		player.sound_requested.connect(presentation.play_sound)
-		# 残響ホルスター: Player has no back-reference to main.gd, so it asks for a delayed
-		# shot via signal instead; bind the owning index since the signal itself only carries
-		# the spawn data.
-		player.delayed_shot_requested.connect(_on_delayed_shot_requested.bind(i))
+	for i in range(players.size()): bind_combat_actor(i)
+
+# Called once per newly registered actor, only outside a simulation step.
+func bind_combat_actor(i: int) -> void:
+	var player = players[i]
+	player.combat_service = weakref(combat)
+	player.participant_id = roster.participants[i].id
+	player.team_id = roster.participants[i].team
+	player.battle_slot = i
+	player.battle_roster = roster
+	player.is_cpu = roster.participants[i].controller == "cpu"
+	player.weapon_event_requested.connect(presentation.weapon_event)
+	player.burst_requested.connect(presentation.burst)
+	player.ring_requested.connect(presentation.ring)
+	player.shake_requested.connect(presentation.shake)
+	player.sound_requested.connect(presentation.play_sound)
+	# 残響ホルスター: Player has no back-reference to main.gd, so it asks for a delayed
+	# shot via signal instead; bind the owning index since the signal itself only carries
+	# the spawn data.
+	player.delayed_shot_requested.connect(_on_delayed_shot_requested.bind(i))
 
 func arena_inset() -> float:
 	return 0.0

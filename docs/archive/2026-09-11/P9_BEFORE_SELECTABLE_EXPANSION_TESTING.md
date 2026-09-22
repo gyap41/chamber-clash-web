@@ -7,7 +7,7 @@
 
 最終：run_tests.ps1 -IncludeRender、38本PASS、終了コード0。
 ログ .local/logs/run_tests-20260911-205027.log。ERROR/WARNING/FAILなし。
-各段階の全件成功は [検証履歴](../archive/2026-09-11/P9_FINE_GRID_VALIDATION.md) に保存した。
+各段階の全件成功は [検証履歴](P9_FINE_GRID_VALIDATION.md) に保存した。
 
 fine_gridは非矩形領域の穴、単調拡張、満杯、無効移動の非破壊性、控え満杯時の解除、
 CPU再配置の巻き戻しと取得、携行8丁と配置プレビューの整合、持ち帰り容量、武器で埋まったバッグへの仮取得拒否を検証する。

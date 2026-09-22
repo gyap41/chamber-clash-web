@@ -1,5 +1,7 @@
 # 購入制・バッグ投資・試合尺の採用試作仕様
 
+> 2026-09-11の設計根拠。現在の実装・数値は[GAME_RULES](../design/GAME_RULES.md)と[ITEM_CATALOG](../design/ITEM_CATALOG.md)、残評価は[ROADMAP](ROADMAP.md)。探索の報酬/ショップへこの対戦経済をそのまま適用しない。
+
 更新: 2026-09-11。ユーザー依頼により試作の実装方針として採用。価格・容量・試合尺は未確定、実プレイ未検証。
 実装・検証状況は ROADMAP.md と TESTING.md を参照。
 

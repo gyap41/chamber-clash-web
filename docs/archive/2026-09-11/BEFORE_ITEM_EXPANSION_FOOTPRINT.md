@@ -97,5 +97,5 @@ CPUは武器を先に配置し、大きいプラネタリウムが入らない�
 人間による操作感・20〜30試合の比較は未実施。準備時間、S取得直後の勝率、
 プラネタリウム＋反射系の命中数、装備採用率、控え滞留、CPUの武器選択を次に評価する。
 
-形状調整時の記録：40本PASS（.local/logs/run_tests-20260911-212322.log）。購入経済導入後の最新結果は [TESTING](../development/TESTING.md)。
+形状調整時の記録：40本PASS（.local/logs/run_tests-20260911-212322.log）。購入経済導入後の最新結果は [TESTING](../../development/TESTING.md)。
 9マス配置の実画像は .local/logs/p9-shapes-planet-nine-cells.png。画像目視と自動GUI操作まで確認した。

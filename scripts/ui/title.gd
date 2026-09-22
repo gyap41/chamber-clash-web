@@ -6,6 +6,13 @@ func _ready() -> void:
 	$Panel/Content/Version.text = "v%s" % ProjectSettings.get_setting("application/config/version", "dev")
 	$Panel/Content/Start.pressed.connect(start_cpu_match)
 	$Panel/Content/Story.pressed.connect(start_story)
+	$Panel/Content/RandomFloor.pressed.connect(start_random_floor)
+func start_random_floor() -> void:
+	var exploration = load("res://scenes/game/exploration.tscn").instantiate()
+	exploration.random_floor = true
+	get_tree().root.add_child(exploration)
+	get_parent().remove_child(self)
+	queue_free()
 func start_story() -> void:
 	var exploration = load("res://scenes/game/exploration.tscn").instantiate()
 	get_tree().root.add_child(exploration)

@@ -1,34 +1,35 @@
 # 資料索引
 
-現行仕様・開発手順は以下を更新します。作業の経緯や過去の実行ログは現行資料へ追記せず、必要な結論と残課題を反映してください。
+作業はこのページから始めます。[資料の配置・更新ルール](DOCUMENTATION_GUIDE.md)には仕様追加時の反映先とメモの終了方法、[全ファイル索引](CATALOG.md)にはリポジトリ内のMarkdownを分類して掲載しています。
 
-2026-09-11に完了計画・比較案・音響調査記録を [アーカイブ](archive/2026-09-11/README.md) へ整理しました。現行ルールと過去の記録を区別して参照してください。
+## 依頼から探す
 
-|目的|資料|
+|頼みたいこと|最初に読む|変更を反映する場所|
+|---|---|---|
+|次の作業を進める|[全体ロードマップ](planning/ROADMAP.md) → [探索の工程](planning/EXPLORATION_ROADMAP.md)|該当仕様と残課題|
+|戦闘・装備・操作を追加／修正|[ゲームルール](design/GAME_RULES.md)、[アイテム一覧](design/ITEM_CATALOG.md)|designの対象節。検証方法はTESTING|
+|敵・ボス・探索の仕様を考える|[探索体験](planning/EXPLORATION_DESIGN.md)、[敵・ボス美術](planning/ENEMY_BOSS_ART_PLAN.md)|提案と採用済み未実装はplanning、実装後はGAME_RULES|
+|宝箱・報酬・演出を作る|[報酬と演出](planning/EXPLORATION_REWARDS.md)|採用案、実装済み動作、個別の制作記録|
+|ステージを作る／素材を直す|[制作テンプレート](art/STAGE_CREATION_TEMPLATE.md) → [素材規格](art/STAGE_ASSET_GUIDE.md)・[データ定義](development/STAGE_TEMPLATES.md)|共通ルールとart/productionの個別記録|
+|キャラ・アニメーションを変える|[キャラ美術](design/CHARACTER_BIBLE.md)、[Actor表示](development/ACTOR_ANIMATION.md)|設定・実装手順・採用画像の記録|
+|UIを変える|[対戦HUD](design/BATTLE_UI_C.md)、[準備画面](design/PREPARATION_UI_B.md)、[構成](development/ARCHITECTURE.md)|対象UI仕様。探索固有の操作はGAME_RULES|
+|音を作る／変更する|[音響基準](AUDIO_BIBLE.md)、対象実装・音響manifest|音響基準・manifest・試聴結果|
+|生成APIやツールを設定する|[生成環境](development/ASSET_GENERATION_SETUP.md) → [画像CLI](../tools/README.md)・[音響CLI](../tools/asset_generator/README.md)|共通設定と対象CLIのREADME|
+|バグ修正・リファクタリング|[構成](development/ARCHITECTURE.md)、[検証](development/TESTING.md)、対象仕様|変更した責務・動作・必要な検証方法|
+|途中の調査を引き継ぐ|[共通引き継ぎ](development/HANDOFF_FOR_CLAUDE.md)、[一時メモ](notes/README.md)|反映先・未決事項・終了条件を持つメモ|
+
+## 分類から探す
+
+|入口|役割|
 |---|---|
-|画像ファイルの必要／不要候補、設定資料・原画・確認GIFの区分|[素材整理の入口](art/README.md)|
-|全8人の現行4方向・歩行・キャラ別専用回避|[キャラクター方向別素材](art/reviews/character-directions-2026-09-12/README.md)|
-|リナの現行4方向・歩行・専用ドッジ素材と映像|[リナの現行ゲーム素材](art/reviews/rina-dodge-2026-09-12/README.md)|
-|8人の外見・職人設定・通常等身とゲーム用2頭身の対応|[キャラクター美術定義](design/CHARACTER_BIBLE.md)|
-|元の種族・識別点を戻した7人の修正設定画、通常等身・低頭身比較|[修正キャラクター設定画](art/settings/character-revision-2026-09-12/README.md)|
-|8人の通常等身前後・2頭身設定画の初稿（旧比較案）|[初稿キャラクター設定画](art/settings/character-settings-2026-09-12/README.md)|
-|開発再開・エージェント共通|[引き継ぎ資料](development/HANDOFF_FOR_CLAUDE.md)|
-|起動と操作|[プロジェクトREADME](../README.md)|
-|武器・レリック・キャラクター・戦闘ルール|[ゲーム仕様](design/GAME_RULES.md)|
-|現行アイテムの性能・価格・占有形状・バッグ範囲・初期武器|[アイテム一覧](design/ITEM_CATALOG.md)|
-|採用した武器10種・レリック15種の提案履歴|[追加提案の履歴](archive/2026-09-11/ITEM_EXPANSION_PROPOSAL.md)|
-|フォルダーの責務・共通化・拡張方針|[構成ガイド](development/ARCHITECTURE.md)|
-|シーンやInspectorの調整|[エディタガイド](development/EDITOR_GUIDE.md)|
-|自動テストと描画確認|[検証手順](development/TESTING.md)|
-|現在地と今後の開発|[ロードマップ](planning/ROADMAP.md)|
-|グリッド細分化・小型重複レリック・バッグ拡張|[細分化計画](planning/FINE_GRID_ROADMAP.md)|
-|画像の分類・追加ルール|[アセット一覧](../assets/README.md)|
-|世界観・古代地下工房・探索職人・携帯工房の美術基準|[始まりの工房：コンセプト初稿](art/settings/concepts/first-workshop-2026-09-11/README.md)|
-|正式素材の洗い出し・キャラアニメ・武器/レリック美術・API予算|[素材制作計画](planning/ASSET_PRODUCTION_PLAN.md)|
-|画像・SE・BGMの環境設定とAPI連携変更|[AI素材生成環境ガイド](development/ASSET_GENERATION_SETUP.md)|
-|音響素材の生成・音量・ループ設計|[AUDIO_BIBLE](AUDIO_BIBLE.md)|
-|移植の経緯・古い引き継ぎ・復旧記録|[過去資料](archive/README.md)|
+|[現行仕様](design/README.md)|動作・性能・UI・キャラ設定|
+|[計画と提案](planning/README.md)|次の工程、未実装の採用仕様、検討案|
+|[実装と検証](development/README.md)|構造、編集・拡張方法、実行手順|
+|[美術と制作](art/README.md)|共通規格、設定画、加工レシピ、採用確認|
+|[音響基準](AUDIO_BIBLE.md)|音の方向性、採用状態、試聴基準|
+|[一時メモ](notes/README.md)|調査途中・未決質問。正本へ反映したら終了|
+|[履歴](archive/README.md)|完了・置換・却下された計画と検証記録|
+|[素材](../assets/README.md)・[開発ツール](../tools/README.md)|実ファイル群の使い方|
+|[全ファイル索引](CATALOG.md)|各Markdownへのリンクと分類・表題|
 
-新しい企画は `planning/` に目的・対象範囲・受入条件を書き、採用して実装したルールを `design/` へ反映します。実装手順は `development/`、終了した検討の記録は `archive/` に置きます。
-
-現行資料に矛盾がある場合は最新のコード・カタログを確認し、仕様と残課題を修正します。アーカイブの未実装一覧・件数・環境固有の手順を現在の指示として使用しません。
+新しい依頼のたびに全資料を読む必要はありません。依頼別の入口、対象コード、該当する正本を読み、過去の理由が必要なときに履歴へ進みます。現行資料にも古い記述が残るため、[一次監査の未完了項目](archive/2026-09-22/markdown-audit/README.md)を考慮し、分類だけを正確性の保証としないでください。

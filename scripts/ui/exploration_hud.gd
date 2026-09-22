@@ -7,6 +7,7 @@ const WeaponSlot = preload("res://scripts/ui/hud_weapon_slot.gd")
 const Action = preload("res://scripts/ui/hud_action.gd")
 const MAX_WEAPON_SLOTS := 8
 signal bag_requested
+signal map_requested
 signal slot_requested(index: int)
 signal pause_requested
 signal retry_requested
@@ -59,6 +60,7 @@ func _ready() -> void:
 		actions.append(action)
 	Widgets.button(canvas,"Sound",Rect2(904,710,180,30),"SE ON",func(): sound_requested.emit())
 	var help = Widgets.label(canvas,"Help",Rect2(24,667,1072,25),16)
+	Widgets.button(canvas,"Map",Rect2(942,658,158,34),"M 階層マップ",func(): map_requested.emit())
 	help.add_theme_color_override("font_shadow_color",Color.BLACK)
 	help.add_theme_constant_override("shadow_offset_x",2)
 	help.add_theme_constant_override("shadow_offset_y",2)
@@ -69,6 +71,9 @@ func _ready() -> void:
 
 # Mode-owned state is supplied explicitly; reusable components never inspect the game.
 func present(view: Dictionary, mode: Dictionary) -> void:
+	$Root/Map.visible = mode.get("map_available",false)
+	$Root/Map.disabled = mode.paused or not mode.result.is_empty()
+	$Root/Help.size.x = 900 if mode.get("map_available",false) else 1072
 	View.refresh_health($Root/HP,$Root/Health,view)
 	$Root/Active.refresh(view)
 	for slot in slots: slot.refresh(view)
@@ -76,12 +81,14 @@ func present(view: Dictionary, mode: Dictionary) -> void:
 	$Root/Heading.text = "探索試作 ／ "+mode.room_name
 	$Root/Help.text = mode.door_hint if not mode.paused and mode.result.is_empty() else ""
 	$Root/Status.text = "敵なし  ·  移動・射撃・UIを自由に確認できます"
+	if mode.get("encounter_cleared",false): $Root/Status.text = "攻略済み  ·  次の部屋へ進めます"
 	if mode.encounter_active: $Root/Status.text = "敵を倒す  ·  残り%d体" % mode.enemies_alive
 	if mode.paused: $Root/Status.text = "停止中  ·  Escで再開"
 	if not mode.result.is_empty(): $Root/Status.text = "今回の挑戦は終了しました"
 	$Root/Pause.text = "Esc 再開" if mode.paused else "Esc 停止"
 	$Root/Bag.disabled = mode.paused or not mode.result.is_empty()
 	if mode.get("bag_open",false): $Root/Status.text = "バッグ編集中  ·  変更は即時反映 / Tab・Escで閉じる"
+	if mode.get("map_open",false): $Root/Status.text = "マップ表示中  ·  M・Escで閉じる"
 	$Root/Pause.disabled = not mode.result.is_empty()
 	$Root/Sound.text = "SE ON" if mode.sound_enabled else "SE OFF"
 	$Root/Outcome.visible = not mode.result.is_empty()

@@ -3,7 +3,7 @@
 # 検証手順
 
 更新: 2026-09-11。実行方法と残る受入を管理する。過去の件数・失敗修正・ログは
-[検証履歴](../archive/2026-09-11/BEFORE_TESTING.md) を参照する。
+[検証履歴](BEFORE_TESTING.md) を参照する。
 
 ## 実行
 
@@ -29,7 +29,7 @@ powershell -ExecutionPolicy Bypass -File run_tests.ps1 -IncludeRender
 ```
 
 render.gdは画面描画可能な環境で実行する。準備・所持品・HUD・戦闘・補給・演出を確認する。
-B案の座標/操作基準は [準備UI仕様](../design/PREPARATION_UI_B.md)。
+B案の座標/操作基準は [準備UI仕様](../../design/PREPARATION_UI_B.md)。
 スクリプトによるGUI入力や静止画確認と、人間による操作感評価を区別する。
 
 ## 重点回帰
@@ -51,7 +51,7 @@ tests/helpers/battle.gdを活用し、レリックの追射予約・一時フラ
 & .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/audio_assets.gd
 ```
 
-Pythonテストは通信mockで課金なし。環境と無料確認は [素材生成設定](ASSET_GENERATION_SETUP.md)。
+Pythonテストは通信mockで課金なし。環境と無料確認は [素材生成設定](../../development/ASSET_GENERATION_SETUP.md)。
 直近の音響検証ではPython19件とBGM/SEのGodot Resource認識が成功。全ゲームテストの再実行とは別。
 
 ## 最新の記録と未完了の受入
@@ -73,8 +73,8 @@ Pythonテストは通信mockで課金なし。環境と無料確認は [素材�
 専用画像は既存素材の仮利用。実プレイでの対戦バランスや操作感を確認済みとはしない。
 
 アイテム一覧の更新は `python tools/export_item_catalog.py`。全30武器・35レリック・8キャラの表をカタログ・価格・形状から出力する。
-バッグ範囲の説明は手動管理。提案と追加前の検証は [提案履歴](../archive/2026-09-11/ITEM_EXPANSION_PROPOSAL.md)、
-[前回検証記録](../archive/2026-09-11/BEFORE_ITEM_EXPANSION_TESTING.md) を参照。
+バッグ範囲の説明は手動管理。提案と追加前の検証は [提案履歴](ITEM_EXPANSION_PROPOSAL.md)、
+[前回検証記録](BEFORE_ITEM_EXPANSION_TESTING.md) を参照。
 
 ### 人間の実プレイ未確認
 
@@ -85,5 +85,5 @@ CPUの投資判断、プラネタリウム取得直後の強さは未評価。20
 Web/Windows配布版、一試合完走、最大負荷、先行入力・音の実プレイ確認も残る。
 音響生成は行っていない。audio_assetsは保存済み素材の読み込みのみ。
 
-旧40本の詳しい記録は [移行前の検証記録](../archive/2026-09-11/BEFORE_PURCHASE_TESTING.md)、
-購入移行の経緯は [検証日誌](../archive/2026-09-11/PURCHASE_ECONOMY_VALIDATION.md) を参照。
+旧40本の詳しい記録は [移行前の検証記録](BEFORE_PURCHASE_TESTING.md)、
+購入移行の経緯は [検証日誌](PURCHASE_ECONOMY_VALIDATION.md) を参照。

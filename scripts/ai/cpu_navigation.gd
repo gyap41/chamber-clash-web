@@ -13,11 +13,11 @@ static func firing_position(arena, point: Vector2, enemy: Vector2, band: Vector2
 	var distance := point.distance_to(enemy)
 	return distance >= band.x and distance <= band.y and not arena.line_blocked(point,enemy)
 
-static func combat_path(arena, start: Vector2, enemy: Vector2, band: Vector2) -> Array:
+static func combat_path(arena, start: Vector2, enemy: Vector2, band: Vector2, max_nodes: int = MAX_NODES) -> Array:
 	var frontier: Array[Vector2i] = [Vector2i.ZERO]
 	var previous := {Vector2i.ZERO: Vector2i.ZERO}
 	var cursor := 0
-	while cursor < frontier.size() and cursor < MAX_NODES:
+	while cursor < frontier.size() and cursor < max_nodes:
 		var cell := frontier[cursor]
 		cursor += 1
 		var point := start+Vector2(cell)*CELL

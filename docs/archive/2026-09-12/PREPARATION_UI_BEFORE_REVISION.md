@@ -58,14 +58,14 @@
 - プレイヤー交代で選択とスクロールを初期化する。
 
 戦闘HUDは下端の固定領域内で縦スクロールし、仮取得した1個のみ仮表示する。
-形状・開放セル・容量の試作理由は [細分化計画](../planning/FINE_GRID_ROADMAP.md)、現行ルールは [GAME_RULES](GAME_RULES.md) を参照。
+形状・開放セル・容量の試作理由は [細分化計画](../2026-09-22/planning-cleanup/FINE_GRID_ROADMAP.md)、現行ルールは [GAME_RULES](../../design/GAME_RULES.md) を参照。
 
 ## 検証
 
 6列のGUI合成入力によるクリック配置、ドラッグ開始しきい値、複数マスの掴み位置付き移動、
 配置失敗の非破壊性、控え末尾、パネル境界、HUD末尾到達を自動検証する。
-描画PNGと最終ログは [TESTING](../development/TESTING.md) に記録する。
+描画PNGと最終ログは [TESTING](../../development/TESTING.md) に記録する。
 人間による操作感、長時間の対戦バランス、全形状の最終調整は未確認。
 
-[改修前のB案資料・画像寸法・検証履歴](../archive/2026-09-11/PREPARATION_UI_B_BEFORE_FINE_GRID.md) は当時の記録。
+[改修前のB案資料・画像寸法・検証履歴](../2026-09-11/PREPARATION_UI_B_BEFORE_FINE_GRID.md) は当時の記録。
 旧 capture_preparation_b.gd / draw_preparation_b_review.ps1 は改修前資料用であり、現行の描画確認は tests/render.gd を使う。

@@ -1,3 +1,5 @@
+> 資料区分（2026-09-22監査）：過去の制作計画・素材案を含む参照資料。本文の未制作一覧・費用・承認枠を現在の作業指示として使わない。現行の残課題はdocs/planning/ROADMAP.md、探索の素材案はENEMY_BOSS_ART_PLAN.mdとEXPLORATION_REWARDS.md、実際の採用素材は各catalog・skin.json・音響manifestを確認する。
+
 # 実行結果（最新）
 
 **完了：短縮プロンプトによる16種の候補が揃いました。** [全16種の再生リンク・尺・費用・レビュー](../../archive/2026-09-13/se16-review/README.md)、[試聴ページ](../../archive/2026-09-13/se16-review/index.html)。残り15種各1回が成功。全件未試聴・要確認、ゲーム未接続。以下は制作途中の履歴です。

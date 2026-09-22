@@ -73,7 +73,7 @@ func run() -> void:
 	progress.settle(true,true)
 	assert(progress.status == "active")
 	progress.settle(true,false)
-	assert(progress.status == "completed" and progress.encounter_status == "cleared")
+	assert(progress.status == "active" and progress.encounter_status == "cleared")
 	progress = preload("res://scripts/game/exploration_state.gd").new(9)
 	progress.encounter_status = "active"
 	progress.settle(false,false)

@@ -73,4 +73,4 @@
 
 - `docs/design/capture_preparation_b.gd` を非headlessで実行し、Godotの実画面PNGを生成。
 - `docs/design/draw_preparation_b_review.ps1` で注釈付き資料を生成。
-- 元の比較案は [比較案アーカイブ](../archive/2026-09-11/PREPARATION_UI_OPTIONS.md) に保存しています。
+- 元の比較案は [比較案アーカイブ](PREPARATION_UI_OPTIONS.md) に保存しています。

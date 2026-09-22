@@ -2,6 +2,13 @@ extends "res://scripts/game/combat_context.gd"
 const ExplorationState = preload("res://scripts/game/exploration_state.gd")
 const Rooms = preload("res://scripts/game/exploration_rooms.gd")
 const Door = preload("res://scripts/world/exploration_door.gd")
+const Floor = preload("res://scripts/game/exploration_floor.gd")
+const FollowCamera = preload("res://scripts/visuals/exploration_camera.gd")
+const Encounter = preload("res://scripts/game/exploration_encounter.gd")
+var encounters_enabled := true
+var random_floor := false
+var floor_data: Dictionary = {}
+var floor_map
 var room_catalog: Dictionary = Rooms.ROOMS
 var start_room := Rooms.START_ROOM
 const Loot = preload("res://scripts/game/exploration_loot.gd")
@@ -23,6 +30,7 @@ func _ready() -> void:
 	players = $Arena/Players.get_children()
 	initialize_combat_context()
 	hud.bag_requested.connect(open_bag)
+	hud.map_requested.connect(open_map)
 	hud.slot_requested.connect(func(index): equip_slot(0,index))
 	hud.pause_requested.connect(toggle_pause)
 	hud.retry_requested.connect(func():
@@ -34,12 +42,37 @@ func _ready() -> void:
 	var seed_value := Time.get_ticks_usec()
 	for argument in OS.get_cmdline_user_args():
 		if argument.begins_with("--seed="): seed_value = int(argument.trim_prefix("--seed="))
+	if "--random-floor" in OS.get_cmdline_user_args(): random_floor = true
 	if "--stage-four-way" in OS.get_cmdline_user_args():
+		random_floor = false
 		room_catalog = preload("res://scripts/world/four_way_demo.gd").catalog()
 		start_room = "crossroads"
 	start_exploration(seed_value)
 func start_exploration(seed_value: int) -> void:
+	if floor_map != null: close_map()
 	if bag != null: close_bag()
+	if random_floor:
+		var generated := Floor.generate(seed_value)
+		var generation_errors: PackedStringArray = generated.errors
+		if generation_errors.is_empty(): generation_errors = Floor.validation_errors(generated)
+		if generation_errors.is_empty():
+			for room in generated.catalog.values():
+				if not preload("res://scripts/world/room_reachability.gd").reachable(room): generation_errors.append("Unreachable room: "+room.display_name)
+		if not generation_errors.is_empty():
+			push_error("Floor generation rejected: "+str(generation_errors))
+			set_physics_process(false)
+			set_pause_reason("generation_error",true)
+			var failure := AcceptDialog.new()
+			failure.title = "探索を開始できません"
+			failure.dialog_text = "階層の接続を確認できませんでした。タイトルへ戻ります。"
+			failure.confirmed.connect(return_to_title)
+			failure.canceled.connect(return_to_title)
+			add_child(failure)
+			failure.popup_centered()
+			return
+		floor_data = generated
+		room_catalog = generated.catalog
+		start_room = generated.start
 	if not room_catalog.has(start_room):
 		push_error("Start room is not in the room catalog")
 		return
@@ -51,13 +84,13 @@ func start_exploration(seed_value: int) -> void:
 	if not errors.is_empty():
 		push_error("; ".join(errors))
 		return
-	clear_field_objects()
+	Encounter.retire(self)
 	clear_action_inputs()
 	combat_visuals.clear()
 	combat.reset_outcome()
 	exploration = ExplorationState.new(seed_value)
-	exploration.room_id = start_room
-	exploration.visited_rooms = {start_room:true}
+	exploration.visited_rooms.clear()
+	exploration.enter_room(start_room,room_data(start_room).field.field_id)
 	telemetry = RunLog.new(seed_value)
 	result = ""
 	phase = "play"
@@ -80,6 +113,7 @@ func start_exploration(seed_value: int) -> void:
 	Loadout.capture(players[0],exploration.weapon_bank)
 	loot_message = ""
 	fit_field_camera()
+	Encounter.begin(self)
 	rebuild_doors()
 	get_node("/root/Music").play_context("play")
 	refresh_hud()
@@ -117,14 +151,19 @@ func try_enter_door() -> bool:
 		push_error("; ".join(errors))
 		return false
 	loot_message = ""
-	exploration.room_id = entry.target_room
-	exploration.visited_rooms[entry.target_room] = true
+	exploration.enter_room(entry.target_room,room_data(entry.target_room).field.field_id)
+	Encounter.begin(self)
 	door_armed = false
 	fire_requires_release = was_firing
 	rebuild_doors()
 	refresh_hud()
 	return true
 func _input(event: InputEvent) -> void:
+	if floor_map != null:
+		if event is InputEventKey and event.pressed and not event.echo and event.keycode in [KEY_M,KEY_ESCAPE]:
+			close_map()
+			get_viewport().set_input_as_handled()
+		return
 	if bag != null:
 		if event is InputEventKey and event.pressed and not event.echo and event.keycode in [KEY_TAB,KEY_ESCAPE]:
 			close_bag()
@@ -144,12 +183,17 @@ func refresh_hud() -> void:
 	var allowed: bool = phase == "play" and not paused and result.is_empty() and not players[0].is_cpu
 	var view := preload("res://scripts/ui/combat_hud_view.gd").capture(players[0],allowed)
 	hud.present(view,{"paused":paused,"result":result,"sound_enabled":sound.enabled,
+		"map_available":not floor_data.is_empty(),"map_open":floor_map != null,
 		"room_name":room_data(exploration.room_id).name,"door_hint":door_hint(),
 		"encounter_active":exploration.encounter_status == "active",
+		"encounter_cleared":exploration.encounter_status == "cleared",
 		"bag_open":bag != null,"enemies_alive":players.slice(1).filter(func(player): return player.state.hp > 0).size()})
 	var nearby := nearby_door()
-	for node in doors: node.set_available(allowed and nearby.get("id","") == node.door_id)
+	for node in doors:
+		node.set_locked(exploration.encounter_status == "active")
+		node.set_available(allowed and exploration.encounter_status != "active" and nearby.get("id","") == node.door_id)
 func door_hint() -> String:
+	if exploration.encounter_status == "active": return "敵を全滅させると出口が開きます  ·  Tab：バッグ"
 	var loot := nearby_loot()
 	if not loot.is_empty():
 		if not loot_message.is_empty() and loot_message.begins_with("取得できません"): return loot_message
@@ -157,9 +201,9 @@ func door_hint() -> String:
 	if not loot_message.is_empty(): return loot_message
 	var entry := nearby_door()
 	if entry.is_empty(): return "扉に近づいて F で移動  ·  Tab：バッグ"
-	if exploration.encounter_status == "active": return "戦闘中は移動できません"
 	return "F：%s へ移動" % room_data(entry.target_room).name
 func toggle_pause() -> void:
+	if floor_map != null: close_map(); return
 	if bag != null: close_bag(); return
 	if phase != "play" or not result.is_empty(): return
 	if pause_reasons.has("focus"): set_pause_reason("focus",false)
@@ -178,6 +222,10 @@ func _notification(what: int) -> void:
 		set_pause_reason("focus",false)
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed or event.echo: return
+	if event.keycode == KEY_M:
+		open_map()
+		get_viewport().set_input_as_handled()
+		return
 	if event.keycode == KEY_TAB:
 		open_bag()
 		get_viewport().set_input_as_handled()
@@ -200,7 +248,11 @@ func _physics_process(dt: float) -> void:
 		combat.step(dt)
 		var active_weapon: int = players[0].weapon().id if players[0].has_weapon() else -1
 		if active_weapon != previous_weapon: Loadout.restore_active(players[0],exploration.weapon_bank)
+		var was_active: bool = exploration.encounter_status == "active"
 		exploration.settle(players[0].state.hp > 0,players.slice(1).any(func(p): return p.state.hp > 0))
+		if was_active and exploration.encounter_status == "cleared":
+			Encounter.retire(self)
+			loot_message = "部屋クリア · 出口が開きました"
 		if exploration.status != "active":
 			result = "探索終了" if exploration.status == "dead" else "試作戦闘クリア"
 			phase = "result"
@@ -208,12 +260,20 @@ func _physics_process(dt: float) -> void:
 			delayed_shots.clear()
 			sound.stop_all()
 			get_node("/root/Music").play_context("result")
+	if not paused:
+		FollowCamera.follow(arena.get_node("CombatCamera"),arena.field_rect,players[0].state.pos)
 	arena.get_node("DangerZone").refresh(0.0)
 	arena.get_node("CombatCamera").offset = -combat_visuals.shake_offset
 	refresh_hud()
+func fit_field_camera() -> void:
+	var target: Vector2 = players[0].state.get("pos",arena.spawn_position(0))
+	if arena.runtime_definition.theme != null:
+		$Exterior/Fill.color = arena.runtime_definition.theme.exterior_color
+	FollowCamera.follow(arena.get_node("CombatCamera"),arena.field_rect,target,true)
+
 func return_to_title() -> void:
 	if is_queued_for_deletion(): return
-	exploration.finish("abandoned")
+	if exploration != null: exploration.finish("abandoned")
 	clear_action_inputs()
 	set_physics_process(false)
 	var title = load("res://scenes/ui/title.tscn").instantiate()
@@ -223,6 +283,26 @@ func return_to_title() -> void:
 
 func room_data(id: String) -> Dictionary:
 	return Rooms.room(id,room_catalog)
+func open_map() -> bool:
+	if floor_data.is_empty() or paused or phase != "play" or exploration.status != "active": return false
+	set_pause_reason("map",true)
+	floor_map = preload("res://scripts/ui/exploration_map.gd").new()
+	floor_map.floor_data = floor_data
+	floor_map.current = exploration.room_id
+	floor_map.visited = exploration.visited_rooms.duplicate()
+	floor_map.room_states = exploration.room_states.duplicate(true)
+	floor_map.close_requested.connect(close_map)
+	add_child(floor_map)
+	refresh_hud()
+	return true
+func close_map() -> void:
+	if floor_map == null: return
+	remove_child(floor_map)
+	floor_map.queue_free()
+	floor_map = null
+	set_pause_reason("map",false)
+	fire_requires_release = true
+	refresh_hud()
 func door_data(room_id: String, id: String) -> Dictionary:
 	return Rooms.door(room_id,id,room_catalog)
 
@@ -262,7 +342,9 @@ func apply_command(index: int, command: Dictionary) -> void:
 		Loadout.restore_active(players[0],exploration.weapon_bank)
 # Compatibility entry points; pickup policy and presentation live in ExplorationLoot.
 func room_loot() -> Array:
-	return Loot.entries(exploration.room_id)
+	if not floor_data.is_empty() and floor_data.rooms[exploration.room_id].role == "start":
+		return Loot.entries(exploration.room_id,"workshop_trial")
+	return Loot.entries(exploration.room_id,room_data(exploration.room_id).field.field_id)
 func nearby_loot() -> Dictionary:
 	return Loot.nearby(room_loot(),exploration.collected_loot,players[0].state.pos,arena)
 func try_collect_loot() -> bool:

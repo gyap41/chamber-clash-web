@@ -1,7 +1,7 @@
 # 検証手順
 
 更新: 2026-09-11。実行方法と残る受入を管理する。過去の件数・失敗修正・ログは
-[検証履歴](../archive/2026-09-11/BEFORE_TESTING.md) を参照する。
+[検証履歴](BEFORE_TESTING.md) を参照する。
 
 ## 実行
 
@@ -27,7 +27,7 @@ powershell -ExecutionPolicy Bypass -File run_tests.ps1 -IncludeRender
 ```
 
 render.gdは画面描画可能な環境で実行する。準備・所持品・HUD・戦闘・補給・演出を確認する。
-B案の座標/操作基準は [準備UI仕様](../design/PREPARATION_UI_B.md)。
+B案の座標/操作基準は [準備UI仕様](../../design/PREPARATION_UI_B.md)。
 スクリプトによるGUI入力や静止画確認と、人間による操作感評価を区別する。
 
 ## 重点回帰
@@ -48,16 +48,16 @@ tests/helpers/battle.gdを活用し、レリックの追射予約・一時フラ
 & .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/audio_assets.gd
 ```
 
-Pythonテストは通信mockで課金なし。環境と無料確認は [素材生成設定](ASSET_GENERATION_SETUP.md)。
+Pythonテストは通信mockで課金なし。環境と無料確認は [素材生成設定](../../development/ASSET_GENERATION_SETUP.md)。
 直近の音響検証ではPython19件とBGM/SEのGodot Resource認識が成功。全ゲームテストの再実行とは別。
 
 ## 記録と未完了の受入
 
 2026-09-11、全40種類の形状評価と5種類の面積変更を含む最終状態で40本（headless39本＋描画1本）PASS、終了コード0。
 実行：run_tests.ps1 -IncludeRender。ログ .local/logs/run_tests-20260911-212322.log。ERROR/WARNING/FAILなし。
-以前の選択式拡張39本の結果は [形状調整前の記録](../archive/2026-09-11/P9_BEFORE_FOOTPRINT_BALANCE_TESTING.md)。
-以前の段階検証は [拡張選択前の記録](../archive/2026-09-11/P9_BEFORE_SELECTABLE_EXPANSION_TESTING.md) と
-[細分化の検証履歴](../archive/2026-09-11/P9_FINE_GRID_VALIDATION.md) に保存した。
+以前の選択式拡張39本の結果は [形状調整前の記録](P9_BEFORE_FOOTPRINT_BALANCE_TESTING.md)。
+以前の段階検証は [拡張選択前の記録](P9_BEFORE_SELECTABLE_EXPANSION_TESTING.md) と
+[細分化の検証履歴](P9_FINE_GRID_VALIDATION.md) に保存した。
 
 - footprint_balance：全40形状の連結・重複なし・範囲、全8キャラの初期武器＋小型報酬2個、CPUが9マス武器を置けない時の別武器携行、3×3の右下を掴んだ実GUIドラッグ、未開放への非破壊拒否、拡張領域への移動。
 - 描画 .local/logs/p9-shapes-planet-nine-cells.png を目視し、9マスの武器・2マス化した3レリック・詳細欄の収まりを確認。戦闘性能のカタログ値は変更していない。

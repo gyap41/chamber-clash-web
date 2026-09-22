@@ -5,10 +5,10 @@ const Art = preload("res://scripts/ui/hud_assets.gd")
 const INTERACT_RADIUS := 64.0
 
 # Fixed P1 fixtures. Generated rewards and persistence belong to later phases.
-static func entries(room_id: String) -> Array:
-	if room_id != "workshop_trial": return []
-	return [{"id":"workshop_trial:weapon_1","kind":"weapon","item":1,"pos":Vector2(410,350),"label":str(Weapons.definition(1).name)},
-		{"id":"workshop_trial:relic_4","kind":"relic","item":4,"pos":Vector2(680,400),"label":str(Relics.definition(4).name)}]
+static func entries(room_id: String, template_id: String = "") -> Array:
+	if (room_id if template_id.is_empty() else template_id) != "workshop_trial": return []
+	return [{"id":room_id+":weapon_1","kind":"weapon","item":1,"pos":Vector2(410,350),"label":str(Weapons.definition(1).name)},
+		{"id":room_id+":relic_4","kind":"relic","item":4,"pos":Vector2(680,400),"label":str(Relics.definition(4).name)}]
 
 static func nearby(entries: Array, collected: Dictionary, position: Vector2, arena) -> Dictionary:
 	for loot in entries:
