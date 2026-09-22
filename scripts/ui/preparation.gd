@@ -4,11 +4,11 @@ const Items = preload("res://scripts/game/item_identity.gd")
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const Relics = preload("res://scripts/catalog/relic_catalog.gd")
 const RelicChip = preload("res://scripts/ui/relic_chip.gd")
-const RelicGridCell = preload("res://scripts/ui/relic_grid_cell.gd")
 const RelicTray = preload("res://scripts/ui/relic_tray.gd")
 const Footprint = preload("res://scripts/ui/item_footprint.gd")
-const CELL_SIZE := 50
-const CELL_GAP := 4
+const GridView = preload("res://scripts/ui/preparation_grid.gd")
+const CELL_SIZE := GridView.CELL_SIZE
+const CELL_GAP := GridView.CELL_GAP
 const CELL_PITCH := CELL_SIZE+CELL_GAP
 var game
 var turn := 0
@@ -681,78 +681,4 @@ func refresh() -> void:
 	if not selected_expansion.is_empty(): select_expansion(selected_expansion)
 
 func build_relic_grid(parent: Node, state, i: int, build: Dictionary) -> void:
-	var size: Vector2i = state.MAX_GRID_SIZE
-	var occupied: Dictionary = state.occupied_cells(i)
-	var positions: Dictionary = build.get("positions",{})
-	var grid := GridContainer.new()
-	grid.name = "Grid"
-	grid.columns = size.x
-	grid.position = Vector2(20,77)
-	grid.add_theme_constant_override("h_separation",CELL_GAP)
-	grid.add_theme_constant_override("v_separation",CELL_GAP)
-	parent.add_child(grid)
-	for y in range(size.y):
-		for x in range(size.x):
-			var cell := Vector2i(x,y)
-			var panel := RelicGridCell.new()
-			panel.game = game
-			panel.player_index = i
-			panel.cell = cell
-			panel.on_drop = place_relic
-			panel.on_click = click_cell
-			panel.custom_minimum_size = Vector2(CELL_SIZE,CELL_SIZE)
-			var style := StyleBoxFlat.new()
-			style.bg_color = Color("243747")
-			style.border_color = Color("456174")
-			style.set_border_width_all(1)
-			if not state.usable_cells(i).has(cell):
-				style.bg_color = Color("151f29")
-				style.border_color = Color("2c3945")
-				panel.tooltip_text = "未開放：バッグ拡張で使用可能になる領域"
-				text_at(panel,"Locked","×",Rect2(18,14,24,24),18,Color("65727d"))
-			if occupied.has(cell):
-				var entry = occupied[cell]
-				style.bg_color = Color("30758a") if state.is_gun(entry) else Color(Relics.definition(game.match_state.relic_id(entry)).color).darkened(.5)
-				style.border_color = style.bg_color.lightened(.3)
-				if occupied.has(cell+Vector2i.LEFT) and same_entry(occupied[cell+Vector2i.LEFT],entry): style.border_width_left = 0
-				if occupied.has(cell+Vector2i.RIGHT) and same_entry(occupied[cell+Vector2i.RIGHT],entry): style.border_width_right = 0
-				if occupied.has(cell+Vector2i.UP) and same_entry(occupied[cell+Vector2i.UP],entry): style.border_width_top = 0
-				if occupied.has(cell+Vector2i.DOWN) and same_entry(occupied[cell+Vector2i.DOWN],entry): style.border_width_bottom = 0
-				var chip := RelicChip.new()
-				chip.entry = entry
-				chip.grab_offset = cell-positions.get(entry,cell)
-				chip.on_drag_start = select_entry
-				chip.clip_text = true
-				chip.tooltip_text = entry_info(entry).name+"\n"+entry_info(entry).desc
-				chip.custom_minimum_size = Vector2(CELL_SIZE-4,CELL_SIZE-4)
-				chip.position = Vector2(2,2)
-				chip.add_theme_font_size_override("font_size",12)
-				for name in ["normal","hover","pressed"]: chip.add_theme_stylebox_override(name,StyleBoxEmpty.new())
-				chip.pressed.connect(click_cell.bind(cell))
-				chip.focus_entered.connect(focus_entry.bind(entry))
-
-				panel.add_child(chip)
-				if positions.get(entry,cell) == cell:
-					chip.text = "\n\n"+entry_info(entry).name.left(4)
-					if state.is_gun(entry):
-						var art := TextureRect.new()
-						art.texture = Weapons.art(state.gun_id(entry))
-						art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-						art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-						art.position = Vector2(7,3)
-						art.size = Vector2(40,25)
-						art.material = Weapons.Visuals.body_material(state.gun_id(entry),art.size)
-						art.mouse_filter = Control.MOUSE_FILTER_IGNORE
-						chip.add_child(art)
-					else: add_item_art(chip,entry,Rect2(17,4,22,22),false)
-				# Connect cells from the same item across gutters without blocking input.
-				for direction in [Vector2i.RIGHT,Vector2i.DOWN]:
-					if occupied.has(cell+direction) and same_entry(occupied[cell+direction],entry):
-						var bridge := ColorRect.new()
-						bridge.color = style.bg_color
-						bridge.position = Vector2(CELL_SIZE,0) if direction == Vector2i.RIGHT else Vector2(0,CELL_SIZE)
-						bridge.size = Vector2(CELL_GAP,CELL_SIZE) if direction == Vector2i.RIGHT else Vector2(CELL_SIZE,CELL_GAP)
-						bridge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-						panel.add_child(bridge)
-			panel.add_theme_stylebox_override("panel",style)
-			grid.add_child(panel)
+	GridView.build(self,parent,state,i,build)

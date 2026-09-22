@@ -1,4 +1,5 @@
 extends RefCounted
+const Commerce = preload("res://scripts/game/inventory_commerce.gd")
 const Shop = preload("res://scripts/catalog/shop_catalog.gd")
 var gold := [Shop.INITIAL_GOLD,Shop.INITIAL_GOLD]
 var products: Array = [[],[]]
@@ -109,47 +110,17 @@ func usable_cells(i: int = 0) -> Dictionary:
 func capacity(i: int = 0) -> int:
 	return usable_cells(i).size()
 func expansion_pending(i: int) -> bool:
-	return valid_slot(i) and can_trade(i) and not expansion_bought[i] and capacity(i) <= 20
+	return Commerce.expansion_pending(self,i)
 func expansion_purchase_reason(i: int, shape: String) -> String:
-	if not valid_slot(i) or not Expansions.SHAPES.has(shape): return "無効な拡張"
-	if not can_trade(i): return "現在は購入・売却できません"
-	if expansion_bought[i]: return "この準備では購入済み"
-	if capacity(i)+Expansions.SHAPES[shape].size() > BuildGrid.MAX_AREA: return "上限24マス（残り%d）" % (BuildGrid.MAX_AREA-capacity(i))
-	if gold[i] < Expansions.SHAPES[shape].size(): return "資金不足（必要%dG）" % Expansions.SHAPES[shape].size()
-	return ""
+	return Commerce.expansion_purchase_reason(self,i,shape)
 func expansion_offer_reason(i: int, shape: String) -> String:
-	var reason := expansion_purchase_reason(i,shape)
-	if not reason.is_empty(): return reason
-	for y in range(MAX_GRID_SIZE.y):
-		for x in range(MAX_GRID_SIZE.x):
-			if expansion_reason(i,shape,Vector2i(x,y)).is_empty(): return ""
-	return "この形を置ける場所なし"
+	return Commerce.expansion_offer_reason(self,i,shape)
 func expansion_reason(i: int, shape: String, anchor: Vector2i) -> String:
-	var reason := expansion_purchase_reason(i,shape)
-	if not reason.is_empty(): return reason
-	var usable := usable_cells(i)
-	var connected := false
-	for offset in Expansions.SHAPES[shape]:
-		var cell: Vector2i = anchor+offset
-		if cell.x < 0 or cell.y < 0 or cell.x >= MAX_GRID_SIZE.x or cell.y >= MAX_GRID_SIZE.y: return "グリッドの外"
-		if usable.has(cell): return "開放済みマスと重複"
-		for direction in [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN]:
-			if usable.has(cell+direction): connected = true
-	return "" if connected else "バッグに辺で接続してください"
+	return Commerce.expansion_reason(self,i,shape,anchor)
 func place_expansion(i: int, shape: String, anchor: Vector2i) -> bool:
-	if not expansion_reason(i,shape,anchor).is_empty(): return false
-	gold[i] -= Expansions.SHAPES[shape].size()
-	expansion_bought[i] = true
-	if not builds[i].has("bag_expansions"): builds[i]["bag_expansions"] = []
-	builds[i].bag_expansions.append({"shape":shape,"anchor":anchor})
-	return true
+	return Commerce.place_expansion(self,i,shape,anchor)
 func auto_expand(i: int) -> bool:
-	if not expansion_pending(i): return false
-	for shape in Expansions.SHAPES:
-		for y in range(MAX_GRID_SIZE.y):
-			for x in range(MAX_GRID_SIZE.x):
-				if place_expansion(i,shape,Vector2i(x,y)): return true
-	return false
+	return Commerce.auto_expand(self,i)
 func reserve_items(i: int) -> Array:
 	return builds[i].owned.filter(func(entry): return entry not in builds[i].equipped)
 func reserve_full(i: int) -> bool:
@@ -224,59 +195,25 @@ func carried_guns(i: int) -> Array:
 func equipped_relics(i: int) -> Array:
 	return Items.relic_ids(builds[i].equipped)
 func _base_products() -> Array:
-	var result: Array = []
-	for slot in range(2):
-		var roll: int = generator.rng.randi_range(0,99)
-		var rarity: String
-		if shop_stage() < 3: rarity = "C" if roll < 35 else ("B" if roll < 75 else "A")
-		else: rarity = "C" if roll < 25 else ("B" if roll < 60 else ("A" if roll < 85 else "S"))
-		var pool: Array = Weapons.rarity_pool(rarity)
-		result.append(gun_token(pool[generator.rng.randi_range(0,pool.size()-1)]))
-	for slot in range(3): result.append(Relics.SUPPORTED[generator.rng.randi_range(0,Relics.SUPPORTED.size()-1)])
-	return result
+	return Commerce._base_products(self)
 func _card(entry) -> Dictionary:
-	var result := {"id":"card:%d" % next_card_id,"entry":entry,"price":Shop.price(entry),"sold":false}
-	next_card_id += 1
-	return result
+	return Commerce._card(self,entry)
 func _set_products(i: int, base: Array) -> void:
-	products[i] = []
-	for entry in base: products[i].append(_card(entry))
-	_sync_rewards(i)
-	sync_mod_product(i)
+	Commerce._set_products(self,i,base)
 func _sync_rewards(i: int) -> void:
-	rewards[i] = products[i].map(func(card): return card.entry)
+	Commerce._sync_rewards(self,i)
 func generate_rewards() -> void:
-	var base := _base_products()
-	for i in range(builds.size()): _set_products(i,base)
+	Commerce.generate_rewards(self)
 func sync_mod_product(i: int) -> void:
-	if not can_trade(i): return
-	# Once offered, retain even an unavailable mod: moving equipment is not a free reroll.
-	var cards: Array = products[i].filter(func(card): return str(card.entry).begins_with("mod:"))
-	if not cards.is_empty(): return
-	var candidates := mod_candidates(i)
-	if not candidates.is_empty(): products[i].append(_card(candidates[generator.rng.randi_range(0,candidates.size()-1)]))
-	_sync_rewards(i)
+	Commerce.sync_mod_product(self,i)
 func refresh_shop(i: int) -> bool:
-	if not can_trade(i) or refreshed[i] or gold[i] < Shop.REFRESH_PRICE: return false
-	gold[i] -= Shop.REFRESH_PRICE
-	refreshed[i] = true
-	_set_products(i,_base_products())
-	return true
+	return Commerce.refresh_shop(self,i)
 func product(i: int, card_id: String) -> Dictionary:
-	if not valid_slot(i): return {}
-	for card in products[i]:
-		if card.id == card_id: return card
-	return {}
+	return Commerce.product(self,i,card_id)
 func mod_candidates(i: int) -> Array:
-	var result: Array = []
-	for main_id in carried_guns(i):
-		if not Weapons.moddable(main_id) or builds[i].get("mods",{}).has(main_id): continue
-		for mod in Weapons.mods_for(main_id): result.append(Weapons.mod_token(main_id,mod.key))
-	return result
+	return Commerce.mod_candidates(self,i)
 func acquisition_reason(i: int, entry) -> String:
-	if not valid_slot(i): return "無効"
-	if not can_trade(i): return "現在は購入・売却できません"
-	return storage_reason(i,entry)
+	return Commerce.acquisition_reason(self,i,entry)
 func storage_reason(i: int, entry) -> String:
 	if not valid_slot(i): return "無効"
 	if str(entry).begins_with("mod:"): return mod_reason(i,entry)
@@ -294,23 +231,9 @@ func grant_item(i: int, entry, source: String = "loot") -> bool:
 	_acquire(i,entry,source,0,"")
 	return true
 func purchase_reason(i: int, card_id: String) -> String:
-	var card := product(i,card_id)
-	if card.is_empty(): return "候補外"
-	if card.price < 0 or (is_gun(card.entry) and not Weapons.distributable(gun_id(card.entry))): return "非売品"
-	if card.sold: return "売り切れ"
-	var why := acquisition_reason(i,card.entry)
-	if not why.is_empty(): return why
-	if gold[i] < card.price: return "資金不足"
-	return ""
+	return Commerce.purchase_reason(self,i,card_id)
 func purchase(i: int, card_id: String) -> bool:
-	if not purchase_reason(i,card_id).is_empty(): return false
-	var card := product(i,card_id)
-	# All validation precedes this synchronous transaction; no signal/await in between.
-	gold[i] -= card.price
-	card.sold = true
-	_acquire(i,card.entry,"purchase",card.price,card.id)
-	purchase_counts[i] += 1
-	return true
+	return Commerce.purchase(self,i,card_id)
 func _acquire(i: int, entry, source: String, paid: int, card_id: String):
 	var token = entry
 	if str(entry).begins_with("mod:"):
@@ -330,39 +253,20 @@ func _acquire(i: int, entry, source: String, paid: int, card_id: String):
 	builds[i].acquisitions[token] = {"source":source,"paid":paid,"card_id":card_id}
 	return token
 func temporary_reason(i: int) -> String:
-	if not valid_slot(i) or temporary[i] < 0: return "持ち帰り候補なし"
-	return acquisition_reason(i,temporary[i])
+	return Commerce.temporary_reason(self,i)
 func claim_temporary(i: int) -> bool:
-	if not temporary_reason(i).is_empty(): return false
-	_acquire(i,temporary[i],"field",0,"")
-	temporary[i] = -1
-	return true
+	return Commerce.claim_temporary(self,i)
 # Compatibility convenience for callers selecting an entry. UI uses immutable card IDs.
 func reason(i: int, entry) -> String:
-	if not valid_slot(i): return "無効"
-	for card in products[i]:
-		if typeof(card.entry) == typeof(entry) and card.entry == entry: return purchase_reason(i,card.id)
-	return "候補外"
+	return Commerce.reason(self,i,entry)
 func claim(i: int, entry) -> bool:
-	if not valid_slot(i): return false
-	for card in products[i]:
-		if typeof(card.entry) == typeof(entry) and card.entry == entry: return purchase(i,card.id)
-	return false
+	return Commerce.claim(self,i,entry)
 func mod_reason(i: int, token: String) -> String:
-	if not can_trade(i): return "現在は購入・売却できません"
-	var parsed := Weapons.parse_mod_token(token)
-	if parsed.is_empty(): return "無効"
-	if gun_token(parsed.weapon_id) not in builds[i].equipped: return "携行していない"
-	if builds[i].get("mods",{}).has(parsed.weapon_id): return "改造済み"
-	return ""
+	return Commerce.mod_reason(self,i,token)
 func sale_value(i: int, entry) -> int:
-	return int(builds[i].get("acquisitions",{}).get(entry,{}).get("paid",0)/2)
+	return Commerce.sale_value(self,i,entry)
 func sell(i: int, entry) -> bool:
-	if not can_trade(i) or entry not in builds[i].owned: return false
-	var value := sale_value(i,entry)
-	if not discard(i,entry): return false
-	gold[i] += value
-	return true
+	return Commerce.sell(self,i,entry)
 # 「収まるなら装備する」自動配置。P8xでグリッドの空きマスが実際の制約になったため、旧来の
 # 「置き場がなくても個数上限内なら装備は成立する」という抜け道は廃止した——装備が成立する＝
 # 実際にグリッドへ置ける、という一本の基準に統一する。P8yで人間の操作経路（claim()の即時装備）

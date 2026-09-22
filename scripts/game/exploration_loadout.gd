@@ -34,27 +34,10 @@ static func capture(player, bank: Dictionary) -> void:
 		bank[token].weapon = weapon.duplicate(true)
 	if player.has_weapon():
 		var record: Dictionary = bank[Items.gun_token(player.weapon().id)]
-		record.shot = player.state.shot
-		record.reload = player.state.reload
-		record.empty = player.state.reload_started_empty
+		record.merge(player.weapon_timing_snapshot(),true)
 static func restore_active(player, bank: Dictionary) -> void:
-	player.state.reload = 0.0
-	player.state.reload_slot = -1
-	player.state.reload_started_empty = false
-	if not player.has_weapon(): return
-	var token := Items.gun_token(player.weapon().id)
-	if not bank.has(token): return
-	var record: Dictionary = bank[token]
-	player.state.shot = maxf(player.state.shot,record.shot)
-	player.state.reload = record.reload
-	player.state.reload_started_empty = record.empty
-	if record.reload > 0:
-		player.state.reload_slot = player.weapon().id
-		player.reload_visual_token += 1
-		player.reload_visual_active = true
-		player.reload_visual_weapon = player.weapon().id
-		player.reload_visual_duration = record.reload
-		player.emit_weapon_event("reload_start",player.weapon().id)
+	var record: Dictionary = bank.get(Items.gun_token(player.weapon().id),{}) if player.has_weapon() else {}
+	player.restore_weapon_timing(record)
 static func apply(player, live, candidate: Dictionary, bank: Dictionary) -> bool:
 	if live.ended or not validate(live,candidate): return false
 	capture(player,bank)

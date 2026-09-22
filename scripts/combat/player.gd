@@ -442,11 +442,7 @@ func start_reload() -> void:
 	# P8z ステップA：装填中の武器をインベントリの添字ではなく武器idで覚える。ステップBで携行
 	# 武器の並びがグリッド由来になると添字が動きうるため（idはadd_gun()が重複を弾くので一意）。
 	state.reload_slot = weapon().id
-	reload_visual_token += 1
-	reload_visual_active = true
-	reload_visual_weapon = weapon().id
-	reload_visual_duration = state.reload
-	emit_weapon_event("reload_start",reload_visual_weapon)
+	present_reload()
 	preload("res://scripts/combat/weapon_behaviors.gd").dispatch(reload_visual_weapon,&"reload_start",{"actor":self})
 	# 空薬莢の祝福 only cares about a reload that began from a *fully* empty clip; partial
 	# top-ups never reach here anyway (guarded above), but this keeps the "empty" distinction
@@ -454,6 +450,29 @@ func start_reload() -> void:
 	state.reload_started_empty = weapon().clip == 0
 	sound_requested.emit("reload",weapon().id)
 	$Animation.present(visual_snapshot())
+func present_reload() -> void:
+	reload_visual_token += 1
+	reload_visual_active = true
+	reload_visual_weapon = weapon().id
+	reload_visual_duration = state.reload
+	emit_weapon_event("reload_start",reload_visual_weapon)
+
+# Snapshot/restore has no ammunition allocation or reload-completion effects.
+func weapon_timing_snapshot() -> Dictionary:
+	return {"shot":state.shot,"reload":state.reload,"empty":state.reload_started_empty}
+
+func restore_weapon_timing(record: Dictionary = {}) -> void:
+	state.reload = 0.0
+	state.reload_slot = -1
+	state.reload_started_empty = false
+	if not has_weapon() or record.is_empty(): return
+	state.shot = maxf(state.shot,record.shot)
+	state.reload = record.reload
+	state.reload_started_empty = record.empty
+	if state.reload > 0:
+		state.reload_slot = weapon().id
+		present_reload()
+
 func finish_reload() -> void:
 	if not has_weapon() or state.reload_slot != weapon().id: return
 	var w := weapon()

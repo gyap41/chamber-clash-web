@@ -1,4 +1,6 @@
 extends CanvasLayer
+const Grid = preload("res://scripts/game/build_grid.gd")
+const Footprint = preload("res://scripts/ui/item_footprint.gd")
 const Widgets = preload("res://scripts/ui/hud_widgets.gd")
 const Cell = preload("res://scripts/ui/relic_grid_cell.gd")
 const Chip = preload("res://scripts/ui/relic_chip.gd")
@@ -78,16 +80,27 @@ func refresh() -> void:
 	Widgets.label(panel,"Title",Rect2(24,15,870,34),24).text = "携帯工房 ／ 装備の整理（探索停止中）"
 	Widgets.label(panel,"Help",Rect2(24,54,910,35),15).text = message
 	Widgets.label(panel,"Equipped",Rect2(24,95,330,28),18).text = "バッグ ／ 使用 %d / %d マス" % [draft.occupied_cells(0).size(),draft.usable_cells(0).size()]
+	build_grid(panel)
+	build_reserve(panel)
+	build_details(panel)
+	Widgets.button(panel,"Unequip",Rect2(662,410,270,40),"選択した装備を控えへ",func():
+		if selected != null: remove(selected))
+	Widgets.button(panel,"Close",Rect2(750,510,182,40),"閉じる ／ Esc",func(): close_requested.emit())
+	Widgets.label(panel,"Controls",Rect2(24,510,710,35),14).text = "変更は即時反映  ・  Tab / Esc：閉じる  ・  ドラッグ／クリックで配置"
+	if selected != null: select(selected)
+
+func build_grid(panel: Control) -> void:
 	var grid := GridContainer.new()
 	grid.name = "Grid"
-	grid.columns = 6
+	grid.columns = Grid.MAX_GRID_SIZE.x
 	grid.position = Vector2(24,130)
 	grid.add_theme_constant_override("h_separation",3)
 	grid.add_theme_constant_override("v_separation",3)
 	panel.add_child(grid)
 	var occupied: Dictionary = draft.occupied_cells(0)
-	for y in range(6):
-		for x in range(6):
+	var usable: Dictionary = draft.usable_cells(0)
+	for y in range(Grid.MAX_GRID_SIZE.y):
+		for x in range(Grid.MAX_GRID_SIZE.x):
 			var pos := Vector2i(x,y)
 			var cell := Cell.new()
 			cell.name = "Cell_%d_%d" % [x,y]
@@ -97,7 +110,7 @@ func refresh() -> void:
 			cell.on_drop = place
 			cell.on_click = click_cell
 			var style := StyleBoxFlat.new()
-			style.bg_color = Color("283b44") if draft.usable_cells(0).has(pos) else Color("11171a")
+			style.bg_color = Color("283b44") if usable.has(pos) else Color("11171a")
 			style.border_color = Color("64777c")
 			style.set_border_width_all(1)
 			if occupied.has(pos):
@@ -118,25 +131,20 @@ func refresh() -> void:
 				chip.pressed.connect(click_cell.bind(pos))
 				cell.add_child(chip)
 				if draft.builds[0].positions[entry] == pos: add_art(chip,entry,Rect2(4,4,38,38))
-				# Join the footprint while retaining faint cell boundaries for counting.
-				for direction in [Vector2i.RIGHT,Vector2i.DOWN]:
-					if occupied.get(pos+direction) == entry:
-						var bridge := ColorRect.new()
-						bridge.color = style.bg_color
-						bridge.position = Vector2(48,1) if direction == Vector2i.RIGHT else Vector2(1,48)
-						bridge.size = Vector2(3,46) if direction == Vector2i.RIGHT else Vector2(46,3)
-						bridge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-						cell.add_child(bridge)
-			elif not draft.usable_cells(0).has(pos): Widgets.label(cell,"Locked",Rect2(13,9,25,30),21).text = "×"
-	Widgets.label(panel,"ReserveTitle",Rect2(365,95,270,28),18).text = "控え %d / 8" % draft.reserve_items(0).size()
+				preload("res://scripts/ui/item_grid_appearance.gd").join_cells(cell,style,occupied,pos,entry,48,3,true)
+			elif not usable.has(pos): Widgets.label(cell,"Locked",Rect2(13,9,25,30),21).text = "×"
+
+func build_reserve(panel: Control) -> void:
+	Widgets.label(panel,"ReserveTitle",Rect2(365,95,270,28),18).text = "控え %d / %d" % [draft.reserve_items(0).size(),Grid.RESERVE_CAPACITY]
 	var tray := Tray.new()
 	tray.name = "Reserve"
 	tray.position = Vector2(360,130)
 	tray.size = Vector2(280,355)
 	tray.on_drop = remove
 	panel.add_child(tray)
-	for i in range(draft.reserve_items(0).size()):
-		var entry = draft.reserve_items(0)[i]
+	var reserve: Array = draft.reserve_items(0)
+	for i in range(reserve.size()):
+		var entry = reserve[i]
 		var chip := Chip.new()
 		chip.entry = entry
 		chip.position = Vector2(6,i*43+4)
@@ -150,16 +158,13 @@ func refresh() -> void:
 		chip.pressed.connect(select.bind(entry))
 		tray.add_child(chip)
 		add_art(chip,entry,Rect2(6,3,32,32))
+
+func build_details(panel: Control) -> void:
 	detail = Widgets.label(panel,"Detail",Rect2(662,130,274,210),16)
 	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	detail.text = "装備を選ぶと詳細を表示します。\n\n控えの武器の弾薬・モード・待ち時間は保持されます。\n装備の着脱でHPは回復しません。"
-	footprint = preload("res://scripts/ui/item_footprint.gd").new()
+	footprint = Footprint.new()
 	footprint.position = Vector2(680,350)
 	footprint.size = Vector2(92,48)
 	footprint.visible = false
 	panel.add_child(footprint)
-	Widgets.button(panel,"Unequip",Rect2(662,410,270,40),"選択した装備を控えへ",func():
-		if selected != null: remove(selected))
-	Widgets.button(panel,"Close",Rect2(750,510,182,40),"閉じる ／ Esc",func(): close_requested.emit())
-	Widgets.label(panel,"Controls",Rect2(24,510,710,35),14).text = "変更は即時反映  ・  Tab / Esc：閉じる  ・  ドラッグ／クリックで配置"
-	if selected != null: select(selected)

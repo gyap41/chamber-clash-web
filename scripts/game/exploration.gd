@@ -4,6 +4,7 @@ const Rooms = preload("res://scripts/game/exploration_rooms.gd")
 const Door = preload("res://scripts/world/exploration_door.gd")
 var room_catalog: Dictionary = Rooms.ROOMS
 var start_room := Rooms.START_ROOM
+const Loot = preload("res://scripts/game/exploration_loot.gd")
 const Loadout = preload("res://scripts/game/exploration_loadout.gd")
 var bag
 var loot_nodes: Array = []
@@ -259,46 +260,18 @@ func apply_command(index: int, command: Dictionary) -> void:
 	super.apply_command(index,command)
 	if old != (players[0].weapon().id if players[0].has_weapon() else -1):
 		Loadout.restore_active(players[0],exploration.weapon_bank)
-# Fixed P1 pickups; IDs survive room rebuilding. Full reward generation belongs to P4.
+# Compatibility entry points; pickup policy and presentation live in ExplorationLoot.
 func room_loot() -> Array:
-	if exploration.room_id != "workshop_trial": return []
-	return [{"id":"workshop_trial:weapon_1","kind":"weapon","item":1,"pos":Vector2(410,350),"label":str(preload("res://scripts/catalog/weapon_catalog.gd").definition(1).name)},
-		{"id":"workshop_trial:relic_4","kind":"relic","item":4,"pos":Vector2(680,400),"label":str(preload("res://scripts/catalog/relic_catalog.gd").definition(4).name)}]
+	return Loot.entries(exploration.room_id)
 func nearby_loot() -> Dictionary:
-	for loot in room_loot():
-		if exploration.collected_loot.has(loot.id): continue
-		if players[0].state.pos.distance_to(loot.pos) <= 64 and not arena.line_blocked(players[0].state.pos,loot.pos): return loot
-	return {}
+	return Loot.nearby(room_loot(),exploration.collected_loot,players[0].state.pos,arena)
 func try_collect_loot() -> bool:
 	if paused or phase != "play" or players[0].state.hp <= 0: return false
 	var loot := nearby_loot()
 	if loot.is_empty(): return false
-	var inv = exploration.inventory
-	var acquired := false
-	if loot.kind == "weapon": acquired = inv.store_field_weapon(0,loot.item)
-	else: acquired = inv.store_field_relic(loot.item)
-	if acquired:
-		exploration.collected_loot[loot.id] = true
-		loot_message = loot.label+"を取得しました  ·  Tabで配置して使用"
-		rebuild_loot()
-	else: loot_message = "取得できません：控えの空き・所持済み装備を確認  ·  Tab：バッグ"
+	var outcome := Loot.collect(loot,exploration)
+	loot_message = outcome.message
+	if outcome.acquired: rebuild_loot()
 	return true
 func rebuild_loot() -> void:
-	for node in loot_nodes:
-		if is_instance_valid(node): node.get_parent().remove_child(node); node.queue_free()
-	loot_nodes.clear()
-	for loot in room_loot():
-		if exploration.collected_loot.has(loot.id): continue
-		var node := Node2D.new()
-		node.position = loot.pos
-		var sprite := Sprite2D.new()
-		sprite.texture = preload("res://scripts/catalog/weapon_catalog.gd").art(loot.item) if loot.kind == "weapon" else preload("res://scripts/ui/hud_assets.gd").texture("relic_%02d" % loot.item)
-		sprite.scale = Vector2.ONE*36.0/maxf(sprite.texture.get_width(),sprite.texture.get_height())
-		node.add_child(sprite)
-		var label := Label.new()
-		label.text = "F：取得"
-		label.position = Vector2(-28,22)
-		label.add_theme_font_size_override("font_size",12)
-		node.add_child(label)
-		arena.add_child(node)
-		loot_nodes.append(node)
+	Loot.rebuild(arena,room_loot(),exploration.collected_loot,loot_nodes)

@@ -386,3 +386,5 @@ four_way_roomsは上下144px・左右112pxの開口、方向/幅の不正値拒�
 フォーカス復帰：`Godot --headless --path . --script res://tests/exploration_focus.gd --quit-after 120`。アプリのフォーカス喪失/復帰通知を3往復させ、停止中の位置保持、復帰後の移動、射撃押下と予約入力の消去、手動ポーズ/バッグ停止の維持を検証する。Godotエディタの再生ボタンからの手動確認は別途、探索中に別ウィンドウへ移り、ゲームへ戻って移動・Tabを操作する。
 
 隣室更新：stage_templatesで共通接続壁テーマ、家具5点の衝突、旧石ブロック位置と西扉・到着点の空きを検証。exploration_roomsの描画あり実行で20往復・重複生成防止を確認。画像はdocs/art/production/workshop-annex/room-preview.png。
+
+商取引・拾得物の分離後の回帰確認：`purchase_economy.gd`（支払い・売却・二重購入拒否）、`bag_expansion.gd`（拡張配置と課金）、`reward_generation.gd`（seedと共有商品）、`preparation_boundaries.gd`（CPU20試合）、`exploration_bag.gd`（拾得・満杯・状態保持）、`exploration_rooms.gd`（20往復）。いずれも `Godot --headless --path . --script res://tests/<ファイル名> --quit-after 600` で実行。`exploration_bag_ui.gd` は描画ありで実クリックを確認する。終了時のObjectDB/Resource警告はテストのPASSと分けて扱う。

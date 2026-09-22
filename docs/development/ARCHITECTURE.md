@@ -222,10 +222,22 @@ StageTheme / FieldDefinition / RoomTemplate / StagePlacementへ表示素材・�
 
 ## 探索中の装備編集（P1）
 
-ExplorationBagは表示と編集用ExplorationInventoryを扱い、対戦のMatchStateを使わない。RelicGridCellはinventory_stateを受け取れるようにし、従来準備画面のgame.match_state参照は互換として維持。RelicChip/RelicTray/ItemFootprint/HUD部品を共有する。
+ExplorationBagは表示と編集用ExplorationInventoryを扱い、対戦のMatchStateを使わない。RelicGridCellはinventory_stateを受け取れるようにし、従来準備画面のgame.match_state参照は互換として維持。RelicChip/RelicTray/ItemFootprint/HUD部品を共有する。バッグの画面構築はグリッド・控え・詳細の関数に分け、グリッド寸法と控え容量はBuildGridの共通定義を参照する。
 
 配置・解除ごとにon_changeから探索側へ変更を渡し、成功・失敗のどちらもライブ状態から編集コピーを更新する。閉じる操作は反映・取消を行わない。画面構成と停止/反映規則はモード別に維持し、CPU戦と共通化するのは表示・操作部品までとする。
 
 ExplorationLoadout.validateは配置以外の所持情報が元と同じこと、形状・重複・携行数・控え容量を確認する。検証前にライブの所持品/キャラを変更しない。applyは現在の武器状態をExplorationState.weapon_bankへ退避し、apply_build(heal=false)で能力を反映後、保持した武器と待ち時間を復元する。新規武器の弾薬は初回だけ作る。通常入力と遅延された武器切替も探索側で保持処理を通す。共通戦闘の対戦用装備適用は変更しない。
 
 探索の停止理由inventoryはmenu/focusと独立。bagが存在する間は戦闘入力を通さず、closeで入力をクリアし左ボタンの解除を要求する。固定拾得物は安定IDをcollected_lootへ記録する。正式な生成・宝箱・報酬・保存の実装ではない。
+
+## 準備UIと装填状態の境界
+
+PreparationGridは対戦準備のグリッド描画を担当する。選択・購入・配置の判断はPreparationに残し、描画側からコールバックを呼ぶ。ItemGridAppearanceは同じ装備の占有マス間をつなぐ描画のみを共有し、探索のマス区切りと対戦の連続表示を維持する。セル寸法はPreparationGridに集約する。
+
+Player.weapon_timing_snapshot / restore_weapon_timingが射撃待ち・装填残り時間・空弾倉開始フラグを扱う。ExplorationLoadoutは武器ごとの保存先と復帰方針を管理し、Playerの装填演出変数を直接変更しない。present_reloadで通常装填と復帰時の演出開始を共通化する。復帰では弾薬補充や装填完了効果、通常開始時の武器固有効果を発動しない。対戦の持ち替えによる装填中断は維持する。
+
+## 所持品・商取引・探索拾得の境界
+
+RunInventoryは所持品、個体ID、配置、控え、取得履歴と実行中の状態を保持する。InventoryCommerceは商品抽選、カード、購入/売却、再抽選、改造、支払いを伴うバッグ拡張の処理を担当する。既存のRunInventoryメソッドは互換窓口として委譲するため、UI・CPU・MatchStateの呼び出しは維持する。データを複製せず、サービスは所有者を保持しない。can_trade/can_edit/shop_stageとgenerate_rewardsのモード別上書きを維持し、探索でショップを無効にする。探索用ショップの追加時には価格・回数制限等の方針を別途設計する。
+
+ExplorationLootは固定拾得物の定義、距離/射線による候補選択、所持品への取得、取得済みIDの記録と表示ノードの再構築を担当する。Explorationは停止・死亡・フェーズによる操作制限と案内更新を担当する。取得済み状態はExplorationState.collected_loot、表示ノード一覧は探索側が所有し、部屋再構築時に破棄する。乱数報酬・部屋インスタンスID・永続セーブはこの分離では追加しない。
