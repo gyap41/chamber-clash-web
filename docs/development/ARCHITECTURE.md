@@ -219,3 +219,13 @@ Visual Hubライブ一覧の表示は、単一Godot WebのアトラスからDOM�
 ## ステージ構成データ（2026-09-21）
 
 StageTheme / FieldDefinition / RoomTemplate / StagePlacementへ表示素材・幾何・扉・配置を分割し、固定2部屋を移行した。FieldBuilderは配置物と照明の生成/破棄も管理する。詳細は[ステージテンプレート](STAGE_TEMPLATES.md)。wall_idsを使う探索の材質指定はwall_materialsを優先し、旧式wall_texturesは互換用。
+
+## 探索中の装備編集（P1）
+
+ExplorationBagは表示と編集用ExplorationInventoryを扱い、対戦のMatchStateを使わない。RelicGridCellはinventory_stateを受け取れるようにし、従来準備画面のgame.match_state参照は互換として維持。RelicChip/RelicTray/ItemFootprint/HUD部品を共有する。
+
+配置・解除ごとにon_changeから探索側へ変更を渡し、成功・失敗のどちらもライブ状態から編集コピーを更新する。閉じる操作は反映・取消を行わない。画面構成と停止/反映規則はモード別に維持し、CPU戦と共通化するのは表示・操作部品までとする。
+
+ExplorationLoadout.validateは配置以外の所持情報が元と同じこと、形状・重複・携行数・控え容量を確認する。検証前にライブの所持品/キャラを変更しない。applyは現在の武器状態をExplorationState.weapon_bankへ退避し、apply_build(heal=false)で能力を反映後、保持した武器と待ち時間を復元する。新規武器の弾薬は初回だけ作る。通常入力と遅延された武器切替も探索側で保持処理を通す。共通戦闘の対戦用装備適用は変更しない。
+
+探索の停止理由inventoryはmenu/focusと独立。bagが存在する間は戦闘入力を通さず、closeで入力をクリアし左ボタンの解除を要求する。固定拾得物は安定IDをcollected_lootへ記録する。正式な生成・宝箱・報酬・保存の実装ではない。

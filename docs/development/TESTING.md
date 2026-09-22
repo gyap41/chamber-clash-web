@@ -369,3 +369,20 @@ four_way_roomsは上下144px・左右112pxの開口、方向/幅の不正値拒�
 壁正面の接続修正：connected_wall_surfaceに右通路の側壁厚みが正面となり、正面と上面の面積重複がないことを追加。four_way_roomsには左右両方の接合を追加。両テストPASS（前者のヘッドレス終了時に既存ObjectDB警告あり）。exploration_rooms/four_way_roomsの描画付き20往復もPASS。exploration_roomsはstderr空、four_way_roomsは終了時ObjectDB警告あり。工房と四方向検証室を目視確認。ログ.local/wall-return*.log。
 
 上側の角の再修正：connected_wall_surfaceで左右北角が上面、通路終端が正面であることを同時に検証してPASS。正面と上面の重複なしも維持。ヘッドレス終了時ObjectDB警告あり。exploration_roomsの描画・20回遷移はPASS、stderr空（.local/wall-upper-corner.log）。上側の連続と下側の石積み維持を目視確認。
+
+## P1 探索バッグ（2026-09-22）
+
+通常入口の工房でTabまたは「バッグ」。Fで固定の武器/レリックを取得し、控えからドラッグまたは選択→マスクリックで配置。配置・解除は即時反映。「閉じる」/Esc/Tabで変更を維持して戻る。使用/使用可能マス数、控えと詳細の占有マス数、グリッドの色付き形状を確認する。工房と隣室を往復して取得物が復活しないことを確認する。
+
+```powershell
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --path . --script res://tests/exploration_bag.gd --quit-after 600 -- --capture
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --path . --script res://tests/exploration_bag_ui.gd --quit-after 600 -- --capture
+```
+
+状態テストは停止/即時反映/閉じる、不正配置の原状維持、丸腰からの再装備、弾薬/モード/射撃待ち/装填/回避/充電保持、HP上限着脱、拾得後の利用、再訪、満杯時の拾得と解除拒否、他停止理由、死亡時拒否、再挑戦を検証。UIテストは実クリックで開閉・選択・即時配置・占有数表示し射撃漏れがないことを確認。両方の最終描画実行PASS・stderr空。非表示ウィンドウの初期フォーカス通知後にテストの停止を解除する。
+
+回帰exploration_rooms/four_way_rooms/preparation_ui/preparation_boundaries/build_inventory/exploration_mode/shared_combat_hud/extension_boundariesはPASS。一部ヘッドレス終了時にObjectDB/Resource警告が残る。バッグ画面を通常サイズで目視確認。実ドラッグ操作の手動受入・Web・敵ありの体験は未確認。ログ.local/exploration-bag*.log、記録画像docs/art/reviews/exploration-bag-2026-09-22/preview.png。
+
+フォーカス復帰：`Godot --headless --path . --script res://tests/exploration_focus.gd --quit-after 120`。アプリのフォーカス喪失/復帰通知を3往復させ、停止中の位置保持、復帰後の移動、射撃押下と予約入力の消去、手動ポーズ/バッグ停止の維持を検証する。Godotエディタの再生ボタンからの手動確認は別途、探索中に別ウィンドウへ移り、ゲームへ戻って移動・Tabを操作する。
+
+隣室更新：stage_templatesで共通接続壁テーマ、家具5点の衝突、旧石ブロック位置と西扉・到着点の空きを検証。exploration_roomsの描画あり実行で20往復・重複生成防止を確認。画像はdocs/art/production/workshop-annex/room-preview.png。

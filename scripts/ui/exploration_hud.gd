@@ -6,6 +6,7 @@ const WeaponPanel = preload("res://scripts/ui/hud_weapon_panel.gd")
 const WeaponSlot = preload("res://scripts/ui/hud_weapon_slot.gd")
 const Action = preload("res://scripts/ui/hud_action.gd")
 const MAX_WEAPON_SLOTS := 8
+signal bag_requested
 signal slot_requested(index: int)
 signal pause_requested
 signal retry_requested
@@ -29,6 +30,7 @@ func _ready() -> void:
 	Widgets.label(canvas,"Health",Rect2(28,58,300,22),17)
 	Widgets.label(canvas,"Heading",Rect2(350,12,440,26),20)
 	Widgets.label(canvas,"Status",Rect2(350,47,470,24),15)
+	Widgets.button(canvas,"Bag",Rect2(698,22,120,30),"Tab バッグ",func(): bag_requested.emit())
 	Widgets.button(canvas,"Pause",Rect2(830,22,128,42),"Esc 停止",func(): pause_requested.emit())
 	Widgets.button(canvas,"Title",Rect2(972,22,120,42),"タイトルへ",func(): title_requested.emit())
 	Widgets.box(canvas,"Dock",Rect2(12,700,1096,92))
@@ -78,6 +80,8 @@ func present(view: Dictionary, mode: Dictionary) -> void:
 	if mode.paused: $Root/Status.text = "停止中  ·  Escで再開"
 	if not mode.result.is_empty(): $Root/Status.text = "今回の挑戦は終了しました"
 	$Root/Pause.text = "Esc 再開" if mode.paused else "Esc 停止"
+	$Root/Bag.disabled = mode.paused or not mode.result.is_empty()
+	if mode.get("bag_open",false): $Root/Status.text = "バッグ編集中  ·  変更は即時反映 / Tab・Escで閉じる"
 	$Root/Pause.disabled = not mode.result.is_empty()
 	$Root/Sound.text = "SE ON" if mode.sound_enabled else "SE OFF"
 	$Root/Outcome.visible = not mode.result.is_empty()

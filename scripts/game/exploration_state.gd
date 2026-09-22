@@ -7,6 +7,8 @@ var visited_rooms: Dictionary = {"workshop_trial":true}
 var status := "active"
 var encounter_status := "none"
 var inventory
+var weapon_bank: Dictionary = {}
+var collected_loot: Dictionary = {}
 func _init(value: int = 1) -> void:
 	seed_value = value
 	inventory = Start.create(value)

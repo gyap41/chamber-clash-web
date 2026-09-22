@@ -64,6 +64,13 @@ func run() -> void:
 		assert(not arena.solid(Vector2(700,300),2))
 		assert(arena.configure_field(field,1).is_empty())
 		assert(arena.get_node("StageBackground").get_child_count() == base_count+1)
+	var annex = load("res://data/fields/workshop_annex.tres")
+	assert(annex.theme == Room.field.theme and annex.theme.connected_walls and annex.theme.depth_sort)
+	assert(arena.configure_field(annex,1).is_empty())
+	for center in [Vector2(350,211),Vector2(520,440),Vector2(840,410),Vector2(760,285),Vector2(520,150)]:
+		assert(arena.solid(center,2))
+	assert(not arena.solid(Vector2(600,200),2)) # Removed legacy stone block.
+	assert(not arena.solid(Vector2(70,300),14) and not arena.solid(Vector2(220,300),14))
 	arena.queue_free()
 	await process_frame
 	print("PASS: data-driven theme, stable wall IDs, placement collision/light, exterior constraint, atomic validation and room cleanup")

@@ -5,6 +5,8 @@ extends Panel
 # 子にRelicChipを乗せる／乗せないのはpreparation.gd側の責務（このスクリプトは当たり判定と
 # 委譲のみ）。
 var game
+# Optional mode-owned inventory; preparation keeps its existing fallback.
+var inventory_state
 var player_index := 0
 var cell := Vector2i.ZERO
 var on_drop: Callable
@@ -19,7 +21,8 @@ func _draw() -> void:
 		draw_rect(Rect2(Vector2(2,2),size-Vector2(4,4)),preview_color,false,3)
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 	if typeof(data) != TYPE_DICTIONARY or not data.has("entry"): return false
-	if data.entry not in game.match_state.builds[player_index].owned: return false
-	return game.match_state.fits(player_index,data.entry,cell-data.get("grab_offset",Vector2i.ZERO),data.entry)
+	var state = inventory_state if inventory_state != null else game.match_state
+	if data.entry not in state.builds[player_index].owned: return false
+	return state.fits(player_index,data.entry,cell-data.get("grab_offset",Vector2i.ZERO),data.entry)
 func _drop_data(_at_position: Vector2, data: Variant) -> void:
 	on_drop.call(data.entry,cell-data.get("grab_offset",Vector2i.ZERO))
