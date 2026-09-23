@@ -1,13 +1,14 @@
 extends Node
 # One session-wide player keeps title music continuous across scene changes.
 const TRACKS := {
+	"boss": preload("res://assets/audio/bgm/fw_spinner_boss_04.wav"),
 	"title": preload("res://assets/audio/bgm/fw_title_02.wav"),
 	"prepare": preload("res://assets/audio/bgm/fw_preparation_02.wav"),
 	"play": preload("res://assets/audio/bgm/fw_battle_02.wav")
 }
-const LEVELS := {"title": -18.0, "prepare": -22.0, "play": -22.0}
+const LEVELS := {"boss": -23.0, "title": -18.0, "prepare": -22.0, "play": -22.0}
 # Provisional endpoints omit measured quiet tails; musical seams need listening.
-const LOOP_SECONDS := {"title": 60.0, "prepare": 85.96, "play": 114.07}
+const LOOP_SECONDS := {"boss": 92.0, "title": 60.0, "prepare": 85.96, "play": 114.07}
 var player: AudioStreamPlayer
 var current_track := ""
 var enabled := true

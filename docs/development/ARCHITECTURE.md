@@ -275,3 +275,5 @@ fire_pouch_lizard.gdは探索Actorの被弾・移動を共有し、構え／2発
 探索画面だけがPlayer.exploration_starterを有効化する。infinite_reserve(id)を通常装填・レリック装填・補給とHUDで共用し、サービスピストルの性能補正はresolved_definitionの複製に適用する。共有カタログは書き換えない。
 
 quillback.gdはfire_pouch_lizard.gdの接近・構え・画面内制限を継承し、spitを5方向の単発扇へ置換する。shots/windup_soundは敵定義で指定。負数の専用QUILL_ID=-2はプレイヤー武器と分離。画像と撃破スナップショットはenemy_idで専用シートを選び、organicフラグは粒子材質を決める。
+
+ボスfurnace_warden.gdは既存Actorと画面内判定を共有し、技の順序・HP半分の移行・判定を独立管理する。furnace_warden_visual.gdはスナップショットのみから仮パーツを描画。Encounterがボス室だけ専用Actorを登録し、探索画面が起動中の戦闘入力/更新を抑止する。通常部屋クリアとボス踏破を分岐し、死亡を先に確定する。結果時も描画専用撃破ノードの寿命は更新する。

@@ -39,6 +39,7 @@ var keyboard_fire_held := false
 const RALLY_RATIO := 0.5
 const RALLY_DURATION := 3.0
 # Each wound expires independently: taking another hit never extends old recovery.
+var rally_enabled := true
 var rally_wounds: Array[Dictionary] = []
 # Legacy roll()/damage() keep invincibility (p.inv) separate from the roll animation timer
 # Default characters roll for .26s; Rina dives for .38s with a vulnerable landing.
@@ -157,7 +158,7 @@ func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Diction
 	state.hp = maxf(0,state.hp-amount)
 	if state.hp <= 0:
 		rally_wounds.clear()
-	elif not hazard and attacker != self and (not is_instance_valid(attacker) or team_id.is_empty() or attacker.team_id.is_empty() or team_id != attacker.team_id):
+	elif rally_enabled and not hazard and attacker != self and (not is_instance_valid(attacker) or team_id.is_empty() or attacker.team_id.is_empty() or team_id != attacker.team_id):
 		rally_wounds.append({"amount":actual*RALLY_RATIO,"time":RALLY_DURATION})
 	if not hazard and is_instance_valid(attacker) and attacker != self:
 		if team_id.is_empty() or attacker.team_id.is_empty() or team_id != attacker.team_id:
@@ -173,7 +174,7 @@ func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Diction
 	sync_visual()
 	return true
 func rally_available() -> float:
-	if state.hp <= 0: return 0.0
+	if not rally_enabled or state.hp <= 0: return 0.0
 	var total := 0.0
 	for wound in rally_wounds: total += float(wound.amount)
 	return minf(total,maxf(0.0,state.max_hp-state.hp))

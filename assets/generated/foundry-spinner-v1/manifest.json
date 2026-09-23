@@ -1,0 +1,17 @@
+{
+  "status": "generated source; extraction, registration and runtime integration pending",
+  "files": [
+    {
+      "file": "body.png",
+      "sha256": "b1cb3f708487a39545d5097fc8e1e06fdda391e0ef413852b22d59cb0c3a9b8e"
+    },
+    {
+      "file": "parts.png",
+      "sha256": "36889459b657fd42335b9b60dffc586a6a491d59df0868317b254c4d51d8f24f"
+    },
+    {
+      "file": "effects.png",
+      "sha256": "b7eac278fb7b4582c6255da40e33830ae4997223e3ceca4ccfac65d7941fbf25"
+    }
+  ]
+}

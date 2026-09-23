@@ -3,6 +3,12 @@ signal played(kind: String, id: int)
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const RATE := 44100
 const GENERATED := {
+	"boss_dash": preload("res://assets/audio/se/fw_spinner_dash_03.mp3"),
+	"boss_impact": preload("res://assets/audio/se/fw_spinner_impact_01.mp3"),
+	"boss_overdrive": preload("res://assets/audio/se/fw_spinner_overdrive_01.mp3"),
+	"boss_vent": preload("res://assets/audio/se/fw_spinner_pressure_hiss_01.mp3"),
+	"boss_internal": preload("res://assets/audio/se/fw_spinner_internal_blast_01.mp3"),
+	"boss_explosion": preload("res://assets/audio/se/fw_spinner_explosion_01.mp3"),
 	"sentry_swing": preload("res://assets/audio/se/fw_sentry_swing_01.mp3"),
 	"sentry_down": preload("res://assets/audio/se/fw_sentry_down_01.mp3"),
 	"quill_windup": preload("res://assets/audio/se/fw_quill_windup_01.mp3"),
@@ -72,6 +78,7 @@ var next_voice := 0
 var contact_times: Dictionary = {}
 var bus_name: String
 var rng := RandomNumberGenerator.new()
+var boss_engine: AudioStreamPlayer
 
 func _ready() -> void:
 	rng.randomize()
@@ -84,6 +91,12 @@ func _ready() -> void:
 	compressor.threshold = -18.0
 	compressor.ratio = 5.0
 	AudioServer.add_bus_effect(index,compressor)
+	boss_engine = AudioStreamPlayer.new()
+	boss_engine.stream = preload("res://assets/audio/se/fw_spinner_engine_loop_01.mp3").duplicate()
+	boss_engine.stream.loop = true
+	boss_engine.bus = bus_name
+	boss_engine.playback_type = AudioServer.PLAYBACK_TYPE_STREAM
+	add_child(boss_engine)
 	for i in range(16):
 		var voice := AudioStreamPlayer.new()
 		# Keep generated/synthesized audio and the compressor on the same mixer on Web.
@@ -97,10 +110,25 @@ func _exit_tree() -> void:
 	var index := AudioServer.get_bus_index(bus_name)
 	if index > 0: AudioServer.remove_bus(index)
 
-func stop_all() -> void:
+func stop_all(keep_boss_death: bool = false) -> void:
+	if is_instance_valid(boss_engine): boss_engine.stop()
 	for voice in voices:
+		if keep_boss_death and voice.get_meta("kind","") in ["boss_internal","boss_explosion"]: continue
 		voice.stop()
 		voice.stream = null
+
+func update_boss_engine(active: bool, distance: float = 0.0, intensity: float = 0.0) -> void:
+	if not enabled or not active or distance >= 850:
+		boss_engine.stop()
+		return
+	boss_engine.volume_db = volume_db-30.0-clampf(distance/850.0,0,1)*18.0
+	boss_engine.pitch_scale = 1.0+clampf(intensity,0,1)*.18
+	if not boss_engine.playing: boss_engine.play()
+
+func pause_boss_audio(value: bool) -> void:
+	boss_engine.stream_paused = value
+	for voice in voices:
+		if str(voice.get_meta("kind","")).begins_with("boss_"): voice.stream_paused = value
 
 func set_enabled(value: bool) -> void:
 	enabled = value
@@ -173,12 +201,16 @@ func play_sound(kind: String, id: int = 0) -> void:
 		var generated_voice := voices[next_voice]
 		next_voice = (next_voice+1)%voices.size()
 		generated_voice.stop()
+		generated_voice.stream_paused = false
+		generated_voice.set_meta("kind",kind)
 		generated_voice.bus = bus_name
 		generated_voice.volume_db = volume_db + (-18.0 if kind.begins_with("ui_") or kind == "toggle" else -12.0)
 		if kind == "wall_impact": generated_voice.volume_db -= 12.0
 		elif kind == "ricochet": generated_voice.volume_db -= 8.0
 		elif kind in ["sentry_windup","lizard_inhale","quill_windup"]: generated_voice.volume_db -= 6.0
 		elif kind in ["sentry_swing","lizard_spit","sentry_down","lizard_down","quill_windup","quill_fire","quill_down"]: generated_voice.volume_db -= 3.0
+		elif kind in ["boss_dash","boss_impact","boss_overdrive"]: generated_voice.volume_db -= 4.0
+		elif kind in ["boss_vent","boss_internal"]: generated_voice.volume_db -= 8.0
 		generated_voice.stream = GENERATED[sample]
 		generated_voice.play()
 		played.emit(kind,id)
@@ -189,6 +221,8 @@ func play_sound(kind: String, id: int = 0) -> void:
 	var voice := voices[next_voice]
 	next_voice = (next_voice+1)%voices.size()
 	voice.stop()
+	voice.stream_paused = false
+	voice.set_meta("kind",kind)
 	voice.bus = bus_name if p.noise > 0 else "Master"
 	voice.volume_db = volume_db
 	voice.stream = cache[key]

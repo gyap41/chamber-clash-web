@@ -4,6 +4,7 @@ func run() -> void:
 	root.size = Vector2i(1120,800)
 	var game = load("res://scenes/game/exploration.tscn").instantiate()
 	game.random_floor = true
+	game.encounters_enabled = false # Geometry-only fixture; boss fight has its own test.
 	root.add_child(game)
 	game.set_physics_process(false)
 	game.start_exploration(22)

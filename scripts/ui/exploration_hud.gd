@@ -68,9 +68,21 @@ func _ready() -> void:
 	Widgets.label(outcome,"Message",Rect2(16,20,468,36),26).horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	Widgets.button(outcome,"Retry",Rect2(140,82,220,46),"もう一度挑戦",func(): retry_requested.emit())
 	outcome.hide()
+	Widgets.label(canvas,"Boss",Rect2(340,90,480,28),18).horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var boss_health := HealthBar.new()
+	boss_health.name = "BossHP"
+	boss_health.position = Vector2(340,119)
+	boss_health.size = Vector2(480,8)
+	boss_health.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	canvas.add_child(boss_health)
 
 # Mode-owned state is supplied explicitly; reusable components never inspect the game.
 func present(view: Dictionary, mode: Dictionary) -> void:
+	var boss: Dictionary = mode.get("boss",{})
+	$Root/Boss.visible = not boss.is_empty()
+	$Root/BossHP.visible = not boss.is_empty()
+	if not boss.is_empty(): $Root/BossHP.refresh(boss.hp,boss.max_hp,0)
+	if not boss.is_empty(): $Root/Boss.text = "独楽の鋳造機  %.1f / %.0f%s" % [boss.hp,boss.max_hp,"  暴走" if boss.second else ""]
 	$Root/Map.visible = mode.get("map_available",false)
 	$Root/Map.disabled = mode.paused or not mode.result.is_empty()
 	$Root/Help.size.x = 900 if mode.get("map_available",false) else 1072
@@ -84,9 +96,10 @@ func present(view: Dictionary, mode: Dictionary) -> void:
 	if mode.get("encounter_cleared",false): $Root/Status.text = "攻略済み  ·  次の部屋へ進めます"
 	if mode.get("room_role","") == "treasure":
 		$Root/Status.text = "宝箱を発見  ·  近づいてFで開封" if mode.get("reward_state","") == "closed" else "箱の中身を回収できます" if mode.get("reward_state","") == "open" else "宝箱回収済み  ·  次の部屋へ進めます"
-	if mode.get("room_role","") == "antechamber": $Root/Status.text = "ボス前室  ·  Tabで装備整理  ·  北の扉はボス予定地へ"
-	if mode.get("room_role","") == "boss": $Root/Status.text = "ボス予定地  ·  ボス戦は準備中です"
+	if mode.get("room_role","") == "antechamber": $Root/Status.text = "ボス前室  ·  Tabで装備整理  ·  北の扉は独楽の鋳造機へ"
+	if mode.get("room_role","") == "boss": $Root/Status.text = "独楽の鋳造機  ·  動作を見て攻撃を避けよう"
 	if mode.encounter_active: $Root/Status.text = "敵を倒す  ·  残り%d体" % mode.enemies_alive
+	if not boss.is_empty() and boss.intro: $Root/Status.text = "独楽の鋳造機が起動しています…"
 	if mode.paused: $Root/Status.text = "停止中  ·  Escで再開"
 	if not mode.result.is_empty(): $Root/Status.text = "今回の挑戦は終了しました"
 	$Root/Pause.text = "Esc 再開" if mode.paused else "Esc 停止"
@@ -95,5 +108,5 @@ func present(view: Dictionary, mode: Dictionary) -> void:
 	if mode.get("map_open",false): $Root/Status.text = "マップ表示中  ·  M・Escで閉じる"
 	$Root/Pause.disabled = not mode.result.is_empty()
 	$Root/Sound.text = "SE ON" if mode.sound_enabled else "SE OFF"
-	$Root/Outcome.visible = not mode.result.is_empty()
+	$Root/Outcome.visible = not mode.result.is_empty() and mode.get("result_visible",true)
 	$Root/Outcome/Message.text = mode.result

@@ -24,3 +24,5 @@
 - [棘背ヤマアラシ](quillback/README.md)：4方向32コマ、扇状射撃、専用SEと本編接続記録。
 
 - [ボス前室・南入口](boss-approach/README.md)：生成版3の接続、工房素材流用、通常サイズ確認。
+
+- [炉守りの管理機](furnace-warden/README.md)：3技・段階移行・踏破、仮パーツと必要な正式素材。

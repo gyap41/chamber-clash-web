@@ -25,6 +25,7 @@ var pause_reasons: Dictionary = {}
 var doors: Array = []
 var door_armed := true
 var fire_requires_release := false
+var victory_sound_delay := -1.0
 func _ready() -> void:
 	# This prototype starts in a non-combat room. Remove the duel scene's extra
 	# actors before registering participants/signals; never mutate a live roster.
@@ -53,6 +54,8 @@ func _ready() -> void:
 		start_room = "crossroads"
 	start_exploration(seed_value)
 func start_exploration(seed_value: int) -> void:
+	sound.stop_all()
+	victory_sound_delay = -1.0
 	clear_enemy_deaths()
 	if floor_map != null: close_map()
 	if bag != null: close_bag()
@@ -101,6 +104,7 @@ func start_exploration(seed_value: int) -> void:
 	phase = "play"
 	pause_reasons.clear()
 	paused = false
+	sound.pause_boss_audio(false)
 	remaining = 0.0
 	door_armed = true
 	fire_requires_release = false
@@ -109,6 +113,7 @@ func start_exploration(seed_value: int) -> void:
 		var player = players[i]
 		player.set_character(0)
 		player.max_hp = 4.0
+		player.rally_enabled = false
 		player.reset(arena.spawn_position(i))
 		player.telemetry = telemetry
 		var inventory = exploration.inventory
@@ -194,7 +199,8 @@ func refresh_hud() -> void:
 	var allowed: bool = phase == "play" and not paused and result.is_empty() and not players[0].is_cpu
 	var view := preload("res://scripts/ui/combat_hud_view.gd").capture(players[0],allowed)
 	hud.present(view,{"paused":paused,"result":result,"sound_enabled":sound.enabled,
-		"map_available":not floor_data.is_empty(),"map_open":floor_map != null,
+		"result_visible":victory_sound_delay < 0,
+		"boss":boss_hud(),"map_available":not floor_data.is_empty(),"map_open":floor_map != null,
 		"room_role":floor_data.rooms[exploration.room_id].role if not floor_data.is_empty() else "",
 		"reward_state":Reward.current(self).get("state",""),
 		"room_name":room_data(exploration.room_id).name,"door_hint":door_hint(),
@@ -232,6 +238,7 @@ func set_pause_reason(reason: String, enabled: bool) -> void:
 	if enabled: pause_reasons[reason] = true
 	else: pause_reasons.erase(reason)
 	paused = not pause_reasons.is_empty()
+	sound.pause_boss_audio(paused)
 	clear_action_inputs()
 func _notification(what: int) -> void:
 	if not is_node_ready(): return
@@ -260,6 +267,12 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			return
 		apply_command(0,HumanInput.key(players[0],event.keycode))
 func _physics_process(dt: float) -> void:
+	if phase == "result" and not paused:
+		if victory_sound_delay >= 0:
+			victory_sound_delay -= dt
+			if victory_sound_delay < 0: sound.play_sound("win")
+		for remains in get_tree().get_nodes_in_group("enemy_death_visuals"):
+			if is_ancestor_of(remains): remains.step(dt)
 	if phase == "play" and not paused and result.is_empty():
 		for remains in get_tree().get_nodes_in_group("enemy_death_visuals"):
 			if is_ancestor_of(remains): remains.step(dt)
@@ -268,7 +281,13 @@ func _physics_process(dt: float) -> void:
 		_step_pulse_effects(dt)
 		var previous_weapon: int = players[0].weapon().id if players[0].has_weapon() else -1
 		Loadout.capture(players[0],exploration.weapon_bank)
-		combat.step(dt)
+		if boss_intro():
+			clear_action_inputs()
+			players[1].attack_time = maxf(0,players[1].attack_time-dt)
+			if players[1].attack_time <= 0: players[1].attack_phase = "chase"
+			players[1].sync_visual()
+		else:
+			combat.step(dt)
 		var active_weapon: int = players[0].weapon().id if players[0].has_weapon() else -1
 		if active_weapon != previous_weapon: Loadout.restore_active(players[0],exploration.weapon_bank)
 		var was_active: bool = exploration.encounter_status == "active"
@@ -276,20 +295,29 @@ func _physics_process(dt: float) -> void:
 		if was_active and exploration.encounter_status == "cleared":
 			Encounter.retire(self)
 			loot_message = "部屋クリア · 出口が開きました"
-			if Reward.ensure(self):
+			if not floor_data.is_empty() and floor_data.rooms[exploration.room_id].role == "boss":
+				exploration.finish("completed")
+			if exploration.status == "active" and Reward.ensure(self):
 				rebuild_chest()
 				chest_node.spawning = .4
 				sound.play_sound("chest_spawn")
 				loot_message = "部屋クリア · 宝箱が出現しました"
 			if ExplorationSupplies.ensure(self): rebuild_supplies()
 		if exploration.status != "active":
-			result = "探索終了" if exploration.status == "dead" else "試作戦闘クリア"
+			if players.size() > 1: Encounter.retire(self)
+			result = "探索終了" if exploration.status == "dead" else "工房踏破！ 独楽の鋳造機を撃破"
 			phase = "result"
 			clear_action_inputs()
 			delayed_shots.clear()
-			sound.stop_all()
+			sound.stop_all(exploration.status == "completed")
+			if exploration.status == "completed": victory_sound_delay = 2.5
 			get_node("/root/Music").play_context("result")
 	if not paused:
+		var boss_alive: bool = phase == "play" and players.size() > 1 and players[1].get("spec") != null and players[1].spec.id == "furnace_warden" and players[1].state.hp > 0
+		if boss_alive:
+			sound.update_boss_engine(true,players[1].state.pos.distance_to(players[0].state.pos),1.0 if players[1].attack_phase == "dash" else .5 if players[1].second_phase else 0.0)
+		else:
+			sound.update_boss_engine(false)
 		FollowCamera.follow(arena.get_node("CombatCamera"),arena.field_rect,players[0].state.pos)
 	arena.get_node("DangerZone").refresh(0.0)
 	arena.get_node("CombatCamera").offset = -combat_visuals.shake_offset
@@ -363,7 +391,7 @@ func close_bag() -> bool:
 	refresh_hud()
 	return true
 func apply_command(index: int, command: Dictionary) -> void:
-	if bag != null or paused or exploration == null: return
+	if bag != null or paused or exploration == null or boss_intro(): return
 	Loadout.capture(players[0],exploration.weapon_bank)
 	var old: int = players[0].weapon().id if players[0].has_weapon() else -1
 	super.apply_command(index,command)
@@ -455,3 +483,10 @@ func try_chest() -> bool:
 	chest_node.queue_redraw()
 	refresh_hud()
 	return true
+
+func boss_intro() -> bool:
+	return players.size() == 2 and players[1].get("spec") != null and players[1].spec.id == "furnace_warden" and players[1].attack_phase == "grace"
+
+func boss_hud() -> Dictionary:
+	if players.size() != 2 or players[1].get("spec") == null or players[1].spec.id != "furnace_warden": return {}
+	return {"hp":players[1].state.hp,"max_hp":players[1].state.max_hp,"intro":boss_intro(),"second":players[1].second_phase}

@@ -146,7 +146,7 @@ func visit(game, id: String) -> void:
 	else:
 		assert(game.players.size() == 1 and game.exploration.encounter_status == "none")
 	for door in game.room_data(id).doors:
-		if visited.has(door.target_room): continue
+		if visited.has(door.target_room) or game.floor_data.rooms[door.target_room].role == "boss": continue
 		var before := snapshot(game.players[0],game.exploration.inventory)
 		game.players[0].state.pos = door.position
 		key(game,false); key(game,true); key(game,false)
@@ -169,7 +169,7 @@ func run() -> void:
 	await process_frame
 	game.set_pause_reason("focus",false)
 	await visit(game,game.start_room)
-	assert(checked_combat and normal_count == 6 and visited.size() == 11)
+	assert(checked_combat and normal_count == 6 and visited.size() == 10)
 	# Retry during combat and death both retire actors without duplicated player signals.
 	var normal_id: String = game.floor_data.rooms.keys().filter(func(id): return game.floor_data.rooms[id].role == "normal")[0]
 	game.exploration.enter_room(normal_id,game.room_data(normal_id).field.field_id)

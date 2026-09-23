@@ -1922,6 +1922,245 @@
       "fingerprint": "44d7c468ce71a99ef905bde21825f101c34a94f3a33ee3900b260be80bf69630",
       "sha256": "4506769ef93076a5ca9047070c40d82e39183b60d9649996b485431c87c19351",
       "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_spinner_dash_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_spinner_dash_01.mp3",
+      "purpose": "Foundry spinner boss rotating dash; one candidate; material review, not integrated",
+      "prompt": "One heavy cast iron flywheel machine accelerating into a short spinning dash over rough stone, low mechanical rotational growl and gritty scrape with a brief airy rush, weighty controlled attack, short clean decay, no bell ringing no high squeal no explosion no voice no music",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.8,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.8359183673469388,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-23T02:34:21.951444+00:00",
+      "fingerprint": "0c2b4517c307ca3af5071d12eb7766cf22689d03e8285830e35ec1771386d65d",
+      "sha256": "d8465711e753692aa7457b3969e2668092aea0b173331a71cac7fc3a204c2c66",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_spinner_impact_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_spinner_impact_01.mp3",
+      "purpose": "Foundry spinner boss landing and shockwave emission; one candidate; material review, not integrated",
+      "prompt": "One massive cast iron casting mold slamming onto stone, immediate deep weighty thud with a broad compressed air whomp and a short granular rubble tail, powerful low mid body audible on small speakers, no metallic bell ringing no multiple hits no gunfire no voice no music",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.7,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.7314285714285714,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-23T02:34:41.572694+00:00",
+      "fingerprint": "6321db266c5bb5b81608d3389520b69c6ac543dd9509f522e4158b25f78a812e",
+      "sha256": "14c9c9b4f6827601b499c66d22c15f73818d60ed9e7a85e68ed5b4464f1f2ee5",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "bgm:fw_spinner_boss_01",
+      "type": "bgm",
+      "provider": "stability",
+      "file_path": "res://assets/audio/bgm/fw_spinner_boss_01.wav",
+      "purpose": "Foundry spinner boss battle BGM; one candidate; intended loop not verified; material review, not integrated",
+      "prompt": "Instrumental fantasy action roguelike boss battle music in an ancient artisan foundry, 150 BPM steady driving pulse, bold memorable tense adventurous motif, low strings ostinato, tight drums and deep toms, restrained brass accents, gritty bass and subtle mechanical rhythmic texture made from instruments, dynamic escalating variations and urgent spinning momentum, rich polished game soundtrack, clear space for combat sound effects, immediate musical start, sustained combat energy, cyclic ending suitable for looping, no vocals no choir no sound effects no gunshots no sirens no long intro no fade out",
+      "loop": true,
+      "generation_parameters": {
+        "model": "stable-audio-2.5",
+        "duration": 96.0,
+        "output_format": "wav",
+        "steps": 8
+      },
+      "duration": 96.0,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-23T02:35:10.010524+00:00",
+      "fingerprint": "23df29d70e6b576812341fb70950430990c929227612dfc2bc376a11bc747184",
+      "sha256": "f603db7dc5e5b064c2db223a89b438ee3dc742adc037fec2321efd63afbc9bc4",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "bgm:fw_spinner_boss_03",
+      "type": "bgm",
+      "provider": "stability",
+      "file_path": "res://assets/audio/bgm/fw_spinner_boss_03.wav",
+      "purpose": "User revision of bgm:fw_spinner_boss_01: catchy fast sparse arrangement leaving combat SFX audible; one candidate; not integrated; loop unverified",
+      "prompt": "Instrumental catchy stylish boss battle game music, 168 BPM. A memorable short four-bar melodic hook on a warm clean plucked synth, repeated with small clever variations and a contrasting answering phrase. Agile syncopated bass guitar, light tight drums, restrained closed hi-hats, sparse clean rhythmic guitar chords. Cool adventurous tension and brisk forward motion without aggression or loudness. Small focused ensemble, clear melody, airy spacious arrangement with deliberate gaps between phrases for gunshot and dodge sound effects. Dry controlled transients, warm balanced tone, modest bass, minimal cymbals, no distortion wall or dense layers, no piercing lead, no huge brass or orchestral percussion. Keep an energetic full-time pulse and hummable tune throughout. Immediate groove, compact melodic development, cyclic ending for looping, no fade out, no long intro, no vocals, no choir, no sound effects. Polished understated action soundtrack, not a cinematic trailer or heavy metal.",
+      "loop": true,
+      "generation_parameters": {
+        "model": "stable-audio-2.5",
+        "duration": 96.0,
+        "output_format": "wav",
+        "steps": 8
+      },
+      "duration": 96.0,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-23T02:46:19.955104+00:00",
+      "fingerprint": "fc062899df1f396c4eb2f6dea40021168843325542c5499f90ba03c027bc73b7",
+      "sha256": "31c4375621d3bf9bc4deb6e0353e17c1eff4c3305134b73c790bb034580d8371",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "bgm:fw_spinner_boss_04",
+      "type": "bgm",
+      "provider": "stability",
+      "file_path": "res://assets/audio/bgm/fw_spinner_boss_04.wav",
+      "purpose": "User revision of bgm:fw_spinner_boss_03: stronger boss tension and melodic climax while preserving combat SFX space; one candidate; not integrated; loop unverified",
+      "prompt": "Instrumental melodic action RPG BOSS BATTLE theme, 172 BPM, intense urgent and exhilarating. A formidable spinning iron boss, dangerous duel with heroic determination. Open immediately with a striking syncopated low-string riff and punchy drums, then introduce a bold memorable four-bar lead melody within the first eight seconds. Singing electric guitar lead with rounded tone, tightly articulated palm-muted rhythmic guitar, driving bass, fast staccato strings, brief brass answers. Harmonic minor tension, strong dramatic chord changes, rising sequences, and a soaring catchy chorus that returns with variations. Clear musical arc: threatening opening motif, driving verse, rising tension, big melodic payoff by 25 seconds, short tense bridge and triumphant urgent return. Maintain rapid full-time rhythmic momentum. Excitement from melody, harmony and rhythmic contrast, not loudness or excessive layers. One foreground melody at a time, controlled low end, restrained cymbals, short dry drums, leave small rhythmic spaces for combat sound effects. No constant crashes, no piercing synths, no wall of noise, no heavy distortion wash. Not relaxed, not cute, not background lounge. No vocals, no choir, no sound effects, no long intro, no fade out. Cohesive looping game battle composition, 96 seconds.",
+      "loop": true,
+      "generation_parameters": {
+        "model": "stable-audio-2.5",
+        "duration": 96.0,
+        "output_format": "wav",
+        "steps": 8
+      },
+      "duration": 96.0,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-23T02:52:10.115053+00:00",
+      "fingerprint": "a43804655dee781b0e0062385839e52837657397856508b8039ad72811037631",
+      "sha256": "87ffa2653d612346f983df079057e84b173bbaa76452451d8525b9d3ae9bc6d4",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_spinner_explosion_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_spinner_explosion_01.mp3",
+      "purpose": "ボス撃破：炉心爆発と装甲崩壊",
+      "prompt": "One massive furnace automaton death explosion. Immediate deep WHUMP pressure blast, dense low-mid impact, iron casing tearing apart, several heavy chunks crashing down, gritty debris tail. Weighty and forceful on small speakers, controlled bass, short dry decay. No piercing metallic ringing, no music, voices or alarm.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.8,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 1.8024489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-23T07:12:56.541249+00:00",
+      "fingerprint": "0d67308fe9cb5f4da92a6bee5506d9889604b40f2865004d727e53f1028b24aa",
+      "sha256": "9b86d84cc8adc4864a8bb0d1f026ae71cf34ca0eaa7d3db447cb2eb74350279d",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_spinner_dash_03",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_spinner_dash_03.mp3",
+      "purpose": "ボス回転突進：重量感を強めた専用候補",
+      "prompt": "One heavy spinning furnace automaton dash. Rapid flywheel acceleration into a thick grinding ROAR, dense low-mid mechanical weight, stone scraping under iron, ending with a short heavy braking thud. Aggressive and fast, powerful on small speakers, controlled bass. No thin airy whoosh, piercing metallic ringing, music or voices.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.0,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 1.0448979591836736,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-23T07:13:12.252797+00:00",
+      "fingerprint": "0bc538381529df4638bbef7c81e3a9b75009689f61a375f5b55fc7de04b84d8f",
+      "sha256": "8c8fdb042ee8d9ea9d6ac931a241e02c13c4a1b3748fc57dd9b45912b1786328",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_spinner_overdrive_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_spinner_overdrive_01.mp3",
+      "purpose": "ボス暴走移行：ロック解除と排圧",
+      "prompt": "One furnace automaton entering overdrive. Two heavy close mechanical locks snap open, then a deep forceful pressure vent WHOOM and a short rising motor growl. Clear staged transformation, dense low-mid weight, restrained high frequencies, dry ending. No explosion, alarm, music or voices.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.2,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 1.2277551020408164,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-23T07:13:28.236093+00:00",
+      "fingerprint": "bbee67ddfea3f2ca2f8a158107eef088f905e43729c1a032534b1cae2fb3ffad",
+      "sha256": "31e22c53792588831f25374a02cdd81d557e2a91fee050f046eea8be84e2213c",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_spinner_internal_blast_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_spinner_internal_blast_01.mp3",
+      "purpose": "Boss internal blast variant; not integrated; listening unverified",
+      "prompt": "A single short internal explosion inside a heavy iron machine. Dense punchy low-mid BOOM, muffled furnace combustion bursting through a cracked casing, brief gritty fragments. Compact and forceful, distinct from a long final destruction explosion. Controlled bass, dry short tail. No high metallic ringing, gunshot, voices or music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.8,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.8359183673469388,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-23T07:18:04.282364+00:00",
+      "fingerprint": "637eb84f18de80ade71989570cc4ccebe9472f9e761c9b2cf7a6a1b055c221a8",
+      "sha256": "47a5c706625133a68cb8118cdc2e17abf3463693f69ed02c50424e6cd52e62a3",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_spinner_pressure_hiss_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_spinner_pressure_hiss_01.mp3",
+      "purpose": "Boss hydraulic pressure hiss; not integrated; listening unverified",
+      "prompt": "One industrial hydraulic actuator pressure release: a small valve clunk followed immediately by a strong smooth PSSSHHH air hiss, falling naturally in pressure and ending with a soft piston stop. Close dry mechanical detail, full-bodied air, rounded highs. No explosion, whistle, alarm, voices or music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.4,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 1.4106122448979592,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-23T07:18:19.486404+00:00",
+      "fingerprint": "251934b8aa722ec042986e0a51e5672cc3ba90b56010f9dee711d16a0ecb2c06",
+      "sha256": "1fbcf274da561ee3573dfdfd5732a14669b5ea25da28d2af2a020d3fc68cb075",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_spinner_engine_loop_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_spinner_engine_loop_01.mp3",
+      "purpose": "Boss continuous mechanical engine; not integrated; listening and loop seam unverified",
+      "prompt": "Steady running engine of a heavy furnace automaton. Low-mid throbbing mechanical motor, rotating flywheel and rhythmic piston chug, subtle gear vibration. Constant speed and volume, seamless continuous loop, no startup or shutdown. Weighty but restrained, controlled bass, no piercing whine, exhaust bangs, voices or music.",
+      "loop": true,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 4.0,
+        "prompt_influence": 0.3,
+        "loop": true,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 4.048979591836734,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-23T07:18:35.595327+00:00",
+      "fingerprint": "9a440ba7584a152ac25f76cb138d9efdb345b7a7000da3838ccf6d8dd9818ac4",
+      "sha256": "8688574eb7b14a5ccf931b9eb617f9517ca9fc0ffb030b89f4acb5a27b8b17ec",
+      "loop_verified": false
     }
   ]
 }

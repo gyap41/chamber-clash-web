@@ -18,7 +18,7 @@ func configure(id: int, parcel: bool, shard: bool, visual_variant: String = "", 
 	variant = visual_variant if not visual_variant.is_empty() else ("parcel" if parcel else ("derived" if shard else ""))
 	shot_color = Color(color_override if not color_override.is_empty() else str(profile.get("color","#ffffff")))
 	profile.color = shot_color.to_html()
-	if variant in ["enemy_fire_seed","enemy_quill"]:
+	if variant in ["enemy_fire_seed","enemy_quill","boss_rivet"]:
 		texture = null
 		material = null
 		base_scale = Vector2.ONE
@@ -52,7 +52,7 @@ func configure(id: int, parcel: bool, shard: bool, visual_variant: String = "", 
 	last_age = -1.0
 
 func refresh(age: float, velocity: Vector2) -> void:
-	if variant in ["enemy_fire_seed","enemy_quill"]:
+	if variant in ["enemy_fire_seed","enemy_quill","boss_rivet"]:
 		rotation = velocity.angle()
 		queue_redraw()
 		return
@@ -182,6 +182,12 @@ func draw_aurora(canvas: Node2D, max_length: float, width: float) -> void:
 		canvas.draw_line(points[i-1],points[i],Color(tint,.88*fade),body_width,true)
 
 func _draw() -> void:
+	if variant == "boss_rivet":
+		draw_line(Vector2(-14,0),Vector2(-4,0),Color(1,.5,.15,.55),3,true)
+		draw_circle(Vector2.ZERO,6,Color("542e20"))
+		draw_rect(Rect2(-6,-3,13,6),Color("ffc477"))
+		draw_line(Vector2(-4,-2),Vector2(6,-2),Color("fff4ce"),2)
+		return
 	if variant == "enemy_quill":
 		draw_colored_polygon(PackedVector2Array([Vector2(10,0),Vector2(-7,-3),Vector2(-5,0),Vector2(-7,3)]),Color("ffe4ac"))
 		draw_line(Vector2(-7,0),Vector2(6,0),Color("8b5935"),1.5)

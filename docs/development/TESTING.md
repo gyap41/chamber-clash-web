@@ -476,3 +476,29 @@ fire_pouch_lizard、exploration_enemy_spawns（10seed/108入口）、audio_asset
 exploration_floorは100seed・生成引数8〜12（実総数9〜13）の再現性、5役割各1室、前室2接続・ボス南入口のみ、座標重複なし、267形状/開口組合せの到達性を確認。random_floor_playは11室往復と再挑戦を確認。
 
 `Godot --path . --script res://tests/boss_approach.gd --quit-after 600 -- --capture`で前室の安全性・バッグ操作・南到着・往復で無料回復なしを確認。ボス戦は未実装で、このテストはボス戦の受入ではない。
+
+## 炉守りの管理機
+
+`Godot --path . --script res://tests/furnace_warden.gd --quit-after 900 -- --capture`：本編出現、半径44の配置、起動中の攻撃拒否/停止、出口封鎖、大槌の実被弾/側方回避、7発扇射とパルス、排熱の近距離被弾/距離回避、画面外中止、HP半分の移行、踏破時の参照整理、初戦箱なし、撃破表示の寿命、再挑戦と相打ち死亡優先を確認。boss_approachは敵なしの地形往復テスト、通常戦のexploration_encounterはボス分岐を除いて確認する。
+
+描画ありPASS。通常戦・前室・random_floor_playも回帰PASS。既知の終了時ObjectDB/Resource警告は残る。実プレイの戦闘時間・難度・吸引挙動・正式美術・音色と負荷は未確認。
+
+`Godot --path . --script res://tests/boss_pressure.gd --quit-after 180 -- --capture`：遠距離からの突進、大きいdtでの壁貫通防止、24発連射と画面外中止、衝撃波の被弾/ロール回避/同じ輪の重複被弾防止、再使用時間を上回る間隔、3連波、停止と撃破時整理を確認。保存画像は `.local/two-rooms-boss-pressure-waves.png`。手動の難度・音響品質は別途確認する。
+
+`boss_pressure.gd` はストーリー反撃回復の無効化、暴走時の3連続突進→大槌と終了後の隙、42連射と弾速も確認する。`tests/rally_recovery.gd` で対戦の反撃回復を回帰検証する。
+
+独楽の鋳造機の接続確認: furnace_warden.gdの--captureで通常/撃破、boss_pressure.gdの--captureで暴走状態を保存。後者はboss BGM切替/終了、描画時間のポーズ停止、展開完了、粒子上限も検証。静止画成功を全方向連続アニメーションや試聴済みとは扱わない。
+
+boss_pressureは障害物を半径44pxで迂回して接近、空中で輪を出さず着地で発生、最終着地後の復帰、暴走移行途中と完了も検証。--captureでspinner-jump/spinner-openingを保存。
+
+`Godot --headless --path . --script res://tests/boss_activity.gd --quit-after 180`：南壁際2配置で修正前に12秒の無攻撃停止を再現。大型身体が近接距離へ入れない場合、継続被弾中でも2.88秒以内に攻撃へ切り替わることを検証する。
+
+boss_activityは画面端で本体が見える間の連射継続、完全画面外時の硬直なし追跡復帰、届かなかった突進後の追跡復帰も検証する。boss_pressureの画面外テストは本体全体が隠れる配置を使う。
+
+
+`Godot --path . --script res://tests/boss_presentation.gd -- --capture`：4方向の弾/閃光原点、反動、暴走/排圧SE、エンジンの停止・ミュート、Actor退役後の爆発SE、ポーズ、結果パネル/勝利音の遅延、再挑戦時の破棄を確認。画像は.local/two-rooms-boss-opening-{角度}.pngとtwo-rooms-boss-destruction.png。headlessでも動作検証可（captureなし）。今回の回帰テストは通過したが、終了時ObjectDB/Resource警告は残る。音の聴感・全方向連続動作・Web負荷は別途受入。
+
+boss_activityは突進残距離0.00001/0.0001/0.1/0.49pxで即時終了し、プレイヤーが近づかなくても次の攻撃を開始することを確認。修正前は0.00001pxのケースで12秒後もdashが継続することを再現。boss_pressureは強化後の24/42発、弾速420/480、連射ダメージ0.85も確認する。
+
+
+boss_pressureは通常2連突進と追撃方向の固定、通常時に最終波が出ないこと、暴走3連の最後が跳躍→着地衝撃波1回になることも検証。追加の遅い扇状弾を含めて通常40発/暴走70発、速度群420/250と480/290を確認。boss_activityの微小残距離停止、furnace_wardenの踏破、boss_presentationの演出同期も回帰通過。実プレイ難度と最大弾幕時の端末負荷は未確認。

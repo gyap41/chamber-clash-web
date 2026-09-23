@@ -36,7 +36,9 @@ func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Diction
 		sound_requested.emit(spec.death_sound,0)
 		var remains := preload("res://scripts/visuals/enemy_death.gd").new()
 		remains.snapshot = enemy_visual_snapshot()
-		remains.organic = spec.id != "workshop_sentry"
+		for connection in sound_requested.get_connections():
+			remains.sound_requested.connect(connection.callable)
+		remains.organic = spec.id not in ["workshop_sentry","furnace_warden"]
 		remains.position = state.pos
 		remains.add_to_group("enemy_death_visuals")
 		get_parent().add_child(remains)

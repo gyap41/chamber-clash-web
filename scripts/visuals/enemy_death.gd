@@ -1,12 +1,19 @@
 extends Node2D
+signal sound_requested(kind: String, id: int)
 # Presentation only: does not own an actor, award loot, or block room clear.
 var snapshot: Dictionary
 var organic := false
 var elapsed := 0.0
 const DURATION := 1.1
+const BOSS_DURATION := 2.65
 func step(dt: float) -> void:
+	var before := elapsed
 	elapsed += dt
-	if elapsed >= DURATION:
+	var boss: bool = snapshot.get("enemy_id","") == "furnace_warden"
+	if boss:
+		if before < .22 and elapsed >= .22: sound_requested.emit("boss_internal",0)
+		if before < .55 and elapsed >= .55: sound_requested.emit("boss_explosion",0)
+	if elapsed >= (BOSS_DURATION if boss else DURATION):
 		queue_free()
 		return
 	queue_redraw()
@@ -14,7 +21,10 @@ func _draw() -> void:
 	if is_queued_for_deletion() or snapshot.is_empty(): return
 	var view := snapshot.duplicate()
 	view.death_progress = minf(1,elapsed/.85)
-	preload("res://scripts/visuals/enemy_sheet_visual.gd").paint(self,view,organic)
+	if view.get("enemy_id","") == "furnace_warden":
+		preload("res://scripts/visuals/furnace_warden_visual.gd").paint_destruction(self,view,elapsed)
+	else:
+		preload("res://scripts/visuals/enemy_sheet_visual.gd").paint(self,view,organic)
 	# Fixed particles have no simulation/owner references or random gameplay effects.
 	# A brief spark burst gives way to dust; organic remains shed quiet earthy motes.
 	for particle in particles():

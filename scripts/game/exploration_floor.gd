@@ -4,7 +4,7 @@ const Variants = preload("res://scripts/world/workshop_room_variants.gd")
 const Shell = preload("res://scripts/world/workshop_room_shell.gd")
 const Rooms = preload("res://scripts/game/exploration_rooms.gd")
 const Layouts := [preload("res://data/fields/workshop_trial.tres"),preload("res://data/fields/workshop_annex.tres")]
-const ROLES := {"start":"入口","normal":"作業室","treasure":"宝箱部屋","shop":"ショップ予定地","boss":"ボス予定地","antechamber":"ボス前室"}
+const ROLES := {"start":"入口","normal":"作業室","treasure":"宝箱部屋","shop":"ショップ予定地","boss":"炉守りの間","antechamber":"ボス前室"}
 
 # A bounded frontier-growth tree: every new cell has one existing parent.
 # This RNG is private to map generation, independent of combat/reward randomness.
