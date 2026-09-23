@@ -1856,6 +1856,72 @@
       "fingerprint": "1bec2a4b7a0d0a0bdb32e3989b477970c1b6eda31b9cf6d9f8db88d46579ea71",
       "sha256": "a66bc4ee204fe3af19b62cb2d14b213c48bafd2f1ca81ce6393463997a5862b5",
       "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_quill_windup_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_quill_windup_01.mp3",
+      "purpose": "棘背ヤマアラシの構え",
+      "prompt": "One short organic porcupine quill rattle, dry stiff bristles rising and rubbing, soft tense rustle, no metal no voice no music",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-22T14:15:05.838028+00:00",
+      "fingerprint": "15d4e070e27132533a12f7196c97449b152c58ed4c28395169483e93c808a767",
+      "sha256": "ce3c39cbda66921d9e5554d3db353f932b81d4c217ee2fb1197b4a1599c2fb8b",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_quill_fire_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_quill_fire_01.mp3",
+      "purpose": "棘背ヤマアラシの扇状射撃",
+      "prompt": "One compact burst of five organic quills launching together, dry woody snap followed by airy dart whoosh, no gunshot no metal no voice no music",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-22T14:15:34.813564+00:00",
+      "fingerprint": "fcc9d7395511849a1b8f1f38622f51c702994d7975f2f202a01dc9559cc03478",
+      "sha256": "39329348100c85e098133eb2b8d72b86adeabe7bc19f1e053bef87884118b474",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_quill_down_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_quill_down_01.mp3",
+      "purpose": "棘背ヤマアラシの撃破",
+      "prompt": "One small heavy furry creature collapsing, soft body thump with dry quills rustling against stone, no gore no squeal no metal no music",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.6,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.626938775510204,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-22T14:16:49.029252+00:00",
+      "fingerprint": "44d7c468ce71a99ef905bde21825f101c34a94f3a33ee3900b260be80bf69630",
+      "sha256": "4506769ef93076a5ca9047070c40d82e39183b60d9649996b485431c87c19351",
+      "loop_verified": false
     }
   ]
 }

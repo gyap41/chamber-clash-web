@@ -31,7 +31,7 @@ func refresh(view: Dictionary) -> void:
 		displayed_weapon = id
 		$Art.texture = Weapons.art(id) if armed else null
 		$Art.material = Weapons.Visuals.body_material(id,Vector2(40,28)) if armed else null
-	$Ammo.text = "%d · 予備%d" % [weapon.clip,weapon.reserve] if armed else "丸腰"
+	$Ammo.text = "%d · 予備%s" % [weapon.clip,"∞" if weapon.get("infinite_reserve",false) else str(weapon.reserve)] if armed else "丸腰"
 	var wait: float = view.reload
 	$Reload.visible = wait > 0
 	$Reload.value = clampf(1.0-wait/maxf(view.reload_duration,wait),0.0,1.0)*100 if wait > 0 else 0

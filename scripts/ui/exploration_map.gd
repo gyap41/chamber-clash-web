@@ -17,7 +17,7 @@ func _ready() -> void:
 	var panel := Widgets.box(root,"Map",Rect2(100,120,920,560))
 	Widgets.label(panel,"Title",Rect2(24,16,870,34),23).text = "第1階層 ／ 訪問 %d / %d部屋" % [visited.size(),floor_data.rooms.size()]
 	Widgets.label(panel,"Legend",Rect2(24,57,870,30),15).text = "金枠：現在地　青：訪問済み　灰：隣接する未訪問　✓：攻略済み"
-	Widgets.label(panel,"Seed",Rect2(24,510,650,28),15).text = "seed %d ／ 生成版 %d　　宝箱・ショップ・ボスは配置のみの試作" % [floor_data.seed,floor_data.version]
+	Widgets.label(panel,"Seed",Rect2(24,510,650,28),15).text = "seed %d ／ 生成版 %d　　ショップ・ボスは配置のみの試作" % [floor_data.seed,floor_data.version]
 	Widgets.button(panel,"Close",Rect2(720,506,176,38),"M / Esc：閉じる",func(): close_requested.emit())
 	var diagram := Control.new()
 	diagram.position = Vector2(24,102)
@@ -55,6 +55,7 @@ func draw_map(canvas: Control) -> void:
 		if visited.has(id):
 			label = {"start":"入口","normal":"作業室","treasure":"宝箱","shop":"店","boss":"ボス"}[floor_data.rooms[id].role]
 			if room_states.get(id,{}).get("encounter","") == "cleared": label += "✓"
+			elif room_states.get(id,{}).get("reward",{}).get("state","") == "empty": label += "✓"
 		var font := ThemeDB.fallback_font
 		var font_size := 13
 		if pitch < 55:

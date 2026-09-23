@@ -1,5 +1,6 @@
 extends RefCounted
 # Dedicated direction/pose frames. Original PNGs are never modified.
+const QUILLBACK = preload("res://assets/first-workshop/enemies/quillback-sheet-v1.png")
 const SENTRY = preload("res://assets/first-workshop/enemies/sentry-sheet-v2.png")
 const LIZARD = preload("res://assets/first-workshop/enemies/lizard-sheet-v2.png")
 const SENTRY_Y := [0,235,435,635,815,1045,1280,1500,1774]
@@ -16,6 +17,15 @@ static func frame(view: Dictionary, lizard: bool) -> Dictionary:
 	elif lizard and view.phase == "spit": row = 5
 	elif not lizard and view.phase == "recover" and float(view.recovery)-float(view.remaining) < .2: row = 5
 	elif view.phase == "chase" and float(view.get("motion",0)) > .1: row = int(fposmod(float(view.get("gait",0)),TAU)/TAU*4)%4
+	if view.get("enemy_id","") == "quillback":
+		var size := QUILLBACK.get_size()
+		var xs := [0.0,.25,.5,.75,1.0]
+		var ys := [0.0,.13,.245,.365,.48,.60,.72,.845,1.0]
+		var ground := [.115,.235,.35,.47,.585,.71,.83,.955]
+		var origin := Vector2(xs[col]*size.x,ys[row]*size.y)
+		return {"region":Rect2(origin,Vector2(.25*size.x,(ys[row+1]-ys[row])*size.y)),
+			"anchor":Vector2((xs[col]+.125)*size.x,ground[row]*size.y)-origin,
+			"scale":.34,"row":row,"column":col,"mirror":false}
 	var ys: Array = LIZARD_Y if lizard else SENTRY_Y
 	var xs := [0,215,410,650,887] if lizard else [0,225,445,665,887]
 	var region := Rect2(xs[col],ys[row],xs[col+1]-xs[col],ys[row+1]-ys[row])
@@ -57,7 +67,7 @@ static func paint(canvas: Node2D, view: Dictionary, lizard: bool) -> void:
 	canvas.draw_circle(Vector2.ZERO,21,Color(0,0,0,.35*color.a))
 	canvas.draw_set_transform(offset,angle)
 	var region: Rect2 = selected.region
-	canvas.draw_texture_rect_region(LIZARD if lizard else SENTRY,
+	canvas.draw_texture_rect_region(QUILLBACK if view.get("enemy_id","") == "quillback" else (LIZARD if lizard else SENTRY),
 		Rect2(-Vector2(selected.anchor)*float(selected.scale),region.size*float(selected.scale)),region,color)
 	canvas.draw_set_transform(Vector2.ZERO)
 	if death >= 0: return

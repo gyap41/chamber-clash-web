@@ -7,7 +7,7 @@ static func capture(player, controls_allowed: bool) -> Dictionary:
 	for entry in player.inventory:
 		var definition: Dictionary = player.resolved_definition(entry.id)
 		weapons.append({"id":entry.id,"name":definition.name,"description":definition.desc,
-			"clip":entry.clip,"reserve":entry.reserve,"mod_name":definition.get("mod_name","")})
+			"clip":entry.clip,"reserve":entry.reserve,"infinite_reserve":player.infinite_reserve(entry.id),"mod_name":definition.get("mod_name","")})
 	var dodge_duration: float = player.dodge_cooldown*(player.relic_value(24,"dodge_ratio") if 24 in player.relics else 1.0)
 	var melee_duration: float = player.melee_cooldown*(player.relic_value(26,"melee_ratio") if 26 in player.relics else 1.0)
 	return {"hp":state.hp,"max_hp":state.max_hp,"rally":player.rally_available(),

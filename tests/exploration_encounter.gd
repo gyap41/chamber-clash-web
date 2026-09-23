@@ -43,7 +43,7 @@ func check_attack(game) -> void:
 	assert(player.state.hp == hp)
 	player.state.pos = enemy.state.pos+direction*40
 	enemy.step(.16,1,player,game.arena)
-	assert(is_equal_approx(player.state.hp,hp-.8) and enemy.attack_phase == "recover")
+	assert(is_equal_approx(player.state.hp,hp-1.2) and enemy.attack_phase == "recover")
 	game.refresh_hud()
 	await capture("enemy-strike")
 	var damaged: float = player.state.hp
@@ -114,7 +114,7 @@ func visit(game, id: String) -> void:
 	var normal: bool = game.floor_data.rooms[id].role == "normal"
 	if normal:
 		normal_count += 1
-		assert(game.players.size() == 3 and game.roster.participants.size() == 3)
+		assert(game.players.size() == game.exploration.room_state(id).enemy_ids.size()+1 and game.roster.participants.size() == game.players.size())
 		assert(game.exploration.encounter_status == "active")
 		for index in [1,2]:
 			var enemy = game.players[index]
@@ -176,7 +176,7 @@ func run() -> void:
 	game.exploration.encounter_status = "none"
 	game.switch_field(game.room_data(normal_id).field)
 	game.Encounter.begin(game)
-	assert(game.players.size() == 3)
+	assert(game.players.size() >= 4)
 	game.spawn_shot(1,0,0,{"speed":0.0,"life":10.0})
 	game.start_exploration(22)
 	assert(game.players.size() == 1 and game.shots.is_empty())

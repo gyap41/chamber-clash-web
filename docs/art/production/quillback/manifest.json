@@ -1,0 +1,10 @@
+{
+  "provider": "built-in image_gen",
+  "file": "assets/first-workshop/enemies/quillback-sheet-v1.png",
+  "sha256": "705df1af632959c2df8f60ac20908320eb4b8150d38cc81daed43a012f67fc68",
+  "width": 887,
+  "height": 1774,
+  "prompt": "prompt.txt",
+  "pixel_edits": false,
+  "runtime_recipe": "scripts/visuals/enemy_sheet_visual.gd"
+}

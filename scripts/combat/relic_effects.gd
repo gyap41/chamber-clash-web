@@ -77,9 +77,9 @@ static func switching(player) -> void:
 	if player.has_weapon() and 8 in player.relics and state.holster <= 0:
 		var old: Dictionary = player.weapon()
 		var old_def: Dictionary = player.resolved_definition(old.id)
-		if old.reserve > 0 and old.clip < int(old_def.mag):
+		if (player.infinite_reserve(old.id) or old.reserve > 0) and old.clip < int(old_def.mag):
 			old.clip += 1
-			old.reserve -= 1
+			if not player.infinite_reserve(old.id): old.reserve -= 1
 			state.holster = 1.5
 	# 残響ホルスター: on a genuine switch (guarded by the same index==state.gun no-op check
 	# above), reserve a weak follow-up shot from the *outgoing* weapon while it is still
@@ -94,9 +94,9 @@ static func switching(player) -> void:
 		var outgoing_def: Dictionary = player.resolved_definition(outgoing.id)
 		var relic16 := Relics.definition(16)
 		state.echo_holster_cd = float(relic16.get("holster_cooldown",2.5))
-		if int(outgoing.clip)+int(outgoing.reserve) > 0:
+		if player.infinite_reserve(outgoing.id) or int(outgoing.clip)+int(outgoing.reserve) > 0:
 			if outgoing.clip > 0: outgoing.clip -= 1
-			else: outgoing.reserve -= 1
+			elif not player.infinite_reserve(outgoing.id): outgoing.reserve -= 1
 			player.delayed_shot_requested.emit({"gun":outgoing.id,"angle":state.angle,"delay":.22,"damage":float(outgoing_def.damage)*float(relic16.get("holster_ratio",.5)),"kind":"echo_holster","can_lens":false,"depth":1})
 	# 帰還バッテリー: a stored charge arms on the switch itself; the bonus is spent by the
 	# *next* fire() call (see main.gd), not by this switch.

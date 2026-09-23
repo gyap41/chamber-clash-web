@@ -65,8 +65,8 @@ func step(dt: float, i: int, enemy, arena, _mouse_shooting: bool = false, _ai: D
 			attack_phase = "windup"
 			attack_time = spec.windup
 			attack_angle = delta.angle()
-			shots_left = 2
-			sound_requested.emit("lizard_inhale",0)
+			shots_left = spec.get("shots",2)
+			sound_requested.emit(spec.get("windup_sound","lizard_inhale"),0)
 		elif Navigation.segment_clear(arena,state.pos,enemy.state.pos):
 			var axis := delta.normalized()
 			command.dx = axis.x

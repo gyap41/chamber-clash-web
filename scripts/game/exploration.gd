@@ -7,6 +7,8 @@ const FollowCamera = preload("res://scripts/visuals/exploration_camera.gd")
 const Encounter = preload("res://scripts/game/exploration_encounter.gd")
 const Reward = preload("res://scripts/game/exploration_reward.gd")
 var chest_node
+const ExplorationSupplies = preload("res://scripts/game/exploration_supplies.gd")
+var supply_nodes: Array = []
 var encounters_enabled := true
 var random_floor := false
 var floor_data: Dictionary = {}
@@ -106,11 +108,13 @@ func start_exploration(seed_value: int) -> void:
 	for i in range(players.size()):
 		var player = players[i]
 		player.set_character(0)
+		player.max_hp = 4.0
 		player.reset(arena.spawn_position(i))
 		player.telemetry = telemetry
 		var inventory = exploration.inventory
 		player.match_inventory = inventory
 		player.match_player_index = 0
+		player.exploration_starter = true
 		player.apply_build(inventory.builds[0],inventory.capacity(0),true,inventory.usable_cells(0))
 		fighters.append(player.state)
 	Loadout.capture(players[0],exploration.weapon_bank)
@@ -121,8 +125,10 @@ func start_exploration(seed_value: int) -> void:
 	get_node("/root/Music").play_context("play")
 	refresh_hud()
 func rebuild_doors() -> void:
+	Reward.ensure_treasure(self)
 	rebuild_loot()
 	rebuild_chest()
+	rebuild_supplies()
 	for node in doors:
 		node.get_parent().remove_child(node)
 		node.queue_free()
@@ -189,6 +195,8 @@ func refresh_hud() -> void:
 	var view := preload("res://scripts/ui/combat_hud_view.gd").capture(players[0],allowed)
 	hud.present(view,{"paused":paused,"result":result,"sound_enabled":sound.enabled,
 		"map_available":not floor_data.is_empty(),"map_open":floor_map != null,
+		"room_role":floor_data.rooms[exploration.room_id].role if not floor_data.is_empty() else "",
+		"reward_state":Reward.current(self).get("state",""),
 		"room_name":room_data(exploration.room_id).name,"door_hint":door_hint(),
 		"encounter_active":exploration.encounter_status == "active",
 		"encounter_cleared":exploration.encounter_status == "cleared",
@@ -203,13 +211,16 @@ func door_hint() -> String:
 		if Reward.current(self).state == "closed": return "F：宝箱を開く"
 		if loot_message.begins_with("取得できません"): return loot_message
 		return "F："+str(Reward.current(self).label)+"を控えへ取得  ·  Tab：バッグ"
+	var supply := ExplorationSupplies.nearby(self)
+	if not supply.is_empty():
+		if "残しました" in loot_message: return loot_message+"  ·  F：再取得"
+		return "F：HPを2回復" if supply.kind == "heal" else "F：装備中の武器へ弾薬補給"
 	var loot := nearby_loot()
 	if not loot.is_empty():
 		if not loot_message.is_empty() and loot_message.begins_with("取得できません"): return loot_message
 		return "F："+loot.label+"を控えへ取得  ·  Tab：バッグ"
-	if not loot_message.is_empty(): return loot_message
 	var entry := nearby_door()
-	if entry.is_empty(): return "扉に近づいて F で移動  ·  Tab：バッグ"
+	if entry.is_empty(): return loot_message if not loot_message.is_empty() else "扉に近づいて F で移動  ·  Tab：バッグ"
 	return "F：%s へ移動" % room_data(entry.target_room).name
 func toggle_pause() -> void:
 	if floor_map != null: close_map(); return
@@ -244,7 +255,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		return
 	if phase == "play" and not paused and result.is_empty():
 		if event.keycode == KEY_F:
-			if not try_chest() and not try_collect_loot(): try_enter_door()
+			if not try_chest() and not try_supply() and not try_collect_loot(): try_enter_door()
 			get_viewport().set_input_as_handled()
 			return
 		apply_command(0,HumanInput.key(players[0],event.keycode))
@@ -270,6 +281,7 @@ func _physics_process(dt: float) -> void:
 				chest_node.spawning = .4
 				sound.play_sound("chest_spawn")
 				loot_message = "部屋クリア · 宝箱が出現しました"
+			if ExplorationSupplies.ensure(self): rebuild_supplies()
 		if exploration.status != "active":
 			result = "探索終了" if exploration.status == "dead" else "試作戦闘クリア"
 			phase = "result"
@@ -393,6 +405,34 @@ func clear_enemy_deaths() -> void:
 		if is_ancestor_of(remains):
 			remains.get_parent().remove_child(remains)
 			remains.queue_free()
+
+func rebuild_supplies() -> void:
+	for node in supply_nodes:
+		if is_instance_valid(node):
+			node.get_parent().remove_child(node)
+			node.queue_free()
+	supply_nodes.clear()
+	for entry in ExplorationSupplies.entries(self):
+		if entry.taken: continue
+		var node := preload("res://scripts/world/exploration_supply.gd").new()
+		node.kind = entry.kind
+		node.position = entry.pos
+		arena.get_node("Players").add_child(node)
+		supply_nodes.append(node)
+
+func try_supply() -> bool:
+	if paused or phase != "play" or exploration.status != "active" or players[0].state.hp <= 0 or exploration.encounter_status == "active": return false
+	var entry := ExplorationSupplies.nearby(self)
+	if entry.is_empty(): return false
+	if not door_armed: return true
+	door_armed = false
+	var outcome := ExplorationSupplies.collect(self,entry)
+	loot_message = outcome.message
+	if outcome.acquired:
+		sound.play_sound("heal" if entry.kind == "heal" else "ammo_pickup")
+		rebuild_supplies()
+	refresh_hud()
+	return true
 
 func try_chest() -> bool:
 	if paused or phase != "play" or exploration.status != "active" or players[0].state.hp <= 0 or exploration.encounter_status == "active": return false

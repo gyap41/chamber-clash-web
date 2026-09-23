@@ -36,7 +36,7 @@ func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Diction
 		sound_requested.emit(spec.death_sound,0)
 		var remains := preload("res://scripts/visuals/enemy_death.gd").new()
 		remains.snapshot = enemy_visual_snapshot()
-		remains.organic = spec.id == "fire_pouch_lizard"
+		remains.organic = spec.id != "workshop_sentry"
 		remains.position = state.pos
 		remains.add_to_group("enemy_death_visuals")
 		get_parent().add_child(remains)
@@ -100,7 +100,7 @@ func move_with_command(dt: float, i: int, enemy, arena, command: Dictionary) -> 
 
 # Values only: rendering cannot advance attacks or modify the combat state.
 func enemy_visual_snapshot() -> Dictionary:
-	return {"alive":not state.is_empty() and state.hp > 0,
+	return {"enemy_id":spec.id,"alive":not state.is_empty() and state.hp > 0,
 		"phase":attack_phase,"remaining":attack_time,"windup":float(spec.windup),
 		"gait":gait_phase,"motion":motion_weight,"visual_time":visual_time,
 		"hit":clampf(float(state.get("inv",0))/.22,0,1),

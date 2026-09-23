@@ -375,6 +375,10 @@ func sync_visual() -> void:
 # 「武器を持っていない」を正式な状態として扱えるようにしておく（この時点ではinventoryが空に
 # なる経路がまだ無いので、振る舞いは一切変わらない）。近接・回避・パルスは元から武器の状態を
 # 参照していないため、丸腰でも戦うこと自体はできる。
+var exploration_starter := false
+func infinite_reserve(id: int) -> bool:
+	return exploration_starter and id == 20
+
 const NO_WEAPON := {"id": -1, "clip": 0, "reserve": 0, "mode": 0}
 # 丸腰時のdefinition()。Weapons.definition(-1)はGDScriptの負数添字で配列末尾の武器を返して
 # しまうため、明示的な擬似定義を返す。can_fire()が偽になるので射撃系の値は読まれないが、
@@ -391,6 +395,10 @@ func weapon() -> Dictionary:
 # belonging to this player is in play, so damage/speed/bounce/etc. reflect the chosen branch.
 func resolved_definition(id: int) -> Dictionary:
 	var resolved := Weapons.resolved_definition(id, weapon_mods.get(id, ""))
+	if infinite_reserve(id):
+		resolved = resolved.duplicate()
+		resolved.damage *= .75
+		resolved.desc = "探索用：予備弾無限・威力75%。装填は必要。"
 	if 21 in relics:
 		resolved = resolved.duplicate()
 		resolved.mag = int(resolved.mag)+int(relic_value(21,"mag_bonus"))
@@ -401,9 +409,9 @@ func new_weapon_entry(id: int) -> Dictionary:
 	return entry
 func top_up_weapon(id: int) -> bool:
 	for entry in inventory:
-		if entry.id == id and entry.reserve > 0 and entry.clip < int(resolved_definition(id).mag):
+		if entry.id == id and (infinite_reserve(id) or entry.reserve > 0) and entry.clip < int(resolved_definition(id).mag):
 			entry.clip += 1
-			entry.reserve -= 1
+			if not infinite_reserve(id): entry.reserve -= 1
 			return true
 	return false
 func recover_projectile(id: int) -> void:
@@ -437,7 +445,7 @@ func equip_slot(index: int, apply_switch_delay: bool = true) -> void:
 	sound_requested.emit("equip",0)
 	$Animation.present(visual_snapshot())
 func start_reload() -> void:
-	if not has_weapon() or state.reload > 0 or weapon().clip >= definition().mag or weapon().reserve <= 0: return
+	if not has_weapon() or state.reload > 0 or weapon().clip >= definition().mag or (not infinite_reserve(weapon().id) and weapon().reserve <= 0): return
 	state.reload = effective_reload_duration()
 	# P8z ステップA：装填中の武器をインベントリの添字ではなく武器idで覚える。ステップBで携行
 	# 武器の並びがグリッド由来になると添字が動きうるため（idはadd_gun()が重複を弾くので一意）。
@@ -476,9 +484,10 @@ func restore_weapon_timing(record: Dictionary = {}) -> void:
 func finish_reload() -> void:
 	if not has_weapon() or state.reload_slot != weapon().id: return
 	var w := weapon()
-	var amount := mini(int(definition().mag)-int(w.clip), int(w.reserve))
+	var amount := int(definition().mag)-int(w.clip)
+	if not infinite_reserve(w.id): amount = mini(amount,int(w.reserve))
 	w.clip += amount
-	w.reserve -= amount
+	if not infinite_reserve(w.id): w.reserve -= amount
 	preload("res://scripts/combat/relic_effects.gd").reload_completed(self,amount,w)
 	if reload_visual_active:
 		emit_weapon_event("reload_complete" if amount>0 and state.hp>0 else "reload_cancel",reload_visual_weapon)
@@ -524,6 +533,7 @@ func acquire_weapon(id: int, _replace: bool = false) -> String:
 func refill_ammo() -> int:
 	var gained := 0
 	for w in inventory:
+		if infinite_reserve(w.id): continue
 		var g := Weapons.definition(w.id)
 		var amount := mini(int(g.stock)-int(w.reserve),ceili(float(g.stock)*.4))
 		w.reserve += amount
@@ -606,9 +616,9 @@ func try_phase_load(shots: Array, index: int) -> void:
 			state.phase_load_used = true
 			var phase_weapon: Dictionary = weapon()
 			var phase_def: Dictionary = resolved_definition(phase_weapon.id)
-			if phase_weapon.reserve > 0 and phase_weapon.clip < int(phase_def.mag):
+			if (infinite_reserve(phase_weapon.id) or phase_weapon.reserve > 0) and phase_weapon.clip < int(phase_def.mag):
 				phase_weapon.clip += 1
-				phase_weapon.reserve -= 1
+				if not infinite_reserve(phase_weapon.id): phase_weapon.reserve -= 1
 
 func cancel_reload_visual() -> void:
 	if not reload_visual_active: return

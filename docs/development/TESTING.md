@@ -407,7 +407,7 @@ P2ランダム階層：タイトルの「ストーリーモード（ランダム
 タイトルのランダム階層から通常の作業室へFで入ると2体が出現する。固定の工房テストは敵なし。
 
 - `Godot --headless --path . --script res://tests/exploration_encounter.gd --quit-after 1200`：通常6室、安全室4室、構え中の照準固定/停止時の表示スナップショット保持と被弾/空振り/壁越し拒否、家具迂回、停止、射撃/近接による被弾、出口利用拒否/解放、owner付き弾/重力場/追射破棄、再訪、資源持越し、戦闘中再初期化、相打ち死亡優先、再挑戦。
-- `Godot --headless --path . --script res://tests/exploration_enemy_spawns.gd --quit-after 1800`：10seed/108入口で2体の出現位置、入口と敵同士の距離、衝突なし、主人公までの経路。
+- `Godot --headless --path . --script res://tests/exploration_enemy_spawns.gd --quit-after 1800`：10seed/108入口で広さ別3〜6体の出現位置、入口と敵同士の距離、衝突なし、主人公までの経路。
 - 描画ありは最初のコマンドから--headlessを外して `-- --capture` を付ける。1120×800の構え・打撃・硬直を.local/two-rooms-enemy-{windup,strike,recover}.pngへ保存。通常サイズの比較はdocs/art/production/exploration-first-enemy/README.md。
 - exploration_mode、random_floor_play、exploration_bag、extension_boundaries、shared_combat_hudもPASS。headlessの一部は既存の終了時ObjectDB/Resource警告あり。描画ありの遭遇テストも実行終了時にObjectDB警告が出る場合がある。手動操作感・Web負荷・正式美術の採用は別確認。
 
@@ -446,3 +446,27 @@ python tools/docs_index.py --check
 `Godot --path . --script res://tests/enemy_animation_review.gd --quit-after 600` はv2の全方向・連続コマ比較を.local/enemy-animation-v2-review.pngへ保存する。静止連続コマの比較であり連続プレイの受入とは別。
 
 撃破粒子の比較は `Godot --path . --script res://tests/enemy_death_review.gd --quit-after 600` 。enemy_motionは火花／有機粒子の区別と1.1秒の終了も検証する。
+
+## 宝箱部屋と最低補給
+
+- `Godot --path . --script res://tests/exploration_treasure_supplies.gd --quit-after 900 -- --capture`：宝箱先行でも初戦保証、内容固定、開封/回収/再訪/再挑戦、弾薬満タン拒否・補給・装備反映後保持、回復満タン拒否・上限・反撃回復の整合、停止/死亡/二重取得拒否。描画ありPASS、終了時警告なし。
+- `Godot --headless --path . --script res://tests/exploration_reward_placement.gd --quit-after 1800`：5seed、計35通常/宝箱部屋の到達性・衝突・配置間隔を確認。PASS。全seed保証ではない。
+- 既存exploration_reward、exploration_encounter、random_floor_playも回帰PASS。headless終了時のObjectDB/Resource警告は残る。
+
+通常サイズ画像は[制作記録](../art/production/exploration-chest/README.md)。補給量の難度適合・SEの聴感・一周の期待感は手動確認が必要。
+
+## 探索の難度調整
+
+`Godot --headless --path . --script res://tests/exploration_balance.gd --quit-after 600`：予備弾0から20回装填、探索限定の威力、対戦用設定での有限弾、装備再反映、無限弾武器への補給拒否、6戦の補給頻度、拡大した身体の外縁への弾命中を検証する。exploration_treasure_suppliesも新頻度で回帰確認する。
+
+exploration_encounter、fire_pouch_lizard、exploration_enemy_spawns（10seed/108入口）、synergies、shared_combat_hudを回帰確認。難度や狙いやすさの採用判断は手動テストで行う。headless終了時のObjectDB/Resource警告は既知の残課題。
+
+増員時の検証：exploration_enemy_spawnsで初戦3体、面積別の3/4/5/6体とトカゲ比率、配置の再現性、入口260px・敵間160px、半径20pxの壁衝突と帰路を確認。exploration_encounter、fire_pouch_lizard、exploration_balance、enemy_audioも回帰PASS。全方向からの連続戦闘の難度と実機負荷は未確認。
+
+## 棘背ヤマアラシ
+
+`Godot --path . --script res://tests/quillback.gd --quit-after 600 -- --capture`：本編混成、構え中の狙い固定・停止、5方向同時発射、実被弾、硬直、画面外/壁越し/死亡時の中止、生物用撃破表示を確認。`quillback_art.gd`は4方向×8動作の通常倍率比較を.local/quillback-review.pngへ保存する。通常ステージと比較画像は[制作記録](../art/production/quillback/README.md)。
+
+fire_pouch_lizard、exploration_enemy_spawns（10seed/108入口）、audio_assetsを回帰確認。静止比較と自動テストは連続歩行の自然さ・SE試聴・負荷・ユーザー受入の代わりにはしない。
+
+2026-09-23の通常敵ダメージ調整：exploration_encounterで番機1.2、fire_pouch_lizardで火種0.9の実被弾と味方非被弾、quillbackで棘の被弾・キャンセルを確認。既知の終了時ObjectDB警告は残る。

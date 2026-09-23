@@ -93,7 +93,7 @@ func run() -> void:
 	lizard.step(.81,2,player,game.arena)
 	assert(game.shots[0].gun_id == -1 and not game.shots[0].state.comet)
 	game.combat._step_projectiles(1.0)
-	assert(is_equal_approx(player.state.hp,7.45) and game.players[1].state.hp == ally_hp)
+	assert(is_equal_approx(player.state.hp,7.1) and game.players[1].state.hp == ally_hp)
 	lizard.step(.23,2,player,game.arena)
 	assert(game.shots.size() == 1)
 	assert(game.combat.use_pulse(0) and game.shots.is_empty())

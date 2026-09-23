@@ -21,5 +21,5 @@ func refresh(view: Dictionary) -> void:
 	icon = Weapons.art(weapon.id)
 	text = str(slot_index+1)
 	modulate = Color("ffc980") if view.selected == slot_index else Color("aebdc5")
-	tooltip_text = "%s\n弾倉 %d / 予備 %d\n%s" % [weapon.name,weapon.clip,weapon.reserve,weapon.description]
+	tooltip_text = "%s\n弾倉 %d / 予備 %s\n%s" % [weapon.name,weapon.clip,"∞" if weapon.get("infinite_reserve",false) else str(weapon.reserve),weapon.description]
 	if not weapon.mod_name.is_empty(): tooltip_text += "\n改造："+weapon.mod_name
