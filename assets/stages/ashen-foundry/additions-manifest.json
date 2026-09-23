@@ -1,0 +1,140 @@
+{
+  "generator": "built-in image_gen",
+  "status": "integrated into fixed exploration rooms and randomized first floor; visual acceptance pending",
+  "assets": [
+    {
+      "file": "wall-top-v2.png",
+      "prompt": "One square seamless game MATERIAL texture for the TOP SURFACE and thin exterior rim of old foundry stone walls. True directly overhead view, flat uniformly lit material only, full bleed. Weathered dark warm gray-brown limestone, soot ground into pores, subtly chipped mottled stone and fine old hairline fissures, very low contrast. NO brick courses, NO paving grid, NO framed slab, NO rectangular tile borders, NO pillars, NO beveled perimeter, NO baked drop shadows, NO edge shading, NO objects, NO text. This material will be clipped to long thin horizontal and vertical wall strips and L/T junctions by the game; must remain continuous across all orientations. Rich hand-painted pixel-art-inspired 2D dungeon art, restrained fine grain, average medium-dark value like soot-aged brown stone, NOT pale cream sandstone, NOT glossy. Seamless all four edges, no vignette. 1024 square opaque.",
+      "purpose": "Unframed weathered stone for connected wall tops and exterior edges",
+      "intended_display": "Shared 128px material coordinates, trial adjustment required",
+      "source": "C:\\Users\\ikare\\.codex\\generated_images\\01a0c3aa-5c67-7200-9e38-b07a1cc90af3\\exec-dd815567-4a28-4f8e-b2e8-28fbf75b3c8a.png",
+      "width": 1254,
+      "height": 1254,
+      "png_color_type": 2,
+      "sha256": "02de455a4b2cc7b1bbaeb300592c473dd0000d1b8c98c4fe0cdddda928b414d5"
+    },
+    {
+      "file": "root-junctions-v2.png",
+      "prompt": "Production sprite atlas on genuinely transparent alpha background, ONE square image 1024x1024 with EXACT 2x2 equal cells, no labels or separator lines. Four separate matching environment sprites for a fantasy old foundry 2D top-down game. Minimum 45px transparent margins inside each cell, do not touch neighboring cells. Consistent hand-painted pixel-art-inspired crisp textures, muted brown stone and wood, dark moss green, uniform diffuse light, no baked floor or cast shadows. Camera steep overhead orthographic about70 degrees above horizontal; north walls horizontal, NOT isometric. TOP LEFT: roots emerging through a localized fissure in the VERTICAL FRONT FACE of a north stone wall and descending onto the floor, compact irregular broken brown-gray masonry lip at upper part, thick root origin seated in crack and tapering tendrils extending toward bottom, stone patch edges irregular no rectangular backing, readable short upright wall surface. TOP RIGHT: matching root entry through a WEST-side wall, narrow vertical strip of broken brown stone and moss at left, roots spreading RIGHT across ground plane, no intact rectangular wall backing, broad top surface and narrow inner side consistent with overhead camera. BOTTOM LEFT: a separate flat transition patch of moss, small leaves and thin root tips scattered loosely, irregular organically feathered transparent edge, for joining roots to existing floor. BOTTOM RIGHT: a modest animal nest of twigs and old cloth, tiny abandoned dull metal scraps mixed in, empty center, no animal, low shallow construction seen from overhead. No tree canopy, no giant tree trunk, no entire room, no baked floor tile, no background, no white outline, no glow, no text. Each cell is a reusable isolated sprite.",
+      "cells": [
+        "north wall root entry",
+        "west wall root entry",
+        "moss transition",
+        "small nest"
+      ],
+      "intended_display": [
+        "150x150",
+        "150x150",
+        "140x100",
+        "72x56"
+      ],
+      "source": "C:\\Users\\ikare\\.codex\\generated_images\\01a0c3aa-5c67-7200-9e38-b07a1cc90af3\\exec-0e03a8e5-1585-49db-bd40-e2773600815f.png",
+      "width": 1254,
+      "height": 1254,
+      "png_color_type": 6,
+      "sha256": "1db48417e2908ae03854b6fb788e58d4686211f614ed0730128fb4c1b9e3a2b0",
+      "regions": [
+        [
+          0,
+          0,
+          627,
+          627
+        ],
+        [
+          627,
+          0,
+          627,
+          627
+        ],
+        [
+          0,
+          627,
+          627,
+          627
+        ],
+        [
+          627,
+          627,
+          627,
+          627
+        ]
+      ],
+      "status": "Moss and nest remain in use; masonry-bearing root entries superseded by root-v3-manifest.json"
+    },
+    {
+      "file": "furnishings-v2.png",
+      "cells": [
+        "casting mold rack",
+        "quenching trough",
+        "cloth-covered crates",
+        "tea table"
+      ],
+      "intended_display": [
+        "140x110",
+        "112x72",
+        "96x80",
+        "72x52"
+      ],
+      "source": "C:\\Users\\ikare\\.codex\\generated_images\\01a0c3aa-5c67-7200-9e38-b07a1cc90af3\\exec-dc621ed9-8e06-473d-9bf4-e1360e03c126.png",
+      "width": 1254,
+      "height": 1254,
+      "png_color_type": 6,
+      "sha256": "669ddeda918ff8c002fd61fc9eec8c2c3bd3c22d9f80d976c9912719d3aeb704",
+      "regions": [
+        [
+          0,
+          0,
+          627,
+          627
+        ],
+        [
+          627,
+          0,
+          627,
+          627
+        ],
+        [
+          0,
+          627,
+          627,
+          627
+        ],
+        [
+          627,
+          627,
+          627,
+          627
+        ]
+      ],
+      "prompt": "Production game sprite atlas on genuinely transparent alpha background, square1024x1024, EXACT2x2 equal cells, no labels or separator lines. Four isolated props for a worn fantasy foundry dungeon, mature detailed hand-painted pixel-art-inspired art matching brown limestone, dark iron, aged wood, muted linen. Each object wholly inside its own cell with45px transparent margin, no overlap. Consistent steep overhead orthographic camera70 degrees above ground, screen horizontal front edges, NO isometric diamond view or perspective convergence. TOP LEFT: low broad wall-side casting-mold storage rack, dark wooden and iron shelves holding several clay casting molds, tongs and a stack of dull ingots; shown from above with shelf tops and short front faces, functional believable joints, no wall backdrop. TOP RIGHT: low rectangular iron quenching trough with thick worn rim, dull cool dark water visible from above, small attached manual valve and bucket, restrained reflection no glow, short vertical sides, no pipes requiring off-image connections. BOTTOM LEFT: two low stored crates partly covered by a worn dusty off-white linen cloth, some edges and an old rope visible, no tall mound, game-ready silhouette. BOTTOM RIGHT: very low small artisan tea table with chipped ceramic teapot, two small cups, folded cloth and an old notebook, mostly tabletop visible, only tiny short leg ends, no chair; human-scale functional props, no exaggerated large tools. No floor or shadow plane, no drop shadow, no background wall, no text, no characters, no light halo, no pure white outline. Material use marks and chipped edges but no noisy overdecoration. Reusable transparent sprites, not room dioramas.",
+      "render_regions": [
+        [
+          72,
+          148,
+          523,
+          407
+        ],
+        [
+          658,
+          223,
+          561,
+          322
+        ],
+        [
+          63,
+          734,
+          552,
+          367
+        ],
+        [
+          703,
+          755,
+          467,
+          350
+        ]
+      ],
+      "region_recipe": "Measured visible alpha >0.05 bounds with 2px fringe, referenced through AtlasTexture; original PNG unchanged. get_used_rect alone includes near-invisible dust."
+    }
+  ],
+  "integration": "ashen_foundry_dressing.gd: AtlasTexture cells trimmed with Image.get_used_rect, aspect ratio preserved. Wall tops use theme wall_top_wash; original PNG unchanged. Safe perimeter placement with separate furniture footprints; shallow roots rendered above walls and below actors; moss/nest floor-clipped. Boss furniture excluded."
+}

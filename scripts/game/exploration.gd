@@ -81,6 +81,13 @@ func start_exploration(seed_value: int) -> void:
 		floor_data = generated
 		room_catalog = generated.catalog
 		start_room = generated.start
+	else:
+		var dressed_catalog := {}
+		for id in room_catalog:
+			var room = room_catalog[id].duplicate(true)
+			preload("res://scripts/world/ashen_foundry_dressing.gd").apply(room,"start" if id == start_room else "normal",1)
+			dressed_catalog[id] = room
+		room_catalog = dressed_catalog
 	if not room_catalog.has(start_room):
 		push_error("Start room is not in the room catalog")
 		return

@@ -105,7 +105,7 @@ func draw_material(texture: Texture2D, target: Rect2, repeat: Vector2, tint: Col
 func _draw() -> void:
 	if theme == null: return
 	for face in faces:
-		draw_material(theme.wall_face,face,Vector2(theme.face_repeat,128),Color(.82,.81,.76))
+		draw_material(theme.wall_face,face,Vector2(theme.face_repeat,theme.face_repeat_y),Color(.82,.81,.76)*theme.wall_tint)
 		# A wall end is a narrow return, not a compressed pillar image.
 		for x in [face.position.x,face.end.x-4]:
 			var side := Rect2(x,face.position.y,4,face.size.y)
@@ -113,9 +113,10 @@ func _draw() -> void:
 			var covered := false
 			for other in faces+tops:
 				if other.has_point(neighbor): covered = true; break
-			if not covered: draw_material(theme.wall_end,side,Vector2(theme.face_repeat,128),Color(.76,.75,.71))
+			if not covered: draw_material(theme.wall_end,side,Vector2(theme.face_repeat,theme.face_repeat_y),Color(.76,.75,.71)*theme.wall_tint)
 		draw_line(Vector2(face.position.x,face.end.y-1),face.end-Vector2(0,1),Color(0,0,0,.45),2)
 	for top in tops:
-		draw_material(theme.wall_top,top,Vector2(128,128),Color(.86,.86,.81))
+		draw_material(theme.wall_top,top,Vector2(128,128),Color(.86,.86,.81)*theme.wall_tint)
+		if theme.wall_top_wash.a > 0: draw_rect(top,theme.wall_top_wash)
 	for edge in boundaries:
-		draw_material(theme.wall_edge,edge.rect,Vector2(64,64),Color.WHITE)
+		draw_material(theme.wall_edge,edge.rect,Vector2(64,64),theme.wall_tint)

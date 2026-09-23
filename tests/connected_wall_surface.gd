@@ -39,7 +39,10 @@ func run() -> void:
 	var original = game.arena.runtime_definition
 	var walls: Array[Rect2] = original.walls.duplicate()
 	assert(game.arena.get_node("ConnectedWallSurface").boundaries.size() > 0)
-	assert(game.switch_field(preload("res://data/fields/workshop_annex.tres")).is_empty())
+	var legacy = preload("res://data/fields/workshop_annex.tres").duplicate(true)
+	legacy.theme = legacy.theme.duplicate(true)
+	legacy.theme.connected_walls = false
+	assert(game.switch_field(legacy).is_empty())
 	assert(not game.arena.has_node("ConnectedWallSurface"))
 	assert(game.switch_field(original).is_empty())
 	assert(game.arena.runtime_definition.walls == walls)

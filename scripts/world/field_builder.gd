@@ -62,8 +62,10 @@ static func apply(arena, source: Definition, participant_count: int = 0, radius:
 		arena.move_child(surface,arena.get_node("Players").get_index())
 		surface.configure(arena.get_node("Walls").get_children(),definition.theme)
 	for placement in definition.placements:
+		if placement.floor_decal: continue # Draw below actors, clipped to floor regions.
 		var prop := Prop.new()
 		prop.definition = placement
+		if placement.surface_overlay: prop.z_index = -8
 		arena.get_node("StageBackground" if placement.layer == 0 else "StageForeground").add_child(prop)
 	for i in range(definition.spawns.size()):
 		marker(arena.get_node("Spawns"),"P%d" % (i+1),definition.spawns[i])

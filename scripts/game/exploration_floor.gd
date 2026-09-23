@@ -77,12 +77,13 @@ static func generate(seed_value: int, count: int = 10) -> Dictionary:
 			if layout == 3 and original.placement_id in ["bench","material-crate"]: continue
 			Variants.place(room,original,shape)
 		var role := "antechamber" if index == antechamber else "start" if index == 0 else ("boss" if index == boss else ("treasure" if index == treasure else ("shop" if index == shop else "normal")))
+		var dressing := preload("res://scripts/world/ashen_foundry_dressing.gd").apply(room,role,index)
 		room.display_name = "%s %02d" % [Variants.SPECS[shape].name if role == "normal" else ROLES[role],index+1]
 		for door in room.doors:
 			for link in links[index]:
 				if link[0] == door.id: door.target_room = "f1_r%d" % link[1]
 		catalog[id] = room
-		metadata[id] = {"cell":cells[index],"role":role,"template_id":template_id,"shape":shape}
+		metadata[id] = {"cell":cells[index],"role":role,"template_id":template_id,"shape":shape,"dressing":dressing}
 	return {"version":VERSION,"seed":seed_value,"start":"f1_r0","catalog":catalog,"rooms":metadata,"errors":Rooms.validation_errors(14,catalog)}
 
 static func validation_errors(floor: Dictionary) -> PackedStringArray:

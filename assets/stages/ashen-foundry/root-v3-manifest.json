@@ -1,0 +1,33 @@
+{
+  "generator": "built-in image_gen",
+  "intent": "precise-object-edit",
+  "source": "C:/Users/ikare/.codex/generated_images/01a0c3aa-5c67-7200-9e38-b07a1cc90af3/exec-f6c36a99-5d31-464c-9e63-004e34b46981.png",
+  "file": "root-entries-v3.png",
+  "reference": "root-junctions-v2.png",
+  "prompt": "Edit the attached game sprite atlas. Precise-object-edit. Keep EXACT 2x2 equal cells on a genuinely transparent alpha background. Top two cells MUST CHANGE: remove ALL masonry, bricks, stone slabs, wall columns, and background soil. They currently look like chunks of a different wall pasted onto existing walls. Replace with standalone organic roots emerging from a very small irregular DARK HAIRLINE FISSURE (black-brown narrow crevice only, no stone outline or surround). TOP LEFT: root origin at upper center with tapering roots descending down and then spreading across floor toward bottom. TOP RIGHT: origin at left center with tapering roots spreading right on ground. Preserve the warm brown woody texture, restrained moss, matching game art style, orthographic steep overhead view. Roots should have thin branching tips and softly sparse moss fringes, not a rectangular outline. The wall beneath will be drawn by the game, so ALL spaces between roots MUST be transparent. No wall geometry or huge dark hole. Bottom left moss transition and bottom right small nest retain their identities and cell positions, darken bright metallic junk slightly. Each sprite wholly contained in its quarter, at least 40px transparent margin. No labels, no shadows outside shapes, no floor plane, no glow, no outline. Detailed but readable at 100-150 game pixels. PNG transparent square.",
+  "size": [
+    1254,
+    1254
+  ],
+  "alpha": true,
+  "render_regions": [
+    [
+      107,
+      25,
+      439,
+      633
+    ],
+    [
+      687,
+      151,
+      541,
+      455
+    ]
+  ],
+  "display_widths": [
+    120,
+    150
+  ],
+  "notes": "Original PNG copied unchanged; AtlasTexture crops include visible shape and 2px fringe measured at alpha >0.05. Only top root entries used; original v2 moss/nest retained. No masonry in new entries. Integrated; user visual acceptance and live bullet readability pending.",
+  "sha256": "99dc4ed7ba2440e677592a113747a22c7b651705e81cd5204aa87a2bb9a53bd7"
+}

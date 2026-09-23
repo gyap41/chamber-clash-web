@@ -13,6 +13,7 @@ extends Resource
 @export var foundation: Texture2D
 @export var tile_size := 48
 @export var face_repeat := 96
+@export var face_repeat_y := 128
 @export var cap_height := 12.0
 @export var pier_width := 32.0
 @export var exterior_color := Color("090d10")
@@ -22,12 +23,14 @@ extends Resource
 @export var depth_sort := false
 @export var shadow_length := 0.0
 @export var floor_wash := Color(0,0,0,0)
+@export var wall_tint := Color.WHITE
+@export var wall_top_wash := Color(0,0,0,0)
 
 func validation_errors() -> PackedStringArray:
 	var errors := PackedStringArray()
 	if connected_walls and (wall_top == null or wall_face == null or wall_edge == null or wall_end == null):
 		errors.append("Connected walls require unframed top, face, edge and end materials")
-	if tile_size < 1 or face_repeat < 1: errors.append("Theme repeats must be positive")
+	if tile_size < 1 or face_repeat < 1 or face_repeat_y < 1: errors.append("Theme repeats must be positive")
 	if floor_repeat < 0: errors.append("Floor repeat must be nonnegative")
 	if not is_finite(wall_rise) or wall_rise < 0 or not is_finite(shadow_length) or shadow_length < 0: errors.append("Invalid depth dimensions")
 	if not is_finite(cap_height) or cap_height <= 0 or not is_finite(pier_width) or pier_width <= 0:

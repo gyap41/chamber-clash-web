@@ -27,7 +27,7 @@ func run() -> void:
 			assert(room.field.floor_regions == repeat.catalog[id].field.floor_regions)
 			var sides: Array = room.doors.map(func(door): return door.id)
 			sides.sort()
-			var key: String = room.field.field_id+str(sides)
+			var key: String = room.field.field_id+str(sides)+str(room.field.placements.map(func(prop): return [prop.placement_id,prop.position,prop.collision]))
 			if not checked.has(key):
 				assert(Reach.reachable(room),key)
 				checked[key] = true

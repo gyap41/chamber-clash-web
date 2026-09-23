@@ -89,3 +89,11 @@ connected_walls=trueで有効化し、4素材の欠落は組み立て前に拒�
 WorkshopRoomShell.make_roomはdimensionsで矩形の寸法を受け、壁厚/扉幅を固定して外周と扉を組む。WorkshopRoomVariantsが6形状と配置点の変換を定義する。L字は右上を切り欠き、床領域2つと段の壁で表現する。家具の画像と衝突寸法は拡縮しない。移動/弾境界は部屋寸法から生成し、RoomReachabilityは寸法に比例した探索上限（最大16384）で検証。生成版変更で同seedの配置は変わる。[制作仕様と画像](../art/production/workshop-room-variants/README.md)。
 
 生成版3の前室はcompact、ボス予定地はhall。前室は北出口と探索側の1入口、ボス室は南入口のみ。家具原本・壁面割当は既存テンプレートを流用し、ボス室の家具配置は空にする。制作記録は[ボス前室](../art/production/boss-approach/README.md)。
+
+## 探索の旧鋳造区テーマ
+
+ashen_foundry_dressing.gdは部屋の外部参照フィールドを明示複製し、探索専用テーマと局所装飾を適用。再適用ではashen_配置を置換し重複を防ぐ。StagePlacement.floor_decalは衝突/光源を禁止、workshop_floorが床領域にクリップして描画する。FieldBuilderはデカール用のStagePropを生成しない。StageTheme.wall_tintとface_repeat_yで共通連結面の色と縦周期を調整可能。既定値は既存テーマと互換。
+
+追加素材の配置は壁正面の実区間を走査し、扉/到着地点/開始点/既存表示との重なりを拒否する。家具は独立衝突、surface_overlayは衝突/照明なしで壁の前・人物の後ろ（z=-8）へ配置する浅い取付装飾。tintは配置単体の色、StageTheme.wall_top_washは上面模様を抑える色で、既定値は既存テーマの描画を変えない。AtlasTextureは実寸のセルを使い、家具と根は目視・alpha測定済みの参照領域をキャッシュする。get_used_rectだけでは半透明の微粒子による余白が残るため、制作台帳の領域を優先する。
+
+StagePlacement.shadow_rectはローカル座標の接地影矩形（空なら既存の影）。floor_motif=1は床面の鋳造設備撤去跡で、floor_decalを必須とし画像なしで描画する。現行のボス室中央640×400pxに限定して使用し、床領域内への配置をテストする。

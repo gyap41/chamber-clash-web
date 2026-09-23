@@ -23,7 +23,7 @@ func _ready() -> void:
 func _draw() -> void:
 	var rect: Rect2 = definition.visual_rect
 	rect.position.y -= definition.visual_rect.end.y
-	if definition.texture != null: draw_texture_rect(definition.texture,rect,false)
+	if definition.texture != null: draw_texture_rect(definition.texture,rect,false,definition.tint)
 
 	if definition.wall_flue:
 		# Draw over the sprite's open outlet: sealed elbow, with a wall flange.

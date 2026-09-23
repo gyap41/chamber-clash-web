@@ -502,3 +502,11 @@ boss_activityは突進残距離0.00001/0.0001/0.1/0.49pxで即時終了し、プ
 
 
 boss_pressureは通常2連突進と追撃方向の固定、通常時に最終波が出ないこと、暴走3連の最後が跳躍→着地衝撃波1回になることも検証。追加の遅い扇状弾を含めて通常40発/暴走70発、速度群420/250と480/290を確認。boss_activityの微小残距離停止、furnace_wardenの踏破、boss_presentationの演出同期も回帰通過。実プレイ難度と最大弾幕時の端末負荷は未確認。
+
+## 旧鋳造区の環境表現
+
+`Godot --path . --script res://tests/ashen_foundry.gd -- --capture`：共有フィールドの非変更、重複適用、デカールの衝突なしと床専用描画、入口/侵食/鋳造/宝箱の通常サイズを確認。画像は.local/two-rooms-ashen-*.png。exploration_floor（100シード）、exploration_rooms（20往復）、connected_wall_surface、stage_templatesを併用。実プレイの弾幕視認性とWeb負荷は手動確認。
+
+ashen_foundryは追加素材8種の配置と固定部屋の描画（two-rooms-fixed-additions.png）も確認。exploration_floorの到達性キーには配置ID/位置/衝突を含め、同じ部屋形状でも家具配置が違えば検証を省略しない。
+
+ashen_foundryは半透明の余白を除いた家具参照領域、根の端、接地影の不正矩形、ボス設備跡の床内配置も検証する。

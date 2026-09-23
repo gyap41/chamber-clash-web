@@ -4,7 +4,7 @@
 
 自動生成: `python tools/docs_index.py`。表題は本文の最初の見出しから取得。分類は役割の案内で、内容の検証完了や採用を示しません。過去計画は元のパスを維持して履歴に分類しています。
 
-対象 190 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
+対象 191 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
 
 ## 入口・運用
 
@@ -70,6 +70,7 @@
 |ファイル|表題・内容の手掛かり|
 |---|---|
 |[docs/art/production/README.md](<art/production/README.md>)|必要：制作指示|
+|[docs/art/production/ashen-foundry/README.md](<art/production/ashen-foundry/README.md>)|1面：灰積もる旧鋳造区|
 |[docs/art/production/boss-approach/README.md](<art/production/boss-approach/README.md>)|ボス前室・南入口の制作記録|
 |[docs/art/production/enemy-animation-v2/README.md](<art/production/enemy-animation-v2/README.md>)|通常敵アニメーション v2 制作記録|
 |[docs/art/production/enemy-appearance-v1/README.md](<art/production/enemy-appearance-v1/README.md>)|通常敵2種：外見候補 v1|

@@ -1,0 +1,35 @@
+{
+  "status": "integrated prototype; visual acceptance pending",
+  "generator": "built-in image_gen",
+  "assets": [
+    {
+      "file": "floor.png",
+      "prompt": "Production game texture, ONE seamless square tile, top-down orthographic flat stone FLOOR only for an old fantasy foundry. Rich hand-painted pixel-art-inspired 2D material with crisp details, muted warm charcoal brown and gray patched flagstones, varied rectangular medium-small stone sizes, old chisel edges gently worn down, subtle soot embedded in pores, a few repaired cracks. Low contrast joints in similar value to stones, not black grid, restrained fine texture so bright bullets remain readable. Flat uniform diffuse lighting, no cast shadows or directional lighting, no baked illumination, no objects, no walls, no perspective, no text, no border, no grass, no glowing embers. Seamlessly tileable on all four edges with consistent density and no unique focal feature. 1024 by 1024 square full bleed opaque texture. More used and irregular than clean equal square paving but not rubble or noisy gravel.",
+      "size": [
+        1254,
+        1254
+      ],
+      "recipe": "Original unchanged, repeat at 320 game pixels.",
+      "sha256": "357505c942125a71ec03fb83eca78d367fd2bb9433689cb91a6dec5d5dd076c1"
+    },
+    {
+      "file": "decals.png",
+      "prompt": "Create ONE production sprite atlas on a GENUINELY TRANSPARENT alpha background, square 1024x1024, EXACT 2x2 cells each 512x512, no labels, no dividing lines. Each cell contains a single isolated low flat environment decal for a worn fantasy foundry roguelike game. Everything must remain inside its own cell with minimum 48px transparent gutter on every side, no content touching cell boundaries. Same hand-painted detailed pixel-art-inspired art, steep overhead orthographic view about 70 degrees above ground, very short side faces, muted natural colors. Top left cell: spreading thin tangled woody ROOTS with a little dark green moss and a few small leaves, lying flat and extending inward from a compact cluster at upper left into slender tendrils, irregular silhouette and transparent holes, no tree trunk, no tall plants, no floor. Top right cell: irregular patch of soft SOOT AND ASH, charcoal dust feathered into genuine transparency, a few tiny cooled clinker chips, no flames, no floor. Bottom left cell: old flat rectangular rust-red and ochre WOVEN RUG with subtle geometric woven pattern, visibly frayed irregular edges and small holes, overhead top surface only, no room or furniture. Bottom right cell: scattered short WOOD SHAVINGS, a few small iron offcuts and dull tools, sparse and flat, forming a low irregular workshop debris decal with lots of transparency, no boxes or large obstacles. No baked floor tiles, no shadow plane, no white or checkered background, no cast shadows, no glow, no text. Objects are separate reusable sprites to overlay on existing floor, not miniature room scenes.",
+      "size": [
+        1254,
+        1254
+      ],
+      "recipe": "Original RGBA unchanged. Runtime AtlasTexture quadrants 627x627: roots, ash, rug, offcuts. No background removal.",
+      "sha256": "3966571a2fd6c21fba83da61159fae839e56da62162f32454f954eb3609cc6b5"
+    },
+    {
+      "file": "wall-face.png",
+      "recipe": "Original unchanged; front and exposed ends repeat at 320x320 game pixels; existing union-based wall geometry.",
+      "sha256": "931d2a00f0a34c76a88fac88be32fa0ec881df1b0604d6e8aa2d27aac3751ca9",
+      "size": [
+        1254,
+        1254
+      ]
+    }
+  ]
+}

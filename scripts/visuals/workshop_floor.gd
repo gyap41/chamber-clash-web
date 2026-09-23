@@ -40,6 +40,15 @@ func _draw() -> void:
 					draw_texture_rect_region(floor_texture,tile,source,theme.floor_tint*Color(variation,variation,variation,1))
 		if theme.floor_wash.a > 0: draw_rect(region,theme.floor_wash)
 	for placement in arena.runtime_definition.placements:
+		if placement.floor_motif == 1:
+			draw_casting_bed(Rect2(placement.position+placement.visual_rect.position,placement.visual_rect.size))
+		if placement.floor_decal and placement.texture != null:
+			var patch := Rect2(placement.position+placement.visual_rect.position,placement.visual_rect.size)
+			for region in regions:
+				var clipped := patch.intersection(region)
+				if not clipped.has_area(): continue
+				var source := Rect2((clipped.position-patch.position)/patch.size*placement.texture.get_size(),clipped.size/patch.size*placement.texture.get_size())
+				draw_texture_rect_region(placement.texture,clipped,source,placement.tint)
 		var rect: Rect2 = placement.visual_rect
 		var foot: Vector2 = placement.position+Vector2(rect.get_center().x,rect.end.y)
 		if placement.wall_shadow:
@@ -72,6 +81,17 @@ func _draw() -> void:
 	# Draw shadows on the floor, never on top of a sorted actor or furnishing.
 	for placement in arena.runtime_definition.placements:
 		if not placement.contact_shadow: continue
+		if placement.shadow_rect.has_area():
+			var patch := Rect2(placement.position+placement.shadow_rect.position,placement.shadow_rect.size)
+			# Tight feathered footprint, not a detached cast-shadow polygon.
+			for spread in [2.0,1.0,0.0]:
+				var ellipse := PackedVector2Array()
+				for i in range(24):
+					ellipse.append(patch.get_center()+Vector2(cos(i*TAU/24),sin(i*TAU/24))*(patch.size*.5+Vector2.ONE*spread))
+				for region in regions:
+					var clip := PackedVector2Array([region.position,Vector2(region.end.x,region.position.y),region.end,Vector2(region.position.x,region.end.y)])
+					for part in Geometry2D.intersect_polygons(ellipse,clip): draw_colored_polygon(part,Color(0,0,0,.12))
+			continue
 		var rect: Rect2 = placement.visual_rect
 		var foot: Vector2 = placement.position+Vector2(rect.get_center().x,rect.end.y-3)
 		var half := rect.size.x*.43
@@ -84,3 +104,15 @@ func _draw() -> void:
 		draw_set_transform(foot,0,Vector2(half,7))
 		draw_circle(Vector2.ZERO,1,Color(0,0,0,.30))
 		draw_set_transform(Vector2.ZERO)
+
+# Flush old machinery footprint; authored wholly inside a floor region.
+func draw_casting_bed(rect: Rect2) -> void:
+	draw_rect(rect,Color(.08,.085,.075,.19))
+	for inset in [0.0,12.0]:
+		draw_rect(rect.grow(-inset),Color(.12,.13,.115,.5),false,2)
+	for side in [rect.position.x+18,rect.end.x-18]:
+		for y in range(int(rect.position.y+24),int(rect.end.y-12),64):
+			draw_circle(Vector2(side,y),2.5,Color(.09,.10,.09,.6))
+			draw_arc(Vector2(side,y),2.5,PI,TAU,6,Color(.46,.43,.34,.3),1)
+	for x in range(int(rect.position.x+96),int(rect.end.x-32),96):
+		draw_line(Vector2(x,rect.position.y+14),Vector2(x,rect.end.y-14),Color(.1,.11,.10,.2),1)
