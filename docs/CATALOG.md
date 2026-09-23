@@ -4,7 +4,7 @@
 
 自動生成: `python tools/docs_index.py`。表題は本文の最初の見出しから取得。分類は役割の案内で、内容の検証完了や採用を示しません。過去計画は元のパスを維持して履歴に分類しています。
 
-対象 191 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
+対象 192 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
 
 ## 入口・運用
 
@@ -60,6 +60,7 @@
 |ファイル|表題・内容の手掛かり|
 |---|---|
 |[docs/AUDIO_BIBLE.md](<AUDIO_BIBLE.md>)|Chamber Clash 音響設計基準|
+|[docs/art/BOSS_CREATION_TEMPLATE.md](<art/BOSS_CREATION_TEMPLATE.md>)|ボス制作テンプレート|
 |[docs/art/ENEMY_CREATION_TEMPLATE.md](<art/ENEMY_CREATION_TEMPLATE.md>)|敵素材の制作テンプレート|
 |[docs/art/ROOM_VISUAL_DIRECTION.md](<art/ROOM_VISUAL_DIRECTION.md>)|探索部屋の空間表現|
 |[docs/art/STAGE_ASSET_GUIDE.md](<art/STAGE_ASSET_GUIDE.md>)|ステージ素材の制作ガイド|

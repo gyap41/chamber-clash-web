@@ -82,7 +82,7 @@ static func begin(game) -> void:
 	game.roster.configure(game.participant_config)
 	for index in range(1,game.players.size()): game.bind_combat_actor(index)
 	game.exploration.encounter_status = "active"
-	if game.floor_data.rooms[id].role == "boss": game.get_node("/root/Music").play_context("boss")
+	if game.floor_data.rooms[id].role == "boss": game.BossFlow.begin_intro(game)
 
 static func retire(game) -> void:
 	game.sound.update_boss_engine(false)

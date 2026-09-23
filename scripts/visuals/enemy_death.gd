@@ -5,14 +5,15 @@ var snapshot: Dictionary
 var organic := false
 var elapsed := 0.0
 const DURATION := 1.1
-const BOSS_DURATION := 2.65
+const BOSS_DURATION := 4.5
 func step(dt: float) -> void:
 	var before := elapsed
 	elapsed += dt
 	var boss: bool = snapshot.get("enemy_id","") == "furnace_warden"
 	if boss:
+		if before < .8 and elapsed >= .8: sound_requested.emit("boss_internal",0)
 		if before < .22 and elapsed >= .22: sound_requested.emit("boss_internal",0)
-		if before < .55 and elapsed >= .55: sound_requested.emit("boss_explosion",0)
+		if before < 1.4 and elapsed >= 1.4: sound_requested.emit("boss_explosion",0)
 	if elapsed >= (BOSS_DURATION if boss else DURATION):
 		queue_free()
 		return

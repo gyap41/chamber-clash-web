@@ -16,12 +16,14 @@ var speed: float = 420.0
 @export var comet_blast_damage := 1.5
 var radius: float = 4.0
 var damage: float = 1.0
+var cannon_blast_radius := 0.0
 var bank_bonus: float = .25
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 var source_player
 var state: Dictionary
 var log_origin: Dictionary = {}
 func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionary = {}) -> void:
+	cannon_blast_radius = float(opts.get("cannon_blast_radius",0))
 	gun_id = id
 	visual_color = str(opts.get("visual_color",opts.get("color","")))
 	visual_id = int(opts.get("visual_weapon",id))
@@ -153,6 +155,9 @@ func step(dt: float, arena, targets) -> void:
 		else:
 			for target in enemies:
 				if target.state.hp <= 0 or b.pos.distance_to(target.state.pos) >= target.radius+radius: continue
+				if cannon_blast_radius > 0:
+					b.life = 0.0 # Resolve direct contact and blast together, exactly once.
+					break
 				var pass_key := ("back" if b.age > .7 else "out")+":"+str(target.participant_id)
 				if b.boomerang:
 					if pass_key not in b.hits and target.hurt(damage,b.volley,false,log_origin,source_player):
@@ -181,5 +186,6 @@ func fragments() -> Dictionary:
 	return {}
 
 func notify_visual(kind: String, pos: Vector2) -> void:
+	if cannon_blast_radius > 0: return # Session owns the single explosion event.
 	if kind == "hit" and (state.parcel or state.comet or state.split or state.clover): return
 	visual_event_requested.emit({"kind":kind,"weapon":visual_id,"visual_color":visual_color,"variant":("parcel" if state.parcel else visual_variant),"owner":state.owner,"pos":pos,"angle":state.velocity.angle()})

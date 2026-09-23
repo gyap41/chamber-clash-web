@@ -1,0 +1,56 @@
+{
+  "generator": "built-in image_gen",
+  "status": "integrated 2026-09-24; runtime stills and combat tests verified; continuous animation acceptance pending",
+  "assets": [
+    {
+      "file": "ordnance.png",
+      "source": "C:\\Users\\ikare\\.codex\\generated_images\\01a0c3aa-5c67-7200-9e38-b07a1cc90af3\\exec-15ac4a57-b590-42bc-bfe4-9a09d26b42c1.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "png_color_type": 6,
+      "grid": [
+        2,
+        2
+      ],
+      "sha256": "8e2c5206a01bc9b9109f45a53b4c1581f1890b28999919c313a0112a2bb98b55",
+      "recipe": "Original bytes unchanged. Equal cell coordinates from actual size; fix pivots before animation. No per-frame auto resize.",
+      "cell_size": [
+        627,
+        627
+      ]
+    },
+    {
+      "file": "impact.png",
+      "source": "C:\\Users\\ikare\\.codex\\generated_images\\01a0c3aa-5c67-7200-9e38-b07a1cc90af3\\exec-717d50e0-40b8-4122-b6cf-09ec582fe465.png",
+      "size": [
+        1774,
+        887
+      ],
+      "png_color_type": 6,
+      "grid": [
+        4,
+        2
+      ],
+      "sha256": "178f559b0d43e19144427fffbcab754037ac349f47fad52ff60488336e174730",
+      "recipe": "Original bytes unchanged. Equal cell coordinates from actual size; fix pivots before animation. No per-frame auto resize.",
+      "pixel_boundaries": {
+        "x": [
+          0,
+          443,
+          887,
+          1330,
+          1774
+        ],
+        "y": [
+          0,
+          443,
+          887
+        ]
+      },
+      "registration_note": "Uneven pixel cells: keep 444px shared virtual canvas and register impact origin. Do not resize each opaque footprint."
+    }
+  ],
+  "runtime_recipe": "scripts/visuals/boss_cannon_art.gd: explicit silhouette crops and muzzle pivots; projected muzzle offsets blend to ground-plane projectile position in 0.16s; impact uses fixed cells, 8 frames/0.64s and late alpha fade."
+}

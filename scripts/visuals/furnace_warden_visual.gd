@@ -16,6 +16,7 @@ static func paint(c: Node2D, v: Dictionary) -> void:
 	c.draw_set_transform(Vector2(0,5),0,Vector2(1,.38))
 	c.draw_circle(Vector2.ZERO,68-lift*.18,Color(0,0,0,.38*alpha))
 	c.draw_set_transform(Vector2.ZERO)
+	paint_muzzles(c,v,true)
 	for particle in v.get("particles",[]):
 		var point: Vector2 = particle.pos-v.position
 		var fade: float = particle.life/particle.total
@@ -32,12 +33,16 @@ static func paint(c: Node2D, v: Dictionary) -> void:
 		var settle := sin(t*9)*2.0 if v.phase == "recover" else sin(t*4)*.8
 		var compression := 1.0-.025*(sin(t*7)*.5+.5) if v.phase == "windup" else 1.0
 		var shake := Vector2.ZERO
+		if v.phase == "grace":
+			var activation: float = v.get("startup",1.0)
+			shake = Vector2(sin(t*40),0)*sin(activation*PI)*2
 		if v.phase == "transition":
 			shake = Vector2(sin(t*80)*3,cos(t*63)*2)
 			tilt = sin(t*45)*.025
 		c.draw_set_transform(Vector2(0,-lift+settle)+direction*(lift*(0.0 if v.move_name == "shockwave" else .6)-recoil*5-drive*3)+shake,tilt,Vector2(1,compression))
 		var rect := Rect2(-96,-218,192,256)
 		var tint := Color(1.25,1.18,1.05) if v.get("hit",0) > .6 else Color.WHITE
+		if v.phase == "grace": tint = Color(.38,.35,.3).lerp(Color.WHITE,smoothstep(.05,.65,float(v.get("startup",1.0))))
 		# Registered cells share one scale. Row anchors compensate for sheet margins.
 		if opening <= 0:
 			c.draw_texture_rect_region(BODY,rect,Rect2(column*384,0,384,512),tint)
@@ -69,17 +74,32 @@ static func paint(c: Node2D, v: Dictionary) -> void:
 		if v.get("impact_kind","") == "slam":
 			c.draw_arc(Vector2.ZERO,180,angle-.65,angle+.65,32,Color(1,.65,.2,(1-impact/.42)*.7),4,true)
 		c.draw_texture_rect_region(FX,Rect2(-115,-48,230,100),Rect2(frame*384,768,384,256),Color(1,1,1,1-impact/.42))
-	var flash: float = v.get("flash_age",10)
-	if flash < .12:
-		c.draw_set_transform(v.get("muzzle",direction*52),v.get("muzzle_angle",angle))
-		c.draw_texture_rect_region(FX,Rect2(-18,-24,78,48),Rect2(mini(3,int(flash/.03))*384,256,384,256))
-		c.draw_set_transform(Vector2.ZERO)
+	if death < 0 and v.get("cannon_charge",0.0) > 0:
+		var charge: float = v.cannon_charge
+		var port := preload("res://scripts/visuals/boss_cannon_art.gd").muzzle_point(angle,true)
+		c.draw_circle(port,10+charge*10,Color(1,.45,.12,.18*charge))
+		c.draw_circle(port,3+charge*5,Color(1,.86,.45,.8*charge))
+	paint_muzzles(c,v,false)
 	if death < 0:
 		for wave in v.get("waves",[]):
 			var center: Vector2 = wave.origin-v.position
 			paint_wave(c,center,float(wave.radius),t)
 
 # Visual-only trailing turbulence. The bright leading edge stays on the hit radius.
+static func paint_muzzles(c: Node2D, v: Dictionary, behind: bool) -> void:
+	var flash: float = v.get("flash_age",10)
+	if flash >= (.24 if v.move_name == "cannon" else .18) or v.get("death_progress",-1.0) >= 0: return
+	if v.move_name == "machinegun":
+		if behind or flash >= .10: return
+		c.draw_set_transform(v.get("muzzle",Vector2.ZERO),v.get("muzzle_angle",0))
+		c.draw_texture_rect_region(FX,Rect2(-12,-15,48,30),Rect2(mini(3,int(flash/.025))*384,256,384,256),Color(1,1,1,1-flash/.10))
+		c.draw_set_transform(Vector2.ZERO)
+		return
+	var art = preload("res://scripts/visuals/boss_cannon_art.gd")
+	for angle in v.get("muzzle_angles",[]):
+		if (sin(angle) < -.2) != behind: continue
+		art.muzzle(c,art.muzzle_point(angle,v.move_name == "cannon"),angle,v.move_name == "cannon",flash)
+
 static func paint_wave(c: Node2D, center: Vector2, radius: float, time: float) -> void:
 	var strength := clampf(radius/45.0,0,1)
 	var segments := clampi(int(TAU*radius/10),64,512)
@@ -124,7 +144,7 @@ static func paint_destruction(c: Node2D, v: Dictionary, age: float) -> void:
 	view.waves = []
 	view.flash_age = 10.0
 	view.impact_age = 10.0
-	if age < .55:
+	if age < 1.4:
 		view.death_progress = -1.0
 		view.phase = "recover"
 		view.lift = 0.0
@@ -133,25 +153,28 @@ static func paint_destruction(c: Node2D, v: Dictionary, age: float) -> void:
 		view.spin_time = float(v.get("spin_time",0))+minf(age,.2)
 		paint(c,view)
 	else:
-		view.death_progress = clampf((age-1.65)/1.0,0,1)
+		view.death_progress = clampf((age-2.8)/1.7,0,1)
 		paint(c,view)
-	for burst in range(3):
-		var start := [0.0,.22,.55][burst] as float
+	for burst in range(5):
+		var start := [0.0,.22,.8,1.1,1.4][burst] as float
 		var time := age-start
-		var duration := .45 if burst < 2 else .85
+		var duration := .45 if burst < 4 else 1.4
 		if time < 0 or time > duration: continue
 		var progress := time/duration
 		var center := Vector2(-24,-95) if burst == 0 else Vector2(28,-55) if burst == 1 else Vector2(0,-60)
-		var size := 32.0 if burst < 2 else 105.0
+		var size := 32.0 if burst < 4 else 170.0
+		c.draw_set_transform(center,0,Vector2.ONE*(1.5 if burst == 4 else .8))
+		preload("res://scripts/visuals/boss_cannon_art.gd").impact(c,progress*.64,burst == 4)
+		c.draw_set_transform(Vector2.ZERO)
 		for layer in range(3):
 			c.draw_circle(center,size*(.2+progress)*(1-layer*.22),Color(1,.27+layer*.22,.06+layer*.15,(1-progress)*(.12+layer*.16)))
 		for i in range(14):
 			var axis := Vector2.from_angle(i*2.399963+burst)
 			var point := center+axis*size*progress
 			c.draw_line(point,point-axis*(5+12*progress),Color(1,.77,.3,1-progress),2,true)
-	if age >= .55:
-		var time := age-.55
-		var fade := clampf((2.65-age)/.75,0,1)
+	if age >= 1.4:
+		var time := minf(age-1.4,1.25)
+		var fade := clampf((4.5-age)/1.2,0,1)
 		for i in range(6):
 			var side := -1.0 if i%2 == 0 else 1.0
 			var velocity := Vector2(side*(50+i*12),-110-float(i%3)*35)
@@ -159,5 +182,5 @@ static func paint_destruction(c: Node2D, v: Dictionary, age: float) -> void:
 			c.draw_set_transform(point,side*time*(1+i*.2))
 			c.draw_texture_rect_region(PARTS,Rect2(-12,-16,24,32),Rect2((i%4)*362+8,420,346,310),Color(.7,.65,.6,fade))
 		c.draw_set_transform(Vector2.ZERO)
-		var dust := clampf(time/1.6,0,1)
+		var dust := clampf((age-1.4)/3.1,0,1)
 		c.draw_texture_rect_region(FX,Rect2(-150,-55,300,120),Rect2(mini(3,int(dust*4))*384,768,384,256),Color(.8,.65,.5,(1-dust)*.8))

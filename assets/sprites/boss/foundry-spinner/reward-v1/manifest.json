@@ -1,0 +1,16 @@
+{
+  "generator": "built-in image_gen",
+  "source": "C:\\Users\\ikare\\.codex\\generated_images\\01a0c3aa-5c67-7200-9e38-b07a1cc90af3\\exec-d8f11d9c-2253-4ea5-bdac-6318d4cbd2c9.png",
+  "file": "chest.png",
+  "size": [
+    1309,
+    1201
+  ],
+  "sha256": "653448bf4a668463320eaa31ae1be9a94e40a42bd67ff462fd581246d12dc7e8",
+  "grid": [
+    2,
+    2
+  ],
+  "status": "integrated; Godot runtime stills and lifecycle tests verified; user acceptance and audio audition pending",
+  "recipe": "Original bytes unchanged. Runtime source x=0/654, width=654; upper y=0 height=560, lower y=560 height=641. Ground anchor x=342/315, y=513/574 relative to cell. Uniform scale 0.14; no per-pose auto fit. See scripts/world/exploration_chest.gd."
+}

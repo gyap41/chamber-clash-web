@@ -22,7 +22,7 @@ func run() -> void:
 	game._physics_process(.5)
 	assert(boss.attack_time == timer)
 	game.set_pause_reason("menu",false)
-	game._physics_process(1.6)
+	game._physics_process(2.5)
 	assert(not game.boss_intro())
 	player.state.pos = boss.state.pos+Vector2(0,125)
 	player.sync_visual()
@@ -44,9 +44,9 @@ func run() -> void:
 	player.state.pos = boss.state.pos+Vector2(140,0)
 	boss.execute_attack(1,player,game.arena)
 	assert(player.state.hp == 4)
-	boss.move_name = "fan"
-	boss.execute_attack(1,player,game.arena)
-	assert(game.shots.size() == 7)
+	boss.move_name = "salvo"
+	boss.fire_salvo(1,game.arena)
+	assert(game.shots.size() == 12)
 	assert(game.combat.use_pulse(0) and game.shots.is_empty())
 	player.state.inv = 0
 	boss.move_name = "heat"
@@ -71,11 +71,11 @@ func run() -> void:
 	boss.state.inv = 0
 	boss.hurt(100)
 	game._physics_process(.01)
-	assert(game.exploration.status == "completed" and game.phase == "result")
+	assert(game.exploration.status == "active" and game.phase == "play")
 	assert(game.players.size() == 1 and game.shots.is_empty() and game.wells.is_empty())
-	assert(game.Reward.current(game).is_empty())
+	assert(game.Reward.current(game).source == "boss")
 	await capture("boss-clear")
-	for frame in range(145): game._physics_process(.02)
+	for frame in range(240): game._physics_process(.02)
 	await process_frame
 	assert(get_nodes_in_group("enemy_death_visuals").is_empty())
 	game.start_exploration(22)
@@ -88,5 +88,5 @@ func run() -> void:
 	assert(game.exploration.status == "dead")
 	game.queue_free()
 	await process_frame
-	print("PASS: boss intro/pause/lock, slam dodge and damage, fan/pulse, heat, phase transition, victory cleanup, retry and death priority")
+	print("PASS: boss intro/pause/lock, slam dodge and damage, salvo/pulse, heat, phase transition, boss reward cleanup, retry and death priority")
 	quit()

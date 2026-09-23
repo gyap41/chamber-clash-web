@@ -3,6 +3,10 @@ signal played(kind: String, id: int)
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const RATE := 44100
 const GENERATED := {
+	"boss_salvo": preload("res://assets/audio/se/fw_spinner_salvo_02.mp3"),
+	"boss_cannon": preload("res://assets/audio/se/fw_spinner_main_cannon_01.mp3"),
+	"boss_shell_impact": preload("res://assets/audio/se/fw_spinner_shell_impact_01.mp3"),
+	"boss_heavy_impact": preload("res://assets/audio/se/fw_spinner_heavy_impact_01.mp3"),
 	"boss_dash": preload("res://assets/audio/se/fw_spinner_dash_03.mp3"),
 	"boss_impact": preload("res://assets/audio/se/fw_spinner_impact_01.mp3"),
 	"boss_overdrive": preload("res://assets/audio/se/fw_spinner_overdrive_01.mp3"),
@@ -191,9 +195,9 @@ func synthesize(p: Dictionary) -> AudioStreamWAV:
 func play_sound(kind: String, id: int = 0) -> void:
 	if not enabled or kind == "start": return
 	# Coalesce simultaneous pellet impacts without changing projectile simulation.
-	if kind in ["wall_impact","ricochet","sentry_windup","lizard_inhale","sentry_swing","lizard_spit","sentry_down","lizard_down","quill_windup","quill_fire","quill_down"]:
+	if kind in ["boss_shell_impact","boss_heavy_impact","wall_impact","ricochet","sentry_windup","lizard_inhale","sentry_swing","lizard_spit","sentry_down","lizard_down","quill_windup","quill_fire","quill_down"]:
 		var now := Time.get_ticks_msec()
-		var interval := 200 if kind == "wall_impact" else 120 if kind == "ricochet" else 60
+		var interval := 100 if kind.begins_with("boss_") else 200 if kind == "wall_impact" else 120 if kind == "ricochet" else 60
 		if now-int(contact_times.get(kind,-1000)) < interval: return
 		contact_times[kind] = now
 	var sample := sample_key(kind,id)
@@ -209,8 +213,8 @@ func play_sound(kind: String, id: int = 0) -> void:
 		elif kind == "ricochet": generated_voice.volume_db -= 8.0
 		elif kind in ["sentry_windup","lizard_inhale","quill_windup"]: generated_voice.volume_db -= 6.0
 		elif kind in ["sentry_swing","lizard_spit","sentry_down","lizard_down","quill_windup","quill_fire","quill_down"]: generated_voice.volume_db -= 3.0
-		elif kind in ["boss_dash","boss_impact","boss_overdrive"]: generated_voice.volume_db -= 4.0
-		elif kind in ["boss_vent","boss_internal"]: generated_voice.volume_db -= 8.0
+		elif kind in ["boss_dash","boss_impact","boss_overdrive","boss_salvo","boss_cannon","boss_heavy_impact"]: generated_voice.volume_db -= 4.0
+		elif kind in ["boss_vent","boss_internal","boss_shell_impact"]: generated_voice.volume_db -= 8.0
 		generated_voice.stream = GENERATED[sample]
 		generated_voice.play()
 		played.emit(kind,id)

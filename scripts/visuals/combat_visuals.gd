@@ -104,6 +104,13 @@ func _draw() -> void:
 
 func weapon_event(event: Dictionary) -> void:
 	var kind: String = str(event.get("kind",""))
+	if kind == "cannon_impact":
+		var node = preload("res://scripts/visuals/boss_cannon_impact.gd").new()
+		add_child(node)
+		node.configure(event,{"duration":.64})
+		custom_effects.append(node)
+		while custom_effects.size() > maxi(0,weapon_effect_limit): custom_effects.pop_front().queue_free()
+		return
 	if kind in ["reload_cancel","reload_complete"]:
 		for i in range(custom_effects.size()-1,-1,-1):
 			var source: Dictionary = custom_effects[i].event

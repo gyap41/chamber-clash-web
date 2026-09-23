@@ -119,3 +119,9 @@ Godotのtravelは遷移元のサンプル後に遷移を解決するため、状
 
 
 撃破後の消失演出: 本体は0.85秒で退色し、番機は短い火花6粒と埃、トカゲは控えめな土色の粒子を残す。全体は1.1秒で消去。粒子は描画のみで、追加SE・衝突・報酬遅延なし。停止・離室・再挑戦の消去は従来の撃破表示と共通。
+
+### 独楽の鋳造機の砲撃表示
+
+boss_cannon_art.gdが生成シートの切出し・砲口原点・弾・8コマ爆発を管理する。判定は床平面、発射直後だけprojectile_art.gdが砲口高さから0.16秒で判定位置へ補間する。furnace_warden_visual.gdは後方の閃光→本体→前方閃光の順に描画し、全身を平面回転しない。着弾はcombat_sessionからcannon_impactイベントを1回だけ出し、combat_visualsの上限付きcustom_effectsで戦闘dt更新する。素材の登録値と通常倍率確認画像は[制作記録](../art/production/furnace-warden/README.md)。
+
+起動演出はexploration_boss_flowが戦闘停止中の時計と排圧イベントを管理し、furnace_warden_visualへstartup進行を渡す。暗い本体の点灯・振動・煙を既存素材で表す。報酬箱はexploration_chestが登録済み4姿勢を共通倍率で描画し、独立_processを使わず探索dtで落下/開封/粒子を更新する。

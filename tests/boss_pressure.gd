@@ -21,6 +21,7 @@ func run() -> void:
 	game.set_pause_reason("focus",false)
 	var id: String = game.floor_data.rooms.keys().filter(func(key): return game.floor_data.rooms[key].role == "boss")[0]
 	enter(game,id)
+	game.BossFlow.finish_intro(game)
 	assert(game.get_node("/root/Music").current_track == "boss")
 	var boss = game.players[1]
 	var player = game.players[0]
@@ -68,18 +69,18 @@ func run() -> void:
 	assert(not game.arena.solid(boss.state.pos,44))
 	boss.state.pos = Vector2(1000,600)
 	player.state.pos = Vector2(1300,600)
-	boss.attack_phase = "machinegun"
-	boss.move_name = "machinegun"
+	boss.attack_phase = "salvo"
+	boss.move_name = "salvo"
 	boss.attack_angle = 0
-	boss.emissions_left = 24
+	boss.emissions_left = 2
 	boss.emission_time = 0
-	for frame in range(125): boss.step(.016,1,player,game.arena)
-	assert(game.shots.size() == 40 and boss.attack_phase == "recover")
+	for frame in range(65): boss.step(.016,1,player,game.arena)
+	assert(game.shots.size() == 24 and boss.attack_phase == "recover")
 	for shot in game.shots:
-		assert(is_equal_approx(shot.state.velocity.length(),420) or is_equal_approx(shot.state.velocity.length(),250))
-		assert(is_equal_approx(shot.damage,.85))
+		assert(is_equal_approx(shot.state.velocity.length(),280))
+		assert(is_equal_approx(shot.damage,1))
 	game.clear_field_objects()
-	boss.attack_phase = "machinegun"
+	boss.attack_phase = "salvo"
 	boss.emissions_left = 10
 	boss.state.pos = Vector2(2000,900)
 	player.state.pos = Vector2(100,100)
@@ -182,15 +183,15 @@ func run() -> void:
 	await capture("spinner-enraged")
 	game.clear_field_objects()
 	boss.attack_phase = "windup"
-	boss.move_name = "machinegun"
+	boss.move_name = "salvo"
 	boss.attack_time = 0
 	boss.step(.01,1,player,game.arena)
-	assert(boss.emissions_left == 42)
-	for frame in range(175): boss.step(.016,1,player,game.arena)
-	assert(game.shots.size() == 70)
+	assert(boss.emissions_left == 3)
+	for frame in range(50): boss.step(.016,1,player,game.arena)
+	assert(game.shots.size() == 48)
 	for shot in game.shots:
-		assert(is_equal_approx(shot.state.velocity.length(),480) or is_equal_approx(shot.state.velocity.length(),290))
-		assert(is_equal_approx(shot.damage,.85))
+		assert(is_equal_approx(shot.state.velocity.length(),330))
+		assert(is_equal_approx(shot.damage,1))
 	var saved_position: Vector2 = boss.state.pos
 	var obstacle = BarrierArena.new()
 	boss.state.pos = Vector2(150,160)
@@ -206,9 +207,9 @@ func run() -> void:
 	boss.state.pos = saved_position
 	boss.state.hp = 0
 	game._physics_process(.01)
-	assert(game.players.size() == 1 and game.exploration.status == "completed")
+	assert(game.players.size() == 1 and game.exploration.status == "active")
 	assert(game.get_node("/root/Music").current_track == "")
 	game.queue_free()
 	await process_frame
-	print("PASS: distance-closing dash and wall sweep, 24-shot burst/offscreen cancel, wave hit/dodge/one-crossing/cadence/pause and cleanup")
+	print("PASS: distance-closing dash and wall sweep, staggered cannon salvos/offscreen cancel, wave hit/dodge/one-crossing/cadence/pause and cleanup")
 	quit()

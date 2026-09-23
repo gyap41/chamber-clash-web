@@ -59,4 +59,32 @@ static func current(game) -> Dictionary:
 
 static func nearby(game) -> bool:
 	var reward := current(game)
-	return not reward.is_empty() and reward.state != "empty" and game.players[0].state.pos.distance_to(reward.pos) <= 64 and not game.arena.line_blocked(game.players[0].state.pos,reward.pos)
+	if reward.is_empty() or reward.state in ["empty","forming"]: return false
+	var targets := [reward.pos]
+	if reward.state == "open": targets.append(reward.pos+reward.get("drop_offset",Vector2.ZERO))
+	for target in targets:
+		if game.players[0].state.pos.distance_to(target) <= 64 and not game.arena.line_blocked(game.players[0].state.pos,target): return true
+	return false
+
+# Presentation RNG is independent of reward/encounter rolls. Supports future multi-drop slots.
+static func scatter_offsets(arena, origin: Vector2, seed_value: int, count: int) -> Array[Vector2]:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed_value
+	var result: Array[Vector2] = []
+	var start := rng.randf_range(0,TAU)
+	for index in range(count):
+		var chosen := Vector2.ZERO
+		var best_score := -INF
+		for candidate in range(32):
+			var angle := start+TAU*index/maxi(count,1)+candidate*TAU/32
+			var offset := Vector2.from_angle(angle)*60
+			if arena.solid(origin+offset,22) or arena.line_blocked(origin,origin+offset): continue
+			var separation := 120.0
+			for previous in result: separation = minf(separation,offset.distance_to(previous))
+			# Prefer the front/sides so the open lid does not conceal the item.
+			var score := separation-(35.0 if offset.y < -20 else 0.0)-candidate*.01
+			if score > best_score:
+				chosen = offset
+				best_score = score
+		result.append(chosen) # Very tight spaces keep loot at the reachable chest.
+	return result

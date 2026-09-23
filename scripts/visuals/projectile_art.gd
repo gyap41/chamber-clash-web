@@ -18,7 +18,7 @@ func configure(id: int, parcel: bool, shard: bool, visual_variant: String = "", 
 	variant = visual_variant if not visual_variant.is_empty() else ("parcel" if parcel else ("derived" if shard else ""))
 	shot_color = Color(color_override if not color_override.is_empty() else str(profile.get("color","#ffffff")))
 	profile.color = shot_color.to_html()
-	if variant in ["enemy_fire_seed","enemy_quill","boss_rivet"]:
+	if variant in ["enemy_fire_seed","enemy_quill","boss_rivet","boss_shell","boss_cannon"]:
 		texture = null
 		material = null
 		base_scale = Vector2.ONE
@@ -52,7 +52,11 @@ func configure(id: int, parcel: bool, shard: bool, visual_variant: String = "", 
 	last_age = -1.0
 
 func refresh(age: float, velocity: Vector2) -> void:
-	if variant in ["enemy_fire_seed","enemy_quill","boss_rivet"]:
+	animation_age = age
+	if variant in ["boss_shell","boss_cannon"]:
+		var point := preload("res://scripts/visuals/boss_cannon_art.gd").muzzle_point(velocity.angle(),variant == "boss_cannon")
+		position = (point-velocity.normalized()*52)*(1.0-clampf(age/.16,0,1))
+	if variant in ["enemy_fire_seed","enemy_quill","boss_rivet","boss_shell","boss_cannon"]:
 		rotation = velocity.angle()
 		queue_redraw()
 		return
@@ -182,6 +186,9 @@ func draw_aurora(canvas: Node2D, max_length: float, width: float) -> void:
 		canvas.draw_line(points[i-1],points[i],Color(tint,.88*fade),body_width,true)
 
 func _draw() -> void:
+	if variant in ["boss_shell","boss_cannon"]:
+		preload("res://scripts/visuals/boss_cannon_art.gd").projectile(self,variant == "boss_cannon",animation_age)
+		return
 	if variant == "boss_rivet":
 		draw_line(Vector2(-14,0),Vector2(-4,0),Color(1,.5,.15,.55),3,true)
 		draw_circle(Vector2.ZERO,6,Color("542e20"))

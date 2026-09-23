@@ -12,7 +12,7 @@ func run() -> void:
 	var boss = game.players[1]
 	var player = game.players[0]
 	boss.sound_requested.connect(func(kind,_id):
-		if kind in ["rapid","boss_impact","boss_dash"]: attacks += 1)
+		if kind in ["rapid","boss_salvo","boss_cannon","boss_impact","boss_dash"]: attacks += 1)
 	# Reproduced: boss cannot enter the player's narrow southern wall margin.
 	var cases := [[Vector2(1080,1080),Vector2(890,1080)], [Vector2(1160,1080),Vector2(1350,1080)]]
 	var failures := 0
@@ -42,11 +42,11 @@ func run() -> void:
 	player.state.inv = 100
 	assert(not boss.visible_to_target(game.arena,player.state.pos))
 	assert(boss.attack_visible(game.arena,player.state.pos))
-	boss.attack_phase = "machinegun"
+	boss.attack_phase = "salvo"
 	boss.emissions_left = 2
 	boss.emission_time = 0
 	boss.step(.016,1,player,game.arena)
-	assert(boss.attack_phase == "machinegun" and boss.emissions_left == 1)
+	assert(boss.attack_phase == "salvo" and boss.emissions_left == 1)
 	player.state.pos = Vector2(200,200)
 	boss.step(.016,1,player,game.arena)
 	assert(boss.attack_phase == "chase" and boss.attack_time == 0)

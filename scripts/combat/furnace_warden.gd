@@ -1,7 +1,11 @@
 extends "res://scripts/combat/fire_pouch_lizard.gd"
 const BOLT_ID := -3
+var startup_total := 0.0
 var move_index := 0
-var move_name := "fan"
+var last_attack := ""
+const NORMAL_MOVES := ["dash","machinegun","salvo","shockwave","cannon"]
+const ENRAGED_MOVES := ["shockwave","machinegun","dash","salvo","cannon","machinegun"]
+var move_name := "salvo"
 var second_phase := false
 var waves: Array = []
 var emission_time := 0.0
@@ -23,6 +27,8 @@ var dash_age := 0.0
 var drive := 0.0
 var recoil := 0.0
 var muzzle_angle := 0.0
+var muzzle_angles: Array = []
+var salvo_index := 0
 const MUZZLE_DISTANCE := 52.0
 const WAVE_SPEED := 420.0
 const WAVE_INTERVAL := 2.1
@@ -33,6 +39,7 @@ func _init() -> void:
 		"hp":48.0,"speed":76.0,"radius":44.0,"range":410.0,"damage":1.5,"windup":1.0,"recovery":1.5,"entry_grace":1.5}
 
 func prepare(spawn: Vector2) -> void:
+	startup_total = 0.0
 	waves.clear()
 	particles.clear()
 	wave_cooldown = 0
@@ -44,14 +51,17 @@ func prepare(spawn: Vector2) -> void:
 	lift = 0
 	impact_age = 10
 	flash_age = 10
+	muzzle_angles.clear()
+	salvo_index = 0
 	particle_clock = 0
 	emissions_left = 0
 	dash_left = 0
 	chain_left = 0
 	combo_finisher = false
 	move_index = 0
+	last_attack = ""
 	second_phase = false
-	move_name = "fan"
+	move_name = "salvo"
 	super.prepare(spawn)
 
 func resolved_definition(id: int) -> Dictionary:
@@ -119,15 +129,34 @@ func step(dt: float, i: int, enemy, arena, _shooting: bool = false, _ai: Diction
 			command.dy = axis.y
 		else:
 			var tracking := 1.3 if second_phase else .85
-			attack_angle += clampf(wrapf(delta.angle()-attack_angle,-PI,PI),-tracking*dt,tracking*dt)
+			attack_angle = rotate_toward(attack_angle,delta.angle(),tracking*dt)
+			command.angle = attack_angle
 			emission_time -= dt
 			if emission_time <= 0 and emissions_left > 0:
 				if emissions_left%6 == 0:
 					for offset in [-.6,-.3,.3,.6]:
-						fire_bolt(i,arena,attack_angle+offset,290.0 if second_phase else 250.0,.85,false)
-				fire_bolt(i,arena,attack_angle+sin(emissions_left*1.7)*.055,480.0 if second_phase else 420.0,.85)
+						fire_bolt(i,arena,attack_angle+offset,290.0 if second_phase else 250.0,false)
+				fire_bolt(i,arena,attack_angle+sin(emissions_left*1.7)*.055,480.0 if second_phase else 420.0)
 				emissions_left -= 1
 				emission_time = .055 if second_phase else .08
+			if emissions_left == 0: begin_recovery()
+	elif attack_phase in ["salvo","cannon"]:
+		command.angle = attack_angle
+		if not continuing:
+			cancel_to_chase()
+			var axis := chase_direction(dt,enemy.state.pos,arena)
+			command.dx = axis.x
+			command.dy = axis.y
+		else:
+			# Re-aim between heavy shots, then leave a committed dodge window.
+			if attack_phase == "cannon" and emission_time > .25:
+				attack_angle = rotate_toward(attack_angle,delta.angle(),dt*2.6)
+			emission_time -= dt
+			if emission_time <= 0 and emissions_left > 0:
+				if attack_phase == "salvo": fire_salvo(i,arena)
+				else: fire_cannon(i,arena,attack_angle,true)
+				emissions_left -= 1
+				emission_time = (.36 if second_phase else .48) if attack_phase == "salvo" else .85
 			if emissions_left == 0: begin_recovery()
 	elif attack_phase == "shockwave":
 		emission_time -= dt
@@ -142,6 +171,8 @@ func step(dt: float, i: int, enemy, arena, _shooting: bool = false, _ai: Diction
 			sound_requested.emit("boss_impact",0)
 		if emissions_left == 0 and emission_time <= WAVE_INTERVAL-.4: begin_recovery()
 	elif attack_phase == "windup":
+		if move_name == "cannon" and attack_time > .25:
+			attack_angle = rotate_toward(attack_angle,delta.angle(),dt*2.6)
 		command.angle = attack_angle
 		if not continuing:
 			cancel_to_chase()
@@ -154,9 +185,14 @@ func step(dt: float, i: int, enemy, arena, _shooting: bool = false, _ai: Diction
 				dash_age = 0
 				sound_requested.emit("boss_dash",0)
 				dash_left = clampf(delta.length()-100,0,620)
-			elif move_name in ["machinegun","shockwave"]:
+			elif move_name in ["machinegun","salvo","cannon","shockwave"]:
 				attack_phase = move_name
-				emissions_left = (42 if second_phase else 24) if move_name == "machinegun" else (4 if second_phase else 3)
+				match move_name:
+					"machinegun": emissions_left = 42 if second_phase else 24
+					"shockwave": emissions_left = 4 if second_phase else 3
+					"salvo": emissions_left = 3 if second_phase else 2
+					"cannon": emissions_left = 2 if second_phase else 1
+				salvo_index = 0
 				emission_time = JUMP_TIME if move_name == "shockwave" else 0
 			elif move_name == "slam" and combo_finisher and chain_left == 0:
 				# Replace the final melee hit with a readable jump and one full ring.
@@ -177,22 +213,16 @@ func step(dt: float, i: int, enemy, arena, _shooting: bool = false, _ai: Diction
 	elif attack_time <= 0:
 		attack_phase = "chase"
 		command.angle = delta.angle()
-		var sequence := ["shockwave","machinegun","dash","fan","machinegun"] if second_phase else ["dash","machinegun","shockwave","fan","slam"]
-		move_name = sequence[move_index%sequence.size()]
-		if move_name == "slam" and delta.length() >= 200: move_name = "dash"
-		if move_name == "dash" and delta.length() < 200: move_name = "slam"
-		# A small player can occupy wall/door margins the boss cannot reach.
-		# Do not lock the sequence on melee while a clear ranged shot is available.
-		if move_name == "slam" and delta.length() > 165 and not preload("res://scripts/ai/cpu_navigation.gd").segment_clear(arena,state.pos,enemy.state.pos,radius):
-			move_name = "machinegun"
-		var reach := 700.0 if move_name in ["dash","machinegun","shockwave"] else (520.0 if move_name == "fan" else 165.0)
-		if seen and delta.length() <= reach and not arena.line_blocked(state.pos,enemy.state.pos):
+		var choice := choose_attack(enemy.state.pos,arena) if seen and not arena.line_blocked(state.pos,enemy.state.pos) else {}
+		if not choice.is_empty():
+			move_name = choice.move
+			last_attack = choice.family
+			move_index = choice.next_index
 			attack_phase = "windup"
 			attack_angle = delta.angle()
 			attack_time = (.7 if second_phase else 1.0) if move_name != "shockwave" else 1.3
 			chain_left = (2 if second_phase else 1) if move_name in ["dash","slam"] else 0
 			combo_finisher = second_phase and move_name in ["dash","slam"]
-			move_index += 1
 			sound_requested.emit("sentry_windup",0)
 		else:
 			var axis := chase_direction(dt,enemy.state.pos,arena)
@@ -200,6 +230,25 @@ func step(dt: float, i: int, enemy, arena, _shooting: bool = false, _ai: Diction
 			command.dy = axis.y
 	step_presentation(dt)
 	return move_with_command(dt,i,enemy,arena,command)
+
+# Rotate through roles, skipping unusable moves instead of waiting on a melee slot.
+# Only commit the cursor when an attack actually starts. No presentation RNG.
+func choose_attack(target: Vector2, arena) -> Dictionary:
+	var distance: float = state.pos.distance_to(target)
+	if distance > 700: return {}
+	var sequence: Array = ENRAGED_MOVES if second_phase else NORMAL_MOVES
+	for offset in range(sequence.size()):
+		var cursor := (move_index+offset)%sequence.size()
+		var family: String = sequence[cursor]
+		if family == last_attack: continue
+		var chosen := family
+		if family == "dash":
+			if distance <= 165:
+				chosen = "slam"
+			elif distance < 200 or not preload("res://scripts/ai/cpu_navigation.gd").segment_clear(arena,state.pos,target,radius):
+				continue
+		return {"move":chosen,"family":family,"next_index":(cursor+1)%sequence.size()}
+	return {}
 
 # Start conservatively, but do not cancel a committed attack just because its
 # ground origin crossed the inset viewport edge while the body is still visible.
@@ -223,17 +272,48 @@ func begin_recovery() -> void:
 	attack_phase = "recover"
 	attack_time = .55 if second_phase else 1.1
 
-func fire_bolt(i: int, arena, angle: float, speed: float, damage: float, cue: bool = true) -> void:
+func fire_bolt(i: int, arena, angle: float, speed: float, cue: bool = true) -> void:
 	if combat_service == null or combat_service.get_ref() == null: return
 	var origin: Vector2 = state.pos+Vector2.from_angle(angle)*MUZZLE_DISTANCE
 	if arena.solid(origin,6) or arena.line_blocked(state.pos,origin): return
-	combat_service.get_ref().spawn_shot(i,BOLT_ID,angle,{"pos":origin,"speed":speed,"damage":damage,"radius":6.0,"life":3.6,
-		"visual_weapon":2,"visual_variant":"boss_rivet","can_lens":false})
+	combat_service.get_ref().spawn_shot(i,BOLT_ID,angle,{"pos":origin,"speed":speed,"damage":.85,
+		"radius":6.0,"life":3.6,"visual_weapon":2,"visual_variant":"boss_rivet","can_lens":false})
 	if cue:
 		flash_age = 0
-		recoil = 1
+		recoil = .6
 		muzzle_angle = angle
+		muzzle_angles = [angle]
 		sound_requested.emit("rapid",0)
+
+func fire_cannon(i: int, arena, angle: float, heavy: bool, cue: bool = true) -> bool:
+	if combat_service == null or combat_service.get_ref() == null: return false
+	var shot_radius := 14.0 if heavy else 7.0
+	var origin: Vector2 = state.pos+Vector2.from_angle(angle)*MUZZLE_DISTANCE
+	if arena.solid(origin,shot_radius) or arena.line_blocked(state.pos,origin): return false
+	combat_service.get_ref().spawn_shot(i,BOLT_ID,angle,{"pos":origin,
+		"speed":900.0 if heavy else (330.0 if second_phase else 280.0),
+		"damage":2.0 if heavy else 1.0,"radius":shot_radius,"life":2.4,
+		"cannon_blast_radius":64.0 if heavy else 28.0,
+		"visual_weapon":2,"visual_variant":"boss_cannon" if heavy else "boss_shell","can_lens":false})
+	if cue:
+		flash_age = 0
+		recoil = 1.8 if heavy else 1.0
+		muzzle_angle = angle
+		muzzle_angles = [angle]
+		sound_requested.emit("boss_cannon" if heavy else "boss_salvo",0)
+	return true
+
+func fire_salvo(i: int, arena) -> void:
+	var count := 16 if second_phase else 12
+	muzzle_angles.clear()
+	for n in range(count):
+		var angle := attack_angle+(n+salvo_index*.5)*TAU/count
+		if fire_cannon(i,arena,angle,false,false): muzzle_angles.append(angle)
+	salvo_index += 1
+	if not muzzle_angles.is_empty():
+		flash_age = 0
+		recoil = .65
+		sound_requested.emit("boss_salvo",0)
 
 func step_waves(dt: float, target, arena) -> void:
 	for wave in waves:
@@ -247,31 +327,19 @@ func step_waves(dt: float, target, arena) -> void:
 		wave.previous = target.state.pos
 	waves = waves.filter(func(wave): return wave.radius < arena.field_rect.size.length()+100)
 
-func execute_attack(i: int, target, arena) -> void:
-	if move_name == "fan":
-		if combat_service == null or combat_service.get_ref() == null: return
-		for offset in [-.54,-.36,-.18,0.0,.18,.36,.54]:
-			var angle: float = attack_angle+offset
-			var origin: Vector2 = state.pos+Vector2.from_angle(angle)*MUZZLE_DISTANCE
-			if arena.solid(origin,6) or arena.line_blocked(state.pos,origin): continue
-			combat_service.get_ref().spawn_shot(i,BOLT_ID,angle,{"pos":origin,"speed":350.0 if second_phase else 300.0,"damage":1.25,"radius":6.0,"life":2.8,
-				"visual_weapon":2,"visual_variant":"boss_rivet","can_lens":false})
-		flash_age = 0
-		recoil = 1
-		muzzle_angle = attack_angle
-		sound_requested.emit("rapid",0)
-	else:
-		var delta: Vector2 = target.state.pos-state.pos
-		var in_range: bool = delta.length() <= (180.0 if move_name == "slam" else 205.0)
-		var in_angle: bool = move_name == "heat" or absf(wrapf(delta.angle()-attack_angle,-PI,PI)) <= .65
-		if in_range and in_angle and not arena.line_blocked(state.pos,target.state.pos):
-			target.hurt(1.5 if move_name == "slam" else 1.0,-1,false,{"kind":"boss_"+move_name},self)
-		impact_age = 0
-		impact_kind = move_name
-		sound_requested.emit("boss_impact" if move_name == "slam" else "lizard_spit",0)
+func execute_attack(_i: int, target, arena) -> void:
+	var delta: Vector2 = target.state.pos-state.pos
+	var in_range: bool = delta.length() <= (180.0 if move_name == "slam" else 205.0)
+	var in_angle: bool = move_name == "heat" or absf(wrapf(delta.angle()-attack_angle,-PI,PI)) <= .65
+	if in_range and in_angle and not arena.line_blocked(state.pos,target.state.pos):
+		target.hurt(1.5 if move_name == "slam" else 1.0,-1,false,{"kind":"boss_"+move_name},self)
+	impact_age = 0
+	impact_kind = move_name
+	sound_requested.emit("boss_impact" if move_name == "slam" else "lizard_spit",0)
 
 func enemy_visual_snapshot() -> Dictionary:
 	var view := super.enemy_visual_snapshot()
+	view.startup = clampf(1.0-attack_time/maxf(.01,startup_total),0,1) if attack_phase == "grace" else 1.0
 	view.move_name = move_name
 	view.second_phase = second_phase
 	view.waves = waves.duplicate(true)
@@ -281,13 +349,15 @@ func enemy_visual_snapshot() -> Dictionary:
 	view.lift = lift
 	view.impact_age = impact_age
 	view.impact_kind = impact_kind
+	view.cannon_charge = clampf(1.0-(attack_time if attack_phase == "windup" else emission_time)/.6,0,1) if move_name == "cannon" and attack_phase in ["windup","cannon"] else 0.0
 	view.flash_age = flash_age
 	view.muzzle = Vector2.from_angle(muzzle_angle)*MUZZLE_DISTANCE
 	view.muzzle_angle = muzzle_angle
+	view.muzzle_angles = muzzle_angles.duplicate()
 	view.recoil = recoil
 	view.drive = drive
 	view.particles = particles.duplicate(true)
-	view.angle = attack_angle if attack_phase in ["dash","machinegun","shockwave"] else view.angle
+	view.angle = attack_angle if attack_phase in ["dash","machinegun","salvo","cannon","shockwave"] else view.angle
 	return view
 
 func _draw() -> void:

@@ -6,6 +6,7 @@
 
 |頼みたいこと|最初に読む|変更を反映する場所|
 |---|---|---|
+|ボスを設計・制作・レビューする|[ボス制作テンプレート](art/BOSS_CREATION_TEMPLATE.md) → [敵素材の共通規格](art/ENEMY_CREATION_TEMPLATE.md)|ボス別の制作記録、実装済み仕様はGAME_RULES、検証はTESTING|
 |敵の素材・アニメーションを作る|[敵素材の制作テンプレート](art/ENEMY_CREATION_TEMPLATE.md) → [敵・ボス制作計画](planning/ENEMY_BOSS_ART_PLAN.md)|art/productionの素材台帳、実装後はACTOR_ANIMATION・GAME_RULES|
 |次の作業を進める|[全体ロードマップ](planning/ROADMAP.md) → [探索の工程](planning/EXPLORATION_ROADMAP.md)|該当仕様と残課題|
 |戦闘・装備・操作を追加／修正|[ゲームルール](design/GAME_RULES.md)、[アイテム一覧](design/ITEM_CATALOG.md)|designの対象節。検証方法はTESTING|

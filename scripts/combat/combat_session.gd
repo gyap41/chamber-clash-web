@@ -165,6 +165,7 @@ func _step_projectiles(dt: float) -> void:
 		var b = game.shots[n]
 		if b.state.dead or b.state.life <= 0:
 			if not b.state.dead:
+				if b.cannon_blast_radius > 0: resolve_cannon_impact(b)
 				b.notify_visual("split" if not b.fragments().is_empty() else "expire",b.state.pos)
 				if b.state.parcel: game.presentation.ring(b.state.pos,Color(b.state.color),55.0)
 				if b.state.gravity: game.presentation.ring(b.state.pos,Color(b.state.color),100.0)
@@ -184,6 +185,16 @@ func _step_projectiles(dt: float) -> void:
 			game.shots.remove_at(n)
 			b.get_parent().remove_child(b)
 			b.queue_free()
+
+
+func resolve_cannon_impact(b) -> void:
+	var heavy: bool = b.visual_variant == "boss_cannon"
+	for enemy in game.roster.enemies(b.state.owner,game.players):
+		if enemy.state.hp > 0 and b.state.pos.distance_to(enemy.state.pos) <= b.cannon_blast_radius+enemy.radius and not game.arena.line_blocked(b.state.pos,enemy.state.pos):
+			enemy.hurt(b.damage,-1,false,b.log_origin,b.source_player)
+	game.presentation.weapon_event({"kind":"cannon_impact","pos":b.state.pos,"heavy":heavy})
+	game.presentation.play_sound("boss_heavy_impact" if heavy else "boss_shell_impact")
+	if heavy: game.presentation.shake(5.0)
 
 
 func _step_wells(dt: float) -> void:

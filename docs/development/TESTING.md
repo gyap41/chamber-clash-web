@@ -493,15 +493,15 @@ boss_pressureは障害物を半径44pxで迂回して接近、空中で輪を出
 
 `Godot --headless --path . --script res://tests/boss_activity.gd --quit-after 180`：南壁際2配置で修正前に12秒の無攻撃停止を再現。大型身体が近接距離へ入れない場合、継続被弾中でも2.88秒以内に攻撃へ切り替わることを検証する。
 
-boss_activityは画面端で本体が見える間の連射継続、完全画面外時の硬直なし追跡復帰、届かなかった突進後の追跡復帰も検証する。boss_pressureの画面外テストは本体全体が隠れる配置を使う。
+boss_activityは画面端で本体が見える間の斉射継続、完全画面外時の硬直なし追跡復帰、届かなかった突進後の追跡復帰も検証する。boss_pressureの画面外テストは本体全体が隠れる配置を使う。
 
 
-`Godot --path . --script res://tests/boss_presentation.gd -- --capture`：4方向の弾/閃光原点、反動、暴走/排圧SE、エンジンの停止・ミュート、Actor退役後の爆発SE、ポーズ、結果パネル/勝利音の遅延、再挑戦時の破棄を確認。画像は.local/two-rooms-boss-opening-{角度}.pngとtwo-rooms-boss-destruction.png。headlessでも動作検証可（captureなし）。今回の回帰テストは通過したが、終了時ObjectDB/Resource警告は残る。音の聴感・全方向連続動作・Web負荷は別途受入。
+`Godot --path . --script res://tests/boss_presentation.gd -- --capture`：4方向の弾/閃光原点、反動、暴走/排圧SE、エンジンの停止・ミュート、Actor退役後の爆発SE、ポーズ、報酬出現まで結果パネル/勝利音を出さないこと、再挑戦時の破棄を確認。画像は.local/two-rooms-boss-opening-{角度}.pngとtwo-rooms-boss-destruction.png。headlessでも動作検証可（captureなし）。今回の回帰テストは通過したが、終了時ObjectDB/Resource警告は残る。音の聴感・全方向連続動作・Web負荷は別途受入。
 
-boss_activityは突進残距離0.00001/0.0001/0.1/0.49pxで即時終了し、プレイヤーが近づかなくても次の攻撃を開始することを確認。修正前は0.00001pxのケースで12秒後もdashが継続することを再現。boss_pressureは強化後の24/42発、弾速420/480、連射ダメージ0.85も確認する。
+boss_activityは突進残距離0.00001/0.0001/0.1/0.49pxで即時終了し、プレイヤーが近づかなくても次の攻撃を開始することを確認。修正前は0.00001pxのケースで12秒後もdashが継続することを再現。boss_pressureは全周斉射の通常24発/暴走48発、弾速280/330、ダメージ1も確認する。
 
 
-boss_pressureは通常2連突進と追撃方向の固定、通常時に最終波が出ないこと、暴走3連の最後が跳躍→着地衝撃波1回になることも検証。追加の遅い扇状弾を含めて通常40発/暴走70発、速度群420/250と480/290を確認。boss_activityの微小残距離停止、furnace_wardenの踏破、boss_presentationの演出同期も回帰通過。実プレイ難度と最大弾幕時の端末負荷は未確認。
+boss_pressureは通常2連突進と追撃方向の固定、通常時に最終波が出ないこと、暴走3連の最後が跳躍→着地衝撃波1回になることも検証。全周斉射の通常12方向×2回/暴走16方向×3回を確認。boss_activityの微小残距離停止、furnace_wardenの踏破、boss_presentationの演出同期も回帰通過。実プレイ難度と最大弾幕時の端末負荷は未確認。
 
 ## 旧鋳造区の環境表現
 
@@ -510,3 +510,17 @@ boss_pressureは通常2連突進と追撃方向の固定、通常時に最終波
 ashen_foundryは追加素材8種の配置と固定部屋の描画（two-rooms-fixed-additions.png）も確認。exploration_floorの到達性キーには配置ID/位置/衝突を含め、同じ部屋形状でも家具配置が違えば検証を省略しない。
 
 ashen_foundryは半透明の余白を除いた家具参照領域、根の端、接地影の不正矩形、ボス設備跡の床内配置も検証する。
+
+## ボス全周砲撃・主砲
+
+`Godot --headless --path . --script res://tests/boss_cannon.gd --quit-after 600`：主砲の追従→最後0.25秒固定、暴走2連と再照準、直撃/爆風1回、回避後の再被弾なし、明示消去時の爆発なし、寿命爆発、演出ポーズ/破棄、斉射の角度ずらしを検証。描画版はheadlessを外し `-- --capture` を付ける。`.local/two-rooms-boss-cannon-{fire,impact,salvo}.png` に保存。boss_pressure/boss_activity/boss_presentation/furnace_warden/exploration_encounter/audio_assetsを回帰確認する。通常倍率の静止画と自動検証は、音量・難度・全方向の連続動作の手動受入とは区別する。
+
+`Godot --headless --path . --script res://tests/boss_attack_selection.gd --quit-after 600`：通常/暴走で全5種類の攻撃枠へ到達、直前の技を連続選択しない、近接の射程間隙・壁際で射撃へ進む、射程外でカーソルを消費しない、機銃40/70発・追従・爆風なし、ポーズ・画面外中止・再挑戦初期化を検証。boss_activity/boss_pressure/boss_cannon/furnace_wardenを併用する。
+
+boss_cannonは主砲速度900・判定半径14、直接接触と壁衝突、二重被弾防止も確認。描画版の追加画像は `.local/two-rooms-boss-cannon-flight.png`。boss_presentationは主砲反動1.8を確認する。
+
+## ボス開始・撃破報酬
+
+`Godot --headless --path . --script res://tests/boss_rewards.gd --quit-after 600`：初回2.4秒/再挑戦0.8秒・スキップ・BGM開始・入力遮断、ポーズで起動/報酬時計停止、撃破後4.6秒の箱・出現と着地音1回、出口の保留、単品飛び出し中の取得禁止、控え満杯・非アクティブ中の受取不可、二重取得なし、ライフアンプ装備時のみ最大HP+1（回復なし）、開封後は未取得でも出口解除、出口で踏破、再挑戦初期化、相打ち死亡優先を確認。
+
+描画版はheadlessを外し `-- --capture`。`.local/two-rooms-boss-startup.png` と `two-rooms-boss-reward-{chest,opening,open,options}.png` を保存。通常倍率の複数状態を確認したが、実プレイの演出テンポ・音量・Web負荷は手動受入。boss_presentation/furnace_warden/boss_pressure/exploration_treasure_supplies/exploration_encounterの回帰も行う。

@@ -6,6 +6,8 @@ const Floor = preload("res://scripts/game/exploration_floor.gd")
 const FollowCamera = preload("res://scripts/visuals/exploration_camera.gd")
 const Encounter = preload("res://scripts/game/exploration_encounter.gd")
 const Reward = preload("res://scripts/game/exploration_reward.gd")
+const BossFlow = preload("res://scripts/game/exploration_boss_flow.gd")
+var boss_intro_seen := false
 var chest_node
 const ExplorationSupplies = preload("res://scripts/game/exploration_supplies.gd")
 var supply_nodes: Array = []
@@ -25,7 +27,6 @@ var pause_reasons: Dictionary = {}
 var doors: Array = []
 var door_armed := true
 var fire_requires_release := false
-var victory_sound_delay := -1.0
 func _ready() -> void:
 	# This prototype starts in a non-combat room. Remove the duel scene's extra
 	# actors before registering participants/signals; never mutate a live roster.
@@ -55,7 +56,6 @@ func _ready() -> void:
 	start_exploration(seed_value)
 func start_exploration(seed_value: int) -> void:
 	sound.stop_all()
-	victory_sound_delay = -1.0
 	clear_enemy_deaths()
 	if floor_map != null: close_map()
 	if bag != null: close_bag()
@@ -161,6 +161,12 @@ func try_enter_door() -> bool:
 	if exploration.status != "active" or exploration.encounter_status == "active": return false
 	var entry := nearby_door()
 	if entry.is_empty(): return false
+	if BossFlow.blocks_exit(self): return false
+	if BossFlow.is_room(self) and not BossFlow.blocks_exit(self):
+		door_armed = false
+		clear_action_inputs()
+		exploration.finish("completed")
+		return true
 	var partner := door_data(entry.target_room,entry.target_door)
 	if partner.is_empty(): return false
 	var definition: FieldDefinition = room_data(entry.target_room).field.duplicate(true)
@@ -182,6 +188,11 @@ func try_enter_door() -> bool:
 	refresh_hud()
 	return true
 func _input(event: InputEvent) -> void:
+	if boss_intro():
+		if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ENTER:
+			BossFlow.finish_intro(self)
+			get_viewport().set_input_as_handled()
+		return
 	if floor_map != null:
 		if event is InputEventKey and event.pressed and not event.echo and event.keycode in [KEY_M,KEY_ESCAPE]:
 			close_map()
@@ -197,16 +208,15 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
 		fire_requires_release = false
 func _unhandled_input(event: InputEvent) -> void:
-	if bag != null: return
+	if bag != null or boss_intro(): return
 	if fire_requires_release and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		get_viewport().set_input_as_handled()
 		return
 	super._unhandled_input(event)
 func refresh_hud() -> void:
-	var allowed: bool = phase == "play" and not paused and result.is_empty() and not players[0].is_cpu
+	var allowed: bool = phase == "play" and not paused and result.is_empty() and not players[0].is_cpu and not boss_intro()
 	var view := preload("res://scripts/ui/combat_hud_view.gd").capture(players[0],allowed)
 	hud.present(view,{"paused":paused,"result":result,"sound_enabled":sound.enabled,
-		"result_visible":victory_sound_delay < 0,
 		"boss":boss_hud(),"map_available":not floor_data.is_empty(),"map_open":floor_map != null,
 		"room_role":floor_data.rooms[exploration.room_id].role if not floor_data.is_empty() else "",
 		"reward_state":Reward.current(self).get("state",""),
@@ -216,9 +226,17 @@ func refresh_hud() -> void:
 		"bag_open":bag != null,"enemies_alive":players.slice(1).filter(func(player): return player.state.hp > 0).size()})
 	var nearby := nearby_door()
 	for node in doors:
-		node.set_locked(exploration.encounter_status == "active")
-		node.set_available(allowed and exploration.encounter_status != "active" and nearby.get("id","") == node.door_id)
+		node.set_locked(exploration.encounter_status == "active" or BossFlow.blocks_exit(self))
+		node.set_available(allowed and exploration.encounter_status != "active" and not BossFlow.blocks_exit(self) and nearby.get("id","") == node.door_id)
 func door_hint() -> String:
+	if boss_intro(): return ""
+	if BossFlow.is_room(self) and exploration.encounter_status == "cleared":
+		var boss_reward := Reward.current(self)
+		if boss_reward.get("state","") == "forming": return ""
+		if not nearby_door().is_empty() and not BossFlow.blocks_exit(self): return "F：工房を踏破して帰還" if not nearby_door().is_empty() else loot_message
+		if Reward.nearby(self) and loot_message.begins_with("取得できません"): return loot_message
+		if Reward.nearby(self): return "F：鋳造機の遺産を開く" if boss_reward.state == "closed" else "F：アイテムを拾う · Tab：バッグ整理"
+		return ""
 	if exploration.encounter_status == "active": return "敵を全滅させると出口が開きます  ·  Tab：バッグ"
 	if Reward.nearby(self):
 		if Reward.current(self).state == "closed": return "F：宝箱を開く"
@@ -255,6 +273,7 @@ func _notification(what: int) -> void:
 		# Resume only the focus pause; inventory and manual pauses remain active.
 		set_pause_reason("focus",false)
 func _unhandled_key_input(event: InputEvent) -> void:
+	if boss_intro() and event is InputEventKey and event.keycode != KEY_ESCAPE: return
 	if not event is InputEventKey or not event.pressed or event.echo: return
 	if event.keycode == KEY_M:
 		open_map()
@@ -275,24 +294,20 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		apply_command(0,HumanInput.key(players[0],event.keycode))
 func _physics_process(dt: float) -> void:
 	if phase == "result" and not paused:
-		if victory_sound_delay >= 0:
-			victory_sound_delay -= dt
-			if victory_sound_delay < 0: sound.play_sound("win")
 		for remains in get_tree().get_nodes_in_group("enemy_death_visuals"):
 			if is_ancestor_of(remains): remains.step(dt)
 	if phase == "play" and not paused and result.is_empty():
 		for remains in get_tree().get_nodes_in_group("enemy_death_visuals"):
 			if is_ancestor_of(remains): remains.step(dt)
 		if is_instance_valid(chest_node): chest_node.step(dt)
+		BossFlow.step_reward(self,dt)
 		combat_visuals.step(dt)
 		_step_pulse_effects(dt)
 		var previous_weapon: int = players[0].weapon().id if players[0].has_weapon() else -1
 		Loadout.capture(players[0],exploration.weapon_bank)
 		if boss_intro():
 			clear_action_inputs()
-			players[1].attack_time = maxf(0,players[1].attack_time-dt)
-			if players[1].attack_time <= 0: players[1].attack_phase = "chase"
-			players[1].sync_visual()
+			BossFlow.step_intro(self,dt)
 		else:
 			combat.step(dt)
 		var active_weapon: int = players[0].weapon().id if players[0].has_weapon() else -1
@@ -300,11 +315,12 @@ func _physics_process(dt: float) -> void:
 		var was_active: bool = exploration.encounter_status == "active"
 		exploration.settle(players[0].state.hp > 0,players.slice(1).any(func(p): return p.state.hp > 0))
 		if was_active and exploration.encounter_status == "cleared":
+			var defeated_at: Vector2 = players[1].state.pos if players.size() > 1 else players[0].state.pos
 			Encounter.retire(self)
 			loot_message = "部屋クリア · 出口が開きました"
 			if not floor_data.is_empty() and floor_data.rooms[exploration.room_id].role == "boss":
-				exploration.finish("completed")
-			if exploration.status == "active" and Reward.ensure(self):
+				BossFlow.begin_reward(self,defeated_at)
+			if exploration.status == "active" and not BossFlow.is_room(self) and Reward.ensure(self):
 				rebuild_chest()
 				chest_node.spawning = .4
 				sound.play_sound("chest_spawn")
@@ -317,7 +333,7 @@ func _physics_process(dt: float) -> void:
 			clear_action_inputs()
 			delayed_shots.clear()
 			sound.stop_all(exploration.status == "completed")
-			if exploration.status == "completed": victory_sound_delay = 2.5
+			if exploration.status == "completed": sound.play_sound("win")
 			get_node("/root/Music").play_context("result")
 	if not paused:
 		var boss_alive: bool = phase == "play" and players.size() > 1 and players[1].get("spec") != null and players[1].spec.id == "furnace_warden" and players[1].state.hp > 0
@@ -325,7 +341,11 @@ func _physics_process(dt: float) -> void:
 			sound.update_boss_engine(true,players[1].state.pos.distance_to(players[0].state.pos),1.0 if players[1].attack_phase == "dash" else .5 if players[1].second_phase else 0.0)
 		else:
 			sound.update_boss_engine(false)
-		FollowCamera.follow(arena.get_node("CombatCamera"),arena.field_rect,players[0].state.pos)
+		var camera_target: Vector2 = players[0].state.pos
+		if boss_intro():
+			var progress: float = 1.0-players[1].attack_time/players[1].startup_total
+			camera_target = camera_target.lerp(players[1].state.pos,sin(progress*PI)*.7)
+		FollowCamera.follow(arena.get_node("CombatCamera"),arena.field_rect,camera_target)
 	arena.get_node("DangerZone").refresh(0.0)
 	arena.get_node("CombatCamera").offset = -combat_visuals.shake_offset
 	refresh_hud()
@@ -348,7 +368,7 @@ func return_to_title() -> void:
 func room_data(id: String) -> Dictionary:
 	return Rooms.room(id,room_catalog)
 func open_map() -> bool:
-	if floor_data.is_empty() or paused or phase != "play" or exploration.status != "active": return false
+	if floor_data.is_empty() or boss_intro() or paused or phase != "play" or exploration.status != "active": return false
 	set_pause_reason("map",true)
 	floor_map = preload("res://scripts/ui/exploration_map.gd").new()
 	floor_map.floor_data = floor_data
@@ -371,7 +391,7 @@ func door_data(room_id: String, id: String) -> Dictionary:
 	return Rooms.door(room_id,id,room_catalog)
 
 func open_bag() -> bool:
-	if bag != null or phase != "play" or paused or exploration.status != "active" or players[0].state.hp <= 0: return false
+	if bag != null or boss_intro() or phase != "play" or paused or exploration.status != "active" or players[0].state.hp <= 0: return false
 	Loadout.capture(players[0],exploration.weapon_bank)
 	set_pause_reason("inventory",true)
 	bag = preload("res://scripts/ui/exploration_bag.gd").new()
@@ -430,6 +450,9 @@ func rebuild_chest() -> void:
 	var reward := Reward.current(self)
 	if reward.is_empty(): return
 	chest_node = preload("res://scripts/world/exploration_chest.gd").new()
+	if reward.get("source","") == "boss": chest_node.landed.connect(func(): sound.play_sound("landing"))
+	if not reward.has("drop_offset"):
+		reward.drop_offset = Reward.scatter_offsets(arena,reward.pos,hash(str(exploration.seed_value)+str(reward.id)+":scatter"),1)[0]
 	chest_node.reward = reward
 	chest_node.position = reward.pos
 	arena.get_node("Players").add_child(chest_node)
@@ -476,12 +499,16 @@ func try_chest() -> bool:
 	if not door_armed: return true
 	door_armed = false
 	var reward := Reward.current(self)
+	if chest_node.spawning > 0: return true
 	if reward.state == "closed":
 		reward.state = "open"
-		chest_node.opening = .35
+		chest_node.opening = chest_node.OPEN_DURATION
 		sound.play_sound("chest_open")
 		loot_message = "宝箱を開きました · Fで中身を取得"
 	elif chest_node.opening <= 0:
+		if reward.get("source","") == "boss":
+			BossFlow.claim(self)
+			return true
 		var outcome := Loot.collect(reward,exploration)
 		loot_message = outcome.message
 		if outcome.acquired:
@@ -492,7 +519,7 @@ func try_chest() -> bool:
 	return true
 
 func boss_intro() -> bool:
-	return players.size() == 2 and players[1].get("spec") != null and players[1].spec.id == "furnace_warden" and players[1].attack_phase == "grace"
+	return exploration != null and players.size() == 2 and players[1].get("spec") != null and players[1].spec.id == "furnace_warden" and players[1].attack_phase == "grace"
 
 func boss_hud() -> Dictionary:
 	if players.size() != 2 or players[1].get("spec") == null or players[1].spec.id != "furnace_warden": return {}

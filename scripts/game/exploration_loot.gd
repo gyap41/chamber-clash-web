@@ -37,11 +37,11 @@ static func rebuild(arena, entries: Array, collected: Dictionary, nodes: Array) 
 		node.position = loot.pos
 		var sprite := Sprite2D.new()
 		sprite.texture = Weapons.art(loot.item) if loot.kind == "weapon" else Art.texture("relic_%02d" % loot.item)
-		sprite.scale = Vector2.ONE*36.0/maxf(sprite.texture.get_width(),sprite.texture.get_height())
+		sprite.scale = Vector2.ONE*45.0/maxf(sprite.texture.get_width(),sprite.texture.get_height())
 		node.add_child(sprite)
 		var label := Label.new()
 		label.text = "F：取得"
-		label.position = Vector2(-28,22)
+		label.position = Vector2(-28,27)
 		label.add_theme_font_size_override("font_size",12)
 		node.add_child(label)
 		arena.add_child(node)

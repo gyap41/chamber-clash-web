@@ -2161,6 +2161,120 @@
       "fingerprint": "9a440ba7584a152ac25f76cb138d9efdb345b7a7000da3838ccf6d8dd9818ac4",
       "sha256": "8688574eb7b14a5ccf931b9eb617f9517ca9fc0ffb030b89f4acb5a27b8b17ec",
       "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_spinner_salvo_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_spinner_salvo_01.mp3",
+      "purpose": "Boss cannon attack asset; not integrated; audition pending",
+      "prompt": "One compact heavy iron cannon discharge, low rounded WHUMP with a brief dry powder crack and short smoky air tail. Weighty mechanical foundry weapon. Single shot, immediate onset, clean tight decay suitable for repeated volleys. No metallic ringing, no laser, no music, no voices, no long reverb.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.6791836734693878,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-23T14:43:12.959601+00:00",
+      "fingerprint": "2bcd91ecd6b24723f32903e79775e5df9de7572e129e2fb987e6067eb3549be6",
+      "sha256": "287be8db7e8555a8c71de2bc1b8831a27b897785312a4c457a90daa61c2b6116",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_spinner_main_cannon_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_spinner_main_cannon_01.mp3",
+      "purpose": "Boss cannon attack asset; not integrated; audition pending",
+      "prompt": "One massive industrial cannon firing, immediate deep concussive BOOM with dense low-mid punch, short rushing powder blast and heavy restrained recoil clunk, decaying quickly. Powerful grounded artillery, not tinny metal. No prefire delay, no piercing treble, no long cinematic rumble, no music or voices.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.3,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 1.3061224489795917,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-23T14:43:40.362171+00:00",
+      "fingerprint": "82ba3b1d77ca5f0fbc65dc40e5ff6418ac91ba826bb5836619e373467f44d5d5",
+      "sha256": "ab9f2b1c00204ad06ad41c0e9caf31158cce92e896322804d9774705efc55c13",
+      "loop_verified": false,
+      "integration_status": "connected in scripts/audio/sound.gd, 2026-09-24; mix audition pending"
+    },
+    {
+      "asset_id": "se:fw_spinner_salvo_02",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_spinner_salvo_02.mp3",
+      "purpose": "User revision of se:fw_spinner_salvo_01: remove metallic ringing; bass powder discharge. Integrated 2026-09-24; provisional user adoption, mix audition pending.",
+      "prompt": "Single deep rounded gunpowder BOOMPH. Soft bass pressure thump, thick low-mid air burst, very brief dry smoke-like decay. Immediate attack, strong body, muted top end. No metal, no clang, no ringing, no recoil mechanism, no sharp clicks, no laser, no music, no voice. Tight one-shot for repeated cannon volleys.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.6,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.626938775510204,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-23T14:55:24.564062+00:00",
+      "fingerprint": "8a141afae2d59c1c80079138881c0ee27236948b8620669e9be808331cb872f3",
+      "sha256": "db7c9bc2aeccf9000fe3514e3dad8144de9498467641cb0a66829b28ca5456d7",
+      "loop_verified": false,
+      "integration_status": "connected in scripts/audio/sound.gd, 2026-09-24; mix audition pending"
+    },
+    {
+      "asset_id": "se:fw_spinner_shell_impact_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_spinner_shell_impact_01.mp3",
+      "purpose": "Small cannonball impact explosion; limit concurrent impacts during volleys. Integrated 2026-09-24; provisional user adoption, mix audition pending.",
+      "prompt": "One small explosive shell hitting stone: immediate compact low BOOF, dense powder puff, soft gritty dust settling very briefly. Rounded heavy bass body, restrained high end. Impact explosion only, no launch sound, no whistle, no metallic fragments or ringing, no music, no voice, no long echo. Clean short game sound.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.6791836734693878,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-23T14:55:52.648747+00:00",
+      "fingerprint": "1c7ccd37b6b01c61b96f575f0357b49b635c4bbac0ecdfddeb5c8af8c961f646",
+      "sha256": "43ff9ebf5657b1dbe288ebdecaecfa1da903d0813fbc360812a2de01e80ac2c2",
+      "loop_verified": false,
+      "integration_status": "connected in scripts/audio/sound.gd, 2026-09-24; mix audition pending"
+    },
+    {
+      "asset_id": "se:fw_spinner_heavy_impact_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_spinner_heavy_impact_01.mp3",
+      "purpose": "Main cannon heavy impact explosion, separate from firing and boss death. Integrated 2026-09-24; provisional user adoption, mix audition pending.",
+      "prompt": "One heavy artillery shell detonating against stone: immediate thick low DOOM, forceful bass pressure, broad mid-low explosive air and a short dusty crumbling tail. Distinct powerful impact, not a gun being fired. No metallic clang, no piercing crack, no whistle, no distant prelude, no music or voices. Short controlled decay, not a boss death cinematic.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.2,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 1.2277551020408164,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-23T14:56:22.354036+00:00",
+      "fingerprint": "abd3cce9c2b799a042ac467954a1571d241859a008613fa4bed65a7f1c56b01f",
+      "sha256": "94a12fee5b388454d62f16cd3e2aef03206c09c3aab8fc38acd1733a08e457c6",
+      "loop_verified": false,
+      "integration_status": "connected in scripts/audio/sound.gd, 2026-09-24; mix audition pending"
     }
   ]
 }
