@@ -40,7 +40,7 @@ func run() -> void:
 	await process_frame
 	await process_frame
 	game.set_pause_reason("focus",false)
-	assert(game.floor_data.catalog.size() == 10)
+	assert(game.floor_data.catalog.size() == 11)
 	assert(game.floor_data.seed == 22)
 	var first_layout: Dictionary = game.floor_data.rooms.duplicate(true)
 	var player = game.players[0]
@@ -61,7 +61,7 @@ func run() -> void:
 	game.refresh_hud()
 	await capture("random-start")
 	await walk(game,game.start_room)
-	assert(reached.size() == 10 and game.exploration.visited_rooms.size() == 10)
+	assert(reached.size() == 11 and game.exploration.visited_rooms.size() == 11)
 	assert(snapshot(player,game.exploration.inventory) == before)
 	assert(game.loot_nodes.size() == 1 and game.exploration.collected_loot.size() == 1)
 	assert(game.open_map())

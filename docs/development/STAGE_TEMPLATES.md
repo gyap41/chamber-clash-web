@@ -63,7 +63,7 @@ StagePlacement.wall_flueを有効にすると、画像上端中央の排煙口�
 
 接続検証は相互参照・向き・幅、操作点/到着点/開口両端付近の床と障害物を確認。室内全体の到達性は別途検証が必要。直交壁のL字・T字接続では角材の重複を抑え、縦壁の下端に正面壁が接する場合も笠石を補正する。既定以外の24px厚でも検証済み。重なった任意の壁群の輪郭生成・斜め壁・全方向の立体壁遮蔽は未対応。
 
-探索コントローラーのroom_catalog/start_roomを差し替えることで、固定登録以外の生成したRoomTemplate群も同じ組み立て・遷移処理へ渡せる。検証用four_way_demo.gdは中央＋四方の5部屋を生成する例。四方向デモ自体はランダム生成ではない。現在は別入口のExplorationFloorが共通WorkshopRoomShellを利用して10室を生成し、固定2部屋も別入口で維持する。
+探索コントローラーのroom_catalog/start_roomを差し替えることで、固定登録以外の生成したRoomTemplate群も同じ組み立て・遷移処理へ渡せる。検証用four_way_demo.gdは中央＋四方の5部屋を生成する例。四方向デモ自体はランダム生成ではない。現在は別入口のExplorationFloorが共通WorkshopRoomShellを利用して既定11室を生成し、固定2部屋も別入口で維持する。
 
 ## 接続用壁材セット v2（2026-09-22）
 
@@ -87,3 +87,5 @@ connected_walls=trueで有効化し、4素材の欠落は組み立て前に拒�
 ## 部屋の形状・寸法（生成版2）
 
 WorkshopRoomShell.make_roomはdimensionsで矩形の寸法を受け、壁厚/扉幅を固定して外周と扉を組む。WorkshopRoomVariantsが6形状と配置点の変換を定義する。L字は右上を切り欠き、床領域2つと段の壁で表現する。家具の画像と衝突寸法は拡縮しない。移動/弾境界は部屋寸法から生成し、RoomReachabilityは寸法に比例した探索上限（最大16384）で検証。生成版変更で同seedの配置は変わる。[制作仕様と画像](../art/production/workshop-room-variants/README.md)。
+
+生成版3の前室はcompact、ボス予定地はhall。前室は北出口と探索側の1入口、ボス室は南入口のみ。家具原本・壁面割当は既存テンプレートを流用し、ボス室の家具配置は空にする。制作記録は[ボス前室](../art/production/boss-approach/README.md)。

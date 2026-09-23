@@ -84,6 +84,8 @@ func present(view: Dictionary, mode: Dictionary) -> void:
 	if mode.get("encounter_cleared",false): $Root/Status.text = "攻略済み  ·  次の部屋へ進めます"
 	if mode.get("room_role","") == "treasure":
 		$Root/Status.text = "宝箱を発見  ·  近づいてFで開封" if mode.get("reward_state","") == "closed" else "箱の中身を回収できます" if mode.get("reward_state","") == "open" else "宝箱回収済み  ·  次の部屋へ進めます"
+	if mode.get("room_role","") == "antechamber": $Root/Status.text = "ボス前室  ·  Tabで装備整理  ·  北の扉はボス予定地へ"
+	if mode.get("room_role","") == "boss": $Root/Status.text = "ボス予定地  ·  ボス戦は準備中です"
 	if mode.encounter_active: $Root/Status.text = "敵を倒す  ·  残り%d体" % mode.enemies_alive
 	if mode.paused: $Root/Status.text = "停止中  ·  Escで再開"
 	if not mode.result.is_empty(): $Root/Status.text = "今回の挑戦は終了しました"

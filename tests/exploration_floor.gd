@@ -13,9 +13,12 @@ func run() -> void:
 		assert(shapes.size() == 6)
 		var boss_id: String = floor.rooms.keys().filter(func(id): return floor.rooms[id].role == "boss")[0]
 		assert(floor.catalog[boss_id].field.field_rect.size == Vector2(2240,1200))
+		assert(floor.catalog.size() == 9+seed_value%5)
+		assert(floor.catalog[boss_id].doors.size() == 1 and floor.catalog[boss_id].doors[0].id == "south")
+		assert(floor.rooms[floor.catalog[boss_id].doors[0].target_room].role == "antechamber")
 		var repeat := Floor.generate(seed_value,8+seed_value%5)
 		assert(floor.rooms == repeat.rooms)
-		for role in ["start","treasure","shop","boss"]:
+		for role in ["start","treasure","shop","boss","antechamber"]:
 			assert(floor.rooms.values().filter(func(room): return room.role == role).size() == 1)
 		for id in floor.catalog:
 			var room = floor.catalog[id]

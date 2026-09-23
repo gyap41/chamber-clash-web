@@ -470,3 +470,9 @@ exploration_encounter、fire_pouch_lizard、exploration_enemy_spawns（10seed/10
 fire_pouch_lizard、exploration_enemy_spawns（10seed/108入口）、audio_assetsを回帰確認。静止比較と自動テストは連続歩行の自然さ・SE試聴・負荷・ユーザー受入の代わりにはしない。
 
 2026-09-23の通常敵ダメージ調整：exploration_encounterで番機1.2、fire_pouch_lizardで火種0.9の実被弾と味方非被弾、quillbackで棘の被弾・キャンセルを確認。既知の終了時ObjectDB警告は残る。
+
+## 生成版3：ボス前室
+
+exploration_floorは100seed・生成引数8〜12（実総数9〜13）の再現性、5役割各1室、前室2接続・ボス南入口のみ、座標重複なし、267形状/開口組合せの到達性を確認。random_floor_playは11室往復と再挑戦を確認。
+
+`Godot --path . --script res://tests/boss_approach.gd --quit-after 600 -- --capture`で前室の安全性・バッグ操作・南到着・往復で無料回復なしを確認。ボス戦は未実装で、このテストはボス戦の受入ではない。

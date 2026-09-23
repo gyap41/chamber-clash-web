@@ -169,7 +169,7 @@ func run() -> void:
 	await process_frame
 	game.set_pause_reason("focus",false)
 	await visit(game,game.start_room)
-	assert(checked_combat and normal_count == 6 and visited.size() == 10)
+	assert(checked_combat and normal_count == 6 and visited.size() == 11)
 	# Retry during combat and death both retire actors without duplicated player signals.
 	var normal_id: String = game.floor_data.rooms.keys().filter(func(id): return game.floor_data.rooms[id].role == "normal")[0]
 	game.exploration.enter_room(normal_id,game.room_data(normal_id).field.field_id)

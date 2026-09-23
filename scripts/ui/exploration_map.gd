@@ -53,7 +53,7 @@ func draw_map(canvas: Control) -> void:
 		canvas.draw_rect(rect,Color("ffd37a") if id == current else Color("87949c"),false,3 if id == current else 1)
 		var label: String = "未訪問"
 		if visited.has(id):
-			label = {"start":"入口","normal":"作業室","treasure":"宝箱","shop":"店","boss":"ボス"}[floor_data.rooms[id].role]
+			label = {"start":"入口","normal":"作業室","treasure":"宝箱","shop":"店","boss":"ボス","antechamber":"前室"}[floor_data.rooms[id].role]
 			if room_states.get(id,{}).get("encounter","") == "cleared": label += "✓"
 			elif room_states.get(id,{}).get("reward",{}).get("state","") == "empty": label += "✓"
 		var font := ThemeDB.fallback_font
