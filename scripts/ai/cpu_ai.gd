@@ -162,7 +162,7 @@ static func sample(game, player, enemy, dt: float) -> Dictionary:
 		command.dodge = true
 		p.ai_cd = randf_range(.35,.75)
 	command.reload = player.has_weapon() and (player.inventory[command.switch].clip if command.switch >= 0 else player.weapon().clip) == 0
-	command.melee = d < 64.0
+	command.melee = d < player.melee_range
 	command.dx = dx
 	command.dy = dy
 	command.angle = to_enemy.angle()

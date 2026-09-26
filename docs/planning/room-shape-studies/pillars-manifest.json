@@ -1,0 +1,7 @@
+{
+  "generator": "built-in image_gen",
+  "source": "C:\\Users\\ikare\\.codex\\generated_images\\01a0c3aa-5c67-7200-9e38-b07a1cc90af3\\exec-72641d74-72e4-4e4c-9d87-6e1e2c340ace.png",
+  "sha256": "673b4d1216aad95d0b653147ac52a0080c27a12dc6cbbd780c3efb40f84340eb",
+  "prompt": "pillars-prompt.txt",
+  "status": "concept only; pillar counts 0/1/4/3 visually checked; not integrated; collision, scale and occlusion need runtime validation"
+}

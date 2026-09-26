@@ -1,0 +1,146 @@
+{
+ "cell": 221,
+ "frames": 8,
+ "ground_y": 214.0,
+ "origin_x": 99.0,
+ "stride_per_frame": 10.0,
+ "source": "run-keyposes-fix.png cell 2 (upper body only)",
+ "frames_meta": [
+  {
+   "frame": 0,
+   "bob": 0,
+   "lean": 1.5,
+   "near": {
+    "key": 0,
+    "ground": true,
+    "ankle_x": 232.0,
+    "reach": 72.94
+   },
+   "far": {
+    "key": 4,
+    "ground": false,
+    "ankle_x": 148.0,
+    "reach": 53.09
+   }
+  },
+  {
+   "frame": 1,
+   "bob": 7,
+   "lean": 2.5,
+   "near": {
+    "key": 1,
+    "ground": true,
+    "ankle_x": 212.0,
+    "reach": 59.33
+   },
+   "far": {
+    "key": 5,
+    "ground": false,
+    "ankle_x": 166.0,
+    "reach": 26.62
+   }
+  },
+  {
+   "frame": 2,
+   "bob": 2,
+   "lean": 1.5,
+   "near": {
+    "key": 2,
+    "ground": true,
+    "ankle_x": 192.0,
+    "reach": 62.95
+   },
+   "far": {
+    "key": 6,
+    "ground": false,
+    "ankle_x": 192.0,
+    "reach": 41.99
+   }
+  },
+  {
+   "frame": 3,
+   "bob": -6,
+   "lean": 0.0,
+   "near": {
+    "key": 3,
+    "ground": false,
+    "ankle_x": 168.0,
+    "reach": 60.06
+   },
+   "far": {
+    "key": 7,
+    "ground": false,
+    "ankle_x": 216.0,
+    "reach": 75.46
+   }
+  },
+  {
+   "frame": 4,
+   "bob": 0,
+   "lean": 1.5,
+   "near": {
+    "key": 4,
+    "ground": false,
+    "ankle_x": 162.0,
+    "reach": 50.23
+   },
+   "far": {
+    "key": 0,
+    "ground": true,
+    "ankle_x": 218.0,
+    "reach": 76.5
+   }
+  },
+  {
+   "frame": 5,
+   "bob": 7,
+   "lean": 2.5,
+   "near": {
+    "key": 5,
+    "ground": false,
+    "ankle_x": 180.0,
+    "reach": 23.82
+   },
+   "far": {
+    "key": 1,
+    "ground": true,
+    "ankle_x": 198.0,
+    "reach": 63.23
+   }
+  },
+  {
+   "frame": 6,
+   "bob": 2,
+   "lean": 1.5,
+   "near": {
+    "key": 6,
+    "ground": false,
+    "ankle_x": 206.0,
+    "reach": 38.07
+   },
+   "far": {
+    "key": 2,
+    "ground": true,
+    "ankle_x": 178.0,
+    "reach": 66.93
+   }
+  },
+  {
+   "frame": 7,
+   "bob": -6,
+   "lean": 0.0,
+   "near": {
+    "key": 7,
+    "ground": false,
+    "ankle_x": 230.0,
+    "reach": 71.86
+   },
+   "far": {
+    "key": 3,
+    "ground": false,
+    "ankle_x": 154.0,
+    "reach": 63.56
+   }
+  }
+ ]
+}

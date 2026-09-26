@@ -1,0 +1,34 @@
+{
+  "name": "rina-knife-v1",
+  "fingerprint": "e362d74f252b7cca7cb9bf2b8347daeb24d4584b39bd7c84d376263a5c63ded8",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-26T08:19:38.900904+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Game sprite for \"Rina\", a chibi gunner girl with brass goggles, ivory tunic and orange scarf: her melee weapon only, a short sturdy utility/combat knife in her steampunk mechanic style: dark steel blade with a single edge, brass crossguard and pommel, brown leather-wrapped handle, as a single cut-out piece for a 2D top-down action game. Match the reference images exactly: same art style (thick dark brown outlines, soft cel shading) and the same scale as the parts in Reference 2 (the weapon should be about as long as the character's forearm plus hand in Reference 1). Reference 1 shows the character's front, side and back views. Reference 2 is the approved parts sheet (head+torso, arms and gloves).\n\nDraw ONE weapon, lying HORIZONTALLY, handle on the LEFT and blade tip pointing to the RIGHT, blade edge facing down, centered on the canvas with a wide empty white margin. Show the full weapon in strict side view.\n\nNo hand, no glove, no character, no sheath, no motion lines, no slash effect, no text, no labels, no frame, no shadow, no ground. Flat pure white background.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": ".local\\rina-v6\\ref-turnaround-3view.png",
+      "sha256": "395e4e67883136c971ecdc9cbf182701bdf33dcb868a5c10e285b14df0da0069"
+    },
+    {
+      "path": ".local\\rina-v6\\ref-arm-parts-v2.png",
+      "sha256": "c658543e2df2cf6f350305939ea9a32b74bdf5822b658617b00dc53376588bf8"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 257,
+      "image_tokens": 2032
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1141305
+}

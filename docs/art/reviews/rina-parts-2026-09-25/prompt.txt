@@ -1,0 +1,13 @@
+Use case: stylized-concept. Create a production-ready TRANSPARENT PNG cutout puppet sprite parts atlas for Rina, the character in the reference. Reference image is IDENTITY AND ART STYLE reference only. Preserve chestnut hair, upward cowlick, brass teal-lens goggles on forehead, teal eyes, ivory short jacket, rust orange scarf, brown gloves and boots, warm dark outlines, clean shaded game illustration.
+Redesign assembled proportions to approximately 3 heads tall (including cowlick), a slender short torso with visible waist, clearly visible brown trouser legs, small boots. Cute agile adventurer, not a round baby. Front-facing with slight top-down game viewpoint.
+Atlas composition: EXACT 3 columns by 3 rows of equal square cells on a 1536x1536 transparent canvas. Every piece isolated, generous transparent margins, no letters, no grid, no shadows, no assembled character. Pieces at consistent detail and scale where practical, fully drawn hidden joint overlaps.
+Row1 col1: entire head including hair, goggles, face, ears, cowlick, and a short neck, NO shoulders. Head centered.
+Row1 col2: ivory fitted short jacket torso with neck opening, tiny rust scarf knot at collar, brown waist belt, NO head NO arms NO legs; smooth complete shoulder sockets. Torso centered.
+Row1 col3: character RIGHT arm (viewer left), ivory sleeve from rounded shoulder through elbow to brown gloved hand, relaxed down, slight outward curve, full rounded overlap at shoulder. No torso.
+Row2 col1: character LEFT arm (viewer right), matching ivory sleeve and glove relaxed down; no torso.
+Row2 col2: character RIGHT full leg (viewer left), brown trousers from rounded hidden hip overlap through knee to small brown boot facing forward. Slim leg with visible shin. No other pieces.
+Row2 col3: character LEFT full leg (viewer right), matching.
+Row3 col1: a single rust orange scarf tail, slender flowing cloth angled down-right, complete hidden attachment at top.
+Row3 col2: a single small chestnut hair tuft for secondary motion, curved tapered lock, NO face.
+Row3 col3: alternate entire identical head with eyes gently closed for blink, same size, same silhouette and goggles as row1 col1.
+Keep all pieces fully inside their own cell. True alpha transparent background. Crisp outlined edges suitable for reduction to 56px total character height. No white background or checkerboard painted into image.

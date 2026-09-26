@@ -1,0 +1,19 @@
+# 生成指示の型（リナで採用した指示をもとにしたもの）。{NAME}・{ONE_LINE} と、キャラ固有の見た目の行を書き換えて使う。
+# 見た目の行（髪・目・服・装飾）と、揺れ物の名前（PONYTAIL / SCARF TAIL など）はキャラに合わせて差し替える。
+# 部品の配置（左半分・右半分・行）は変えない：設定ファイルの pick 座標の目安になる。
+
+Game sprite parts sheet for "{NAME}", {ONE_LINE}. Match the reference images exactly: same art style (thick dark brown outlines, soft cel shading), same colors, same proportions and the same size as the side-view parts in Reference 2. Reference 1 shows her front, right-side and back views. Reference 2 is the approved RIGHT-SIDE parts sheet (head+torso, ponytail, scarf tail): copy its style, scale and line weight.
+
+Draw two THREE-QUARTER views as separate pieces on one canvas. Every piece fully isolated with a wide empty white gap around it (no overlaps, no touching).
+
+LEFT HALF = THREE-QUARTER FRONT VIEW (body turned 45 degrees between the front view and the right-side view: she faces toward the viewer's lower right):
+- PIECE D1: HEAD + TORSO only. Big chibi head, chestnut brown messy hair, brass goggles with teal-green lenses on the forehead, teal-green eyes, small smile, almost no visible neck, ivory short tunic with teal collar trim, orange scarf knot at the throat. The golden hair ring shows on top of the head, but NO ponytail tuft. NO arms, hands, gloves or hanging sleeves: clean smooth ivory torso silhouette with small rounded shoulder caps. NO legs: clean closed hem. NO backpack, NO bag.
+- PIECE D2: the PONYTAIL tuft alone in the same three-quarter front angle, root end cleanly closed at the golden ring.
+- PIECE D3: the orange SCARF TAIL alone in the same angle, fluttering backward, root end cleanly closed.
+
+RIGHT HALF = THREE-QUARTER BACK VIEW (body turned 45 degrees between the right-side view and the back view: she faces away toward the viewer's upper right; we see the back of her head and a little of her right cheek):
+- PIECE E1: HEAD + TORSO only, same rules (golden ring on top but NO ponytail tuft, NO arms, NO legs, clean hem, NO backpack, NO bag).
+- PIECE E2: the PONYTAIL tuft alone in the same three-quarter back angle, root end cleanly closed at the golden ring.
+- PIECE E3: the orange SCARF TAIL alone in the same angle, root end cleanly closed.
+
+All pieces: same scale as Reference 2 (the head+torso pieces are the same height as the side head+torso), both head+torso pieces standing upright side by side with their hems on the same horizontal line, same line weight and shading, crisp closed outlines, no cast shadows, no ground, no text, no labels, no arrows, no frames, no extra characters, no weapons. Flat pure white background.

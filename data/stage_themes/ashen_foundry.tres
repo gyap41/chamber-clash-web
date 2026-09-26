@@ -1,37 +1,33 @@
-[gd_resource type="Resource" load_steps=10 format=3]
-[ext_resource type="Script" path="res://scripts/world/stage_theme.gd" id="script"]
-[ext_resource type="Texture2D" path="res://assets/stages/ashen-foundry/floor.png" id="floor"]
-[ext_resource type="Texture2D" path="res://assets/first-workshop/cover.png" id="cover"]
-[ext_resource type="Texture2D" path="res://assets/stages/ashen-foundry/wall-top-v2.png" id="top"]
-[ext_resource type="Texture2D" path="res://assets/stages/ashen-foundry/wall-face.png" id="face"]
-[ext_resource type="Texture2D" path="res://assets/first-workshop/showcase/corner.png" id="corner"]
+[gd_resource type="Resource" format=3 uid="uid://01pl7e0hvqe1"]
+
+[ext_resource type="Texture2D" uid="uid://che24kawxd1jt" path="res://assets/first-workshop/showcase/corner.png" id="corner"]
+[ext_resource type="Texture2D" uid="uid://dr467kv43qdto" path="res://assets/first-workshop/cover.png" id="cover"]
 [ext_resource type="Texture2D" path="res://assets/first-workshop/environment/door-jamb.tres" id="door"]
 [ext_resource type="Texture2D" path="res://assets/first-workshop/wall-kit-v2/edge.tres" id="edge"]
-[ext_resource type="Texture2D" path="res://assets/stages/ashen-foundry/wall-face.png" id="end"]
+[ext_resource type="Texture2D" uid="uid://bgj6v06hq38xh" path="res://assets/stages/ashen-foundry/wall-face.png" id="end"]
+[ext_resource type="Texture2D" uid="uid://b00lolmnykhq" path="res://assets/stages/ashen-foundry/floor.png" id="floor"]
+[ext_resource type="Script" uid="uid://chatgx5b65ibe" path="res://scripts/world/stage_theme.gd" id="script"]
+[ext_resource type="Texture2D" uid="uid://cuoq8wpww76ko" path="res://assets/stages/ashen-foundry/wall-top-v2.png" id="top"]
+
 [resource]
 script = ExtResource("script")
 floor_texture = ExtResource("floor")
 cover_texture = ExtResource("cover")
 wall_top = ExtResource("top")
-wall_face = ExtResource("face")
 connected_walls = true
 wall_edge = ExtResource("edge")
 wall_end = ExtResource("end")
-foundation = ExtResource("face")
+wall_face = ExtResource("end")
 corner = ExtResource("corner")
 door_jamb = ExtResource("door")
-
-floor_repeat = 320
-floor_tint = Color(0.77,0.80,0.80,1)
+foundation = ExtResource("end")
 face_repeat = 320
-
+face_repeat_y = 320
+floor_tint = Color(0.77, 0.8, 0.8, 1)
+floor_repeat = 320
 wall_rise = 36.0
 depth_sort = true
 shadow_length = 26.0
-
-floor_wash = Color(0.19,0.205,0.20,0.34)
-
-wall_tint = Color(0.91,0.87,0.8,1)
-face_repeat_y = 320
-
-wall_top_wash = Color(0.32,0.30,0.25,0.52)
+floor_wash = Color(0.19, 0.205, 0.2, 0.34)
+wall_tint = Color(0.91, 0.87, 0.8, 1)
+wall_top_wash = Color(0.32, 0.3, 0.25, 0.52)

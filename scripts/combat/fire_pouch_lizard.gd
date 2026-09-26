@@ -17,8 +17,7 @@ func resolved_definition(id: int) -> Dictionary:
 
 func visible_to_target(arena, target: Vector2) -> bool:
 	# The logical play rectangle excludes HUD; do not depend on render-frame timing.
-	var origin := Follow.origin(arena.field_rect,target)+Follow.PLAY_OFFSET
-	return Rect2(origin,Follow.PLAY_SIZE).grow(-28).has_point(state.pos)
+	return Follow.visible_rect(arena.field_rect,target).grow(-28/Follow.zoom()).has_point(state.pos)
 
 func recover() -> void:
 	shots_left = 0

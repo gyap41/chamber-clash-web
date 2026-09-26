@@ -5,12 +5,24 @@ var snapshot: Snapshot
 var reload_event: Dictionary = {}
 const Rig = preload("res://scripts/visuals/character_rig.gd")
 const Directions = preload("res://scripts/visuals/character_direction.gd")
+const RunRig = preload("res://scripts/visuals/character_rig8.gd")
 const TRAIL = preload("res://assets/first-workshop/trail.png")
 var animation_name := "idle"
 var animation_frame := 0
 var body_facing := 1
 var body_back := false
 var body_view := "front"
+var rig_frame := -1 # 8方向リグ（character_rig8.gd、登録キャラのみ）のコマ。無効時は-1
+var rig_dir := "" # その8方向（e/se/s/sw/w/nw/n/ne）
+var rig_view := "" # 描き分けの向き（side/diag_front/front/diag_back/back）
+var rig_mirror := false
+var rig_action := "" # run / idle / dodge
+var rig_lift := 0.0 # 回避の飛び込み中の浮き
+var rig_melee_t := -1.0 # 近接の開始からの時間（秒）。近接中でなければ -1
+var rig_melee_was := false
+var rig_swing := {} # 揺れ物の状態（character_rig8.update_swing）
+var rig_last_pos := Vector2.ZERO
+var rig_has_pos := false
 var move_phase := 0.0
 var roll_afterglow := 0.0
 # Uses the editable Sprite as the source; its transform/frame remain untouched.
@@ -51,6 +63,12 @@ func reset() -> void:
 	body_back = false
 	body_view = "front"
 	body_facing = 1
+	rig_frame = -1
+	rig_dir = ""
+	rig_swing = {}
+	rig_melee_t = -1.0
+	rig_melee_was = false
+	rig_has_pos = false
 
 func present(value: Snapshot, dt: float = 0.0) -> void:
 	snapshot = value
@@ -102,7 +120,55 @@ func refresh(dt: float = 0.0) -> void:
 		pose*Transform2D(0.0,Vector2(body_facing,1),0.0,Vector2.ZERO),
 		snapshot.direction*Vector2(body_facing,1),part_color,state_machine.body_state,
 		snapshot.move_speed/205.0,dt)
-	weapon.transform = pose*Transform2D(snapshot.angle,Vector2.ZERO)*Transform2D(0.0,Vector2(-recoil*3.0,0))*weapon_base
+	rig_frame = -1
+	rig_lift = 0.0
+	if RunRig.active(snapshot.character_id,snapshot.alive):
+		# 近接：押した瞬間（melee_active の立ち上がり）から rig の melee_duration まで再生する。
+		if snapshot.melee_active and not rig_melee_was: rig_melee_t = 0.0
+		elif rig_melee_t >= 0.0: rig_melee_t += dt
+		rig_melee_was = snapshot.melee_active
+		if rig_melee_t >= RunRig.melee_duration() or rolling: rig_melee_t = -1.0
+		if rolling:
+			# 回避は移動方向で向きを選ぶ（従来の回避と同じ規則）。
+			var time: float = snapshot.dodge_progress()*snapshot.dodge_duration
+			rig_action = "dodge"
+			rig_frame = RunRig.dodge_frame(time)
+			rig_lift = RunRig.dodge_lift(time)
+			rig_dir = RunRig.select_dir(snapshot.direction.angle(),rig_dir)
+		elif rig_melee_t >= 0.0:
+			rig_action = "melee"
+			rig_frame = RunRig.melee_frame(rig_melee_t)
+			pose = Transform2D(0.0,Vector2.from_angle(snapshot.angle)*RunRig.melee_lunge(rig_melee_t))*pose
+			rig_dir = RunRig.select_dir(snapshot.angle,rig_dir)
+		elif walking:
+			var backpedal: bool = snapshot.direction.dot(Vector2.from_angle(snapshot.angle)) < -.2
+			rig_action = "run"
+			rig_frame = RunRig.run_frame(move_phase,backpedal)
+			rig_dir = RunRig.select_dir(snapshot.angle,rig_dir)
+		else:
+			rig_action = "idle"
+			rig_frame = RunRig.idle_frame(elapsed+snapshot.idle_offset)
+			rig_dir = RunRig.select_dir(snapshot.angle,rig_dir)
+		var view_mirror: Array = RunRig.view_of(rig_dir)
+		rig_view = view_mirror[0]
+		rig_mirror = view_mirror[1]
+		if dt > 0.0:
+			# Actor の実際の移動（ワールド）を Actor ローカルの速度へ。揺れのなびき・反動の入力にする。
+			var owner_actor := get_parent() as Node2D
+			var scale_x: float = maxf(absf(owner_actor.global_scale.x),.001)
+			var pos: Vector2 = owner_actor.global_position/scale_x
+			var velocity := (pos-rig_last_pos)/dt if rig_has_pos else Vector2.ZERO
+			rig_last_pos = pos
+			rig_has_pos = true
+			RunRig.update_swing(rig_swing,dt,rig_view,rig_action,rig_frame,RunRig.base_transform(pose,rig_mirror,rig_lift),
+				pos,velocity,rig_mirror,elapsed)
+		state_machine.parts.visible = false
+	var shown_angle: float = snapshot.angle
+	if rig_frame >= 0:
+		var owner_actor := get_parent()
+		var wid: int = owner_actor.weapon().id if owner_actor.has_method("has_weapon") and owner_actor.has_weapon() else -1
+		shown_angle = RunRig.visual_angle(snapshot.angle,RunRig.is_long_gun(weapon.get_node("Sprite"),wid))
+	weapon.transform = pose*Transform2D(shown_angle,Vector2.ZERO)*Transform2D(0.0,Vector2(-recoil*3.0,0))*weapon_base
 	if snapshot.character_id >= 0 and state_machine.weapon_state == &"reload" and not reload_event.is_empty():
 		var progress: float = clampf(1.0-snapshot.reload_remaining/maxf(float(reload_event.duration),.001),0,1)
 		var style: String = str(Visuals.profile(int(reload_event.weapon)).get("reload_style","mechanical"))
@@ -122,6 +188,12 @@ func refresh(dt: float = 0.0) -> void:
 			elif not body_back and weapon.get_index() < body_index: actor.move_child(weapon,body_index)
 		weapon.position += Vector2(0,8) # Grip below the compact character's large face.
 		weapon.position += state_machine.parts.grip_offset()
+		if rig_frame >= 0:
+			RunRig.place_weapon(weapon,RunRig.base_transform(pose,rig_mirror,rig_lift),rig_view,rig_action,rig_frame,recoil)
+		# 仮組み込み中は銃を向きごとの重なり順で描くため、Weapon の Sprite は隠す（Weapon ノードの表示判定は従来どおり）。
+		weapon.get_node("Sprite").visible = rig_frame < 0
+		# 仮組み込み中は斬撃を rig が描くので、従来の白い弧（Slash）は隠す
+		if rig_frame >= 0 and get_parent().has_node("Slash"): get_parent().get_node("Slash").visible = false
 		aim.visible = false # Painted weapon supplies the silhouette/aim cue.
 	else:
 		weapon.visible = snapshot.weapon_visible()
@@ -160,7 +232,13 @@ func _draw() -> void:
 		var roll_progress: float = snapshot.dodge_progress() if rolling else -1.0
 		# Idle/movement now use the editable Sprite parts. Dedicated dodge art
 		# remains the original drawing, synchronized to combat's dodge progress.
-		if rolling:
+		if rig_frame >= 0 and RunRig.select(snapshot.character_id):
+			var owner_actor := get_parent()
+			var weapon_id: int = owner_actor.weapon().id if owner_actor.has_method("has_weapon") and owner_actor.has_weapon() else -1
+			RunRig.render(self,RunRig.base_transform(pose,rig_mirror,rig_lift),rig_view,rig_action,rig_frame,
+				weapon.get_node("Sprite"),weapon_id,weapon.visible,color,rig_swing,
+				{"t":rig_melee_t,"aim":snapshot.angle,"arc":owner_actor.melee_arc,"range":owner_actor.melee_range} if rig_action == "melee" else {})
+		elif rolling:
 			Rig.render(self,snapshot.character_id,pose*Transform2D(0.0,Vector2(body_facing,1),0.0,Vector2.ZERO),body_back,walking,phase,local_direction,roll_progress,elapsed,color,body_view)
 	else:
 		for leg in range(2):
@@ -193,6 +271,16 @@ func _draw() -> void:
 		for n in range(10):
 			points.append(orbit_positions[i]+Vector2.from_angle(-PI/2+n*PI/5+angle)*(3.0 if n%2==0 else 1.35))
 		draw_colored_polygon(points,snapshot.relic_colors[i])
+
+func _input(event: InputEvent) -> void:
+	# 仮組み込みの表示切替（V）。F8 は Godot エディターの「実行停止」と重なるため使わない。
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_V:
+		RunRig.toggle(event)
+		refresh()
+	# キャラの大きさ案Dの切替（C）：探索カメラを寄せ、リナの表示を少し大きくする試験
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_C:
+		RunRig.Camera.toggle_size_d(event)
+		refresh()
 
 func weapon_event(event: Dictionary) -> void:
 	if event.kind == "reload_start": reload_event = event.duplicate()

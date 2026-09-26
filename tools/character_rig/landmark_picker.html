@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>リグ基準点の指定</title>
+<style>
+  :root { --bg:#1d1f24; --panel:#272a31; --ink:#e8e6e1; --sub:#b9b4aa; --accent:#f3d58a; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:14px/1.5 "Segoe UI","Yu Gothic UI",sans-serif; }
+  main { display:flex; gap:12px; padding:12px; flex-wrap:wrap; }
+  .panel { background:var(--panel); border-radius:8px; padding:10px; }
+  #side { width:360px; max-height:92vh; overflow:auto; }
+  canvas { background:#fff; cursor:crosshair; max-width:100%; }
+  button, select, input { font:inherit; }
+  button { background:#3a3f49; color:#eee; border:1px solid #555b66; border-radius:6px; padding:3px 8px; cursor:pointer; }
+  .field { display:flex; justify-content:space-between; gap:6px; padding:2px 4px; border-radius:4px; cursor:pointer; font-family:Consolas,monospace; font-size:12px; }
+  .field.on { background:#4b4330; outline:1px solid var(--accent); }
+  .field .v { color:var(--accent); }
+  h2 { font-size:13px; margin:8px 0 4px; color:#cfc8bb; }
+  p.note { color:var(--sub); font-size:12px; margin:4px 0; }
+  textarea { width:100%; height:160px; background:#15171b; color:#ddd; font:12px Consolas,monospace; }
+</style>
+</head>
+<body>
+<main>
+  <div class="panel" id="side">
+    <p class="note">① 設定ファイル（characters/&lt;name&gt;.json）と ② 生成画像（assets/generated/*.png）を読み込み、左の一覧から項目を選んで画像をクリックすると座標が入ります。最後に「JSONを書き出す」で保存します。ブラウザーの中だけで動き、どこにも送信しません。</p>
+    <label>設定ファイル <input type="file" id="cfgFile" accept=".json"></label><br>
+    <label>生成画像 <input type="file" id="imgFile" accept="image/png"></label>
+    <h2>対象の画像</h2>
+    <select id="source"></select>
+    <p class="note">画像の役割（sources のキー）。その画像を使う向きと、部品の取り出し位置（pick）の項目だけが下に並びます。</p>
+    <h2>項目（クリックで選択 → 画像をクリック）</h2>
+    <div id="fields"></div>
+    <h2>書き出し</h2>
+    <button id="save">JSONを書き出す</button>
+    <textarea id="out" readonly></textarea>
+  </div>
+  <div class="panel"><canvas id="cv" width="1024" height="1024"></canvas></div>
+</main>
+<script>
+let cfg = null, img = null, current = null;
+const $ = id => document.getElementById(id);
+const POINTS = ['ring','hem','shoulder_near','shoulder_far','hand'];
+function fieldsFor(src) {
+  const out = [];
+  if (!cfg) return out;
+  const s = cfg.sources[src];
+  if (s) for (const k in s.pick) out.push({label:`pick.${k}`, get:()=>s.pick[k], set:v=>s.pick[k]=v});
+  for (const vk in cfg.views) {
+    const v = cfg.views[vk];
+    if (v.src !== src) continue;
+    for (const p of POINTS) out.push({label:`${vk}.${p}`, get:()=>v[p], set:x=>v[p]=x});
+    (v.swing||[]).forEach(sw => {
+      out.push({label:`${vk}.${sw.name}.src_root`, get:()=>sw.src_root, set:x=>sw.src_root=x});
+      out.push({label:`${vk}.${sw.name}.attach`, get:()=>sw.attach, set:x=>sw.attach=x});
+    });
+    if (v.warp) out.push({label:`${vk}.warp.root`, get:()=>v.warp.root, set:x=>v.warp.root=x});
+  }
+  return out;
+}
+function renderFields() {
+  const box = $('fields'); box.innerHTML = '';
+  for (const f of fieldsFor($('source').value)) {
+    const d = document.createElement('div');
+    d.className = 'field' + (current && current.label === f.label ? ' on' : '');
+    const v = f.get();
+    d.innerHTML = `<span>${f.label}</span><span class="v">${v ? v.map(n=>Math.round(n)).join(', ') : '—'}</span>`;
+    d.onclick = () => { current = f; renderFields(); draw(); };
+    box.appendChild(d);
+  }
+}
+function draw() {
+  const c = $('cv').getContext('2d');
+  c.clearRect(0,0,1024,1024);
+  if (img) c.drawImage(img,0,0);
+  for (const f of fieldsFor($('source').value)) {
+    const v = f.get(); if (!v) continue;
+    const on = current && current.label === f.label;
+    c.strokeStyle = on ? '#e0115f' : '#1e88e5'; c.lineWidth = on ? 3 : 2;
+    c.beginPath(); c.arc(v[0],v[1],on?9:6,0,Math.PI*2); c.stroke();
+    c.beginPath(); c.moveTo(v[0]-12,v[1]); c.lineTo(v[0]+12,v[1]); c.moveTo(v[0],v[1]-12); c.lineTo(v[0],v[1]+12); c.stroke();
+    c.fillStyle = on ? '#e0115f' : '#1565c0'; c.font = '12px sans-serif'; c.fillText(f.label, v[0]+10, v[1]-8);
+  }
+}
+$('cv').onclick = e => {
+  if (!current) return;
+  const r = e.target.getBoundingClientRect();
+  const x = (e.clientX-r.left)*1024/r.width, y = (e.clientY-r.top)*1024/r.height;
+  current.set([Math.round(x), Math.round(y)]);
+  renderFields(); draw();
+};
+$('cfgFile').onchange = async e => {
+  cfg = JSON.parse(await e.target.files[0].text());
+  $('source').innerHTML = Object.keys(cfg.sources).map(k=>`<option>${k}</option>`).join('');
+  current = null; renderFields(); draw();
+};
+$('imgFile').onchange = e => {
+  const u = URL.createObjectURL(e.target.files[0]);
+  img = new Image(); img.onload = draw; img.src = u;
+};
+$('source').onchange = () => { current = null; renderFields(); draw(); };
+$('save').onclick = () => {
+  if (!cfg) return;
+  const text = JSON.stringify(cfg, null, 1);
+  $('out').value = text;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([text],{type:'application/json'}));
+  a.download = (cfg.name||'character') + '.json'; a.click();
+};
+</script>
+</body>
+</html>

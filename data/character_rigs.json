@@ -1,0 +1,4 @@
+{
+ "note": "8方向キャラクターリグ（scripts/visuals/character_rig8.gd）の登録。キャラID → 書き出し先。書き出しは python tools/character_rig/build.py <name>",
+ "rigs": {"0": "res://assets/first-workshop/rina-run-8dir/"}
+}

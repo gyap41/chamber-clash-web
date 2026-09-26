@@ -1,0 +1,18 @@
+# 生成指示の型（リナで採用した指示をもとにしたもの）。{NAME}・{ONE_LINE} と、キャラ固有の見た目の行を書き換えて使う。
+# 見た目の行（髪・目・服・装飾）と、揺れ物の名前（PONYTAIL / SCARF TAIL など）はキャラに合わせて差し替える。
+# 部品の配置（左半分・右半分・行）は変えない：設定ファイルの pick 座標の目安になる。
+
+Game sprite parts sheet for "{NAME}", {ONE_LINE}. Match the reference images exactly: same art style (thick dark brown outlines, soft cel shading), same colors, same proportions and the same size as the side-view parts in Reference 2. Reference 1 shows her front, right-side and back views. Reference 2 is the approved RIGHT-SIDE parts sheet (head+torso, ponytail, scarf tail): copy its style, scale and line weight.
+
+Draw the FRONT view and the BACK view as separate pieces on one canvas. Every piece fully isolated with a wide empty white gap around it (no overlaps, no touching).
+
+LEFT HALF = FRONT VIEW (she faces the viewer):
+- PIECE F1: HEAD + TORSO only, front view. Big chibi head, chestnut brown messy hair, brass goggles with teal-green lenses on the forehead, two teal-green eyes, small smile, almost no visible neck, ivory short tunic with teal collar trim, orange scarf knot at the throat. The golden hair ring shows on top of the head where the ponytail attaches, but NO ponytail tuft. NO arms, hands, gloves or hanging sleeves: the torso sides are clean smooth ivory silhouettes with small rounded shoulder caps. NO legs: the torso ends at the tunic hem with a clean closed outline. NO backpack, NO bag.
+- PIECE F2: the PONYTAIL tuft alone as seen from the front (the spiky chestnut tuft rising above and behind the head), root end cleanly closed at the golden ring.
+
+RIGHT HALF = BACK VIEW (she faces away from the viewer):
+- PIECE B1: HEAD + TORSO only, back view: the back of the head covered in chestnut hair, brown goggle strap across the back of the head, golden hair ring on top, teal collar and ivory tunic back. NO ponytail tuft, NO arms, NO legs (clean hem), NO backpack, NO bag.
+- PIECE B2: the PONYTAIL tuft alone as seen from the back, root end cleanly closed at the golden ring.
+- PIECE B3: the orange SCARF TAIL alone as seen from the back, the cloth tail that hangs and flutters down behind the neck, root end cleanly closed.
+
+All pieces: same scale as Reference 2 (the head+torso pieces are the same height as the side head+torso), both head+torso pieces standing upright side by side with their hems on the same horizontal line, same line weight and shading, crisp closed outlines, no cast shadows, no ground, no text, no labels, no arrows, no frames, no extra characters, no weapons. Flat pure white background.

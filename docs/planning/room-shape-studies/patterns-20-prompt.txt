@@ -1,0 +1,26 @@
+Use case: stylized-concept. ONE professional landscape concept art contact sheet for a top-down action roguelike, EXACTLY 20 separate dungeon room plans in 5 columns and 4 rows. Title "ROOM + PILLAR STUDIES". Clearly label each panel 01 through 20, no other text. High resolution. Each whole room fully visible, generous dark gutters. Ruined grey stone foundry, faint ash, muted brass, sparse amber doorway light, unobtrusive stone floor pattern. Strict orthographic overhead with short south-facing wall sides, NOT isometric. Walkable floor distinctly lighter than near-black exterior and enclosed voids. Continuous right-angle walls, uniform wall thickness, no perspective convergence or diagonal walls. Freestanding pillars MUST be unmistakable upright square stone columns: lighter square cap, short dark south face, contact shadow. No decorative floor blocks or crates mistaken for pillars. No characters, arrows, UI, furniture, stairs, bridges or changes in elevation. EXACT count of freestanding columns in each panel as specified; walls are not columns. Scale diagrams for comparison, all combat floors and connecting passages generous and broad. Pillars set back from doors, inside open walkable floors, never plugging necks. 2–4 amber door openings per room, doorways actually connect to walkable floors. Every panel ONE connected room.
+Row1:
+01 rectangle, zero columns, open reference.
+02 rectangle, ONE fat column centrally.
+03 rectangle, FOUR medium columns in square formation with spacious center.
+04 rectangle, THREE medium columns staggered asymmetrically.
+05 wide horizontal rectangle, FOUR columns in two pairs near upper and lower sides, broad uninterrupted middle lane.
+Row2:
+06 tall vertical rectangle, FOUR columns in two pairs near left and right sides, broad uninterrupted north-south middle lane.
+07 broad L shape, ONE column in the spacious elbow, ample space around it.
+08 broad T shape, TWO columns in the far left and far right ends of the upper bar, junction open.
+09 broad plus shape, FOUR columns one in each outer arm, central arena clear.
+10 broad U shape, TWO columns one in each vertical wing, bottom connector open.
+Row3:
+11 broad C shape, TWO columns one in upper and one in lower arm, left connector open.
+12 broad H shape, FOUR columns two in each wide vertical wing, middle crossbar open.
+13 large rectangular ring around ONE enclosed black square courtyard void, ZERO freestanding columns.
+14 large rectangular ring around ONE enclosed black square courtyard void, FOUR medium columns at outer corner combat bays, all circulation routes very broad.
+15 horizontal dumbbell of two large square halls and a short broad connecting neck, TWO columns one in each square hall, neck clear.
+Row4:
+16 offset dumbbell, upper-left square arena and lower-right square arena joined by a broad elbow corridor, TWO columns one per arena, corridor clear.
+17 staircase silhouette: broad continuous floor progressing through three chunky right-angle steps, TWO columns one in each enlarged endpoint, middle clear.
+18 comb-shaped floor with three large north bays and broad south spine, THREE columns one in each bay, spine clear.
+19 large stepped-octagonal arena made from right-angle stepped corners, FOUR columns well outside central combat space, preserve wide perimeter route.
+20 monumental boss chamber: generous south entry widens through orthogonal stepped shoulders into huge upper rectangular arena, TWO columns at far upper left and upper right, enormous central battle floor completely clear.
+Topology and correct pillar counts are the priority over decoration. A cohesive polished pixel-art-inspired environment design board. Avoid repeating the exact same shape+column arrangement. No hidden doors, tight mazes or fancy decorative border.

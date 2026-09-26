@@ -253,8 +253,7 @@ func choose_attack(target: Vector2, arena) -> Dictionary:
 # Start conservatively, but do not cancel a committed attack just because its
 # ground origin crossed the inset viewport edge while the body is still visible.
 func attack_visible(arena, target: Vector2) -> bool:
-	var origin := Follow.origin(arena.field_rect,target)+Follow.PLAY_OFFSET
-	return Rect2(origin,Follow.PLAY_SIZE).intersects(Rect2(state.pos+Vector2(-85,-155),Vector2(170,180)))
+	return Follow.visible_rect(arena.field_rect,target).intersects(Rect2(state.pos+Vector2(-85,-155),Vector2(170,180)))
 
 func cancel_to_chase() -> void:
 	combo_finisher = false

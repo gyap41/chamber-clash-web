@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>リナ 側面走行サイクル v4 レビュー</title>
+<style>
+  body { margin: 0; background: #1d1f24; color: #e8e6e1; font: 14px/1.5 "Segoe UI", "Yu Gothic UI", sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  p.note { color: #b9b4aa; margin: 0 0 12px; font-size: 13px; }
+  .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+  canvas { background: #6f6a62; border-radius: 6px; display: block; }
+  .panel { background: #272a31; border-radius: 8px; padding: 10px; }
+  .panel h2 { font-size: 13px; margin: 0 0 6px; color: #cfc8bb; font-weight: 600; }
+  .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0; }
+  button, select, label { font: inherit; }
+  button, select { background: #3a3f49; color: #eee; border: 1px solid #555b66; border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+  button:hover { background: #474d59; }
+  label { display: inline-flex; gap: 4px; align-items: center; color: #d6d0c4; }
+  #status { font-family: Consolas, monospace; font-size: 13px; color: #f3d58a; }
+  table { border-collapse: collapse; font-size: 12px; }
+  td, th { border: 1px solid #444; padding: 2px 6px; text-align: center; }
+  th { color: #cfc8bb; font-weight: 600; }
+  td.on { background: #3d5a3a; } td.off { color: #888; }
+  td.cur { outline: 2px solid #f3d58a; }
+</style>
+</head>
+<body>
+<main>
+  <h1>リナ 側面走行サイクル v4（上体固定＋手描き脚、8コマ）</h1>
+  <p class="note">試作・未採用。上体（頭・髪・銃）は1枚の原画から切り出して全コマ共通。脚は近側／遠側を別々に描画し、接地脚が半周期ごとに交代する。背景は接地脚の足送りに合わせてコマ単位で移動（足滑りなし）。コマ間の補間はしない。</p>
+
+  <div class="controls">
+    <button id="play">一時停止</button>
+    <button id="prev">◀ 1コマ</button>
+    <button id="next">1コマ ▶</button>
+    <label>速度 <select id="fps">
+      <option value="10">10fps（0.80秒/周期）</option>
+      <option value="12">12fps（0.67秒/周期）</option>
+      <option value="14">14fps（0.57秒/周期）</option>
+      <option value="16" selected>16fps（0.50秒/周期）</option>
+      <option value="20">20fps（0.40秒/周期）</option>
+    </select></label>
+    <label><input type="checkbox" id="slow"> 低速×0.25</label>
+    <label><input type="checkbox" id="flip"> 左右反転</label>
+    <label><input type="checkbox" id="guides" checked> 床線・接地表示</label>
+    <label><input type="checkbox" id="onion"> 前後コマ重ね</label>
+    <span id="status"></span>
+  </div>
+
+  <div class="row">
+    <div class="panel">
+      <h2>通常サイズ（全高 約56px）・カメラ追従</h2>
+      <canvas id="stage" width="560" height="150"></canvas>
+      <h2 style="margin-top:10px">通常サイズ・カメラ固定（エリア内を横断）</h2>
+      <canvas id="area" width="560" height="110"></canvas>
+    </div>
+    <div class="panel">
+      <h2>拡大（×4）</h2>
+      <canvas id="zoom" width="330" height="290"></canvas>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:16px">
+    <h2>全8コマ（クリックでそのコマへ）</h2>
+    <canvas id="strip" width="1060" height="170"></canvas>
+    <table id="tbl" style="margin-top:8px"></table>
+  </div>
+</main>
+<script>
+const META = __META__;
+const img = new Image();
+img.src = 'data:image/png;base64,__SHEET__';
+const C = META.cell, N = META.frames;
+const charH = META.bbox_bottom_max - META.bbox_top_min;
+const S56 = 56 / charH;
+const PHASE = ['接地(踵)', '荷重', '通過', '滞空(蹴り出し後)', '接地(踵)', '荷重', '通過', '滞空(蹴り出し後)'];
+let frame = 0, playing = true, acc = 0, last = performance.now();
+let scroll = 0, areaX = 60;
+const $ = id => document.getElementById(id);
+
+function fps() { return Number($('fps').value) * ($('slow').checked ? 0.25 : 1); }
+function stride() { return META.stride_per_frame; }
+
+function drawFrame(ctx, f, x, y, s, alpha = 1) {
+  // x,y = 腰の原点（接地の基準線上）
+  const flip = $('flip').checked;
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.translate(x, y);
+  if (flip) ctx.scale(-1, 1);
+  ctx.drawImage(img, f * C, 0, C, C, -META.origin_x * s, -META.ground_y * s, C * s, C * s);
+  ctx.restore();
+}
+
+function floor(ctx, w, h, gy, off, tile) {
+  ctx.fillStyle = '#7a7268'; ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = '#857c70'; ctx.fillRect(0, gy - 30, w, h);
+  ctx.strokeStyle = 'rgba(40,30,24,.35)'; ctx.lineWidth = 1;
+  const o = ((off % tile) + tile) % tile;
+  for (let x = -o; x < w + tile; x += tile) {
+    ctx.beginPath(); ctx.moveTo(x, gy - 30); ctx.lineTo(x - 10, h); ctx.stroke();
+  }
+  ctx.beginPath(); ctx.moveTo(0, gy - 30); ctx.lineTo(w, gy - 30); ctx.stroke();
+}
+
+function render() {
+  const f = frame;
+  const m = META.frames_meta[f];
+  const flip = $('flip').checked ? -1 : 1;
+  // stage (camera follow)
+  const st = $('stage').getContext('2d');
+  st.imageSmoothingEnabled = true; st.imageSmoothingQuality = 'high';
+  const gy = 118, cx = 280;
+  floor(st, 560, 150, gy, scroll * S56 * flip, 48);
+  if ($('onion').checked) { drawFrame(st, (f + N - 1) % N, cx, gy, S56, .25); drawFrame(st, (f + 1) % N, cx, gy, S56, .25); }
+  drawFrame(st, f, cx, gy, S56);
+  if ($('guides').checked) {
+    st.strokeStyle = 'rgba(255,230,120,.7)'; st.beginPath(); st.moveTo(0, gy + .5); st.lineTo(560, gy + .5); st.stroke();
+  }
+  // area (fixed camera)
+  const ar = $('area').getContext('2d');
+  ar.imageSmoothingEnabled = true; ar.imageSmoothingQuality = 'high';
+  floor(ar, 560, 110, 92, 0, 48);
+  drawFrame(ar, f, areaX, 92, S56);
+  // zoom
+  const z = $('zoom').getContext('2d');
+  const ZS = S56 * 4, zgy = 270, zx = 150;
+  z.imageSmoothingEnabled = true; z.imageSmoothingQuality = 'high';
+  floor(z, 330, 290, zgy, scroll * ZS * flip, 48 * 4);
+  if ($('onion').checked) { drawFrame(z, (f + N - 1) % N, zx, zgy, ZS, .22); drawFrame(z, (f + 1) % N, zx, zgy, ZS, .22); }
+  drawFrame(z, f, zx, zgy, ZS);
+  if ($('guides').checked) {
+    z.strokeStyle = 'rgba(255,230,120,.8)'; z.beginPath(); z.moveTo(0, zgy + .5); z.lineTo(330, zgy + .5); z.stroke();
+    z.font = '12px sans-serif';
+    z.fillStyle = m.near.ground ? '#8ef08e' : '#bbb'; z.fillText('近側: ' + (m.near.ground ? '接地' : '空中'), 8, 16);
+    z.fillStyle = m.far.ground ? '#8fc4ff' : '#bbb'; z.fillText('遠側: ' + (m.far.ground ? '接地' : '空中'), 8, 32);
+  }
+  // strip
+  const sp = $('strip').getContext('2d');
+  sp.imageSmoothingEnabled = true; sp.imageSmoothingQuality = 'high';
+  sp.fillStyle = '#6f6a62'; sp.fillRect(0, 0, 1060, 170);
+  const ss = 0.58, sw = 132;
+  for (let i = 0; i < N; i++) {
+    const x0 = i * sw + 4;
+    if (i === f) { sp.fillStyle = 'rgba(243,213,138,.25)'; sp.fillRect(x0, 0, sw - 4, 170); }
+    sp.strokeStyle = 'rgba(255,230,120,.5)'; sp.beginPath(); sp.moveTo(x0, 148.5); sp.lineTo(x0 + sw - 8, 148.5); sp.stroke();
+    drawFrame(sp, i, x0 + 64, 148, ss);
+    sp.fillStyle = '#fff'; sp.font = '12px sans-serif';
+    sp.fillText(`${i} ${PHASE[i]}`, x0 + 4, 164);
+  }
+  $('status').textContent = `コマ ${f}/${N - 1}  近側:${m.near.ground ? '接地' : '空中'} 遠側:${m.far.ground ? '接地' : '空中'}  足送り ${stride()}px/コマ(シート画素)`;
+  const tb = $('tbl');
+  let h = '<tr><th></th>' + META.frames_meta.map((_, i) => `<th>${i}</th>`).join('') + '</tr>';
+  for (const [side, nm] of [['near', '近側脚'], ['far', '遠側脚']]) {
+    h += `<tr><th>${nm}</th>` + META.frames_meta.map((mm, i) => `<td class="${mm[side].ground ? 'on' : 'off'} ${i === f ? 'cur' : ''}">${mm[side].ground ? '接地' : '空中'}</td>`).join('') + '</tr>';
+  }
+  h += '<tr><th>上下(+下)</th>' + META.frames_meta.map((mm, i) => `<td class="${i === f ? 'cur' : ''}">${mm.bob}</td>`).join('') + '</tr>';
+  tb.innerHTML = h;
+}
+
+function advance(d) {
+  // 接地脚があるコマ間だけ地面を進め、足が床に対して止まって見えるようにする
+  frame = (frame + d + N) % N;
+  scroll += d * stride();
+  areaX += d * stride() * S56 * ($('flip').checked ? -1 : 1);
+  if (areaX > 540) areaX = 20; if (areaX < 20) areaX = 540;
+  render();
+}
+
+function loop(t) {
+  const dt = (t - last) / 1000; last = t;
+  if (playing) {
+    acc += dt;
+    const step = 1 / fps();
+    while (acc >= step) { acc -= step; advance(1); }
+  }
+  requestAnimationFrame(loop);
+}
+
+$('play').onclick = () => { playing = !playing; $('play').textContent = playing ? '一時停止' : '再生'; };
+$('prev').onclick = () => { playing = false; $('play').textContent = '再生'; advance(-1); };
+$('next').onclick = () => { playing = false; $('play').textContent = '再生'; advance(1); };
+for (const id of ['flip', 'guides', 'onion', 'slow', 'fps']) $(id).onchange = render;
+$('strip').onclick = e => {
+  const r = e.target.getBoundingClientRect();
+  const i = Math.floor((e.clientX - r.left) / 132);
+  if (i >= 0 && i < N) { playing = false; $('play').textContent = '再生'; frame = i; render(); }
+};
+img.onload = () => { render(); requestAnimationFrame(loop); };
+</script>
+</body>
+</html>

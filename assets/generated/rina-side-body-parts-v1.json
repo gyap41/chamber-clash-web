@@ -1,0 +1,34 @@
+{
+  "name": "rina-side-body-parts-v1",
+  "fingerprint": "c7ed7b34d85eeff1918649c2805d48dbcb047d5244e094e06968ecf574405f4c",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-25T18:19:13.895539+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Game sprite parts sheet for \"Rina\", a chibi gunner girl, exactly matching the character in the reference images (same art style: thick dark brown outlines, soft cel shading, same colors and proportions). Reference 1 is her right-side standing view. Reference 2 is her right-side upper body used in the current run animation (its arms and gun were erased; ignore the erased sleeve area).\n\nDraw these 3 SEPARATE pieces on one canvas, each fully isolated with a wide empty white gap around it (no overlaps, no touching):\n\nPIECE A (large, left half of the canvas): HEAD + TORSO only, facing RIGHT in strict side view, slightly leaning forward like running.\n- Big head about 2-head-tall chibi proportion, chestnut brown messy hair, brass goggles with teal-green lenses on the forehead with brown strap and square buckle, teal-green eye, small smile, round cheek, almost no visible neck: chin connects directly to the scarf and collar.\n- Ivory short tunic with teal collar trim, orange scarf knot at the throat.\n- NO ARMS AT ALL: no hands, no gloves, no sleeves hanging, no shoulders reaching out. The torso side is a clean smooth ivory silhouette with a small rounded shoulder cap; arms will be attached separately later.\n- NO LEGS: the torso ends at the bottom hem of the tunic with a clean closed outline.\n- NO ponytail on the head: the top of the head is round hair with only the golden hair ring (tie) visible where the ponytail attaches.\n- NO scarf tail: only the scarf knot at the throat; the flowing tail is piece C.\n- NO gun, no weapon, no props.\n\nPIECE B (top right): the PONYTAIL alone, the big spiky chestnut ponytail tuft that sticks up and back from the golden hair ring, drawn in the same side view and scale as piece A, with its root end cleanly closed (rounded base) where it attaches to the hair ring.\n\nPIECE C (bottom right): the SCARF TAIL alone, the orange cloth tail that flutters backward from the scarf knot, same scale as piece A, root end cleanly closed.\n\nAll pieces: same scale, same line weight and shading, crisp outlines fully closed on every side, no cast shadows, no ground, no text, no labels, no arrows, no frames, no extra characters, no other poses. Flat pure white background.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": ".local\\rina-v6\\ref-side-turnaround.png",
+      "sha256": "398409484ac626c62ca14e9be9df54a9ef7a0c932fce8e415a21b1447ef61b36"
+    },
+    {
+      "path": ".local\\rina-v6\\ref-upper-v4.png",
+      "sha256": "476065d8bcf359585d79883240705766d35ecc3dbe09e884aa646d5e6c48a370"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 511,
+      "image_tokens": 1664
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1132935
+}

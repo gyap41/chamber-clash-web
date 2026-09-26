@@ -1,14 +1,16 @@
-[gd_resource type="Resource" load_steps=20 format=3]
-[ext_resource type="Script" path="res://scripts/world/field_definition.gd" id="1"]
+[gd_resource type="Resource" format=3 uid="uid://dnsfbbxhkm7l2"]
+
+[ext_resource type="Script" uid="uid://0wwhvay2co4d" path="res://scripts/world/field_definition.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://dlsw4wq4wo13w" path="res://assets/first-workshop/showcase/anvil.png" id="anvil"]
+[ext_resource type="Texture2D" uid="uid://c8eordnj23blu" path="res://assets/first-workshop/showcase/cabinet.png" id="cabinet"]
+[ext_resource type="Texture2D" uid="uid://by5wnvpfa44f0" path="res://assets/first-workshop/showcase/furnace.png" id="furnace"]
+[ext_resource type="Texture2D" uid="uid://b2dat7rup1c3j" path="res://assets/first-workshop/showcase/lamp.png" id="lamp"]
+[ext_resource type="Texture2D" uid="uid://cmnbpvgoyc377" path="res://assets/first-workshop/showcase/material-crate.png" id="material_crate"]
+[ext_resource type="Texture2D" uid="uid://b76iyn308ucdo" path="res://assets/first-workshop/showcase/metal-pallet.png" id="metal_pallet"]
+[ext_resource type="Script" uid="uid://dr3541yo548qs" path="res://scripts/world/stage_placement.gd" id="placement"]
 [ext_resource type="Resource" path="res://data/stage_themes/workshop_showcase.tres" id="theme"]
-[ext_resource type="Script" path="res://scripts/world/stage_placement.gd" id="placement"]
-[ext_resource type="Texture2D" path="res://assets/first-workshop/showcase/furnace.png" id="furnace"]
-[ext_resource type="Texture2D" path="res://assets/first-workshop/showcase/workbench-overhead.png" id="workbench"]
-[ext_resource type="Texture2D" path="res://assets/first-workshop/showcase/cabinet.png" id="cabinet"]
-[ext_resource type="Texture2D" path="res://assets/first-workshop/showcase/lamp.png" id="lamp"]
-[ext_resource type="Texture2D" path="res://assets/first-workshop/showcase/material-crate.png" id="material_crate"]
-[ext_resource type="Texture2D" path="res://assets/first-workshop/showcase/metal-pallet.png" id="metal_pallet"]
-[ext_resource type="Texture2D" path="res://assets/first-workshop/showcase/anvil.png" id="anvil"]
+[ext_resource type="Texture2D" uid="uid://c8dtnn66e0417" path="res://assets/first-workshop/showcase/workbench-overhead.png" id="workbench"]
+
 [sub_resource type="Resource" id="furnace"]
 script = ExtResource("placement")
 placement_id = "furnace"
@@ -23,6 +25,7 @@ contact_shadow = true
 wall_shadow = true
 wall_flue = true
 floor_mark = 1
+
 [sub_resource type="Resource" id="bench"]
 script = ExtResource("placement")
 placement_id = "bench"
@@ -30,11 +33,9 @@ position = Vector2(350, 421)
 texture = ExtResource("workbench")
 visual_rect = Rect2(-67, -11, 134, 61)
 collision = Rect2(-58, -3, 116, 44)
-light_radius = 0.0
-light_energy = 1
-light_offset = Vector2(0, 0)
 contact_shadow = true
 floor_mark = 2
+
 [sub_resource type="Resource" id="cabinet"]
 script = ExtResource("placement")
 placement_id = "cabinet"
@@ -42,44 +43,39 @@ position = Vector2(782, 124)
 texture = ExtResource("cabinet")
 visual_rect = Rect2(-41, -23, 82, 100)
 collision = Rect2(-38, 8, 76, 57)
-light_radius = 0.0
-light_energy = 1
-light_offset = Vector2(0, 0)
 contact_shadow = true
 wall_shadow = true
+
 [sub_resource type="Resource" id="lamp_west"]
 script = ExtResource("placement")
 placement_id = "lamp_west"
 position = Vector2(220, 96)
 texture = ExtResource("lamp")
 visual_rect = Rect2(-13.5, -22, 27, 44)
-collision = Rect2(0, 0, 0, 0)
 light_radius = 130.0
 light_energy = 0.62
 light_offset = Vector2(0, 4)
-contact_shadow = false
+
 [sub_resource type="Resource" id="lamp_east"]
 script = ExtResource("placement")
 placement_id = "lamp_east"
 position = Vector2(891, 96)
 texture = ExtResource("lamp")
 visual_rect = Rect2(-13.5, -22, 27, 44)
-collision = Rect2(0, 0, 0, 0)
 light_radius = 130.0
 light_energy = 0.62
 light_offset = Vector2(0, 4)
-contact_shadow = false
+
 [sub_resource type="Resource" id="lamp_exit"]
 script = ExtResource("placement")
 placement_id = "lamp_exit"
 position = Vector2(1066, 209)
 texture = ExtResource("lamp")
 visual_rect = Rect2(-12, -19, 24, 39)
-collision = Rect2(0, 0, 0, 0)
 light_radius = 110.0
 light_energy = 0.34
 light_offset = Vector2(-20, 0)
-contact_shadow = false
+
 [sub_resource type="Resource" id="material_crate"]
 script = ExtResource("placement")
 placement_id = "material-crate"
@@ -88,6 +84,7 @@ texture = ExtResource("material_crate")
 visual_rect = Rect2(-36, -40, 72, 57)
 collision = Rect2(-31, -16, 62, 30)
 contact_shadow = true
+
 [sub_resource type="Resource" id="metal_pallet"]
 script = ExtResource("placement")
 placement_id = "metal-pallet"
@@ -96,6 +93,7 @@ texture = ExtResource("metal_pallet")
 visual_rect = Rect2(-44, -40, 88, 58)
 collision = Rect2(-39, -20, 78, 34)
 contact_shadow = true
+
 [sub_resource type="Resource" id="anvil"]
 script = ExtResource("placement")
 placement_id = "anvil"
@@ -104,16 +102,24 @@ texture = ExtResource("anvil")
 visual_rect = Rect2(-34, -25, 68, 40)
 collision = Rect2(-27, -12, 54, 24)
 contact_shadow = true
+
 [resource]
 script = ExtResource("1")
 theme = ExtResource("theme")
-field_id = "workshop_trial"
-floor_color = Color(0.035,0.05,0.063,1)
-floor_regions = Array[Rect2]([Rect2(128,128,864,384), Rect2(992,244,112,112)])
-walls = Array[Rect2]([Rect2(96,80,928,48), Rect2(96,512,928,32), Rect2(96,128,32,384), Rect2(992,128,32,116), Rect2(992,356,32,156), Rect2(1024,212,80,32), Rect2(1024,356,80,32)])
-spawns = PackedVector2Array(170,300)
-constrain_to_floor = true
 wall_ids = PackedStringArray("north", "south", "side", "door_upper", "door_lower", "passage_upper", "passage_lower")
-wall_materials = {"north": "face", "south": "top", "side": "top", "door_upper": "top", "door_lower": "top", "passage_upper": "face", "passage_lower": "top"}
-
+wall_materials = {
+"door_lower": "top",
+"door_upper": "top",
+"north": "face",
+"passage_lower": "top",
+"passage_upper": "face",
+"side": "top",
+"south": "top"
+}
 placements = Array[ExtResource("placement")]([SubResource("furnace"), SubResource("bench"), SubResource("cabinet"), SubResource("lamp_west"), SubResource("lamp_east"), SubResource("lamp_exit"), SubResource("material_crate"), SubResource("metal_pallet"), SubResource("anvil")])
+constrain_to_floor = true
+field_id = "workshop_trial"
+floor_color = Color(0.035, 0.05, 0.063, 1)
+walls = Array[Rect2]([Rect2(96, 80, 928, 48), Rect2(96, 512, 928, 32), Rect2(96, 128, 32, 384), Rect2(992, 128, 32, 116), Rect2(992, 356, 32, 156), Rect2(1024, 212, 80, 32), Rect2(1024, 356, 80, 32)])
+floor_regions = Array[Rect2]([Rect2(128, 128, 864, 384), Rect2(992, 244, 112, 112)])
+spawns = PackedVector2Array(170, 300)

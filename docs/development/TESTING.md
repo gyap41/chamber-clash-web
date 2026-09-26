@@ -160,6 +160,8 @@ WebデータZIP `.local/projectile-effects-export.zip` に新素材60 PNGと `da
 
 リナ4方向：`tests/rina_directions.gd` で方向選択、斜めの安定、正面の反転防止、後ろ歩き、回避方向優先、靴の交代と接地制約を検証。`tools/capture_rina_directions.gd` で実描画を撮影。[結果](../art/reviews/rina-directions-2026-09-12/README.md)。
 
+8方向キャラクターリグ（リナ、走行・待機・回避・近接）：`tests/character_rig8.gd` で、登録キャラだけが対象であること、近接の4コマ・ナイフ・踏み込み・当たり判定（64px・70°）と、既定無効、有効時は8方向の向き選択と左向き3方向の反転、待機・回避のコマ送りと回避の浮き、回避は移動方向で向きを選び銃を隠して両腕を前へ出すこと、境界付近で前の向きを保つこと、各向きで grip が手の位置に来ること、従来パーツと Weapon/Sprite を隠すこと、8コマの巡回と後退の逆順、ポニーテール・スカーフの別画像と走行中のばねの角度変化、他キャラは従来表示、Vキーの切替（同じ入力を複数Actorが受けても1回だけ）を検証。キャラの大きさ案D（C キー）で探索カメラ1.45倍・リナ1.1倍（足元中心）になり既定は無効であることも同テストで検証。
+
 8キャラの差し替え・固定パーツ歩行・前後切替・キャラ別回避は `tests/character_animation.gd`。描画比較は `Godot --path . --script res://tools/capture_character_rigs.gd --quit-after 900`、対戦撮影は `tools/capture_character_battle.gd`。既存回避性能はrina_dive、武器重なり等はworkshop_visualsも確認。[検証記録](../archive/2026-09-12/character-integration/REPORT.md)。
 
 リナ飛び込みは `tests/rina_dive.gd` で距離の刻み幅非依存、0.31秒の無敵と着地中の被弾、他キャラの回避時間維持を検証。`tools/capture_rina_dive.gd` で連続画面を保存する。[実行結果](../archive/2026-09-12/rina-dive/REPORT.md)。
@@ -524,3 +526,20 @@ boss_cannonは主砲速度900・判定半径14、直接接触と壁衝突、二�
 `Godot --headless --path . --script res://tests/boss_rewards.gd --quit-after 600`：初回2.4秒/再挑戦0.8秒・スキップ・BGM開始・入力遮断、ポーズで起動/報酬時計停止、撃破後4.6秒の箱・出現と着地音1回、出口の保留、単品飛び出し中の取得禁止、控え満杯・非アクティブ中の受取不可、二重取得なし、ライフアンプ装備時のみ最大HP+1（回復なし）、開封後は未取得でも出口解除、出口で踏破、再挑戦初期化、相打ち死亡優先を確認。
 
 描画版はheadlessを外し `-- --capture`。`.local/two-rooms-boss-startup.png` と `two-rooms-boss-reward-{chest,opening,open,options}.png` を保存。通常倍率の複数状態を確認したが、実プレイの演出テンポ・音量・Web負荷は手動受入。boss_presentation/furnace_warden/boss_pressure/exploration_treasure_supplies/exploration_encounterの回帰も行う。
+
+## 崩落した作業室の試作
+
+`scenes/game/collapsed_workshop_preview.tscn` を開きF6で敵なし試遊。CLIは `Godot --path . res://scenes/game/collapsed_workshop_preview.tscn`。通常探索シーンへ `-- --stage-collapse` を渡しても起動できる。
+
+`Godot --headless --path . --script tests/collapsed_workshop.gd --quit-after 600`：部屋・相互扉・到達性・柱/崩落の衝突・射線・往復後の配置数。実画面はheadlessを外して `-- --capture` を付け、`.local/two-rooms-collapsed-workshop.png` と同 `-behind-pillar.png` を保存する。美術の確認と残課題は[制作記録](../art/production/collapsed-workshop/README.md)。
+
+## 瓦礫なしの部屋バリエーション（生成版4）
+
+`Godot --headless --path . --script tests/exploration_floor.gd` で100seedの抽選/接続/再現性を検査。
+`Godot --headless --path . --script tests/workshop_variants.gd` で14形状×15開口、巡回室、敵の配置余白と遷移を検査。
+描画確認は `Godot --path . --script tests/workshop_variants.gd -- --capture`。`.local/two-rooms-variant-<shape>.png` が通常倍率、`two-rooms-overview-<shape>.png` は確認用縮小画像。後者の倍率は本編へ適用されない。
+手動確認は `scenes/game/workshop_variants_preview.tscn` をF6再生し、左右の扉でFを押して巡回する。敵なし。実戦は通常のランダム探索で確認する。
+
+### 探索ズームと敵弾表示
+
+`tests/exploration_camera.gd` は1.2倍での部屋端・小さい軸の中央固定・追従・停止/復帰・部屋移動、画面と照準の座標往復を確認する。`tests/projectile_personality.gd` は敵弾1.3倍と大型主砲除外、更新後の倍率維持、速度/威力/衝突半径の不変を確認。画面外攻撃の回帰は `tests/fire_pouch_lizard.gd`、主砲と全周斉射は `tests/boss_cannon.gd`。通常のheadless実行でPASS。既知の証明書ストア、終了時ObjectDB/使用中Resource警告は残る。静止画の視認性と長時間の弾幕回避評価は区別する。

@@ -1,0 +1,24 @@
+# 生成指示の型（リナで採用した指示をもとにしたもの）。{NAME}・{ONE_LINE} と、キャラ固有の見た目の行を書き換えて使う。
+# 見た目の行（髪・目・服・装飾）と、揺れ物の名前（PONYTAIL / SCARF TAIL など）はキャラに合わせて差し替える。
+# 部品の配置（左半分・右半分・行）は変えない：設定ファイルの pick 座標の目安になる。
+
+Game sprite parts sheet for "{NAME}", {ONE_LINE}: her ARMS and GLOVES only, as separate cut-out pieces for a 2D skeletal (cut-out) animation. Match the reference images exactly: same art style (thick dark brown outlines, soft cel shading), same colors and the same scale as the body parts in Reference 2. Reference 1 shows her front, right-side and back views (note her short puffy ivory sleeves and big round brown mitten gloves). Reference 2 is the approved parts sheet (head+torso, ponytail, scarf tail).
+
+Draw these pieces, each fully isolated with a wide empty white gap around it (no overlaps, no touching), arranged in a neat grid:
+
+ROW 1 - SLEEVES (ivory cloth, same color as her tunic):
+- PIECE S1: upper-arm sleeve segment, a short puffy ivory sleeve tube, drawn horizontally, both ends ROUNDED like a capsule so it can rotate at the joints without gaps.
+- PIECE S2: forearm segment, a shorter ivory sleeve tube drawn horizontally, the left end rounded (elbow) and the right end with a slightly wider cuff opening where the glove attaches.
+
+ROW 2 - GLOVES GRIPPING (big round brown mitten gloves like Reference 1, clenched as if holding a pistol grip, but NO gun):
+- PIECE G1: gripping fist seen from the side (thumb on top), knuckles pointing right.
+- PIECE G2: gripping fist seen from the front (knuckles facing the viewer).
+- PIECE G3: gripping fist seen from behind (back of the hand).
+- PIECE G4: gripping fist seen at three-quarter angle.
+
+ROW 3 - OTHER HAND POSES (same brown mittens):
+- PIECE H1: open mitten palm up, as a supporting hand under a gun barrel, seen from the side.
+- PIECE H2: open mitten reaching forward, fingers together, flat, seen from the side (for a diving pose).
+- PIECE H3: open mitten reaching forward seen from the front.
+
+Each glove has a short ivory-sleeve-free wrist opening on its left side where it attaches to the forearm cuff. All gloves the same size (about the size of her gloves in Reference 1 relative to her head). No arms attached to gloves, no gun, no body, no text, no labels, no arrows, no frames, no shadows, no ground. Flat pure white background.

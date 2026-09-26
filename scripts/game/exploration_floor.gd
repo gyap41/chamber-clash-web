@@ -1,5 +1,5 @@
 extends RefCounted
-const VERSION := 3
+const VERSION := 4
 const Variants = preload("res://scripts/world/workshop_room_variants.gd")
 const Shell = preload("res://scripts/world/workshop_room_shell.gd")
 const Rooms = preload("res://scripts/game/exploration_rooms.gd")
@@ -54,7 +54,12 @@ static func generate(seed_value: int, count: int = 10) -> Dictionary:
 	var catalog := {}
 	var metadata := {}
 	var normal_index := 0
-	var shape_offset := rng.randi_range(0,3)
+	var shape_pool: Array = Variants.NORMAL_SHAPES.duplicate()
+	for i in range(shape_pool.size()-1,0,-1):
+		var j := rng.randi_range(0,i)
+		var swap: String = shape_pool[i]
+		shape_pool[i] = shape_pool[j]
+		shape_pool[j] = swap
 	for index in range(cells.size()):
 		var id := "f1_r%d" % index
 		var sides: Array = links[index].map(func(edge): return edge[0])
@@ -63,7 +68,7 @@ static func generate(seed_value: int, count: int = 10) -> Dictionary:
 		if index == boss: shape = "hall"
 		elif index in [treasure,shop,antechamber]: shape = "compact"
 		elif index != 0:
-			shape = ["wide","tall","elbow","standard"][(normal_index+shape_offset)%4]
+			shape = shape_pool[normal_index%shape_pool.size()]
 			normal_index += 1
 		var template_id := "workshop_%s_layout_%d" % [shape,layout]
 		var room = Variants.make_room(template_id,sides,shape)

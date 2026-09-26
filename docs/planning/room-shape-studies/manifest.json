@@ -1,0 +1,14 @@
+{
+  "generator": "built-in image_gen",
+  "date": "2026-09-25",
+  "source": "C:\\Users\\ikare\\.codex\\generated_images\\01a0c3aa-5c67-7200-9e38-b07a1cc90af3\\exec-678d0aa2-a835-4532-b869-5873f7c97629.png",
+  "file": "concepts-15.png",
+  "sha256": "d23e34ed2f1545b81f3467c598be90361720f67c421e9274bb6366840e2b6905",
+  "prompt": "prompt.txt",
+  "status": "concept only; 15 numbered silhouettes inspected; not implemented or gameplay tested; user selection pending",
+  "notes": [
+    "Same-plane orthogonal room ideas, not a floor connection graph.",
+    "10 is closer to a hooked offset corridor than a full S; topology must be specified before implementation.",
+    "Some corridors need widening against actual actor collision and dodge dimensions."
+  ]
+}

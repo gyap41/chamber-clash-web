@@ -37,5 +37,19 @@ func run() -> void:
 	assert(laser.radius==4 and art.texture.get_width()*art.scale.x>=40)
 	for i in range(100): art.position.x+=10;art.refresh(i*.02,Vector2.RIGHT*950)
 	assert(art.samples.size()<=24)
+	# Enemy presentation must not enlarge collision, nor affect player/duel shots.
+	for variant in ["enemy_fire_seed","enemy_quill","boss_rivet","boss_shell","boss_cannon",""]:
+		p.team_id = "players"
+		game.spawn_shot(0,0,0,{"radius":6,"visual_variant":variant})
+		var normal = game.shots.back()
+		var baseline: Vector2 = normal.get_node("Art").scale
+		p.team_id = "enemies"
+		game.spawn_shot(0,0,0,{"radius":6,"visual_variant":variant})
+		var enemy_shot = game.shots.back()
+		enemy_shot.get_node("Art").refresh(.4,Vector2.RIGHT*420)
+		assert(enemy_shot.radius == normal.radius and enemy_shot.damage == normal.damage)
+		assert(enemy_shot.state.velocity == normal.state.velocity)
+		assert(enemy_shot.get_node("Art").scale.is_equal_approx(baseline*(1.0 if variant == "boss_cannon" else 1.3)))
+	p.team_id = "players"
 	print("PASS: projectile grazing contact, radius overrides, parcel contrast, bubble launch and bounded laser wake")
 	game.queue_free();quit()

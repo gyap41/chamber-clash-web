@@ -1,0 +1,18 @@
+Game sprite parts sheet for "Rina", a chibi gunner girl, exactly matching the character in the reference images (same art style: thick dark brown outlines, soft cel shading, same colors and proportions). Reference 1 is her right-side standing view. Reference 2 is her right-side upper body used in the current run animation (its arms and gun were erased; ignore the erased sleeve area).
+
+Draw these 3 SEPARATE pieces on one canvas, each fully isolated with a wide empty white gap around it (no overlaps, no touching):
+
+PIECE A (large, left half of the canvas): HEAD + TORSO only, facing RIGHT in strict side view, slightly leaning forward like running.
+- Big head about 2-head-tall chibi proportion, chestnut brown messy hair, brass goggles with teal-green lenses on the forehead with brown strap and square buckle, teal-green eye, small smile, round cheek, almost no visible neck: chin connects directly to the scarf and collar.
+- Ivory short tunic with teal collar trim, orange scarf knot at the throat.
+- NO ARMS AT ALL: no hands, no gloves, no sleeves hanging, no shoulders reaching out. The torso side is a clean smooth ivory silhouette with a small rounded shoulder cap; arms will be attached separately later.
+- NO LEGS: the torso ends at the bottom hem of the tunic with a clean closed outline.
+- NO ponytail on the head: the top of the head is round hair with only the golden hair ring (tie) visible where the ponytail attaches.
+- NO scarf tail: only the scarf knot at the throat; the flowing tail is piece C.
+- NO gun, no weapon, no props.
+
+PIECE B (top right): the PONYTAIL alone, the big spiky chestnut ponytail tuft that sticks up and back from the golden hair ring, drawn in the same side view and scale as piece A, with its root end cleanly closed (rounded base) where it attaches to the hair ring.
+
+PIECE C (bottom right): the SCARF TAIL alone, the orange cloth tail that flutters backward from the scarf knot, same scale as piece A, root end cleanly closed.
+
+All pieces: same scale, same line weight and shading, crisp outlines fully closed on every side, no cast shadows, no ground, no text, no labels, no arrows, no frames, no extra characters, no other poses. Flat pure white background.

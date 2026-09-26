@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>リナ 側面走行サイクル v6 レビュー</title>
+<style>
+  body { margin: 0; background: #1d1f24; color: #e8e6e1; font: 14px/1.5 "Segoe UI", "Yu Gothic UI", sans-serif; }
+  main { max-width: 1180px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  p.note { color: #b9b4aa; margin: 0 0 8px; font-size: 13px; }
+  ul.note { color: #b9b4aa; margin: 0 0 8px; font-size: 13px; padding-left: 20px; }
+  .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+  canvas { background: #6f6a62; border-radius: 6px; display: block; max-width: 100%; }
+  .panel { background: #272a31; border-radius: 8px; padding: 10px; }
+  .panel h2 { font-size: 13px; margin: 0 0 6px; color: #cfc8bb; font-weight: 600; }
+  .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+  button, select, label { font: inherit; }
+  button, select { background: #3a3f49; color: #eee; border: 1px solid #555b66; border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+  button:hover { background: #474d59; }
+  button.on { background: #6b5a2e; border-color: #c9a64a; }
+  label { display: inline-flex; gap: 4px; align-items: center; color: #d6d0c4; }
+  #status { font-family: Consolas, monospace; font-size: 13px; color: #f3d58a; }
+  table { border-collapse: collapse; font-size: 12px; }
+  td, th { border: 1px solid #444; padding: 2px 6px; text-align: center; }
+  th { color: #cfc8bb; font-weight: 600; }
+  td.on { background: #3d5a3a; } td.off { color: #888; }
+  td.cur { outline: 2px solid #f3d58a; }
+  #measure { font-size: 13px; color: #d6d0c4; }
+</style>
+</head>
+<body>
+<main>
+  <h1>リナ 側面走行サイクル v6（体と武器の分離・弾み「中」「強」、8コマ）</h1>
+  <p class="note">試作・未採用。v5レビューの指摘に対する修正版。数値や再生の確認は美術品質の合格ではない。</p>
+  <ul class="note">
+    <li>銃：本編の武器画像（assets/first-workshop/equipment/guns）を data/weapon_visuals.json の grip・scale で、本編と同じ大きさの規則（40×30の枠×scale）で手に合わせて別レイヤー表示。照準角は0°、体の上下へ1コマ遅れ・縮小して追従。</li>
+    <li>腕：コードで描画。遠側は肩→支持点（拳銃は握りの下、長い武器は銃身の下。腕が届く範囲まで）、近側は袖口→grip の手袋。</li>
+    <li>胴体は<strong>仮</strong>：v4の上体原画から銃・手袋を消したもの。近側の上腕〜前腕の袖は原画のまま。腕と銃のない胴体素材の生成は画像CLIの予算上限で未実施。</li>
+    <li>髪・ポニーテール・スカーフ：切り抜かず上体画像全体をワープ（根本は動かさず毛先ほど回す）。揺れ角は頭の上下加速度からの減衰ばね。</li>
+  </ul>
+
+  <div class="controls">
+    <span>弾み</span><button id="v-medium" class="on">中</button><button id="v-strong">強</button>
+    <label>武器 <select id="weapon"></select></label>
+    <button id="play">一時停止</button>
+    <button id="prev">◀ 1コマ</button>
+    <button id="next">1コマ ▶</button>
+    <label>速度 <select id="fps">
+      <option value="10">10fps（0.80秒/周期）</option>
+      <option value="12">12fps（0.67秒/周期）</option>
+      <option value="14">14fps（0.57秒/周期）</option>
+      <option value="16" selected>16fps（0.50秒/周期）</option>
+      <option value="20">20fps（0.40秒/周期）</option>
+    </select></label>
+    <label><input type="checkbox" id="slow"> 低速×0.25</label>
+    <label><input type="checkbox" id="flip"> 左右反転</label>
+    <label><input type="checkbox" id="guides" checked> 床線・接地表示</label>
+    <label><input type="checkbox" id="onion"> 前後コマ重ね</label>
+    <label><input type="checkbox" id="noweapon"> 銃と腕を隠す</label>
+  </div>
+  <div id="status"></div>
+
+  <div class="row" style="margin-top:8px">
+    <div class="panel">
+      <h2>通常サイズ（直立の全高56px）・カメラ追従</h2>
+      <canvas id="stage" width="560" height="150"></canvas>
+      <h2 style="margin-top:10px">通常サイズ・カメラ固定（エリア内を横断）</h2>
+      <canvas id="area" width="560" height="110"></canvas>
+      <div id="measure" style="margin-top:8px"></div>
+    </div>
+    <div class="panel">
+      <h2>拡大（×4）</h2>
+      <canvas id="zoom" width="460" height="300"></canvas>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:16px">
+    <h2>全8コマ（クリックでそのコマへ）</h2>
+    <canvas id="strip" width="1140" height="170"></canvas>
+    <table id="tbl" style="margin-top:8px"></table>
+  </div>
+</main>
+<script>
+const META = __META__;
+const GUNS = __GUNS__;
+const ARM = __ARM__;
+const C = META.cell, N = META.frames;
+const S56 = 56 / META.nominal_height;       // シート画素→56px表示
+const PX = META.nominal_height / 56;        // 1ゲーム画素あたりのシート画素
+const PHASE = ['着地(縮み)', '蹴り出し', '滞空↑', '滞空↓', '着地(縮み)', '蹴り出し', '滞空↑', '滞空↓'];
+let variant = 'medium', frame = 0, playing = true, acc = 0, last = performance.now();
+let scroll = 0, areaX = 60;
+const $ = id => document.getElementById(id);
+const sheets = {}, gunImgs = {};
+let pending = 0;
+function loadImg(src) { const im = new Image(); pending++; im.onload = () => { if (--pending === 0) start(); }; im.src = src; return im; }
+for (const v of ['medium', 'strong']) sheets[v] = loadImg('data:image/png;base64,' + META[v].sheet);
+for (const g of GUNS) gunImgs[g.key] = loadImg(g.src);
+for (const g of GUNS) {
+  const o = document.createElement('option');
+  o.value = g.key; o.textContent = `${g.key} (${g.family})${g.note ? ' ※' + g.note : ''}`;
+  $('weapon').appendChild(o);
+}
+const rgb = a => `rgb(${a[0]},${a[1]},${a[2]})`;
+function fps() { return Number($('fps').value) * ($('slow').checked ? 0.25 : 1); }
+function FM(f) { return META[variant].frames_meta[f]; }
+function gun() { return GUNS.find(g => g.key === $('weapon').value); }
+
+// build_run_cycle_v6_review.py の rig() と同じ規則
+function rig(fm, g) {
+  const w = g.w * g.ratio * PX, h = g.h * g.ratio * PX;
+  const [hx, hy] = fm.hand;
+  const gx = hx - g.grip[0] * w, gy = hy - g.grip[1] * h;
+  const mx = gx + g.muzzle[0] * w, my = gy + g.muzzle[1] * h;
+  const reach = (mx - hx) / PX;
+  let sx, sy, kind;
+  if (reach >= ARM.long_min) {
+    sx = hx + Math.min(ARM.support_max, reach * 0.4) * PX;
+    sy = my + 0.12 * (hy - my) + ARM.glove_r * 0.6; kind = 'long';
+  } else { sx = hx + ARM.pistol_support[0] * PX; sy = hy + ARM.pistol_support[1] * PX; kind = 'short'; }
+  const sh = fm.shoulder_far, L1 = ARM.upper, L2 = ARM.lower;
+  let dx = sx - sh[0], dy = sy - sh[1], d = Math.hypot(dx, dy);
+  if (d > L1 + L2 - 0.01) { const k = (L1 + L2 - 0.01) / d; sx = sh[0] + dx * k; sy = sh[1] + dy * k; d = L1 + L2 - 0.01; }
+  const a = Math.atan2(dy, dx);
+  const b = Math.acos(Math.max(-1, Math.min(1, (L1 * L1 + d * d - L2 * L2) / (2 * L1 * d))));
+  const elbow = [sh[0] + L1 * Math.cos(a + b), sh[1] + L1 * Math.sin(a + b)];
+  return { gun: [gx, gy, w, h], muzzle: [mx, my], support: [sx, sy], elbow, kind };
+}
+function capsule(ctx, a, b, w, col) {
+  ctx.strokeStyle = col; ctx.lineWidth = w; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+}
+function disc(ctx, p, r, col) { ctx.fillStyle = col; ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, Math.PI * 2); ctx.fill(); }
+
+// x,y = 腰の原点（床線上）、s = シート画素→画面倍率
+function drawFrame(ctx, f, x, y, s, alpha = 1) {
+  const fm = FM(f), g = gun(), R = rig(fm, g), ink = rgb(ARM.ink), o = ARM.outline;
+  const showW = !$('noweapon').checked;
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.translate(x, y);
+  if ($('flip').checked) ctx.scale(-1, 1);
+  ctx.scale(s, s);
+  ctx.translate(-META.origin_x, -META.ground_y);
+  if (showW) {   // 遠側の腕（体の後ろ）
+    capsule(ctx, fm.shoulder_far, R.elbow, ARM.sleeve_w + 2 * o, ink);
+    capsule(ctx, R.elbow, R.support, ARM.cuff_w + 2 * o, ink);
+    capsule(ctx, fm.shoulder_far, R.elbow, ARM.sleeve_w, rgb(ARM.far_sleeve));
+    capsule(ctx, R.elbow, R.support, ARM.cuff_w, rgb(ARM.far_glove));
+  }
+  ctx.drawImage(sheets[variant], f * C, 0, C, C, 0, 0, C, C);
+  if (showW) {
+    const [gx, gy, w, h] = R.gun;
+    ctx.drawImage(gunImgs[g.key], gx, gy, w, h);
+    disc(ctx, R.support, ARM.glove_r + o, ink); disc(ctx, R.support, ARM.glove_r, rgb(ARM.far_glove));
+    capsule(ctx, fm.wrist_near, fm.hand, ARM.cuff_w + 2 * o, ink);
+    disc(ctx, fm.hand, ARM.glove_r + o, ink);
+    capsule(ctx, fm.wrist_near, fm.hand, ARM.cuff_w, rgb(ARM.near_glove));
+    disc(ctx, fm.hand, ARM.glove_r, rgb(ARM.near_glove));
+    disc(ctx, [fm.hand[0] - 2, fm.hand[1] - 2.5], ARM.glove_r * 0.45, rgb(ARM.near_glove_hi));
+  }
+  ctx.restore();
+}
+
+function floor(ctx, w, h, gy, off, tile) {
+  ctx.fillStyle = '#7a7268'; ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = '#857c70'; ctx.fillRect(0, gy - 30, w, h);
+  ctx.strokeStyle = 'rgba(40,30,24,.35)'; ctx.lineWidth = 1;
+  const o = ((off % tile) + tile) % tile;
+  for (let x = -o; x < w + tile; x += tile) { ctx.beginPath(); ctx.moveTo(x, gy - 30); ctx.lineTo(x - 10, h); ctx.stroke(); }
+  ctx.beginPath(); ctx.moveTo(0, gy - 30); ctx.lineTo(w, gy - 30); ctx.stroke();
+}
+
+function render() {
+  const f = frame, m = FM(f), flip = $('flip').checked ? -1 : 1;
+  const st = $('stage').getContext('2d');
+  st.imageSmoothingEnabled = true; st.imageSmoothingQuality = 'high';
+  const gy = 118, cx = flip > 0 ? 240 : 320;
+  floor(st, 560, 150, gy, scroll * S56 * flip, 48);
+  if ($('onion').checked) { drawFrame(st, (f + N - 1) % N, cx, gy, S56, .25); drawFrame(st, (f + 1) % N, cx, gy, S56, .25); }
+  drawFrame(st, f, cx, gy, S56);
+  if ($('guides').checked) { st.strokeStyle = 'rgba(255,230,120,.7)'; st.beginPath(); st.moveTo(0, gy + .5); st.lineTo(560, gy + .5); st.stroke(); }
+  const ar = $('area').getContext('2d');
+  ar.imageSmoothingEnabled = true; ar.imageSmoothingQuality = 'high';
+  floor(ar, 560, 110, 92, 0, 48);
+  drawFrame(ar, f, areaX, 92, S56);
+  const z = $('zoom').getContext('2d');
+  const ZS = S56 * 4, zgy = 280, zx = flip > 0 ? 130 : 330;
+  z.imageSmoothingEnabled = true; z.imageSmoothingQuality = 'high';
+  floor(z, 460, 300, zgy, scroll * ZS * flip, 48 * 4);
+  if ($('onion').checked) { drawFrame(z, (f + N - 1) % N, zx, zgy, ZS, .22); drawFrame(z, (f + 1) % N, zx, zgy, ZS, .22); }
+  drawFrame(z, f, zx, zgy, ZS);
+  if ($('guides').checked) {
+    z.strokeStyle = 'rgba(255,230,120,.8)'; z.beginPath(); z.moveTo(0, zgy + .5); z.lineTo(460, zgy + .5); z.stroke();
+    z.font = '12px sans-serif';
+    z.fillStyle = m.near.ground ? '#8ef08e' : '#bbb'; z.fillText('近側: ' + (m.near.ground ? '接地' : '空中'), 8, 16);
+    z.fillStyle = m.far.ground ? '#8fc4ff' : '#bbb'; z.fillText('遠側: ' + (m.far.ground ? '接地' : '空中'), 8, 32);
+  }
+  const sp = $('strip').getContext('2d');
+  sp.imageSmoothingEnabled = true; sp.imageSmoothingQuality = 'high';
+  sp.fillStyle = '#6f6a62'; sp.fillRect(0, 0, 1140, 170);
+  const ss = 0.52, sw = 142;
+  for (let i = 0; i < N; i++) {
+    const x0 = i * sw + 4;
+    if (i === f) { sp.fillStyle = 'rgba(243,213,138,.25)'; sp.fillRect(x0, 0, sw - 4, 170); }
+    sp.strokeStyle = 'rgba(255,230,120,.5)'; sp.beginPath(); sp.moveTo(x0, 146.5); sp.lineTo(x0 + sw - 8, 146.5); sp.stroke();
+    drawFrame(sp, i, x0 + 48, 146, ss);
+    sp.fillStyle = '#fff'; sp.font = '12px sans-serif'; sp.fillText(`${i} ${PHASE[i]}`, x0 + 4, 164);
+  }
+  $('status').textContent = `弾み:${variant === 'medium' ? '中' : '強'}  コマ ${f}/${N - 1} ${PHASE[f]}  近側:${m.near.ground ? '接地' : '空中'} 遠側:${m.far.ground ? '接地' : '空中'}  足送り ${META.stride_per_frame}px/コマ(シート画素)  武器 ${gun().key}（${rig(m, gun()).kind === 'long' ? '長い武器：銃身の下に前の手' : '短い武器：両手で握り'}）`;
+  const ms = META[variant].measure;
+  $('measure').innerHTML = `56px換算（拳銃00で計測）：頭（ゴーグル）の上下幅 <b>${ms.head_range_px}px</b>、両足空中 <b>${ms.airborne_frames}/8コマ</b>、滞空の足の持上げ最大 <b>${Math.max(...ms.foot_lift_px)}px</b>、銃口の上下幅 ${ms.muzzle_range_px}px、輪郭の最上点（ポニーテールの揺れ込み）の上下幅 ${ms.outline_top_range_px}px<br>頭（コマ0基準、+下）：${ms.head_px.join(' / ')}`;
+  const tb = $('tbl');
+  const fms = META[variant].frames_meta;
+  let h = '<tr><th></th>' + fms.map((_, i) => `<th>${i}</th>`).join('') + '</tr>';
+  for (const [side, nm] of [['near', '近側脚'], ['far', '遠側脚']])
+    h += `<tr><th>${nm}</th>` + fms.map((mm, i) => `<td class="${mm[side].ground ? 'on' : 'off'} ${i === f ? 'cur' : ''}">${mm[side].ground ? '接地' : '空中'}</td>`).join('') + '</tr>';
+  const rows = [['腰の上下(+下,セル)', mm => mm.bob], ['前傾(度)', mm => mm.lean], ['縮み 横/縦', mm => mm.squash.map(v => v.toFixed(3)).join('/')],
+    ['ポニーテール(度)', mm => mm.bend.ponytail], ['後ろ髪(度)', mm => mm.bend.hair_back], ['スカーフ(度)', mm => mm.bend.scarf]];
+  for (const [nm, fn] of rows) h += `<tr><th>${nm}</th>` + fms.map((mm, i) => `<td class="${i === f ? 'cur' : ''}">${fn(mm)}</td>`).join('') + '</tr>';
+  tb.innerHTML = h;
+}
+
+function advance(d) {
+  frame = (frame + d + N) % N;
+  scroll += d * META.stride_per_frame;
+  areaX += d * META.stride_per_frame * S56 * ($('flip').checked ? -1 : 1);
+  if (areaX > 520) areaX = 20; if (areaX < 20) areaX = 520;
+  render();
+}
+function loop(t) {
+  const dt = (t - last) / 1000; last = t;
+  if (playing) { acc += dt; const step = 1 / fps(); while (acc >= step) { acc -= step; advance(1); } }
+  requestAnimationFrame(loop);
+}
+function setVariant(v) { variant = v; $('v-medium').classList.toggle('on', v === 'medium'); $('v-strong').classList.toggle('on', v === 'strong'); render(); }
+function start() {
+  $('v-medium').onclick = () => setVariant('medium');
+  $('v-strong').onclick = () => setVariant('strong');
+  $('play').onclick = () => { playing = !playing; $('play').textContent = playing ? '一時停止' : '再生'; };
+  $('prev').onclick = () => { playing = false; $('play').textContent = '再生'; advance(-1); };
+  $('next').onclick = () => { playing = false; $('play').textContent = '再生'; advance(1); };
+  for (const id of ['flip', 'guides', 'onion', 'slow', 'fps', 'weapon', 'noweapon']) $(id).onchange = render;
+  $('strip').onclick = e => {
+    const r = e.target.getBoundingClientRect();
+    const i = Math.floor((e.clientX - r.left) * (1140 / r.width) / 142);
+    if (i >= 0 && i < N) { playing = false; $('play').textContent = '再生'; frame = i; render(); }
+  };
+  render(); requestAnimationFrame(loop);
+}
+</script>
+</body>
+</html>

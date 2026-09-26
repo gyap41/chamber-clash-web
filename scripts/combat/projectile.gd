@@ -74,7 +74,7 @@ func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionar
 	state.homing_cone = float(g.get("homing_cone",PI))
 	$Visual.modulate = Color(opts.get("color",g.color))
 	$Visual.scale = Vector2.ONE * radius/4.0
-	$Art.configure(visual_id,bool(opts.get("parcel",false)),bool(opts.get("shard",false)),visual_variant,visual_color)
+	$Art.configure(visual_id,bool(opts.get("parcel",false)),bool(opts.get("shard",false)),visual_variant,visual_color,player.get("team_id") == "enemies")
 	$Art.refresh(state.age,state.velocity)
 	$Visual.visible = not $Art.visible
 	queue_redraw()

@@ -1,0 +1,658 @@
+{
+ "medium": {
+  "frames_meta": [
+   {
+    "frame": 0,
+    "bob": 6,
+    "lean": 6.0,
+    "squash": [
+     1.015,
+     0.978
+    ],
+    "bend": {
+     "ponytail": -6.38,
+     "hair_back": -4.68,
+     "scarf": -8.35
+    },
+    "hand": [
+     137.52,
+     182.25
+    ],
+    "shoulder_near": [
+     99.69,
+     171.8
+    ],
+    "shoulder_far": [
+     103.94,
+     170.27
+    ],
+    "goggle": [
+     145.69,
+     90.96
+    ],
+    "near": {
+     "key": 0,
+     "ground": true,
+     "reach": 60.44
+    },
+    "far": {
+     "key": 4,
+     "ground": false,
+     "reach": 16.23
+    }
+   },
+   {
+    "frame": 1,
+    "bob": 0,
+    "lean": 4.7,
+    "squash": [
+     0.99,
+     1.012
+    ],
+    "bend": {
+     "ponytail": -4.21,
+     "hair_back": -1.31,
+     "scarf": -8.69
+    },
+    "hand": [
+     137.52,
+     184.05
+    ],
+    "shoulder_near": [
+     99.33,
+     168.09
+    ],
+    "shoulder_far": [
+     103.44,
+     166.4
+    ],
+    "goggle": [
+     142.8,
+     83.2
+    ],
+    "near": {
+     "key": 1,
+     "ground": true,
+     "reach": 54.97
+    },
+    "far": {
+     "key": 5,
+     "ground": false,
+     "reach": 52.05
+    }
+   },
+   {
+    "frame": 2,
+    "bob": -5,
+    "lean": 4.5,
+    "squash": [
+     1.0,
+     1.006
+    ],
+    "bend": {
+     "ponytail": 1.43,
+     "hair_back": 1.92,
+     "scarf": -2.68
+    },
+    "hand": [
+     137.52,
+     182.85
+    ],
+    "shoulder_near": [
+     99.23,
+     165.71
+    ],
+    "shoulder_far": [
+     103.38,
+     164.02
+    ],
+    "goggle": [
+     142.73,
+     81.22
+    ],
+    "near": {
+     "key": 2,
+     "ground": false,
+     "reach": 52.58
+    },
+    "far": {
+     "key": 6,
+     "ground": false,
+     "reach": 73.1
+    }
+   },
+   {
+    "frame": 3,
+    "bob": -3,
+    "lean": 5.0,
+    "squash": [
+     1.0,
+     1.0
+    ],
+    "bend": {
+     "ponytail": 1.16,
+     "hair_back": 0.07,
+     "scarf": -0.28
+    },
+    "hand": [
+     137.52,
+     181.85
+    ],
+    "shoulder_near": [
+     99.4,
+     166.84
+    ],
+    "shoulder_far": [
+     103.56,
+     165.19
+    ],
+    "goggle": [
+     143.6,
+     83.25
+    ],
+    "near": {
+     "key": 3,
+     "ground": false,
+     "reach": 23.21
+    },
+    "far": {
+     "key": 7,
+     "ground": false,
+     "reach": 74.81
+    }
+   },
+   {
+    "frame": 4,
+    "bob": 6,
+    "lean": 6.0,
+    "squash": [
+     1.015,
+     0.978
+    ],
+    "bend": {
+     "ponytail": -6.38,
+     "hair_back": -4.68,
+     "scarf": -8.35
+    },
+    "hand": [
+     137.52,
+     182.25
+    ],
+    "shoulder_near": [
+     99.69,
+     171.8
+    ],
+    "shoulder_far": [
+     103.94,
+     170.27
+    ],
+    "goggle": [
+     145.69,
+     90.96
+    ],
+    "near": {
+     "key": 4,
+     "ground": false,
+     "reach": 12.6
+    },
+    "far": {
+     "key": 0,
+     "ground": true,
+     "reach": 64.34
+    }
+   },
+   {
+    "frame": 5,
+    "bob": 0,
+    "lean": 4.7,
+    "squash": [
+     0.99,
+     1.012
+    ],
+    "bend": {
+     "ponytail": -4.21,
+     "hair_back": -1.31,
+     "scarf": -8.69
+    },
+    "hand": [
+     137.52,
+     184.05
+    ],
+    "shoulder_near": [
+     99.33,
+     168.09
+    ],
+    "shoulder_far": [
+     103.44,
+     166.4
+    ],
+    "goggle": [
+     142.8,
+     83.2
+    ],
+    "near": {
+     "key": 5,
+     "ground": false,
+     "reach": 48.83
+    },
+    "far": {
+     "key": 1,
+     "ground": true,
+     "reach": 58.93
+    }
+   },
+   {
+    "frame": 6,
+    "bob": -5,
+    "lean": 4.5,
+    "squash": [
+     1.0,
+     1.006
+    ],
+    "bend": {
+     "ponytail": 1.43,
+     "hair_back": 1.92,
+     "scarf": -2.68
+    },
+    "hand": [
+     137.52,
+     182.85
+    ],
+    "shoulder_near": [
+     99.23,
+     165.71
+    ],
+    "shoulder_far": [
+     103.38,
+     164.02
+    ],
+    "goggle": [
+     142.73,
+     81.22
+    ],
+    "near": {
+     "key": 6,
+     "ground": false,
+     "reach": 69.79
+    },
+    "far": {
+     "key": 2,
+     "ground": false,
+     "reach": 54.87
+    }
+   },
+   {
+    "frame": 7,
+    "bob": -3,
+    "lean": 5.0,
+    "squash": [
+     1.0,
+     1.0
+    ],
+    "bend": {
+     "ponytail": 1.16,
+     "hair_back": 0.07,
+     "scarf": -0.28
+    },
+    "hand": [
+     137.52,
+     181.85
+    ],
+    "shoulder_near": [
+     99.4,
+     166.84
+    ],
+    "shoulder_far": [
+     103.56,
+     165.19
+    ],
+    "goggle": [
+     143.6,
+     83.25
+    ],
+    "near": {
+     "key": 7,
+     "ground": false,
+     "reach": 71.16
+    },
+    "far": {
+     "key": 3,
+     "ground": false,
+     "reach": 24.78
+    }
+   }
+  ]
+ },
+ "strong": {
+  "frames_meta": [
+   {
+    "frame": 0,
+    "bob": 7,
+    "lean": 9.5,
+    "squash": [
+     1.02,
+     0.972
+    ],
+    "bend": {
+     "ponytail": -6.46,
+     "hair_back": -4.78,
+     "scarf": -7.96
+    },
+    "hand": [
+     137.79,
+     184.35
+    ],
+    "shoulder_near": [
+     100.9,
+     172.5
+    ],
+    "shoulder_far": [
+     105.24,
+     171.25
+    ],
+    "goggle": [
+     151.84,
+     95.16
+    ],
+    "near": {
+     "key": 0,
+     "ground": true,
+     "reach": 59.47
+    },
+    "far": {
+     "key": 4,
+     "ground": false,
+     "reach": 15.31
+    }
+   },
+   {
+    "frame": 1,
+    "bob": 0,
+    "lean": 7.5,
+    "squash": [
+     0.99,
+     1.014
+    ],
+    "bend": {
+     "ponytail": -3.94,
+     "hair_back": -1.08,
+     "scarf": -8.12
+    },
+    "hand": [
+     137.79,
+     186.1
+    ],
+    "shoulder_near": [
+     100.35,
+     168.09
+    ],
+    "shoulder_far": [
+     104.55,
+     166.6
+    ],
+    "goggle": [
+     147.95,
+     85.25
+    ],
+    "near": {
+     "key": 1,
+     "ground": true,
+     "reach": 54.97
+    },
+    "far": {
+     "key": 5,
+     "ground": false,
+     "reach": 52.05
+    }
+   },
+   {
+    "frame": 2,
+    "bob": -6,
+    "lean": 7.2,
+    "squash": [
+     0.998,
+     1.008
+    ],
+    "bend": {
+     "ponytail": 2.11,
+     "hair_back": 2.33,
+     "scarf": -1.57
+    },
+    "hand": [
+     137.79,
+     184.88
+    ],
+    "shoulder_near": [
+     100.22,
+     165.2
+    ],
+    "shoulder_far": [
+     104.43,
+     163.7
+    ],
+    "goggle": [
+     147.6,
+     82.67
+    ],
+    "near": {
+     "key": 2,
+     "ground": false,
+     "reach": 53.13
+    },
+    "far": {
+     "key": 6,
+     "ground": false,
+     "reach": 73.94
+    }
+   },
+   {
+    "frame": 3,
+    "bob": -3,
+    "lean": 8.0,
+    "squash": [
+     1.0,
+     1.0
+    ],
+    "bend": {
+     "ponytail": 1.49,
+     "hair_back": 0.14,
+     "scarf": 0.65
+    },
+    "hand": [
+     137.79,
+     183.83
+    ],
+    "shoulder_near": [
+     100.48,
+     166.89
+    ],
+    "shoulder_far": [
+     104.72,
+     165.46
+    ],
+    "goggle": [
+     148.99,
+     85.73
+    ],
+    "near": {
+     "key": 3,
+     "ground": false,
+     "reach": 23.21
+    },
+    "far": {
+     "key": 7,
+     "ground": false,
+     "reach": 74.81
+    }
+   },
+   {
+    "frame": 4,
+    "bob": 7,
+    "lean": 9.5,
+    "squash": [
+     1.02,
+     0.972
+    ],
+    "bend": {
+     "ponytail": -6.46,
+     "hair_back": -4.78,
+     "scarf": -7.96
+    },
+    "hand": [
+     137.79,
+     184.35
+    ],
+    "shoulder_near": [
+     100.9,
+     172.5
+    ],
+    "shoulder_far": [
+     105.24,
+     171.25
+    ],
+    "goggle": [
+     151.84,
+     95.16
+    ],
+    "near": {
+     "key": 4,
+     "ground": false,
+     "reach": 11.73
+    },
+    "far": {
+     "key": 0,
+     "ground": true,
+     "reach": 63.36
+    }
+   },
+   {
+    "frame": 5,
+    "bob": 0,
+    "lean": 7.5,
+    "squash": [
+     0.99,
+     1.014
+    ],
+    "bend": {
+     "ponytail": -3.94,
+     "hair_back": -1.08,
+     "scarf": -8.12
+    },
+    "hand": [
+     137.79,
+     186.1
+    ],
+    "shoulder_near": [
+     100.35,
+     168.09
+    ],
+    "shoulder_far": [
+     104.55,
+     166.6
+    ],
+    "goggle": [
+     147.95,
+     85.25
+    ],
+    "near": {
+     "key": 5,
+     "ground": false,
+     "reach": 48.83
+    },
+    "far": {
+     "key": 1,
+     "ground": true,
+     "reach": 58.93
+    }
+   },
+   {
+    "frame": 6,
+    "bob": -6,
+    "lean": 7.2,
+    "squash": [
+     0.998,
+     1.008
+    ],
+    "bend": {
+     "ponytail": 2.11,
+     "hair_back": 2.33,
+     "scarf": -1.57
+    },
+    "hand": [
+     137.79,
+     184.88
+    ],
+    "shoulder_near": [
+     100.22,
+     165.2
+    ],
+    "shoulder_far": [
+     104.43,
+     163.7
+    ],
+    "goggle": [
+     147.6,
+     82.67
+    ],
+    "near": {
+     "key": 6,
+     "ground": false,
+     "reach": 70.61
+    },
+    "far": {
+     "key": 2,
+     "ground": false,
+     "reach": 55.47
+    }
+   },
+   {
+    "frame": 7,
+    "bob": -3,
+    "lean": 8.0,
+    "squash": [
+     1.0,
+     1.0
+    ],
+    "bend": {
+     "ponytail": 1.49,
+     "hair_back": 0.14,
+     "scarf": 0.65
+    },
+    "hand": [
+     137.79,
+     183.83
+    ],
+    "shoulder_near": [
+     100.48,
+     166.89
+    ],
+    "shoulder_far": [
+     104.72,
+     165.46
+    ],
+    "goggle": [
+     148.99,
+     85.73
+    ],
+    "near": {
+     "key": 7,
+     "ground": false,
+     "reach": 71.16
+    },
+    "far": {
+     "key": 3,
+     "ground": false,
+     "reach": 24.78
+    }
+   }
+  ]
+ },
+ "cell_w": 221,
+ "cell_h": 241,
+ "frames": 8,
+ "ground_y": 234.0,
+ "origin_x": 99.0,
+ "nominal_height": 210.0,
+ "stride_per_frame": 11.0,
+ "source": "assets/generated/rina-side-body-parts-v1.png (head+torso, ponytail, scarf tail; generated 2026-09-26). Guns from assets/first-workshop/equipment/guns via data/weapon_visuals.json; arms drawn in code."
+}

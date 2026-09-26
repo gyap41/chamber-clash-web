@@ -1,0 +1,309 @@
+{
+ "medium": {
+  "cell": 221,
+  "frames": 8,
+  "ground_y": 214.0,
+  "origin_x": 99.0,
+  "frames_meta": [
+   {
+    "frame": 0,
+    "bob": 0,
+    "lean": 1.5,
+    "sway": {
+     "weapon": -0.6,
+     "scarf": 0.4,
+     "hair_top": 0.4,
+     "hair_side": 1.54
+    },
+    "near": {
+     "ground": true
+    },
+    "far": {
+     "ground": false
+    }
+   },
+   {
+    "frame": 1,
+    "bob": 7,
+    "lean": 2.5,
+    "sway": {
+     "weapon": -0.7,
+     "scarf": -2.6,
+     "hair_top": -2.6,
+     "hair_side": -1.1
+    },
+    "near": {
+     "ground": true
+    },
+    "far": {
+     "ground": false
+    }
+   },
+   {
+    "frame": 2,
+    "bob": 2,
+    "lean": 1.5,
+    "sway": {
+     "weapon": 0.5,
+     "scarf": -0.4,
+     "hair_top": -0.4,
+     "hair_side": -1.76
+    },
+    "near": {
+     "ground": true
+    },
+    "far": {
+     "ground": false
+    }
+   },
+   {
+    "frame": 3,
+    "bob": -6,
+    "lean": 0.0,
+    "sway": {
+     "weapon": 0.8,
+     "scarf": 2.6,
+     "hair_top": 2.6,
+     "hair_side": 1.32
+    },
+    "near": {
+     "ground": false
+    },
+    "far": {
+     "ground": false
+    }
+   },
+   {
+    "frame": 4,
+    "bob": 0,
+    "lean": 1.5,
+    "sway": {
+     "weapon": -0.6,
+     "scarf": 0.4,
+     "hair_top": 0.4,
+     "hair_side": 1.54
+    },
+    "near": {
+     "ground": false
+    },
+    "far": {
+     "ground": true
+    }
+   },
+   {
+    "frame": 5,
+    "bob": 7,
+    "lean": 2.5,
+    "sway": {
+     "weapon": -0.7,
+     "scarf": -2.6,
+     "hair_top": -2.6,
+     "hair_side": -1.1
+    },
+    "near": {
+     "ground": false
+    },
+    "far": {
+     "ground": true
+    }
+   },
+   {
+    "frame": 6,
+    "bob": 2,
+    "lean": 1.5,
+    "sway": {
+     "weapon": 0.5,
+     "scarf": -0.4,
+     "hair_top": -0.4,
+     "hair_side": -1.76
+    },
+    "near": {
+     "ground": false
+    },
+    "far": {
+     "ground": true
+    }
+   },
+   {
+    "frame": 7,
+    "bob": -6,
+    "lean": 0.0,
+    "sway": {
+     "weapon": 0.8,
+     "scarf": 2.6,
+     "hair_top": 2.6,
+     "hair_side": 1.32
+    },
+    "near": {
+     "ground": false
+    },
+    "far": {
+     "ground": false
+    }
+   }
+  ]
+ },
+ "strong": {
+  "cell": 221,
+  "frames": 8,
+  "ground_y": 214.0,
+  "origin_x": 99.0,
+  "frames_meta": [
+   {
+    "frame": 0,
+    "bob": 0,
+    "lean": 2.5,
+    "sway": {
+     "weapon": -2.0,
+     "scarf": 1.2,
+     "hair_top": 1.2,
+     "hair_side": 4.95
+    },
+    "near": {
+     "ground": true
+    },
+    "far": {
+     "ground": false
+    }
+   },
+   {
+    "frame": 1,
+    "bob": 11,
+    "lean": 4.0,
+    "sway": {
+     "weapon": -2.2,
+     "scarf": -8.4,
+     "hair_top": -8.4,
+     "hair_side": -3.6
+    },
+    "near": {
+     "ground": true
+    },
+    "far": {
+     "ground": false
+    }
+   },
+   {
+    "frame": 2,
+    "bob": 3,
+    "lean": 2.5,
+    "sway": {
+     "weapon": 1.6,
+     "scarf": -1.2,
+     "hair_top": -1.2,
+     "hair_side": -5.85
+    },
+    "near": {
+     "ground": true
+    },
+    "far": {
+     "ground": false
+    }
+   },
+   {
+    "frame": 3,
+    "bob": -10,
+    "lean": 0.0,
+    "sway": {
+     "weapon": 2.6,
+     "scarf": 8.4,
+     "hair_top": 8.4,
+     "hair_side": 4.5
+    },
+    "near": {
+     "ground": false
+    },
+    "far": {
+     "ground": false
+    }
+   },
+   {
+    "frame": 4,
+    "bob": 0,
+    "lean": 2.5,
+    "sway": {
+     "weapon": -2.0,
+     "scarf": 1.2,
+     "hair_top": 1.2,
+     "hair_side": 4.95
+    },
+    "near": {
+     "ground": false
+    },
+    "far": {
+     "ground": true
+    }
+   },
+   {
+    "frame": 5,
+    "bob": 11,
+    "lean": 4.0,
+    "sway": {
+     "weapon": -2.2,
+     "scarf": -8.4,
+     "hair_top": -8.4,
+     "hair_side": -3.6
+    },
+    "near": {
+     "ground": false
+    },
+    "far": {
+     "ground": true
+    }
+   },
+   {
+    "frame": 6,
+    "bob": 3,
+    "lean": 2.5,
+    "sway": {
+     "weapon": 1.6,
+     "scarf": -1.2,
+     "hair_top": -1.2,
+     "hair_side": -5.85
+    },
+    "near": {
+     "ground": false
+    },
+    "far": {
+     "ground": true
+    }
+   },
+   {
+    "frame": 7,
+    "bob": -10,
+    "lean": 0.0,
+    "sway": {
+     "weapon": 2.6,
+     "scarf": 8.4,
+     "hair_top": 8.4,
+     "hair_side": 4.5
+    },
+    "near": {
+     "ground": false
+    },
+    "far": {
+     "ground": false
+    }
+   }
+  ]
+ },
+ "pivots": {
+  "weapon": [
+   126.0,
+   140.0
+  ],
+  "scarf": [
+   80.0,
+   129.0
+  ],
+  "hair_top": [
+   92.5,
+   40.0
+  ],
+  "hair_side": [
+   57.5,
+   75.0
+  ]
+ },
+ "source": "run-keyposes-fix.png cell 2 (upper body only); weapon/hair_top/hair_side/scarf cut from same source, no new generation"
+}

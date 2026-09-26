@@ -2277,5 +2277,208 @@
       "output_tokens": 7024
     },
     "pricing_estimate_usd": 0.1065775
+  },
+  {
+    "name": "rina-side-body-parts-v1",
+    "fingerprint": "c7ed7b34d85eeff1918649c2805d48dbcb047d5244e094e06968ecf574405f4c",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-25T18:19:13.895539+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Game sprite parts sheet for \"Rina\", a chibi gunner girl, exactly matching the character in the reference images (same art style: thick dark brown outlines, soft cel shading, same colors and proportions). Reference 1 is her right-side standing view. Reference 2 is her right-side upper body used in the current run animation (its arms and gun were erased; ignore the erased sleeve area).\n\nDraw these 3 SEPARATE pieces on one canvas, each fully isolated with a wide empty white gap around it (no overlaps, no touching):\n\nPIECE A (large, left half of the canvas): HEAD + TORSO only, facing RIGHT in strict side view, slightly leaning forward like running.\n- Big head about 2-head-tall chibi proportion, chestnut brown messy hair, brass goggles with teal-green lenses on the forehead with brown strap and square buckle, teal-green eye, small smile, round cheek, almost no visible neck: chin connects directly to the scarf and collar.\n- Ivory short tunic with teal collar trim, orange scarf knot at the throat.\n- NO ARMS AT ALL: no hands, no gloves, no sleeves hanging, no shoulders reaching out. The torso side is a clean smooth ivory silhouette with a small rounded shoulder cap; arms will be attached separately later.\n- NO LEGS: the torso ends at the bottom hem of the tunic with a clean closed outline.\n- NO ponytail on the head: the top of the head is round hair with only the golden hair ring (tie) visible where the ponytail attaches.\n- NO scarf tail: only the scarf knot at the throat; the flowing tail is piece C.\n- NO gun, no weapon, no props.\n\nPIECE B (top right): the PONYTAIL alone, the big spiky chestnut ponytail tuft that sticks up and back from the golden hair ring, drawn in the same side view and scale as piece A, with its root end cleanly closed (rounded base) where it attaches to the hair ring.\n\nPIECE C (bottom right): the SCARF TAIL alone, the orange cloth tail that flutters backward from the scarf knot, same scale as piece A, root end cleanly closed.\n\nAll pieces: same scale, same line weight and shading, crisp outlines fully closed on every side, no cast shadows, no ground, no text, no labels, no arrows, no frames, no extra characters, no other poses. Flat pure white background.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": ".local\\rina-v6\\ref-side-turnaround.png",
+        "sha256": "398409484ac626c62ca14e9be9df54a9ef7a0c932fce8e415a21b1447ef61b36"
+      },
+      {
+        "path": ".local\\rina-v6\\ref-upper-v4.png",
+        "sha256": "476065d8bcf359585d79883240705766d35ecc3dbe09e884aa646d5e6c48a370"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 511,
+        "image_tokens": 1664
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1132935
+  },
+  {
+    "name": "rina-front-back-parts-v1",
+    "fingerprint": "e0d3789ae12a8ed150fc6b39c37fb0d8f9bbadc7636ce37d671e4b7b1ba0718f",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-26T03:55:07.195405+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Game sprite parts sheet for \"Rina\", a chibi gunner girl. Match the reference images exactly: same art style (thick dark brown outlines, soft cel shading), same colors, same proportions and the same size as the side-view parts in Reference 2. Reference 1 shows her front, right-side and back views. Reference 2 is the approved RIGHT-SIDE parts sheet (head+torso, ponytail, scarf tail): copy its style, scale and line weight.\n\nDraw the FRONT view and the BACK view as separate pieces on one canvas. Every piece fully isolated with a wide empty white gap around it (no overlaps, no touching).\n\nLEFT HALF = FRONT VIEW (she faces the viewer):\n- PIECE F1: HEAD + TORSO only, front view. Big chibi head, chestnut brown messy hair, brass goggles with teal-green lenses on the forehead, two teal-green eyes, small smile, almost no visible neck, ivory short tunic with teal collar trim, orange scarf knot at the throat. The golden hair ring shows on top of the head where the ponytail attaches, but NO ponytail tuft. NO arms, hands, gloves or hanging sleeves: the torso sides are clean smooth ivory silhouettes with small rounded shoulder caps. NO legs: the torso ends at the tunic hem with a clean closed outline. NO backpack, NO bag.\n- PIECE F2: the PONYTAIL tuft alone as seen from the front (the spiky chestnut tuft rising above and behind the head), root end cleanly closed at the golden ring.\n\nRIGHT HALF = BACK VIEW (she faces away from the viewer):\n- PIECE B1: HEAD + TORSO only, back view: the back of the head covered in chestnut hair, brown goggle strap across the back of the head, golden hair ring on top, teal collar and ivory tunic back. NO ponytail tuft, NO arms, NO legs (clean hem), NO backpack, NO bag.\n- PIECE B2: the PONYTAIL tuft alone as seen from the back, root end cleanly closed at the golden ring.\n- PIECE B3: the orange SCARF TAIL alone as seen from the back, the cloth tail that hangs and flutters down behind the neck, root end cleanly closed.\n\nAll pieces: same scale as Reference 2 (the head+torso pieces are the same height as the side head+torso), both head+torso pieces standing upright side by side with their hems on the same horizontal line, same line weight and shading, crisp closed outlines, no cast shadows, no ground, no text, no labels, no arrows, no frames, no extra characters, no weapons. Flat pure white background.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": ".local\\rina-v6\\ref-turnaround-3view.png",
+        "sha256": "395e4e67883136c971ecdc9cbf182701bdf33dcb868a5c10e285b14df0da0069"
+      },
+      {
+        "path": ".local\\rina-v6\\ref-side-parts-v1.png",
+        "sha256": "577b6cd4b9210781faaf89d389b732492fb365e16e2f3695dc11ddb4c8625347"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 568,
+        "image_tokens": 2032
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.114908
+  },
+  {
+    "name": "rina-diagonal-parts-v1",
+    "fingerprint": "f48b2c002d253cd8981273f5eb74337ce38df0a74750dcbf036326080e881349",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-26T03:57:04.035748+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Game sprite parts sheet for \"Rina\", a chibi gunner girl. Match the reference images exactly: same art style (thick dark brown outlines, soft cel shading), same colors, same proportions and the same size as the side-view parts in Reference 2. Reference 1 shows her front, right-side and back views. Reference 2 is the approved RIGHT-SIDE parts sheet (head+torso, ponytail, scarf tail): copy its style, scale and line weight.\n\nDraw two THREE-QUARTER views as separate pieces on one canvas. Every piece fully isolated with a wide empty white gap around it (no overlaps, no touching).\n\nLEFT HALF = THREE-QUARTER FRONT VIEW (body turned 45 degrees between the front view and the right-side view: she faces toward the viewer's lower right):\n- PIECE D1: HEAD + TORSO only. Big chibi head, chestnut brown messy hair, brass goggles with teal-green lenses on the forehead, teal-green eyes, small smile, almost no visible neck, ivory short tunic with teal collar trim, orange scarf knot at the throat. The golden hair ring shows on top of the head, but NO ponytail tuft. NO arms, hands, gloves or hanging sleeves: clean smooth ivory torso silhouette with small rounded shoulder caps. NO legs: clean closed hem. NO backpack, NO bag.\n- PIECE D2: the PONYTAIL tuft alone in the same three-quarter front angle, root end cleanly closed at the golden ring.\n- PIECE D3: the orange SCARF TAIL alone in the same angle, fluttering backward, root end cleanly closed.\n\nRIGHT HALF = THREE-QUARTER BACK VIEW (body turned 45 degrees between the right-side view and the back view: she faces away toward the viewer's upper right; we see the back of her head and a little of her right cheek):\n- PIECE E1: HEAD + TORSO only, same rules (golden ring on top but NO ponytail tuft, NO arms, NO legs, clean hem, NO backpack, NO bag).\n- PIECE E2: the PONYTAIL tuft alone in the same three-quarter back angle, root end cleanly closed at the golden ring.\n- PIECE E3: the orange SCARF TAIL alone in the same angle, root end cleanly closed.\n\nAll pieces: same scale as Reference 2 (the head+torso pieces are the same height as the side head+torso), both head+torso pieces standing upright side by side with their hems on the same horizontal line, same line weight and shading, crisp closed outlines, no cast shadows, no ground, no text, no labels, no arrows, no frames, no extra characters, no weapons. Flat pure white background.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": ".local\\rina-v6\\ref-turnaround-3view.png",
+        "sha256": "395e4e67883136c971ecdc9cbf182701bdf33dcb868a5c10e285b14df0da0069"
+      },
+      {
+        "path": ".local\\rina-v6\\ref-side-parts-v1.png",
+        "sha256": "577b6cd4b9210781faaf89d389b732492fb365e16e2f3695dc11ddb4c8625347"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 584,
+        "image_tokens": 2032
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.114948
+  },
+  {
+    "name": "rina-arm-parts-v1",
+    "fingerprint": "54717a9ac0df8bbbc6e660da708b71ead4aea43bd2ca6ece0fa29e4b7fcbaa54",
+    "status": "outcome_unknown",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-26T05:58:07.075622+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Game sprite parts sheet for \"Rina\", a chibi gunner girl: her ARMS and GLOVES only, as separate cut-out pieces for a 2D skeletal (cut-out) animation. Match the reference images exactly: same art style (thick dark brown outlines, soft cel shading), same colors and the same scale as the body parts in Reference 2. Reference 1 shows her front, right-side and back views (note her short puffy ivory sleeves and big round brown mitten gloves). Reference 2 is the approved parts sheet (head+torso, ponytail, scarf tail).\n\nDraw these pieces, each fully isolated with a wide empty white gap around it (no overlaps, no touching), arranged in a neat grid:\n\nROW 1 - SLEEVES (ivory cloth, same color as her tunic):\n- PIECE S1: upper-arm sleeve segment, a short puffy ivory sleeve tube, drawn horizontally, both ends ROUNDED like a capsule so it can rotate at the joints without gaps.\n- PIECE S2: forearm segment, a shorter ivory sleeve tube drawn horizontally, the left end rounded (elbow) and the right end with a slightly wider cuff opening where the glove attaches.\n\nROW 2 - GLOVES GRIPPING (big round brown mitten gloves like Reference 1, clenched as if holding a pistol grip, but NO gun):\n- PIECE G1: gripping fist seen from the side (thumb on top), knuckles pointing right.\n- PIECE G2: gripping fist seen from the front (knuckles facing the viewer).\n- PIECE G3: gripping fist seen from behind (back of the hand).\n- PIECE G4: gripping fist seen at three-quarter angle.\n\nROW 3 - OTHER HAND POSES (same brown mittens):\n- PIECE H1: open mitten palm up, as a supporting hand under a gun barrel, seen from the side.\n- PIECE H2: open mitten reaching forward, fingers together, flat, seen from the side (for a diving pose).\n- PIECE H3: open mitten reaching forward seen from the front.\n\nEach glove has a short ivory-sleeve-free wrist opening on its left side where it attaches to the forearm cuff. All gloves the same size (about the size of her gloves in Reference 1 relative to her head). No arms attached to gloves, no gun, no body, no text, no labels, no arrows, no frames, no shadows, no ground. Flat pure white background.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": ".local\\rina-v6\\ref-turnaround-3view.png",
+        "sha256": "395e4e67883136c971ecdc9cbf182701bdf33dcb868a5c10e285b14df0da0069"
+      },
+      {
+        "path": ".local\\rina-v6\\ref-side-parts-v1.png",
+        "sha256": "577b6cd4b9210781faaf89d389b732492fb365e16e2f3695dc11ddb4c8625347"
+      }
+    ],
+    "manual_resolution": {
+      "action": "user_authorized_resume_keep_reservation",
+      "user_message": "進めてください。",
+      "note": "2026-09-26 ユーザーが OpenAI の Usage で当日(UTC)3件を確認→この要求は届いて課金された可能性が高い。画像は未受領。ユーザー返信は「進めてください」（句点なし）。",
+      "recorded_at": "2026-09-26T07:13:03.619589+00:00",
+      "retry_name": "rina-arm-parts-v2"
+    }
+  },
+  {
+    "name": "rina-arm-parts-v2",
+    "fingerprint": "54717a9ac0df8bbbc6e660da708b71ead4aea43bd2ca6ece0fa29e4b7fcbaa54",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-26T07:13:10.869531+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Game sprite parts sheet for \"Rina\", a chibi gunner girl: her ARMS and GLOVES only, as separate cut-out pieces for a 2D skeletal (cut-out) animation. Match the reference images exactly: same art style (thick dark brown outlines, soft cel shading), same colors and the same scale as the body parts in Reference 2. Reference 1 shows her front, right-side and back views (note her short puffy ivory sleeves and big round brown mitten gloves). Reference 2 is the approved parts sheet (head+torso, ponytail, scarf tail).\n\nDraw these pieces, each fully isolated with a wide empty white gap around it (no overlaps, no touching), arranged in a neat grid:\n\nROW 1 - SLEEVES (ivory cloth, same color as her tunic):\n- PIECE S1: upper-arm sleeve segment, a short puffy ivory sleeve tube, drawn horizontally, both ends ROUNDED like a capsule so it can rotate at the joints without gaps.\n- PIECE S2: forearm segment, a shorter ivory sleeve tube drawn horizontally, the left end rounded (elbow) and the right end with a slightly wider cuff opening where the glove attaches.\n\nROW 2 - GLOVES GRIPPING (big round brown mitten gloves like Reference 1, clenched as if holding a pistol grip, but NO gun):\n- PIECE G1: gripping fist seen from the side (thumb on top), knuckles pointing right.\n- PIECE G2: gripping fist seen from the front (knuckles facing the viewer).\n- PIECE G3: gripping fist seen from behind (back of the hand).\n- PIECE G4: gripping fist seen at three-quarter angle.\n\nROW 3 - OTHER HAND POSES (same brown mittens):\n- PIECE H1: open mitten palm up, as a supporting hand under a gun barrel, seen from the side.\n- PIECE H2: open mitten reaching forward, fingers together, flat, seen from the side (for a diving pose).\n- PIECE H3: open mitten reaching forward seen from the front.\n\nEach glove has a short ivory-sleeve-free wrist opening on its left side where it attaches to the forearm cuff. All gloves the same size (about the size of her gloves in Reference 1 relative to her head). No arms attached to gloves, no gun, no body, no text, no labels, no arrows, no frames, no shadows, no ground. Flat pure white background.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": ".local\\rina-v6\\ref-turnaround-3view.png",
+        "sha256": "395e4e67883136c971ecdc9cbf182701bdf33dcb868a5c10e285b14df0da0069"
+      },
+      {
+        "path": ".local\\rina-v6\\ref-side-parts-v1.png",
+        "sha256": "577b6cd4b9210781faaf89d389b732492fb365e16e2f3695dc11ddb4c8625347"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 525,
+        "image_tokens": 2032
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1148005
+  },
+  {
+    "name": "rina-knife-v1",
+    "fingerprint": "e362d74f252b7cca7cb9bf2b8347daeb24d4584b39bd7c84d376263a5c63ded8",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-26T08:19:38.900904+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Game sprite for \"Rina\", a chibi gunner girl with brass goggles, ivory tunic and orange scarf: her melee weapon only, a short sturdy utility/combat knife in her steampunk mechanic style: dark steel blade with a single edge, brass crossguard and pommel, brown leather-wrapped handle, as a single cut-out piece for a 2D top-down action game. Match the reference images exactly: same art style (thick dark brown outlines, soft cel shading) and the same scale as the parts in Reference 2 (the weapon should be about as long as the character's forearm plus hand in Reference 1). Reference 1 shows the character's front, side and back views. Reference 2 is the approved parts sheet (head+torso, arms and gloves).\n\nDraw ONE weapon, lying HORIZONTALLY, handle on the LEFT and blade tip pointing to the RIGHT, blade edge facing down, centered on the canvas with a wide empty white margin. Show the full weapon in strict side view.\n\nNo hand, no glove, no character, no sheath, no motion lines, no slash effect, no text, no labels, no frame, no shadow, no ground. Flat pure white background.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": ".local\\rina-v6\\ref-turnaround-3view.png",
+        "sha256": "395e4e67883136c971ecdc9cbf182701bdf33dcb868a5c10e285b14df0da0069"
+      },
+      {
+        "path": ".local\\rina-v6\\ref-arm-parts-v2.png",
+        "sha256": "c658543e2df2cf6f350305939ea9a32b74bdf5822b658617b00dc53376588bf8"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 257,
+        "image_tokens": 2032
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1141305
   }
 ]

@@ -1,0 +1,70 @@
+{
+  "generator": "built-in image_gen",
+  "assets": {
+    "collapse-ne.png": {
+      "source": "C:\\Users\\ikare\\.codex\\generated_images\\01a0c3aa-5c67-7200-9e38-b07a1cc90af3\\exec-f10ddfdc-c360-41af-ba96-71b4cdb74115.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "14ff0772db30602e6cb1d85010bac381e71ab602f756295cf2e42ed69d35b99f",
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    "pillars.png": {
+      "source": "C:\\Users\\ikare\\.codex\\generated_images\\01a0c3aa-5c67-7200-9e38-b07a1cc90af3\\exec-e71c2fe8-ddaa-4f83-875d-fd98255a83df.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "365e9977c2e873883b36dfd6504700869d5da642025e26e523fa42db4b2bd9e3",
+      "alpha_extrema": [
+        0,
+        254
+      ]
+    }
+  },
+  "recipe": "Original PNG bytes unchanged; runtime AtlasTexture crops only.",
+  "status": "Integrated in isolated playable preview; room validation, collision, ray blocking, roundtrip, rendered stills verified; user acceptance and Web performance pending",
+  "runtime": {
+    "collapse_rect": [
+      700,
+      48,
+      360,
+      360
+    ],
+    "collapse_tint": [
+      0.74,
+      0.72,
+      0.67
+    ],
+    "pillars_regions": [
+      [
+        215,
+        106,
+        382,
+        784
+      ],
+      [
+        867,
+        427,
+        533,
+        482
+      ]
+    ],
+    "pillars_scale": 0.15,
+    "pillars_tint": [
+      0.76,
+      0.74,
+      0.69
+    ],
+    "collisions": "8 broad rectangular strips beneath collapse; independent pillar base rectangles"
+  },
+  "generation_calls": 4,
+  "unused_sources": [
+    "exec-8dee0ec2-da69-410a-85a1-8f348210b98b.png",
+    "exec-a4fec09e-0dfc-4ec4-9ab0-0ab670eab3d9.png"
+  ]
+}

@@ -6,9 +6,10 @@ import struct
 from pathlib import Path
 
 # Revised scope: one modular wall material sheet, maximum 78 total sends.
+# 2026-09-26: user raised to 82 (+3) then 86 (+4) for Rina body/arm parts (gpt-image-2, stop on error).
 # Previous unknown Sora reservation remains retained.
-LIMIT_USD = 79.0
-LIMIT_REQUESTS = 79
+LIMIT_USD = 86.0
+LIMIT_REQUESTS = 86
 RESERVATION_USD = 1.0
 
 def save(path, data):

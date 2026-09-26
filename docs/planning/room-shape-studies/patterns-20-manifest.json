@@ -1,0 +1,30 @@
+{
+  "generator": "built-in image_gen",
+  "source": "C:\\Users\\ikare\\.codex\\generated_images\\01a0c3aa-5c67-7200-9e38-b07a1cc90af3\\exec-510bba94-bbed-49a7-9331-27e6cd3bbdbe.png",
+  "sha256": "76a1312c93713d61911bab2edaac44b0ca680f19130c5fc159bd6393aa642718",
+  "prompt": "patterns-20-prompt.txt",
+  "pillar_counts": [
+    0,
+    1,
+    4,
+    3,
+    4,
+    4,
+    1,
+    2,
+    4,
+    2,
+    2,
+    4,
+    0,
+    4,
+    2,
+    2,
+    2,
+    3,
+    4,
+    2
+  ],
+  "status": "20 numbered layouts and pillar counts visually checked; concept only; not integrated or gameplay validated",
+  "notes": "Some diagrams depict more door openings than requested. Actual connections and widths are selected during implementation; image is not geometry data."
+}

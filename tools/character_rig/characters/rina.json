@@ -1,0 +1,58 @@
+{
+ "id": 0,
+ "name": "rina",
+ "note": "リナの8方向リグ定義。座標は生成画像（1024×1024）上の画素。制作記録: docs/art/reviews/rina-parts-2026-09-25/README.md",
+ "out_dir": "assets/first-workshop/rina-run-8dir",
+ "preview_dir": "docs/art/reviews/rina-parts-2026-09-25",
+ "preview_prefix": "run-cycle-v8-",
+ "sources": {
+  "side": {"file": "rina-side-body-parts-v1", "pick": {"A": [323, 530], "pony": [794, 234], "scarf": [792, 771]}},
+  "front_back": {"file": "rina-front-back-parts-v1", "pick": {"F1": [272, 504], "B1": [754, 510], "F2": [275, 147], "B2": [758, 144], "B3": [753, 855]}},
+  "diag": {"file": "rina-diagonal-parts-v1", "pick": {"D1": [376, 458], "E1": [683, 460], "D2": [101, 366], "E2": [927, 365], "D3": [114, 583], "E3": [917, 593]}}
+ },
+ "legs": {
+  "near": {"pants": [110, 70, 54], "pants_hi": [136, 90, 70], "band": [240, 232, 214], "boot": [128, 80, 62], "boot_hi": [170, 114, 90], "sole": [70, 44, 34]},
+  "far": {"pants": [74, 46, 36], "pants_hi": [92, 58, 45], "band": [184, 174, 158], "boot": [92, 58, 45], "boot_hi": [120, 78, 60], "sole": [50, 32, 25]}
+ },
+ "arm": {"upper": 23.0, "lower": 23.0, "sleeve_w": 13.0, "glove_r": 8.5, "cuff_w": 12.0, "outline": 2.2,
+         "near_sleeve": [246, 230, 198], "near_sleeve_hi": [252, 242, 220], "far_sleeve": [204, 186, 156],
+         "near_glove": [128, 80, 62], "near_glove_hi": [160, 104, 82], "far_glove": [88, 56, 44], "ink": [20, 14, 12],
+         "long_min": 26.0, "support_max": 16.0, "pistol_support": [1.5, 2.0]},
+ "arm_parts": {"file": "rina-arm-parts-v2", "glove_w": 5.5,
+               "rows": [["sleeve_upper", "sleeve_lower"], ["grip_side", "grip_front", "grip_back", "grip_diag"], ["support", "reach_side", "reach_front"]]},
+ "melee_weapon": {"file": "rina-knife-v1", "length": 21.0, "grip_u": 0.19},
+ "spring_head_ref": {"view": "side", "at": [400, 450]},
+ "views": {
+  "side": {"yaw": 0, "src": "side", "torso": "A", "ring": [336, 236], "hem": [348, 844],
+           "head_cut": [[0, 652], [399, 652], [400, 662], [1024, 662]],
+           "shoulder_near": [303, 723], "shoulder_far": [321.18, 713.91], "hand": [481.36, 773.64],
+           "warp": {"name": "hair_back", "poly": [[88, 420], [150, 380], [240, 420], [250, 520], [200, 600], [120, 560], [88, 470]], "root": [250, 470], "reach": 60, "blur": 5},
+           "swing": [
+            {"name": "pony", "type": "hair", "channel": "ponytail", "comp": "pony", "src_root": [850, 322], "attach": [336, 236], "style": {"move": [-12, 14], "tilt": -22, "erase_box": [292, 210, 386, 262]}},
+            {"name": "scarf", "type": "cloth", "channel": "scarf", "comp": "scarf", "src_root": [893, 748], "attach": [262, 668]}],
+           "lower": ["scarf", "pony", "legs", "torso"], "upper": ["head"], "arms": "side", "bend": 1.0},
+  "diag_front": {"yaw": 45, "src": "diag", "torso": "D1", "ring": [372, 272], "hem": [376, 656], "head_cut": 506,
+           "shoulder_near": [307, 555], "shoulder_far": [442, 545], "hand": [462, 598],
+           "swing": [
+            {"name": "pony", "type": "hair", "channel": "ponytail", "comp": "D2", "src_root": [132, 417], "attach": [372, 272], "style": {"move": [-9, 14], "tilt": -18, "erase_box": [338, 248, 414, 296]}},
+            {"name": "scarf", "type": "cloth", "channel": "scarf", "comp": "D3", "src_root": [182, 555], "attach": [318, 520]}],
+           "lower": ["scarf", "pony", "legs", "torso"], "upper": ["head"], "arms": "side", "bend": 0.85},
+  "front": {"yaw": 90, "src": "front_back", "torso": "F1", "ring": [279, 283], "hem": [272, 738], "head_cut": 568,
+           "shoulder_near": [177, 622], "shoulder_far": [356, 622], "hand": [252, 652],
+           "swing": [
+            {"name": "pony", "type": "hair", "channel": "ponytail", "comp": "F2", "src_root": [278, 203], "attach": [279, 283], "style": {"move": [0, 16], "squash": 0.78, "erase_box": [236, 260, 322, 306]}}],
+           "lower": ["pony", "legs", "torso"], "upper": ["head"], "arms": "front", "bend": 0.8},
+  "diag_back": {"yaw": -45, "src": "diag", "torso": "E1", "ring": [685, 272], "hem": [672, 656], "head_cut": null,
+           "shoulder_near": [717, 545], "shoulder_far": [607, 550], "hand": [815, 530],
+           "swing": [
+            {"name": "pony", "type": "hair", "channel": "ponytail", "comp": "E2", "src_root": [872, 420], "attach": [685, 272], "flip": true, "style": {"move": [-8, 14], "tilt": -18, "erase_box": [648, 248, 728, 298]}},
+            {"name": "scarf", "type": "cloth", "channel": "scarf", "comp": "E3", "src_root": [827, 570], "attach": [640, 525], "flip": true}],
+           "lower": ["legs", "torso", "scarf", "pony"], "upper": [], "arms": "side", "bend": 0.85},
+  "back": {"yaw": -90, "src": "front_back", "torso": "B1", "ring": [752, 289], "hem": [752, 742], "head_cut": null,
+           "shoulder_near": [835, 635], "shoulder_far": [677, 635], "hand": [790, 470],
+           "swing": [
+            {"name": "pony", "type": "hair", "channel": "ponytail", "comp": "B2", "src_root": [752, 203], "attach": [752, 289], "style": {"move": [0, 22], "squash": 0.78, "erase_box": [712, 266, 794, 310]}},
+            {"name": "scarf", "type": "cloth", "channel": "scarf", "comp": "B3", "src_root": [705, 812], "attach": [745, 598]}],
+           "lower": ["legs", "torso", "scarf", "pony"], "upper": [], "arms": "behind", "bend": 0.8, "elbow": "out"}
+ }
+}

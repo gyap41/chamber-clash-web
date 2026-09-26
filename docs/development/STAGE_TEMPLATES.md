@@ -97,3 +97,7 @@ ashen_foundry_dressing.gdは部屋の外部参照フィールドを明示複製�
 追加素材の配置は壁正面の実区間を走査し、扉/到着地点/開始点/既存表示との重なりを拒否する。家具は独立衝突、surface_overlayは衝突/照明なしで壁の前・人物の後ろ（z=-8）へ配置する浅い取付装飾。tintは配置単体の色、StageTheme.wall_top_washは上面模様を抑える色で、既定値は既存テーマの描画を変えない。AtlasTextureは実寸のセルを使い、家具と根は目視・alpha測定済みの参照領域をキャッシュする。get_used_rectだけでは半透明の微粒子による余白が残るため、制作台帳の領域を優先する。
 
 StagePlacement.shadow_rectはローカル座標の接地影矩形（空なら既存の影）。floor_motif=1は床面の鋳造設備撤去跡で、floor_decalを必須とし画像なしで描画する。現行のボス室中央640×400pxに限定して使用し、床領域内への配置をテストする。
+
+## 生成版4の直交形状
+
+WorkshopRoomVariants.SPECSのcutsに `[角ID, x, y]` を追加し、床と壁を同じ切欠きで組み立てる。角IDはnw/ne/sw/se。切欠きは隣接する扉の中央通路を侵さない寸法に限定する。partitionsは壁矩形、pillarsは足元位置。NORMAL_SHAPESが通常室の抽選対象。既存6形状に10形状を追加し、通常室14種/全16種。任意の穴・斜面・自由形状への対応ではない。追加時は全15開口組合せと描画を検査する。素材・寸法・画像は[制作記録](../art/production/workshop-room-variants/README.md)。

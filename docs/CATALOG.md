@@ -4,7 +4,7 @@
 
 自動生成: `python tools/docs_index.py`。表題は本文の最初の見出しから取得。分類は役割の案内で、内容の検証完了や採用を示しません。過去計画は元のパスを維持して履歴に分類しています。
 
-対象 192 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
+対象 198 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
 
 ## 入口・運用
 
@@ -41,6 +41,8 @@
 |[docs/planning/EXPLORATION_REWARDS.md](<planning/EXPLORATION_REWARDS.md>)|探索報酬・宝箱・発見の演出案|
 |[docs/planning/EXPLORATION_ROADMAP.md](<planning/EXPLORATION_ROADMAP.md>)|探索・ストーリーモード開発ロードマップ|
 |[docs/planning/ROADMAP.md](<planning/ROADMAP.md>)|現在地と残課題|
+|[docs/planning/ROOM_SHAPE_STUDIES.md](<planning/ROOM_SHAPE_STUDIES.md>)|部屋形状15案|
+|[docs/planning/art-direction-comps/README.md](<planning/art-direction-comps/README.md>)|ゲーム画面で比較する画風3案|
 
 ## 実装・検証手順
 
@@ -73,6 +75,7 @@
 |[docs/art/production/README.md](<art/production/README.md>)|必要：制作指示|
 |[docs/art/production/ashen-foundry/README.md](<art/production/ashen-foundry/README.md>)|1面：灰積もる旧鋳造区|
 |[docs/art/production/boss-approach/README.md](<art/production/boss-approach/README.md>)|ボス前室・南入口の制作記録|
+|[docs/art/production/collapsed-workshop/README.md](<art/production/collapsed-workshop/README.md>)|崩落した作業室：実機試作|
 |[docs/art/production/enemy-animation-v2/README.md](<art/production/enemy-animation-v2/README.md>)|通常敵アニメーション v2 制作記録|
 |[docs/art/production/enemy-appearance-v1/README.md](<art/production/enemy-appearance-v1/README.md>)|通常敵2種：外見候補 v1|
 |[docs/art/production/equipment-diversity-2026-09-13/README.md](<art/production/equipment-diversity-2026-09-13/README.md>)|多様な武器・レリックの残り制作|
@@ -88,7 +91,7 @@
 |[docs/art/production/random-workshop-floor/README.md](<art/production/random-workshop-floor/README.md>)|ランダム工房階層（P2試作）|
 |[docs/art/production/wall-kit-v2/README.md](<art/production/wall-kit-v2/README.md>)|接続用壁材セット v2|
 |[docs/art/production/workshop-annex/README.md](<art/production/workshop-annex/README.md>)|隣の作業室の更新（2026-09-22）|
-|[docs/art/production/workshop-room-variants/README.md](<art/production/workshop-room-variants/README.md>)|工房の形状・寸法バリエーション（生成版2）|
+|[docs/art/production/workshop-room-variants/README.md](<art/production/workshop-room-variants/README.md>)|工房の形状・寸法バリエーション|
 |[docs/art/production/workshop-showcase/FURNITURE_SCALE.md](<art/production/workshop-showcase/FURNITURE_SCALE.md>)|キャラ基準の家具寸法|
 |[docs/art/production/workshop-showcase/README.md](<art/production/workshop-showcase/README.md>)|工房の完成見本|
 |[docs/art/production/workshop-walls-2026-09-21/README.md](<art/production/workshop-walls-2026-09-21/README.md>)|工房の外周壁素材|
@@ -107,6 +110,7 @@
 |[docs/art/reviews/projectile-personality-2026-09-13/README.md](<art/reviews/projectile-personality-2026-09-13/README.md>)|弾の大きさ・動きの差別化|
 |[docs/art/reviews/rina-directions-2026-09-12/README.md](<art/reviews/rina-directions-2026-09-12/README.md>)|リナ：ゲーム専用4方向の先行修正|
 |[docs/art/reviews/rina-dodge-2026-09-12/README.md](<art/reviews/rina-dodge-2026-09-12/README.md>)|リナの現行ゲーム素材・動作|
+|[docs/art/reviews/rina-parts-2026-09-25/README.md](<art/reviews/rina-parts-2026-09-25/README.md>)|リナ：体型と独立パーツの試作|
 |[docs/art/reviews/weapon-diversity-2026-09-12/README.md](<art/reviews/weapon-diversity-2026-09-12/README.md>)|武器の多様性：作り直し比較|
 |[docs/art/reviews/weapon-readability-audit-2026-09-13/README.md](<art/reviews/weapon-readability-audit-2026-09-13/README.md>)|武器の視認性・個性の再レビュー|
 |[docs/art/reviews/weapon-readability-audit-2026-09-13/measurements.md](<art/reviews/weapon-readability-audit-2026-09-13/measurements.md>)|全38武器の実測一覧|
@@ -126,6 +130,7 @@
 
 |ファイル|表題・内容の手掛かり|
 |---|---|
+|[docs/notes/2026-09-25-rina-motion-handoff.md](<notes/2026-09-25-rina-motion-handoff.md>)|Claudeへの引き継ぎ：リナの走行モーション|
 |[docs/notes/README.md](<notes/README.md>)|一時メモ|
 
 ## 素材・ツールの説明
@@ -140,6 +145,7 @@
 |[assets/ui/hud/README.md](<../assets/ui/hud/README.md>)|対戦HUD素材の差し替え|
 |[tools/README.md](<../tools/README.md>)|画像生成（開発専用）|
 |[tools/asset_generator/README.md](<../tools/asset_generator/README.md>)|AI音響素材生成（開発専用）|
+|[tools/character_rig/README.md](<../tools/character_rig/README.md>)|8方向キャラクターリグの作り方|
 |[tools/visual_hub/README.md](<../tools/visual_hub/README.md>)|Chamber Clash Visual Hub / Web Live|
 
 ## 過去の計画・履歴

@@ -48,7 +48,8 @@ var rally_wounds: Array[Dictionary] = []
 # window (via hurt()'s `state.roll > 0` check), which is .05s shorter than legacy.
 @export var dodge_invulnerability: float = 0.31
 @export var melee_cooldown: float = 1.1
-@export var melee_range: float = 64.0
+@export var melee_range: float = 64.0 # 2026-09-26 一度52へ縮めたが、ユーザー確認で短いとの評価により64へ戻した
+@export var melee_arc: float = deg_to_rad(70.0) # 照準から左右の角度（旧 60°）
 @export var melee_damage: float = 0.6
 @export var melee_limit: int = 3
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
@@ -237,7 +238,7 @@ func try_melee(i: int, shots: Array, enemy, arena) -> void:
 		var offset: Vector2 = b.pos-p.pos
 		# Legacy inSlash() (game.js:47) requires !lineBlocked(p,target) for both the bullets
 		# melee eats and the enemy it can hit; a wall between the two blocks the swing.
-		if hostile_slot(b.owner,i) and not b.dead and offset.length() <= melee_range and absf(wrapf(offset.angle()-p.angle,-PI,PI)) <= PI/3 and removed < melee_limit and not arena.line_blocked(p.pos,b.pos):
+		if hostile_slot(b.owner,i) and not b.dead and offset.length() <= melee_range and absf(wrapf(offset.angle()-p.angle,-PI,PI)) <= melee_arc and removed < melee_limit and not arena.line_blocked(p.pos,b.pos):
 			b.dead = true
 			burst_requested.emit(b.pos,Color(b.color),6)
 			removed += 1
@@ -246,7 +247,7 @@ func try_melee(i: int, shots: Array, enemy, arena) -> void:
 	var targets: Array = enemy if enemy is Array else ([enemy] if enemy != null else [])
 	for target in targets:
 		var offset: Vector2 = target.state.pos-p.pos
-		if offset.length() < melee_range and absf(wrapf(offset.angle()-p.angle,-PI,PI)) <= PI/3 and not arena.line_blocked(p.pos,target.state.pos): target.hurt(melee_damage,-1,false,{"kind":"melee"},self)
+		if offset.length() < melee_range and absf(wrapf(offset.angle()-p.angle,-PI,PI)) <= melee_arc and not arena.line_blocked(p.pos,target.state.pos): target.hurt(melee_damage,-1,false,{"kind":"melee"},self)
 func step(dt: float, i: int, enemy, arena, mouse_shooting: bool = false, ai: Dictionary = {}) -> bool:
 	advance_rally(dt)
 	var p = state

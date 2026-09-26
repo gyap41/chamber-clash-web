@@ -1,0 +1,21 @@
+Use case: stylized-concept.
+Create ONE high-resolution landscape game environment concept comparison sheet, 5 columns by 3 rows, EXACTLY FIFTEEN separate numbered dungeon room silhouettes, readable and spacious. Title "ROOM SHAPE STUDIES". Numbers 01–15 only, no descriptive text. This is a concept-art board for a top-down action roguelike in a ruined ash-covered stone foundry with faint roots, aged brass and sparse warm amber lamps. Orthographic overhead with only a slight visible south-facing stone wall face, NOT isometric, no perspective convergence. Dark charcoal background, muted warm grey stone floors, unified small stone tile scale and wall thickness across all fifteen plans. Exteriors and sealed interior voids nearly black, walkable floor light enough to read. Each room has 2–4 clear door openings with small amber thresholds, all doors connect to actual walkable floor. Broad combat spaces and generous passages, never thin maze corridors. Mostly empty floors, subtle localized ash and sparse edge props only. No characters, no arrows, no UI, no captions, no bridges, no stairs, no changes of elevation, no overlapping floor levels. Keep topology more important than decoration. All walls built from perpendicular horizontal and vertical sections with coherent continuous corners, no ornamental pillars hiding joins. Each tile on this board is ONE connected room. Clearly distinct outer shapes; no duplicate rectangular rooms.
+Row 1:
+01 a broad T-shaped hall: wide upper horizontal bar, wide central stem below.
+02 a plus-shaped hall: large central arena and four equal broad arms.
+03 a U-shaped room: two broad vertical wings joined at the bottom, deep exterior notch from top.
+04 a C-shaped room: upper and lower broad arms joined on left, exterior notch from right.
+05 an H-shaped room: two wide vertical halls joined by wide central horizontal crossbar; exterior notches top and bottom.
+Row 2:
+06 rectangular ring hall around a large enclosed black stone-walled central courtyard void; all four sides walkable and broad.
+07 squared figure-eight room: ONE connected broad double-loop floor wrapping TWO enclosed black square stone-walled voids, left and right, clear central passage.
+08 horizontal dumbbell: two large square arenas joined by a shorter wide connecting neck.
+09 offset dumbbell: square arena upper left and square arena lower right joined by a broad elbow corridor; one connected floor.
+10 broad S-shaped room: three offset horizontal bands joined alternately right then left, forming a spacious angular S, no enclosed voids.
+Row 3:
+11 staircase silhouette hall: wide continuous diagonal progression made entirely of 3 chunky right-angle steps from lower left to upper right.
+12 comb silhouette: broad horizontal base with THREE spacious square bays extending upward, exterior gaps between bays.
+13 rectangular hall with four deep alternating wall recesses / alcoves, large unobstructed central combat floor; visibly crenellated outline.
+14 stepped octagonal arena: broad square central arena with corners cut into RIGHT-ANGLE stair steps, no actual diagonal or curved walls; doors north south east west.
+15 grand boss arena with funnel-like outline built from right-angle steps: narrow but generous south entrance lobby expanding through two broad stepped shoulders to an enormous upper rectangular arena; no boss drawn, clear open battle floor.
+A polished professional level-design concept art sheet. Make all fifteen whole-room silhouettes fully visible with generous gutters and no cropping. Each panel has its correct two-digit number in its top-left margin. Shape and negative space must be unambiguous.

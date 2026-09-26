@@ -1,0 +1,22 @@
+{
+  "tool": "image_gen built-in",
+  "generation_count": 3,
+  "status": "proposal, not accepted or implemented",
+  "images": [
+    {
+      "file": "a-character-led.png",
+      "original": "C:\\Users\\ikare\\.codex\\generated_images\\01a0c3aa-5c67-7200-9e38-b07a1cc90af3\\exec-fd70e21e-9926-4e8c-9b11-d4f51bf0279e.png",
+      "sha256": "315247eadbf7c39ecb941538b1711716973fb6d1e2435c764b819048011d677b"
+    },
+    {
+      "file": "b-balanced.png",
+      "original": "C:\\Users\\ikare\\.codex\\generated_images\\01a0c3aa-5c67-7200-9e38-b07a1cc90af3\\exec-a04f3ac4-30fa-4213-a98f-8769580eb87f.png",
+      "sha256": "11884ace239de4351d1f9db274d3e8d38c71da163840aff0358b4efb1e9ccddd"
+    },
+    {
+      "file": "c-environment-led.png",
+      "original": "C:\\Users\\ikare\\.codex\\generated_images\\01a0c3aa-5c67-7200-9e38-b07a1cc90af3\\exec-756d6256-3291-450c-8d1e-1d3c395f943e.png",
+      "sha256": "89dfc0d14235761d62d492f2241335efd566ed758e2ed49864e0141d8cde95aa"
+    }
+  ]
+}

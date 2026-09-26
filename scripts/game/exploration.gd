@@ -13,6 +13,7 @@ const ExplorationSupplies = preload("res://scripts/game/exploration_supplies.gd"
 var supply_nodes: Array = []
 var encounters_enabled := true
 var random_floor := false
+var preserve_room_dressing := false
 var floor_data: Dictionary = {}
 var floor_map
 var room_catalog: Dictionary = Rooms.ROOMS
@@ -53,6 +54,12 @@ func _ready() -> void:
 		random_floor = false
 		room_catalog = preload("res://scripts/world/four_way_demo.gd").catalog()
 		start_room = "crossroads"
+	if "--stage-collapse" in OS.get_cmdline_user_args():
+		random_floor = false
+		encounters_enabled = false
+		preserve_room_dressing = true
+		room_catalog = preload("res://scripts/world/collapsed_workshop_demo.gd").catalog()
+		start_room = "collapsed_workshop"
 	start_exploration(seed_value)
 func start_exploration(seed_value: int) -> void:
 	sound.stop_all()
@@ -85,7 +92,8 @@ func start_exploration(seed_value: int) -> void:
 		var dressed_catalog := {}
 		for id in room_catalog:
 			var room = room_catalog[id].duplicate(true)
-			preload("res://scripts/world/ashen_foundry_dressing.gd").apply(room,"start" if id == start_room else "normal",1)
+			if not preserve_room_dressing:
+				preload("res://scripts/world/ashen_foundry_dressing.gd").apply(room,"start" if id == start_room else "normal",1)
 			dressed_catalog[id] = room
 		room_catalog = dressed_catalog
 	if not room_catalog.has(start_room):

@@ -1,0 +1,625 @@
+{
+ "medium": {
+  "frames_meta": [
+   {
+    "frame": 0,
+    "bob": 6,
+    "lean": 6.0,
+    "squash": [
+     1.015,
+     0.978
+    ],
+    "bend": {
+     "ponytail": -6.67,
+     "hair_back": -4.87,
+     "scarf": -8.64
+    },
+    "hand": [
+     141.89,
+     160.11
+    ],
+    "wrist_near": [
+     127.58,
+     162.22
+    ],
+    "shoulder_far": [
+     108.42,
+     150.37
+    ],
+    "near": {
+     "key": 0,
+     "ground": true,
+     "ankle_x": 212.0,
+     "reach": 60.44
+    },
+    "far": {
+     "key": 4,
+     "ground": false,
+     "ankle_x": 190.0,
+     "reach": 16.23
+    }
+   },
+   {
+    "frame": 1,
+    "bob": 0,
+    "lean": 4.7,
+    "squash": [
+     0.99,
+     1.012
+    ],
+    "bend": {
+     "ponytail": -4.14,
+     "hair_back": -1.2,
+     "scarf": -8.71
+    },
+    "hand": [
+     141.89,
+     161.91
+    ],
+    "wrist_near": [
+     126.72,
+     158.08
+    ],
+    "shoulder_far": [
+     107.81,
+     146.37
+    ],
+    "near": {
+     "key": 1,
+     "ground": true,
+     "ankle_x": 190.0,
+     "reach": 54.97
+    },
+    "far": {
+     "key": 5,
+     "ground": false,
+     "ankle_x": 214.0,
+     "reach": 52.05
+    }
+   },
+   {
+    "frame": 2,
+    "bob": -5,
+    "lean": 4.5,
+    "squash": [
+     1.0,
+     1.006
+    ],
+    "bend": {
+     "ponytail": 1.61,
+     "hair_back": 2.02,
+     "scarf": -2.51
+    },
+    "hand": [
+     141.89,
+     160.71
+    ],
+    "wrist_near": [
+     126.94,
+     155.58
+    ],
+    "shoulder_far": [
+     107.79,
+     143.98
+    ],
+    "near": {
+     "key": 2,
+     "ground": false,
+     "ankle_x": 154.0,
+     "reach": 52.58
+    },
+    "far": {
+     "key": 6,
+     "ground": false,
+     "ankle_x": 224.0,
+     "reach": 73.1
+    }
+   },
+   {
+    "frame": 3,
+    "bob": -3,
+    "lean": 5.0,
+    "squash": [
+     1.0,
+     1.0
+    ],
+    "bend": {
+     "ponytail": 1.2,
+     "hair_back": 0.04,
+     "scarf": -0.14
+    },
+    "hand": [
+     141.89,
+     159.71
+    ],
+    "wrist_near": [
+     127.03,
+     156.9
+    ],
+    "shoulder_far": [
+     107.98,
+     145.2
+    ],
+    "near": {
+     "key": 3,
+     "ground": false,
+     "ankle_x": 176.0,
+     "reach": 23.21
+    },
+    "far": {
+     "key": 7,
+     "ground": false,
+     "ankle_x": 214.0,
+     "reach": 74.81
+    }
+   },
+   {
+    "frame": 4,
+    "bob": 6,
+    "lean": 6.0,
+    "squash": [
+     1.015,
+     0.978
+    ],
+    "bend": {
+     "ponytail": -6.67,
+     "hair_back": -4.87,
+     "scarf": -8.64
+    },
+    "hand": [
+     141.89,
+     160.11
+    ],
+    "wrist_near": [
+     127.58,
+     162.22
+    ],
+    "shoulder_far": [
+     108.42,
+     150.37
+    ],
+    "near": {
+     "key": 4,
+     "ground": false,
+     "ankle_x": 204.0,
+     "reach": 12.6
+    },
+    "far": {
+     "key": 0,
+     "ground": true,
+     "ankle_x": 198.0,
+     "reach": 64.34
+    }
+   },
+   {
+    "frame": 5,
+    "bob": 0,
+    "lean": 4.7,
+    "squash": [
+     0.99,
+     1.012
+    ],
+    "bend": {
+     "ponytail": -4.14,
+     "hair_back": -1.2,
+     "scarf": -8.71
+    },
+    "hand": [
+     141.89,
+     161.91
+    ],
+    "wrist_near": [
+     126.72,
+     158.08
+    ],
+    "shoulder_far": [
+     107.81,
+     146.37
+    ],
+    "near": {
+     "key": 5,
+     "ground": false,
+     "ankle_x": 228.0,
+     "reach": 48.83
+    },
+    "far": {
+     "key": 1,
+     "ground": true,
+     "ankle_x": 176.0,
+     "reach": 58.93
+    }
+   },
+   {
+    "frame": 6,
+    "bob": -5,
+    "lean": 4.5,
+    "squash": [
+     1.0,
+     1.006
+    ],
+    "bend": {
+     "ponytail": 1.61,
+     "hair_back": 2.02,
+     "scarf": -2.51
+    },
+    "hand": [
+     141.89,
+     160.71
+    ],
+    "wrist_near": [
+     126.94,
+     155.58
+    ],
+    "shoulder_far": [
+     107.79,
+     143.98
+    ],
+    "near": {
+     "key": 6,
+     "ground": false,
+     "ankle_x": 238.0,
+     "reach": 69.79
+    },
+    "far": {
+     "key": 2,
+     "ground": false,
+     "ankle_x": 140.0,
+     "reach": 54.87
+    }
+   },
+   {
+    "frame": 7,
+    "bob": -3,
+    "lean": 5.0,
+    "squash": [
+     1.0,
+     1.0
+    ],
+    "bend": {
+     "ponytail": 1.2,
+     "hair_back": 0.04,
+     "scarf": -0.14
+    },
+    "hand": [
+     141.89,
+     159.71
+    ],
+    "wrist_near": [
+     127.03,
+     156.9
+    ],
+    "shoulder_far": [
+     107.98,
+     145.2
+    ],
+    "near": {
+     "key": 7,
+     "ground": false,
+     "ankle_x": 228.0,
+     "reach": 71.16
+    },
+    "far": {
+     "key": 3,
+     "ground": false,
+     "ankle_x": 162.0,
+     "reach": 24.78
+    }
+   }
+  ]
+ },
+ "strong": {
+  "frames_meta": [
+   {
+    "frame": 0,
+    "bob": 7,
+    "lean": 9.5,
+    "squash": [
+     1.02,
+     0.972
+    ],
+    "bend": {
+     "ponytail": -6.71,
+     "hair_back": -4.95,
+     "scarf": -8.21
+    },
+    "hand": [
+     142.26,
+     162.44
+    ],
+    "wrist_near": [
+     128.25,
+     164.58
+    ],
+    "shoulder_far": [
+     109.73,
+     151.63
+    ],
+    "near": {
+     "key": 0,
+     "ground": true,
+     "ankle_x": 212.0,
+     "reach": 59.47
+    },
+    "far": {
+     "key": 4,
+     "ground": false,
+     "ankle_x": 190.0,
+     "reach": 15.31
+    }
+   },
+   {
+    "frame": 1,
+    "bob": 0,
+    "lean": 7.5,
+    "squash": [
+     0.99,
+     1.014
+    ],
+    "bend": {
+     "ponytail": -3.88,
+     "hair_back": -0.98,
+     "scarf": -8.14
+    },
+    "hand": [
+     142.26,
+     164.19
+    ],
+    "wrist_near": [
+     127.22,
+     159.42
+    ],
+    "shoulder_far": [
+     108.91,
+     146.78
+    ],
+    "near": {
+     "key": 1,
+     "ground": true,
+     "ankle_x": 190.0,
+     "reach": 54.97
+    },
+    "far": {
+     "key": 5,
+     "ground": false,
+     "ankle_x": 214.0,
+     "reach": 52.05
+    }
+   },
+   {
+    "frame": 2,
+    "bob": -6,
+    "lean": 7.2,
+    "squash": [
+     0.998,
+     1.008
+    ],
+    "bend": {
+     "ponytail": 2.27,
+     "hair_back": 2.42,
+     "scarf": -1.42
+    },
+    "hand": [
+     142.26,
+     162.96
+    ],
+    "wrist_near": [
+     127.38,
+     156.38
+    ],
+    "shoulder_far": [
+     108.84,
+     143.87
+    ],
+    "near": {
+     "key": 2,
+     "ground": false,
+     "ankle_x": 154.0,
+     "reach": 53.13
+    },
+    "far": {
+     "key": 6,
+     "ground": false,
+     "ankle_x": 224.0,
+     "reach": 73.94
+    }
+   },
+   {
+    "frame": 3,
+    "bob": -3,
+    "lean": 8.0,
+    "squash": [
+     1.0,
+     1.0
+    ],
+    "bend": {
+     "ponytail": 1.53,
+     "hair_back": 0.12,
+     "scarf": 0.78
+    },
+    "hand": [
+     142.26,
+     161.91
+    ],
+    "wrist_near": [
+     127.55,
+     158.38
+    ],
+    "shoulder_far": [
+     109.13,
+     145.7
+    ],
+    "near": {
+     "key": 3,
+     "ground": false,
+     "ankle_x": 176.0,
+     "reach": 23.21
+    },
+    "far": {
+     "key": 7,
+     "ground": false,
+     "ankle_x": 214.0,
+     "reach": 74.81
+    }
+   },
+   {
+    "frame": 4,
+    "bob": 7,
+    "lean": 9.5,
+    "squash": [
+     1.02,
+     0.972
+    ],
+    "bend": {
+     "ponytail": -6.71,
+     "hair_back": -4.95,
+     "scarf": -8.21
+    },
+    "hand": [
+     142.26,
+     162.44
+    ],
+    "wrist_near": [
+     128.25,
+     164.58
+    ],
+    "shoulder_far": [
+     109.73,
+     151.63
+    ],
+    "near": {
+     "key": 4,
+     "ground": false,
+     "ankle_x": 204.0,
+     "reach": 11.73
+    },
+    "far": {
+     "key": 0,
+     "ground": true,
+     "ankle_x": 198.0,
+     "reach": 63.36
+    }
+   },
+   {
+    "frame": 5,
+    "bob": 0,
+    "lean": 7.5,
+    "squash": [
+     0.99,
+     1.014
+    ],
+    "bend": {
+     "ponytail": -3.88,
+     "hair_back": -0.98,
+     "scarf": -8.14
+    },
+    "hand": [
+     142.26,
+     164.19
+    ],
+    "wrist_near": [
+     127.22,
+     159.42
+    ],
+    "shoulder_far": [
+     108.91,
+     146.78
+    ],
+    "near": {
+     "key": 5,
+     "ground": false,
+     "ankle_x": 228.0,
+     "reach": 48.83
+    },
+    "far": {
+     "key": 1,
+     "ground": true,
+     "ankle_x": 176.0,
+     "reach": 58.93
+    }
+   },
+   {
+    "frame": 6,
+    "bob": -6,
+    "lean": 7.2,
+    "squash": [
+     0.998,
+     1.008
+    ],
+    "bend": {
+     "ponytail": 2.27,
+     "hair_back": 2.42,
+     "scarf": -1.42
+    },
+    "hand": [
+     142.26,
+     162.96
+    ],
+    "wrist_near": [
+     127.38,
+     156.38
+    ],
+    "shoulder_far": [
+     108.84,
+     143.87
+    ],
+    "near": {
+     "key": 6,
+     "ground": false,
+     "ankle_x": 238.0,
+     "reach": 70.61
+    },
+    "far": {
+     "key": 2,
+     "ground": false,
+     "ankle_x": 140.0,
+     "reach": 55.47
+    }
+   },
+   {
+    "frame": 7,
+    "bob": -3,
+    "lean": 8.0,
+    "squash": [
+     1.0,
+     1.0
+    ],
+    "bend": {
+     "ponytail": 1.53,
+     "hair_back": 0.12,
+     "scarf": 0.78
+    },
+    "hand": [
+     142.26,
+     161.91
+    ],
+    "wrist_near": [
+     127.55,
+     158.38
+    ],
+    "shoulder_far": [
+     109.13,
+     145.7
+    ],
+    "near": {
+     "key": 7,
+     "ground": false,
+     "ankle_x": 228.0,
+     "reach": 71.16
+    },
+    "far": {
+     "key": 3,
+     "ground": false,
+     "ankle_x": 162.0,
+     "reach": 24.78
+    }
+   }
+  ]
+ },
+ "cell": 221,
+ "frames": 8,
+ "ground_y": 214.0,
+ "origin_x": 99.0,
+ "nominal_height": 205.0,
+ "stride_per_frame": 11.0,
+ "source": "run-keyposes-fix.png cell 2 (upper body; gun, gloves and forearm tips erased = provisional body). Guns are drawn separately from assets/first-workshop/equipment/guns via data/weapon_visuals.json."
+}

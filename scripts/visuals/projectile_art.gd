@@ -1,5 +1,6 @@
 extends Sprite2D
 const Visuals = preload("res://scripts/catalog/weapon_visual_catalog.gd")
+const ENEMY_SCALE := 1.3
 var profile: Dictionary = {}
 const READABILITY = preload("res://assets/shaders/equipment_readability.gdshader")
 var shot_color := Color.WHITE
@@ -11,18 +12,19 @@ var flight_angle := 0.0
 var animation_age := 0.0
 var flight_speed := 0.0
 
-func configure(id: int, parcel: bool, shard: bool, visual_variant: String = "", color_override: String = "") -> void:
+func configure(id: int, parcel: bool, shard: bool, visual_variant: String = "", color_override: String = "", is_enemy: bool = false) -> void:
 	if not has_node("Trail"):
 		var trail = preload("res://scripts/visuals/projectile_trail.gd").new();trail.name="Trail";trail.show_behind_parent=true;add_child(trail)
 	profile = Visuals.profile(id)
 	variant = visual_variant if not visual_variant.is_empty() else ("parcel" if parcel else ("derived" if shard else ""))
+	var readability_scale := ENEMY_SCALE if is_enemy and variant != "boss_cannon" else 1.0
 	shot_color = Color(color_override if not color_override.is_empty() else str(profile.get("color","#ffffff")))
 	profile.color = shot_color.to_html()
 	if variant in ["enemy_fire_seed","enemy_quill","boss_rivet","boss_shell","boss_cannon"]:
 		texture = null
 		material = null
-		base_scale = Vector2.ONE
-		scale = Vector2.ONE
+		base_scale = Vector2.ONE*readability_scale
+		scale = base_scale
 		profile.trail = "none"
 		visible = true
 		samples.clear()
@@ -35,12 +37,13 @@ func configure(id: int, parcel: bool, shard: bool, visual_variant: String = "", 
 	var bounds := Visuals.vec(spec.size)
 	base_scale = Vector2.ONE*minf(bounds.x/texture.get_width(),bounds.y/texture.get_height())
 	if variant.is_empty() and profile.get("fit","") == "stretch": base_scale = bounds/texture.get_size()
+	base_scale *= readability_scale
 	# Fragments retain their source color, but never inherit a full rocket engine or giant wake.
 	if not variant.is_empty():
 		profile.merge({"motion":"flutter" if variant == "parcel" else "", "thruster":0, "trail_length":20, "trail_width":1, "trail_samples":8, "spin":0},true)
 	scale = base_scale
 	material = null
-	if profile.get("readable",false) or profile.has("palette"):
+	if is_enemy or profile.get("readable",false) or profile.has("palette"):
 		var shader_material = ShaderMaterial.new();shader_material.shader = READABILITY
 		shader_material.set_shader_parameter("shot_color",shot_color)
 		shader_material.set_shader_parameter("recolor",1.0 if profile.has("palette") else 0.0)
@@ -196,11 +199,13 @@ func _draw() -> void:
 		draw_line(Vector2(-4,-2),Vector2(6,-2),Color("fff4ce"),2)
 		return
 	if variant == "enemy_quill":
+		draw_colored_polygon(PackedVector2Array([Vector2(12,0),Vector2(-9,-5),Vector2(-7,0),Vector2(-9,5)]),Color("382a24"))
 		draw_colored_polygon(PackedVector2Array([Vector2(10,0),Vector2(-7,-3),Vector2(-5,0),Vector2(-7,3)]),Color("ffe4ac"))
-		draw_line(Vector2(-7,0),Vector2(6,0),Color("8b5935"),1.5)
+		draw_line(Vector2(-7,0),Vector2(6,0),Color("fff8dc"),1.5)
 		return
 	if variant != "enemy_fire_seed": return
-	# Radius 6 core matches gameplay; the short tail is decorative only.
+	# Local core and tail are enlarged for readability; gameplay radius stays independent.
 	draw_colored_polygon(PackedVector2Array([Vector2(-3,-4),Vector2(-14,0),Vector2(-3,4)]),Color("dd6536"))
-	draw_circle(Vector2.ZERO,6,Color("f3943e"))
+	draw_circle(Vector2.ZERO,7.5,Color("54271c"))
+	draw_circle(Vector2.ZERO,6,Color("ffac4b"))
 	draw_circle(Vector2(1,0),3,Color("fff0ae"))

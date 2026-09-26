@@ -1,0 +1,4255 @@
+{
+ "source": "tools/character_rig/characters/rina.json",
+ "id": 0,
+ "name": "rina",
+ "cell": [
+  261,
+  241
+ ],
+ "scale": 0.266667,
+ "origin": [
+  99.0,
+  234.0
+ ],
+ "foot_y": 15.0,
+ "idle_period": 2.6,
+ "dodge_times": [
+  0.04,
+  0.1,
+  0.2,
+  0.26,
+  0.32
+ ],
+ "dodge_lift": 6.0,
+ "arm": {
+  "upper": 6.133,
+  "lower": 6.133,
+  "sleeve_w": 3.467,
+  "glove_r": 2.267,
+  "cuff_w": 3.2,
+  "outline": 0.587,
+  "near_sleeve": [
+   246,
+   230,
+   198
+  ],
+  "near_sleeve_hi": [
+   252,
+   242,
+   220
+  ],
+  "far_sleeve": [
+   204,
+   186,
+   156
+  ],
+  "near_glove": [
+   128,
+   80,
+   62
+  ],
+  "near_glove_hi": [
+   160,
+   104,
+   82
+  ],
+  "far_glove": [
+   88,
+   56,
+   44
+  ],
+  "ink": [
+   20,
+   14,
+   12
+  ],
+  "long_min": 26.0,
+  "support_max": 16.0,
+  "pistol_support": [
+   1.5,
+   2.0
+  ]
+ },
+ "views": {
+  "side": {
+   "yaw": 0,
+   "arms": "side",
+   "upper": true,
+   "actions": {
+    "run": [
+     {
+      "hand": [
+       10.344,
+       1.761
+      ],
+      "shoulder_near": [
+       0.507,
+       -1.401
+      ],
+      "shoulder_far": [
+       1.665,
+       -1.733
+      ],
+      "near_ground": true,
+      "far_ground": false,
+      "free": false,
+      "lean": 9.5,
+      "bias": {
+       "pony": -6.458,
+       "scarf": -7.956
+      },
+      "pony_root": [
+       5.129,
+       -26.945
+      ],
+      "scarf_root": [
+       -1.396,
+       -4.899
+      ]
+     },
+     {
+      "hand": [
+       10.344,
+       2.228
+      ],
+      "shoulder_near": [
+       0.361,
+       -2.576
+      ],
+      "shoulder_far": [
+       1.479,
+       -2.974
+      ],
+      "near_ground": true,
+      "far_ground": false,
+      "free": false,
+      "lean": 7.5,
+      "bias": {
+       "pony": -3.942,
+       "scarf": -8.125
+      },
+      "pony_root": [
+       4.225,
+       -29.379
+      ],
+      "scarf_root": [
+       -1.573,
+       -6.131
+      ]
+     },
+     {
+      "hand": [
+       10.344,
+       1.901
+      ],
+      "shoulder_near": [
+       0.325,
+       -3.346
+      ],
+      "shoulder_far": [
+       1.448,
+       -3.746
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 7.2,
+      "bias": {
+       "pony": 2.113,
+       "scarf": -1.568
+      },
+      "pony_root": [
+       4.031,
+       -30.009
+      ],
+      "scarf_root": [
+       -1.649,
+       -6.873
+      ]
+     },
+     {
+      "hand": [
+       10.344,
+       1.621
+      ],
+      "shoulder_near": [
+       0.396,
+       -2.897
+      ],
+      "shoulder_far": [
+       1.526,
+       -3.277
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 8.0,
+      "bias": {
+       "pony": 1.488,
+       "scarf": 0.65
+      },
+      "pony_root": [
+       4.445,
+       -29.294
+      ],
+      "scarf_root": [
+       -1.537,
+       -6.427
+      ]
+     },
+     {
+      "hand": [
+       10.344,
+       1.761
+      ],
+      "shoulder_near": [
+       0.507,
+       -1.401
+      ],
+      "shoulder_far": [
+       1.665,
+       -1.733
+      ],
+      "near_ground": false,
+      "far_ground": true,
+      "free": false,
+      "lean": 9.5,
+      "bias": {
+       "pony": -6.458,
+       "scarf": -7.956
+      },
+      "pony_root": [
+       5.129,
+       -26.945
+      ],
+      "scarf_root": [
+       -1.396,
+       -4.899
+      ]
+     },
+     {
+      "hand": [
+       10.344,
+       2.228
+      ],
+      "shoulder_near": [
+       0.361,
+       -2.576
+      ],
+      "shoulder_far": [
+       1.479,
+       -2.974
+      ],
+      "near_ground": false,
+      "far_ground": true,
+      "free": false,
+      "lean": 7.5,
+      "bias": {
+       "pony": -3.942,
+       "scarf": -8.125
+      },
+      "pony_root": [
+       4.225,
+       -29.379
+      ],
+      "scarf_root": [
+       -1.573,
+       -6.131
+      ]
+     },
+     {
+      "hand": [
+       10.344,
+       1.901
+      ],
+      "shoulder_near": [
+       0.325,
+       -3.346
+      ],
+      "shoulder_far": [
+       1.448,
+       -3.746
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 7.2,
+      "bias": {
+       "pony": 2.113,
+       "scarf": -1.568
+      },
+      "pony_root": [
+       4.031,
+       -30.009
+      ],
+      "scarf_root": [
+       -1.649,
+       -6.873
+      ]
+     },
+     {
+      "hand": [
+       10.344,
+       1.621
+      ],
+      "shoulder_near": [
+       0.396,
+       -2.897
+      ],
+      "shoulder_far": [
+       1.526,
+       -3.277
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 8.0,
+      "bias": {
+       "pony": 1.488,
+       "scarf": 0.65
+      },
+      "pony_root": [
+       4.445,
+       -29.294
+      ],
+      "scarf_root": [
+       -1.537,
+       -6.427
+      ]
+     }
+    ],
+    "idle": [
+     {
+      "hand": [
+       10.344,
+       1.995
+      ],
+      "shoulder_near": [
+       -0.085,
+       -2.511
+      ],
+      "shoulder_far": [
+       1.008,
+       -2.987
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 3.0,
+      "bias": {
+       "pony": -4.121,
+       "scarf": -10.0
+      },
+      "pony_root": [
+       1.648,
+       -29.16
+      ],
+      "scarf_root": [
+       -2.318,
+       -5.859
+      ]
+     },
+     {
+      "hand": [
+       10.344,
+       1.901
+      ],
+      "shoulder_near": [
+       -0.081,
+       -2.754
+      ],
+      "shoulder_far": [
+       1.008,
+       -3.236
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 3.0,
+      "bias": {
+       "pony": -2.0,
+       "scarf": -8.828
+      },
+      "pony_root": [
+       1.665,
+       -29.667
+      ],
+      "scarf_root": [
+       -2.302,
+       -6.133
+      ]
+     },
+     {
+      "hand": [
+       10.344,
+       1.807
+      ],
+      "shoulder_near": [
+       -0.079,
+       -2.854
+      ],
+      "shoulder_far": [
+       1.008,
+       -3.339
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 3.0,
+      "bias": {
+       "pony": 0.121,
+       "scarf": -6.0
+      },
+      "pony_root": [
+       1.672,
+       -29.877
+      ],
+      "scarf_root": [
+       -2.295,
+       -6.247
+      ]
+     },
+     {
+      "hand": [
+       10.344,
+       1.768
+      ],
+      "shoulder_near": [
+       -0.081,
+       -2.754
+      ],
+      "shoulder_far": [
+       1.008,
+       -3.236
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 3.0,
+      "bias": {
+       "pony": 1.0,
+       "scarf": -3.172
+      },
+      "pony_root": [
+       1.665,
+       -29.667
+      ],
+      "scarf_root": [
+       -2.302,
+       -6.133
+      ]
+     },
+     {
+      "hand": [
+       10.344,
+       1.807
+      ],
+      "shoulder_near": [
+       -0.085,
+       -2.511
+      ],
+      "shoulder_far": [
+       1.008,
+       -2.987
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 3.0,
+      "bias": {
+       "pony": 0.121,
+       "scarf": -2.0
+      },
+      "pony_root": [
+       1.648,
+       -29.16
+      ],
+      "scarf_root": [
+       -2.318,
+       -5.859
+      ]
+     },
+     {
+      "hand": [
+       10.344,
+       1.901
+      ],
+      "shoulder_near": [
+       -0.089,
+       -2.268
+      ],
+      "shoulder_far": [
+       1.008,
+       -2.739
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 3.0,
+      "bias": {
+       "pony": -2.0,
+       "scarf": -3.172
+      },
+      "pony_root": [
+       1.631,
+       -28.654
+      ],
+      "scarf_root": [
+       -2.335,
+       -5.585
+      ]
+     },
+     {
+      "hand": [
+       10.344,
+       1.995
+      ],
+      "shoulder_near": [
+       -0.091,
+       -2.167
+      ],
+      "shoulder_far": [
+       1.008,
+       -2.636
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 3.0,
+      "bias": {
+       "pony": -4.121,
+       "scarf": -6.0
+      },
+      "pony_root": [
+       1.624,
+       -28.444
+      ],
+      "scarf_root": [
+       -2.341,
+       -5.471
+      ]
+     },
+     {
+      "hand": [
+       10.344,
+       2.034
+      ],
+      "shoulder_near": [
+       -0.089,
+       -2.268
+      ],
+      "shoulder_far": [
+       1.008,
+       -2.739
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 3.0,
+      "bias": {
+       "pony": -5.0,
+       "scarf": -8.828
+      },
+      "pony_root": [
+       1.631,
+       -28.654
+      ],
+      "scarf_root": [
+       -2.335,
+       -5.585
+      ]
+     }
+    ],
+    "dodge": [
+     {
+      "hand": [
+       12.488,
+       6.532
+      ],
+      "shoulder_near": [
+       1.153,
+       0.038
+      ],
+      "shoulder_far": [
+       2.376,
+       -0.069
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": true,
+      "hand_far": [
+       13.443,
+       6.338
+      ],
+      "lean": 18.0,
+      "bias": {
+       "pony": -6.0,
+       "scarf": -8.0
+      },
+      "pony_root": [
+       8.918,
+       -22.709
+      ],
+      "scarf_root": [
+       -0.375,
+       -3.512
+      ]
+     },
+     {
+      "hand": [
+       13.816,
+       9.388
+      ],
+      "shoulder_near": [
+       3.594,
+       -1.0
+      ],
+      "shoulder_far": [
+       4.738,
+       -0.723
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": true,
+      "hand_far": [
+       14.768,
+       9.491
+      ],
+      "lean": 42.0,
+      "bias": {
+       "pony": -12.0,
+       "scarf": -14.0
+      },
+      "pony_root": [
+       22.598,
+       -21.619
+      ],
+      "scarf_root": [
+       4.127,
+       -5.079
+      ]
+     },
+     {
+      "hand": [
+       10.182,
+       16.934
+      ],
+      "shoulder_near": [
+       5.273,
+       1.702
+      ],
+      "shoulder_far": [
+       6.119,
+       2.526
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": true,
+      "hand_far": [
+       10.947,
+       17.51
+      ],
+      "lean": 72.0,
+      "bias": {
+       "pony": -18.0,
+       "scarf": -22.0
+      },
+      "pony_root": [
+       31.534,
+       -6.485
+      ],
+      "scarf_root": [
+       7.706,
+       -1.567
+      ]
+     },
+     {
+      "hand": [
+       13.276,
+       9.099
+      ],
+      "shoulder_near": [
+       3.248,
+       -1.452
+      ],
+      "shoulder_far": [
+       4.408,
+       -1.175
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": true,
+      "hand_far": [
+       14.231,
+       9.205
+      ],
+      "lean": 40.0,
+      "bias": {
+       "pony": -8.0,
+       "scarf": -16.0
+      },
+      "pony_root": [
+       20.671,
+       -21.693
+      ],
+      "scarf_root": [
+       3.48,
+       -5.47
+      ]
+     },
+     {
+      "hand": [
+       13.588,
+       7.712
+      ],
+      "shoulder_near": [
+       1.28,
+       0.45
+      ],
+      "shoulder_far": [
+       2.513,
+       0.399
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": true,
+      "hand_far": [
+       14.553,
+       7.563
+      ],
+      "lean": 20.0,
+      "bias": {
+       "pony": 6.0,
+       "scarf": -2.0
+      },
+      "pony_root": [
+       9.655,
+       -21.51
+      ],
+      "scarf_root": [
+       -0.168,
+       -3.099
+      ]
+     },
+     {
+      "hand": [
+       10.344,
+       1.901
+      ],
+      "shoulder_near": [
+       0.542,
+       -1.465
+      ],
+      "shoulder_far": [
+       1.702,
+       -1.78
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 10.0,
+      "bias": {
+       "pony": 2.0,
+       "scarf": -4.0
+      },
+      "pony_root": [
+       5.331,
+       -26.652
+      ],
+      "scarf_root": [
+       -1.337,
+       -4.941
+      ]
+     }
+    ],
+    "melee": [
+     {
+      "hand": [
+       10.344,
+       1.901
+      ],
+      "shoulder_near": [
+       0.904,
+       -1.415
+      ],
+      "shoulder_far": [
+       2.094,
+       -1.646
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 14.0,
+      "bias": {
+       "pony": -8.0,
+       "scarf": -10.0
+      },
+      "pony_root": [
+       7.442,
+       -26.206
+      ],
+      "scarf_root": [
+       -0.751,
+       -5.02
+      ]
+     },
+     {
+      "hand": [
+       10.344,
+       1.901
+      ],
+      "shoulder_near": [
+       1.245,
+       -1.021
+      ],
+      "shoulder_far": [
+       2.456,
+       -1.16
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 18.0,
+      "bias": {
+       "pony": -12.0,
+       "scarf": -14.0
+      },
+      "pony_root": [
+       9.417,
+       -25.041
+      ],
+      "scarf_root": [
+       -0.187,
+       -4.71
+      ]
+     },
+     {
+      "hand": [
+       10.344,
+       1.901
+      ],
+      "shoulder_near": [
+       0.748,
+       -1.683
+      ],
+      "shoulder_far": [
+       1.921,
+       -1.968
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 12.0,
+      "bias": {
+       "pony": -6.0,
+       "scarf": -8.0
+      },
+      "pony_root": [
+       6.524,
+       -27.21
+      ],
+      "scarf_root": [
+       -0.994,
+       -5.287
+      ]
+     },
+     {
+      "hand": [
+       10.344,
+       1.901
+      ],
+      "shoulder_near": [
+       0.203,
+       -2.241
+      ],
+      "shoulder_far": [
+       1.32,
+       -2.66
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 6.0,
+      "bias": {
+       "pony": -2.0,
+       "scarf": -5.0
+      },
+      "pony_root": [
+       3.329,
+       -28.763
+      ],
+      "scarf_root": [
+       -1.851,
+       -5.701
+      ]
+     }
+    ]
+   },
+   "parts": {
+    "pony": {
+     "root": [
+      48.86,
+      40.24
+     ],
+     "axis": [
+      -0.7967,
+      -0.6044
+     ],
+     "length": 54.11,
+     "layer": "behind",
+     "type": "hair"
+    },
+    "scarf": {
+     "root": [
+      47.08,
+      9.78
+     ],
+     "axis": [
+      -0.9951,
+      0.0984
+     ],
+     "length": 45.73,
+     "layer": "behind",
+     "type": "cloth"
+    }
+   },
+   "elbow": "down"
+  },
+  "diag_front": {
+   "yaw": 45,
+   "arms": "side",
+   "upper": true,
+   "actions": {
+    "run": [
+     {
+      "hand": [
+       9.644,
+       0.036
+      ],
+      "shoulder_near": [
+       -4.258,
+       -4.152
+      ],
+      "shoulder_far": [
+       8.551,
+       -3.553
+      ],
+      "near_ground": true,
+      "far_ground": false,
+      "free": false,
+      "lean": 6.718,
+      "bias": {
+       "pony": -5.489,
+       "scarf": -6.763
+      },
+      "pony_root": [
+       3.42,
+       -27.149
+      ],
+      "scarf_root": [
+       -2.853,
+       -7.169
+      ]
+     },
+     {
+      "hand": [
+       9.644,
+       0.503
+      ],
+      "shoulder_near": [
+       -4.282,
+       -5.297
+      ],
+      "shoulder_far": [
+       8.166,
+       -5.087
+      ],
+      "near_ground": true,
+      "far_ground": false,
+      "free": false,
+      "lean": 5.303,
+      "bias": {
+       "pony": -3.351,
+       "scarf": -6.906
+      },
+      "pony_root": [
+       2.776,
+       -29.511
+      ],
+      "scarf_root": [
+       -2.97,
+       -8.486
+      ]
+     },
+     {
+      "hand": [
+       9.644,
+       0.176
+      ],
+      "shoulder_near": [
+       -4.355,
+       -6.039
+      ],
+      "shoulder_far": [
+       8.193,
+       -5.861
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 5.091,
+      "bias": {
+       "pony": 1.796,
+       "scarf": -1.333
+      },
+      "pony_root": [
+       2.638,
+       -30.129
+      ],
+      "scarf_root": [
+       -3.049,
+       -9.212
+      ]
+     },
+     {
+      "hand": [
+       9.644,
+       -0.104
+      ],
+      "shoulder_near": [
+       -4.289,
+       -5.618
+      ],
+      "shoulder_far": [
+       8.281,
+       -5.306
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 5.657,
+      "bias": {
+       "pony": 1.265,
+       "scarf": 0.552
+      },
+      "pony_root": [
+       2.932,
+       -29.443
+      ],
+      "scarf_root": [
+       -2.952,
+       -8.752
+      ]
+     },
+     {
+      "hand": [
+       9.644,
+       0.036
+      ],
+      "shoulder_near": [
+       -4.258,
+       -4.152
+      ],
+      "shoulder_far": [
+       8.551,
+       -3.553
+      ],
+      "near_ground": false,
+      "far_ground": true,
+      "free": false,
+      "lean": 6.718,
+      "bias": {
+       "pony": -5.489,
+       "scarf": -6.763
+      },
+      "pony_root": [
+       3.42,
+       -27.149
+      ],
+      "scarf_root": [
+       -2.853,
+       -7.169
+      ]
+     },
+     {
+      "hand": [
+       9.644,
+       0.503
+      ],
+      "shoulder_near": [
+       -4.282,
+       -5.297
+      ],
+      "shoulder_far": [
+       8.166,
+       -5.087
+      ],
+      "near_ground": false,
+      "far_ground": true,
+      "free": false,
+      "lean": 5.303,
+      "bias": {
+       "pony": -3.351,
+       "scarf": -6.906
+      },
+      "pony_root": [
+       2.776,
+       -29.511
+      ],
+      "scarf_root": [
+       -2.97,
+       -8.486
+      ]
+     },
+     {
+      "hand": [
+       9.644,
+       0.176
+      ],
+      "shoulder_near": [
+       -4.355,
+       -6.039
+      ],
+      "shoulder_far": [
+       8.193,
+       -5.861
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 5.091,
+      "bias": {
+       "pony": 1.796,
+       "scarf": -1.333
+      },
+      "pony_root": [
+       2.638,
+       -30.129
+      ],
+      "scarf_root": [
+       -3.049,
+       -9.212
+      ]
+     },
+     {
+      "hand": [
+       9.644,
+       -0.104
+      ],
+      "shoulder_near": [
+       -4.289,
+       -5.618
+      ],
+      "shoulder_far": [
+       8.281,
+       -5.306
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 5.657,
+      "bias": {
+       "pony": 1.265,
+       "scarf": 0.552
+      },
+      "pony_root": [
+       2.932,
+       -29.443
+      ],
+      "scarf_root": [
+       -2.952,
+       -8.752
+      ]
+     }
+    ],
+    "idle": [
+     {
+      "hand": [
+       9.644,
+       0.271
+      ],
+      "shoulder_near": [
+       -4.789,
+       -4.954
+      ],
+      "shoulder_far": [
+       7.777,
+       -5.418
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 2.121,
+      "bias": {
+       "pony": -3.503,
+       "scarf": -8.5
+      },
+      "pony_root": [
+       0.95,
+       -29.179
+      ],
+      "scarf_root": [
+       -3.647,
+       -8.165
+      ]
+     },
+     {
+      "hand": [
+       9.644,
+       0.176
+      ],
+      "shoulder_near": [
+       -4.765,
+       -5.219
+      ],
+      "shoulder_far": [
+       7.748,
+       -5.694
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 2.121,
+      "bias": {
+       "pony": -1.7,
+       "scarf": -7.504
+      },
+      "pony_root": [
+       0.961,
+       -29.687
+      ],
+      "scarf_root": [
+       -3.627,
+       -8.463
+      ]
+     },
+     {
+      "hand": [
+       9.644,
+       0.082
+      ],
+      "shoulder_near": [
+       -4.756,
+       -5.329
+      ],
+      "shoulder_far": [
+       7.735,
+       -5.809
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 2.121,
+      "bias": {
+       "pony": 0.103,
+       "scarf": -5.1
+      },
+      "pony_root": [
+       0.966,
+       -29.897
+      ],
+      "scarf_root": [
+       -3.619,
+       -8.586
+      ]
+     },
+     {
+      "hand": [
+       9.644,
+       0.043
+      ],
+      "shoulder_near": [
+       -4.765,
+       -5.219
+      ],
+      "shoulder_far": [
+       7.748,
+       -5.694
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 2.121,
+      "bias": {
+       "pony": 0.85,
+       "scarf": -2.696
+      },
+      "pony_root": [
+       0.961,
+       -29.687
+      ],
+      "scarf_root": [
+       -3.627,
+       -8.463
+      ]
+     },
+     {
+      "hand": [
+       9.644,
+       0.082
+      ],
+      "shoulder_near": [
+       -4.789,
+       -4.954
+      ],
+      "shoulder_far": [
+       7.777,
+       -5.418
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 2.121,
+      "bias": {
+       "pony": 0.103,
+       "scarf": -1.7
+      },
+      "pony_root": [
+       0.95,
+       -29.179
+      ],
+      "scarf_root": [
+       -3.647,
+       -8.165
+      ]
+     },
+     {
+      "hand": [
+       9.644,
+       0.176
+      ],
+      "shoulder_near": [
+       -4.812,
+       -4.69
+      ],
+      "shoulder_far": [
+       7.807,
+       -5.142
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 2.121,
+      "bias": {
+       "pony": -1.7,
+       "scarf": -2.696
+      },
+      "pony_root": [
+       0.938,
+       -28.672
+      ],
+      "scarf_root": [
+       -3.667,
+       -7.868
+      ]
+     },
+     {
+      "hand": [
+       9.644,
+       0.271
+      ],
+      "shoulder_near": [
+       -4.821,
+       -4.58
+      ],
+      "shoulder_far": [
+       7.819,
+       -5.028
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 2.121,
+      "bias": {
+       "pony": -3.503,
+       "scarf": -5.1
+      },
+      "pony_root": [
+       0.933,
+       -28.462
+      ],
+      "scarf_root": [
+       -3.676,
+       -7.745
+      ]
+     },
+     {
+      "hand": [
+       9.644,
+       0.31
+      ],
+      "shoulder_near": [
+       -4.812,
+       -4.69
+      ],
+      "shoulder_far": [
+       7.807,
+       -5.142
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 2.121,
+      "bias": {
+       "pony": -4.25,
+       "scarf": -7.504
+      },
+      "pony_root": [
+       0.938,
+       -28.672
+      ],
+      "scarf_root": [
+       -3.667,
+       -7.868
+      ]
+     }
+    ],
+    "dodge": [
+     {
+      "hand": [
+       10.005,
+       3.693
+      ],
+      "shoulder_near": [
+       -3.7,
+       -3.087
+      ],
+      "shoulder_far": [
+       9.45,
+       -0.974
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": true,
+      "hand_far": [
+       13.784,
+       4.199
+      ],
+      "lean": 12.728,
+      "bias": {
+       "pony": -5.1,
+       "scarf": -6.8
+      },
+      "pony_root": [
+       6.144,
+       -23.396
+      ],
+      "scarf_root": [
+       -1.999,
+       -5.703
+      ]
+     },
+     {
+      "hand": [
+       12.177,
+       4.748
+      ],
+      "shoulder_near": [
+       0.076,
+       -5.295
+      ],
+      "shoulder_far": [
+       10.809,
+       0.506
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": true,
+      "hand_far": [
+       15.305,
+       6.31
+      ],
+      "lean": 32.81,
+      "bias": {
+       "pony": -10.2,
+       "scarf": -11.9
+      },
+      "pony_root": [
+       17.416,
+       -23.53
+      ],
+      "scarf_root": [
+       2.693,
+       -7.524
+      ]
+     },
+     {
+      "hand": [
+       11.419,
+       11.417
+      ],
+      "shoulder_near": [
+       3.488,
+       -3.31
+      ],
+      "shoulder_far": [
+       10.696,
+       6.681
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": true,
+      "hand_far": [
+       13.568,
+       14.216
+      ],
+      "lean": 58.266,
+      "bias": {
+       "pony": -15.3,
+       "scarf": -18.7
+      },
+      "pony_root": [
+       25.559,
+       -11.386
+      ],
+      "scarf_root": [
+       6.621,
+       -4.07
+      ]
+     },
+     {
+      "hand": [
+       11.628,
+       4.687
+      ],
+      "shoulder_near": [
+       -0.499,
+       -5.639
+      ],
+      "shoulder_far": [
+       10.702,
+       0.072
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": true,
+      "hand_far": [
+       14.884,
+       6.226
+      ],
+      "lean": 31.113,
+      "bias": {
+       "pony": -6.8,
+       "scarf": -13.6
+      },
+      "pony_root": [
+       15.85,
+       -23.364
+      ],
+      "scarf_root": [
+       2.001,
+       -7.803
+      ]
+     },
+     {
+      "hand": [
+       10.884,
+       4.507
+      ],
+      "shoulder_near": [
+       -3.587,
+       -2.764
+      ],
+      "shoulder_far": [
+       9.623,
+       -0.278
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": true,
+      "hand_far": [
+       14.682,
+       5.122
+      ],
+      "lean": 14.142,
+      "bias": {
+       "pony": 5.1,
+       "scarf": -1.7
+      },
+      "pony_root": [
+       6.683,
+       -22.338
+      ],
+      "scarf_root": [
+       -1.828,
+       -5.271
+      ]
+     },
+     {
+      "hand": [
+       9.644,
+       0.176
+      ],
+      "shoulder_near": [
+       -4.219,
+       -4.217
+      ],
+      "shoulder_far": [
+       8.584,
+       -3.528
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 7.071,
+      "bias": {
+       "pony": 1.7,
+       "scarf": -3.4
+      },
+      "pony_root": [
+       3.564,
+       -26.876
+      ],
+      "scarf_root": [
+       -2.801,
+       -7.186
+      ]
+     }
+    ],
+    "melee": [
+     {
+      "hand": [
+       9.644,
+       0.176
+      ],
+      "shoulder_near": [
+       -3.866,
+       -4.41
+      ],
+      "shoulder_far": [
+       9.011,
+       -3.068
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 9.899,
+      "bias": {
+       "pony": -6.8,
+       "scarf": -8.5
+      },
+      "pony_root": [
+       5.073,
+       -26.649
+      ],
+      "scarf_root": [
+       -2.293,
+       -7.304
+      ]
+     },
+     {
+      "hand": [
+       9.644,
+       0.176
+      ],
+      "shoulder_near": [
+       -3.521,
+       -4.246
+      ],
+      "shoulder_far": [
+       9.395,
+       -2.233
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 12.728,
+      "bias": {
+       "pony": -10.2,
+       "scarf": -11.9
+      },
+      "pony_root": [
+       6.498,
+       -25.767
+      ],
+      "scarf_root": [
+       -1.804,
+       -7.024
+      ]
+     },
+     {
+      "hand": [
+       9.644,
+       0.176
+      ],
+      "shoulder_near": [
+       -3.997,
+       -4.599
+      ],
+      "shoulder_far": [
+       8.788,
+       -3.612
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 8.485,
+      "bias": {
+       "pony": -5.1,
+       "scarf": -6.8
+      },
+      "pony_root": [
+       4.415,
+       -27.542
+      ],
+      "scarf_root": [
+       -2.496,
+       -7.597
+      ]
+     },
+     {
+      "hand": [
+       9.644,
+       0.176
+      ],
+      "shoulder_near": [
+       -4.491,
+       -4.849
+      ],
+      "shoulder_far": [
+       8.083,
+       -4.848
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 4.243,
+      "bias": {
+       "pony": -1.7,
+       "scarf": -4.25
+      },
+      "pony_root": [
+       2.14,
+       -28.845
+      ],
+      "scarf_root": [
+       -3.232,
+       -8.016
+      ]
+     }
+    ]
+   },
+   "parts": {
+    "pony": {
+     "root": [
+      45.59,
+      41.24
+     ],
+     "axis": [
+      -0.7189,
+      -0.6951
+     ],
+     "length": 50.9,
+     "layer": "behind",
+     "type": "hair"
+    },
+    "scarf": {
+     "root": [
+      52.28,
+      8.13
+     ],
+     "axis": [
+      -0.9524,
+      0.3047
+     ],
+     "length": 48.96,
+     "layer": "behind",
+     "type": "cloth"
+    }
+   },
+   "elbow": "down"
+  },
+  "front": {
+   "yaw": 90,
+   "arms": "front",
+   "upper": true,
+   "actions": {
+    "run": [
+     {
+      "hand": [
+       -2.501,
+       -2.282
+      ],
+      "shoulder_near": [
+       -8.53,
+       -3.351
+      ],
+      "shoulder_far": [
+       5.783,
+       -3.351
+      ],
+      "near_ground": true,
+      "far_ground": false,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -5.166
+      },
+      "pony_root": [
+       -0.374,
+       -27.108
+      ]
+     },
+     {
+      "hand": [
+       -2.501,
+       -1.815
+      ],
+      "shoulder_near": [
+       -8.306,
+       -4.599
+      ],
+      "shoulder_far": [
+       5.586,
+       -4.599
+      ],
+      "near_ground": true,
+      "far_ground": false,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -3.154
+      },
+      "pony_root": [
+       -0.39,
+       -29.383
+      ]
+     },
+     {
+      "hand": [
+       -2.501,
+       -2.142
+      ],
+      "shoulder_near": [
+       -8.366,
+       -5.354
+      ],
+      "shoulder_far": [
+       5.639,
+       -5.354
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": 1.69
+      },
+      "pony_root": [
+       -0.386,
+       -29.991
+      ]
+     },
+     {
+      "hand": [
+       -2.501,
+       -2.422
+      ],
+      "shoulder_near": [
+       -8.381,
+       -4.894
+      ],
+      "shoulder_far": [
+       5.652,
+       -4.894
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": 1.19
+      },
+      "pony_root": [
+       -0.385,
+       -29.336
+      ]
+     },
+     {
+      "hand": [
+       -2.501,
+       -2.282
+      ],
+      "shoulder_near": [
+       -8.53,
+       -3.351
+      ],
+      "shoulder_far": [
+       5.783,
+       -3.351
+      ],
+      "near_ground": false,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -5.166
+      },
+      "pony_root": [
+       -0.374,
+       -27.108
+      ]
+     },
+     {
+      "hand": [
+       -2.501,
+       -1.815
+      ],
+      "shoulder_near": [
+       -8.306,
+       -4.599
+      ],
+      "shoulder_far": [
+       5.586,
+       -4.599
+      ],
+      "near_ground": false,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -3.154
+      },
+      "pony_root": [
+       -0.39,
+       -29.383
+      ]
+     },
+     {
+      "hand": [
+       -2.501,
+       -2.142
+      ],
+      "shoulder_near": [
+       -8.366,
+       -5.354
+      ],
+      "shoulder_far": [
+       5.639,
+       -5.354
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": 1.69
+      },
+      "pony_root": [
+       -0.386,
+       -29.991
+      ]
+     },
+     {
+      "hand": [
+       -2.501,
+       -2.422
+      ],
+      "shoulder_near": [
+       -8.381,
+       -4.894
+      ],
+      "shoulder_far": [
+       5.652,
+       -4.894
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": 1.19
+      },
+      "pony_root": [
+       -0.385,
+       -29.336
+      ]
+     }
+    ],
+    "idle": [
+     {
+      "hand": [
+       -2.501,
+       -2.048
+      ],
+      "shoulder_near": [
+       -8.381,
+       -4.494
+      ],
+      "shoulder_far": [
+       5.652,
+       -4.494
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -3.297
+      },
+      "pony_root": [
+       -0.385,
+       -28.936
+      ]
+     },
+     {
+      "hand": [
+       -2.501,
+       -2.142
+      ],
+      "shoulder_near": [
+       -8.349,
+       -4.756
+      ],
+      "shoulder_far": [
+       5.624,
+       -4.756
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -1.6
+      },
+      "pony_root": [
+       -0.387,
+       -29.441
+      ]
+     },
+     {
+      "hand": [
+       -2.501,
+       -2.236
+      ],
+      "shoulder_near": [
+       -8.336,
+       -4.865
+      ],
+      "shoulder_far": [
+       5.612,
+       -4.865
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": 0.097
+      },
+      "pony_root": [
+       -0.388,
+       -29.65
+      ]
+     },
+     {
+      "hand": [
+       -2.501,
+       -2.275
+      ],
+      "shoulder_near": [
+       -8.349,
+       -4.756
+      ],
+      "shoulder_far": [
+       5.624,
+       -4.756
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": 0.8
+      },
+      "pony_root": [
+       -0.387,
+       -29.441
+      ]
+     },
+     {
+      "hand": [
+       -2.501,
+       -2.236
+      ],
+      "shoulder_near": [
+       -8.381,
+       -4.494
+      ],
+      "shoulder_far": [
+       5.652,
+       -4.494
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": 0.097
+      },
+      "pony_root": [
+       -0.385,
+       -28.936
+      ]
+     },
+     {
+      "hand": [
+       -2.501,
+       -2.142
+      ],
+      "shoulder_near": [
+       -8.412,
+       -4.231
+      ],
+      "shoulder_far": [
+       5.68,
+       -4.231
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -1.6
+      },
+      "pony_root": [
+       -0.382,
+       -28.431
+      ]
+     },
+     {
+      "hand": [
+       -2.501,
+       -2.048
+      ],
+      "shoulder_near": [
+       -8.425,
+       -4.122
+      ],
+      "shoulder_far": [
+       5.691,
+       -4.122
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -3.297
+      },
+      "pony_root": [
+       -0.381,
+       -28.222
+      ]
+     },
+     {
+      "hand": [
+       -2.501,
+       -2.009
+      ],
+      "shoulder_near": [
+       -8.412,
+       -4.231
+      ],
+      "shoulder_far": [
+       5.68,
+       -4.231
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -4.0
+      },
+      "pony_root": [
+       -0.382,
+       -28.431
+      ]
+     }
+    ],
+    "dodge": [
+     {
+      "hand": [
+       -4.857,
+       0.239
+      ],
+      "shoulder_near": [
+       -8.828,
+       -1.878
+      ],
+      "shoulder_far": [
+       6.047,
+       -1.878
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": true,
+      "hand_far": [
+       -0.334,
+       0.239
+      ],
+      "lean": 0.0,
+      "bias": {
+       "pony": -4.8
+      },
+      "pony_root": [
+       -0.352,
+       -23.876
+      ]
+     },
+     {
+      "hand": [
+       -3.957,
+       -3.521
+      ],
+      "shoulder_near": [
+       -7.563,
+       -4.017
+      ],
+      "shoulder_far": [
+       6.008,
+       -2.972
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": true,
+      "hand_far": [
+       0.17,
+       -3.203
+      ],
+      "lean": 4.4,
+      "bias": {
+       "pony": -9.6
+      },
+      "pony_root": [
+       2.039,
+       -27.711
+      ]
+     },
+     {
+      "hand": [
+       -3.18,
+       -2.987
+      ],
+      "shoulder_near": [
+       -6.886,
+       -3.132
+      ],
+      "shoulder_far": [
+       6.64,
+       -0.649
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": true,
+      "hand_far": [
+       0.933,
+       -2.232
+      ],
+      "lean": 10.4,
+      "bias": {
+       "pony": -14.4
+      },
+      "pony_root": [
+       4.821,
+       -23.507
+      ]
+     },
+     {
+      "hand": [
+       -4.195,
+       -3.009
+      ],
+      "shoulder_near": [
+       -7.864,
+       -4.24
+      ],
+      "shoulder_far": [
+       6.134,
+       -3.261
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": true,
+      "hand_far": [
+       0.062,
+       -2.712
+      ],
+      "lean": 4.0,
+      "bias": {
+       "pony": -6.4
+      },
+      "pony_root": [
+       1.739,
+       -26.939
+      ]
+     },
+     {
+      "hand": [
+       -4.894,
+       0.608
+      ],
+      "shoulder_near": [
+       -8.902,
+       -1.461
+      ],
+      "shoulder_far": [
+       6.113,
+       -1.461
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": true,
+      "hand_far": [
+       -0.328,
+       0.608
+      ],
+      "lean": 0.0,
+      "bias": {
+       "pony": 4.8
+      },
+      "pony_root": [
+       -0.346,
+       -22.97
+      ]
+     },
+     {
+      "hand": [
+       -2.501,
+       -2.142
+      ],
+      "shoulder_near": [
+       -8.53,
+       -3.394
+      ],
+      "shoulder_far": [
+       5.783,
+       -3.394
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": 1.6
+      },
+      "pony_root": [
+       -0.374,
+       -26.859
+      ]
+     }
+    ],
+    "melee": [
+     {
+      "hand": [
+       -2.501,
+       -2.142
+      ],
+      "shoulder_near": [
+       -8.604,
+       -3.394
+      ],
+      "shoulder_far": [
+       5.849,
+       -3.394
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -6.4
+      },
+      "pony_root": [
+       -0.368,
+       -26.859
+      ]
+     },
+     {
+      "hand": [
+       -2.501,
+       -2.142
+      ],
+      "shoulder_near": [
+       -8.679,
+       -3.052
+      ],
+      "shoulder_far": [
+       5.915,
+       -3.052
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -9.6
+      },
+      "pony_root": [
+       -0.363,
+       -26.273
+      ]
+     },
+     {
+      "hand": [
+       -2.501,
+       -2.142
+      ],
+      "shoulder_near": [
+       -8.53,
+       -3.677
+      ],
+      "shoulder_far": [
+       5.783,
+       -3.677
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -4.8
+      },
+      "pony_root": [
+       -0.374,
+       -27.631
+      ]
+     },
+     {
+      "hand": [
+       -2.501,
+       -2.142
+      ],
+      "shoulder_near": [
+       -8.381,
+       -4.227
+      ],
+      "shoulder_far": [
+       5.652,
+       -4.227
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -1.6
+      },
+      "pony_root": [
+       -0.385,
+       -28.669
+      ]
+     }
+    ]
+   },
+   "parts": {
+    "pony": {
+     "root": [
+      35.06,
+      31.24
+     ],
+     "axis": [
+      -0.0304,
+      -0.9995
+     ],
+     "length": 30.46,
+     "layer": "behind",
+     "type": "hair"
+    }
+   },
+   "elbow": "down"
+  },
+  "diag_back": {
+   "yaw": -45,
+   "arms": "side",
+   "upper": false,
+   "actions": {
+    "run": [
+     {
+      "hand": [
+       15.536,
+       -5.727
+      ],
+      "shoulder_near": [
+       6.575,
+       -3.785
+      ],
+      "shoulder_far": [
+       -3.828,
+       -4.556
+      ],
+      "near_ground": true,
+      "far_ground": false,
+      "free": false,
+      "lean": 6.718,
+      "bias": {
+       "pony": -5.489,
+       "scarf": -6.763
+      },
+      "pony_root": [
+       5.154,
+       -26.945
+      ],
+      "scarf_root": [
+       -0.459,
+       -6.432
+      ]
+     },
+     {
+      "hand": [
+       15.536,
+       -5.261
+      ],
+      "shoulder_near": [
+       6.243,
+       -5.266
+      ],
+      "shoulder_far": [
+       -3.872,
+       -5.732
+      ],
+      "near_ground": true,
+      "far_ground": false,
+      "free": false,
+      "lean": 5.303,
+      "bias": {
+       "pony": -3.351,
+       "scarf": -6.906
+      },
+      "pony_root": [
+       4.464,
+       -29.354
+      ],
+      "scarf_root": [
+       -0.633,
+       -7.796
+      ]
+     },
+     {
+      "hand": [
+       15.536,
+       -5.587
+      ],
+      "shoulder_near": [
+       6.254,
+       -6.034
+      ],
+      "shoulder_far": [
+       -3.944,
+       -6.472
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 5.091,
+      "bias": {
+       "pony": 1.796,
+       "scarf": -1.333
+      },
+      "pony_root": [
+       4.34,
+       -29.978
+      ],
+      "scarf_root": [
+       -0.69,
+       -8.532
+      ]
+     },
+     {
+      "hand": [
+       15.536,
+       -5.867
+      ],
+      "shoulder_near": [
+       6.34,
+       -5.498
+      ],
+      "shoulder_far": [
+       -3.874,
+       -6.043
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 5.657,
+      "bias": {
+       "pony": 1.265,
+       "scarf": 0.552
+      },
+      "pony_root": [
+       4.636,
+       -29.274
+      ],
+      "scarf_root": [
+       -0.595,
+       -8.052
+      ]
+     },
+     {
+      "hand": [
+       15.536,
+       -5.727
+      ],
+      "shoulder_near": [
+       6.575,
+       -3.785
+      ],
+      "shoulder_far": [
+       -3.828,
+       -4.556
+      ],
+      "near_ground": false,
+      "far_ground": true,
+      "free": false,
+      "lean": 6.718,
+      "bias": {
+       "pony": -5.489,
+       "scarf": -6.763
+      },
+      "pony_root": [
+       5.154,
+       -26.945
+      ],
+      "scarf_root": [
+       -0.459,
+       -6.432
+      ]
+     },
+     {
+      "hand": [
+       15.536,
+       -5.261
+      ],
+      "shoulder_near": [
+       6.243,
+       -5.266
+      ],
+      "shoulder_far": [
+       -3.872,
+       -5.732
+      ],
+      "near_ground": false,
+      "far_ground": true,
+      "free": false,
+      "lean": 5.303,
+      "bias": {
+       "pony": -3.351,
+       "scarf": -6.906
+      },
+      "pony_root": [
+       4.464,
+       -29.354
+      ],
+      "scarf_root": [
+       -0.633,
+       -7.796
+      ]
+     },
+     {
+      "hand": [
+       15.536,
+       -5.587
+      ],
+      "shoulder_near": [
+       6.254,
+       -6.034
+      ],
+      "shoulder_far": [
+       -3.944,
+       -6.472
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 5.091,
+      "bias": {
+       "pony": 1.796,
+       "scarf": -1.333
+      },
+      "pony_root": [
+       4.34,
+       -29.978
+      ],
+      "scarf_root": [
+       -0.69,
+       -8.532
+      ]
+     },
+     {
+      "hand": [
+       15.536,
+       -5.867
+      ],
+      "shoulder_near": [
+       6.34,
+       -5.498
+      ],
+      "shoulder_far": [
+       -3.874,
+       -6.043
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 5.657,
+      "bias": {
+       "pony": 1.265,
+       "scarf": 0.552
+      },
+      "pony_root": [
+       4.636,
+       -29.274
+      ],
+      "scarf_root": [
+       -0.595,
+       -8.052
+      ]
+     }
+    ],
+    "idle": [
+     {
+      "hand": [
+       15.536,
+       -5.493
+      ],
+      "shoulder_near": [
+       5.828,
+       -5.491
+      ],
+      "shoulder_far": [
+       -4.4,
+       -5.405
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 2.121,
+      "bias": {
+       "pony": -3.503,
+       "scarf": -8.5
+      },
+      "pony_root": [
+       2.661,
+       -29.116
+      ],
+      "scarf_root": [
+       -1.251,
+       -7.612
+      ]
+     },
+     {
+      "hand": [
+       15.536,
+       -5.587
+      ],
+      "shoulder_near": [
+       5.807,
+       -5.766
+      ],
+      "shoulder_far": [
+       -4.378,
+       -5.674
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 2.121,
+      "bias": {
+       "pony": -1.7,
+       "scarf": -7.504
+      },
+      "pony_root": [
+       2.666,
+       -29.623
+      ],
+      "scarf_root": [
+       -1.241,
+       -7.905
+      ]
+     },
+     {
+      "hand": [
+       15.536,
+       -5.682
+      ],
+      "shoulder_near": [
+       5.798,
+       -5.88
+      ],
+      "shoulder_far": [
+       -4.369,
+       -5.786
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 2.121,
+      "bias": {
+       "pony": 0.103,
+       "scarf": -5.1
+      },
+      "pony_root": [
+       2.667,
+       -29.834
+      ],
+      "scarf_root": [
+       -1.237,
+       -8.026
+      ]
+     },
+     {
+      "hand": [
+       15.536,
+       -5.721
+      ],
+      "shoulder_near": [
+       5.807,
+       -5.766
+      ],
+      "shoulder_far": [
+       -4.378,
+       -5.674
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 2.121,
+      "bias": {
+       "pony": 0.85,
+       "scarf": -2.696
+      },
+      "pony_root": [
+       2.666,
+       -29.623
+      ],
+      "scarf_root": [
+       -1.241,
+       -7.905
+      ]
+     },
+     {
+      "hand": [
+       15.536,
+       -5.682
+      ],
+      "shoulder_near": [
+       5.828,
+       -5.491
+      ],
+      "shoulder_far": [
+       -4.4,
+       -5.405
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 2.121,
+      "bias": {
+       "pony": 0.103,
+       "scarf": -1.7
+      },
+      "pony_root": [
+       2.661,
+       -29.116
+      ],
+      "scarf_root": [
+       -1.251,
+       -7.612
+      ]
+     },
+     {
+      "hand": [
+       15.536,
+       -5.587
+      ],
+      "shoulder_near": [
+       5.849,
+       -5.215
+      ],
+      "shoulder_far": [
+       -4.422,
+       -5.135
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 2.121,
+      "bias": {
+       "pony": -1.7,
+       "scarf": -2.696
+      },
+      "pony_root": [
+       2.657,
+       -28.609
+      ],
+      "scarf_root": [
+       -1.261,
+       -7.319
+      ]
+     },
+     {
+      "hand": [
+       15.536,
+       -5.493
+      ],
+      "shoulder_near": [
+       5.858,
+       -5.101
+      ],
+      "shoulder_far": [
+       -4.431,
+       -5.024
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 2.121,
+      "bias": {
+       "pony": -3.503,
+       "scarf": -5.1
+      },
+      "pony_root": [
+       2.655,
+       -28.398
+      ],
+      "scarf_root": [
+       -1.265,
+       -7.198
+      ]
+     },
+     {
+      "hand": [
+       15.536,
+       -5.454
+      ],
+      "shoulder_near": [
+       5.849,
+       -5.215
+      ],
+      "shoulder_far": [
+       -4.422,
+       -5.135
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 2.121,
+      "bias": {
+       "pony": -4.25,
+       "scarf": -7.504
+      },
+      "pony_root": [
+       2.657,
+       -28.609
+      ],
+      "scarf_root": [
+       -1.261,
+       -7.319
+      ]
+     }
+    ],
+    "dodge": [
+     {
+      "hand": [
+       16.732,
+       -0.615
+      ],
+      "shoulder_near": [
+       7.433,
+       -1.43
+      ],
+      "shoulder_far": [
+       -3.224,
+       -3.408
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": true,
+      "hand_far": [
+       20.511,
+       -0.109
+      ],
+      "lean": 12.728,
+      "bias": {
+       "pony": -5.1,
+       "scarf": -6.8
+      },
+      "pony_root": [
+       7.915,
+       -22.996
+      ],
+      "scarf_root": [
+       0.406,
+       -4.731
+      ]
+     },
+     {
+      "hand": [
+       19.958,
+       2.157
+      ],
+      "shoulder_near": [
+       9.219,
+       -0.519
+      ],
+      "shoulder_far": [
+       0.634,
+       -5.495
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": true,
+      "hand_far": [
+       23.086,
+       3.719
+      ],
+      "lean": 32.81,
+      "bias": {
+       "pony": -10.2,
+       "scarf": -11.9
+      },
+      "pony_root": [
+       18.812,
+       -22.63
+      ],
+      "scarf_root": [
+       4.407,
+       -5.859
+      ]
+     },
+     {
+      "hand": [
+       19.212,
+       12.698
+      ],
+      "shoulder_near": [
+       9.691,
+       5.055
+      ],
+      "shoulder_far": [
+       4.051,
+       -3.231
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": true,
+      "hand_far": [
+       21.361,
+       15.497
+      ],
+      "lean": 58.266,
+      "bias": {
+       "pony": -15.3,
+       "scarf": -18.7
+      },
+      "pony_root": [
+       26.442,
+       -9.958
+      ],
+      "scarf_root": [
+       7.493,
+       -1.827
+      ]
+     },
+     {
+      "hand": [
+       19.318,
+       2.191
+      ],
+      "shoulder_near": [
+       9.032,
+       -0.936
+      ],
+      "shoulder_far": [
+       0.052,
+       -5.831
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": true,
+      "hand_far": [
+       22.574,
+       3.73
+      ],
+      "lean": 31.113,
+      "bias": {
+       "pony": -6.8,
+       "scarf": -13.6
+      },
+      "pony_root": [
+       17.316,
+       -22.48
+      ],
+      "scarf_root": [
+       3.837,
+       -6.171
+      ]
+     },
+     {
+      "hand": [
+       17.736,
+       0.502
+      ],
+      "shoulder_near": [
+       7.6,
+       -0.788
+      ],
+      "shoulder_far": [
+       -3.102,
+       -3.063
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": true,
+      "hand_far": [
+       21.534,
+       1.116
+      ],
+      "lean": 14.142,
+      "bias": {
+       "pony": 5.1,
+       "scarf": -1.7
+      },
+      "pony_root": [
+       8.46,
+       -21.89
+      ],
+      "scarf_root": [
+       0.578,
+       -4.243
+      ]
+     },
+     {
+      "hand": [
+       15.536,
+       -5.587
+      ],
+      "shoulder_near": [
+       6.61,
+       -3.773
+      ],
+      "shoulder_far": [
+       -3.788,
+       -4.613
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 7.071,
+      "bias": {
+       "pony": 1.7,
+       "scarf": -3.4
+      },
+      "pony_root": [
+       5.297,
+       -26.66
+      ],
+      "scarf_root": [
+       -0.411,
+       -6.441
+      ]
+     }
+    ],
+    "melee": [
+     {
+      "hand": [
+       15.536,
+       -5.587
+      ],
+      "shoulder_near": [
+       7.032,
+       -3.414
+      ],
+      "shoulder_far": [
+       -3.412,
+       -4.784
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 9.899,
+      "bias": {
+       "pony": -6.8,
+       "scarf": -8.5
+      },
+      "pony_root": [
+       6.811,
+       -26.346
+      ],
+      "scarf_root": [
+       0.081,
+       -6.437
+      ]
+     },
+     {
+      "hand": [
+       15.536,
+       -5.587
+      ],
+      "shoulder_near": [
+       7.416,
+       -2.68
+      ],
+      "shoulder_far": [
+       -3.046,
+       -4.591
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 12.728,
+      "bias": {
+       "pony": -10.2,
+       "scarf": -11.9
+      },
+      "pony_root": [
+       8.236,
+       -25.375
+      ],
+      "scarf_root": [
+       0.549,
+       -6.04
+      ]
+     },
+     {
+      "hand": [
+       15.536,
+       -5.587
+      ],
+      "shoulder_near": [
+       6.82,
+       -3.906
+      ],
+      "shoulder_far": [
+       -3.555,
+       -4.994
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 8.485,
+      "bias": {
+       "pony": -5.1,
+       "scarf": -6.8
+      },
+      "pony_root": [
+       6.142,
+       -27.284
+      ],
+      "scarf_root": [
+       -0.127,
+       -6.783
+      ]
+     },
+     {
+      "hand": [
+       15.536,
+       -5.587
+      ],
+      "shoulder_near": [
+       6.138,
+       -4.992
+      ],
+      "shoulder_far": [
+       -4.086,
+       -5.285
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 4.243,
+      "bias": {
+       "pony": -1.7,
+       "scarf": -4.25
+      },
+      "pony_root": [
+       3.848,
+       -28.719
+      ],
+      "scarf_root": [
+       -0.857,
+       -7.374
+      ]
+     }
+    ]
+   },
+   "parts": {
+    "pony": {
+     "root": [
+      52.01,
+      39.24
+     ],
+     "axis": [
+      -0.8821,
+      -0.471
+     ],
+     "length": 56.36,
+     "layer": "front",
+     "type": "hair"
+    },
+    "scarf": {
+     "root": [
+      59.34,
+      11.37
+     ],
+     "axis": [
+      -0.9881,
+      0.1539
+     ],
+     "length": 57.12,
+     "layer": "front",
+     "type": "cloth"
+    }
+   },
+   "elbow": "down"
+  },
+  "back": {
+   "yaw": -90,
+   "arms": "behind",
+   "upper": false,
+   "actions": {
+    "run": [
+     {
+      "hand": [
+       2.059,
+       -16.957
+      ],
+      "shoulder_near": [
+       5.733,
+       -2.701
+      ],
+      "shoulder_far": [
+       -6.957,
+       -2.701
+      ],
+      "near_ground": true,
+      "far_ground": false,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -5.166,
+       "scarf": -6.365
+      },
+      "pony_root": [
+       -0.933,
+       -26.331
+      ],
+      "scarf_root": [
+       -1.496,
+       -5.533
+      ]
+     },
+     {
+      "hand": [
+       2.059,
+       -16.491
+      ],
+      "shoulder_near": [
+       5.537,
+       -3.921
+      ],
+      "shoulder_far": [
+       -6.78,
+       -3.921
+      ],
+      "near_ground": true,
+      "far_ground": false,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -3.154,
+       "scarf": -6.5
+      },
+      "pony_root": [
+       -0.933,
+       -28.572
+      ],
+      "scarf_root": [
+       -1.479,
+       -6.875
+      ]
+     },
+     {
+      "hand": [
+       2.059,
+       -16.817
+      ],
+      "shoulder_near": [
+       5.589,
+       -4.68
+      ],
+      "shoulder_far": [
+       -6.827,
+       -4.68
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": 1.69,
+       "scarf": -1.254
+      },
+      "pony_root": [
+       -0.933,
+       -29.185
+      ],
+      "scarf_root": [
+       -1.483,
+       -7.617
+      ]
+     },
+     {
+      "hand": [
+       2.059,
+       -17.097
+      ],
+      "shoulder_near": [
+       5.602,
+       -4.225
+      ],
+      "shoulder_far": [
+       -6.839,
+       -4.225
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": 1.19,
+       "scarf": 0.52
+      },
+      "pony_root": [
+       -0.933,
+       -28.536
+      ],
+      "scarf_root": [
+       -1.485,
+       -7.139
+      ]
+     },
+     {
+      "hand": [
+       2.059,
+       -16.957
+      ],
+      "shoulder_near": [
+       5.733,
+       -2.701
+      ],
+      "shoulder_far": [
+       -6.957,
+       -2.701
+      ],
+      "near_ground": false,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -5.166,
+       "scarf": -6.365
+      },
+      "pony_root": [
+       -0.933,
+       -26.331
+      ],
+      "scarf_root": [
+       -1.496,
+       -5.533
+      ]
+     },
+     {
+      "hand": [
+       2.059,
+       -16.491
+      ],
+      "shoulder_near": [
+       5.537,
+       -3.921
+      ],
+      "shoulder_far": [
+       -6.78,
+       -3.921
+      ],
+      "near_ground": false,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -3.154,
+       "scarf": -6.5
+      },
+      "pony_root": [
+       -0.933,
+       -28.572
+      ],
+      "scarf_root": [
+       -1.479,
+       -6.875
+      ]
+     },
+     {
+      "hand": [
+       2.059,
+       -16.817
+      ],
+      "shoulder_near": [
+       5.589,
+       -4.68
+      ],
+      "shoulder_far": [
+       -6.827,
+       -4.68
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": 1.69,
+       "scarf": -1.254
+      },
+      "pony_root": [
+       -0.933,
+       -29.185
+      ],
+      "scarf_root": [
+       -1.483,
+       -7.617
+      ]
+     },
+     {
+      "hand": [
+       2.059,
+       -17.097
+      ],
+      "shoulder_near": [
+       5.602,
+       -4.225
+      ],
+      "shoulder_far": [
+       -6.839,
+       -4.225
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": 1.19,
+       "scarf": 0.52
+      },
+      "pony_root": [
+       -0.933,
+       -28.536
+      ],
+      "scarf_root": [
+       -1.485,
+       -7.139
+      ]
+     }
+    ],
+    "idle": [
+     {
+      "hand": [
+       2.059,
+       -16.723
+      ],
+      "shoulder_near": [
+       5.602,
+       -3.825
+      ],
+      "shoulder_far": [
+       -6.839,
+       -3.825
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -3.297,
+       "scarf": -8.0
+      },
+      "pony_root": [
+       -0.933,
+       -28.136
+      ],
+      "scarf_root": [
+       -1.485,
+       -6.739
+      ]
+     },
+     {
+      "hand": [
+       2.059,
+       -16.817
+      ],
+      "shoulder_near": [
+       5.574,
+       -4.081
+      ],
+      "shoulder_far": [
+       -6.814,
+       -4.081
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -1.6,
+       "scarf": -7.063
+      },
+      "pony_root": [
+       -0.933,
+       -28.633
+      ],
+      "scarf_root": [
+       -1.482,
+       -7.024
+      ]
+     },
+     {
+      "hand": [
+       2.059,
+       -16.912
+      ],
+      "shoulder_near": [
+       5.563,
+       -4.187
+      ],
+      "shoulder_far": [
+       -6.803,
+       -4.187
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": 0.097,
+       "scarf": -4.8
+      },
+      "pony_root": [
+       -0.933,
+       -28.839
+      ],
+      "scarf_root": [
+       -1.481,
+       -7.142
+      ]
+     },
+     {
+      "hand": [
+       2.059,
+       -16.951
+      ],
+      "shoulder_near": [
+       5.574,
+       -4.081
+      ],
+      "shoulder_far": [
+       -6.814,
+       -4.081
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": 0.8,
+       "scarf": -2.537
+      },
+      "pony_root": [
+       -0.933,
+       -28.633
+      ],
+      "scarf_root": [
+       -1.482,
+       -7.024
+      ]
+     },
+     {
+      "hand": [
+       2.059,
+       -16.912
+      ],
+      "shoulder_near": [
+       5.602,
+       -3.825
+      ],
+      "shoulder_far": [
+       -6.839,
+       -3.825
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": 0.097,
+       "scarf": -1.6
+      },
+      "pony_root": [
+       -0.933,
+       -28.136
+      ],
+      "scarf_root": [
+       -1.485,
+       -6.739
+      ]
+     },
+     {
+      "hand": [
+       2.059,
+       -16.817
+      ],
+      "shoulder_near": [
+       5.63,
+       -3.569
+      ],
+      "shoulder_far": [
+       -6.864,
+       -3.569
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -1.6,
+       "scarf": -2.537
+      },
+      "pony_root": [
+       -0.933,
+       -27.639
+      ],
+      "scarf_root": [
+       -1.487,
+       -6.454
+      ]
+     },
+     {
+      "hand": [
+       2.059,
+       -16.723
+      ],
+      "shoulder_near": [
+       5.641,
+       -3.463
+      ],
+      "shoulder_far": [
+       -6.874,
+       -3.463
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -3.297,
+       "scarf": -4.8
+      },
+      "pony_root": [
+       -0.933,
+       -27.433
+      ],
+      "scarf_root": [
+       -1.488,
+       -6.336
+      ]
+     },
+     {
+      "hand": [
+       2.059,
+       -16.684
+      ],
+      "shoulder_near": [
+       5.63,
+       -3.569
+      ],
+      "shoulder_far": [
+       -6.864,
+       -3.569
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -4.0,
+       "scarf": -7.063
+      },
+      "pony_root": [
+       -0.933,
+       -27.639
+      ],
+      "scarf_root": [
+       -1.487,
+       -6.454
+      ]
+     }
+    ],
+    "dodge": [
+     {
+      "hand": [
+       -0.023,
+       -12.969
+      ],
+      "shoulder_near": [
+       5.994,
+       -1.276
+      ],
+      "shoulder_far": [
+       -7.193,
+       -1.276
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": true,
+      "hand_far": [
+       4.5,
+       -12.969
+      ],
+      "lean": 0.0,
+      "bias": {
+       "pony": -4.8,
+       "scarf": -6.4
+      },
+      "pony_root": [
+       -0.933,
+       -23.156
+      ],
+      "scarf_root": [
+       -1.518,
+       -3.898
+      ]
+     },
+     {
+      "hand": [
+       1.576,
+       -17.765
+      ],
+      "shoulder_near": [
+       5.909,
+       -2.312
+      ],
+      "shoulder_far": [
+       -6.123,
+       -3.237
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": true,
+      "hand_far": [
+       5.702,
+       -17.448
+      ],
+      "lean": 4.4,
+      "bias": {
+       "pony": -9.6,
+       "scarf": -11.2
+      },
+      "pony_root": [
+       1.447,
+       -26.957
+      ],
+      "scarf_root": [
+       -0.722,
+       -5.734
+      ]
+     },
+     {
+      "hand": [
+       3.617,
+       -15.264
+      ],
+      "shoulder_near": [
+       6.483,
+       -0.062
+      ],
+      "shoulder_far": [
+       -5.509,
+       -2.263
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": true,
+      "hand_far": [
+       7.73,
+       -14.509
+      ],
+      "lean": 10.4,
+      "bias": {
+       "pony": -14.4,
+       "scarf": -17.6
+      },
+      "pony_root": [
+       4.161,
+       -22.891
+      ],
+      "scarf_root": [
+       0.129,
+       -3.913
+      ]
+     },
+     {
+      "hand": [
+       1.331,
+       -16.655
+      ],
+      "shoulder_near": [
+       6.04,
+       -2.628
+      ],
+      "shoulder_far": [
+       -6.37,
+       -3.496
+      ],
+      "near_ground": false,
+      "far_ground": false,
+      "free": true,
+      "hand_far": [
+       5.587,
+       -16.358
+      ],
+      "lean": 4.0,
+      "bias": {
+       "pony": -6.4,
+       "scarf": -12.8
+      },
+      "pony_root": [
+       1.138,
+       -26.216
+      ],
+      "scarf_root": [
+       -0.835,
+       -5.895
+      ]
+     },
+     {
+      "hand": [
+       -0.014,
+       -12.306
+      ],
+      "shoulder_near": [
+       6.06,
+       -0.873
+      ],
+      "shoulder_far": [
+       -7.252,
+       -0.873
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": true,
+      "hand_far": [
+       4.551,
+       -12.306
+      ],
+      "lean": 0.0,
+      "bias": {
+       "pony": 4.8,
+       "scarf": -1.6
+      },
+      "pony_root": [
+       -0.933,
+       -22.266
+      ],
+      "scarf_root": [
+       -1.523,
+       -3.437
+      ]
+     },
+     {
+      "hand": [
+       2.059,
+       -16.817
+      ],
+      "shoulder_near": [
+       5.733,
+       -2.752
+      ],
+      "shoulder_far": [
+       -6.957,
+       -2.752
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": 1.6,
+       "scarf": -3.2
+      },
+      "pony_root": [
+       -0.933,
+       -26.091
+      ],
+      "scarf_root": [
+       -1.496,
+       -5.549
+      ]
+     }
+    ],
+    "melee": [
+     {
+      "hand": [
+       2.059,
+       -16.817
+      ],
+      "shoulder_near": [
+       5.798,
+       -2.752
+      ],
+      "shoulder_far": [
+       -7.016,
+       -2.752
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -6.4,
+       "scarf": -8.0
+      },
+      "pony_root": [
+       -0.933,
+       -26.091
+      ],
+      "scarf_root": [
+       -1.501,
+       -5.549
+      ]
+     },
+     {
+      "hand": [
+       2.059,
+       -16.817
+      ],
+      "shoulder_near": [
+       5.864,
+       -2.417
+      ],
+      "shoulder_far": [
+       -7.075,
+       -2.417
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -9.6,
+       "scarf": -11.2
+      },
+      "pony_root": [
+       -0.933,
+       -25.513
+      ],
+      "scarf_root": [
+       -1.507,
+       -5.185
+      ]
+     },
+     {
+      "hand": [
+       2.059,
+       -16.817
+      ],
+      "shoulder_near": [
+       5.733,
+       -3.022
+      ],
+      "shoulder_far": [
+       -6.957,
+       -3.022
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -4.8,
+       "scarf": -6.4
+      },
+      "pony_root": [
+       -0.933,
+       -26.847
+      ],
+      "scarf_root": [
+       -1.496,
+       -5.877
+      ]
+     },
+     {
+      "hand": [
+       2.059,
+       -16.817
+      ],
+      "shoulder_near": [
+       5.602,
+       -3.559
+      ],
+      "shoulder_far": [
+       -6.839,
+       -3.559
+      ],
+      "near_ground": true,
+      "far_ground": true,
+      "free": false,
+      "lean": 0.0,
+      "bias": {
+       "pony": -1.6,
+       "scarf": -4.0
+      },
+      "pony_root": [
+       -0.933,
+       -27.869
+      ],
+      "scarf_root": [
+       -1.485,
+       -6.472
+      ]
+     }
+    ]
+   },
+   "parts": {
+    "pony": {
+     "root": [
+      31.0,
+      32.24
+     ],
+     "axis": [
+      0.0784,
+      -0.9969
+     ],
+     "length": 32.08,
+     "layer": "front",
+     "type": "hair"
+    },
+    "scarf": {
+     "root": [
+      5.93,
+      5.48
+     ],
+     "axis": [
+      0.9079,
+      0.4191
+     ],
+     "length": 38.8,
+     "layer": "front",
+     "type": "cloth"
+    }
+   },
+   "elbow": "out"
+  }
+ },
+ "mirror": {
+  "e": [
+   "side",
+   false
+  ],
+  "se": [
+   "diag_front",
+   false
+  ],
+  "s": [
+   "front",
+   false
+  ],
+  "sw": [
+   "diag_front",
+   true
+  ],
+  "w": [
+   "side",
+   true
+  ],
+  "nw": [
+   "diag_back",
+   true
+  ],
+  "n": [
+   "back",
+   false
+  ],
+  "ne": [
+   "diag_back",
+   false
+  ]
+ },
+ "arm_parts": {
+  "sleeve_upper": {
+   "size": [
+    6.525,
+    3.169
+   ]
+  },
+  "sleeve_lower": {
+   "size": [
+    5.158,
+    2.828
+   ]
+  },
+  "grip_side": {
+   "size": [
+    5.811,
+    5.034
+   ]
+  },
+  "grip_front": {
+   "size": [
+    5.749,
+    4.257
+   ]
+  },
+  "grip_back": {
+   "size": [
+    5.718,
+    4.785
+   ]
+  },
+  "grip_diag": {
+   "size": [
+    5.22,
+    4.941
+   ]
+  },
+  "support": {
+   "size": [
+    6.96,
+    3.636
+   ]
+  },
+  "reach_side": {
+   "size": [
+    6.836,
+    3.605
+   ]
+  },
+  "reach_front": {
+   "size": [
+    5.904,
+    3.698
+   ]
+  }
+ },
+ "melee_times": [
+  0.05,
+  0.11,
+  0.18
+ ],
+ "melee_duration": 0.26,
+ "melee_weapon": {
+  "size": [
+   21.0,
+   5.284
+  ],
+  "grip_u": 0.19
+ }
+}

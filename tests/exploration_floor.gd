@@ -4,13 +4,21 @@ const Reach = preload("res://scripts/world/room_reachability.gd")
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	var checked := {}
+	var seen_normal_shapes := {}
 	for seed_value in range(100):
 		var floor := Floor.generate(seed_value,8+seed_value%5)
 		assert(floor.errors.is_empty(),str(floor.errors))
 		assert(Floor.validation_errors(floor).is_empty())
 		var shapes := {}
 		for room in floor.rooms.values(): shapes[room.shape] = true
-		assert(shapes.size() == 6)
+		assert(shapes.size() >= 6)
+		var normal_shapes := {}
+		for room in floor.rooms.values():
+			if room.role != "normal": continue
+			assert(room.shape in Floor.Variants.NORMAL_SHAPES)
+			assert(not normal_shapes.has(room.shape),"Repeated normal shape in one floor")
+			normal_shapes[room.shape] = true
+			seen_normal_shapes[room.shape] = true
 		var boss_id: String = floor.rooms.keys().filter(func(id): return floor.rooms[id].role == "boss")[0]
 		assert(floor.catalog[boss_id].field.field_rect.size == Vector2(2240,1200))
 		assert(floor.catalog.size() == 9+seed_value%5)
@@ -31,6 +39,7 @@ func run() -> void:
 			if not checked.has(key):
 				assert(Reach.reachable(room),key)
 				checked[key] = true
+	assert(seen_normal_shapes.size() == Floor.Variants.NORMAL_SHAPES.size())
 	assert(not Floor.generate(1,100).errors.is_empty())
 	var blocked = Floor.generate(22).catalog.f1_r0.duplicate(true)
 	blocked.field.walls.append(Rect2(128,240,864,32))

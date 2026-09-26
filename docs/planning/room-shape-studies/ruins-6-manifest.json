@@ -1,0 +1,12 @@
+{
+  "generator": "built-in image_gen",
+  "source": "C:\\Users\\ikare\\.codex\\generated_images\\01a0c3aa-5c67-7200-9e38-b07a1cc90af3\\exec-63f88044-daa4-4f83-ae0d-536f61395843.png",
+  "sha256": "5419a88ac11bd275a024bf07dbda4eb338c94b5443f58f3d914e63d21a2a0666",
+  "prompt": "ruins-6-prompt.txt",
+  "status": "six concepts visually inspected; not implemented; user acceptance pending",
+  "notes": [
+    "Irregular collapsed/rock/root edges alter floor silhouettes.",
+    "Generated door thresholds include step-like details despite same-plane request; not a proposal for elevation mechanics.",
+    "Pillar heights, wall projection, occlusion and actual collision require runtime design."
+  ]
+}

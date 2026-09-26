@@ -1,0 +1,8 @@
+# 生成指示の型：近接武器（1キャラ1回）。{NAME}・{ONE_LINE}・{WEAPON} を書き換えて使う。
+# 画像は横向き（左が握り、右が先端）で1つだけ。ゲーム側は握りを手に合わせ、振る向きへ回して描く。
+
+Game sprite for "{NAME}", {ONE_LINE}: her melee weapon only, {WEAPON}, as a single cut-out piece for a 2D top-down action game. Match the reference images exactly: same art style (thick dark brown outlines, soft cel shading) and the same scale as the parts in Reference 2 (the weapon should be about as long as the character's forearm plus hand in Reference 1). Reference 1 shows the character's front, side and back views. Reference 2 is the approved parts sheet (head+torso, arms and gloves).
+
+Draw ONE weapon, lying HORIZONTALLY, handle on the LEFT and blade tip pointing to the RIGHT, blade edge facing down, centered on the canvas with a wide empty white margin. Show the full weapon in strict side view.
+
+No hand, no glove, no character, no sheath, no motion lines, no slash effect, no text, no labels, no frame, no shadow, no ground. Flat pure white background.
