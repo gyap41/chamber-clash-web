@@ -12,6 +12,7 @@
 |戦闘・装備・操作を追加／修正|[ゲームルール](design/GAME_RULES.md)、[アイテム一覧](design/ITEM_CATALOG.md)|designの対象節。検証方法はTESTING|
 |敵・ボス・探索の仕様を考える|[探索体験](planning/EXPLORATION_DESIGN.md)、[敵・ボス美術](planning/ENEMY_BOSS_ART_PLAN.md)|提案と採用済み未実装はplanning、実装後はGAME_RULES|
 |宝箱・報酬・演出を作る|[報酬と演出](planning/EXPLORATION_REWARDS.md)|採用案、実装済み動作、個別の制作記録|
+|画風・グラフィック全体の統一感を見直す|[画風の共通規格](art/VISUAL_STYLE_GUIDE.md) → [画風3案の比較](planning/art-direction-comps/README.md)|共通規格、各テンプレートの参照、適用結果はart/production|
 |ステージを作る／素材を直す|[制作テンプレート](art/STAGE_CREATION_TEMPLATE.md) → [素材規格](art/STAGE_ASSET_GUIDE.md)・[データ定義](development/STAGE_TEMPLATES.md)|共通ルールとart/productionの個別記録|
 |キャラ・アニメーションを変える|[キャラ美術](design/CHARACTER_BIBLE.md)、[Actor表示](development/ACTOR_ANIMATION.md)|設定・実装手順・採用画像の記録|
 |UIを変える|[対戦HUD](design/BATTLE_UI_C.md)、[準備画面](design/PREPARATION_UI_B.md)、[構成](development/ARCHITECTURE.md)|対象UI仕様。探索固有の操作はGAME_RULES|

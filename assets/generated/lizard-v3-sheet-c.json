@@ -1,0 +1,38 @@
+{
+  "name": "lizard-v3-sheet-c",
+  "fingerprint": "6912574e52635d23c381de8905843870935df82e3bd3c92babe4ef92ec8c1b1b",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-26T12:38:50.831991+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Third sprite sheet for the same 2D top-down game enemy, the \"fire-pouch lizard\": redraw of the FRONT and BACK views only.\n\nReference images 1 and 2 are the existing sheets of this exact lizard (walk, windup, spit, recover, defeated). Match them exactly: same lizard, same colours (moss-green body, lighter belly, dark green-brown spikes, glowing yellow eyes, teeth, orange throat pouch), same thick dark brown ink outline and flat 2-3 step cel shading, same strong top-down 3/4 angle, same overall size. Reference image 3 is the design sheet.\n\nProblem to fix: in the old front and back views the lizard looks like a thin vertical stick. Redraw them with a WIDE, LOW, HEAVY silhouette:\n- legs splayed far out to both sides like a crocodile, elbows and knees bent outward, claws gripping the ground;\n- a large broad head with a wide jaw, the head clearly bigger than in the old front view;\n- the body seen foreshortened from the front/back, short and broad, spikes along the spine visible from above;\n- the tail curls out to one side (not straight up behind the body), so the overall shape is wider than it is tall;\n- scales drawn as a few large plates, not a fine pattern.\nOverall silhouette of each pose about 1.3 times wider than tall.\n\nLayout: exactly 4 columns and 4 rows in an even grid, 16 cells, on a solid flat pure magenta background (#FF00FF) everywhere. No grid lines, borders, labels, text, shadows, floor or effects. One complete lizard per cell, centred with generous magenta margin, never touching another cell. Same body size in every cell; feet at the same height within each cell.\n\nRows 1 and 2: FRONT view, facing the viewer (toward the bottom of the screen).\nRows 3 and 4: BACK view, facing away (toward the top of the screen), tail nearest to the viewer.\nWithin the front rows and within the back rows, the 8 cells in reading order (row 1 left to right, then row 2 left to right; same for rows 3-4) are:\n1. walk: front-left and back-right legs forward and planted;\n2. walk: passing pose, those legs lifted;\n3. walk: front-right and back-left legs forward and planted;\n4. walk: passing pose, those legs lifted;\n5. windup: crouched and braced, throat pouch inflated very large and glowing orange (in the back view the pouch bulges out on both sides of the neck);\n6. spit: mouth wide open with teeth, head thrust forward, pouch squeezed small;\n7. recover: relaxed stance, pouch small, mouth closed;\n8. defeated: lying flat, legs splayed limp, eyes closed as simple lines, no blood.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\generated\\lizard-v3-sheet-a.png",
+      "sha256": "a5c9a1f319beef30efc7c7fa86ac4f5639cfaf1d3056c5ec027099b377c8424b"
+    },
+    {
+      "path": "assets\\generated\\lizard-v3-sheet-b.png",
+      "sha256": "200d7ee2d6a962a9e62530afd1fe15a110c61b90335c1324f07798aa27e51ef1"
+    },
+    {
+      "path": "docs\\art\\production\\fire-pouch-lizard\\v3\\ref-lizard-design.png",
+      "sha256": "3cb8ddf102aa88cc0f28d1c7420867151ca210dffd65b344c0a097a119c24c6c"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 617,
+      "image_tokens": 2336
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1162465
+}

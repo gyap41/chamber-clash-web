@@ -13,6 +13,15 @@ var gait_phase := 0.0
 var motion_weight := 0.0
 var visual_time := 0.0
 var previous_visual_position := Vector2.ZERO
+# Smoothed direction of actual movement (display only). While walking, the snapshot faces this way instead
+# of toward the target, because the route bends around walls; combat aim is unaffected.
+var visual_heading := Vector2.ZERO
+# Off for actors whose drawing must keep pointing at the target while moving (the boss).
+var face_movement := true
+# Facing drawn while walking: follows visual_heading but only turns once the heading is more than
+# FACING_TURN away, so a route running near a diagonal does not flicker between front and side frames.
+var visual_facing := Vector2.ZERO
+const FACING_TURN := deg_to_rad(55.0)
 
 func prepare(spawn: Vector2) -> void:
 	max_hp = spec.hp
@@ -24,6 +33,8 @@ func prepare(spawn: Vector2) -> void:
 	motion_weight = 0.0
 	visual_time = 0.0
 	previous_visual_position = spawn
+	visual_heading = Vector2.ZERO
+	visual_facing = Vector2.ZERO
 	reset(spawn)
 
 func recover_rally(_dealt: float) -> void:
@@ -46,11 +57,17 @@ func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Diction
 
 func advance_visual(dt: float, _moving: bool) -> void:
 	var distance: float = state.pos.distance_to(previous_visual_position)
+	var travel: Vector2 = state.pos-previous_visual_position
 	previous_visual_position = state.pos
 	visual_time += dt
 	# Actual displacement drives feet; pushing against a wall does not walk in place.
 	var walking := distance > .01 and distance < 50 and attack_phase == "chase"
-	if walking: gait_phase += distance / 38.0 * TAU
+	if walking:
+		gait_phase += distance / 38.0 * TAU
+		# Starting from a stop, take the new direction at once; while walking, smooth small route bends.
+		var resumed := motion_weight < .1 or visual_heading == Vector2.ZERO
+		visual_heading = travel.normalized() if resumed else visual_heading.lerp(travel.normalized(),clampf(dt*12.0,0,1))
+		if resumed or absf(visual_facing.angle_to(visual_heading)) > FACING_TURN: visual_facing = visual_heading
 	motion_weight = move_toward(motion_weight,1.0 if walking else 0.0,dt*10)
 
 func sync_visual() -> void:
@@ -102,13 +119,16 @@ func move_with_command(dt: float, i: int, enemy, arena, command: Dictionary) -> 
 
 # Values only: rendering cannot advance attacks or modify the combat state.
 func enemy_visual_snapshot() -> Dictionary:
-	return {"enemy_id":spec.id,"alive":not state.is_empty() and state.hp > 0,
+	var view := {"enemy_id":spec.id,"alive":not state.is_empty() and state.hp > 0,
 		"phase":attack_phase,"remaining":attack_time,"windup":float(spec.windup),
 		"gait":gait_phase,"motion":motion_weight,"visual_time":visual_time,
 		"hit":clampf(float(state.get("inv",0))/.22,0,1),
 		"recovery":float(spec.recovery),"reach":float(spec.range),
 		"angle":attack_angle if attack_phase in ["windup","recover"] else float(state.get("angle",0)),
 		"hp_ratio":float(state.get("hp",0))/maxf(1.0,float(state.get("max_hp",1)))}
+	if face_movement and attack_phase == "chase" and motion_weight > .1 and visual_facing.length() > .1:
+		view.angle = visual_facing.angle()
+	return view
 
 func _draw() -> void:
 	SentryVisual.paint(self,enemy_visual_snapshot())

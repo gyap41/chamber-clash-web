@@ -543,3 +543,11 @@ boss_cannonは主砲速度900・判定半径14、直接接触と壁衝突、二�
 ### 探索ズームと敵弾表示
 
 `tests/exploration_camera.gd` は1.2倍での部屋端・小さい軸の中央固定・追従・停止/復帰・部屋移動、画面と照準の座標往復を確認する。`tests/projectile_personality.gd` は敵弾1.3倍と大型主砲除外、更新後の倍率維持、速度/威力/衝突半径の不変を確認。画面外攻撃の回帰は `tests/fire_pouch_lizard.gd`、主砲と全周斉射は `tests/boss_cannon.gd`。通常のheadless実行でPASS。既知の証明書ストア、終了時ObjectDB/使用中Resource警告は残る。静止画の視認性と長時間の弾幕回避評価は区別する。
+
+画風の同倍率比較（2026-09-26）：`Godot --path . --script res://tools/capture_style_comparison.gd --quit-after 8000`（約2分、描画あり）。列柱作業室にリナ（8方向版をスクリプト内で有効化）・通常敵3種・ボスを配置し、補正前と試行補正後（`assets/shaders/actor_readability.gdshader`、スクリプト内の`CORRECTIONS`）を続けて撮影する。`docs/art/reviews/style-comparison-2026-09-26/` へ画面・グレースケール・ぼかし・影絵・切り出しと 補正前後の比較画像、`metrics.json`（明度・ばらつき・彩度・細部量・輪郭の対背景差・遠目の目立ち度）を上書き保存する。正常終了は `PASS: style comparison captured`。数値の読み方は[記録](../art/reviews/style-comparison-2026-09-26/README.md)と[画風の共通規格](../art/VISUAL_STYLE_GUIDE.md)。自動テストではない。
+
+リナの絵柄確認（2026-09-26）：`Godot --path . --script res://tools/capture_rina_style_check.gd --quit-after 5000`（描画あり）。8方向版リナ（スクリプト内で有効化。本編では `--rina-run` かVキー）の全8方向×待機2コマ・走行8コマを列柱作業室の床の上で撮影し、`docs/art/reviews/rina-style-check-2026-09-26/` へ通常サイズと3倍のシートを上書き保存する。正常終了は `PASS: rina style check captured`。自動テストではない。
+
+火袋トカゲv3の素材組立（2026-09-26）：`Godot --headless --path . --script res://tools/build_lizard_v3_atlas.gd`。生成原本3枚（シートA・B・C）から `assets/first-workshop/enemies/lizard-sheet-v3.png` と被弾用の白い影絵 `lizard-sheet-v3-flash.png` を作り直す（上書き）。正常終了は `PASS: lizard v3 atlas`。表示の確認は `tests/enemy_motion.gd`・`tests/fire_pouch_lizard.gd`（headless）と、描画ありの `tests/enemy_animation_review.gd`（`.local/enemy-animation-v2-review.png` に全32コマを保存）。
+
+火袋トカゲの本編ループ確認（2026-09-26）：`Godot --path . --script res://tools/capture_lizard_motion.gd --quit-after 9000`（描画あり、約3分）。番機・ヤマアラシは末尾に `-- --enemy=workshop_sentry` / `-- --enemy=quillback`（出力 `.local/<id>-motion/`）。**`--quit-after` を必ず付ける**: スクリプトの途中でエラーが起きると終了処理まで進まず、Godotが止まらずに待ち続ける（2026-09-27に発生）。生成階層seed 22のトカゲの部屋で本編の処理を26秒回し、`.local/lizard-motion/` に780コマの切り出し、状態の記録 `frames.txt`、一覧 `sheet.png`、再生用 `player.html` を保存する。ウィンドウに焦点がないと本編が一時停止するため、スクリプト内で毎ステップ解除している。正常終了は `PASS: lizard motion captured`。自動テストではない。

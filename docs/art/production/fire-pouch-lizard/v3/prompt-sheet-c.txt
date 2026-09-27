@@ -1,0 +1,25 @@
+Third sprite sheet for the same 2D top-down game enemy, the "fire-pouch lizard": redraw of the FRONT and BACK views only.
+
+Reference images 1 and 2 are the existing sheets of this exact lizard (walk, windup, spit, recover, defeated). Match them exactly: same lizard, same colours (moss-green body, lighter belly, dark green-brown spikes, glowing yellow eyes, teeth, orange throat pouch), same thick dark brown ink outline and flat 2-3 step cel shading, same strong top-down 3/4 angle, same overall size. Reference image 3 is the design sheet.
+
+Problem to fix: in the old front and back views the lizard looks like a thin vertical stick. Redraw them with a WIDE, LOW, HEAVY silhouette:
+- legs splayed far out to both sides like a crocodile, elbows and knees bent outward, claws gripping the ground;
+- a large broad head with a wide jaw, the head clearly bigger than in the old front view;
+- the body seen foreshortened from the front/back, short and broad, spikes along the spine visible from above;
+- the tail curls out to one side (not straight up behind the body), so the overall shape is wider than it is tall;
+- scales drawn as a few large plates, not a fine pattern.
+Overall silhouette of each pose about 1.3 times wider than tall.
+
+Layout: exactly 4 columns and 4 rows in an even grid, 16 cells, on a solid flat pure magenta background (#FF00FF) everywhere. No grid lines, borders, labels, text, shadows, floor or effects. One complete lizard per cell, centred with generous magenta margin, never touching another cell. Same body size in every cell; feet at the same height within each cell.
+
+Rows 1 and 2: FRONT view, facing the viewer (toward the bottom of the screen).
+Rows 3 and 4: BACK view, facing away (toward the top of the screen), tail nearest to the viewer.
+Within the front rows and within the back rows, the 8 cells in reading order (row 1 left to right, then row 2 left to right; same for rows 3-4) are:
+1. walk: front-left and back-right legs forward and planted;
+2. walk: passing pose, those legs lifted;
+3. walk: front-right and back-left legs forward and planted;
+4. walk: passing pose, those legs lifted;
+5. windup: crouched and braced, throat pouch inflated very large and glowing orange (in the back view the pouch bulges out on both sides of the neck);
+6. spit: mouth wide open with teeth, head thrust forward, pouch squeezed small;
+7. recover: relaxed stance, pouch small, mouth closed;
+8. defeated: lying flat, legs splayed limp, eyes closed as simple lines, no blood.

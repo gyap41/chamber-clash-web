@@ -1,0 +1,16 @@
+Second sprite sheet for the same 2D top-down game enemy, the "fire-pouch lizard": attack and defeat poses.
+
+Reference image 1 is the finished walk sheet of this exact lizard. Match it exactly: same lizard, same bright moss-green body and lighter belly, same dark spikes, glowing yellow eyes, teeth, long tail, orange throat pouch, same thick dark brown ink outline and flat 2-3 step cel shading, same size and scale, same strong top-down 3/4 angle. Reference image 2 is the design sheet of the same lizard for extra detail.
+
+Layout: exactly 3 columns and 4 rows in an even grid, 12 cells, on a solid flat pure magenta background (#FF00FF) everywhere, identical to reference 1. No grid lines, no borders, no labels, no text, no shadows, no floor, no fire or effects drawn. One complete lizard per cell, centred with generous magenta margin, never touching another cell. Same body size in every cell as in reference 1; feet at the same height within each cell.
+
+Columns, left to right, same as reference 1:
+1. FRONT: facing the viewer (toward the bottom of the screen).
+2. BACK: facing away (toward the top of the screen), tail nearest to the viewer.
+3. SIDE: facing LEFT, head on the left and tail on the right, exactly like the third column of reference 1.
+
+Rows, top to bottom:
+1. WINDUP: body crouched low and braced, legs spread, head raised slightly, throat pouch inflated very large and glowing bright orange-yellow, mouth closed.
+2. SPIT: mouth wide open with teeth showing, head thrust forward in the facing direction, throat pouch squeezed small, body pushed slightly back by recoil. No fire drawn.
+3. RECOVER: relaxed stance, pouch small and dim orange, mouth closed, breathing.
+4. DEFEATED: lying flat on its belly, legs splayed limp, tail loose, eyes closed as simple dark lines, pouch deflated and grey-orange, no blood.

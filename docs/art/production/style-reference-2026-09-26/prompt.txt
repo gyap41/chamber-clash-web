@@ -1,0 +1,15 @@
+Style reference sheet for a 2D top-down action game: one mock gameplay screen (no UI, no text) that fixes the art style for the whole game.
+
+Reference image 1 is the player character "Rina" and is the STYLE MASTER. Keep her exactly: chibi about 2 heads tall, chestnut hair with ponytail and cowlick, brass goggles with teal lenses, ivory tunic, orange scarf, brown boots, holding a large pale pistol (weapons are drawn big on purpose). Copy her rendering for everything else in the scene: thick dark brown ink outlines, flat colours with 2-3 soft cel-shading steps and one small highlight, light from the upper left, clean readable shapes, no painterly texture, no photographic detail.
+
+Reference image 2 shows three existing enemies. Redraw them in Rina's style, keeping each identity and colour scheme:
+- brass worker robot: round head with one glowing orange eye, boxy brass body, short thick limbs, small hammer in one hand;
+- fire-pouch lizard: green body, orange throat pouch, big head, short legs, stubby tail;
+- quillback porcupine: round brown body, cream quill crown, small face.
+Make the creatures cute and chunky (bigger head, rounder body, shorter legs) like Rina, not realistic. Each enemy is about the same height as Rina. They get the same thick dark outline as Rina.
+
+Reference image 3 shows the current room: an old ash-covered foundry workshop. Redraw it in the same style: large dark warm-grey stone floor slabs with dark ink joint lines, few cracks, low contrast and low saturation so it stays in the background; one square stone pillar, one iron anvil on a wooden block, one steel-banded crate. Props also have dark ink outlines, but lower contrast and duller colours than the characters. No moss, no roots.
+
+Composition: square image, strong top-down 3/4 view (looking down about 70 degrees), horizontal edges of the room stay horizontal, no perspective convergence, no isometric view. Rina stands near the centre facing down-right. The robot is to her left, the lizard to her right, the porcupine lower right. Pillar upper left, anvil upper right, crate lower left. Plenty of empty floor between everything. All figures at game scale: Rina occupies roughly 8 percent of the image height.
+
+Value order must read clearly: floor darkest and calmest, props a little lighter, characters and enemies brightest and most saturated. Cast shadows are soft dark ellipses under each figure. No UI, no numbers, no letters, no logos, no watermark.

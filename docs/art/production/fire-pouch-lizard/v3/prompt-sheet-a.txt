@@ -1,0 +1,20 @@
+Sprite sheet for a 2D top-down action game enemy: the "fire-pouch lizard", walk cycle.
+
+Reference image 1 is the lizard design to follow exactly (identity, shapes, spikes, eyes, teeth, orange throat pouch, long tail). Reference image 2 is the player character "Rina", the style master for line and shading. Draw with the same technique: thick dark brown ink outline, flat colours with 2-3 cel-shading steps and one small highlight, light from the upper left, big clean shapes, no painterly texture, no fine noise.
+
+Colour change from reference 1: make the body a BRIGHTER mid-tone moss green with a lighter yellow-green belly and light edge highlights, so it stands out clearly on a very dark grey stone floor. Spikes darker green-brown, eyes glowing yellow, throat pouch glowing orange.
+
+Layout: exactly 3 columns and 4 rows in an even grid, 12 cells, on a solid flat pure magenta background (#FF00FF) everywhere. No grid lines, no borders, no labels, no text, no shadows, no floor, no effects. One complete lizard per cell, centred, with generous magenta margin, never touching or overlapping another cell. Same body size and same scale in every cell; the lizard's feet sit at the same height within each cell.
+
+Columns, left to right:
+1. FRONT: facing the viewer, walking toward the bottom of the screen (head nearest to the viewer, tail behind).
+2. BACK: facing away, walking toward the top of the screen (tail nearest to the viewer, head away).
+3. RIGHT: side view walking to the right, head on the right, tail on the left.
+All views seen from the same strong top-down 3/4 angle (about 70 degrees from the ground) so the back and spikes are visible.
+
+Rows, top to bottom, one walk cycle with diagonal leg pairs (like a real lizard, body kept low):
+1. front-left and back-right legs forward and planted, others back;
+2. passing pose, front-left and back-right legs lifted;
+3. front-right and back-left legs forward and planted, others back;
+4. passing pose, front-right and back-left legs lifted.
+The tail sways slightly opposite to the body curve. Mouth closed or slightly open showing a few teeth. Keep the exact same lizard, colours and proportions in all 12 cells.

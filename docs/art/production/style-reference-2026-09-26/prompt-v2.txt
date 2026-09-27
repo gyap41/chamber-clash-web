@@ -1,0 +1,19 @@
+Art style guide sheet for a 2D top-down action game. The reference image shows the player character "Rina" in four directions. She is the STYLE MASTER: every item on this sheet must look drawn by the same artist with the same technique.
+
+Rina's technique to copy exactly: chibi proportions about 2 heads tall, thick dark brown ink outline around every shape, flat colours with only 2-3 soft cel-shading steps and one small highlight, light from the upper left, clean simple shapes, no painterly texture, no rendered metal reflections, no photographic detail, no fur strands, no noise.
+
+Layout: plain flat light-grey background. Two rows. Everything at the same scale, all seen from the same strong top-down 3/4 view (about 70 degrees from the ground). No text, no labels, no UI.
+
+Top row, left to right, all characters about the same height as Rina, standing and facing the viewer (front view, slightly down-right), each with a soft dark oval shadow:
+1. Rina, copied from the reference (brown ponytail and cowlick, brass goggles with teal lenses, ivory tunic, orange scarf, brown boots) holding her large pale pistol. Weapons are intentionally drawn big.
+2. Brass worker robot enemy: round brass head with one glowing orange eye, boxy brass chest, short thick limbs with dark joints, a small grey hammer in one hand. Toy-like and chunky, cute, big head.
+3. Fire-pouch lizard enemy: chubby green lizard, oversized head, big orange throat pouch, tiny legs, short stubby tail, yellow eyes. Cute and round, like a mascot, not a real reptile.
+4. Quillback porcupine enemy: round brown ball-shaped body, crown of simple cream-white spikes drawn as a few clean triangles, small face with dot eyes, tiny feet. Cute and chunky.
+
+Bottom row, left to right, environment pieces of an old ash-covered stone foundry, drawn in the same ink-line style but calmer: duller colours, lower contrast, simpler shapes than the characters:
+5. A square swatch of stone floor: large dark warm-grey slabs separated by dark ink joint lines, a few simple cracks, very little texture.
+6. A square stone pillar with a darker base, about 1.8 times Rina's height.
+7. An iron anvil on a low wooden block.
+8. A low wooden crate with two dark steel bands.
+
+Value order must be obvious: floor swatch darkest and flattest, props medium, characters brightest and most saturated. Keep enough empty space between items.

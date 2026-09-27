@@ -1,0 +1,30 @@
+{
+  "name": "style-reference-v2",
+  "fingerprint": "47e30381b94a778a22aec1dbb6dd150a0cd7a4f9123527bade81bfac40c4c944",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-26T10:56:37.900866+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Art style guide sheet for a 2D top-down action game. The reference image shows the player character \"Rina\" in four directions. She is the STYLE MASTER: every item on this sheet must look drawn by the same artist with the same technique.\n\nRina's technique to copy exactly: chibi proportions about 2 heads tall, thick dark brown ink outline around every shape, flat colours with only 2-3 soft cel-shading steps and one small highlight, light from the upper left, clean simple shapes, no painterly texture, no rendered metal reflections, no photographic detail, no fur strands, no noise.\n\nLayout: plain flat light-grey background. Two rows. Everything at the same scale, all seen from the same strong top-down 3/4 view (about 70 degrees from the ground). No text, no labels, no UI.\n\nTop row, left to right, all characters about the same height as Rina, standing and facing the viewer (front view, slightly down-right), each with a soft dark oval shadow:\n1. Rina, copied from the reference (brown ponytail and cowlick, brass goggles with teal lenses, ivory tunic, orange scarf, brown boots) holding her large pale pistol. Weapons are intentionally drawn big.\n2. Brass worker robot enemy: round brass head with one glowing orange eye, boxy brass chest, short thick limbs with dark joints, a small grey hammer in one hand. Toy-like and chunky, cute, big head.\n3. Fire-pouch lizard enemy: chubby green lizard, oversized head, big orange throat pouch, tiny legs, short stubby tail, yellow eyes. Cute and round, like a mascot, not a real reptile.\n4. Quillback porcupine enemy: round brown ball-shaped body, crown of simple cream-white spikes drawn as a few clean triangles, small face with dot eyes, tiny feet. Cute and chunky.\n\nBottom row, left to right, environment pieces of an old ash-covered stone foundry, drawn in the same ink-line style but calmer: duller colours, lower contrast, simpler shapes than the characters:\n5. A square swatch of stone floor: large dark warm-grey slabs separated by dark ink joint lines, a few simple cracks, very little texture.\n6. A square stone pillar with a darker base, about 1.8 times Rina's height.\n7. An iron anvil on a low wooden block.\n8. A low wooden crate with two dark steel bands.\n\nValue order must be obvious: floor swatch darkest and flattest, props medium, characters brightest and most saturated. Keep enough empty space between items.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "docs\\art\\production\\style-reference-2026-09-26\\ref-rina.png",
+      "sha256": "55bd4a8299def054df8c01ff39e9390e8e144d787286f330388e5248dffcf7f4"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 549,
+      "image_tokens": 432
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1084605
+}

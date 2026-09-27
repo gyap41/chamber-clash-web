@@ -3,6 +3,7 @@
 ステージの新規作成、素材生成・差し替え、壁・扉・家具配置の変更を始める際に読む共通入口。以下をステージごとの制作資料へコピーして記入する。資料の作成は有料生成の承認を意味しない。
 
 - 美術の共通規格：[STAGE_ASSET_GUIDE](STAGE_ASSET_GUIDE.md)
+- ゲーム全体の画風（描き込み密度・輪郭・陰影・色の役割）：[VISUAL_STYLE_GUIDE](VISUAL_STYLE_GUIDE.md)（提案・採用判断待ち）
 - データと描画の実装：[STAGE_TEMPLATES](../development/STAGE_TEMPLATES.md)
 - 実行と検証：[TESTING](../development/TESTING.md)
 - 生成する場合：[環境設定](../development/ASSET_GENERATION_SETUP.md)と[画像CLI](../../tools/README.md)

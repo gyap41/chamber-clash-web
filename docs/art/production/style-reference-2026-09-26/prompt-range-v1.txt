@@ -1,0 +1,19 @@
+Enemy range style sheet for a 2D top-down action game set in an old ash-covered foundry (soot, brass, iron, furnace fire, ash).
+
+Reference image 1 is the player "Rina": the STYLE MASTER. Reference image 2 is a small grunt robot already drawn in that style. Every figure must use exactly this drawing technique: thick dark brown ink outline, flat colours with 2-3 cel-shading steps and one highlight, light from the upper left, big clean shapes, no painterly texture, no fine noise, no realistic rendering.
+
+Goal: show that the same anime-like technique can go from cute to cool, menacing and heavy. Do NOT make everything cute. Menace comes from silhouette, eyes, mouth, posture, size and glowing accents, not from extra detail.
+
+Layout: plain flat light-grey background, all figures at one consistent scale, same strong top-down 3/4 view (about 70 degrees from the ground), each with a soft dark oval shadow. No text, no labels, no UI.
+
+Top row, left to right:
+1. Rina for scale, copied from reference 1, holding her large pale pistol (about 1 unit tall).
+2. Cute grunt: the brass worker robot from reference 2, unchanged (about 1 unit tall).
+3. Menacing creature: the fire-pouch lizard redesigned to look dangerous: long low body crawling on all fours, head lowered and pushed forward, narrow glowing yellow eyes, open jaw with sharp teeth, claws, spiky ridge along the back, long tail, the orange throat pouch glowing with inner fire. Green and ash-grey scales drawn as a few large plates, not texture. About 1.3 units long.
+4. Heavy machine enemy: a squat armoured foundry walker, thick riveted iron plates drawn as a few big shapes, low centre of gravity, two stubby legs, one heavy cannon arm, a narrow slit visor glowing red, soot stains as simple dark patches. About 1.8 units tall.
+
+Bottom row, left to right:
+5. Grotesque creature: an ash-and-cinder beast, asymmetric blobby body of soot with cracks glowing orange like embers, a huge lopsided mouth with jagged teeth, three uneven glowing eyes, short tentacle-like limbs. About 1.6 units.
+6. Large boss: a massive spinning-top shaped foundry machine of dark iron and brass bands, a furnace window glowing orange across its body like an angry eye, a ring of cannon ports around the lower rim, heavy and imposing, about 3 units wide. It should feel powerful and threatening while still drawn with the same clean ink lines and flat shading.
+
+Colour rules: characters and enemies are brighter and more saturated than any background; glowing parts (eyes, furnace, embers) use warm orange-yellow as the danger accent. Keep generous empty space between figures.

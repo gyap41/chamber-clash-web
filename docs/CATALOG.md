@@ -4,7 +4,7 @@
 
 自動生成: `python tools/docs_index.py`。表題は本文の最初の見出しから取得。分類は役割の案内で、内容の検証完了や採用を示しません。過去計画は元のパスを維持して履歴に分類しています。
 
-対象 198 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
+対象 202 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
 
 ## 入口・運用
 
@@ -67,6 +67,7 @@
 |[docs/art/ROOM_VISUAL_DIRECTION.md](<art/ROOM_VISUAL_DIRECTION.md>)|探索部屋の空間表現|
 |[docs/art/STAGE_ASSET_GUIDE.md](<art/STAGE_ASSET_GUIDE.md>)|ステージ素材の制作ガイド|
 |[docs/art/STAGE_CREATION_TEMPLATE.md](<art/STAGE_CREATION_TEMPLATE.md>)|ステージ制作テンプレート|
+|[docs/art/VISUAL_STYLE_GUIDE.md](<art/VISUAL_STYLE_GUIDE.md>)|画風の共通規格|
 
 ## 制作・採用・設定の記録
 
@@ -89,6 +90,7 @@
 |[docs/art/production/projectile-effects-2026-09-13/README.md](<art/production/projectile-effects-2026-09-13/README.md>)|弾・発射・飛翔・着弾の専用化|
 |[docs/art/production/quillback/README.md](<art/production/quillback/README.md>)|棘背ヤマアラシ：素材・実装記録|
 |[docs/art/production/random-workshop-floor/README.md](<art/production/random-workshop-floor/README.md>)|ランダム工房階層（P2試作）|
+|[docs/art/production/style-reference-2026-09-26/README.md](<art/production/style-reference-2026-09-26/README.md>)|画風の基準画像 v1・v2（2026-09-26）|
 |[docs/art/production/wall-kit-v2/README.md](<art/production/wall-kit-v2/README.md>)|接続用壁材セット v2|
 |[docs/art/production/workshop-annex/README.md](<art/production/workshop-annex/README.md>)|隣の作業室の更新（2026-09-22）|
 |[docs/art/production/workshop-room-variants/README.md](<art/production/workshop-room-variants/README.md>)|工房の形状・寸法バリエーション|
@@ -111,6 +113,8 @@
 |[docs/art/reviews/rina-directions-2026-09-12/README.md](<art/reviews/rina-directions-2026-09-12/README.md>)|リナ：ゲーム専用4方向の先行修正|
 |[docs/art/reviews/rina-dodge-2026-09-12/README.md](<art/reviews/rina-dodge-2026-09-12/README.md>)|リナの現行ゲーム素材・動作|
 |[docs/art/reviews/rina-parts-2026-09-25/README.md](<art/reviews/rina-parts-2026-09-25/README.md>)|リナ：体型と独立パーツの試作|
+|[docs/art/reviews/rina-style-check-2026-09-26/README.md](<art/reviews/rina-style-check-2026-09-26/README.md>)|リナの絵柄確認：8方向版の本編表示（2026-09-26）|
+|[docs/art/reviews/style-comparison-2026-09-26/README.md](<art/reviews/style-comparison-2026-09-26/README.md>)|画風の同倍率比較シート（2026-09-26）|
 |[docs/art/reviews/weapon-diversity-2026-09-12/README.md](<art/reviews/weapon-diversity-2026-09-12/README.md>)|武器の多様性：作り直し比較|
 |[docs/art/reviews/weapon-readability-audit-2026-09-13/README.md](<art/reviews/weapon-readability-audit-2026-09-13/README.md>)|武器の視認性・個性の再レビュー|
 |[docs/art/reviews/weapon-readability-audit-2026-09-13/measurements.md](<art/reviews/weapon-readability-audit-2026-09-13/measurements.md>)|全38武器の実測一覧|

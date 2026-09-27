@@ -35,6 +35,7 @@ const WAVE_INTERVAL := 2.1
 const JUMP_TIME := .65
 
 func _init() -> void:
+	face_movement = false # the boss body, guns and telegraphs keep pointing at the target
 	spec = {"id":"furnace_warden","name":"独楽の鋳造機","death_sound":"boss_internal",
 		"hp":48.0,"speed":76.0,"radius":44.0,"range":410.0,"damage":1.5,"windup":1.0,"recovery":1.5,"entry_grace":1.5}
 

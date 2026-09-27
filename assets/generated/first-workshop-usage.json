@@ -2480,5 +2480,213 @@
       "output_tokens": 7024
     },
     "pricing_estimate_usd": 0.1141305
+  },
+  {
+    "name": "style-reference-v1",
+    "fingerprint": "65f9a9ad3d45bec6184367a0ad4fb167bb678b6b70b4306324cf5fe3914fe021",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-26T10:50:11.388706+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Style reference sheet for a 2D top-down action game: one mock gameplay screen (no UI, no text) that fixes the art style for the whole game.\n\nReference image 1 is the player character \"Rina\" and is the STYLE MASTER. Keep her exactly: chibi about 2 heads tall, chestnut hair with ponytail and cowlick, brass goggles with teal lenses, ivory tunic, orange scarf, brown boots, holding a large pale pistol (weapons are drawn big on purpose). Copy her rendering for everything else in the scene: thick dark brown ink outlines, flat colours with 2-3 soft cel-shading steps and one small highlight, light from the upper left, clean readable shapes, no painterly texture, no photographic detail.\n\nReference image 2 shows three existing enemies. Redraw them in Rina's style, keeping each identity and colour scheme:\n- brass worker robot: round head with one glowing orange eye, boxy brass body, short thick limbs, small hammer in one hand;\n- fire-pouch lizard: green body, orange throat pouch, big head, short legs, stubby tail;\n- quillback porcupine: round brown body, cream quill crown, small face.\nMake the creatures cute and chunky (bigger head, rounder body, shorter legs) like Rina, not realistic. Each enemy is about the same height as Rina. They get the same thick dark outline as Rina.\n\nReference image 3 shows the current room: an old ash-covered foundry workshop. Redraw it in the same style: large dark warm-grey stone floor slabs with dark ink joint lines, few cracks, low contrast and low saturation so it stays in the background; one square stone pillar, one iron anvil on a wooden block, one steel-banded crate. Props also have dark ink outlines, but lower contrast and duller colours than the characters. No moss, no roots.\n\nComposition: square image, strong top-down 3/4 view (looking down about 70 degrees), horizontal edges of the room stay horizontal, no perspective convergence, no isometric view. Rina stands near the centre facing down-right. The robot is to her left, the lizard to her right, the porcupine lower right. Pillar upper left, anvil upper right, crate lower left. Plenty of empty floor between everything. All figures at game scale: Rina occupies roughly 8 percent of the image height.\n\nValue order must read clearly: floor darkest and calmest, props a little lighter, characters and enemies brightest and most saturated. Cast shadows are soft dark ellipses under each figure. No UI, no numbers, no letters, no logos, no watermark.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\art\\production\\style-reference-2026-09-26\\ref-rina.png",
+        "sha256": "55bd4a8299def054df8c01ff39e9390e8e144d787286f330388e5248dffcf7f4"
+      },
+      {
+        "path": "docs\\art\\production\\style-reference-2026-09-26\\ref-enemies.png",
+        "sha256": "0da087c04df3c949044733f9eb7ca7c4e020583d10abb3bd54fe9fab9a5bfe21"
+      },
+      {
+        "path": "docs\\art\\production\\style-reference-2026-09-26\\ref-environment.png",
+        "sha256": "9160820b0e1d0d0686c48bc7830135d7ca34ffc27080fce863945e9061dda773"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 563,
+        "image_tokens": 1872
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1142555
+  },
+  {
+    "name": "style-reference-v2",
+    "fingerprint": "47e30381b94a778a22aec1dbb6dd150a0cd7a4f9123527bade81bfac40c4c944",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-26T10:56:37.900866+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Art style guide sheet for a 2D top-down action game. The reference image shows the player character \"Rina\" in four directions. She is the STYLE MASTER: every item on this sheet must look drawn by the same artist with the same technique.\n\nRina's technique to copy exactly: chibi proportions about 2 heads tall, thick dark brown ink outline around every shape, flat colours with only 2-3 soft cel-shading steps and one small highlight, light from the upper left, clean simple shapes, no painterly texture, no rendered metal reflections, no photographic detail, no fur strands, no noise.\n\nLayout: plain flat light-grey background. Two rows. Everything at the same scale, all seen from the same strong top-down 3/4 view (about 70 degrees from the ground). No text, no labels, no UI.\n\nTop row, left to right, all characters about the same height as Rina, standing and facing the viewer (front view, slightly down-right), each with a soft dark oval shadow:\n1. Rina, copied from the reference (brown ponytail and cowlick, brass goggles with teal lenses, ivory tunic, orange scarf, brown boots) holding her large pale pistol. Weapons are intentionally drawn big.\n2. Brass worker robot enemy: round brass head with one glowing orange eye, boxy brass chest, short thick limbs with dark joints, a small grey hammer in one hand. Toy-like and chunky, cute, big head.\n3. Fire-pouch lizard enemy: chubby green lizard, oversized head, big orange throat pouch, tiny legs, short stubby tail, yellow eyes. Cute and round, like a mascot, not a real reptile.\n4. Quillback porcupine enemy: round brown ball-shaped body, crown of simple cream-white spikes drawn as a few clean triangles, small face with dot eyes, tiny feet. Cute and chunky.\n\nBottom row, left to right, environment pieces of an old ash-covered stone foundry, drawn in the same ink-line style but calmer: duller colours, lower contrast, simpler shapes than the characters:\n5. A square swatch of stone floor: large dark warm-grey slabs separated by dark ink joint lines, a few simple cracks, very little texture.\n6. A square stone pillar with a darker base, about 1.8 times Rina's height.\n7. An iron anvil on a low wooden block.\n8. A low wooden crate with two dark steel bands.\n\nValue order must be obvious: floor swatch darkest and flattest, props medium, characters brightest and most saturated. Keep enough empty space between items.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\art\\production\\style-reference-2026-09-26\\ref-rina.png",
+        "sha256": "55bd4a8299def054df8c01ff39e9390e8e144d787286f330388e5248dffcf7f4"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 549,
+        "image_tokens": 432
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1084605
+  },
+  {
+    "name": "style-range-v1",
+    "fingerprint": "3949ffe938dd1b62a5ca710a40d43dc55833efd462cf26c87a98aa7c2d742467",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-26T11:15:41.584898+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Enemy range style sheet for a 2D top-down action game set in an old ash-covered foundry (soot, brass, iron, furnace fire, ash).\n\nReference image 1 is the player \"Rina\": the STYLE MASTER. Reference image 2 is a small grunt robot already drawn in that style. Every figure must use exactly this drawing technique: thick dark brown ink outline, flat colours with 2-3 cel-shading steps and one highlight, light from the upper left, big clean shapes, no painterly texture, no fine noise, no realistic rendering.\n\nGoal: show that the same anime-like technique can go from cute to cool, menacing and heavy. Do NOT make everything cute. Menace comes from silhouette, eyes, mouth, posture, size and glowing accents, not from extra detail.\n\nLayout: plain flat light-grey background, all figures at one consistent scale, same strong top-down 3/4 view (about 70 degrees from the ground), each with a soft dark oval shadow. No text, no labels, no UI.\n\nTop row, left to right:\n1. Rina for scale, copied from reference 1, holding her large pale pistol (about 1 unit tall).\n2. Cute grunt: the brass worker robot from reference 2, unchanged (about 1 unit tall).\n3. Menacing creature: the fire-pouch lizard redesigned to look dangerous: long low body crawling on all fours, head lowered and pushed forward, narrow glowing yellow eyes, open jaw with sharp teeth, claws, spiky ridge along the back, long tail, the orange throat pouch glowing with inner fire. Green and ash-grey scales drawn as a few large plates, not texture. About 1.3 units long.\n4. Heavy machine enemy: a squat armoured foundry walker, thick riveted iron plates drawn as a few big shapes, low centre of gravity, two stubby legs, one heavy cannon arm, a narrow slit visor glowing red, soot stains as simple dark patches. About 1.8 units tall.\n\nBottom row, left to right:\n5. Grotesque creature: an ash-and-cinder beast, asymmetric blobby body of soot with cracks glowing orange like embers, a huge lopsided mouth with jagged teeth, three uneven glowing eyes, short tentacle-like limbs. About 1.6 units.\n6. Large boss: a massive spinning-top shaped foundry machine of dark iron and brass bands, a furnace window glowing orange across its body like an angry eye, a ring of cannon ports around the lower rim, heavy and imposing, about 3 units wide. It should feel powerful and threatening while still drawn with the same clean ink lines and flat shading.\n\nColour rules: characters and enemies are brighter and more saturated than any background; glowing parts (eyes, furnace, embers) use warm orange-yellow as the danger accent. Keep generous empty space between figures.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\art\\production\\style-reference-2026-09-26\\ref-rina.png",
+        "sha256": "55bd4a8299def054df8c01ff39e9390e8e144d787286f330388e5248dffcf7f4"
+      },
+      {
+        "path": "docs\\art\\production\\style-reference-2026-09-26\\ref-v2-grunt.png",
+        "sha256": "6d7e24f350ad02b7c766f3c2e7b077f72f5484c720c7f2aa654aa5d2e7041a26"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 602,
+        "image_tokens": 642
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.109433
+  },
+  {
+    "name": "lizard-v3-sheet-a",
+    "fingerprint": "4b6b76f28c8cdf5a827c56f113e3adbb63b03a229791ba7cec8ffd5e4825523b",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-26T11:24:28.594512+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Sprite sheet for a 2D top-down action game enemy: the \"fire-pouch lizard\", walk cycle.\n\nReference image 1 is the lizard design to follow exactly (identity, shapes, spikes, eyes, teeth, orange throat pouch, long tail). Reference image 2 is the player character \"Rina\", the style master for line and shading. Draw with the same technique: thick dark brown ink outline, flat colours with 2-3 cel-shading steps and one small highlight, light from the upper left, big clean shapes, no painterly texture, no fine noise.\n\nColour change from reference 1: make the body a BRIGHTER mid-tone moss green with a lighter yellow-green belly and light edge highlights, so it stands out clearly on a very dark grey stone floor. Spikes darker green-brown, eyes glowing yellow, throat pouch glowing orange.\n\nLayout: exactly 3 columns and 4 rows in an even grid, 12 cells, on a solid flat pure magenta background (#FF00FF) everywhere. No grid lines, no borders, no labels, no text, no shadows, no floor, no effects. One complete lizard per cell, centred, with generous magenta margin, never touching or overlapping another cell. Same body size and same scale in every cell; the lizard's feet sit at the same height within each cell.\n\nColumns, left to right:\n1. FRONT: facing the viewer, walking toward the bottom of the screen (head nearest to the viewer, tail behind).\n2. BACK: facing away, walking toward the top of the screen (tail nearest to the viewer, head away).\n3. RIGHT: side view walking to the right, head on the right, tail on the left.\nAll views seen from the same strong top-down 3/4 angle (about 70 degrees from the ground) so the back and spikes are visible.\n\nRows, top to bottom, one walk cycle with diagonal leg pairs (like a real lizard, body kept low):\n1. front-left and back-right legs forward and planted, others back;\n2. passing pose, front-left and back-right legs lifted;\n3. front-right and back-left legs forward and planted, others back;\n4. passing pose, front-right and back-left legs lifted.\nThe tail sways slightly opposite to the body curve. Mouth closed or slightly open showing a few teeth. Keep the exact same lizard, colours and proportions in all 12 cells.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\art\\production\\fire-pouch-lizard\\v3\\ref-lizard-design.png",
+        "sha256": "3cb8ddf102aa88cc0f28d1c7420867151ca210dffd65b344c0a097a119c24c6c"
+      },
+      {
+        "path": "docs\\art\\production\\style-reference-2026-09-26\\ref-rina.png",
+        "sha256": "55bd4a8299def054df8c01ff39e9390e8e144d787286f330388e5248dffcf7f4"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 511,
+        "image_tokens": 720
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1095175
+  },
+  {
+    "name": "lizard-v3-sheet-b",
+    "fingerprint": "755c5e5a24ef0146e3f51bd411576c470d46a103ddb96f10cfeed93c7d34b805",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-26T11:26:31.901678+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Second sprite sheet for the same 2D top-down game enemy, the \"fire-pouch lizard\": attack and defeat poses.\n\nReference image 1 is the finished walk sheet of this exact lizard. Match it exactly: same lizard, same bright moss-green body and lighter belly, same dark spikes, glowing yellow eyes, teeth, long tail, orange throat pouch, same thick dark brown ink outline and flat 2-3 step cel shading, same size and scale, same strong top-down 3/4 angle. Reference image 2 is the design sheet of the same lizard for extra detail.\n\nLayout: exactly 3 columns and 4 rows in an even grid, 12 cells, on a solid flat pure magenta background (#FF00FF) everywhere, identical to reference 1. No grid lines, no borders, no labels, no text, no shadows, no floor, no fire or effects drawn. One complete lizard per cell, centred with generous magenta margin, never touching another cell. Same body size in every cell as in reference 1; feet at the same height within each cell.\n\nColumns, left to right, same as reference 1:\n1. FRONT: facing the viewer (toward the bottom of the screen).\n2. BACK: facing away (toward the top of the screen), tail nearest to the viewer.\n3. SIDE: facing LEFT, head on the left and tail on the right, exactly like the third column of reference 1.\n\nRows, top to bottom:\n1. WINDUP: body crouched low and braced, legs spread, head raised slightly, throat pouch inflated very large and glowing bright orange-yellow, mouth closed.\n2. SPIT: mouth wide open with teeth showing, head thrust forward in the facing direction, throat pouch squeezed small, body pushed slightly back by recoil. No fire drawn.\n3. RECOVER: relaxed stance, pouch small and dim orange, mouth closed, breathing.\n4. DEFEATED: lying flat on its belly, legs splayed limp, tail loose, eyes closed as simple dark lines, pouch deflated and grey-orange, no blood.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\lizard-v3-sheet-a.png",
+        "sha256": "a5c9a1f319beef30efc7c7fa86ac4f5639cfaf1d3056c5ec027099b377c8424b"
+      },
+      {
+        "path": "docs\\art\\production\\fire-pouch-lizard\\v3\\ref-lizard-design.png",
+        "sha256": "3cb8ddf102aa88cc0f28d1c7420867151ca210dffd65b344c0a097a119c24c6c"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 443,
+        "image_tokens": 1312
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1117155
+  },
+  {
+    "name": "lizard-v3-sheet-c",
+    "fingerprint": "6912574e52635d23c381de8905843870935df82e3bd3c92babe4ef92ec8c1b1b",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-26T12:38:50.831991+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Third sprite sheet for the same 2D top-down game enemy, the \"fire-pouch lizard\": redraw of the FRONT and BACK views only.\n\nReference images 1 and 2 are the existing sheets of this exact lizard (walk, windup, spit, recover, defeated). Match them exactly: same lizard, same colours (moss-green body, lighter belly, dark green-brown spikes, glowing yellow eyes, teeth, orange throat pouch), same thick dark brown ink outline and flat 2-3 step cel shading, same strong top-down 3/4 angle, same overall size. Reference image 3 is the design sheet.\n\nProblem to fix: in the old front and back views the lizard looks like a thin vertical stick. Redraw them with a WIDE, LOW, HEAVY silhouette:\n- legs splayed far out to both sides like a crocodile, elbows and knees bent outward, claws gripping the ground;\n- a large broad head with a wide jaw, the head clearly bigger than in the old front view;\n- the body seen foreshortened from the front/back, short and broad, spikes along the spine visible from above;\n- the tail curls out to one side (not straight up behind the body), so the overall shape is wider than it is tall;\n- scales drawn as a few large plates, not a fine pattern.\nOverall silhouette of each pose about 1.3 times wider than tall.\n\nLayout: exactly 4 columns and 4 rows in an even grid, 16 cells, on a solid flat pure magenta background (#FF00FF) everywhere. No grid lines, borders, labels, text, shadows, floor or effects. One complete lizard per cell, centred with generous magenta margin, never touching another cell. Same body size in every cell; feet at the same height within each cell.\n\nRows 1 and 2: FRONT view, facing the viewer (toward the bottom of the screen).\nRows 3 and 4: BACK view, facing away (toward the top of the screen), tail nearest to the viewer.\nWithin the front rows and within the back rows, the 8 cells in reading order (row 1 left to right, then row 2 left to right; same for rows 3-4) are:\n1. walk: front-left and back-right legs forward and planted;\n2. walk: passing pose, those legs lifted;\n3. walk: front-right and back-left legs forward and planted;\n4. walk: passing pose, those legs lifted;\n5. windup: crouched and braced, throat pouch inflated very large and glowing orange (in the back view the pouch bulges out on both sides of the neck);\n6. spit: mouth wide open with teeth, head thrust forward, pouch squeezed small;\n7. recover: relaxed stance, pouch small, mouth closed;\n8. defeated: lying flat, legs splayed limp, eyes closed as simple lines, no blood.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\lizard-v3-sheet-a.png",
+        "sha256": "a5c9a1f319beef30efc7c7fa86ac4f5639cfaf1d3056c5ec027099b377c8424b"
+      },
+      {
+        "path": "assets\\generated\\lizard-v3-sheet-b.png",
+        "sha256": "200d7ee2d6a962a9e62530afd1fe15a110c61b90335c1324f07798aa27e51ef1"
+      },
+      {
+        "path": "docs\\art\\production\\fire-pouch-lizard\\v3\\ref-lizard-design.png",
+        "sha256": "3cb8ddf102aa88cc0f28d1c7420867151ca210dffd65b344c0a097a119c24c6c"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 617,
+        "image_tokens": 2336
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1162465
   }
 ]
