@@ -1,0 +1,30 @@
+{
+  "name": "stage-v2-wall-face",
+  "fingerprint": "822e8c855f11022e5cfb9000a746c77efce9fb0549c6f432e4245b90539a66ce",
+  "status": "success",
+  "reserved_usd": 0.25,
+  "sent_at": "2026-09-27T05:24:27.898672+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Seamless tileable texture of a stone block wall's front face for a 2D top-down action game, seen straight on, filling the whole square edge to edge. No border, no frame, no top cap, no floor, no objects, no text.\n\nReference image 1 shows the approved art style (dark ink lines, flat cel shading, big simple shapes); its upper part shows the wall front of large stone blocks. Match that drawing technique, with warm earthy grey-brown stone (old sandstone darkened by soot), slightly lighter than a dark floor, not neutral grey.\n\nContent: exactly 9 horizontal courses (rows) of rectangular stone blocks of equal height, running the full width. Every course is the same height and its horizontal mortar lines are perfectly straight and level. Blocks in neighbouring courses are staggered like brickwork, each block about 1.5 to 2 times wider than tall. Mortar joints are clear dark brown ink lines. Each block is one flat colour with a slightly lighter top edge (light from above) and a slightly darker bottom edge. A few small chips. No moss, no roots, no pillars, no arches, no windows, no symbols, no painterly texture, no noise.\n\nThe texture must tile seamlessly left-right and top-bottom: courses and blocks continue across the edges.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "docs\\art\\production\\ashen-foundry-v2\\ref-mock-stone.png",
+      "sha256": "9dd173305bd7de60cb4bb30eb6503af25f185b79db83f0cec9eadedf87c96875"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 276,
+      "image_tokens": 576
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.108354
+}

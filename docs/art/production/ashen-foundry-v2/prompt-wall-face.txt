@@ -1,0 +1,7 @@
+Seamless tileable texture of a stone block wall's front face for a 2D top-down action game, seen straight on, filling the whole square edge to edge. No border, no frame, no top cap, no floor, no objects, no text.
+
+Reference image 1 shows the approved art style (dark ink lines, flat cel shading, big simple shapes); its upper part shows the wall front of large stone blocks. Match that drawing technique, with warm earthy grey-brown stone (old sandstone darkened by soot), slightly lighter than a dark floor, not neutral grey.
+
+Content: exactly 9 horizontal courses (rows) of rectangular stone blocks of equal height, running the full width. Every course is the same height and its horizontal mortar lines are perfectly straight and level. Blocks in neighbouring courses are staggered like brickwork, each block about 1.5 to 2 times wider than tall. Mortar joints are clear dark brown ink lines. Each block is one flat colour with a slightly lighter top edge (light from above) and a slightly darker bottom edge. A few small chips. No moss, no roots, no pillars, no arches, no windows, no symbols, no painterly texture, no noise.
+
+The texture must tile seamlessly left-right and top-bottom: courses and blocks continue across the edges.

@@ -81,6 +81,7 @@ python -m venv .local/audio-venv
 
 音響共通のパス/キーはconfig.py、HTTP/TLSはtransport.py、CLI/保存はasset.pyが担当する。
 画像はHTTP opener/TLSだけtransport.pyから共有し、要求・応答・予算管理は独立実装。
+画像の予算は2026-09-27から月ごとの金額（月20ドル、`tools/image_budget.json`）。送信前に残りを確認し、`--plan N` で作業前にN枚が収まるか確認できる。詳細は[画像CLI](../../tools/README.md)。OpenAIの実残高は通常のAPIキーでは読めないため、手元の使用量台帳の換算額で管理する。
 
 音響のWindows TLSは信頼済みROOTストアからサーバー認証用ルートをロードする。
 CAキャッシュ内の期限切れ中間証明書を避けつつ、証明書とホスト名を検証する。

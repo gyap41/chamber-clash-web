@@ -1,0 +1,38 @@
+{
+  "name": "stage-room-mock-v1",
+  "fingerprint": "25604ccdd29b2302a6ca4c045aa095c3511806bcc9477a4731daff834afdb870",
+  "status": "success",
+  "reserved_usd": 1.0,
+  "sent_at": "2026-09-27T04:26:00.044705+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Mock gameplay screen (no UI, no text) for a 2D top-down action game: one standard room of an old ash-covered foundry, used to fix the environment art style.\n\nReference image 1 is the player \"Rina\" (STYLE MASTER). Reference image 2 is the approved style sheet: its floor swatch, pillar, anvil and crate show how the environment must be drawn. Reference image 3 is an enemy already drawn in this style. Draw EVERYTHING with the same technique: thick dark brown ink outlines, flat colours with 2-3 cel-shading steps, light from the upper left, big simple shapes, no painterly texture, no photographic stone, no noise.\n\nEnvironment rule: the background keeps its ink lines but is calmer than the characters: duller, darker, lower contrast, lower saturation, fewer and larger shapes. Characters and enemies must be the brightest and most colourful things on screen.\n\nView: strong top-down 3/4 view (about 70 degrees from the ground), orthographic, horizontal edges stay horizontal, no perspective convergence, no isometric angle.\n\nRoom layout:\n- North wall across the whole top of the image: a flat stone wall-top cap seen from above, and below it the wall's front face of large stone blocks, about half as tall as Rina. A doorway gap through the north wall right of centre, dark inside.\n- West wall down the left edge: we see only its flat stone top from above. At the top-left corner the west wall's top joins the north wall's top continuously (no pillar, no seam, no frame).\n- Floor: large irregular stone slabs, each slab about as long as Rina is tall, separated by dark ink joint lines, a few simple cracks, dark warm grey with a hint of brown. It is the darkest and calmest area.\n- Walls use the same stone as the floor, slightly lighter, with an ink line only on their outer edges.\n- Against the north wall, left of the door: a squat stone-and-iron furnace with a glowing orange mouth, a little ash and soot on the floor in front of it only.\n- Against the north wall, right of the door: a wooden workbench seen mostly from the top (tabletop dominant, short front, legs hidden) with a few tools.\n- One iron wall lamp mounted on the north wall face.\n- On the floor: one square stone pillar (upper right), an iron anvil on a low wooden block (middle right), a steel-banded wooden crate and a pallet (lower left).\n- Leave a wide open floor area in the middle for fighting.\n\nCharacters for scale: Rina near the centre facing down-right with her large pistol, about 9 percent of the image height. The green fire-pouch lizard from reference 3 in the lower right, crawling toward her, its throat pouch glowing orange. Soft dark oval shadows under all figures and props.\n\nNo UI, no numbers, no letters, no logos, no watermark.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "docs\\art\\production\\style-reference-2026-09-26\\ref-rina.png",
+      "sha256": "55bd4a8299def054df8c01ff39e9390e8e144d787286f330388e5248dffcf7f4"
+    },
+    {
+      "path": "assets\\generated\\style-reference-v2.png",
+      "sha256": "1f9922e428ca32483596bd8e140ca7b48cb5f2c82a6b3a8c77936174a19cb9c4"
+    },
+    {
+      "path": "docs\\art\\production\\ashen-foundry-v2\\ref-lizard-v3.png",
+      "sha256": "d9b0798a8168ae5333491414f1db6bafba645ea8615ad38aa4da4dd2bf665f85"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 622,
+      "image_tokens": 1872
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.114403
+}

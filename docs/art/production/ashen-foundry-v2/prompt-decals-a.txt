@@ -1,0 +1,17 @@
+Sprite sheet of six separate flat floor decorations for a 2D top-down action game: an old ash-covered foundry inside ancient underground stone ruins overgrown by roots.
+
+Reference image 1 is an approved sheet of props from this same set: match its drawing technique exactly (thick dark brown ink outlines, flat colours with 2-3 cel-shading steps, light from the upper left, big simple shapes, no painterly texture, no fine noise). Reference image 2 is the stone floor these lie on. Reference image 3 is the player "Rina", the style master.
+
+These are floor decals seen straight from above, lying flat on the floor. They must stay calm: only slightly more contrast than the floor, muted colours, simple readable shapes, not busy. No cast shadows.
+
+Layout: exactly 3 columns and 2 rows, one decoration per cell, centred with generous margin, never touching another cell. Solid flat pure magenta background (#FF00FF) everywhere. No floor, no labels, no text.
+
+Row 1, left to right:
+1. ASH PATCH: a soft wide oval patch of grey-black ash and soot, about 1.6 times wider than tall, drawn as two or three big flat tone shapes with an irregular outline, plus five or six small dark cinders. NOT a grainy particle cloud.
+2. OLD RUG: a rectangular worn rug, about 1.3 times wider than tall, faded red-brown with a simple pale border and one simple diamond motif, frayed short fringe on the short ends, one small hole.
+3. WORKSHOP OFFCUTS: a small loose scatter of a few pale curled wood shavings, two small iron offcuts and one small bent nail, about 1.3 times wider than tall.
+
+Row 2, left to right:
+4. MOSS PATCH: a roundish patch of muted dull green moss with a few small leaves, soft irregular edge.
+5. NEST: a small round nest of woven twigs and dry grass with a scrap of cloth and a small metal washer in it, seen from above.
+6. ROOT FROM A WALL: brown tree roots entering from the TOP edge as two thin roots and spreading downward into a wider fan of roots crawling across the floor, with a little moss, about 0.7 times as wide as tall. The top end is cut straight as if coming out of a wall; do NOT draw any wall or stones.

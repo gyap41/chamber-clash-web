@@ -1,0 +1,38 @@
+{
+  "name": "stage-v2-props-b",
+  "fingerprint": "da30c31376f381c80b5b0984b0c2dae2bd7e1853dbe911240990cea5e5b18ea9",
+  "status": "success",
+  "reserved_usd": 0.25,
+  "sent_at": "2026-09-27T05:51:48.442813+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Sprite sheet of six separate props for a 2D top-down action game, an old ash-covered foundry workshop inside ancient underground stone ruins.\n\nReference image 1 is an approved sheet of props from this same set: match its drawing technique, colours, materials, line weight, lighting and camera angle exactly. Reference image 2 is the player \"Rina\", the style master. Reference image 3 is the stone floor and wall material (warm earthy grey-brown).\n\nProps are background objects: slightly duller and lower in contrast than characters, clearly readable with thick dark brown ink outlines, flat 2-3 step cel shading, light from the upper left. No moss, no text, no symbols.\n\nView for ALL props: orthographic top-down 3/4 view (about 70 degrees from the ground). Horizontal edges perfectly horizontal, NO isometric or diagonal angle, NO perspective.\n\nLayout: exactly 3 columns and 2 rows, one prop per cell, centred with generous margin, never touching another cell. Solid flat pure magenta background (#FF00FF) everywhere. No ground shadows, no floor, no labels.\n\nRow 1, left to right:\n1. WALL LAMP: a small iron lantern on a short wall bracket, front view, warm glowing glass. Tall and narrow (about 0.6 as wide as tall).\n2. STONE PILLAR: a square pillar of large warm grey-brown stone blocks with a wider square base and a simple cap, same stone as the floor. Tall and narrow (about 1 wide to 2 tall). Seen from the front with the top face visible.\n3. MOLD RACK that stands against a wall: wide low wooden rack, front view, holding round and square stone casting molds on two shelves.\n\nRow 2, left to right:\n4. QUENCH TROUGH: a long low stone-and-iron trough full of dark water, seen mostly from the top, a small wooden bucket at one end. About twice as wide as deep.\n5. COVERED CRATES: two stacked crates under a draped pale canvas sheet, seen mostly from the top.\n6. TEA TABLE: a small round wooden table with a simple teapot and two cups, seen mostly from the top, legs hidden.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\generated\\stage-v2-props-a.png",
+      "sha256": "48017f29bf658425aef56be506920b72d7c866d5b2a6ca654bd16ec34ef66031"
+    },
+    {
+      "path": "docs\\art\\production\\style-reference-2026-09-26\\ref-rina.png",
+      "sha256": "55bd4a8299def054df8c01ff39e9390e8e144d787286f330388e5248dffcf7f4"
+    },
+    {
+      "path": "assets\\stages\\ashen-foundry-v2\\floor.png",
+      "sha256": "829a7155344f85543e571c2c6cbdcc35d45d188fa2520f4f3cb3c38dab54feda"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 473,
+      "image_tokens": 2480
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1164625
+}

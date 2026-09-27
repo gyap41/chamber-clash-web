@@ -72,9 +72,9 @@ static func catalog() -> Dictionary:
 		lamp.light_energy = .55
 		lamp.light_offset = Vector2(0,-6)
 	var dressing = preload("res://scripts/world/ashen_foundry_dressing.gd")
-	dressing.decal(field,"collapse_dust",1,Vector2(820,250),Vector2(360,270))
+	dressing.decal(field,"collapse_dust",1,Vector2(820,250),Vector2(360,270),true)
 	field.placements.back().tint = Color(1,1,1,.5)
-	dressing.decal(field,"annex_scuff",3,Vector2(155,385),Vector2(95,70))
+	dressing.decal(field,"annex_scuff",3,Vector2(155,385),Vector2(95,70),true)
 	field.placements.back().tint = Color(1,1,1,.55)
 	var hall = Shell.make_room("collapse_approach",["north"],Vector2(880,600))
 	hall.display_name = "作業室への通路"

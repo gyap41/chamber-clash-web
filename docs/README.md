@@ -6,6 +6,7 @@
 
 |頼みたいこと|最初に読む|変更を反映する場所|
 |---|---|---|
+|世界観・冒険の目的・階層構成を考える|[世界観と5階層案](planning/WORLD_AND_DUNGEON_CONCEPT.md)|planningの提案。現行動作や制作仕様と区別する|
 |ボスを設計・制作・レビューする|[ボス制作テンプレート](art/BOSS_CREATION_TEMPLATE.md) → [敵素材の共通規格](art/ENEMY_CREATION_TEMPLATE.md)|ボス別の制作記録、実装済み仕様はGAME_RULES、検証はTESTING|
 |敵の素材・アニメーションを作る|[敵素材の制作テンプレート](art/ENEMY_CREATION_TEMPLATE.md) → [敵・ボス制作計画](planning/ENEMY_BOSS_ART_PLAN.md)|art/productionの素材台帳、実装後はACTOR_ANIMATION・GAME_RULES|
 |次の作業を進める|[全体ロードマップ](planning/ROADMAP.md) → [探索の工程](planning/EXPLORATION_ROADMAP.md)|該当仕様と残課題|

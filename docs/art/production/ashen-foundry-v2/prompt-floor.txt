@@ -1,0 +1,9 @@
+Seamless tileable floor texture for a 2D top-down action game, seen straight from above, filling the whole square edge to edge. No border, no frame, no vignette, no characters, no objects, no text.
+
+Reference image 1 shows the approved art style of this game's stone floor (dark ink joint lines, flat cel shading, big simple shapes). Match that drawing technique exactly, but change the colour: warm earthy grey-brown stone (like old sandstone darkened by soot and soil), not neutral grey.
+
+Content: large irregular flagstones of an ancient underground ruin, about 5 to 6 slabs across the width of the image, each slab drawn as one flat colour with at most one subtle lighter or darker step. Slabs are separated by clear dark brown ink joint lines. A few simple cracks and one or two chipped corners. No moss, no roots, no debris, no stains, no puddles, no symbols, no painterly texture, no noise, no photographic stone grain.
+
+Keep it calm and low contrast so characters stand out on top: overall dark warm grey-brown, slab-to-slab variation very small. Light from the upper left only as a faint bevel on slab edges.
+
+The texture must tile seamlessly: joint lines and slabs continue across the left-right and top-bottom edges.

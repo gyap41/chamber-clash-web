@@ -1,0 +1,15 @@
+Sprite sheet of four separate flat floor pieces for a 2D top-down action game: an old foundry inside ancient underground stone ruins overgrown by roots.
+
+Reference image 1 is an approved sheet of floor decorations from this same set: match its drawing technique, colours and root style exactly (thick dark brown ink outlines, flat 2-3 step cel shading, light from the upper left, big simple shapes). Reference image 2 is the stone floor. Reference image 3 is the props sheet of the same set (stone, iron, wood).
+
+All pieces are flat on the floor, seen straight from above. No cast shadows.
+
+Layout: exactly 2 columns and 2 rows, one piece per cell, centred with generous margin, never touching another cell. Solid flat pure magenta background (#FF00FF) everywhere. No floor, no labels, no text.
+
+Row 1, left to right:
+1. ROOT FROM THE SIDE: brown tree roots entering from the LEFT edge as two thick roots and spreading to the right into a fan of thinner roots crawling across the floor, with a little moss, about 1.2 times wider than tall. The left end is cut straight as if coming out of a wall; do NOT draw any wall or stones.
+2. DOOR THRESHOLD: one long flat stone sill slab lying in a doorway, about 5 times wider than tall, the same warm grey-brown stone as the floor but slightly lighter and smoother, worn in the middle, clear ink outline, horizontal edges perfectly straight.
+
+Row 2, left to right:
+3. LOCKED DOOR BARRIER: one heavy dark iron beam lying across a doorway, about 7 times wider than tall, with bolted iron end caps and three rivets, a thin warm brass band in the middle, horizontal edges perfectly straight, seen from above.
+4. ASH PATCH, LARGE: a wide irregular patch of grey-black ash and soot around a work area, about 1.4 times wider than tall, two or three big flat tone shapes and a few dark cinders, NOT a grainy particle cloud.

@@ -2,16 +2,52 @@
 import hashlib
 import json
 import math
+import os
 import struct
+from datetime import datetime, timezone
 from pathlib import Path
 
-# Revised scope: one modular wall material sheet, maximum 78 total sends.
-# 2026-09-26: user raised to 82 (+3) then 86 (+4) for Rina body/arm parts (gpt-image-2, stop on error).
-# 2026-09-26: user raised to 91 (+5) for the style reference retry (VISUAL_STYLE_GUIDE step 1).
-# Previous unknown Sora reservation remains retained.
-LIMIT_USD = 91.0
-LIMIT_REQUESTS = 91
-RESERVATION_USD = 1.0
+# Monthly USD budget (2026-09-27): replaces the old request-count cap that reserved $1 per send and
+# had to be raised by hand every task. Spending is summed from the usage-based estimates in the ledger;
+# sends without a known cost (pending, failed, outcome unknown) count at the per-request reserve.
+# Settings live in image_budget.json; IMAGE_MONTHLY_BUDGET_USD in the environment overrides the amount.
+CONFIG = Path(__file__).resolve().with_name('image_budget.json')
+
+def load_config(path=CONFIG, environ=None):
+    environ = os.environ if environ is None else environ
+    config = json.loads(Path(path).read_text(encoding='utf-8'))
+    budget = float(environ.get('IMAGE_MONTHLY_BUDGET_USD', config['monthly_budget_usd']))
+    reserve = float(config['request_reserve_usd'])
+    if not (math.isfinite(budget) and budget >= 0 and math.isfinite(reserve) and reserve > 0):
+        raise ValueError('Invalid image budget configuration.')
+    return dict(monthly_budget_usd=budget, request_reserve_usd=reserve)
+
+def month_of(record):
+    return str(record.get('sent_at', ''))[:7]
+
+def record_cost(record, reserve):
+    cost = record.get('pricing_estimate_usd')
+    if type(cost) in (int, float) and math.isfinite(cost) and cost >= 0:
+        return float(cost)
+    return reserve
+
+def budget_status(history, config, now=None, planned=1):
+    now = now or datetime.now(timezone.utc)
+    month = now.strftime('%Y-%m')
+    reserve = config['request_reserve_usd']
+    records = [x for x in history if month_of(x) == month]
+    spent = sum(record_cost(x, reserve) for x in records)
+    remaining = config['monthly_budget_usd'] - spent
+    return dict(month=month, budget=config['monthly_budget_usd'], spent=spent, sends=len(records),
+                remaining=remaining, reserve=reserve, planned=planned,
+                planned_reserve=planned * reserve, fits=planned * reserve <= remaining + 1e-9,
+                affordable=max(0, int((remaining + 1e-9) // reserve)))
+
+def describe(status):
+    verdict = 'OK' if status['fits'] else 'OVER BUDGET: do not send'
+    return (f"{status['month']}: budget ${status['budget']:.2f}, used ${status['spent']:.2f} in {status['sends']} sends, "
+            f"remaining ${status['remaining']:.2f} (about {status['affordable']} more at ${status['reserve']:.2f} each). "
+            f"Planned {status['planned']} = up to ${status['planned_reserve']:.2f}: {verdict}.")
 
 def save(path, data):
     path = Path(path)
@@ -19,7 +55,7 @@ def save(path, data):
     temporary.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     temporary.replace(path)
 
-def validate_history(history, name, fingerprint):
+def validate_history(history, name, fingerprint, config=None, now=None):
     def acknowledged_unknown(x):
         resolution = x.get('manual_resolution', {})
         return (x['status'] == 'outcome_unknown'
@@ -35,8 +71,8 @@ def validate_history(history, name, fingerprint):
     if any(x['name'] == name or (x['fingerprint'] == fingerprint and not
            (acknowledged_unknown(x) and x['manual_resolution']['retry_name'] == name)) for x in history):
         raise ValueError('Previously requested asset: additional candidate requires user approval.')
-    if len(history) + 1 >= LIMIT_REQUESTS or (len(history) + 1) * RESERVATION_USD >= LIMIT_USD:
-        raise ValueError('Conservative budget would reach the authorized limit.')
+    if not budget_status(history, config or load_config(), now)['fits']:
+        raise ValueError('Monthly image budget would be exceeded.')
 
 def usage_record(usage):
     if not isinstance(usage, dict):

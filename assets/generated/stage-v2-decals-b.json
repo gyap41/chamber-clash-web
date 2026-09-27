@@ -1,0 +1,38 @@
+{
+  "name": "stage-v2-decals-b",
+  "fingerprint": "dc8fad0c490bbc0a6fde1e61779bcd0f83c27bbe6d618d60baecd9a4f64c31ce",
+  "status": "success",
+  "reserved_usd": 0.25,
+  "sent_at": "2026-09-27T06:01:33.932114+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Sprite sheet of four separate flat floor pieces for a 2D top-down action game: an old foundry inside ancient underground stone ruins overgrown by roots.\n\nReference image 1 is an approved sheet of floor decorations from this same set: match its drawing technique, colours and root style exactly (thick dark brown ink outlines, flat 2-3 step cel shading, light from the upper left, big simple shapes). Reference image 2 is the stone floor. Reference image 3 is the props sheet of the same set (stone, iron, wood).\n\nAll pieces are flat on the floor, seen straight from above. No cast shadows.\n\nLayout: exactly 2 columns and 2 rows, one piece per cell, centred with generous margin, never touching another cell. Solid flat pure magenta background (#FF00FF) everywhere. No floor, no labels, no text.\n\nRow 1, left to right:\n1. ROOT FROM THE SIDE: brown tree roots entering from the LEFT edge as two thick roots and spreading to the right into a fan of thinner roots crawling across the floor, with a little moss, about 1.2 times wider than tall. The left end is cut straight as if coming out of a wall; do NOT draw any wall or stones.\n2. DOOR THRESHOLD: one long flat stone sill slab lying in a doorway, about 5 times wider than tall, the same warm grey-brown stone as the floor but slightly lighter and smoother, worn in the middle, clear ink outline, horizontal edges perfectly straight.\n\nRow 2, left to right:\n3. LOCKED DOOR BARRIER: one heavy dark iron beam lying across a doorway, about 7 times wider than tall, with bolted iron end caps and three rivets, a thin warm brass band in the middle, horizontal edges perfectly straight, seen from above.\n4. ASH PATCH, LARGE: a wide irregular patch of grey-black ash and soot around a work area, about 1.4 times wider than tall, two or three big flat tone shapes and a few dark cinders, NOT a grainy particle cloud.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\generated\\stage-v2-decals-a.png",
+      "sha256": "03d5f3eb5126d7c1b7ea814cd1cf55abc1e773f4b820f3917d9fd1d118ed331e"
+    },
+    {
+      "path": "assets\\stages\\ashen-foundry-v2\\floor.png",
+      "sha256": "829a7155344f85543e571c2c6cbdcc35d45d188fa2520f4f3cb3c38dab54feda"
+    },
+    {
+      "path": "assets\\generated\\stage-v2-props-a.png",
+      "sha256": "48017f29bf658425aef56be506920b72d7c866d5b2a6ca654bd16ec34ef66031"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 439,
+      "image_tokens": 3072
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1187455
+}

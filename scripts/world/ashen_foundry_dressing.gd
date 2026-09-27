@@ -1,11 +1,19 @@
 extends RefCounted
 # Deterministic dressing; private placements never consume the floor layout RNG.
-const THEME = preload("res://data/stage_themes/ashen_foundry.tres")
+# v2 (2026-09-27): floor and walls redrawn in the adopted art style (docs/art/production/ashen-foundry-v2).
+# The v1 theme (ashen_foundry.tres) is kept for rollback and is still used by the collapsed-workshop demo.
+const THEME = preload("res://data/stage_themes/ashen_foundry_v2.tres")
 const ATLAS = preload("res://assets/stages/ashen-foundry/decals.png")
 const ROOTS = preload("res://assets/stages/ashen-foundry/root-junctions-v2.png")
 const ROOT_ENTRIES = preload("res://assets/stages/ashen-foundry/root-entries-v3.png")
 const FURNISHINGS = preload("res://assets/stages/ashen-foundry/furnishings-v2.png")
 static var sprite_cache: Dictionary = {}
+# v2 furniture (2026-09-27, docs/art/production/ashen-foundry-v2 stage 3), cut by tools/build_stage_v2_props.gd.
+# Only the picture changes: positions, collisions and shadows stay as authored. Each prop keeps the bottom
+# (feet) of its old visual rect and gets the display width below; height follows the new picture.
+const PROPS_V2 := "res://assets/stages/ashen-foundry-v2/props/%s.png"
+const PROP_WIDTHS := {"furnace":112.0,"bench":134.0,"cabinet":64.0,"lamp":18.0,"material-crate":66.0,
+	"metal-pallet":80.0,"anvil":60.0,"pillar":46.0,"mold_rack":140.0,"quench_trough":112.0,"covered_crates":84.0,"tea_table":64.0}
 const Placement = preload("res://scripts/world/stage_placement.gd")
 
 static func apply(room, role: String, variation: int = 0) -> String:
@@ -17,10 +25,12 @@ static func apply(room, role: String, variation: int = 0) -> String:
 	field.placements = field.placements.filter(func(prop): return not prop.placement_id.begins_with("ashen_"))
 	var identity := "hearth" if role in ["start","treasure","shop"] else "overgrown" if role == "normal" and variation%3 == 1 else "foundry"
 	if identity == "overgrown":
-		field.theme.floor_tint = Color(.73,.79,.74)
-		field.theme.wall_tint = Color(.75,.75,.66)
+		# Greener, damper stone: relative to the v2 theme values (floor .78, walls 1.15).
+		field.theme.floor_tint = Color(.72,.8,.72)
+		field.theme.wall_tint = Color(.98,1.02,.9)
 	for prop in field.placements:
-		if prop.placement_id == "furnace": prop.tint = Color(.76,.74,.67)
+		var art := v2_art_id(prop.placement_id)
+		if not art.is_empty(): retexture(prop,art)
 	var area: Rect2 = field.floor_regions[0]
 	if role == "boss":
 		var bed = Placement.new()
@@ -50,18 +60,42 @@ static func apply(room, role: String, variation: int = 0) -> String:
 		add_furnishings(room,role,variation)
 	return identity
 
-static func decal(field, id: String, cell: int, center: Vector2, size: Vector2) -> void:
+static func v2_art_id(placement_id: String) -> String:
+	if placement_id.begins_with("lamp"): return "lamp"
+	if placement_id.begins_with("structural_pillar"): return "pillar"
+	return placement_id if placement_id in ["furnace","bench","cabinet","material-crate","metal-pallet","anvil"] else ""
+
+static func retexture(prop, art: String) -> void:
+	var texture: Texture2D = load(PROPS_V2 % art)
+	var width: float = PROP_WIDTHS[art]
+	var height := width*texture.get_height()/texture.get_width()
+	var old: Rect2 = prop.visual_rect
+	prop.texture = texture
+	prop.visual_rect = Rect2(old.get_center().x-width*.5,old.end.y-height,width,height)
+	prop.tint = Color.WHITE
+
+# Floor decal by the v1 atlas cell id (1 ash, 2 rug, 3 offcuts). The v2 pictures (stage 4) keep the requested
+# width and centre; the height follows the picture. v1 keeps the old atlas (collapsed-workshop comparison room).
+static func decal(field, id: String, cell: int, center: Vector2, size: Vector2, v1: bool = false) -> void:
 	var prop = Placement.new()
 	prop.placement_id = "ashen_"+id
 	prop.position = center
 	prop.visual_rect = Rect2(-size*.5,size)
 	prop.floor_decal = true
-	var texture := AtlasTexture.new()
-	texture.atlas = ATLAS
-	var cell_size := ATLAS.get_size()*.5
-	texture.region = Rect2(Vector2(cell%2,cell/2)*cell_size,cell_size)
-	texture.filter_clip = true
-	prop.texture = texture
+	if v1:
+		var texture := AtlasTexture.new()
+		texture.atlas = ATLAS
+		var cell_size := ATLAS.get_size()*.5
+		texture.region = Rect2(Vector2(cell%2,cell/2)*cell_size,cell_size)
+		texture.filter_clip = true
+		prop.texture = texture
+	else:
+		var art: String = {1:"ash_large" if size.x >= 200 else "ash",2:"rug",3:"offcuts"}[cell]
+		prop.texture = load(PROPS_V2 % art)
+		var height: float = size.x*prop.texture.get_height()/prop.texture.get_width()
+		prop.visual_rect = Rect2(-size.x*.5,-height*.5,size.x,height)
+		# Ash is thin: let the floor joints show through.
+		if cell == 1: prop.tint = Color(1,1,1,.72)
 	field.placements.append(prop)
 
 # Trim transparent atlas margins for reliable scale, foot sorting and contact shadows.
@@ -87,6 +121,15 @@ static func sprite(sheet: Texture2D, cell: int) -> AtlasTexture:
 	texture.filter_clip = true
 	sprite_cache[key] = texture
 	return texture
+
+# Decoration prop from the v2 pictures: bottom-anchored like make_prop.
+static func make_prop_v2(id: String, art: String, width: float):
+	var prop = Placement.new()
+	prop.placement_id = "ashen_"+id
+	prop.texture = load(PROPS_V2 % art)
+	var size := Vector2(width,width*prop.texture.get_height()/prop.texture.get_width())
+	prop.visual_rect = Rect2(Vector2(-width*.5,-size.y),size)
+	return prop
 
 static func make_prop(id: String, sheet: Texture2D, cell: int, width: float):
 	var prop = Placement.new()
@@ -119,10 +162,13 @@ static func add_furnishings(room, role: String, variation: int) -> void:
 	var cells := [0,1]
 	if role in ["start","treasure","shop"]: cells.append_array([2,3])
 	for cell in cells:
-		var widths := [140.0,112.0,96.0,72.0]
-		var prop = make_prop(["mold_rack","quench_trough","covered_crates","tea_table"][cell],FURNISHINGS,cell,widths[cell])
+		var art: String = ["mold_rack","quench_trough","covered_crates","tea_table"][cell]
+		var widths := [PROP_WIDTHS.mold_rack,PROP_WIDTHS.quench_trough,PROP_WIDTHS.covered_crates,PROP_WIDTHS.tea_table]
+		var prop = Placement.new()
+		prop.placement_id = "ashen_"+art
+		prop.visual_rect = Rect2(-widths[cell]*.5,0,widths[cell],0)
+		retexture(prop,art)
 		prop.shadow_rect = Rect2(-widths[cell]*.40,-8,widths[cell]*.80,7)
-		prop.tint = Color(.88,.87,.81) if cell == 2 else Color(.91,.90,.86)
 		if cell >= 2 and place_living_corner(room,prop,cell): continue
 		var placed := false
 		# Use actual north-facing wall segments, including the elbow's inset wall.
@@ -151,17 +197,16 @@ static func add_roots(room) -> void:
 		var role: String = room.field.wall_materials.get(room.field.wall_ids[i],"")
 		var cell := 0 if role == "face" and wall.size.x > 220 else 1 if role == "top" and wall.size.y > 220 and wall.position.x == 96 else -1
 		if cell < 0 or placed.has(cell): continue
-		var prop = make_prop("root_entry_"+str(cell),ROOT_ENTRIES,cell,120 if cell == 0 else 150)
+		var prop = make_prop_v2("root_entry_"+str(cell),"root_down" if cell == 0 else "root_side",120 if cell == 0 else 150)
 		for ratio in [.25,.75,.5]:
 			var top := Vector2(wall.position.x+wall.size.x*ratio-60,wall.end.y-42) if cell == 0 else Vector2(wall.end.x-28,wall.position.y+wall.size.y*ratio-55)
 			prop.position = top-prop.visual_rect.position
 			var visual := Rect2(top,prop.visual_rect.size)
 			if not free_space(room,visual,true): continue
 			prop.surface_overlay = true
-			prop.tint = Color(.72,.72,.64)
 			room.field.placements.append(prop)
 			placed[cell] = true
-			var moss = make_prop("moss_"+str(cell),ROOTS,2,110)
+			var moss = make_prop_v2("moss_"+str(cell),"moss",110)
 			moss.position = prop.position+Vector2(18,26)
 			moss.floor_decal = true
 			room.field.placements.append(moss)
@@ -170,7 +215,7 @@ static func add_roots(room) -> void:
 	for region in room.field.floor_regions:
 		if region.size.x < 250 or region.size.y < 200: continue
 		for x in [region.position.x+65,region.end.x-65]:
-			var nest = make_prop("nest",ROOTS,3,64)
+			var nest = make_prop_v2("nest","nest",64)
 			nest.position = Vector2(x,region.end.y-32)
 			if not free_space(room,Rect2(nest.position+nest.visual_rect.position,nest.visual_rect.size)): continue
 			nest.floor_decal = true

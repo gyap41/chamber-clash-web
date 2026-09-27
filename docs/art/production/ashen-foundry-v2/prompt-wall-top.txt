@@ -1,0 +1,7 @@
+Seamless tileable texture of the flat top surface of a thick stone wall, seen straight from above, for a 2D top-down action game. Fill the whole square edge to edge. No border, no frame, no rim, no floor, no objects, no text.
+
+Reference image 1 shows the approved art style (dark ink lines, flat cel shading, big simple shapes); its top strip shows the flat stone wall-top cap. Match that drawing technique, with warm earthy grey-brown stone (old sandstone darkened by soot), a little lighter than the floor, not neutral grey.
+
+Content: large squarish capstones laid in a loose grid, about 3 stones across the width of the image, each stone one flat colour with at most one subtle shading step, separated by clear dark brown ink joint lines. A few worn corners and hairline cracks. No moss, no roots, no debris, no symbols, no painterly texture, no noise.
+
+Keep it calm and low contrast. The texture must tile seamlessly left-right and top-bottom.

@@ -1,0 +1,5 @@
+{
+  "note": "画像生成（tools/generate_image.py）の月間予算。金額は使用量からの換算額（請求書ではない）。月はsent_atのUTC年月。2026-09-27、ユーザー決定で月20ドル。",
+  "monthly_budget_usd": 20.0,
+  "request_reserve_usd": 0.25
+}

@@ -1,0 +1,30 @@
+{
+  "name": "stage-v2-floor",
+  "fingerprint": "ef3f9a825c818ee98d87ddfcddf5ef288640668c5bdef2546a097a0d1ae42f14",
+  "status": "success",
+  "reserved_usd": 0.25,
+  "sent_at": "2026-09-27T05:22:26.625973+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Seamless tileable floor texture for a 2D top-down action game, seen straight from above, filling the whole square edge to edge. No border, no frame, no vignette, no characters, no objects, no text.\n\nReference image 1 shows the approved art style of this game's stone floor (dark ink joint lines, flat cel shading, big simple shapes). Match that drawing technique exactly, but change the colour: warm earthy grey-brown stone (like old sandstone darkened by soot and soil), not neutral grey.\n\nContent: large irregular flagstones of an ancient underground ruin, about 5 to 6 slabs across the width of the image, each slab drawn as one flat colour with at most one subtle lighter or darker step. Slabs are separated by clear dark brown ink joint lines. A few simple cracks and one or two chipped corners. No moss, no roots, no debris, no stains, no puddles, no symbols, no painterly texture, no noise, no photographic stone grain.\n\nKeep it calm and low contrast so characters stand out on top: overall dark warm grey-brown, slab-to-slab variation very small. Light from the upper left only as a faint bevel on slab edges.\n\nThe texture must tile seamlessly: joint lines and slabs continue across the left-right and top-bottom edges.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "docs\\art\\production\\ashen-foundry-v2\\ref-mock-stone.png",
+      "sha256": "9dd173305bd7de60cb4bb30eb6503af25f185b79db83f0cec9eadedf87c96875"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 275,
+      "image_tokens": 576
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1083515
+}

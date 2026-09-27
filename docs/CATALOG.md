@@ -4,7 +4,7 @@
 
 自動生成: `python tools/docs_index.py`。表題は本文の最初の見出しから取得。分類は役割の案内で、内容の検証完了や採用を示しません。過去計画は元のパスを維持して履歴に分類しています。
 
-対象 202 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
+対象 204 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
 
 ## 入口・運用
 
@@ -42,6 +42,7 @@
 |[docs/planning/EXPLORATION_ROADMAP.md](<planning/EXPLORATION_ROADMAP.md>)|探索・ストーリーモード開発ロードマップ|
 |[docs/planning/ROADMAP.md](<planning/ROADMAP.md>)|現在地と残課題|
 |[docs/planning/ROOM_SHAPE_STUDIES.md](<planning/ROOM_SHAPE_STUDIES.md>)|部屋形状15案|
+|[docs/planning/WORLD_AND_DUNGEON_CONCEPT.md](<planning/WORLD_AND_DUNGEON_CONCEPT.md>)|始まりの工房：世界観・探索ループ・5階層案|
 |[docs/planning/art-direction-comps/README.md](<planning/art-direction-comps/README.md>)|ゲーム画面で比較する画風3案|
 
 ## 実装・検証手順
@@ -74,6 +75,7 @@
 |ファイル|表題・内容の手掛かり|
 |---|---|
 |[docs/art/production/README.md](<art/production/README.md>)|必要：制作指示|
+|[docs/art/production/ashen-foundry-v2/README.md](<art/production/ashen-foundry-v2/README.md>)|旧鋳造区 v2：採用画風での描き直し|
 |[docs/art/production/ashen-foundry/README.md](<art/production/ashen-foundry/README.md>)|1面：灰積もる旧鋳造区|
 |[docs/art/production/boss-approach/README.md](<art/production/boss-approach/README.md>)|ボス前室・南入口の制作記録|
 |[docs/art/production/collapsed-workshop/README.md](<art/production/collapsed-workshop/README.md>)|崩落した作業室：実機試作|

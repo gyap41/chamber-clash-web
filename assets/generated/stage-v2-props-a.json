@@ -1,0 +1,38 @@
+{
+  "name": "stage-v2-props-a",
+  "fingerprint": "3d29a521c1f3159466d4f11306da49d428200d5e9fdbc35a027fc7694218f50f",
+  "status": "success",
+  "reserved_usd": 0.25,
+  "sent_at": "2026-09-27T05:49:58.588441+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Sprite sheet of six separate props for a 2D top-down action game, an old ash-covered foundry workshop inside ancient underground stone ruins.\n\nReference image 1 is the player \"Rina\", the style master. Reference image 2 is an approved room mock of this game: copy its drawing technique for props (thick dark brown ink outlines, flat colours with 2-3 cel-shading steps, light from the upper left, big simple shapes, no painterly texture). Reference image 3 is the stone floor the props stand on (warm earthy grey-brown).\n\nProps are background objects: slightly duller and lower in contrast than characters, but clearly readable with ink outlines. Materials: warm grey-brown stone matching the floor, dark iron, old brown wood, small brass accents. No moss, no text, no symbols.\n\nView for ALL props: orthographic top-down 3/4 view (about 70 degrees from the ground). Horizontal edges must be perfectly horizontal and parallel to the image edges; NO isometric or diagonal angle, NO perspective. Floor-standing props show mostly their top surface with a short front face and hidden legs.\n\nLayout: exactly 3 columns and 2 rows, one prop per cell, centred with generous margin, never touching another cell. Solid flat pure magenta background (#FF00FF) everywhere. No shadows on the ground, no floor, no labels.\n\nRow 1, left to right:\n1. FURNACE that stands against a wall: squat block of stone and iron, front view facing the viewer, arched front mouth with a glowing orange fire grate, a short square chimney rising straight up at the back. About as wide as it is tall.\n2. WORKBENCH: a long wooden table seen mostly from the top (wide flat tabletop, very short front edge, legs hidden), a hammer, pliers and a small vise on the top. About twice as wide as it is deep.\n3. TOOL CABINET that stands against a wall: tall narrow wooden shelf unit with iron corners, front view, hanging tongs and a few metal bars on the shelves.\n\nRow 2, left to right:\n4. ANVIL on a low square wooden block, seen mostly from the top.\n5. MATERIAL CRATE: square wooden crate with two dark iron bands, seen mostly from the top, short front face.\n6. METAL PALLET: a low wooden pallet with a stack of dull iron ingots on it, seen mostly from the top.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "docs\\art\\production\\style-reference-2026-09-26\\ref-rina.png",
+      "sha256": "55bd4a8299def054df8c01ff39e9390e8e144d787286f330388e5248dffcf7f4"
+    },
+    {
+      "path": "assets\\generated\\stage-room-mock-v1.png",
+      "sha256": "d8eb088ea8b6cae3f79c1a4fe945ae5fab14b86993c3bad382882be136656a05"
+    },
+    {
+      "path": "assets\\stages\\ashen-foundry-v2\\floor.png",
+      "sha256": "829a7155344f85543e571c2c6cbdcc35d45d188fa2520f4f3cb3c38dab54feda"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 516,
+      "image_tokens": 2480
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.11657
+}

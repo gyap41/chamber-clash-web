@@ -1,0 +1,30 @@
+{
+  "name": "stage-v2-wall-top",
+  "fingerprint": "5a3eb75243676214e9893c7060dc3fe2adb5b4075a7f40664bacbeab52a49720",
+  "status": "success",
+  "reserved_usd": 0.25,
+  "sent_at": "2026-09-27T05:26:19.270777+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Seamless tileable texture of the flat top surface of a thick stone wall, seen straight from above, for a 2D top-down action game. Fill the whole square edge to edge. No border, no frame, no rim, no floor, no objects, no text.\n\nReference image 1 shows the approved art style (dark ink lines, flat cel shading, big simple shapes); its top strip shows the flat stone wall-top cap. Match that drawing technique, with warm earthy grey-brown stone (old sandstone darkened by soot), a little lighter than the floor, not neutral grey.\n\nContent: large squarish capstones laid in a loose grid, about 3 stones across the width of the image, each stone one flat colour with at most one subtle shading step, separated by clear dark brown ink joint lines. A few worn corners and hairline cracks. No moss, no roots, no debris, no symbols, no painterly texture, no noise.\n\nKeep it calm and low contrast. The texture must tile seamlessly left-right and top-bottom.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "docs\\art\\production\\ashen-foundry-v2\\ref-mock-stone.png",
+      "sha256": "9dd173305bd7de60cb4bb30eb6503af25f185b79db83f0cec9eadedf87c96875"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 222,
+      "image_tokens": 576
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.108219
+}

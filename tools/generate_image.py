@@ -11,7 +11,7 @@ import uuid
 from datetime import datetime, timezone
 import urllib.error
 import urllib.request
-from image_budget import save, validate_history, usage_record, reference, RESERVATION_USD
+from image_budget import save, validate_history, usage_record, reference, load_config, budget_status, describe
 from asset_generator.transport import https_opener
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -60,7 +60,18 @@ def main():
     parser.add_argument("--check", action="store_true", help="Validate locally without an API call")
     parser.add_argument("--prompt-file", type=Path)
     parser.add_argument("--reference", type=Path, action="append", default=[])
+    parser.add_argument("--plan", type=int, metavar="N",
+                        help="Show this month's budget and whether N more images fit; no key, no API call")
     args = parser.parse_args()
+    config = load_config()
+    ledger = OUTPUT / 'first-workshop-usage.json'
+    if args.plan is not None:
+        if args.plan < 1:
+            raise ValueError('--plan needs a positive number of images.')
+        history = json.loads(ledger.read_text(encoding='utf-8')) if ledger.exists() else []
+        status = budget_status(history, config, planned=args.plan)
+        print(describe(status))
+        return 0 if status['fits'] else 3
     if args.prompt_file:
         args.prompt = args.prompt_file.read_text(encoding="utf-8-sig")
     if args.model != 'gpt-image-2' or len(args.prompt.encode('utf-8')) > 4000 or len(args.reference) > 3:
@@ -84,11 +95,10 @@ def main():
         raw, digest = reference(path)
         references.append((path, raw, digest))
     fingerprint = hashlib.sha256(json.dumps([payload,[r[2] for r in references]],sort_keys=True).encode()).hexdigest()
-    ledger = OUTPUT / 'first-workshop-usage.json'
     history = json.loads(ledger.read_text(encoding='utf-8')) if ledger.exists() else []
-    validate_history(history, args.name, fingerprint)
+    validate_history(history, args.name, fingerprint, config)
     if args.check:
-        print(f'Local validation OK. Requests={len(history)}, reserved=${len(history)*RESERVATION_USD:.2f}; no API call.')
+        print('Local validation OK; no API call. ' + describe(budget_status(history, config)))
         return 0
     OUTPUT.mkdir(parents=True, exist_ok=True)
     lock = OUTPUT / 'first-workshop.lock'
@@ -96,7 +106,7 @@ def main():
     with lock.open('x') as stream:
         stream.write(args.name)
     history = json.loads(ledger.read_text(encoding='utf-8')) if ledger.exists() else []
-    validate_history(history, args.name, fingerprint)
+    validate_history(history, args.name, fingerprint, config)
     body = json.dumps(payload).encode('utf-8')
     content_type = 'application/json'
     endpoint = 'generations'
@@ -117,7 +127,7 @@ def main():
         method="POST",
     )
     opener = https_opener()
-    record = dict(name=args.name, fingerprint=fingerprint, status='pending', reserved_usd=RESERVATION_USD,
+    record = dict(name=args.name, fingerprint=fingerprint, status='pending', reserved_usd=config['request_reserve_usd'],
                   sent_at=datetime.now(timezone.utc).isoformat(), endpoint=endpoint, request=payload,
                   references=[dict(path=str(p.relative_to(ROOT) if p.is_absolute() else p),sha256=h) for p,_,h in references])
     history.append(record)
@@ -131,7 +141,8 @@ def main():
         save(ledger, history)
         # API error bodies can contain credential fragments; never print them.
         hints = {401: "Check the API key.", 403: "Check model access / organization verification.",
-                 429: "Check API quota, billing and rate limits.", 400: "Check model and request parameters."}
+                 429: "Rate limit or insufficient credit balance (check billing). Not retried.",
+                 400: "Check model and request parameters."}
         print(f"OpenAI HTTP {error.code}. " + hints.get(error.code, "Request failed."), file=sys.stderr)
         return 1
     except (urllib.error.URLError, TimeoutError):
@@ -159,11 +170,12 @@ def main():
     with metadata.open("x", encoding="utf-8") as stream:
         json.dump(record, stream, ensure_ascii=False, indent=2)
         stream.write("\n")
-    record['status'] = 'success' if cost < RESERVATION_USD else 'budget_review_required'
+    # A send costing more than the reserve means the reserve is too small: stop for review.
+    record['status'] = 'success' if cost <= config['request_reserve_usd'] else 'budget_review_required'
     save(metadata, record)
     save(ledger, history)
     lock.unlink()
-    print(f'Saved: {target}; usage-based estimate=${cost:.6f}; requests={len(history)}; reserved=${len(history):.2f}')
+    print(f'Saved: {target}; usage-based estimate=${cost:.6f}. ' + describe(budget_status(history, config, planned=1)))
     return 0
 
 

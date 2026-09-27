@@ -6,6 +6,12 @@ var opening_width := 112.0
 var available := false
 var locked := false
 var caption: Label
+# Door pieces of the ashen foundry v2 set (docs/art/production/ashen-foundry-v2 stage 4): a stone sill across the
+# opening and, while sealed, an iron beam over it. Both are flat floor pieces, so rotating them is fine.
+const THRESHOLD = preload("res://assets/stages/ashen-foundry-v2/props/threshold.png")
+const BARRIER = preload("res://assets/stages/ashen-foundry-v2/props/barrier.png")
+const SILL_DEPTH := 20.0
+const BARRIER_DEPTH := 14.0
 func configure(entry: Dictionary, destination: String, _theme = null) -> void:
 	door_id = entry.id
 	position = entry.position
@@ -39,12 +45,13 @@ func _draw() -> void:
 	# The field walls already form the stone returns. Do not cover them with
 	# unrelated jamb sprites, or stretch wall coping across the walkable floor.
 	# A flush, translucent sill preserves the continuous floor texture beneath it.
-	var extent := Vector2(6,opening_width) if direction.x != 0 else Vector2(opening_width,6)
-	draw_rect(Rect2(-extent*.5,extent),Color(.58,.55,.46,.09))
+	# Long axis along the opening (the tangent of the exit direction).
+	draw_set_transform(Vector2.ZERO,Vector2(-direction.y,direction.x).angle())
+	draw_texture_rect(THRESHOLD,Rect2(-opening_width*.5,-SILL_DEPTH*.5,opening_width,SILL_DEPTH),false)
 	if locked:
-		var tangent := Vector2(-direction.y,direction.x)*(opening_width*.5-8)
-		draw_line(-tangent-direction*3,tangent+direction*3,Color("b98852"),5)
-		draw_line(-tangent+direction*3,tangent-direction*3,Color("e4c38b"),1)
+		var length := opening_width-6
+		draw_texture_rect(BARRIER,Rect2(-length*.5,-BARRIER_DEPTH*.5,length,BARRIER_DEPTH),false)
+	draw_set_transform(Vector2.ZERO)
 	if available:
 		var tangent := Vector2(-direction.y,direction.x)
 		draw_circle(-direction*13+tangent*(opening_width*.5-10),2,Color("d5b575"))

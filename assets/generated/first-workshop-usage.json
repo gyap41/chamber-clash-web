@@ -2688,5 +2688,285 @@
       "output_tokens": 7024
     },
     "pricing_estimate_usd": 0.1162465
+  },
+  {
+    "name": "stage-room-mock-v1",
+    "fingerprint": "25604ccdd29b2302a6ca4c045aa095c3511806bcc9477a4731daff834afdb870",
+    "status": "success",
+    "reserved_usd": 1.0,
+    "sent_at": "2026-09-27T04:26:00.044705+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Mock gameplay screen (no UI, no text) for a 2D top-down action game: one standard room of an old ash-covered foundry, used to fix the environment art style.\n\nReference image 1 is the player \"Rina\" (STYLE MASTER). Reference image 2 is the approved style sheet: its floor swatch, pillar, anvil and crate show how the environment must be drawn. Reference image 3 is an enemy already drawn in this style. Draw EVERYTHING with the same technique: thick dark brown ink outlines, flat colours with 2-3 cel-shading steps, light from the upper left, big simple shapes, no painterly texture, no photographic stone, no noise.\n\nEnvironment rule: the background keeps its ink lines but is calmer than the characters: duller, darker, lower contrast, lower saturation, fewer and larger shapes. Characters and enemies must be the brightest and most colourful things on screen.\n\nView: strong top-down 3/4 view (about 70 degrees from the ground), orthographic, horizontal edges stay horizontal, no perspective convergence, no isometric angle.\n\nRoom layout:\n- North wall across the whole top of the image: a flat stone wall-top cap seen from above, and below it the wall's front face of large stone blocks, about half as tall as Rina. A doorway gap through the north wall right of centre, dark inside.\n- West wall down the left edge: we see only its flat stone top from above. At the top-left corner the west wall's top joins the north wall's top continuously (no pillar, no seam, no frame).\n- Floor: large irregular stone slabs, each slab about as long as Rina is tall, separated by dark ink joint lines, a few simple cracks, dark warm grey with a hint of brown. It is the darkest and calmest area.\n- Walls use the same stone as the floor, slightly lighter, with an ink line only on their outer edges.\n- Against the north wall, left of the door: a squat stone-and-iron furnace with a glowing orange mouth, a little ash and soot on the floor in front of it only.\n- Against the north wall, right of the door: a wooden workbench seen mostly from the top (tabletop dominant, short front, legs hidden) with a few tools.\n- One iron wall lamp mounted on the north wall face.\n- On the floor: one square stone pillar (upper right), an iron anvil on a low wooden block (middle right), a steel-banded wooden crate and a pallet (lower left).\n- Leave a wide open floor area in the middle for fighting.\n\nCharacters for scale: Rina near the centre facing down-right with her large pistol, about 9 percent of the image height. The green fire-pouch lizard from reference 3 in the lower right, crawling toward her, its throat pouch glowing orange. Soft dark oval shadows under all figures and props.\n\nNo UI, no numbers, no letters, no logos, no watermark.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\art\\production\\style-reference-2026-09-26\\ref-rina.png",
+        "sha256": "55bd4a8299def054df8c01ff39e9390e8e144d787286f330388e5248dffcf7f4"
+      },
+      {
+        "path": "assets\\generated\\style-reference-v2.png",
+        "sha256": "1f9922e428ca32483596bd8e140ca7b48cb5f2c82a6b3a8c77936174a19cb9c4"
+      },
+      {
+        "path": "docs\\art\\production\\ashen-foundry-v2\\ref-lizard-v3.png",
+        "sha256": "d9b0798a8168ae5333491414f1db6bafba645ea8615ad38aa4da4dd2bf665f85"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 622,
+        "image_tokens": 1872
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.114403
+  },
+  {
+    "name": "stage-v2-floor",
+    "fingerprint": "ef3f9a825c818ee98d87ddfcddf5ef288640668c5bdef2546a097a0d1ae42f14",
+    "status": "success",
+    "reserved_usd": 0.25,
+    "sent_at": "2026-09-27T05:22:26.625973+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Seamless tileable floor texture for a 2D top-down action game, seen straight from above, filling the whole square edge to edge. No border, no frame, no vignette, no characters, no objects, no text.\n\nReference image 1 shows the approved art style of this game's stone floor (dark ink joint lines, flat cel shading, big simple shapes). Match that drawing technique exactly, but change the colour: warm earthy grey-brown stone (like old sandstone darkened by soot and soil), not neutral grey.\n\nContent: large irregular flagstones of an ancient underground ruin, about 5 to 6 slabs across the width of the image, each slab drawn as one flat colour with at most one subtle lighter or darker step. Slabs are separated by clear dark brown ink joint lines. A few simple cracks and one or two chipped corners. No moss, no roots, no debris, no stains, no puddles, no symbols, no painterly texture, no noise, no photographic stone grain.\n\nKeep it calm and low contrast so characters stand out on top: overall dark warm grey-brown, slab-to-slab variation very small. Light from the upper left only as a faint bevel on slab edges.\n\nThe texture must tile seamlessly: joint lines and slabs continue across the left-right and top-bottom edges.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\art\\production\\ashen-foundry-v2\\ref-mock-stone.png",
+        "sha256": "9dd173305bd7de60cb4bb30eb6503af25f185b79db83f0cec9eadedf87c96875"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 275,
+        "image_tokens": 576
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1083515
+  },
+  {
+    "name": "stage-v2-wall-face",
+    "fingerprint": "822e8c855f11022e5cfb9000a746c77efce9fb0549c6f432e4245b90539a66ce",
+    "status": "success",
+    "reserved_usd": 0.25,
+    "sent_at": "2026-09-27T05:24:27.898672+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Seamless tileable texture of a stone block wall's front face for a 2D top-down action game, seen straight on, filling the whole square edge to edge. No border, no frame, no top cap, no floor, no objects, no text.\n\nReference image 1 shows the approved art style (dark ink lines, flat cel shading, big simple shapes); its upper part shows the wall front of large stone blocks. Match that drawing technique, with warm earthy grey-brown stone (old sandstone darkened by soot), slightly lighter than a dark floor, not neutral grey.\n\nContent: exactly 9 horizontal courses (rows) of rectangular stone blocks of equal height, running the full width. Every course is the same height and its horizontal mortar lines are perfectly straight and level. Blocks in neighbouring courses are staggered like brickwork, each block about 1.5 to 2 times wider than tall. Mortar joints are clear dark brown ink lines. Each block is one flat colour with a slightly lighter top edge (light from above) and a slightly darker bottom edge. A few small chips. No moss, no roots, no pillars, no arches, no windows, no symbols, no painterly texture, no noise.\n\nThe texture must tile seamlessly left-right and top-bottom: courses and blocks continue across the edges.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\art\\production\\ashen-foundry-v2\\ref-mock-stone.png",
+        "sha256": "9dd173305bd7de60cb4bb30eb6503af25f185b79db83f0cec9eadedf87c96875"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 276,
+        "image_tokens": 576
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.108354
+  },
+  {
+    "name": "stage-v2-wall-top",
+    "fingerprint": "5a3eb75243676214e9893c7060dc3fe2adb5b4075a7f40664bacbeab52a49720",
+    "status": "success",
+    "reserved_usd": 0.25,
+    "sent_at": "2026-09-27T05:26:19.270777+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Seamless tileable texture of the flat top surface of a thick stone wall, seen straight from above, for a 2D top-down action game. Fill the whole square edge to edge. No border, no frame, no rim, no floor, no objects, no text.\n\nReference image 1 shows the approved art style (dark ink lines, flat cel shading, big simple shapes); its top strip shows the flat stone wall-top cap. Match that drawing technique, with warm earthy grey-brown stone (old sandstone darkened by soot), a little lighter than the floor, not neutral grey.\n\nContent: large squarish capstones laid in a loose grid, about 3 stones across the width of the image, each stone one flat colour with at most one subtle shading step, separated by clear dark brown ink joint lines. A few worn corners and hairline cracks. No moss, no roots, no debris, no symbols, no painterly texture, no noise.\n\nKeep it calm and low contrast. The texture must tile seamlessly left-right and top-bottom.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\art\\production\\ashen-foundry-v2\\ref-mock-stone.png",
+        "sha256": "9dd173305bd7de60cb4bb30eb6503af25f185b79db83f0cec9eadedf87c96875"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 222,
+        "image_tokens": 576
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.108219
+  },
+  {
+    "name": "stage-v2-props-a",
+    "fingerprint": "3d29a521c1f3159466d4f11306da49d428200d5e9fdbc35a027fc7694218f50f",
+    "status": "success",
+    "reserved_usd": 0.25,
+    "sent_at": "2026-09-27T05:49:58.588441+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Sprite sheet of six separate props for a 2D top-down action game, an old ash-covered foundry workshop inside ancient underground stone ruins.\n\nReference image 1 is the player \"Rina\", the style master. Reference image 2 is an approved room mock of this game: copy its drawing technique for props (thick dark brown ink outlines, flat colours with 2-3 cel-shading steps, light from the upper left, big simple shapes, no painterly texture). Reference image 3 is the stone floor the props stand on (warm earthy grey-brown).\n\nProps are background objects: slightly duller and lower in contrast than characters, but clearly readable with ink outlines. Materials: warm grey-brown stone matching the floor, dark iron, old brown wood, small brass accents. No moss, no text, no symbols.\n\nView for ALL props: orthographic top-down 3/4 view (about 70 degrees from the ground). Horizontal edges must be perfectly horizontal and parallel to the image edges; NO isometric or diagonal angle, NO perspective. Floor-standing props show mostly their top surface with a short front face and hidden legs.\n\nLayout: exactly 3 columns and 2 rows, one prop per cell, centred with generous margin, never touching another cell. Solid flat pure magenta background (#FF00FF) everywhere. No shadows on the ground, no floor, no labels.\n\nRow 1, left to right:\n1. FURNACE that stands against a wall: squat block of stone and iron, front view facing the viewer, arched front mouth with a glowing orange fire grate, a short square chimney rising straight up at the back. About as wide as it is tall.\n2. WORKBENCH: a long wooden table seen mostly from the top (wide flat tabletop, very short front edge, legs hidden), a hammer, pliers and a small vise on the top. About twice as wide as it is deep.\n3. TOOL CABINET that stands against a wall: tall narrow wooden shelf unit with iron corners, front view, hanging tongs and a few metal bars on the shelves.\n\nRow 2, left to right:\n4. ANVIL on a low square wooden block, seen mostly from the top.\n5. MATERIAL CRATE: square wooden crate with two dark iron bands, seen mostly from the top, short front face.\n6. METAL PALLET: a low wooden pallet with a stack of dull iron ingots on it, seen mostly from the top.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "docs\\art\\production\\style-reference-2026-09-26\\ref-rina.png",
+        "sha256": "55bd4a8299def054df8c01ff39e9390e8e144d787286f330388e5248dffcf7f4"
+      },
+      {
+        "path": "assets\\generated\\stage-room-mock-v1.png",
+        "sha256": "d8eb088ea8b6cae3f79c1a4fe945ae5fab14b86993c3bad382882be136656a05"
+      },
+      {
+        "path": "assets\\stages\\ashen-foundry-v2\\floor.png",
+        "sha256": "829a7155344f85543e571c2c6cbdcc35d45d188fa2520f4f3cb3c38dab54feda"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 516,
+        "image_tokens": 2480
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.11657
+  },
+  {
+    "name": "stage-v2-props-b",
+    "fingerprint": "da30c31376f381c80b5b0984b0c2dae2bd7e1853dbe911240990cea5e5b18ea9",
+    "status": "success",
+    "reserved_usd": 0.25,
+    "sent_at": "2026-09-27T05:51:48.442813+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Sprite sheet of six separate props for a 2D top-down action game, an old ash-covered foundry workshop inside ancient underground stone ruins.\n\nReference image 1 is an approved sheet of props from this same set: match its drawing technique, colours, materials, line weight, lighting and camera angle exactly. Reference image 2 is the player \"Rina\", the style master. Reference image 3 is the stone floor and wall material (warm earthy grey-brown).\n\nProps are background objects: slightly duller and lower in contrast than characters, clearly readable with thick dark brown ink outlines, flat 2-3 step cel shading, light from the upper left. No moss, no text, no symbols.\n\nView for ALL props: orthographic top-down 3/4 view (about 70 degrees from the ground). Horizontal edges perfectly horizontal, NO isometric or diagonal angle, NO perspective.\n\nLayout: exactly 3 columns and 2 rows, one prop per cell, centred with generous margin, never touching another cell. Solid flat pure magenta background (#FF00FF) everywhere. No ground shadows, no floor, no labels.\n\nRow 1, left to right:\n1. WALL LAMP: a small iron lantern on a short wall bracket, front view, warm glowing glass. Tall and narrow (about 0.6 as wide as tall).\n2. STONE PILLAR: a square pillar of large warm grey-brown stone blocks with a wider square base and a simple cap, same stone as the floor. Tall and narrow (about 1 wide to 2 tall). Seen from the front with the top face visible.\n3. MOLD RACK that stands against a wall: wide low wooden rack, front view, holding round and square stone casting molds on two shelves.\n\nRow 2, left to right:\n4. QUENCH TROUGH: a long low stone-and-iron trough full of dark water, seen mostly from the top, a small wooden bucket at one end. About twice as wide as deep.\n5. COVERED CRATES: two stacked crates under a draped pale canvas sheet, seen mostly from the top.\n6. TEA TABLE: a small round wooden table with a simple teapot and two cups, seen mostly from the top, legs hidden.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\stage-v2-props-a.png",
+        "sha256": "48017f29bf658425aef56be506920b72d7c866d5b2a6ca654bd16ec34ef66031"
+      },
+      {
+        "path": "docs\\art\\production\\style-reference-2026-09-26\\ref-rina.png",
+        "sha256": "55bd4a8299def054df8c01ff39e9390e8e144d787286f330388e5248dffcf7f4"
+      },
+      {
+        "path": "assets\\stages\\ashen-foundry-v2\\floor.png",
+        "sha256": "829a7155344f85543e571c2c6cbdcc35d45d188fa2520f4f3cb3c38dab54feda"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 473,
+        "image_tokens": 2480
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1164625
+  },
+  {
+    "name": "stage-v2-decals-a",
+    "fingerprint": "51dd824c83b753cbf70b2d3ac0f296fec2ec3479a2b9a10e52b1e86f6731cf98",
+    "status": "success",
+    "reserved_usd": 0.25,
+    "sent_at": "2026-09-27T05:59:45.320783+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Sprite sheet of six separate flat floor decorations for a 2D top-down action game: an old ash-covered foundry inside ancient underground stone ruins overgrown by roots.\n\nReference image 1 is an approved sheet of props from this same set: match its drawing technique exactly (thick dark brown ink outlines, flat colours with 2-3 cel-shading steps, light from the upper left, big simple shapes, no painterly texture, no fine noise). Reference image 2 is the stone floor these lie on. Reference image 3 is the player \"Rina\", the style master.\n\nThese are floor decals seen straight from above, lying flat on the floor. They must stay calm: only slightly more contrast than the floor, muted colours, simple readable shapes, not busy. No cast shadows.\n\nLayout: exactly 3 columns and 2 rows, one decoration per cell, centred with generous margin, never touching another cell. Solid flat pure magenta background (#FF00FF) everywhere. No floor, no labels, no text.\n\nRow 1, left to right:\n1. ASH PATCH: a soft wide oval patch of grey-black ash and soot, about 1.6 times wider than tall, drawn as two or three big flat tone shapes with an irregular outline, plus five or six small dark cinders. NOT a grainy particle cloud.\n2. OLD RUG: a rectangular worn rug, about 1.3 times wider than tall, faded red-brown with a simple pale border and one simple diamond motif, frayed short fringe on the short ends, one small hole.\n3. WORKSHOP OFFCUTS: a small loose scatter of a few pale curled wood shavings, two small iron offcuts and one small bent nail, about 1.3 times wider than tall.\n\nRow 2, left to right:\n4. MOSS PATCH: a roundish patch of muted dull green moss with a few small leaves, soft irregular edge.\n5. NEST: a small round nest of woven twigs and dry grass with a scrap of cloth and a small metal washer in it, seen from above.\n6. ROOT FROM A WALL: brown tree roots entering from the TOP edge as two thin roots and spreading downward into a wider fan of roots crawling across the floor, with a little moss, about 0.7 times as wide as tall. The top end is cut straight as if coming out of a wall; do NOT draw any wall or stones.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\stage-v2-props-b.png",
+        "sha256": "489b64096f4b610c048b410b5f5cc6661aa298b334889b310f462a3d6781255b"
+      },
+      {
+        "path": "assets\\stages\\ashen-foundry-v2\\floor.png",
+        "sha256": "829a7155344f85543e571c2c6cbdcc35d45d188fa2520f4f3cb3c38dab54feda"
+      },
+      {
+        "path": "docs\\art\\production\\style-reference-2026-09-26\\ref-rina.png",
+        "sha256": "55bd4a8299def054df8c01ff39e9390e8e144d787286f330388e5248dffcf7f4"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 510,
+        "image_tokens": 2480
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.116555
+  },
+  {
+    "name": "stage-v2-decals-b",
+    "fingerprint": "dc8fad0c490bbc0a6fde1e61779bcd0f83c27bbe6d618d60baecd9a4f64c31ce",
+    "status": "success",
+    "reserved_usd": 0.25,
+    "sent_at": "2026-09-27T06:01:33.932114+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Sprite sheet of four separate flat floor pieces for a 2D top-down action game: an old foundry inside ancient underground stone ruins overgrown by roots.\n\nReference image 1 is an approved sheet of floor decorations from this same set: match its drawing technique, colours and root style exactly (thick dark brown ink outlines, flat 2-3 step cel shading, light from the upper left, big simple shapes). Reference image 2 is the stone floor. Reference image 3 is the props sheet of the same set (stone, iron, wood).\n\nAll pieces are flat on the floor, seen straight from above. No cast shadows.\n\nLayout: exactly 2 columns and 2 rows, one piece per cell, centred with generous margin, never touching another cell. Solid flat pure magenta background (#FF00FF) everywhere. No floor, no labels, no text.\n\nRow 1, left to right:\n1. ROOT FROM THE SIDE: brown tree roots entering from the LEFT edge as two thick roots and spreading to the right into a fan of thinner roots crawling across the floor, with a little moss, about 1.2 times wider than tall. The left end is cut straight as if coming out of a wall; do NOT draw any wall or stones.\n2. DOOR THRESHOLD: one long flat stone sill slab lying in a doorway, about 5 times wider than tall, the same warm grey-brown stone as the floor but slightly lighter and smoother, worn in the middle, clear ink outline, horizontal edges perfectly straight.\n\nRow 2, left to right:\n3. LOCKED DOOR BARRIER: one heavy dark iron beam lying across a doorway, about 7 times wider than tall, with bolted iron end caps and three rivets, a thin warm brass band in the middle, horizontal edges perfectly straight, seen from above.\n4. ASH PATCH, LARGE: a wide irregular patch of grey-black ash and soot around a work area, about 1.4 times wider than tall, two or three big flat tone shapes and a few dark cinders, NOT a grainy particle cloud.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\stage-v2-decals-a.png",
+        "sha256": "03d5f3eb5126d7c1b7ea814cd1cf55abc1e773f4b820f3917d9fd1d118ed331e"
+      },
+      {
+        "path": "assets\\stages\\ashen-foundry-v2\\floor.png",
+        "sha256": "829a7155344f85543e571c2c6cbdcc35d45d188fa2520f4f3cb3c38dab54feda"
+      },
+      {
+        "path": "assets\\generated\\stage-v2-props-a.png",
+        "sha256": "48017f29bf658425aef56be506920b72d7c866d5b2a6ca654bd16ec34ef66031"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 439,
+        "image_tokens": 3072
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1187455
   }
 ]
