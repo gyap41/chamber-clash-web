@@ -1,0 +1,61 @@
+{
+  "name": "gallery-collapse-kit-v1",
+  "generation_mode": "built-in image_gen",
+  "generation_calls": 1,
+  "model": null,
+  "usage": null,
+  "cost_usd": null,
+  "unknown_fields_reason": "Not returned by built-in tool; not an API CLI ledger entry",
+  "requested_size": [
+    1024,
+    1024
+  ],
+  "actual_size": [
+    1254,
+    1254
+  ],
+  "alpha": "RGBA, verified by Godot Image.detect_alpha",
+  "prompt_file": "docs/art/production/authored-rooms/prompt-collapse-kit.txt",
+  "prompt": "Use case: stylized-concept. Create ONE production sprite atlas PNG, true transparent alpha background, 1024x1024, exactly 2 columns by 2 rows of separate objects, no text or grid. Each cell has generous transparent margin; no object crosses a cell boundary.\nReference image 1 is the existing SQUARE MASONRY PILLAR; reference 2 is the existing stone wall; reference 3 is the target game room for style and camera only. These are references, not edit targets. Match warm grey brown stone, dark brown ink outlines, restrained 2-3 tone cel shading, broad readable shapes. Orthographic overhead 3/4 camera, horizontal architectural edges stay horizontal, no isometric perspective. Weak light from upper left, no ground plane, no baked cast shadow, no glow, no floor tiles, no moss. Stone blocks should have the SAME relative size and material as the reference pillar, not tiny rubble bricks. Do not draw symmetrical pyramid heaps.\nTop left cell: a low BROKEN SQUARE PILLAR BASE: identical two-step square plinth and square masonry shaft cross-section as reference 1, but only the lowest one-and-a-half masonry courses survive. Uneven jagged snapped top with exposed rough core, a few chips close to its foot. Top surface visible. This sprite will display about 48 game pixels wide.\nTop right cell: the TOPPLED SHAFT of that exact square pillar, lying on its side diagonally from upper left to lower right in the ground plane, with 3-4 large rectangular masonry courses still partially joined, capstone displaced beside the far end, two clearly fractured ends. Looks recognizably like the fallen counterpart of cell 1 and reference 1. No standing column, no plinth, no pile of small blocks. This sprite displays about 112 game pixels wide.\nBottom left cell: a low irregular ROOF COLLAPSE SET PIECE: two large broken stone lintel/beam sections crossing at a shallow angle, each with the same block thickness as the pillar shaft; one remains mostly intact, one fractured with exposed core. 4-6 large angular roof slab chunks beside them and a sparse outward fan of small fragments. Long beams dominate; varied silhouette, low enough to see and walk around, no triangular piles or repeating heaps. Plan footprint about 1.4 times wider than tall. This centerpiece displays about 172 game pixels wide.\nBottom right cell: a sparse scatter of 7-10 small angular masonry fragments from the same break, ranging from a half-block to tiny chips, spread asymmetrically in a tapering fan with lots of empty alpha between pieces. No floor or ground patch. This will display about 85 game pixels wide.\nAll four cells must look like a coherent kit belonging to the existing pillar and wall. Crisp clean opaque stone silhouettes, genuine transparent space outside objects and between fragments, no magenta/white fringe.\n",
+  "references": [
+    {
+      "path": "assets/stages/ashen-foundry-v2/props/pillar.png",
+      "sha256": "74a17194f67a82224991d70c3a00404a99352cd4961fd22a6f2a79a6356befdd"
+    },
+    {
+      "path": "assets/stages/ashen-foundry-v2/props/wall_segment_mid.png",
+      "sha256": "a5848ff2af61c0280c488d9eaf7619d6af5d02208c3ebffcc0955856c0c6ad3e"
+    }
+  ],
+  "room_reference": "docs/art/production/authored-rooms/views/01-collapsed_gallery-overview.png at pre-generation state; this capture path is refreshed after integration",
+  "sha256": "7856dfdd9345d40e288f2166fa3f52e0353cd320b94c69ae8e54a772d9d86a8c",
+  "runtime_atlas": "assets/stages/ashen-foundry-v2/gallery-collapse/atlas.png",
+  "atlas_regions": {
+    "broken_base": [
+      112,
+      200,
+      412,
+      365
+    ],
+    "fallen_shaft": [
+      629,
+      141,
+      550,
+      455
+    ],
+    "roof_collapse": [
+      59,
+      759,
+      710,
+      370
+    ],
+    "fragments": [
+      854,
+      827,
+      334,
+      256
+    ]
+  },
+  "recipe": "tools/build_gallery_collapse_atlas.gd; alpha >= 0.1 content bounds + 2px margin; source RGBA pixels unchanged",
+  "status": "generated and integrated; automated route checks and static visual review passed; user acceptance pending"
+}

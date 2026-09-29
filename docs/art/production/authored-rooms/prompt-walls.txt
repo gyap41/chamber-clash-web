@@ -1,0 +1,17 @@
+Sprite sheet of six separate wall pieces for a 2D top-down action game: ancient underground stone ruins overgrown by roots, with an old foundry.
+
+Reference image 1 is the game's stone wall front texture: every piece must use exactly this stone (warm grey-brown blocks, dark brown ink joint lines, same block size and course height). Reference image 2 is an approved props sheet of the same set: match its drawing technique (thick dark brown ink outlines, flat 2-3 step cel shading, light from the upper left, big simple shapes, no painterly texture, no noise). Reference image 3 is a game screenshot showing how the north wall looks in play: a thin flat stone cap on top and a short front face of about two stone courses; the pieces below are placed onto that wall.
+
+View: orthographic top-down 3/4 view, horizontal edges horizontal, no perspective, no isometric angle. Background objects: calm, lower contrast than characters. No cast shadows on the ground.
+
+Layout: exactly 3 columns and 2 rows, one piece per cell, centred with generous margin, never touching another cell. Solid flat pure magenta background (#FF00FF) everywhere. No floor, no labels, no text.
+
+Row 1, left to right:
+1. WALL BREACH: a stretch of the wall's front face (about two stone courses tall, about 1.8 times wider than tall including the spill) with a jagged collapsed hole showing darkness behind, and broken blocks spilling out and down in front of it onto the ground.
+2. BUTTRESS: a square stone pier projecting out of a wall, seen from the front with its flat top visible, slightly wider base, about 1 wide to 1.6 tall.
+3. WALL NICHE: a shallow arched niche set into the wall's front face (about two courses tall), dark inside, with a stub of candle and a small clay pot in it, about 1 wide to 1.1 tall.
+
+Row 2, left to right:
+4. ROOTS THROUGH THE WALL: thick brown tree roots bursting out of the wall's front face, cracking and pushing out a few blocks, the roots bending down toward the ground, about 1.2 wide to 1 tall.
+5. BROKEN WALL END: the jagged broken end of a wall segment: the flat stone cap and the front face step down irregularly where the wall snapped off, a few loose blocks at its foot, about 0.7 wide to 1 tall.
+6. DOOR PILLAR: a sturdy square stone gate pillar with a simple carved cap, seen from the front with its top visible, about 0.6 wide to 1.4 tall, to stand beside a doorway.

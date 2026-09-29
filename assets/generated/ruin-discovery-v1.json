@@ -1,0 +1,17 @@
+{
+  "provider": "built-in image_gen",
+  "model": null,
+  "cost": null,
+  "usage": null,
+  "generated_calls": 1,
+  "prompt": "Use case: stylized-concept. Production 2D overhead dungeon game sprite atlas on genuinely transparent RGBA background, 1536 square, 2 columns x 2 rows with generous clear separation. No text labels, no frames, no floors outside objects, no cast shadows. Reference is style reference only: muted warm grey and brown, chunky ink outline and simple cel shading, orthographic strong top-down view, horizontal edges horizontal not isometric. Each whole object fits its quadrant. TOP LEFT: abandoned burrowing beast nest, irregular shallow ring of twigs and worn cloth with three cracked pale mineral eggshells and a stolen small leather satchel, no living creature. TOP RIGHT: upright squat ancient rectangular stone record tablet supported on two small feet, engraved nonverbal geometric map of branching roots and circles, chipped edge, no letters, modest perspective showing its top. BOTTOM LEFT: timber repair shoring assembly, two rough upright posts with a horizontal beam and diagonal brace, metal bands, freestanding with no stone wall attached, viewed overhead like a game furnishing. BOTTOM RIGHT: discarded giant arthropod carapace split open and lying flat, dull moss grey-brown, with three parallel short drag scratches and a few chips immediately beside it, no blood, no body. Game display widths nest150 tablet130 brace90 carapace160px so maintain readable silhouettes.",
+  "reference": "assets/stages/ashen-foundry-v2/props/pillar.png",
+  "runtime": "assets/stages/ashen-foundry-v2/exploration-kit/discovery.png",
+  "recipe": "tools/build_exploration_kit.gd; PNG unchanged, inspected windows plus alpha >= 0.1 bounds padded 2px",
+  "status": "generated and integrated; static captures and automated checks; user acceptance pending",
+  "sha256": "634aa98e004ac6f85d24e45c123908f2538c06f4c4c14dcb382e3f8522e717ca",
+  "actual_size": [
+    1254,
+    1254
+  ]
+}

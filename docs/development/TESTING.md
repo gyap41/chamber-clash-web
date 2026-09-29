@@ -1,3 +1,35 @@
+## 戦闘テスト（2026-09-28）
+
+## 制作済み部屋を使う本編（2026-09-29）
+
+タイトルから「ストーリー」を選択する。直接起動は次のコマンド（PowerShell、リポジトリ直下）。
+
+```powershell
+& .local/tools/Godot_v4.7.2-stable_win64.exe --path . res://scenes/game/exploration.tscn -- --authored-floor --seed=27
+```
+
+自動確認: `--headless --path . --script res://tests/production_floor.gd` は10 seed・76戦の生成、配置、全滅、報酬生成を検査。`res://tests/production_doors.gd` はseed 27で25回の実扉遷移、再訪、宝箱開封、ボス報酬取得・踏破を検査する。敵への自動ダメージと扉前への座標移動を使う接続確認であり、手動難度評価ではない。環境のログ/証明書エラーと終了時リソース警告は別途残る。
+
+タイトルの「戦闘テスト（部屋・敵を選択）」から起動。作り込み20室と既存3ステージ、通常敵7種と苔玉コガネ試作、装備を選び「この条件で開始」。敵は合計6体までで、安全な配置場所が不足すると人数の削減を案内する。F1 / Escで設定、F5で同条件の再戦。敵なし見学、無敵、HP・弾薬補充も利用可能。部屋選択は新規セッションとして全快で開始する。
+
+```powershell
+& .local/tools/Godot_v4.7.2-stable_win64.exe --path . res://scenes/game/combat_lab.tscn
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/combat_lab.gd --quit-after 1500
+```
+
+自動テストは23室への移動、8種の敵の更新、無敵、混成戦、停止、死亡・再戦、不正条件の拒否を確認。設定画面・タイトル・混成戦の描画を確認済み。手動の操作感とWeb版は未確認。苔玉は通常姿勢8方向の試作。専用SEは接続済み・試聴調整前。終了時にObjectDBの2件の解放警告が残る。
+
+## 作り込み部屋の分岐マップ（2026-09-28）
+
+```powershell
+& .local/tools/Godot_v4.7.2-stable_win64.exe --path . res://scenes/game/authored_map_preview.tscn -- --seed=27
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/authored_floor.gd --quit-after 4000
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/authored_map_tour.gd --quit-after 4000
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --path . --script res://tools/capture_authored_map.gd --quit-after 1500
+```
+
+40seedの3骨格・ループ数・接続・方角・部屋役割・隣接同種禁止・使用回数・再現性、脇室3開口×2倍率の入室時非表示／奥で表示、双広間の腰壁と前後の立ち位置、保管区画の画面外からの発見、3seedの3骨格の全辺（合流路を含む）往復64遷移と地図、最奥からの帰還を確認する。`authored_room_connections.gd`は124開口構成を確認。箱・最奥は美術見本で、戦闘や報酬の試験ではない。既存20室の画像はcapture_authored_rooms.gdで更新する。
+
 ## 固定2部屋・扉移動（2026-09-21）
 
 タイトル→ストーリーモード（試作）。工房の右側の扉に近づいてFで作業室へ移動し、作業室の左側の扉でFを押すと戻る。到着後は扉へ近づき直し、Fを離してから再操作する。両部屋とも敵なし。部屋名は上部、近くの扉の操作案内は下部に表示する。
@@ -433,7 +465,7 @@ python tools/docs_index.py --check
 関連回帰はexploration_encounter、exploration_enemy_spawns、random_floor_play、projectile_personality。手動の混成戦・難度・連続アニメーションの読みやすさは別途評価する。[制作仕様と確認記録](../art/production/fire-pouch-lizard/README.md)。
 ## 探索敵SEの検証
 
-`Godot --headless --path . --script res://tests/enemy_audio.gd --quit-after 600` で、構え・空振り・2連射の発火回数、死亡後と画面外キャンセルの無音、同時発音の抑制、SEオフを確認する。`tests/audio_assets.gd` はmanifest全件のResource認識、`tests/sound.gd` は既存音響の回帰確認。いずれも聴感を保証しない。音響の仮接続と試聴残項目は[AUDIO_BIBLE](../AUDIO_BIBLE.md)を参照。
+`Godot --headless --path . --script res://tests/enemy_audio.gd --quit-after 600` で、構え・空振り・3連射の発火回数、死亡後と画面外キャンセルの無音、同時発音の抑制、SEオフを確認する。`tests/audio_assets.gd` はmanifest全件のResource認識、`tests/sound.gd` は既存音響の回帰確認。いずれも聴感を保証しない。音響の仮接続と試聴残項目は[AUDIO_BIBLE](../AUDIO_BIBLE.md)を参照。
 
 
 ## 敵の移動アニメーション
@@ -527,6 +559,18 @@ boss_cannonは主砲速度900・判定半径14、直接接触と壁衝突、二�
 
 描画版はheadlessを外し `-- --capture`。`.local/two-rooms-boss-startup.png` と `two-rooms-boss-reward-{chest,opening,open,options}.png` を保存。通常倍率の複数状態を確認したが、実プレイの演出テンポ・音量・Web負荷は手動受入。boss_presentation/furnace_warden/boss_pressure/exploration_treasure_supplies/exploration_encounterの回帰も行う。
 
+## 手作り20室の独立プレビュー（2026-09-27）
+
+`Godot --headless --path . --script res://tests/authored_rooms.gd --quit-after 600` は20室の相互接続、全域到達性、孤立領域、出入口、家具と壁、回廊二経路、貯水槽と遠景の進入不可を検査。元の4室は将来の四方向開口余白も検査し、追加16室は実際の西東開口を検査する。
+
+`Godot --headless --path . --script res://tests/authored_rooms_tour.gd --quit-after 4000` は全20室を東西両方向へ自動歩行し、40回の扉遷移と20件の直接選択を検証。移動には本編のArena判定を使用。失敗は終了コード1、成功は `PASS: all twenty rooms walked east and west with Arena collision; 40 real door transitions; 20 room selections`。人の試遊・実戦の合格とは区別する。
+
+描画は `tools/capture_authored_rooms.gd` で全室の全体・通常倍率・20室一覧・部屋選択UIを保存。`tools/capture_authored_collisions.gd` は20室の当たり判定を保存。素材はインポート後に `Godot --headless --path . --script res://tools/build_exploration_kit.gd --quit-after 600` で12個の透過AtlasTextureと遠景を再構築する。原画を加工しない。
+
+全室を一度撮影した後は、描画コマンド末尾の `-- --only=loading_bay` などで一室のみ更新できる。全体一覧は既存の20室画像から再構築する。部屋遷移の既存テスト `exploration_rooms.gd` は等倍固定ではなく現行 `ExplorationCamera.zoom()` が維持されることを検査する。
+
+手動確認：`& ".\.local\tools\Godot_v4.7.2-stable_win64.exe" --path . res://scenes/game/authored_rooms_preview.tscn`。WASD移動、Space回避、西東扉に近づいてF、左上の部屋選択で直接移動。箱・石板・痕跡は美術見本で操作なし。[20室の仕様と素材記録](../art/production/authored-rooms/README.md)。
+
 ## 崩落した作業室の試作
 
 `scenes/game/collapsed_workshop_preview.tscn` を開きF6で敵なし試遊。CLIは `Godot --path . res://scenes/game/collapsed_workshop_preview.tscn`。通常探索シーンへ `-- --stage-collapse` を渡しても起動できる。
@@ -555,3 +599,56 @@ boss_cannonは主砲速度900・判定半径14、直接接触と壁衝突、二�
 旧鋳造区v2の素材（2026-09-27）：`Godot --headless --path . --script res://tools/build_stage_v2_materials.gd --quit-after 300` で生成原本から `assets/stages/ashen-foundry-v2/` を作り直す（上書き）。壁・角・扉の確認は `Godot --path . --script res://tools/capture_stage_views.gd --quit-after 3000`（描画あり、`docs/art/production/ashen-foundry-v2/views/` に6枚と一覧を上書き）。正常終了はそれぞれ `PASS: stage v2 materials` / `PASS: stage views captured`。`tests/stage_depth.gd` は2026-09-27時点で45行目の確認が失敗する（変更前から同じ、未調査）。
 
 旧鋳造区v2の家具（2026-09-27）：`Godot --headless --path . --script res://tools/build_stage_v2_props.gd --quit-after 600` で生成原本4枚から `assets/stages/ashen-foundry-v2/props/` の22点（家具12・床の装飾と扉10）を作り直す（上書き）。`tests/boss_approach.gd` は2026-09-27時点で38行目（前室の扉から戻る確認）が失敗する（最後のコミットでも同じ、未調査）。正常終了は `PASS: stage v2 props`。`tests/exploration_rooms.gd` は106行目（探索カメラ倍率）で失敗する（2026-09-26以前からの既知の失敗）。
+
+作り込んだ部屋の試作（2026-09-27）：`Godot --headless --path . --script res://tests/authored_rooms.gd --quit-after 3000`（部屋検証・到達性・四方向の扉の通路・16px格子の孤立地点・足元と壁の重なり）。撮影は `Godot --path . --script res://tools/capture_authored_rooms.gd --quit-after 4000`（`docs/art/production/authored-rooms/views/` に上書き）。当たり判定の撮影は `Godot --path . --script res://tools/capture_authored_collisions.gd --quit-after 3000`（同制作記録の `collisions/` に上書き）。実際に歩く場合は `& ".\.local\tools\Godot_v4.7.2-stable_win64.exe" --path . res://scenes/game/authored_rooms_preview.tscn`（PowerShell）、またはエディターで同シーンを開いてF6。西東の扉に近づいてF。構成刷新後の確認箇所は、回廊の壁断片の奥と手前、鋳造床の周囲、野営の物資横、根の北側と南側の迂回路。敵なし確認と実戦での受入は分ける。
+
+回廊再設計の追加検証: `authored_rooms.gd` は東西到着点間の直進不可と、北/南経路の64px通行帯を検査する。`capture_authored_rooms.gd` は本編の `Arena.move_fighter` で二経路を両方向に往復、直線射線の遮断を検査し、`views/01-gallery-{wall-behind,wall-front,column-behind}.png` へ前後確認画像を保存する。正常出力は `PASS: gallery north/south routes walked both ways with arena collision; direct shot blocked; depth poses captured`。これはスクリプト制御の移動確認で、手動操作や戦闘の受入ではない。Godotはassert失敗でも終了コード0になる場合があるため、PASSだけでなく `SCRIPT ERROR` / `Assertion failed` がないことも確認する。
+
+回廊の専用崩落素材: `atlas.png` をGodotでインポートした後、`Godot --headless --path . --script res://tools/build_gallery_collapse_atlas.gd` で4つのAtlasTextureを再構築する。原画ピクセルは変更しない。組み込み後は上記の部屋・経路テストと通常倍率の撮影を実行し、基部と残存柱の縮尺、柱身・梁の段違い判定、床装飾の破片を確認する。生成条件と抽出領域は[制作記録](../art/production/authored-rooms/README.md)を参照。
+
+追加の接続契約検証：`Godot --headless --path . --script res://tests/authored_room_connections.gd --quit-after 600`。全20室の対応する124開口構成と、固定10seedの順序変更した接続列を検証する。ランダム階層本編の検証とは別。
+
+Visual Hubの部屋一覧：`Godot --headless --path . --script res://tests/visual_hub_rooms.gd --quit-after 1200`。20室のCollector・見学用表示・実Field Adapterを確認。WebはTypeScript/Viteビルド、一覧・検索・拡大実描画を確認する。起動と撮影レシピは [Hub README](../../tools/visual_hub/README.md)。
+
+
+## 浮遊散弾機・弾幕調整
+
+`Godot --headless --path . --script res://tests/scatter_drone.gd --quit-after 1200` で本編出現、5発×2波、0.14radの角度差、固定照準、停止、被弾、硬直、画面外・壁・死亡キャンセル、機械用撃破を確認する。描画時はheadlessを外し末尾へ `-- --capture` を付ける。`.local/two-rooms-scatter_drone-{room,windup,fan}.png` を出力。
+
+回帰はfire_pouch_lizard（3連射）、quillback（単発5方向）、exploration_enemy_spawns（10seed/108入口）、enemy_audio。ヤマアラシ試験は形状に応じた出現を探すため複数seedを使う。手動確認は `Godot --path . res://scenes/game/exploration.tscn -- --seed=22` で開始し、初戦後の広い部屋を探索する。HP4での混成難度・全方向連続表示・試聴は未確認。
+
+
+## 走り番機・破砕番機・環砲機
+
+`Godot --headless --path . --script res://tests/sentry_variants.gd --quit-after 1800`。突進の命中／回避／壁停止／1回接触、環砲22発と固定の安全方向、画面外中止・パルス・撃破、初戦保護、12seedの実出現と強敵1体・周囲通行帯を確認。描画ありではheadlessを外して末尾に `-- --capture` を付けると `.local/two-rooms-sentry-variants.png` を保存する。
+
+回帰: fire_pouch_lizard / quillback / scatter_drone / exploration_encounter。手動では初戦から通常戦を進め、4番目以降の広い部屋で強敵と交戦する。配置点の空間が不足する場合は通常番機へ置換される。HP4での難度と正式画像・音の受入は未完了。
+
+
+## Visual Hubの敵一覧
+
+`Godot --headless --path . --script res://tests/visual_hub_enemies.gd --quit-after 1800`。7種×4方向×待機・歩行・実攻撃、標的の不死化、実弾発射と解放を確認。WebはVisual Hubの「敵一覧」で拡大・再生停止・1ステップ・方向変更を確認する。音声とボスは対象外。起動・更新は[Hub手順](../../tools/visual_hub/README.md)。
+
+## 甲虫の右下モーション試作
+
+`Godot --headless --path . --script res://tests/root_runner_motion.gd --quit-after 1500`。支持脚の固定、停止、60/120Hzの命中と顎閉じ、空振りを確認する。描画記録は `tools/capture_root_runner_motion.gd` と `node tools/encode_root_runner_motion.mjs`。[制作と未確認範囲](../art/production/root-runner-motion/README.md)。
+
+苔玉コガネの`tests/root_runner_motion.gd`は現在タックル版を対象とし、接地・停止、接触1回、横避け、96pxの距離制限、薄壁/外周、復帰、死亡停止、再初期化を検証する。`tools/capture_root_runner_motion.gd`と`tools/encode_root_runner_motion.mjs`は`tackle-motion.webp`を出力する。
+
+苔玉コガネの歩行だけを撮る場合は、撮影コマンドの末尾へ `-- --walk`、エンコードへ `--walk` を追加する。4.8秒の `walk-motion.webp` を出力。root_runner_motionテストには60/120Hzの短い停止・再開反復と、足先/膝の飛びの検出を含む。
+
+苔玉コガネの現行テストは最大420px・560px/sの高速版。60/120/10Hzの斜め反射、標的への非追尾、反射後単発接触、薄壁と狭い外周で反射1回に制限することを確認。壁反射動画はcaptureへ `-- --bounce`、encodeへ `--bounce` を指定。
+
+## 苔玉の攻撃音・撃破表示
+
+`tests/moss_presentation.gd`をGodotの--headless --path . --scriptで実行する。発進音、停止中の音声、個体別停止、撃破音の一回性、通常表示の非表示、残像の解放、再戦と新音源のResource認識を検証。通常倍率の描画確認済み。SE試聴・連続映像の自然さ・Web再ビルドは未実施。戦闘テストの苔玉専用SEは接続済みに更新（本節以前の未実装表記を置換）。
+
+
+苔玉改訂: moss_presentationへ2体同時再生の独立停止、最大6枠、ピッチ低下、ポーズ／ミュート、歩行・構え・突進からの撃破姿勢引継ぎと静止を追加。既存のroot_runner_motion・combat_labとともにPASS。音色・ループ試聴は未確認。moss_presentation終了時にObjectDBとResourceの解放警告が残るため、機能PASSと終了時の無警告を分ける。
+
+苔玉の脚角度: `tests/moss_leg_directions.gd`で8方向×240tickの接地保持と股から足先までの距離上限を確認。root_runner_motionとmoss_presentationもPASS。歩行撮影はcapture_root_runner_motion.gd -- --walkで通行可能な開始点を選び、encode_root_runner_motion.mjs --walkで動画化する。音の聴感はユーザー試聴と区別する。
+
+
+8方向版: moss_leg_directionsは8方向の選択・接地・脚の伸び、停止時の向き保持、構えの固定方向、反射方向への展開を検証。moss_presentationは専用横倒し素材、直前姿勢の保存と静止、再戦を確認。いずれもPASS。capture_moss_directions.gdで8方向×72フレームを撮影。描画画像を確認したが、連続動作の自然さ・ユーザー採用は別確認。既存root_runner_motion・combat_labもPASS、終了時のObjectDB/Resource解放警告は残る。
+
+2026-09-29: `tests/moss_transitions.gd`を追加。構え終端と突進開始の重心、突進と復帰の上下動・回転の連続性、停止までの回転量1/4周以内、8通常敵の汎用撃破イベントが各1回であることを検証。root_runner_motion・moss_presentationとともにPASS。音のResource認識と聴感確認は別（新SEは未試聴）。終了時ObjectDB/Resource解放警告は残る。

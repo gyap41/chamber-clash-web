@@ -9,7 +9,7 @@
 |[ROADMAP.md](ROADMAP.md)|全体の現在地・優先順位・残課題|
 |[EXPLORATION_ROADMAP.md](EXPLORATION_ROADMAP.md)|探索の工程・依存関係・受入条件|
 |[ROOM_SHAPE_STUDIES.md](ROOM_SHAPE_STUDIES.md)|部屋外形15案・柱配置4案・外形×柱20パターン・荒廃形状6案の比較。未採用・未実装|
-|[EXPLORATION_DESIGN.md](EXPLORATION_DESIGN.md)|探索体験・敵・ボス・前室の提案|
+|[EXPLORATION_DESIGN.md](EXPLORATION_DESIGN.md)|探索体験・敵・ボス・前室、手作り部屋6系統と探索用3系統の提案|
 |[WORLD_AND_DUNGEON_CONCEPT.md](WORLD_AND_DUNGEON_CONCEPT.md)|始まりの工房の世界観・探索職人・再挑戦ループ・マグマを含む5階層案。具体仕様は未確定|
 |[ENEMY_BOSS_ART_PLAN.md](ENEMY_BOSS_ART_PLAN.md)|敵とボスの寸法・パーツ・アニメーション案|
 |[EXPLORATION_REWARDS.md](EXPLORATION_REWARDS.md)|宝箱・部屋報酬・開封演出の提案|

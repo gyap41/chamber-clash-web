@@ -141,3 +141,18 @@ Godotのtravelは遷移元のサンプル後に遷移を解決するため、状
 boss_cannon_art.gdが生成シートの切出し・砲口原点・弾・8コマ爆発を管理する。判定は床平面、発射直後だけprojectile_art.gdが砲口高さから0.16秒で判定位置へ補間する。furnace_warden_visual.gdは後方の閃光→本体→前方閃光の順に描画し、全身を平面回転しない。着弾はcombat_sessionからcannon_impactイベントを1回だけ出し、combat_visualsの上限付きcustom_effectsで戦闘dt更新する。素材の登録値と通常倍率確認画像は[制作記録](../art/production/furnace-warden/README.md)。
 
 起動演出はexploration_boss_flowが戦闘停止中の時計と排圧イベントを管理し、furnace_warden_visualへstartup進行を渡す。暗い本体の点灯・振動・煙を既存素材で表す。報酬箱はexploration_chestが登録済み4姿勢を共通倍率で描画し、独立_processを使わず探索dtで落下/開封/粒子を更新する。
+
+## 苔玉コガネ・独立試作
+
+`root_runner_prototype.gd` は既存近接Actorを継承し、表示を `root_runner_rig.gd` へ渡す。実移動差分から支持脚の床座標を保持し、股・膝を合わせる。攻撃表示はsnapshotの構え／復帰時刻を読み、戦闘状態へ書き戻さない。右下1方向のみ、Hub専用登録で本編出現には未接続。[素材・ピボット・検証](../art/production/root-runner-motion/README.md)。
+
+苔玉コガネのHub試作は噛みつきを廃止し、`root_runner_prototype.gd`が方向固定・小刻み衝突確認・単発接触・復帰を管理。snapshotの`dash_progress`を`root_runner_rig.gd`へ渡し、収納・前転4コマ・展開を描く。顎パーツは不使用。素材と原点は[制作記録](../art/production/root-runner-motion/README.md)を参照。
+
+苔玉コガネの脚は長い二節IKを廃止し、胴の下の短い曲げへ変更。足の振出しは各脚の進行度を保持して停止/再開を接続する。支持中の足は引き続き床に固定。
+
+苔玉コガネは停止時の持上げ高さを保存して着地。歩行に小さな胴/顔の重心移動を加え、命中後の反動中は収納状態で接地原点を更新してから脚を展開する。
+
+苔玉コガネはsnapshotのroll_turns（100px移動で1周）で前転4コマを反復。壁反射でangleを更新し、進行方向の線も追従。通常の顔/脚は引き続き右下用のため、反射後に展開した姿勢の方向は暫定。
+
+
+苔玉8方向試作: root_runner_rigはdirections-v1.pngとdirections-regions-v1.jsonから8通常姿勢と横倒しを読む。画像反転は使わず、共通甲羅幅36pxとセル別の甲羅中心で揃える。脚の接地計算は別の世界座標で保持。顔・触角は胴と一体の生成絵なので、現在の収納は丸い攻撃甲羅へのクロスフェード。さらに自然な収納には方向別の独立パーツが必要。横倒し原画を接続したため、撃破用に全身を画面上で回転させる処理は廃止した。

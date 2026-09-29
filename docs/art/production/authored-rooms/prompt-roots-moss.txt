@@ -1,0 +1,17 @@
+Sprite sheet of six separate flat root and moss pieces for a 2D top-down action game: ancient underground stone ruins overgrown by tree roots.
+
+Reference image 1 is an approved sheet of floor decorations and roots of this set, and reference image 2 an approved sheet with a root trunk: match their drawing technique, root colours and line weight exactly (thick dark brown ink outlines, flat 2-3 step cel shading, light from the upper left, big simple shapes, no painterly texture). Reference image 3 is the stone floor.
+
+All pieces lie on or in the floor, seen from above. Keep the moss muted: dull olive and grey-green, lower saturation than the reference moss.
+
+Layout: exactly 3 columns and 2 rows, one piece per cell, centred with generous margin, never touching another cell. Solid flat pure magenta background (#FF00FF) everywhere. No floor, no labels, no text, no cast shadows.
+
+Row 1, left to right:
+1. SUNKEN ROOT, LONG: one thick root half buried in the floor, running left to right in a gentle S curve, flagstones around it cracked and lifted along its sides, small rootlets only along its length (NOT leg-like splayed roots at the ends), both ends disappearing into the floor, about 4 times wider than tall.
+2. SUNKEN ROOT, FORKED: one thick root half buried in the floor that splits into two branches, cracked lifted flagstones along it, ends disappearing into the floor, about 2.5 times wider than tall.
+3. MOSS, LONG: an elongated irregular strip of muted moss creeping along the floor, ragged edges, about 3 times wider than tall.
+
+Row 2, left to right:
+4. MOSS, CLUMPS: four or five small separate muted moss clumps scattered together.
+5. MOSS IN CRACKS: thin lines of moss growing in the joints between flagstones, forming a partial grid pattern, roughly square.
+6. ROOT NEST: a small nest of twigs and dry grass tucked between two thick root ends, seen from above.

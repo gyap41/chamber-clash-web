@@ -1,5 +1,7 @@
 extends Node2D
 var definition
+const SHADOW_OFFSET := Vector2(7,5)
+const SHADOW_COLOR := Color(0,0,0,.32)
 func _ready() -> void:
 	# Sort from the sprite's feet, not its arbitrary authoring origin.
 	position = definition.position+Vector2(0,definition.visual_rect.end.y)
@@ -23,7 +25,17 @@ func _ready() -> void:
 func _draw() -> void:
 	var rect: Rect2 = definition.visual_rect
 	rect.position.y -= definition.visual_rect.end.y
-	if definition.texture != null: draw_texture_rect(definition.texture,rect,false,definition.tint)
+	if definition.texture != null and definition.drop_shadow:
+		# Same silhouette, darkened and shifted: reads as the piece standing on the floor, not pasted on.
+		var shadow := rect
+		shadow.position += SHADOW_OFFSET
+		if definition.flip_h: draw_set_transform(Vector2(shadow.get_center().x*2,0),0,Vector2(-1,1))
+		draw_texture_rect(definition.texture,shadow,false,SHADOW_COLOR)
+		draw_set_transform(Vector2.ZERO)
+	if definition.texture != null:
+		if definition.flip_h: draw_set_transform(Vector2(rect.get_center().x*2,0),0,Vector2(-1,1))
+		draw_texture_rect(definition.texture,rect,false,definition.tint)
+		draw_set_transform(Vector2.ZERO)
 
 	if definition.wall_flue:
 		# Draw over the sprite's open outlet: sealed elbow, with a wall flange.

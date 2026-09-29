@@ -1,0 +1,13 @@
+{
+  "image_size": [
+    1871,
+    841
+  ],
+  "rail_region": [
+    36,
+    287,
+    1800,
+    224
+  ],
+  "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/overlook-rail-v2.png"
+}

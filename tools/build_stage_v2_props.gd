@@ -10,12 +10,58 @@ const SHEETS := {
 	"res://assets/generated/stage-v2-props-b.png":{"cols":3,"rows":2,"ids":["lamp","pillar","mold_rack","quench_trough","covered_crates","tea_table"]},
 	"res://assets/generated/stage-v2-decals-a.png":{"cols":3,"rows":2,"ids":["ash","rug","offcuts","moss","nest","root_down"]},
 	"res://assets/generated/stage-v2-decals-b.png":{"cols":2,"rows":2,"ids":["root_side","threshold","barrier","ash_large"]},
+	# Authored-room set pieces (docs/art/production/authored-rooms).
+	"res://assets/generated/authored-setpieces-v1.png":{"cols":3,"rows":2,"ids":["rubble_large","rubble_small","root_trunk","campfire","bedroll","casting_channel"]},
+	"res://assets/generated/authored-walls-v1.png":{"cols":3,"rows":2,"ids":["wall_breach","buttress","wall_niche","wall_roots","wall_end","door_pillar"]},
+	# Soft-edged overlays: the magenta fringe is unmixed into partial alpha instead of outline brown.
+	"res://assets/generated/authored-floor-blend-v1.png":{"cols":3,"rows":2,"soft":true,"ids":["dirt_strip","pebbles_a","pebbles_b","floor_crack","worn_path","soot_streaks"]},
+	"res://assets/generated/authored-wall-segments-v1.png":{"cols":1,"rows":3,"ids":["wall_segment_long","wall_segment_mid","wall_segment_short"]},
+	"res://assets/generated/authored-roots-moss-v1.png":{"cols":3,"rows":2,"ids":["sunken_root","sunken_root_fork","moss_long","moss_clumps","moss_cracks","root_nest"]},
 }
 const OUT := "res://assets/stages/ashen-foundry-v2/props/"
 const SPRITE_MIN := 1500
 const SPECK := 12
+const NEAR := 40.0
 const MARGIN := 2
 const OUTLINE := Color(.16,.11,.08)
+
+# Soft edges: treat the pixel as foreground over magenta and recover its colour and coverage.
+static func unmix(image: Image) -> void:
+	for y in range(image.get_height()):
+		for x in range(image.get_width()):
+			var c := image.get_pixel(x,y)
+			var m := clampf((minf(c.r,c.b)-c.g)/.85,0,1) # 1 on pure magenta
+			if m > .93:
+				image.set_pixel(x,y,Color(0,0,0,0))
+			elif m > .05:
+				var a := 1.0-m
+				var fg := Color(clampf((c.r-m)/a,0,1),clampf(c.g/a,0,1),clampf((c.b-m)/a,0,1),a)
+				image.set_pixel(x,y,fg)
+	# The unmixed colour of thin edges still leans pink; give each edge pixel the colour of the nearest solid one.
+	var solid := image.duplicate()
+	for y in range(image.get_height()):
+		for x in range(image.get_width()):
+			var a := image.get_pixel(x,y).a
+			if a <= 0 or a >= .9: continue
+			var best := Color(0,0,0,-1)
+			for r in range(1,14):
+				for d in [Vector2i(r,0),Vector2i(-r,0),Vector2i(0,r),Vector2i(0,-r),Vector2i(r,r),Vector2i(-r,-r),Vector2i(r,-r),Vector2i(-r,r)]:
+					var p: Vector2i = Vector2i(x,y)+d
+					if p.x < 0 or p.y < 0 or p.x >= image.get_width() or p.y >= image.get_height(): continue
+					var s: Color = solid.get_pixel(p.x,p.y)
+					if s.a >= .9:
+						best = s
+						break
+				if best.a >= 0: break
+			if best.a >= 0: image.set_pixel(x,y,Color(best.r,best.g,best.b,a))
+	# The soft overlays are all earth, grit and soot: keep only brightness and repaint in warm brown, which
+	# removes any magenta cast left in thin or blurred parts.
+	for y in range(image.get_height()):
+		for x in range(image.get_width()):
+			var c := image.get_pixel(x,y)
+			if c.a <= 0: continue
+			var l := c.get_luminance()
+			image.set_pixel(x,y,Color(clampf(l*1.1,0,1),l,clampf(l*.86,0,1),c.a))
 
 static func key(image: Image) -> void:
 	for y in range(image.get_height()):
@@ -68,16 +114,33 @@ func _initialize() -> void:
 		var rows: int = sheet.rows
 		var src := Image.load_from_file(ProjectSettings.globalize_path(path))
 		src.convert(Image.FORMAT_RGBA8)
-		key(src)
+		if sheet.get("soft",false): unmix(src)
+		else: key(src)
 		var w := src.get_width()
 		var cw := w/cols
 		var ch := src.get_height()/rows
 		var cells: Array = []
 		for i in range(cols*rows): cells.append(PackedInt32Array())
-		for piece in shapes(src):
-			if piece.size() < SPECK: continue
+		# Big shapes go to the cell holding their centre; small pieces (spilled stones, grit) join the nearest
+		# big shape within NEAR px (they may cross a cell line), otherwise the cell holding their centre.
+		var all := shapes(src).filter(func(p): return p.size() >= SPECK)
+		var big: Array = []
+		for piece in all:
+			if piece.size() < SPRITE_MIN: continue
 			var centre := box_of(piece,w).get_center()
-			cells[clampi(centre.y/ch,0,rows-1)*cols+clampi(centre.x/cw,0,cols-1)].append_array(piece)
+			big.append({"box":box_of(piece,w),"cell":clampi(centre.y/ch,0,rows-1)*cols+clampi(centre.x/cw,0,cols-1)})
+			cells[big.back().cell].append_array(piece)
+		for piece in all:
+			if piece.size() >= SPRITE_MIN: continue
+			var box := box_of(piece,w)
+			var cell := clampi(box.get_center().y/ch,0,rows-1)*cols+clampi(box.get_center().x/cw,0,cols-1)
+			var nearest := NEAR
+			for entry in big:
+				var gap := Vector2(box.get_center()).distance_to(Vector2(box.get_center()).clamp(Vector2(entry.box.position),Vector2(entry.box.end)))
+				if gap < nearest:
+					nearest = gap
+					cell = entry.cell
+			cells[cell].append_array(piece)
 		for cell in range(cells.size()):
 			var members: PackedInt32Array = cells[cell]
 			assert(members.size() >= SPRITE_MIN,"%s: cell %d is empty" % [path,cell])

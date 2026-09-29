@@ -2275,6 +2275,204 @@
       "sha256": "94a12fee5b388454d62f16cd3e2aef03206c09c3aab8fc38acd1733a08e457c6",
       "loop_verified": false,
       "integration_status": "connected in scripts/audio/sound.gd, 2026-09-24; mix audition pending"
+    },
+    {
+      "asset_id": "se:fw_moss_dash_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_moss_dash_01.mp3",
+      "purpose": "Moss beetle rolling tackle launch; one candidate",
+      "prompt": "One short low airy whoosh as a small heavy round moss beetle launches into a fast rolling tackle over dirt. Soft earthy friction, strong acceleration, dry close sound. No metal, clicks, machinery, voice or music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-28T13:47:28.884713+00:00",
+      "fingerprint": "211036e0e1a50518b9638e37f8e1aa23f2506873e143a57a6fd16f130a5fddd3",
+      "sha256": "5239d84bbe8130139147299a58b512867c99cbe580c726d01c89776f269336ee",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_moss_impact_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_moss_impact_01.mp3",
+      "purpose": "Moss beetle wall bounce impact; one candidate",
+      "prompt": "One compact low woody shell knock against stone, a weighty rounded thock with a tiny soft scatter of sand. Small armored moss beetle bouncing off a wall. Dry immediate attack. No metal, ringing, machinery, voice or music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-28T13:47:47.888483+00:00",
+      "fingerprint": "717ca57f67a4df3689b318b2dc67c2a09cd0e840b7d92d8b3f8a32c0f3b6a528",
+      "sha256": "6e5124ea3f0fba73c72160d53c4bab778ab4db81a492bb67a44b1101092e64f1",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_moss_down_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_moss_down_01.mp3",
+      "purpose": "Moss beetle defeat; one candidate",
+      "prompt": "Small armored moss beetle defeated: one short dry organic shell crack followed immediately by a soft heavy body thud into moss and dirt. Restrained earthy texture, quick decay. No gore, squeal, metal, machinery, voice or music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.8,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.8359183673469388,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-28T13:48:12.959982+00:00",
+      "fingerprint": "ac6a16c302ded402aca2d726e6c506681a579294f7101644fec6bb5f342bdf2e",
+      "sha256": "d08a920578058525fa2df88cc07318be2b36c7951c4a24a7b78d22d301355f1d",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_moss_dash_02",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_moss_dash_02.mp3",
+      "purpose": "Moss beetle launch revision: rolling rumble and powerful speed whoosh",
+      "prompt": "Fast heavy rolling creature attack: immediate deep grrrr rumble rapidly accelerating into a powerful smooth vwoooosh, strong rush of air and earthy rolling momentum. Punchy low mid body, short clean tail. No metal, clicks, engine, voice or music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.7,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.7314285714285714,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-28T14:09:17.143633+00:00",
+      "fingerprint": "0195541aee50f4662d83a7d029cf1af1fa3c3b97d75eaf4b84bf0c1f162b90aa",
+      "sha256": "d2722de212c2549f45c12ecfc0f92c352d4acfc9755462c6577ac3a54078c0c4",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_moss_roll_loop_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_moss_roll_loop_01.mp3",
+      "purpose": "Moss beetle continuous rolling attack, one loop candidate",
+      "prompt": "Continuous fast heavy rounded shell rolling over rough stone and dirt, deep gravelly grrrrr rumble with soft rapid uneven ground pulses and rushing air. Strong forward momentum, steady energy throughout for seamless looping. No isolated knocks, metal, clicking, motor, voice or music.",
+      "loop": true,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.5,
+        "prompt_influence": 0.3,
+        "loop": true,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 1.906938775510204,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-28T14:09:34.047619+00:00",
+      "fingerprint": "23585f3463803ca89ed48499f726ff682ce2f0f551bd3b79cc6e85ac1652a420",
+      "sha256": "3e6551403cae4f50f92ab6d44f3acb7d8f04c38e9dc69f2de3ed8f22efaf2d90",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_moss_roll_loop_02",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_moss_roll_loop_02.mp3",
+      "purpose": "User revision: remove dragging texture from moss rolling loop, one candidate",
+      "prompt": "Seamless fast rolling ball rumble: rounded low hollow rrrrum with soft rapid rhythmic bobbling pulses, eight pulses per second, smooth airy motion underneath. Playful heavy compact creature spinning quickly. Clean bass and low mids. No scraping, dragging, grinding, gravel, hiss, metallic rattle, motor, voice or music.",
+      "loop": true,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.5,
+        "prompt_influence": 0.3,
+        "loop": true,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 1.906938775510204,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-28T14:18:22.923381+00:00",
+      "fingerprint": "dc5e52f1e7eab5cf150bba74346d7d25d3189469a8f887afe0115733cee9d708",
+      "sha256": "4a703c7698c4022a66a0b290aa3ace883eac716042c91d7029c81910b79281e9",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_enemy_defeat_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_enemy_defeat_01.mp3",
+      "purpose": "Shared normal enemy defeat confirmation layer",
+      "prompt": "Single satisfying enemy defeat sound for a fantasy action game: immediate compact punchy poof with a crisp soft pop and a very short bright airy release. Clear quick kill confirmation, neutral material. No melody, bell, coin, metal debris, gore, voice or music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-29T01:55:47.738847+00:00",
+      "fingerprint": "7dc19ad206cafd1e23879b73397de8b5a0dc3f5e1d145f8bf1e6250a860a4b43",
+      "sha256": "9163945635254bc72c080c75f2bcf808c8eacb472d049aa151a86d7af7b0adf1",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_moss_spin_loop_03",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_moss_spin_loop_03.mp3",
+      "purpose": "Moss rolling revision: abstract airy spin replacing dragging ground texture",
+      "prompt": "Stylized cartoon spinning energy sound, smooth resonant vrrrr-wooo with a fast soft flutter, clean rounded low-mid tone and fluid cyclic pitch movement. Seamless steady loop. Air rotation only, no ground contact, scraping, dragging, friction, gravel, rattling, machinery, distortion, voice or music.",
+      "loop": true,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.5,
+        "prompt_influence": 0.3,
+        "loop": true,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 1.906938775510204,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-29T01:56:04.422937+00:00",
+      "fingerprint": "8ea5c15e5417f0b5171486cb39660aa9dad26f0f54ed24a2d527882d958d5361",
+      "sha256": "078832e6509855530873b86df7a716d47b71d6d5ef747df474a8a4b2eacb43b5",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_moss_dash_03",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_moss_dash_03.mp3",
+      "purpose": "Moss dash revision: clean speed swoosh with no ground friction",
+      "prompt": "Single fast cartoon dash, a powerful clean smooth VYOOOM air swoosh rising rapidly then falling with a tight soft ending. Rounded resonant body and strong forward speed. No scraping, rumble, dragging, gravel, metallic click, machinery, voice or music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-29T01:56:17.768918+00:00",
+      "fingerprint": "8c3af436ba0958a83d47656389b0fd58398abda39a979c6ea558f142a7a1ba9a",
+      "sha256": "ffa7016b57be59896900baaf22b41ddefe27366227179d9347eb9293e42004d7",
+      "loop_verified": false
     }
   ]
 }

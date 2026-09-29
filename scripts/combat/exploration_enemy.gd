@@ -45,11 +45,12 @@ func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Diction
 	var applied := super.hurt(amount,volley,hazard,origin,attacker)
 	if applied and alive and state.hp <= 0:
 		sound_requested.emit(spec.death_sound,0)
+		if spec.id != "furnace_warden": sound_requested.emit("enemy_defeat",0)
 		var remains := preload("res://scripts/visuals/enemy_death.gd").new()
 		remains.snapshot = enemy_visual_snapshot()
 		for connection in sound_requested.get_connections():
 			remains.sound_requested.connect(connection.callable)
-		remains.organic = spec.id not in ["workshop_sentry","furnace_warden"]
+		remains.organic = spec.id not in ["workshop_sentry","furnace_warden","scatter_drone","runner_sentry","ram_sentry","ring_sentry"]
 		remains.position = state.pos
 		remains.add_to_group("enemy_death_visuals")
 		get_parent().add_child(remains)
@@ -96,7 +97,7 @@ func step(dt: float, i: int, enemy, arena, _mouse_shooting: bool = false, _ai: D
 			attack_phase = "windup"
 			attack_time = spec.windup
 			attack_angle = delta.angle()
-			sound_requested.emit("sentry_windup",0)
+			sound_requested.emit(spec.get("windup_sound","sentry_windup"),get_instance_id())
 		elif Navigation.segment_clear(arena,state.pos,enemy.state.pos):
 			command.dx = delta.normalized().x
 			command.dy = delta.normalized().y

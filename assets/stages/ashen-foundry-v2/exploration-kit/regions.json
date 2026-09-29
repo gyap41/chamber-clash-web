@@ -1,0 +1,236 @@
+{
+  "altar": {
+    "image_size": [
+      1254,
+      1254
+    ],
+    "region": [
+      734,
+      161,
+      472,
+      343
+    ],
+    "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/architecture.png"
+  },
+  "archive_shelf": {
+    "image_size": [
+      1774,
+      887
+    ],
+    "region": [
+      42,
+      199,
+      1030,
+      494
+    ],
+    "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/archive-storage-v1.png"
+  },
+  "carapace": {
+    "image_size": [
+      1254,
+      1254
+    ],
+    "region": [
+      646,
+      712,
+      574,
+      516
+    ],
+    "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/discovery.png"
+  },
+  "cistern": {
+    "image_size": [
+      1254,
+      1254
+    ],
+    "region": [
+      43,
+      132,
+      589,
+      399
+    ],
+    "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/architecture.png"
+  },
+  "fallen_gate": {
+    "image_size": [
+      1254,
+      1254
+    ],
+    "region": [
+      39,
+      711,
+      771,
+      467
+    ],
+    "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/architecture.png"
+  },
+  "floor_root": {
+    "image_size": [
+      1254,
+      1254
+    ],
+    "region": [
+      661,
+      225,
+      558,
+      309
+    ],
+    "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/nature.png"
+  },
+  "nest": {
+    "image_size": [
+      1254,
+      1254
+    ],
+    "region": [
+      59,
+      106,
+      593,
+      504
+    ],
+    "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/discovery.png"
+  },
+  "papers": {
+    "image_size": [
+      1254,
+      1254
+    ],
+    "region": [
+      91,
+      723,
+      476,
+      421
+    ],
+    "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/nature.png"
+  },
+  "plinth": {
+    "image_size": [
+      1254,
+      1254
+    ],
+    "region": [
+      891,
+      748,
+      312,
+      320
+    ],
+    "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/architecture.png"
+  },
+  "reading_desk": {
+    "image_size": [
+      1254,
+      1254
+    ],
+    "region": [
+      654,
+      311,
+      563,
+      286
+    ],
+    "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/refinement.png"
+  },
+  "records": {
+    "image_size": [
+      1254,
+      1254
+    ],
+    "region": [
+      697,
+      824,
+      510,
+      284
+    ],
+    "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/refinement.png"
+  },
+  "relic_chest": {
+    "image_size": [
+      1254,
+      1254
+    ],
+    "region": [
+      785,
+      796,
+      312,
+      255
+    ],
+    "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/nature.png"
+  },
+  "sealed_gate": {
+    "image_size": [
+      1254,
+      1254
+    ],
+    "region": [
+      64,
+      86,
+      505,
+      535
+    ],
+    "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/refinement.png"
+  },
+  "sealed_storage": {
+    "image_size": [
+      1774,
+      887
+    ],
+    "region": [
+      1176,
+      177,
+      554,
+      539
+    ],
+    "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/archive-storage-v1.png"
+  },
+  "seat": {
+    "image_size": [
+      1254,
+      1254
+    ],
+    "region": [
+      36,
+      910,
+      558,
+      178
+    ],
+    "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/refinement.png"
+  },
+  "shoring": {
+    "image_size": [
+      1254,
+      1254
+    ],
+    "region": [
+      75,
+      685,
+      530,
+      482
+    ],
+    "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/discovery.png"
+  },
+  "soil_roots": {
+    "image_size": [
+      1254,
+      1254
+    ],
+    "region": [
+      91,
+      109,
+      431,
+      467
+    ],
+    "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/nature.png"
+  },
+  "tablet": {
+    "image_size": [
+      1254,
+      1254
+    ],
+    "region": [
+      764,
+      88,
+      372,
+      516
+    ],
+    "source": "res://assets/stages/ashen-foundry-v2/exploration-kit/discovery.png"
+  }
+}

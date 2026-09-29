@@ -75,6 +75,11 @@ static func apply(arena, source: Definition, participant_count: int = 0, radius:
 		arena.get_node("Supplies/Spawns").add_child(container)
 		var points: PackedVector2Array = definition.supply_points[group]
 		for i in range(points.size()): marker(container,"Point%d" % (i+1),points[i])
+	if not arena.has_node("Ambient"):
+		var ambient := CanvasModulate.new()
+		ambient.name = "Ambient"
+		arena.add_child(ambient)
+	arena.get_node("Ambient").color = definition.theme.ambient if definition.theme != null else Color.WHITE
 	arena.runtime_definition = definition
 	if arena.has_node("Floor/WorkshopArt"): arena.get_node("Floor/WorkshopArt").queue_redraw()
 	arena.get_node("DangerZone").queue_redraw()

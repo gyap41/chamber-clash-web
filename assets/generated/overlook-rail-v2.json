@@ -1,0 +1,14 @@
+{
+  "provider": "built-in image_gen",
+  "model": null,
+  "usage": null,
+  "cost": null,
+  "date": "2026-09-28",
+  "prompt": "Generate one production transparent PNG game sprite, extremely wide horizontal aspect ratio about 6:1. A SINGLE continuous ancient stone parapet for an observation gallery in a top-down orthographic 2D dungeon game. Camera at steep 65 degree downward angle, NO isometric rotation, horizontal edges perfectly horizontal, zero perspective convergence. Muted warm gray-brown weathered large ashlar masonry, restrained crisp hand-painted outlines. Broad visible coping TOP surface, SHORT front face of two courses of blocks, chunky worn edges but structurally continuous. Straight 760 game-pixel length, approximately 55 game-pixels total visible height. Even height across entire span, NO tall pillars, no end towers, no detached rubble heaps. Very subtle cracks, one or two small chips only. The ends are squared and designed to meet existing perpendicular masonry walls. At its base a narrow attached stone foundation ledge of same material, not a floor patch. Light from upper left, soft subtle contact shadow immediately at base only. TRANSPARENT background around the entire isolated object, no landscape, no room, no ground plane, no text, no labels. Center the complete uncut parapet with transparent padding. This will be placed over the front lip of a pit, visually blocking falling into it.",
+  "sha256": "dda0a4f4dfb988ba0ba0695529d8ff7ee87827c27e6ab152b45ad4925f2bed3f",
+  "size": [
+    1871,
+    841
+  ],
+  "runtime_copy": "assets/stages/ashen-foundry-v2/exploration-kit/overlook-rail-v2.png"
+}

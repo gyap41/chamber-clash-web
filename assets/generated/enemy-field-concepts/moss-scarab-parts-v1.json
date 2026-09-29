@@ -1,0 +1,13 @@
+{
+  "tool": "built-in imagegen",
+  "prompt": "Create a production cutout animation atlas of the EXACT round moss scarab character in the reference. Smooth colored outlines, clean cel shading, transparent background. This is a disassembled rig, NOT a complete character. Square canvas divided into 3 equal columns and 3 equal rows, invisible grid, generous empty transparent gutters. Exactly EIGHT isolated parts, one per cell, no text or labels. Row1 col1: large ROUND domed blue-green shell with two big moss green patches, same near-spherical proportions as reference, upper-left light, NO face NO eyes NO legs NO antennae. Row1 col2: small dark rounded face with two cream-rimmed teal eyes, exact reference face, NO shell NO antennae NO mouthparts. Row1 col3: single short thick organic blue-green upper-leg capsule, horizontal left root to right joint, smooth no rings. Row2 col1: single short thick oval blue-green foot, horizontal left joint to right round toe, like reference little pebble feet, NOT long claws. Row2 col2: a small rounded left mandible for bite animation, muted warm ivory, blunt curved triangular shape, thick root at top tapering down. Row2 col3: matching right mandible mirrored. Row3 col1: left tiny antenna: short stout teal stalk and round moss-green bead at tip, base bottom left tip upper right. Row3 col2: matching right tiny antenna. Row3 col3 completely EMPTY. Every part includes hidden connection overlap. Body round NOT elongated. NO realistic insects, hairs, thin legs, mechanical joints. Preserve true alpha and clean edges. Each part centered wholly inside its own equal cell. Parts should not touch each other or cell boundaries.",
+  "source": "C:/Users/ikare/.codex/generated_images/01a0e2a7-fa4e-7392-b9bc-8275915f2699/exec-5790a02b-6b00-4d02-90ff-760fd84b704e.png",
+  "model": null,
+  "cost": null,
+  "usage": null,
+  "sha256": "d93b20f9c333b3e50aa09e502490ad610a64e0100b42c2f1e4c1e339d7141b17",
+  "dimensions": [
+    1254,
+    1254
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "mode": "built-in image_gen",
+  "source": "exec-a1cc8ea2-6c95-43fe-94ce-ed1e1ec89b13.png",
+  "reference": "tackle-parts-v1.png",
+  "sha256": "27f9cd609a604e71bd44796337400065e2083eb392a8e09cf6f2f502a3c18f9f",
+  "image_size": [
+    1254,
+    1254
+  ],
+  "layout": [
+    "E",
+    "SE",
+    "S",
+    "SW",
+    "W",
+    "NW",
+    "N",
+    "NE",
+    "defeated"
+  ],
+  "prompt_spec": "Transparent 3x3 atlas; same round blue teal moss beetle, smooth outlined cel shading, upper-left light, small narrow ochre eyes; 8 orthographic 45-degree overhead orientations with shell, face and antennae, no legs or shadow in living sprites; ninth cell side-lying defeated body, eyes closed, tiny tucked legs, no gore. Same scale and character identity; no pixel art, no realistic insect or cockroach shape.",
+  "display_shell_width": 36,
+  "regions_recipe": "tools/build_moss_directions.gd",
+  "status": "generated and integrated in combat lab; user acceptance pending"
+}

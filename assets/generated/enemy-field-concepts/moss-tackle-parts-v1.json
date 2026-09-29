@@ -1,0 +1,13 @@
+{
+  "tool": "built-in imagegen",
+  "prompt": "Use case: game sprite cutout atlas. Reference is the moss scarab character to redesign for a fast curled-up rolling tackle. Preserve exact jade teal shell, two broad moss patches, smooth ink outlines and clean cel shaded rendering. Transparent background, no labels or grid lines. EXACTLY FIVE separate cutouts in a 3-column 2-row square atlas, generous clear gutters, equal cells.\nTop left: ONLY a small dark brown oval FACE part, no shell or appendages. Replace cute giant eyes with TWO SMALL narrow muted ochre eye slits under heavy upper lids. Tiny dark pupils, NO white highlights, NO large iris, NO white sclera, stern wary wild creature not adorable mascot.\nTop middle: closed spherical curled-up scarab shell, legs face antennae completely tucked away, facing down-right with a subtly visible closure seam at bottom front, jade dome and broad moss patches.\nTop right: same exact curled ball at 90 degrees of a FORWARD somersault toward lower-right, showing front surface rolling underneath and rear shell over top.\nBottom left: same exact curled ball at 180 degrees forward roll, visible smooth dark teal belly plate with simple broad closure seams, moss edge along lower side. NO legs, NO eyes.\nBottom middle: same exact curled ball at 270 degrees forward roll, back shell coming around, moss patches on different visible surface.\nBottom right completely EMPTY.\nAll FOUR roll cutouts must have IDENTICAL circular silhouette, same apparent diameter, same center within cells, same camera three-quarter top-down, same fixed upper-left lighting. These are different surfaces of a 3D ball rolling forward, NOT 2D images rotated in the canvas, NOT different directions of walking. No motion trails, no floor or cast shadows. Large simple masses suited to 34 pixel gameplay sprites, not pixel art. Face uses small subtle intimidating eyes, never cute glossy eyes. Preserve genuine transparent alpha.",
+  "source": "C:/Users/ikare/.codex/generated_images/01a0e2a7-fa4e-7392-b9bc-8275915f2699/exec-1accf858-637d-42e5-9068-58a59e061f9c.png",
+  "model": null,
+  "cost": null,
+  "usage": null,
+  "sha256": "340290ec9b7d26c4bc571bfe5cdd557009f2bb7403dd4d89c45998e2807cf234",
+  "dimensions": [
+    1254,
+    1254
+  ]
+}

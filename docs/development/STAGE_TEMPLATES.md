@@ -101,3 +101,5 @@ StagePlacement.shadow_rectはローカル座標の接地影矩形（空なら既
 ## 生成版4の直交形状
 
 WorkshopRoomVariants.SPECSのcutsに `[角ID, x, y]` を追加し、床と壁を同じ切欠きで組み立てる。角IDはnw/ne/sw/se。切欠きは隣接する扉の中央通路を侵さない寸法に限定する。partitionsは壁矩形、pillarsは足元位置。NORMAL_SHAPESが通常室の抽選対象。既存6形状に10形状を追加し、通常室14種/全16種。任意の穴・斜面・自由形状への対応ではない。追加時は全15開口組合せと描画を検査する。素材・寸法・画像は[制作記録](../art/production/workshop-room-variants/README.md)。
+
+作り込み20室は `Authored.make_room(id,sides)` で巡回順に依存せず生成する。許可開口は `connection_sets(id)` から選ぶ（基本は西のみ/東のみ/西東、野営・列柱・中庭は全15組合せ、前室は北+西/東/南、根の広間は南のみも可）。呼出側がtarget_roomを設定する。authored_floor.gdが役割に合う部屋と許可開口を選び、分岐マップを生成する。非対応の開口は生成しない。

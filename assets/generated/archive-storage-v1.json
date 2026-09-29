@@ -1,0 +1,14 @@
+{
+  "provider": "built-in image_gen",
+  "model": null,
+  "usage": null,
+  "cost": null,
+  "date": "2026-09-28",
+  "prompt": "Production sprite sheet for hand-painted top-down 2D dungeon game. Transparent PNG, 2 equal cells SIDE BY SIDE, generous transparent padding and clear gap. Left cell: low broad antique wooden archive storage shelf holding neatly stored stone relic fragments, bound parchment rolls, folded cloth wrappings, a few ceramic urns. No tools, no molds, no anvil, no bottles. Right cell: compact cluster of three sealed preservation containers, two squat wooden lidded coffers and one wrapped ceramic urn tied with cord, different heights with complete visible feet. Both isolated objects in SAME strong top-down orthographic view looking down 65 degrees, horizontal front edges, no isometric rotation, no convergence. Low furniture, substantial top surfaces, short front faces, feet mostly hidden. Muted brown gray, desaturated cream, simple crisp dark outlines and restrained flat hand painted shading matching classic dungeon game props, NOT photorealistic. Left shelf width about twice height, right cluster square. No floor tiles, no environment, no wall, no background, no text, no labels, no glow, no cast shadow extending beyond base. Full silhouette of each object enclosed inside its cell, actual alpha transparency.",
+  "sha256": "2430929be3b376abebf5b6fbddb7ffd8d7065b0812b71acd54b700b5efc68704",
+  "size": [
+    1774,
+    887
+  ],
+  "runtime_copy": "assets/stages/ashen-foundry-v2/exploration-kit/archive-storage-v1.png"
+}

@@ -3,6 +3,10 @@ signal played(kind: String, id: int)
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const RATE := 44100
 const GENERATED := {
+	"enemy_defeat": preload("res://assets/audio/se/fw_enemy_defeat_01.mp3"),
+	"moss_dash": preload("res://assets/audio/se/fw_moss_dash_03.mp3"),
+	"moss_wall": preload("res://assets/audio/se/fw_moss_impact_01.mp3"),
+	"moss_down": preload("res://assets/audio/se/fw_moss_down_01.mp3"),
 	"boss_salvo": preload("res://assets/audio/se/fw_spinner_salvo_02.mp3"),
 	"boss_cannon": preload("res://assets/audio/se/fw_spinner_main_cannon_01.mp3"),
 	"boss_shell_impact": preload("res://assets/audio/se/fw_spinner_shell_impact_01.mp3"),
@@ -83,6 +87,8 @@ var contact_times: Dictionary = {}
 var bus_name: String
 var rng := RandomNumberGenerator.new()
 var boss_engine: AudioStreamPlayer
+var moss_rollers: Dictionary = {}
+var moss_paused := false
 
 func _ready() -> void:
 	rng.randomize()
@@ -115,6 +121,7 @@ func _exit_tree() -> void:
 	if index > 0: AudioServer.remove_bus(index)
 
 func stop_all(keep_boss_death: bool = false) -> void:
+	for owner in moss_rollers.keys(): stop_moss_roll(owner)
 	if is_instance_valid(boss_engine): boss_engine.stop()
 	for voice in voices:
 		if keep_boss_death and voice.get_meta("kind","") in ["boss_internal","boss_explosion"]: continue
@@ -130,9 +137,11 @@ func update_boss_engine(active: bool, distance: float = 0.0, intensity: float = 
 	if not boss_engine.playing: boss_engine.play()
 
 func pause_boss_audio(value: bool) -> void:
+	moss_paused=value
+	for roller in moss_rollers.values(): roller.stream_paused=value
 	boss_engine.stream_paused = value
 	for voice in voices:
-		if str(voice.get_meta("kind","")).begins_with("boss_"): voice.stream_paused = value
+		if str(voice.get_meta("kind","")).begins_with("boss_") or str(voice.get_meta("kind","")).begins_with("moss_"): voice.stream_paused = value
 
 func set_enabled(value: bool) -> void:
 	enabled = value
@@ -140,6 +149,8 @@ func set_enabled(value: bool) -> void:
 	else: play_sound("toggle")
 
 func profile(kind: String, id: int = 0) -> Dictionary:
+	if kind in ["moss_curl","moss_roll","moss_contact"]:
+		return {"duration":.10 if kind=="moss_roll" else .18,"frequency":95.0 if kind=="moss_contact" else 65.0,"end":35.0,"wave":"sine","gain":.045 if kind=="moss_contact" else .006,"noise":.05 if kind=="moss_curl" else .018,"cutoff":750.0 if kind=="moss_curl" else 340.0,"bandpass":false}
 	var tones := {"equip":[200,.06],"bell":[700,.14],"pickup":[640,.18],"start":[530,.18],"legendary":[850,.3],"win":[650,.3],"lose":[280,.3],"toggle":[500,.06],"gravity":[100,.3]}
 	if tones.has(kind):
 		var tone: Array = tones[kind]
@@ -193,13 +204,22 @@ func synthesize(p: Dictionary) -> AudioStreamWAV:
 	return stream
 
 func play_sound(kind: String, id: int = 0) -> void:
+	if kind=="moss_stop":
+		stop_moss_roll(id)
+		for voice in voices:
+			if voice.get_meta("owner",-1)==id and voice.get_meta("kind","") in ["moss_roll","moss_dash","moss_curl"]: voice.stop()
+		return
 	if not enabled or kind == "start": return
+	if kind in ["moss_roll","moss_roll_low"]:
+		update_moss_roll(id,.82 if kind=="moss_roll_low" else 1.12)
+		return
 	# Coalesce simultaneous pellet impacts without changing projectile simulation.
-	if kind in ["boss_shell_impact","boss_heavy_impact","wall_impact","ricochet","sentry_windup","lizard_inhale","sentry_swing","lizard_spit","sentry_down","lizard_down","quill_windup","quill_fire","quill_down"]:
+	if kind in ["enemy_defeat","moss_dash","moss_wall","moss_down","moss_curl","moss_roll","moss_contact","boss_shell_impact","boss_heavy_impact","wall_impact","ricochet","sentry_windup","lizard_inhale","sentry_swing","lizard_spit","sentry_down","lizard_down","quill_windup","quill_fire","quill_down"]:
 		var now := Time.get_ticks_msec()
 		var interval := 100 if kind.begins_with("boss_") else 200 if kind == "wall_impact" else 120 if kind == "ricochet" else 60
-		if now-int(contact_times.get(kind,-1000)) < interval: return
-		contact_times[kind] = now
+		var throttle_key := kind+"/"+str(id) if kind in ["moss_dash","moss_curl"] else kind
+		if now-int(contact_times.get(throttle_key,-1000)) < interval: return
+		contact_times[throttle_key] = now
 	var sample := sample_key(kind,id)
 	if not sample.is_empty():
 		var generated_voice := voices[next_voice]
@@ -207,9 +227,12 @@ func play_sound(kind: String, id: int = 0) -> void:
 		generated_voice.stop()
 		generated_voice.stream_paused = false
 		generated_voice.set_meta("kind",kind)
+		generated_voice.set_meta("owner",id)
 		generated_voice.bus = bus_name
 		generated_voice.volume_db = volume_db + (-18.0 if kind.begins_with("ui_") or kind == "toggle" else -12.0)
-		if kind == "wall_impact": generated_voice.volume_db -= 12.0
+		if kind=="enemy_defeat": generated_voice.volume_db -= 5.0
+		elif kind.begins_with("moss_"): generated_voice.volume_db -= 2.0 if kind=="moss_dash" else 5.0
+		elif kind == "wall_impact": generated_voice.volume_db -= 12.0
 		elif kind == "ricochet": generated_voice.volume_db -= 8.0
 		elif kind in ["sentry_windup","lizard_inhale","quill_windup"]: generated_voice.volume_db -= 6.0
 		elif kind in ["sentry_swing","lizard_spit","sentry_down","lizard_down","quill_windup","quill_fire","quill_down"]: generated_voice.volume_db -= 3.0
@@ -227,6 +250,7 @@ func play_sound(kind: String, id: int = 0) -> void:
 	voice.stop()
 	voice.stream_paused = false
 	voice.set_meta("kind",kind)
+	voice.set_meta("owner",id)
 	voice.bus = bus_name if p.noise > 0 else "Master"
 	voice.volume_db = volume_db
 	voice.stream = cache[key]
@@ -254,3 +278,30 @@ func sample_key(kind: String, id: int = 0) -> String:
 	if kind == "start": return ""
 	if kind == "toggle": return "ui_confirm"
 	return kind if GENERATED.has(kind) else ""
+
+# Continuous rolling has its own bounded voices; gunshots cannot steal them.
+func update_moss_roll(owner: int, pitch: float) -> void:
+	if not moss_rollers.has(owner):
+		if moss_rollers.size()>=6: return
+		var roller:=AudioStreamPlayer.new()
+		roller.stream=preload("res://assets/audio/se/fw_moss_spin_loop_03.mp3").duplicate()
+		roller.stream.loop=true
+		roller.bus=bus_name
+		roller.playback_type=AudioServer.PLAYBACK_TYPE_STREAM
+		roller.stream_paused=moss_paused
+		add_child(roller)
+		moss_rollers[owner]=roller
+		roller.play()
+		played.emit("moss_roll",owner)
+	var voice: AudioStreamPlayer=moss_rollers[owner]
+	voice.pitch_scale=pitch
+	# Keep the combined rumble restrained at the six-enemy test limit.
+	for roller in moss_rollers.values(): roller.volume_db=volume_db-22.0-3.0*log(float(moss_rollers.size()))/log(2.0)
+func stop_moss_roll(owner: int) -> void:
+	if not moss_rollers.has(owner): return
+	var roller: AudioStreamPlayer=moss_rollers[owner]
+	roller.stop()
+	roller.queue_free()
+	moss_rollers.erase(owner)
+	contact_times.erase("moss_dash/"+str(owner))
+	contact_times.erase("moss_curl/"+str(owner))

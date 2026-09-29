@@ -1,0 +1,17 @@
+{
+  "provider": "built-in image_gen",
+  "model": null,
+  "cost": null,
+  "usage": null,
+  "generated_calls": 1,
+  "prompt": "Use case: stylized-concept. Production 2D game sprite atlas, exactly 2 columns by 2 rows, 1536x1536 transparent RGBA canvas. Each isolated sprite strictly confined to its own quadrant with at least 80px transparent gutters; no labels, no frames, no floor outside objects, no cast shadows. Match reference dark warm grey medieval masonry, chunky hand-painted ink outlines, restrained cel shading, legible at 100-250px game size. Strong overhead orthographic camera, horizontal edges horizontal, not isometric. TOP LEFT: broad rectangular ancient stone cistern, complete enclosed low stone rim with dark muted teal water inside, overhead water occupies most of sprite, short front side. TOP RIGHT: squat rectangular stone altar with a single shallow bronze offering bowl and carved geometric motif, large top face short front band, no legs. BOTTOM LEFT: huge ancient broken double gate, both heavy wooden/iron gate leaves fallen flat in a V with broken hinge hardware and a few large stone blocks, no upright arch or surrounding wall. BOTTOM RIGHT: small empty square stone display plinth with two shallow steps and a recessed top. Different subjects remain completely separate, all four full silhouettes fit inside quadrants. Reference image is style reference only.",
+  "reference": "assets/stages/ashen-foundry-v2/props/pillar.png",
+  "runtime": "assets/stages/ashen-foundry-v2/exploration-kit/architecture.png",
+  "recipe": "tools/build_exploration_kit.gd; PNG unchanged, inspected windows plus alpha >= 0.1 bounds padded 2px",
+  "status": "generated and integrated; static captures and automated checks; user acceptance pending",
+  "sha256": "5d6b3691c7d9e8f61783e3b108a7996535de8022c7c7247be58c71004a6f1aa4",
+  "actual_size": [
+    1254,
+    1254
+  ]
+}

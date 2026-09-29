@@ -1,0 +1,30 @@
+{
+  "id": "ring-guard-v1",
+  "tool": "built-in image_gen",
+  "prompt": "Use case: stylized-concept. ONE transparent-background 2D game enemy sprite: an ancient ring-cannon guardian, a squat heavy THREE-legged stone-and-bronze automaton, facing down-right. A low warm gray ceramic/stone dome with a broad horizontal bronze weapon ring around it, tiny dark outward barrel apertures along rear and sides; front-down-right 90-degree sector CLOSED solid bronze without apertures (safe firing sector). Three stout bent bronze legs with broad stone feet, visually distinct tripod, no humanoid face, no floating orb. Two or three large chips in stone, restrained patina. Match reference 1 Rina's thick dark-brown outlines and simple 3-tone stylized hand-painted pixel-readable shapes. Readable at 84px wide, chunky simple forms no fine detail. Reference 2 actual dungeon palette/view ONLY, no scenery. High overhead orthographic projection, mostly see top surfaces, upper-left light, slight warm amber inset in top but no glow halo or sci-fi holograms. Center full object 75% square, all feet visible, genuine transparent alpha background, no floor no cast shadow no typography, one neutral pose only.",
+  "model": null,
+  "cost": null,
+  "usage": null,
+  "status": "concept_only_not_runtime",
+  "sha256": "902356000655af262a97c41eb0a005b15a288b037924e7804be73bdbd7ceb8dc",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "source_path": "C:/Users/ikare/.codex/generated_images/01a0e2a7-fa4e-7392-b9bc-8275915f2699/exec-344bfaca-5b47-4ec1-a21e-d604eeb73954.png",
+  "visible_rect_alpha_above_0_1": [
+    117,
+    170,
+    1023,
+    946
+  ],
+  "preview_width_world_px": 84,
+  "preview_support_origin_fraction": [
+    0.5,
+    0.8
+  ],
+  "references": [
+    "docs/art/reviews/rina-style-check-2026-09-26/sheet-3x.png",
+    "docs/art/production/authored-rooms/views/09-cistern-detail.png"
+  ]
+}

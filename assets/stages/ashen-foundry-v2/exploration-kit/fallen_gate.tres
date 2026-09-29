@@ -1,0 +1,8 @@
+[gd_resource type="AtlasTexture" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/stages/ashen-foundry-v2/exploration-kit/architecture.png" id="1_oh3w3"]
+
+[resource]
+atlas = ExtResource("1_oh3w3")
+region = Rect2(39, 711, 771, 467)
+filter_clip = true

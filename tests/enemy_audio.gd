@@ -41,13 +41,14 @@ func run() -> void:
 	assert(events.count("lizard_inhale") == 1)
 	lizard.step(.81,2,player,game.arena)
 	lizard.step(.23,2,player,game.arena)
-	assert(events.count("lizard_spit") == 2)
+	lizard.step(.23,2,player,game.arena)
+	assert(events.count("lizard_spit") == 3)
 	reset_pair(game,lizard)
 	lizard.attack_time = 0
 	lizard.step(0,2,player,game.arena)
 	player.state.pos = Vector2(1500,900)
 	lizard.step(1,2,player,game.arena)
-	assert(events.count("lizard_spit") == 2) # Offscreen cancellation is silent.
+	assert(events.count("lizard_spit") == 3) # Offscreen cancellation is silent.
 	assert(lizard.hurt(99))
 	assert(not lizard.hurt(99))
 	assert(events.count("lizard_down") == 1 and events.count("sentry_down") == 1)

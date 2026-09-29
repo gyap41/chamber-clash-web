@@ -1,0 +1,13 @@
+{
+  "tool": "built-in imagegen",
+  "prompt": "Use case: stylized-concept. Create ONE game character concept sprite on a genuinely transparent background, no text, no floor, no shadow. Reference image is ONLY a style reference: Rina's smooth colored ink outlines and clean two-tone cel shading, not pixel art. Character: a charming small moss-ball scarab enemy, three-quarter top-down view facing lower right. Strong round squat domed silhouette like a little jade pebble, NOT an elongated insect. Body almost spherical, wide as long, blue-green shell with just two large soft moss green patches, no tiny texture. Small friendly but determined dark face peeking from under front edge. Six very short chunky organic feet almost entirely tucked under the dome, no spindly legs, no long segmented limbs, no mechanical joints. Two VERY short stalk antennae with round bead tips, not long feelers. Mouth closed and mandibles invisible in this idle pose. No spikes, no hairs, no realistic insect anatomy, no cockroach silhouette. Cute woodland creature suited to damp ancient stone rooms; not a plush toy, not a machine. Broad matte highlights from upper left, dark teal colored outline, elegant smooth illustrated sprite matching reference rendering. Single full body centered with clear transparent margins.",
+  "source": "C:/Users/ikare/.codex/generated_images/01a0e2a7-fa4e-7392-b9bc-8275915f2699/exec-325775f6-7676-40dc-8f80-841aa7943400.png",
+  "model": null,
+  "cost": null,
+  "usage": null,
+  "sha256": "00f2c76322cb3d37fdc66b514416fc1c54f26a23cbca85a610ac3c85c5225a2c",
+  "dimensions": [
+    1368,
+    1150
+  ]
+}

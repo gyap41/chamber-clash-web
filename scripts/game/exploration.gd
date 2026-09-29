@@ -13,6 +13,7 @@ const ExplorationSupplies = preload("res://scripts/game/exploration_supplies.gd"
 var supply_nodes: Array = []
 var encounters_enabled := true
 var random_floor := false
+var authored_campaign := false
 var preserve_room_dressing := false
 var floor_data: Dictionary = {}
 var floor_map
@@ -50,6 +51,9 @@ func _ready() -> void:
 	for argument in OS.get_cmdline_user_args():
 		if argument.begins_with("--seed="): seed_value = int(argument.trim_prefix("--seed="))
 	if "--random-floor" in OS.get_cmdline_user_args(): random_floor = true
+	if "--authored-floor" in OS.get_cmdline_user_args():
+		random_floor=true
+		authored_campaign=true
 	if "--stage-four-way" in OS.get_cmdline_user_args():
 		random_floor = false
 		room_catalog = preload("res://scripts/world/four_way_demo.gd").catalog()
@@ -60,6 +64,13 @@ func _ready() -> void:
 		preserve_room_dressing = true
 		room_catalog = preload("res://scripts/world/collapsed_workshop_demo.gd").catalog()
 		start_room = "collapsed_workshop"
+	if "--stage-authored" in OS.get_cmdline_user_args():
+		# Hand-authored room trial (docs/art/production/authored-rooms), no enemies.
+		random_floor = false
+		encounters_enabled = false
+		preserve_room_dressing = true
+		room_catalog = preload("res://scripts/world/authored_rooms.gd").catalog()
+		start_room = "collapsed_gallery"
 	start_exploration(seed_value)
 func start_exploration(seed_value: int) -> void:
 	sound.stop_all()
@@ -67,7 +78,7 @@ func start_exploration(seed_value: int) -> void:
 	if floor_map != null: close_map()
 	if bag != null: close_bag()
 	if random_floor:
-		var generated := Floor.generate(seed_value)
+		var generated := preload("res://scripts/game/production_floor.gd").generate(seed_value) if authored_campaign else Floor.generate(seed_value)
 		var generation_errors: PackedStringArray = generated.errors
 		if generation_errors.is_empty(): generation_errors = Floor.validation_errors(generated)
 		if generation_errors.is_empty():

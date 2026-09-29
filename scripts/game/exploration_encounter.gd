@@ -3,17 +3,29 @@ const Boss = preload("res://scripts/combat/furnace_warden.gd")
 const Actor = preload("res://scripts/combat/exploration_enemy.gd")
 const Quillback = preload("res://scripts/combat/quillback.gd")
 const Lizard = preload("res://scripts/combat/fire_pouch_lizard.gd")
+const Scatter = preload("res://scripts/combat/scatter_drone.gd")
+const Moss = preload("res://scripts/combat/root_runner_prototype.gd")
+const Runner = preload("res://scripts/combat/runner_sentry.gd")
+const Ram = preload("res://scripts/combat/ram_sentry.gd")
+const Ring = preload("res://scripts/combat/ring_sentry.gd")
 const ActorScene = preload("res://scenes/combat/player.tscn")
 const Navigation = preload("res://scripts/ai/cpu_navigation.gd")
 
 # Composition follows room size; the first fight remains a melee-only introduction.
-static func composition(arena, introduced: bool) -> Array:
+static func composition(arena, introduced: bool, encounter_index: int = 0) -> Array:
 	var area: float = arena.field_rect.get_area()
 	var count := 3 if not introduced else (3 if area < 600000 else (4 if area < 900000 else (5 if area < 1150000 else 6)))
 	var ids: Array = []
 	for i in range(count):
 		ids.append("fire_pouch_lizard" if introduced and i%3 == 1 else "workshop_sentry")
 	if introduced and count >= 5: ids[2] = "quillback"
+	# One barrage specialist; retain quillbacks in long narrow rooms.
+	if introduced and count >= 5 and minf(arena.field_rect.size.x,arena.field_rect.size.y) >= 800:
+		ids[2] = "scatter_drone"
+		ids[4] = "workshop_sentry"
+	if introduced and encounter_index >= 2: ids[-1] = "runner_sentry"
+	if encounter_index >= 3 and encounter_index % 2 == 1 and area >= 900000:
+		return ["ram_sentry" if encounter_index % 4 == 3 else "ring_sentry","workshop_sentry","runner_sentry"]
 	return ids
 
 # Flood reachable floor, then spread approach angles instead of taking the first BFS cells.
@@ -57,8 +69,12 @@ static func begin(game) -> void:
 	var room_state: Dictionary = game.exploration.room_state(id)
 	if not room_state.has("enemy_ids"):
 		var introduced: bool = game.exploration.room_states.values().any(func(value): return value.has("enemy_ids"))
-		room_state.enemy_ids = ["furnace_warden"] if game.floor_data.rooms[id].role == "boss" else composition(game.arena,introduced)
+		room_state.enemy_ids = ["furnace_warden"] if game.floor_data.rooms[id].role == "boss" else composition(game.arena,introduced,game.exploration.room_states.values().filter(func(value): return value.has("enemy_ids")).size())
+		if game.floor_data.get("production",false) and game.floor_data.rooms[id].role=="normal":
+			room_state.enemy_ids=production_composition(game.floor_data.rooms[id].template_id,introduced,game.exploration.room_states.values().filter(func(value): return value.has("enemy_ids")).size())
 	var positions := spawn_positions(game.arena,game.players[0].state.pos,room_state.enemy_ids.size())
+	if game.floor_data.get("production",false) and game.floor_data.rooms[id].role=="normal" and not positions.is_empty():
+		room_state.enemy_ids.resize(positions.size())
 	if game.floor_data.rooms[id].role == "boss":
 		positions = [Vector2(game.arena.field_rect.get_center().x,game.arena.field_rect.end.y-430)]
 		if game.arena.solid(positions[0],44): positions.clear()
@@ -68,10 +84,19 @@ static func begin(game) -> void:
 		game.phase = "result"
 		game.result = "敵の配置に失敗しました。再挑戦してください"
 		return
+	# Local clearance matters even in an L-shaped room with a large bounding box.
+	for index in range(positions.size()):
+		if room_state.enemy_ids[index] not in ["ram_sentry","ring_sentry"]: continue
+		var open := true
+		for n in range(8):
+			if not Navigation.segment_clear(game.arena,positions[index],positions[index]+Vector2.from_angle(n*TAU/8)*96,20): open = false
+		if not open: room_state.enemy_ids[index] = "workshop_sentry"
 	# Entry is outside CombatSession.step; the previous room has no live owners.
 	for index in range(positions.size()):
 		var actor = ActorScene.instantiate()
-		actor.set_script(Boss if room_state.enemy_ids[index] == "furnace_warden" else Quillback if room_state.enemy_ids[index] == "quillback" else (Lizard if room_state.enemy_ids[index] == "fire_pouch_lizard" else Actor))
+		var scripts := {"root_runner_prototype":Moss,"runner_sentry":Runner,"ram_sentry":Ram,"ring_sentry":Ring,"scatter_drone":Scatter,
+			"furnace_warden":Boss,"quillback":Quillback,"fire_pouch_lizard":Lizard}
+		actor.set_script(scripts.get(room_state.enemy_ids[index],Actor))
 		actor.name = "Enemy%d" % index
 		game.arena.get_node("Players").add_child(actor)
 		actor.prepare(positions[index])
@@ -96,3 +121,12 @@ static func retire(game) -> void:
 	game.fighters = [game.players[0].state]
 	game.participant_config.resize(1)
 	game.roster.configure(game.participant_config)
+
+static func production_composition(template: String, introduced: bool, index: int) -> Array:
+	if not introduced: return ["workshop_sentry","workshop_sentry"]
+	if template in ["courtyard","root_hall","beast_nest"]:
+		return ["root_runner_prototype","quillback","root_runner_prototype"]
+	if template=="cistern": return ["root_runner_prototype","quillback"]
+	if template in ["casting_line","loading_bay","colonnade"]:
+		return ["ram_sentry" if index%2==0 else "ring_sentry","workshop_sentry","fire_pouch_lizard"] if index>=3 else ["workshop_sentry","fire_pouch_lizard","scatter_drone"]
+	return ["workshop_sentry","fire_pouch_lizard"]

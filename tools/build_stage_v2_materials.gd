@@ -16,6 +16,11 @@ func load_png(name: String) -> Image:
 	image.convert(Image.FORMAT_RGBA8)
 	return image
 
+func load_png_path(path: String) -> Image:
+	var image := Image.load_from_file(ProjectSettings.globalize_path(path))
+	image.convert(Image.FORMAT_RGBA8)
+	return image
+
 func save(image: Image, name: String) -> void:
 	assert(image.save_png(ProjectSettings.globalize_path(OUT+name)) == OK)
 
@@ -26,6 +31,8 @@ func _initialize() -> void:
 	var face := load_png("wall-face").get_region(FACE_COURSES)
 	face.resize(1024,1024,Image.INTERPOLATE_LANCZOS)
 	save(face,"wall-face.png")
+	# Cave bedrock around the rooms (authored-room review, 2026-09-27): seamless as generated.
+	save(load_png_path("res://assets/generated/authored-exterior-rock-v1.png"),"exterior-rock.png")
 	var edge := Image.create(64,64,false,Image.FORMAT_RGBA8)
 	edge.fill(EDGE_INK)
 	save(edge,"edge.png")

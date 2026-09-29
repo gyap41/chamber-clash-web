@@ -19,13 +19,13 @@ mouse_filter = 2
 
 [node name="Panel" type="PanelContainer" parent="."]
 offset_left = 260.0
-offset_top = 120.0
+offset_top = 80.0
 offset_right = 860.0
-offset_bottom = 680.0
+offset_bottom = 730.0
 
 [node name="Content" type="VBoxContainer" parent="Panel"]
 layout_mode = 2
-theme_override_constants/separation = 18
+theme_override_constants/separation = 12
 alignment = 1
 
 [node name="Heading" type="Label" parent="Panel/Content"]
@@ -79,3 +79,10 @@ custom_minimum_size = Vector2(0, 50)
 focus_mode = 0
 theme_override_font_sizes/font_size = 20
 text = "ストーリーモード（ランダム階層・試作）"
+
+[node name="CombatLab" type="Button" parent="Panel/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 46)
+focus_mode = 0
+theme_override_font_sizes/font_size = 20
+text = "戦闘テスト（部屋・敵を選択）"

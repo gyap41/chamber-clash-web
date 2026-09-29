@@ -75,6 +75,8 @@ func reload(catalog_path: String = "res://data/catalog.json", visual_path: Strin
 		Record.add_reference(item,"res://scripts/ui/hud.gd","コード生成","実UIサイズ・行動状態")
 		item.preview = true; _add(item)
 	for path in files("res://data/fields",["tres"]): _field(path)
+	_authored_rooms()
+	_enemies()
 	file_records_loaded = include_files
 	if include_files: _file_records()
 	var fresh := by_id.keys()
@@ -96,6 +98,41 @@ func _required(item: Dictionary, keys: Array) -> bool:
 		elif not item.definition[key] is String:
 			item.issues.append("必須文字列不正: "+key); valid = false
 	return valid
+
+func _enemies() -> void:
+	for filename in ["exploration_enemy","fire_pouch_lizard","quillback","scatter_drone","runner_sentry","ram_sentry","ring_sentry","root_runner_prototype"]:
+		var path: String = "res://scripts/combat/"+filename+".gd"
+		var actor = load(path).new()
+		var spec: Dictionary = actor.spec.duplicate(true)
+		actor.free()
+		var item := Record.make("enemy:"+spec.id,spec.name,"敵")
+		item.definition = spec
+		item.definition.script = path
+		item.definition.role = "強敵" if spec.id in ["ram_sentry","ring_sentry"] else "通常敵"
+		item.definition.art_status = "画像素材" if spec.id in ["workshop_sentry","fire_pouch_lizard","quillback"] else "仮パーツ表示"
+		item.definition.desc = {"workshop_sentry":"予告から近接攻撃","fire_pouch_lizard":"狙い固定の3連射","quillback":"5方向の扇状弾","scatter_drone":"角度をずらす5発×2波","runner_sentry":"高速・低耐久の近接","ram_sentry":"方向固定の突進。壁・接触後に硬直","ring_sentry":"逃げ道を残す11発×2波"}.get(spec.id,"")
+		item.image = {"workshop_sentry":"res://assets/first-workshop/enemies/sentry-sheet-v2.png","fire_pouch_lizard":"res://assets/first-workshop/enemies/lizard-sheet-v3.png","quillback":"res://assets/first-workshop/enemies/quillback-sheet-v1.png"}.get(spec.id,"")
+		if not item.image.is_empty(): Record.add_reference(item,item.image,"静的参照","本編の方向・動作シート")
+		item.method = "enemy"
+		item.defined = true
+		item.game = true
+		item.preview = true
+		item.assets = item.definition.art_status == "画像素材"
+		Record.add_reference(item,path,"コード生成","本編の敵AI・描画")
+		Record.add_reference(item,"res://scripts/catalog/exploration_enemy_catalog.gd","静的参照","敵の性能")
+		if spec.id == "root_runner_prototype":
+			item.game = true
+			item.assets = true
+			item.definition.role = "転がり突進"
+			item.definition.art_status = "8方向・本編接続済み"
+			item.definition.desc = "通常姿勢8方向と横倒し。歩行・停止、接近・収納・高速ローリング・壁1回反射・復帰を確認。本編と戦闘テストで専用SEを再生。"
+			item.image = "res://assets/first-workshop/root-runner-prototype/directions-v1.png"
+			Record.add_reference(item,item.image,"静的参照","通常8方向・横倒し")
+			Record.add_reference(item,"res://assets/first-workshop/root-runner-prototype/moss-regions-v1.json","静的参照","切出し範囲")
+			Record.add_reference(item,"res://assets/first-workshop/root-runner-prototype/tackle-parts-v1.png","静的参照","顔と収納・前転4コマ")
+			Record.add_reference(item,"res://assets/first-workshop/root-runner-prototype/tackle-regions-v1.json","静的参照","タックル切出し範囲")
+			Record.add_reference(item,"res://scripts/visuals/root_runner_rig.gd","コード生成","接地・収納・タックルの同期")
+		_add(item)
 func _character(item: Dictionary) -> void:
 	var id := int(item.definition.id)
 	var valid := _required(item,["name","hp","speed","reload","dodge","blanks","cell","gun"])
@@ -171,6 +208,11 @@ func _field(path: String) -> void:
 	if field == null or not field.has_method("validation_errors"):
 		errors.append("FieldDefinition読込失敗: "+path); return
 	var item := Record.make("stage:"+field.field_id,field.field_id,"ステージ","テスト" if field.field_id == "validation" else "現行")
+	item.name = {"duel":"対戦ステージ","validation":"配置検証ステージ","workshop_trial":"始まりの工房","workshop_annex":"隣の作業室"}.get(field.field_id,field.field_id)
+	var overview := "res://docs/art/production/authored-rooms/views/hub-%s.png" % field.field_id
+	if FileAccess.file_exists(overview):
+		item.image = overview
+		Record.add_reference(item,overview,"確認画像","capture_stages.gdで撮影した全体像。最新配置は実描画で確認")
 	item.definition = {"field_id":field.field_id,"path":path,"size":str(field.field_rect.size),"actors":"編成はScene/Roster側。配置定義に含めない"}
 	item.defined = true; item.game = true; item.method = "stage"
 	Record.add_reference(item,path,"静的参照","FieldDefinition・配置原本")
@@ -178,6 +220,31 @@ func _field(path: String) -> void:
 	for source in ["scripts/world/field_builder.gd","scripts/world/arena.gd","scenes/world/wall.tscn","scripts/visuals/workshop_floor.gd"]: Record.add_reference(item,"res://"+source,"コード生成","定義から床・壁・Spawn・補給候補を構築")
 	item.issues.append_array(Array(field.validation_errors()))
 	item.preview = item.issues.is_empty(); _add(item)
+func _authored_rooms() -> void:
+	var authored = preload("res://scripts/world/authored_rooms.gd")
+	for id in authored.ORDER:
+		var room = authored.make_room(id,["west","east"])
+		var item := Record.make("room:"+id,authored.NAMES[id],"部屋","見学用")
+		var role := "分岐・曲がり" if id in authored.JUNCTIONS else ("寄り道の終点" if id in authored.DISCOVERIES else ("前室" if id == "antechamber" else "通過"))
+		var openings: Array = []
+		var names := {"north":"北","south":"南","west":"西","east":"東"}
+		for sides in authored.connection_sets(id):
+			openings.append("・".join(sides.map(func(side): return names[side])))
+		item.definition = {"authored_id":id,"field_id":id,"size":"%d × %d" % [room.field.field_rect.size.x,room.field.field_rect.size.y],"role":role,"connections":" / ".join(openings),"desc":"作り込み部屋。ランダム見学へ接続済み、本編の戦闘階層へは未採用。","order":authored.ORDER.find(id)+1}
+		item.image = "res://docs/art/production/authored-rooms/views/%02d-%s-overview.png" % [authored.ORDER.find(id)+1,id]
+		item.defined = true
+		item.game = true
+		item.method = "stage"
+		item.issues.append_array(Array(room.field.validation_errors()))
+		item.preview = item.issues.is_empty()
+		Record.add_reference(item,item.image,"確認画像","保存済みの全体画像。現在の配置はGodotの実描画で確認")
+		for path in ["scripts/world/authored_rooms.gd","scripts/world/authored_rooms_expansion.gd","scripts/game/authored_floor.gd","scripts/world/field_builder.gd"]:
+			Record.add_reference(item,"res://"+path,"コード生成","部屋の形状・配置・接続の原本")
+		for prop in room.field.placements:
+			if prop.texture != null and not prop.texture.resource_path.is_empty():
+				Record.add_reference(item,prop.texture.resource_path,"動的規則","部屋に配置する素材")
+		_add(item)
+
 func _add(item: Dictionary) -> void:
 	if by_id.has(item.id):
 		errors.append("重複IDを隔離: "+item.id); return

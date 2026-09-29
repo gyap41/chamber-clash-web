@@ -1,0 +1,30 @@
+{
+  "id": "root-runner-v1",
+  "tool": "built-in image_gen",
+  "prompt": "Use case: stylized-concept. Create ONE isolated transparent-background game enemy sprite: a root-running beetle, facing down-right, six short articulated legs and two short antennae, low wedge-shaped damp blue-green elytra with a pale edge. Organic animal, no machine parts, no tail, no spines. Match image 1 Rina's bold dark-brown outline and simple three-tone painted cartoon shapes, readable at 48 pixels wide. Image 2 is the actual stone dungeon environment reference ONLY, do not include its floor. Strong overhead orthographic game perspective, see mainly back and top of head, upper-left soft light. Large simple planes, no intricate engraving or photoreal texture. Full body centered occupying 75% of square canvas, feet all visible, neutral grounded pose. Genuine alpha transparent background, no ground, no baked shadow, no text, no sheet, one character.",
+  "model": null,
+  "cost": null,
+  "usage": null,
+  "status": "concept_only_not_runtime",
+  "sha256": "d2317871e3001afd727929cb863d269d492d650e2d545a35b86763ed290081b7",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "source_path": "C:/Users/ikare/.codex/generated_images/01a0e2a7-fa4e-7392-b9bc-8275915f2699/exec-4a417135-ccf8-403d-8620-fa4a9d31c9b8.png",
+  "visible_rect_alpha_above_0_1": [
+    208,
+    236,
+    890,
+    783
+  ],
+  "preview_width_world_px": 48,
+  "preview_support_origin_fraction": [
+    0.5,
+    0.8
+  ],
+  "references": [
+    "docs/art/reviews/rina-style-check-2026-09-26/sheet-3x.png",
+    "docs/art/production/authored-rooms/views/09-cistern-detail.png"
+  ]
+}

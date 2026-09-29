@@ -80,9 +80,11 @@ func run() -> void:
 	lizard.step(.23,2,player,game.arena)
 	assert(game.shots.size() == 2 and is_zero_approx(game.shots[1].state.velocity.y))
 	lizard.step(.23,2,player,game.arena)
+	assert(game.shots.size() == 3)
+	lizard.step(.23,2,player,game.arena)
 	assert(lizard.attack_phase == "recover")
 	lizard.step(.5,2,player,game.arena)
-	assert(game.shots.size() == 2)
+	assert(game.shots.size() == 3)
 	game.combat._step_projectiles(1.2)
 	assert(player.state.hp == 8) # sideways movement avoids the locked stream
 	# Ordinary collision, damage, hostile roster and pulse cancellation.
@@ -150,5 +152,5 @@ func run() -> void:
 	assert(game.exploration.room_states.values().all(func(value): return not value.has("enemy_ids")))
 	game.queue_free()
 	await process_frame
-	print("PASS: lizard introduction/mixed roster, locked two-shot burst, recovery, pause, walls, damage, pulse, offscreen cancellation, death and retry")
+	print("PASS: lizard introduction/mixed roster, locked three-shot burst, recovery, pause, walls, damage, pulse, offscreen cancellation, death and retry")
 	quit()

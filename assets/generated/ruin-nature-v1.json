@@ -1,0 +1,17 @@
+{
+  "provider": "built-in image_gen",
+  "model": null,
+  "cost": null,
+  "usage": null,
+  "generated_calls": 1,
+  "prompt": "Use case: stylized-concept. Generate production game asset sprite sheet, transparent RGBA 1536x1536, exactly 2 columns x 2 rows with very generous transparent gutters and generous canvas margin. Style reference: outlined muted brown-grey stone/wood fantasy overhead 2D game. Each quadrant contains one isolated intact object group. No captions, frames, cast shadow, extra surrounding floor, no checkerboard painted in. Strong overhead orthographic view, horizontal edges horizontal. TOP LEFT: irregular crescent of dark soil, small exposed roots, a few chipped stone fragments and sparse dull moss; this is a flat floor overlay with organically feathered irregular edge, NO paving slabs, NO intact tile grid. TOP RIGHT: thick forked old brown tree root bursting through a small irregular dark earth fracture, branching horizontally left to right, top-down, no stone wall attached, no leaves or tree canopy, flat low object. BOTTOM LEFT: scattered small old parchment maps without readable writing, a compass, simple hand tools and a coil of rope, flat overhead floor clues, compact irregular cluster with space between objects. BOTTOM RIGHT: small CLOSED old dark wooden iron-bound relic chest with a muted turquoise stone in its clasp, strongly overhead top lid occupies 75 percent and short front panel 25 percent, no legs, no strong glow, no gold coins. All four object groups remain clearly separated, silhouettes simple at game width 60-220px.",
+  "reference": "assets/stages/ashen-foundry-v2/props/pillar.png",
+  "runtime": "assets/stages/ashen-foundry-v2/exploration-kit/nature.png",
+  "recipe": "tools/build_exploration_kit.gd; PNG unchanged, inspected windows plus alpha >= 0.1 bounds padded 2px",
+  "status": "generated and integrated; static captures and automated checks; user acceptance pending",
+  "sha256": "83bd74715ba294d5f485081258ef9e252a73d93cf73d17a085e0c4a3890c62e5",
+  "actual_size": [
+    1254,
+    1254
+  ]
+}

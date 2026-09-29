@@ -45,7 +45,10 @@ func initialize(item: Dictionary, settings: Dictionary) -> void:
 	# Reset randomness before each independent adapter; visual RNG is instance-owned.
 	seed(seed_value)
 	if record.method == "stage":
-		_setup_arena(ResourceLoader.load(record.definition.path,"",ResourceLoader.CACHE_MODE_IGNORE))
+		if record.definition.has("authored_id"):
+			_setup_arena(preload("res://scripts/world/authored_rooms.gd").make_room(record.definition.authored_id,["west","east"]).field)
+		else:
+			_setup_arena(ResourceLoader.load(record.definition.path,"",ResourceLoader.CACHE_MODE_IGNORE))
 		if arena != null: bounds = arena.field_rect
 	elif record.method == "actor" and record.preview and not conditions.icon:
 		var field = load("res://data/fields/duel.tres").duplicate(true)

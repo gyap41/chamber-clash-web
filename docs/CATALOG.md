@@ -4,7 +4,7 @@
 
 自動生成: `python tools/docs_index.py`。表題は本文の最初の見出しから取得。分類は役割の案内で、内容の検証完了や採用を示しません。過去計画は元のパスを維持して履歴に分類しています。
 
-対象 204 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
+対象 209 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
 
 ## 入口・運用
 
@@ -27,7 +27,7 @@
 |---|---|
 |[docs/design/BATTLE_UI_C.md](<design/BATTLE_UI_C.md>)|対戦HUD C案（実装）|
 |[docs/design/CHARACTER_BIBLE.md](<design/CHARACTER_BIBLE.md>)|始まりの工房：キャラクター美術定義|
-|[docs/design/GAME_RULES.md](<design/GAME_RULES.md>)|現行仕様と検討案|
+|[docs/design/GAME_RULES.md](<design/GAME_RULES.md>)|戦闘テスト|
 |[docs/design/ITEM_CATALOG.md](<design/ITEM_CATALOG.md>)|アイテム・キャラクター・バッグ一覧|
 |[docs/design/ITEM_FOOTPRINT_BALANCE.md](<design/ITEM_FOOTPRINT_BALANCE.md>)|アイテム占有形状の方針|
 |[docs/design/PREPARATION_UI_B.md](<design/PREPARATION_UI_B.md>)|準備画面：携帯工房|
@@ -55,7 +55,7 @@
 |[docs/development/EDITOR_GUIDE.md](<development/EDITOR_GUIDE.md>)|エディタでの調整|
 |[docs/development/HANDOFF_FOR_CLAUDE.md](<development/HANDOFF_FOR_CLAUDE.md>)|開発引き継ぎ（エージェント共通）|
 |[docs/development/STAGE_TEMPLATES.md](<development/STAGE_TEMPLATES.md>)|ステージの素材セットと部屋テンプレート|
-|[docs/development/TESTING.md](<development/TESTING.md>)|固定2部屋・扉移動（2026-09-21）|
+|[docs/development/TESTING.md](<development/TESTING.md>)|戦闘テスト（2026-09-28）|
 |[docs/development/WEAPON_EXTENSIONS.md](<development/WEAPON_EXTENSIONS.md>)|武器・演出・特殊効果を追加する|
 
 ## 美術・音響の共通基準
@@ -77,10 +77,12 @@
 |[docs/art/production/README.md](<art/production/README.md>)|必要：制作指示|
 |[docs/art/production/ashen-foundry-v2/README.md](<art/production/ashen-foundry-v2/README.md>)|旧鋳造区 v2：採用画風での描き直し|
 |[docs/art/production/ashen-foundry/README.md](<art/production/ashen-foundry/README.md>)|1面：灰積もる旧鋳造区|
+|[docs/art/production/authored-rooms/README.md](<art/production/authored-rooms/README.md>)|作り込んだ20部屋の試作（2026-09-27）|
 |[docs/art/production/boss-approach/README.md](<art/production/boss-approach/README.md>)|ボス前室・南入口の制作記録|
 |[docs/art/production/collapsed-workshop/README.md](<art/production/collapsed-workshop/README.md>)|崩落した作業室：実機試作|
 |[docs/art/production/enemy-animation-v2/README.md](<art/production/enemy-animation-v2/README.md>)|通常敵アニメーション v2 制作記録|
 |[docs/art/production/enemy-appearance-v1/README.md](<art/production/enemy-appearance-v1/README.md>)|通常敵2種：外見候補 v1|
+|[docs/art/production/enemy-field-concepts/README.md](<art/production/enemy-field-concepts/README.md>)|敵とフィールドの外見比較|
 |[docs/art/production/equipment-diversity-2026-09-13/README.md](<art/production/equipment-diversity-2026-09-13/README.md>)|多様な武器・レリックの残り制作|
 |[docs/art/production/equipment-rollout-2026-09-12/DESIGN_REVISION.md](<art/production/equipment-rollout-2026-09-12/DESIGN_REVISION.md>)|武器・レリックのデザイン見直し|
 |[docs/art/production/equipment-rollout-2026-09-12/README.md](<art/production/equipment-rollout-2026-09-12/README.md>)|残り武器・レリックの制作指示|
@@ -92,6 +94,9 @@
 |[docs/art/production/projectile-effects-2026-09-13/README.md](<art/production/projectile-effects-2026-09-13/README.md>)|弾・発射・飛翔・着弾の専用化|
 |[docs/art/production/quillback/README.md](<art/production/quillback/README.md>)|棘背ヤマアラシ：素材・実装記録|
 |[docs/art/production/random-workshop-floor/README.md](<art/production/random-workshop-floor/README.md>)|ランダム工房階層（P2試作）|
+|[docs/art/production/root-runner-motion/README.md](<art/production/root-runner-motion/README.md>)|苔玉コガネ・右下モーション試作|
+|[docs/art/production/scatter-drone/README.md](<art/production/scatter-drone/README.md>)|浮遊散弾機：戦闘試作と素材台帳|
+|[docs/art/production/sentry-variants/README.md](<art/production/sentry-variants/README.md>)|走り番機・破砕番機・環砲機|
 |[docs/art/production/style-reference-2026-09-26/README.md](<art/production/style-reference-2026-09-26/README.md>)|画風の基準画像 v1・v2（2026-09-26）|
 |[docs/art/production/wall-kit-v2/README.md](<art/production/wall-kit-v2/README.md>)|接続用壁材セット v2|
 |[docs/art/production/workshop-annex/README.md](<art/production/workshop-annex/README.md>)|隣の作業室の更新（2026-09-22）|

@@ -1,0 +1,30 @@
+{
+  "id": "mineral-boar-v1",
+  "tool": "built-in image_gen",
+  "prompt": "Use case: stylized-concept. ONE isolated transparent game enemy sprite, mineral-shell wild boar elite facing down-right. Living stocky boar with broad shoulders, low blunt snout, two short ivory tusks, four stout dark legs, earthy brown fur. Three or four large pale warm gray mineral plates grow naturally across shoulder and back, uneven stone with very few chips, no crystals or metal equipment. Match reference 1 Rina's thick dark-brown contours, simple three-tone cartoon painted/pixel-readable shapes. Readable at 88px wide, strong silhouette. Reference 2 is environment color and overhead perspective ONLY, do not draw environment. Orthographic high overhead view, mostly see broad back, snout pointing diagonally lower right, four legs visibly supporting weight. Upper-left light, simple large shadow planes, not photoreal, no excessive surface noise. Full body centered 75% square canvas, neutral ready stance. Genuine transparent alpha, no floor no cast shadow no labels no text, one pose only.",
+  "model": null,
+  "cost": null,
+  "usage": null,
+  "status": "concept_only_not_runtime",
+  "sha256": "064ff58bc98f934951f9ae6cde46a433e018870197c37823eea9c86e9dd20135",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "source_path": "C:/Users/ikare/.codex/generated_images/01a0e2a7-fa4e-7392-b9bc-8275915f2699/exec-d1a26455-c0d0-48a2-830f-c2f3794c44ee.png",
+  "visible_rect_alpha_above_0_1": [
+    176,
+    190,
+    914,
+    896
+  ],
+  "preview_width_world_px": 88,
+  "preview_support_origin_fraction": [
+    0.5,
+    0.8
+  ],
+  "references": [
+    "docs/art/reviews/rina-style-check-2026-09-26/sheet-3x.png",
+    "docs/art/production/authored-rooms/views/09-cistern-detail.png"
+  ]
+}

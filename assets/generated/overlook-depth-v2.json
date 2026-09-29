@@ -1,0 +1,14 @@
+{
+  "provider": "built-in image_gen",
+  "model": null,
+  "usage": null,
+  "cost": null,
+  "date": "2026-09-28",
+  "prompt": "Create a production game environment texture, landscape 2:1. A steep TOP-DOWN orthographic view into a deep subterranean archaeological shaft from a ruined observation gallery. Camera looks DOWN at 65 degrees, absolutely NO horizon, NO sky, NO front-facing landscape panorama. Stylized hand-painted dark fantasy 2D dungeon game art with crisp restrained stone outlines, muted warm gray-brown masonry, sparse blue-gray depth haze. Image is the INSIDE of a rectangular excavation shaft: at left and right edges thick dark stone retaining walls descend vertically into the pit, near bottom edge the broken cross-section of the upper gallery slab is visible projecting down into darkness. Far top edge also inward-facing retaining stone. The upper gallery FLOOR and all railings are excluded (they will be game geometry outside this texture). These interior sidewalls must frame the void and provide depth, corners continuous. Deep BELOW, a small broken stone causeway crosses diagonally between fragments of lower chambers, showing broad TOP surfaces and very short side faces. One enormous ancient root descends along the left interior wall. Most center and lower area empty dark abyss with subtle fog; no uniformly distributed buildings, no towers silhouetted against sky, no city panorama, no glowing lights. Lower masonry visibly much smaller than the retaining walls. A quiet hint of another level, not an accessible doorway. Full bleed opaque rectangular texture, no text, no characters, no outer frame, no border padding. Art should read as a hole seen from above, never as a painting hung on a wall.",
+  "sha256": "08b0cda612538180b9f7fb363520d4b77e703d0b3ccc8e2166cb99c51eac4b4b",
+  "size": [
+    1774,
+    887
+  ],
+  "runtime_copy": "assets/stages/ashen-foundry-v2/exploration-kit/overlook-depth-v2.png"
+}

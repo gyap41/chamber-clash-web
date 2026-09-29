@@ -12,8 +12,10 @@ func run() -> void:
 		game.arena.field_rect = Rect2(Vector2.ZERO,sample.size)
 		assert(Encounter.composition(game.arena,false) == ["workshop_sentry","workshop_sentry","workshop_sentry"])
 		var ids := Encounter.composition(game.arena,true)
-		assert(ids.count("quillback") == (1 if sample.count >= 5 else 0))
-		assert(ids.size() == sample.count and ids.count("fire_pouch_lizard") == (2 if sample.count >= 5 else 1))
+		var scatter: bool = minf(sample.size.x,sample.size.y) >= 800 and sample.count >= 5
+		assert(ids.count("scatter_drone") == (1 if scatter else 0))
+		assert(ids.count("quillback") == (1 if sample.count >= 5 and not scatter else 0))
+		assert(ids.size() == sample.count and ids.count("fire_pouch_lizard") == (2 if sample.count >= 5 and not scatter else 1))
 	for seed_value in range(10):
 		var floor := Floor.generate(seed_value)
 		for id in floor.rooms:

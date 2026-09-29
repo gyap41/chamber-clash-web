@@ -1,0 +1,11 @@
+Sprite sheet of three separate ruined wall segments for a 2D top-down action game: ancient underground stone ruins. Each is a free-standing remnant of a thick inner wall that stands in the middle of a room; characters walk around it and can stand behind it.
+
+Reference image 1 is the game's wall front texture: use exactly this stone (warm grey-brown blocks, dark brown ink joints, the same block size and course height). Reference image 2 is an approved sheet of wall pieces of the same set (see its broken wall end and wall breach): match its drawing technique (thick dark brown ink outlines, flat 2-3 step cel shading, light from the upper left, big simple shapes). Reference image 3 is a game screenshot of the current plain wall segment in play, for scale: the new segments keep that height (a flat stone cap on top and a front face of two stone courses) and that thickness.
+
+View: orthographic top-down 3/4 view: the flat top of the wall is seen from above as a strip, the front face below it faces the viewer; horizontal edges horizontal, no perspective, no isometric angle.
+
+Layout: exactly 1 column and 3 rows, one segment per row, centred with generous margin, never touching another row. Solid flat pure magenta background (#FF00FF) everywhere. No floor, no ground shadows, no labels, no text.
+
+Row 1: a long segment, about 4 times wider than tall. Both ends broken off: the cap and the courses step down irregularly toward each end, a few loose blocks fallen at the foot of each end. The middle stays intact but with a couple of chipped blocks and one missing cap stone.
+Row 2: a medium segment, about 3 times wider than tall. The left end is a clean corner (intact squared end with its side face visible), the right end is collapsed in a jagged slope with fallen blocks at its foot.
+Row 3: a short heavily ruined segment, about 2.2 times wider than tall: only the lower course is complete, the upper course and cap remain only on the left half, broken blocks piled at the foot on the right.

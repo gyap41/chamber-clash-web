@@ -1,0 +1,30 @@
+{
+  "id": "root-runner-v3",
+  "tool": "built-in image_gen",
+  "prompt": "Edit reference 1 beetle with three precise corrections. Keep its smooth dark-brown ink outline, clean anime cel-shaded color planes, teal organic carapace and down-right overhead orthographic orientation; reference 2 Rina is line-and-paint style only. 1 ANATOMY: exactly SIX walking legs, three symmetrically paired on EACH side of the thorax, front/middle/rear pair individually readable, including all three far-side legs extending beyond the silhouette. Each leg attached to thorax underside, bent joint and small grounded pointed foot. Separate them with clear negative spaces. Exactly TWO short thin antennae arising from head, visibly thinner than legs. 2 FAST BITING ENEMY: make shell slightly longer and less round, lower profile, taper toward narrower head, small paired dark mandibles visibly projecting ahead of mouth toward lower-right, braced forward forelegs and rear legs poised to push; reduce round eyes, keep modest readable eyes, no giant horns or exaggerated pincers. 3 MATERIAL: matte living chitin, replace bright white rim with a NARROW muted warm-ochre edge (less than half previous thickness), remove glossy white spots, use only one restrained broad low-contrast highlight and two or three solid shadow planes. No shiny toy finish. One full-body neutral ready pose, strong high overhead view so six legs can be counted, centered with margins, genuine transparent alpha, no ground/no baked shadow/no text/no extra poses. NOT pixel art, no grain, no dithering, no jagged edges. Readability at 48 world pixels wide. Preserve species identity and illustration style.",
+  "source_path": "C:/Users/ikare/.codex/generated_images/01a0e2a7-fa4e-7392-b9bc-8275915f2699/exec-6395e3c3-cb7f-4c0d-a1d0-d3e7e42a1ea4.png",
+  "model": null,
+  "cost": null,
+  "usage": null,
+  "status": "static_concept_not_runtime",
+  "references": [
+    "assets/generated/enemy-field-concepts/root-runner-v2.png",
+    "assets/first-workshop/rina-run-8dir/diag_front-idle-upper.png"
+  ],
+  "preview_width_world_px": 48,
+  "preview_support_origin_fraction": [
+    0.5,
+    0.8
+  ],
+  "sha256": "4572a3a034b97012dab3eb2252bca804156c5d271b6ff894f116eb53e3990ffe",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "visible_rect_alpha_above_0_1": [
+    126,
+    183,
+    1032,
+    898
+  ]
+}

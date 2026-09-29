@@ -13,6 +13,13 @@ func _draw() -> void:
 		return
 	# Keep a consistent texture scale across the room and its connecting passage.
 	draw_rect(arena.field_rect,theme.exterior_color)
+	if theme.exterior_texture != null:
+		# Bedrock around the room, wide enough to fill the camera beyond the room edges.
+		var step: int = theme.exterior_repeat
+		var area: Rect2 = arena.field_rect.grow(1600)
+		for x in range(int(floor(area.position.x/step))*step,int(ceil(area.end.x)),step):
+			for y in range(int(floor(area.position.y/step))*step,int(ceil(area.end.y)),step):
+				draw_texture_rect(theme.exterior_texture,Rect2(x,y,step,step),false,theme.exterior_tint)
 	# A subdued masonry foundation fades into the void. It is not walkable floor.
 	for index in range(arena.runtime_definition.walls.size()):
 		if not arena.runtime_definition.wall_textures.has(index) and (arena.runtime_definition.wall_ids.is_empty() or arena.runtime_definition.wall_materials.get(arena.runtime_definition.wall_ids[index],"cover") == "cover"): continue
@@ -44,11 +51,28 @@ func _draw() -> void:
 			draw_casting_bed(Rect2(placement.position+placement.visual_rect.position,placement.visual_rect.size))
 		if placement.floor_decal and placement.texture != null:
 			var patch := Rect2(placement.position+placement.visual_rect.position,placement.visual_rect.size)
+			if placement.drop_shadow:
+				# Raised floor pieces (channel rims, sunken roots): a faint silhouette shadow to the lower right.
+				var shade := Rect2(patch.position+Vector2(5,4),patch.size)
+				for region in regions:
+					var clipped := shade.intersection(region)
+					if not clipped.has_area(): continue
+					var source := Rect2((clipped.position-shade.position)/shade.size*placement.texture.get_size(),clipped.size/shade.size*placement.texture.get_size())
+					if placement.flip_h:
+						source.position.x = (shade.end.x-clipped.end.x)/shade.size.x*placement.texture.get_width()
+						draw_set_transform(Vector2(clipped.get_center().x*2,0),0,Vector2(-1,1))
+					draw_texture_rect_region(placement.texture,clipped,source,Color(0,0,0,.3))
+					draw_set_transform(Vector2.ZERO)
 			for region in regions:
 				var clipped := patch.intersection(region)
 				if not clipped.has_area(): continue
 				var source := Rect2((clipped.position-patch.position)/patch.size*placement.texture.get_size(),clipped.size/patch.size*placement.texture.get_size())
+				if placement.flip_h:
+					# Mirrored: the clipped strip shows the opposite side of the picture, drawn reversed.
+					source.position.x = (patch.end.x-clipped.end.x)/patch.size.x*placement.texture.get_width()
+					draw_set_transform(Vector2(clipped.get_center().x*2,0),0,Vector2(-1,1))
 				draw_texture_rect_region(placement.texture,clipped,source,placement.tint)
+				draw_set_transform(Vector2.ZERO)
 		var rect: Rect2 = placement.visual_rect
 		var foot: Vector2 = placement.position+Vector2(rect.get_center().x,rect.end.y)
 		if placement.wall_shadow:

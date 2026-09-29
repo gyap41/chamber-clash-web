@@ -1,5 +1,9 @@
 # 画像生成（開発専用）
 
+探索20室の専用素材: `Godot --headless --path . --script res://tools/build_exploration_kit.gd --quit-after 600`。インポート済みの `assets/stages/ashen-foundry-v2/exploration-kit/` の5枚の透過原画と遠景から19個のAtlasTextureを作り、実寸・抽出範囲をregions.jsonへ保存。ピクセル加工・追加生成は行わない。[生成条件と部屋への組み込み](../docs/art/production/authored-rooms/README.md)。
+
+回廊の崩落アトラス: `Godot --headless --path . --script res://tools/build_gallery_collapse_atlas.gd` で、インポート済みの `assets/stages/ashen-foundry-v2/gallery-collapse/atlas.png` から4つのAtlasTexture `.tres`を再構築する。画像生成・画像ピクセル加工は行わない。原本・内蔵画像生成の条件・表示寸法は[回廊制作記録](../docs/art/production/authored-rooms/README.md)を参照。
+
 過去の生成枠・予算変更は[制作履歴](../docs/archive/2026-09-22/markdown-audit/IMAGE_CLI_BEFORE.md)に分離しました。新規生成の許可や残予算として使わず、今回の依頼と使用量台帳・CLIの制限を確認してください。
 
 画像・SE・BGM共通の環境設定と連携変更手順は [AI素材生成環境ガイド](../docs/development/ASSET_GENERATION_SETUP.md) を最初に参照してください。
@@ -61,3 +65,9 @@ python tools/generate_image.py --plan 4
 ## キャラクターの8方向リグ
 
 生成した部品画像と設定ファイルから、8方向の待機・走行・回避・近接の素材を書き出す。手順は [キャラリグの作り方](character_rig/README.md)。
+
+作り込み部屋の分岐マップ撮影：`Godot --path . --script res://tools/capture_authored_map.gd --quit-after 1500`。seed27の全訪問地図、分岐・北門口・保管区画の入口と発見地点を制作記録のviewsへ保存。
+
+展望室v2の欄干：`Godot --headless --path . --script res://tools/build_overlook_assets.gd --quit-after 100`。生成PNGの透過余白をAtlasTextureの参照範囲として除き、原本は変更しない。地底背景と生成条件は[展望室の制作記録](../docs/art/production/authored-rooms/README.md)を参照。
+
+苔玉8方向: `Godot --headless --path . --script res://tools/build_moss_directions.gd`で既存透過原本の抽出矩形・共通縮尺・甲羅原点を再計測する。`Godot --path . --script res://tools/capture_moss_directions.gd --quit-after 1800`で8方向の歩行と横倒しを72フレーム撮影する。生成指示と原本は[制作記録](../docs/art/production/root-runner-motion/README.md)を参照。

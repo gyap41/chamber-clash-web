@@ -32,7 +32,7 @@ func run() -> void:
 			if ref.path not in ["res://data/catalog.json","res://data/weapon_visuals.json"]: content+=ref.path+hash
 			if exists: modified=maxi(modified,FileAccess.get_modified_time(ref.path))
 		var facts := {}
-		for key in ["desc","type","rarity","rate","speed","damage","mag","stock","hp","reload","dodge","gun","role","field_id","size","actors"]:
+		for key in ["art_status","desc","type","rarity","rate","speed","damage","mag","stock","hp","reload","dodge","gun","role","field_id","size","actors","connections","order"]:
 			if item.definition.has(key): facts[key]=item.definition[key]
 		if item.kind in ["武器","レリック"]:
 			var entry = "gun:"+str(int(item.definition.id)) if item.kind=="武器" else int(item.definition.id)
@@ -40,7 +40,7 @@ func run() -> void:
 			facts["shape"]=preload("res://scripts/game/build_grid.gd").shape_of(entry).map(func(cell): return [cell.x,cell.y])
 			facts["effect"]=item.definition.get("desc",item.definition.get("note",""))
 		var image_path: String=item.image if allowed(item.image) else ""
-		var source_hash: String=(content+code_hash if item.method in ["actor","stage"] else content).sha256_text()
+		var source_hash: String=(content+code_hash if item.method in ["actor","stage","enemy"] else content).sha256_text()
 		output.append({"id":item.id,"name":item.name,"kind":item.kind,"status":item.status,"image":image_path,"image_hash":digest(image_path) if not image_path.is_empty() else "","source_hash":source_hash,"modified":modified,"defined":item.defined,"assets":item.assets,"game":item.game,"preview":item.preview,"method":item.method,"issues":item.issues,"facts":facts,"references":references,"users":item.users.filter(allowed),"related":item.related})
 		if item.kind!="素材ファイル": counts[item.kind]=int(counts.get(item.kind,0))+1
 	output.sort_custom(func(a,b): return a.id.naturalnocasecmp_to(b.id)<0)

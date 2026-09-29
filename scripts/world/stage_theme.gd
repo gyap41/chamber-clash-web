@@ -17,6 +17,13 @@ extends Resource
 @export var cap_height := 12.0
 @export var pier_width := 32.0
 @export var exterior_color := Color("090d10")
+# Optional bedrock drawn around the room instead of the flat exterior colour (repeat in world px).
+@export var exterior_texture: Texture2D
+@export var exterior_repeat := 320
+@export var exterior_tint := Color.WHITE
+# Whole-room ambient (CanvasModulate): darkens floor, walls, props and actors together so props do not
+# float over a darker floor; placement lights (PointLight2D) brighten what they reach.
+@export var ambient := Color.WHITE
 @export var floor_tint := Color(.72,.76,.76)
 @export var floor_repeat := 0
 @export var wall_rise := 0.0

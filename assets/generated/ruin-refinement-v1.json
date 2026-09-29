@@ -1,0 +1,18 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: stylized-concept. Create a single production sprite atlas, 2x2 equal quadrants, 1536x1536 transparent RGBA background, wide transparent gutters and margins, no text. Reference image is STYLE ONLY: match muted brown grey aged stone and painterly outlined 2D dungeon assets. Four separate isolated sprites: top-left a monumental CLOSED double door made of dark worn iron and ancient wood, rectangular top, narrow iron frame, NO masonry surround, front facing north-wall feature seen slightly from above, no floor; top-right a plain old rectangular wooden reading desk with a small closed book and rolled parchment on one corner, no tools, top surface dominant, orthographic steep top-down 70 degrees above floor, horizontal long edge, very short front apron and hidden legs; bottom-left a plain backless long wooden seating bench, empty seat, same steep top-down view, short feet, horizontal long edge; bottom-right a small group of an open book, two parchment scrolls and quill, viewed top-down, no hammer no tools. No floor, no baked cast shadow, no background, no isometric angles, no perspective convergence. Each complete object wholly in its quadrant, not touching quadrant boundary. Door must be wide and imposing, furniture much simpler. Genuine alpha outside all silhouettes.",
+  "source": "exec-b9f5cfa3-e958-474d-8c8e-15df6425ce7d.png",
+  "requested_size": [
+    1536,
+    1536
+  ],
+  "actual_size": [
+    1254,
+    1254
+  ],
+  "model": null,
+  "cost": null,
+  "usage": null,
+  "recipe": "Unchanged runtime copy refinement.png; tools/build_exploration_kit.gd trims alpha within four inspected equal cells.",
+  "sha256": "a624e1d90c4d3784bb58e13c251d8ff26176bf7761750d1600ebdb1c87178a91"
+}

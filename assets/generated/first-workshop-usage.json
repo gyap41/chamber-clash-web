@@ -2968,5 +2968,229 @@
       "output_tokens": 7024
     },
     "pricing_estimate_usd": 0.1187455
+  },
+  {
+    "name": "authored-setpieces-v1",
+    "fingerprint": "57dcfab46e0a7f3b121f516ec82d05df3f67c0138934f72978cd034cdb37a92f",
+    "status": "success",
+    "reserved_usd": 0.25,
+    "sent_at": "2026-09-27T08:57:01.379104+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Sprite sheet of six separate set-piece objects for a 2D top-down action game: ancient underground stone ruins overgrown by tree roots, with an old foundry and an explorers' camp.\n\nReference image 1 is an approved sheet of props from this same set and reference image 2 an approved sheet of floor decorations and roots: match their drawing technique, colours, materials, line weight, lighting and camera angle exactly (thick dark brown ink outlines, flat 2-3 step cel shading, light from the upper left, big simple shapes, no painterly texture, no noise). Reference image 3 is the stone floor they stand on.\n\nBackground objects: calm colours, slightly lower contrast than characters, but clearly readable. View for ALL objects: orthographic top-down 3/4 view (about 70 degrees from the ground), horizontal edges horizontal, NO isometric or diagonal angle, NO perspective. No cast shadows on the ground.\n\nLayout: exactly 3 columns and 2 rows, one object per cell, centred with generous margin, never touching another cell. Solid flat pure magenta background (#FF00FF) everywhere. No floor, no labels, no text.\n\nRow 1, left to right:\n1. RUBBLE HEAP: a low heap of broken warm grey-brown stone blocks from a collapsed wall, the same stone as the floor, a few big chunks on top and smaller ones around the base, about 1.6 times wider than tall.\n2. SMALL RUBBLE: three or four loose broken stone blocks lying together, low, about 1.5 times wider than tall.\n3. ROOT TRUNK: one very thick old brown tree root lying across the floor from left to right, gently curving, with a few side roots gripping the ground and a little moss on top, about 3 times wider than tall.\n\nRow 2, left to right:\n4. CAMPFIRE: a small ring of stones with a few burning logs and warm orange flames and embers, seen mostly from above.\n5. BEDROLL: a rolled-out explorer's bedroll with a folded blanket and a leather backpack beside it, seen mostly from above, about 1.4 times wider than tall.\n6. CASTING CHANNEL: a long straight channel carved into the stone floor, lined with darker stone, with dried grey metal residue inside and a small stone basin at one end, seen straight from above, flat, about 5 times wider than tall.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\stage-v2-props-a.png",
+        "sha256": "48017f29bf658425aef56be506920b72d7c866d5b2a6ca654bd16ec34ef66031"
+      },
+      {
+        "path": "assets\\generated\\stage-v2-decals-a.png",
+        "sha256": "03d5f3eb5126d7c1b7ea814cd1cf55abc1e773f4b820f3917d9fd1d118ed331e"
+      },
+      {
+        "path": "assets\\stages\\ashen-foundry-v2\\floor.png",
+        "sha256": "829a7155344f85543e571c2c6cbdcc35d45d188fa2520f4f3cb3c38dab54feda"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 509,
+        "image_tokens": 3072
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1189205
+  },
+  {
+    "name": "authored-walls-v1",
+    "fingerprint": "620ae512b91efd05bdbdf96798a2cec967711fb8504f6d8ffa32b7604e6b9204",
+    "status": "success",
+    "reserved_usd": 0.25,
+    "sent_at": "2026-09-27T09:27:31.654595+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Sprite sheet of six separate wall pieces for a 2D top-down action game: ancient underground stone ruins overgrown by roots, with an old foundry.\n\nReference image 1 is the game's stone wall front texture: every piece must use exactly this stone (warm grey-brown blocks, dark brown ink joint lines, same block size and course height). Reference image 2 is an approved props sheet of the same set: match its drawing technique (thick dark brown ink outlines, flat 2-3 step cel shading, light from the upper left, big simple shapes, no painterly texture, no noise). Reference image 3 is a game screenshot showing how the north wall looks in play: a thin flat stone cap on top and a short front face of about two stone courses; the pieces below are placed onto that wall.\n\nView: orthographic top-down 3/4 view, horizontal edges horizontal, no perspective, no isometric angle. Background objects: calm, lower contrast than characters. No cast shadows on the ground.\n\nLayout: exactly 3 columns and 2 rows, one piece per cell, centred with generous margin, never touching another cell. Solid flat pure magenta background (#FF00FF) everywhere. No floor, no labels, no text.\n\nRow 1, left to right:\n1. WALL BREACH: a stretch of the wall's front face (about two stone courses tall, about 1.8 times wider than tall including the spill) with a jagged collapsed hole showing darkness behind, and broken blocks spilling out and down in front of it onto the ground.\n2. BUTTRESS: a square stone pier projecting out of a wall, seen from the front with its flat top visible, slightly wider base, about 1 wide to 1.6 tall.\n3. WALL NICHE: a shallow arched niche set into the wall's front face (about two courses tall), dark inside, with a stub of candle and a small clay pot in it, about 1 wide to 1.1 tall.\n\nRow 2, left to right:\n4. ROOTS THROUGH THE WALL: thick brown tree roots bursting out of the wall's front face, cracking and pushing out a few blocks, the roots bending down toward the ground, about 1.2 wide to 1 tall.\n5. BROKEN WALL END: the jagged broken end of a wall segment: the flat stone cap and the front face step down irregularly where the wall snapped off, a few loose blocks at its foot, about 0.7 wide to 1 tall.\n6. DOOR PILLAR: a sturdy square stone gate pillar with a simple carved cap, seen from the front with its top visible, about 0.6 wide to 1.4 tall, to stand beside a doorway.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\stages\\ashen-foundry-v2\\wall-face.png",
+        "sha256": "53cf38ccb48165cc856e41d9629e032c3c587ae80860e5061533124652c40824"
+      },
+      {
+        "path": "assets\\generated\\stage-v2-props-b.png",
+        "sha256": "489b64096f4b610c048b410b5f5cc6661aa298b334889b310f462a3d6781255b"
+      },
+      {
+        "path": "docs\\art\\production\\ashen-foundry-v2\\views\\01-elbow.png",
+        "sha256": "2c05d5425e77828b330919fe367f23dd02db8421a91492f3344540b7c8565dbd"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 580,
+        "image_tokens": 2923
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.118502
+  },
+  {
+    "name": "authored-floor-blend-v1",
+    "fingerprint": "204c28d94364e3b03f05e67bf44ab91d8108af6fa6fe183e1488d6f50a4a5fc4",
+    "status": "success",
+    "reserved_usd": 0.25,
+    "sent_at": "2026-09-27T09:29:17.701326+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Sprite sheet of six separate flat floor overlays for a 2D top-down action game: ancient underground stone ruins with an old foundry. They blend objects and walls into the stone floor.\n\nReference image 1 is the stone floor they lie on (warm grey-brown flagstones with dark brown ink joints). Reference image 2 is an approved sheet of floor decorations of the same set: match its drawing technique exactly (thick dark brown ink outlines where needed, flat 2-3 step cel shading, big simple shapes, no painterly texture, no fine noise). Reference image 3 is the props sheet of the same set.\n\nAll overlays lie flat on the floor, seen straight from above, with soft irregular edges, subtle and calm: only a little darker or lighter than the floor, muted earthy colours. No cast shadows.\n\nLayout: exactly 3 columns and 2 rows, one overlay per cell, centred with generous margin, never touching another cell. Solid flat pure magenta background (#FF00FF) everywhere. No floor, no labels, no text.\n\nRow 1, left to right:\n1. WALL-BASE DIRT: a long low strip of darker dirt, dust and a few small pebbles gathered along the base of a wall, straight top edge, ragged bottom edge fading out, about 6 times wider than tall.\n2. PEBBLES A: a loose scatter of about ten small stone chips and grit, roughly round spread.\n3. PEBBLES B: a smaller elongated scatter of stone chips and dust, about 2 times wider than tall.\n\nRow 2, left to right:\n4. FLOOR CRACK: a branching crack in the flagstones radiating from one point, dark ink lines with a few chipped edges, roughly round spread.\n5. WORN PATH: a long soft oval of slightly lighter, smoother, polished stone where feet have worn the floor, very subtle, about 3 times wider than tall.\n6. SOOT STREAKS: three or four elongated dark grey soot smears fanning out in one direction, soft ends, about 2.5 times wider than tall. Not a round blob.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\stages\\ashen-foundry-v2\\floor.png",
+        "sha256": "829a7155344f85543e571c2c6cbdcc35d45d188fa2520f4f3cb3c38dab54feda"
+      },
+      {
+        "path": "assets\\generated\\stage-v2-decals-a.png",
+        "sha256": "03d5f3eb5126d7c1b7ea814cd1cf55abc1e773f4b820f3917d9fd1d118ed331e"
+      },
+      {
+        "path": "assets\\generated\\stage-v2-props-a.png",
+        "sha256": "48017f29bf658425aef56be506920b72d7c866d5b2a6ca654bd16ec34ef66031"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 449,
+        "image_tokens": 3072
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1187705
+  },
+  {
+    "name": "authored-roots-moss-v1",
+    "fingerprint": "cf4fd360850dca29785ff9bd35d8819fdf195d6aef393d7875030238a87c9ff2",
+    "status": "success",
+    "reserved_usd": 0.25,
+    "sent_at": "2026-09-27T09:30:52.758766+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Sprite sheet of six separate flat root and moss pieces for a 2D top-down action game: ancient underground stone ruins overgrown by tree roots.\n\nReference image 1 is an approved sheet of floor decorations and roots of this set, and reference image 2 an approved sheet with a root trunk: match their drawing technique, root colours and line weight exactly (thick dark brown ink outlines, flat 2-3 step cel shading, light from the upper left, big simple shapes, no painterly texture). Reference image 3 is the stone floor.\n\nAll pieces lie on or in the floor, seen from above. Keep the moss muted: dull olive and grey-green, lower saturation than the reference moss.\n\nLayout: exactly 3 columns and 2 rows, one piece per cell, centred with generous margin, never touching another cell. Solid flat pure magenta background (#FF00FF) everywhere. No floor, no labels, no text, no cast shadows.\n\nRow 1, left to right:\n1. SUNKEN ROOT, LONG: one thick root half buried in the floor, running left to right in a gentle S curve, flagstones around it cracked and lifted along its sides, small rootlets only along its length (NOT leg-like splayed roots at the ends), both ends disappearing into the floor, about 4 times wider than tall.\n2. SUNKEN ROOT, FORKED: one thick root half buried in the floor that splits into two branches, cracked lifted flagstones along it, ends disappearing into the floor, about 2.5 times wider than tall.\n3. MOSS, LONG: an elongated irregular strip of muted moss creeping along the floor, ragged edges, about 3 times wider than tall.\n\nRow 2, left to right:\n4. MOSS, CLUMPS: four or five small separate muted moss clumps scattered together.\n5. MOSS IN CRACKS: thin lines of moss growing in the joints between flagstones, forming a partial grid pattern, roughly square.\n6. ROOT NEST: a small nest of twigs and dry grass tucked between two thick root ends, seen from above.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\generated\\stage-v2-decals-a.png",
+        "sha256": "03d5f3eb5126d7c1b7ea814cd1cf55abc1e773f4b820f3917d9fd1d118ed331e"
+      },
+      {
+        "path": "assets\\generated\\authored-setpieces-v1.png",
+        "sha256": "8cc464a5bc49cbb6b226f148f0b1edbaa337a8c602a6ba86fe393913c69e739d"
+      },
+      {
+        "path": "assets\\stages\\ashen-foundry-v2\\floor.png",
+        "sha256": "829a7155344f85543e571c2c6cbdcc35d45d188fa2520f4f3cb3c38dab54feda"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 443,
+        "image_tokens": 3072
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1187555
+  },
+  {
+    "name": "authored-exterior-rock-v1",
+    "fingerprint": "9b1033aebf07ce083ba2ff7ea5bc3b0dcffbaf1f2f26140bf305ad8205455914",
+    "status": "success",
+    "reserved_usd": 0.25,
+    "sent_at": "2026-09-27T09:32:27.006579+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Seamless tileable texture for a 2D top-down action game: the dark solid rock of a cave that surrounds underground rooms, seen straight from above, filling the whole square edge to edge. No border, no frame, no objects, no text.\n\nReference image 1 is the room's stone floor and reference image 2 its wall-top stone: use the same drawing technique (dark brown ink lines, flat 2-3 step cel shading, big simple shapes, no painterly texture, no noise) but a different material: natural cave bedrock, large irregular rock masses with a few deep dark crevices and cracks, no cut blocks, no bricks.\n\nIt must stay in the background and recede: much darker than the floor (very dark warm grey-brown, almost black in the crevices), very low contrast and low saturation, only faint highlights on rock edges from the upper left.\n\nThe texture must tile seamlessly left-right and top-bottom.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\stages\\ashen-foundry-v2\\floor.png",
+        "sha256": "829a7155344f85543e571c2c6cbdcc35d45d188fa2520f4f3cb3c38dab54feda"
+      },
+      {
+        "path": "assets\\stages\\ashen-foundry-v2\\wall-top.png",
+        "sha256": "6225644c722246f7adf7ee13ccd9a84326c7f96d5bf1a3b65f6c71a6d178c2fe"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 203,
+        "image_tokens": 2048
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1140595
+  },
+  {
+    "name": "authored-wall-segments-v1",
+    "fingerprint": "f506eee753cd2224463c3d45cee4e9c188df4301b7eeb0b8fab141a99565cc29",
+    "status": "success",
+    "reserved_usd": 0.25,
+    "sent_at": "2026-09-27T10:40:00.031687+00:00",
+    "endpoint": "edits",
+    "request": {
+      "model": "gpt-image-2",
+      "prompt": "Sprite sheet of three separate ruined wall segments for a 2D top-down action game: ancient underground stone ruins. Each is a free-standing remnant of a thick inner wall that stands in the middle of a room; characters walk around it and can stand behind it.\n\nReference image 1 is the game's wall front texture: use exactly this stone (warm grey-brown blocks, dark brown ink joints, the same block size and course height). Reference image 2 is an approved sheet of wall pieces of the same set (see its broken wall end and wall breach): match its drawing technique (thick dark brown ink outlines, flat 2-3 step cel shading, light from the upper left, big simple shapes). Reference image 3 is a game screenshot of the current plain wall segment in play, for scale: the new segments keep that height (a flat stone cap on top and a front face of two stone courses) and that thickness.\n\nView: orthographic top-down 3/4 view: the flat top of the wall is seen from above as a strip, the front face below it faces the viewer; horizontal edges horizontal, no perspective, no isometric angle.\n\nLayout: exactly 1 column and 3 rows, one segment per row, centred with generous margin, never touching another row. Solid flat pure magenta background (#FF00FF) everywhere. No floor, no ground shadows, no labels, no text.\n\nRow 1: a long segment, about 4 times wider than tall. Both ends broken off: the cap and the courses step down irregularly toward each end, a few loose blocks fallen at the foot of each end. The middle stays intact but with a couple of chipped blocks and one missing cap stone.\nRow 2: a medium segment, about 3 times wider than tall. The left end is a clean corner (intact squared end with its side face visible), the right end is collapsed in a jagged slope with fallen blocks at its foot.\nRow 3: a short heavily ruined segment, about 2.2 times wider than tall: only the lower course is complete, the upper course and cap remain only on the left half, broken blocks piled at the foot on the right.\n",
+      "n": 1,
+      "size": "1024x1024",
+      "quality": "high",
+      "output_format": "png"
+    },
+    "references": [
+      {
+        "path": "assets\\stages\\ashen-foundry-v2\\wall-face.png",
+        "sha256": "53cf38ccb48165cc856e41d9629e032c3c587ae80860e5061533124652c40824"
+      },
+      {
+        "path": "assets\\generated\\authored-walls-v1.png",
+        "sha256": "4844fa1366f0d51563c9e5273ce5f88567bdf758baae3e7ef53543cfc68cc5f5"
+      },
+      {
+        "path": "docs\\art\\production\\authored-rooms\\ref-stub-in-game.png",
+        "sha256": "4ebb0f7a4a51b4abd0c819af6ebc266605a9a983148a2c3cf1fa9afb0a2c7b11"
+      }
+    ],
+    "usage": {
+      "input_tokens_details": {
+        "text_tokens": 459,
+        "image_tokens": 2400
+      },
+      "output_tokens": 7024
+    },
+    "pricing_estimate_usd": 0.1161075
   }
 ]

@@ -103,7 +103,7 @@ func run() -> void:
 	assert(game.submitted_commands.is_empty() and not game.mouse_fire_held)
 	assert(player.buffered_fire == 0 and player.buffered_switch == 0)
 	assert(game.nearby_door().is_empty() and not game.try_enter_door())
-	assert(game.arena.get_node("CombatCamera").zoom == Vector2.ONE)
+	assert(game.arena.get_node("CombatCamera").zoom == Vector2.ONE*preload("res://scripts/visuals/exploration_camera.gd").zoom())
 	assert(reachable(game.arena,player.state.pos,Rooms.door("workshop_annex","west").position))
 	# A held mouse and key-repeat must not act in the destination room.
 	var click := InputEventMouseButton.new()

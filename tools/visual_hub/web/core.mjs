@@ -17,7 +17,7 @@ export async function exists(path) {try {await access(path);return true;}catch{r
 export async function manifest() {const data=await json(join(OUT,'catalog.json')); if(data.schema_version!==1||!Array.isArray(data.records))throw Error('素材情報の形式が不正です'); return data;}
 export function validateConditions(input={}) {
  const out={background:'暗',action:'待機',aim:0,movement:0,zoom:2,fit:false,icon:false,time:0,seed:719,dt:1/60,sync:'実時間',weapon:20,guides:false,camera:'俯瞰',movement_bounds:true,bullet_bounds:true,spawns:true,supplies:true};
- const enums={background:['暗','明','透過','実戦'],action:['待機','歩行','回避','単発','連射','リロード'],sync:['実時間','進捗'],camera:['俯瞰','実戦カメラ']};
+ const enums={background:['暗','明','透過','実戦'],action:['待機','歩行','攻撃','回避','単発','連射','リロード'],sync:['実時間','進捗'],camera:['俯瞰','実戦カメラ']};
  for(const [key,values] of Object.entries(enums)) {if(input[key]!==undefined&&!values.includes(input[key]))throw Error('不正な条件: '+key);if(input[key]!==undefined)out[key]=input[key];}
  const ranges={aim:[0,3],movement:[0,3],zoom:[.125,8],time:[0,30],seed:[0,2147483647],weapon:[0,999999]};
  for(const [key,[min,max]] of Object.entries(ranges)){if(input[key]!==undefined){if(typeof input[key]!=='number'||!Number.isFinite(input[key])||input[key]<min||input[key]>max)throw Error('不正な数値: '+key);out[key]=input[key];}}

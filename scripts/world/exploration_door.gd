@@ -47,7 +47,8 @@ func _draw() -> void:
 	# A flush, translucent sill preserves the continuous floor texture beneath it.
 	# Long axis along the opening (the tangent of the exit direction).
 	draw_set_transform(Vector2.ZERO,Vector2(-direction.y,direction.x).angle())
-	draw_texture_rect(THRESHOLD,Rect2(-opening_width*.5,-SILL_DEPTH*.5,opening_width,SILL_DEPTH),false)
+	# A side door's sill lies lengthwise across the view and reads as a pole; only north/south doors show one.
+	if direction.x == 0: draw_texture_rect(THRESHOLD,Rect2(-opening_width*.5,-SILL_DEPTH*.5,opening_width,SILL_DEPTH),false)
 	if locked:
 		var length := opening_width-6
 		draw_texture_rect(BARRIER,Rect2(-length*.5,-BARRIER_DEPTH*.5,length,BARRIER_DEPTH),false)

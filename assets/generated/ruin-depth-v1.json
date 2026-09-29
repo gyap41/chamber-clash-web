@@ -1,0 +1,16 @@
+{
+  "provider": "built-in image_gen",
+  "model": null,
+  "cost": null,
+  "usage": null,
+  "generated_calls": 1,
+  "prompt": "Use case: stylized-concept. Wide 2D dungeon game background matte painting, landscape 1536x768, for the distant view seen from a ruined underground balcony. A vast subterranean chasm filled with dark desaturated blue-grey mist. Huge old roots descend from unseen cavern ceiling into the depth. Far away on the opposite cliff, very small ancient stone arcades and one broken bridge silhouette suggest an immense lost city. Hand-painted chunky illustrated game style with restrained detail and soft atmospheric layers, muted slate teal and umber palette. Foreground is ONLY darkness and mist, no railing, no floor, no close walls, no characters, no letters. Avoid bright lights, white sky, dramatic orange, photorealism and perspective vanishing-point grid. Low contrast especially bottom third, distant architectural silhouettes occupy middle strip. Entire image is opaque. It will be viewed as a wide distant landscape behind a game-authored stone parapet.",
+  "runtime": "assets/stages/ashen-foundry-v2/exploration-kit/depth.png",
+  "recipe": "Original opaque image, full AtlasTexture region; no pixel edits",
+  "status": "generated and integrated; static captures and automated checks; user acceptance pending",
+  "sha256": "7c4739378c65b5e397b6d1ff07f1f76ddb1e411d3d2e974f92b187a4ba7c6acc",
+  "actual_size": [
+    1774,
+    887
+  ]
+}

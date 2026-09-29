@@ -1,0 +1,38 @@
+{
+  "name": "authored-setpieces-v1",
+  "fingerprint": "57dcfab46e0a7f3b121f516ec82d05df3f67c0138934f72978cd034cdb37a92f",
+  "status": "success",
+  "reserved_usd": 0.25,
+  "sent_at": "2026-09-27T08:57:01.379104+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Sprite sheet of six separate set-piece objects for a 2D top-down action game: ancient underground stone ruins overgrown by tree roots, with an old foundry and an explorers' camp.\n\nReference image 1 is an approved sheet of props from this same set and reference image 2 an approved sheet of floor decorations and roots: match their drawing technique, colours, materials, line weight, lighting and camera angle exactly (thick dark brown ink outlines, flat 2-3 step cel shading, light from the upper left, big simple shapes, no painterly texture, no noise). Reference image 3 is the stone floor they stand on.\n\nBackground objects: calm colours, slightly lower contrast than characters, but clearly readable. View for ALL objects: orthographic top-down 3/4 view (about 70 degrees from the ground), horizontal edges horizontal, NO isometric or diagonal angle, NO perspective. No cast shadows on the ground.\n\nLayout: exactly 3 columns and 2 rows, one object per cell, centred with generous margin, never touching another cell. Solid flat pure magenta background (#FF00FF) everywhere. No floor, no labels, no text.\n\nRow 1, left to right:\n1. RUBBLE HEAP: a low heap of broken warm grey-brown stone blocks from a collapsed wall, the same stone as the floor, a few big chunks on top and smaller ones around the base, about 1.6 times wider than tall.\n2. SMALL RUBBLE: three or four loose broken stone blocks lying together, low, about 1.5 times wider than tall.\n3. ROOT TRUNK: one very thick old brown tree root lying across the floor from left to right, gently curving, with a few side roots gripping the ground and a little moss on top, about 3 times wider than tall.\n\nRow 2, left to right:\n4. CAMPFIRE: a small ring of stones with a few burning logs and warm orange flames and embers, seen mostly from above.\n5. BEDROLL: a rolled-out explorer's bedroll with a folded blanket and a leather backpack beside it, seen mostly from above, about 1.4 times wider than tall.\n6. CASTING CHANNEL: a long straight channel carved into the stone floor, lined with darker stone, with dried grey metal residue inside and a small stone basin at one end, seen straight from above, flat, about 5 times wider than tall.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\generated\\stage-v2-props-a.png",
+      "sha256": "48017f29bf658425aef56be506920b72d7c866d5b2a6ca654bd16ec34ef66031"
+    },
+    {
+      "path": "assets\\generated\\stage-v2-decals-a.png",
+      "sha256": "03d5f3eb5126d7c1b7ea814cd1cf55abc1e773f4b820f3917d9fd1d118ed331e"
+    },
+    {
+      "path": "assets\\stages\\ashen-foundry-v2\\floor.png",
+      "sha256": "829a7155344f85543e571c2c6cbdcc35d45d188fa2520f4f3cb3c38dab54feda"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 509,
+      "image_tokens": 3072
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1189205
+}

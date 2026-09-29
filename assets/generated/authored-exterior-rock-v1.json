@@ -1,0 +1,34 @@
+{
+  "name": "authored-exterior-rock-v1",
+  "fingerprint": "9b1033aebf07ce083ba2ff7ea5bc3b0dcffbaf1f2f26140bf305ad8205455914",
+  "status": "success",
+  "reserved_usd": 0.25,
+  "sent_at": "2026-09-27T09:32:27.006579+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Seamless tileable texture for a 2D top-down action game: the dark solid rock of a cave that surrounds underground rooms, seen straight from above, filling the whole square edge to edge. No border, no frame, no objects, no text.\n\nReference image 1 is the room's stone floor and reference image 2 its wall-top stone: use the same drawing technique (dark brown ink lines, flat 2-3 step cel shading, big simple shapes, no painterly texture, no noise) but a different material: natural cave bedrock, large irregular rock masses with a few deep dark crevices and cracks, no cut blocks, no bricks.\n\nIt must stay in the background and recede: much darker than the floor (very dark warm grey-brown, almost black in the crevices), very low contrast and low saturation, only faint highlights on rock edges from the upper left.\n\nThe texture must tile seamlessly left-right and top-bottom.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\stages\\ashen-foundry-v2\\floor.png",
+      "sha256": "829a7155344f85543e571c2c6cbdcc35d45d188fa2520f4f3cb3c38dab54feda"
+    },
+    {
+      "path": "assets\\stages\\ashen-foundry-v2\\wall-top.png",
+      "sha256": "6225644c722246f7adf7ee13ccd9a84326c7f96d5bf1a3b65f6c71a6d178c2fe"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 203,
+      "image_tokens": 2048
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1140595
+}

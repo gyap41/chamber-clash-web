@@ -1,0 +1,38 @@
+{
+  "name": "authored-floor-blend-v1",
+  "fingerprint": "204c28d94364e3b03f05e67bf44ab91d8108af6fa6fe183e1488d6f50a4a5fc4",
+  "status": "success",
+  "reserved_usd": 0.25,
+  "sent_at": "2026-09-27T09:29:17.701326+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Sprite sheet of six separate flat floor overlays for a 2D top-down action game: ancient underground stone ruins with an old foundry. They blend objects and walls into the stone floor.\n\nReference image 1 is the stone floor they lie on (warm grey-brown flagstones with dark brown ink joints). Reference image 2 is an approved sheet of floor decorations of the same set: match its drawing technique exactly (thick dark brown ink outlines where needed, flat 2-3 step cel shading, big simple shapes, no painterly texture, no fine noise). Reference image 3 is the props sheet of the same set.\n\nAll overlays lie flat on the floor, seen straight from above, with soft irregular edges, subtle and calm: only a little darker or lighter than the floor, muted earthy colours. No cast shadows.\n\nLayout: exactly 3 columns and 2 rows, one overlay per cell, centred with generous margin, never touching another cell. Solid flat pure magenta background (#FF00FF) everywhere. No floor, no labels, no text.\n\nRow 1, left to right:\n1. WALL-BASE DIRT: a long low strip of darker dirt, dust and a few small pebbles gathered along the base of a wall, straight top edge, ragged bottom edge fading out, about 6 times wider than tall.\n2. PEBBLES A: a loose scatter of about ten small stone chips and grit, roughly round spread.\n3. PEBBLES B: a smaller elongated scatter of stone chips and dust, about 2 times wider than tall.\n\nRow 2, left to right:\n4. FLOOR CRACK: a branching crack in the flagstones radiating from one point, dark ink lines with a few chipped edges, roughly round spread.\n5. WORN PATH: a long soft oval of slightly lighter, smoother, polished stone where feet have worn the floor, very subtle, about 3 times wider than tall.\n6. SOOT STREAKS: three or four elongated dark grey soot smears fanning out in one direction, soft ends, about 2.5 times wider than tall. Not a round blob.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\stages\\ashen-foundry-v2\\floor.png",
+      "sha256": "829a7155344f85543e571c2c6cbdcc35d45d188fa2520f4f3cb3c38dab54feda"
+    },
+    {
+      "path": "assets\\generated\\stage-v2-decals-a.png",
+      "sha256": "03d5f3eb5126d7c1b7ea814cd1cf55abc1e773f4b820f3917d9fd1d118ed331e"
+    },
+    {
+      "path": "assets\\generated\\stage-v2-props-a.png",
+      "sha256": "48017f29bf658425aef56be506920b72d7c866d5b2a6ca654bd16ec34ef66031"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 449,
+      "image_tokens": 3072
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1187705
+}

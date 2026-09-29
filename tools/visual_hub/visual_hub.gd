@@ -103,7 +103,7 @@ func _build_ui() -> void:
 	time_input = SpinBox.new(); time_input.min_value=0; time_input.max_value=30; time_input.step=.05; time_input.custom_minimum_size.x=90; transport.add_child(time_input)
 	_button(transport,"秒へ移動",func(): state.time=time_input.value; state.playing=false; _rebuild_previews(true))
 	var motion := HFlowContainer.new(); center.add_child(motion)
-	action_filter = _option_key(motion,["待機","歩行","回避","単発","連射","リロード"],"action")
+	action_filter = _option_key(motion,["待機","歩行","攻撃","回避","単発","連射","リロード"],"action")
 	_label(motion,"照準",13); _option_key(motion,["右","左","下","上"],"aim",[0,1,2,3])
 	_label(motion,"移動",13); _option_key(motion,["右","左","下","上"],"movement",[0,1,2,3])
 	_option_key(motion,["実時間","進捗"],"sync")

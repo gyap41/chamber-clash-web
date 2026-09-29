@@ -1,0 +1,38 @@
+{
+  "name": "authored-wall-segments-v1",
+  "fingerprint": "f506eee753cd2224463c3d45cee4e9c188df4301b7eeb0b8fab141a99565cc29",
+  "status": "success",
+  "reserved_usd": 0.25,
+  "sent_at": "2026-09-27T10:40:00.031687+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Sprite sheet of three separate ruined wall segments for a 2D top-down action game: ancient underground stone ruins. Each is a free-standing remnant of a thick inner wall that stands in the middle of a room; characters walk around it and can stand behind it.\n\nReference image 1 is the game's wall front texture: use exactly this stone (warm grey-brown blocks, dark brown ink joints, the same block size and course height). Reference image 2 is an approved sheet of wall pieces of the same set (see its broken wall end and wall breach): match its drawing technique (thick dark brown ink outlines, flat 2-3 step cel shading, light from the upper left, big simple shapes). Reference image 3 is a game screenshot of the current plain wall segment in play, for scale: the new segments keep that height (a flat stone cap on top and a front face of two stone courses) and that thickness.\n\nView: orthographic top-down 3/4 view: the flat top of the wall is seen from above as a strip, the front face below it faces the viewer; horizontal edges horizontal, no perspective, no isometric angle.\n\nLayout: exactly 1 column and 3 rows, one segment per row, centred with generous margin, never touching another row. Solid flat pure magenta background (#FF00FF) everywhere. No floor, no ground shadows, no labels, no text.\n\nRow 1: a long segment, about 4 times wider than tall. Both ends broken off: the cap and the courses step down irregularly toward each end, a few loose blocks fallen at the foot of each end. The middle stays intact but with a couple of chipped blocks and one missing cap stone.\nRow 2: a medium segment, about 3 times wider than tall. The left end is a clean corner (intact squared end with its side face visible), the right end is collapsed in a jagged slope with fallen blocks at its foot.\nRow 3: a short heavily ruined segment, about 2.2 times wider than tall: only the lower course is complete, the upper course and cap remain only on the left half, broken blocks piled at the foot on the right.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "assets\\stages\\ashen-foundry-v2\\wall-face.png",
+      "sha256": "53cf38ccb48165cc856e41d9629e032c3c587ae80860e5061533124652c40824"
+    },
+    {
+      "path": "assets\\generated\\authored-walls-v1.png",
+      "sha256": "4844fa1366f0d51563c9e5273ce5f88567bdf758baae3e7ef53543cfc68cc5f5"
+    },
+    {
+      "path": "docs\\art\\production\\authored-rooms\\ref-stub-in-game.png",
+      "sha256": "4ebb0f7a4a51b4abd0c819af6ebc266605a9a983148a2c3cf1fa9afb0a2c7b11"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 459,
+      "image_tokens": 2400
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.1161075
+}

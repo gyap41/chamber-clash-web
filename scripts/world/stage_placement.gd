@@ -22,6 +22,10 @@ extends Resource
 # Shallow wall/floor attachments: above masonry, below every actor.
 @export var surface_overlay := false
 @export var tint := Color.WHITE
+# Mirror the picture left-right (variation for repeated pieces; lit from above, so both sides read).
+@export var flip_h := false
+# Soft copy of the picture dropped toward the lower right on the floor (light from the upper left).
+@export var drop_shadow := false
 
 func validation_errors(field: Rect2) -> PackedStringArray:
 	var errors := PackedStringArray()

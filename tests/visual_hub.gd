@@ -11,13 +11,13 @@ func adapter(item: Dictionary, conditions: Dictionary):
 func run() -> void:
 	index.reload()
 	check(index.errors.is_empty(),str(index.errors))
-	for pair in [["キャラ",8],["武器",38],["レリック",35],["ステージ",2],["行動アイコン",3]]:
+	for pair in [["キャラ",8],["武器",38],["レリック",35],["ステージ",4],["敵",8],["行動アイコン",3]]:
 		check(index.enumerate("",pair[0]).size()==pair[1],str(pair))
 	for item in index.records:
 		check(item.issues.is_empty(),item.id+": "+str(item.issues))
 		check(item.preview,"Preview supported: "+item.id)
 	check(index.enumerate("weapon:20").size()==1,"Typed ID search")
-	print("PASS: current catalog 8 / 38 / 35 / 2 / 3; dependencies and support diagnostics")
+	print("PASS: current catalog 8 / 38 / 35 / 4 / 7 enemies + 1 prototype / 3; dependencies and support diagnostics")
 	index.install_game_snapshot()
 	var conditions:=Store.defaults()
 	for item in index.enumerate("","キャラ"):

@@ -1,0 +1,30 @@
+{
+  "id": "root-runner-v2",
+  "tool": "built-in image_gen",
+  "prompt": "Redraw the beetle in reference 2 in the clean illustrated art style of reference 1 (Rina's actual high-resolution head animation strip). Reference 1 controls LINEWORK AND COLOR SHADING ONLY; do not draw a girl or a strip. Reference 2 controls beetle identity and down-right pose ONLY; discard its pixelated rendering entirely. ONE complete root-running beetle, organic, six short legs (three on each side), two short antennae, low teal blue-green split shell with restrained pale cream edge, brown head and limbs, seen high overhead orthographic and facing lower-right. Smooth continuous dark-brown ink contours, anti-aliased curved edges, large flat color regions with two or three crisp cel-shaded shadow shapes, one broad shell highlight, clean anime game illustration. Absolutely no pixel art, staircase edges, dithering, noisy texture, stippling, blocky pixels, photorealism, metallic armor, or microdetail. Keep a low wedge beetle silhouette, no horns, no tail. Upper-left light. Readable at 48 world pixels wide. Single neutral full-body pose centered on genuinely transparent alpha background, no shadow, no floor, no text, no extra characters, no sprite sheet. Square canvas, creature occupies 75 percent.",
+  "source_path": "C:/Users/ikare/.codex/generated_images/01a0e2a7-fa4e-7392-b9bc-8275915f2699/exec-66d426d2-2db4-40af-a18f-fbd36297ef7d.png",
+  "model": null,
+  "cost": null,
+  "usage": null,
+  "status": "style_revision_concept_not_runtime",
+  "references": [
+    "assets/first-workshop/rina-run-8dir/diag_front-idle-upper.png",
+    "assets/generated/enemy-field-concepts/root-runner-v1.png"
+  ],
+  "preview_width_world_px": 48,
+  "preview_support_origin_fraction": [
+    0.5,
+    0.8
+  ],
+  "sha256": "8397427b5c3b246381f75038d7b0dfc56a76df031dbb7f157fd2c23b569a12b8",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "visible_rect_alpha_above_0_1": [
+    133,
+    176,
+    1038,
+    912
+  ]
+}

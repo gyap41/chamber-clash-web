@@ -1,0 +1,17 @@
+Sprite sheet of six separate flat floor overlays for a 2D top-down action game: ancient underground stone ruins with an old foundry. They blend objects and walls into the stone floor.
+
+Reference image 1 is the stone floor they lie on (warm grey-brown flagstones with dark brown ink joints). Reference image 2 is an approved sheet of floor decorations of the same set: match its drawing technique exactly (thick dark brown ink outlines where needed, flat 2-3 step cel shading, big simple shapes, no painterly texture, no fine noise). Reference image 3 is the props sheet of the same set.
+
+All overlays lie flat on the floor, seen straight from above, with soft irregular edges, subtle and calm: only a little darker or lighter than the floor, muted earthy colours. No cast shadows.
+
+Layout: exactly 3 columns and 2 rows, one overlay per cell, centred with generous margin, never touching another cell. Solid flat pure magenta background (#FF00FF) everywhere. No floor, no labels, no text.
+
+Row 1, left to right:
+1. WALL-BASE DIRT: a long low strip of darker dirt, dust and a few small pebbles gathered along the base of a wall, straight top edge, ragged bottom edge fading out, about 6 times wider than tall.
+2. PEBBLES A: a loose scatter of about ten small stone chips and grit, roughly round spread.
+3. PEBBLES B: a smaller elongated scatter of stone chips and dust, about 2 times wider than tall.
+
+Row 2, left to right:
+4. FLOOR CRACK: a branching crack in the flagstones radiating from one point, dark ink lines with a few chipped edges, roughly round spread.
+5. WORN PATH: a long soft oval of slightly lighter, smoother, polished stone where feet have worn the floor, very subtle, about 3 times wider than tall.
+6. SOOT STREAKS: three or four elongated dark grey soot smears fanning out in one direction, soft ends, about 2.5 times wider than tall. Not a round blob.

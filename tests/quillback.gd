@@ -8,17 +8,20 @@ func run() -> void:
 	game.set_physics_process(false)
 	game.start_exploration(22)
 	game.set_pause_reason("focus",false)
-	var ids: Array = game.floor_data.rooms.keys().filter(func(id): return game.floor_data.rooms[id].role == "normal")
 	var actor
-	for id in ids:
-		game.Encounter.retire(game)
-		game.exploration.enter_room(id,game.room_data(id).field.field_id)
-		game.switch_field(game.room_data(id).field)
-		game.Encounter.begin(game)
-		var matches: Array = game.players.filter(func(p): return p.get("spec") != null and p.spec.id == "quillback")
-		if not matches.is_empty():
-			actor = matches[0]
-			break
+	for seed_value in range(10):
+		game.start_exploration(seed_value)
+		var ids: Array = game.floor_data.rooms.keys().filter(func(id): return game.floor_data.rooms[id].role == "normal")
+		for id in ids:
+			game.Encounter.retire(game)
+			game.exploration.enter_room(id,game.room_data(id).field.field_id)
+			game.switch_field(game.room_data(id).field)
+			game.Encounter.begin(game)
+			var matches: Array = game.players.filter(func(p): return p.get("spec") != null and p.spec.id == "quillback")
+			if not matches.is_empty():
+				actor = matches[0]
+				break
+		if actor != null: break
 	assert(actor != null)
 	var index: int = game.players.find(actor)
 	for delta in [Vector2(100,0),Vector2(-100,0),Vector2(0,-100),Vector2(0,100)]:

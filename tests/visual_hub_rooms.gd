@@ -1,0 +1,26 @@
+extends SceneTree
+const Index = preload("res://tools/visual_hub/asset_index.gd")
+const Adapter = preload("res://tools/visual_hub/preview_adapter.gd")
+const Store = preload("res://tools/visual_hub/conditions.gd")
+func _initialize() -> void:
+	call_deferred("run")
+func run() -> void:
+	var index := Index.new()
+	index.reload()
+	var rooms := index.enumerate("","部屋")
+	assert(rooms.size() == 20)
+	for item in rooms:
+		assert(item.preview and not item.game and item.status == "見学用")
+		assert(item.issues.is_empty(),item.id+str(item.issues))
+		assert(FileAccess.file_exists(item.image))
+		assert(not item.definition.connections.is_empty())
+		var adapter := Adapter.new()
+		root.add_child(adapter)
+		adapter.initialize(item,Store.defaults())
+		assert(adapter.failure.is_empty(),item.id+adapter.failure)
+		assert(adapter.arena != null and adapter.arena.field_rect.size.x > 0)
+		assert(adapter.players.is_empty(),"Stage preview must not start combat")
+		adapter.finish()
+		adapter.free()
+	print("PASS: 20 authored room records, references/status/metadata, real isolated stage adapters")
+	quit()

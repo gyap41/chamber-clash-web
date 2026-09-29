@@ -98,13 +98,24 @@ static func cut_corner(field, corner: String, x: float, y: float) -> void:
 	field.walls.clear()
 	field.wall_ids.clear()
 	field.wall_materials.clear()
+	# The north wall keeps its thickness over the return (like the shell's own corners), so the return's top
+	# links to the north coping (Wall.connect_faces only links wide walls).
+	var north_cut := Rect2(cut.position,cut.size-Vector2(32,0)) if west else Rect2(cut.position+Vector2(32,0),cut.size-Vector2(32,0))
 	for i in range(old_walls.size()):
-		var pieces: Array[Rect2] = subtract.subtract_rect(old_walls[i],cut)
+		var wall_cut: Rect2 = north_cut if north and is_equal_approx(old_walls[i].position.y,80) else cut
+		var pieces: Array[Rect2] = subtract.subtract_rect(old_walls[i],wall_cut)
 		for j in range(pieces.size()): Shell.wall(field,ids[i]+"_%d" % j,pieces[j],materials[ids[i]])
 	var right := size.x-128
 	var bottom := size.y-88
-	Shell.wall(field,corner+"_return",Rect2(x-32 if west else x,128 if north else y,32,y-128 if north else bottom-y),"top")
-	Shell.wall(field,corner+"_ledge",Rect2(96 if west else x,y-48 if north else y,x-96 if west else right+32-x,48 if north else 32),"face" if north else "top")
+	if north:
+		# The ledge starts beside the return and both end on the same
+		# floor edge, so ConnectedWallSurface runs the ledge's masonry front through the return's thickness
+		# (STAGE_CREATION_TEMPLATE wall rules). The collision union is unchanged.
+		Shell.wall(field,corner+"_return",Rect2(x-32 if west else x,128,32,y-128),"top")
+		Shell.wall(field,corner+"_ledge",Rect2(96,y-48,x-32-96,48) if west else Rect2(x+32,y-48,right-x,48),"face")
+	else:
+		Shell.wall(field,corner+"_return",Rect2(x-32 if west else x,y,32,bottom-y),"top")
+		Shell.wall(field,corner+"_ledge",Rect2(96 if west else x,y,x-96 if west else right+32-x,32),"top")
 
 static func add_pillar(field, at: Vector2) -> void:
 	var prop = preload("res://scripts/world/stage_placement.gd").new()

@@ -1,0 +1,14 @@
+{
+  "provider": "built-in image_gen",
+  "model": null,
+  "usage": null,
+  "cost": null,
+  "prompt": "Production texture for a 2D TOP DOWN orthographic hand painted dungeon game. Landscape 2:1. ONLY the remote bottom of a deep dark archaeological pit, seen almost straight DOWN, orthographic PARALLEL projection no vanishing points. A small ruined L shaped stone walkway and broken stair landing in the central area, surrounded by largely empty charcoal darkness and subtle gray mist. Broad TOP faces of stone floor tiles visible, narrow dark south side faces only. Walkway made of simply drawn chunky rectangular brown gray slabs with clean dark cartoon outlines and flat restrained shading, low detail game sprite style, NOT photorealistic, NOT realistic 3D rendering, NOT cinematic concept art. Match a small hand painted RPG dungeon tileset. Ancient roots snake ALONG the lower walkway surface. Palette desaturated warm charcoal brown, dark slate, not blue. Scene low contrast and dark; only a few legible lower stone shapes suggesting another level. All FOUR outer edges and at least outer 20 percent of image must be quiet very dark empty space; NO foreground rocks, NO retaining walls, NO cliff edges, NO railings, NO near objects, NO frame, NO sky, NO horizon, NO landscape panorama, NO large buildings, NO converging walls. The enclosing pit walls are separately built with the game's existing masonry. Full bleed opaque texture, no text, no characters.",
+  "sha256": "9be8d90a3ead7d31bee70c384462666d958f98c6f4bd60f864ec67298fce7e11",
+  "size": [
+    1774,
+    887
+  ],
+  "date": "2026-09-28",
+  "runtime_copy": "assets/stages/ashen-foundry-v2/exploration-kit/overlook-depth-v3.png"
+}

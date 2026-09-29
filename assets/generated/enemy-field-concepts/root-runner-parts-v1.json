@@ -1,0 +1,69 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Create a production animation CUTOUT PARTS ATLAS for the beetle in reference 1, retaining matte teal carapace, thin ochre trim, warm brown jointed legs, smooth dark outlines and simple cel shading. Reference 2 is Rina's actual illustrated line/shading style only. NOT pixel art. Genuine transparent alpha background. Square canvas split into EXACTLY 3 columns and 3 rows equal invisible cells, large transparent margins between cells, no text/grid lines/shadows. Exactly ONE isolated part per occupied cell. Row 1 col1: detached entire teal BACK BODY + small thorax pointing diagonally lower right; NO head, NO legs, NO antennae, NO mandibles. Draw complete hidden underside neck socket brown. Row1 col2: detached HEAD with small eyes, same down-right overhead orientation, full neck base, NO antennae, NO jaws, NO body. Row1 col3: single upper LEG segment, short thick brown oval taper, HORIZONTAL with rounded hip at LEFT and knee at RIGHT, complete rounded connection ends. Row2 col1: single lower LEG segment with pointed foot, HORIZONTAL knee at LEFT and foot at RIGHT, thin brown jointed taper, ONE piece. Row2 col2: one LEFT MANDIBLE small dark curved pointed claw with rounded base at upper left, curving toward lower right. Row2 col3: matching RIGHT MANDIBLE rounded base upper left, opposing curve toward lower right, suitable paired mouth pincers. Row3 col1: LEFT ANTENNA thin short jointed brown feeler, base at upper left, tip lower right. Row3 col2: RIGHT ANTENNA matching separate feeler, base upper left and tip lower right. Row3 col3 EMPTY TRANSPARENT. Each part large within its OWN cell, body maximum 85% of cell width, other parts generously padded, never touching neighbors. Different parts need NOT have same scale; will be assembled with recorded pivots. This is disassembled animation art, NO fully assembled beetles anywhere. Preserve right-down high overhead game projection for body/head, use smooth anti-aliased ink lines, low contrast broad highlights, no white shine, only 2-3 shadow planes.",
+  "source_path": "C:/Users/ikare/.codex/generated_images/01a0e2a7-fa4e-7392-b9bc-8275915f2699/exec-85c7fe2c-f07f-4c91-99d1-faa7cfd5e96b.png",
+  "status": "one_direction_motion_prototype",
+  "model": null,
+  "cost": null,
+  "usage": null,
+  "sha256": "29a3d21932f2c54685ecf15e0af67ace1fcf817062ec8a7c7399117709e38f12",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "references": [
+    "assets/generated/enemy-field-concepts/root-runner-v3.png",
+    "assets/first-workshop/rina-run-8dir/diag_front-idle-upper.png"
+  ],
+  "regions": {
+    "antenna_l": [
+      126,
+      945,
+      199,
+      175
+    ],
+    "antenna_r": [
+      531,
+      946,
+      198,
+      173
+    ],
+    "body": [
+      59,
+      81,
+      370,
+      372
+    ],
+    "head": [
+      561,
+      262,
+      201,
+      185
+    ],
+    "jaw_l": [
+      607,
+      601,
+      122,
+      130
+    ],
+    "jaw_r": [
+      951,
+      601,
+      102,
+      134
+    ],
+    "lower": [
+      104,
+      616,
+      303,
+      116
+    ],
+    "upper": [
+      894,
+      232,
+      289,
+      111
+    ]
+  },
+  "runtime_copy": "assets/first-workshop/root-runner-prototype/parts.png"
+}
