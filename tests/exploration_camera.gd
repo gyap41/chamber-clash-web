@@ -3,6 +3,8 @@ const Follow = preload("res://scripts/visuals/exploration_camera.gd")
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	root.size = Vector2i(1120,800)
+	assert(Follow.size_d and is_equal_approx(Follow.zoom(),1.45))
+	Follow.size_d = false # Legacy geometry cases below remain a supported comparison mode.
 	assert(Follow.origin(Rect2(0,0,1120,600),Vector2(1000,450)).is_equal_approx(Vector2(186.666667,25)))
 	assert(Follow.origin(Rect2(100,200,560,300),Vector2(120,220)).is_equal_approx(Vector2(-86.666667,25)))
 	assert(Follow.origin(Rect2(0,0,2240,1200),Vector2(1120,600)).is_equal_approx(Vector2(653.333333,275)))

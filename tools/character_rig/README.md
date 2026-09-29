@@ -13,7 +13,7 @@
 |`rig_builder.py` / `build.py`|設定から素材と `rig.json` を書き出す共通ビルダー|
 |`landmark_picker.html`|生成画像の上をクリックして基準点を設定するページ（ブラウザー内だけで動作）|
 |`data/character_rigs.json`|ゲーム側の登録（キャラID → 書き出し先）|
-|`scripts/visuals/character_rig8.gd`|ゲーム側の描画（登録キャラのみ。仮組み込みは V キーで切替）|
+|`scripts/visuals/character_rig8.gd`|ゲーム側の描画（登録キャラのみ既定有効。Vキーで旧表示と比較）|
 
 ## 新しいキャラを追加する手順
 

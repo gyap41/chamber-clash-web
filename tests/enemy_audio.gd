@@ -17,8 +17,11 @@ func run() -> void:
 	var sentry = game.players[1]
 	var lizard = game.players[2]
 	var player = game.players[0]
+	var visual_events: Array = []
 	for actor in [sentry,lizard]:
 		actor.sound_requested.connect(func(kind, _id): events.append(kind))
+		actor.weapon_event_requested.connect(func(event):
+			if event.kind == "enemy_attack": visual_events.append(event))
 	reset_pair(game,sentry)
 	player.state.pos = Vector2(545,450)
 	sentry.attack_time = 0
@@ -40,15 +43,19 @@ func run() -> void:
 	lizard.step(0,2,player,game.arena)
 	assert(events.count("lizard_inhale") == 1)
 	lizard.step(.81,2,player,game.arena)
-	lizard.step(.23,2,player,game.arena)
-	lizard.step(.23,2,player,game.arena)
-	assert(events.count("lizard_spit") == 3)
+	lizard.step(.31,2,player,game.arena)
+	lizard.step(.31,2,player,game.arena)
+	lizard.step(.31,2,player,game.arena)
+	lizard.step(.31,2,player,game.arena)
+	assert(events.count("lizard_spit") == 5)
 	reset_pair(game,lizard)
 	lizard.attack_time = 0
 	lizard.step(0,2,player,game.arena)
 	player.state.pos = Vector2(1500,900)
 	lizard.step(1,2,player,game.arena)
-	assert(events.count("lizard_spit") == 3) # Offscreen cancellation is silent.
+	assert(events.count("lizard_spit") == 5) # Offscreen cancellation is silent.
+	assert(visual_events.filter(func(e): return e.family == "flame").size() == 5)
+	assert(visual_events.filter(func(e): return e.family == "sentry").size() == 1)
 	assert(lizard.hurt(99))
 	assert(not lizard.hurt(99))
 	assert(events.count("lizard_down") == 1 and events.count("sentry_down") == 1)
@@ -57,6 +64,11 @@ func run() -> void:
 		assert(sound.sample_key(kind) == kind)
 		assert(sound.GENERATED[kind].get_length() > 0)
 	var played: Array[String] = []
+	for kind in ["sentry_swing","lizard_spit","quill_fire","sentry_windup","lizard_inhale","quill_windup"]:
+		sound.contact_times.clear()
+		var slot: int = sound.next_voice
+		sound.play_sound(kind)
+		assert(is_equal_approx(sound.voices[slot].volume_db,sound.volume_db+(-15.0 if kind.ends_with("windup") or kind == "lizard_inhale" else -10.0)))
 	sound.played.connect(func(kind, _id): played.append(kind))
 	sound.contact_times.clear()
 	sound.play_sound("lizard_spit")

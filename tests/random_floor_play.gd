@@ -46,8 +46,7 @@ func run() -> void:
 	var player = game.players[0]
 	player.hurt(2)
 	player.weapon().clip = 2
-	player.state.pos = game.room_loot()[1].pos
-	assert(game.try_collect_loot())
+	assert(game.room_loot().is_empty() and game.loot_nodes.is_empty())
 	player.state.pos = Vector2(170,300)
 	player.sync_visual()
 	var before := snapshot(player,game.exploration.inventory)
@@ -63,7 +62,7 @@ func run() -> void:
 	await walk(game,game.start_room)
 	assert(reached.size() == 11 and game.exploration.visited_rooms.size() == 11)
 	assert(snapshot(player,game.exploration.inventory) == before)
-	assert(game.loot_nodes.size() == 1 and game.exploration.collected_loot.size() == 1)
+	assert(game.loot_nodes.is_empty() and game.exploration.collected_loot.is_empty())
 	assert(game.open_map())
 	await capture("random-map")
 	var event := InputEventKey.new()
@@ -75,7 +74,7 @@ func run() -> void:
 	root.push_input(event)
 	game.start_exploration(22)
 	assert(game.floor_data.rooms == first_layout and game.exploration.visited_rooms.size() == 1)
-	assert(game.loot_nodes.size() == 2 and game.exploration.collected_loot.is_empty())
+	assert(game.loot_nodes.is_empty() and game.exploration.collected_loot.is_empty())
 	game.start_exploration(23)
 	assert(game.floor_data.rooms != first_layout)
 	game.queue_free()

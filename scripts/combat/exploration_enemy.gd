@@ -79,12 +79,22 @@ func sync_visual() -> void:
 func step(dt: float, i: int, enemy, arena, _mouse_shooting: bool = false, _ai: Dictionary = {}) -> bool:
 	var command := preload("res://scripts/combat/combat_command.gd").idle(state.angle)
 	if state.hp <= 0 or enemy == null or enemy.state.hp <= 0: return false
+	var previous_time := attack_time
 	attack_time = maxf(0.0,attack_time-dt)
 	var delta: Vector2 = enemy.state.pos-state.pos
 	if attack_phase == "windup":
 		command.angle = attack_angle
+		var lunge_time: float = spec.get("lunge_time",0.0)
+		var lunge_dt := maxf(0.0,minf(previous_time,lunge_time)-minf(attack_time,lunge_time))
+		if lunge_dt > 0:
+			var direction := Vector2.from_angle(attack_angle)
+			# Stop at body contact; commit to the telegraphed direction, never turn mid-lunge.
+			var travel := minf(float(spec.get("lunge_speed",0.0))*lunge_dt,maxf(0.0,delta.dot(direction)-radius-enemy.radius))
+			arena.move_fighter(state,direction*travel,radius)
+			delta = enemy.state.pos-state.pos
 		if attack_time <= 0:
 			sound_requested.emit("sentry_swing",0)
+			weapon_event_requested.emit({"kind":"enemy_attack","family":"sentry","pos":state.pos,"angle":attack_angle,"reach":spec.range})
 			# Aim locks when the tell starts; stepping away or behind a wall avoids it.
 			if delta.length() <= spec.range and absf(angle_difference(attack_angle,delta.angle())) <= PI/3 and not arena.line_blocked(state.pos,enemy.state.pos):
 				enemy.hurt(spec.damage,-1,false,{"kind":"enemy_melee","enemy":participant_id},self)

@@ -203,6 +203,10 @@ func synthesize(p: Dictionary) -> AudioStreamWAV:
 	stream.data = bytes
 	return stream
 
+func play_chest_open(rank: int) -> void:
+	play_sound("chest_open_tier",clampi(rank,0,3))
+	if rank >= 2: play_sound("chest_reward_tier",clampi(rank,0,3))
+
 func play_sound(kind: String, id: int = 0) -> void:
 	if kind=="moss_stop":
 		stop_moss_roll(id)
@@ -226,6 +230,7 @@ func play_sound(kind: String, id: int = 0) -> void:
 		next_voice = (next_voice+1)%voices.size()
 		generated_voice.stop()
 		generated_voice.stream_paused = false
+		generated_voice.pitch_scale = 1.0
 		generated_voice.set_meta("kind",kind)
 		generated_voice.set_meta("owner",id)
 		generated_voice.bus = bus_name
@@ -234,11 +239,16 @@ func play_sound(kind: String, id: int = 0) -> void:
 		elif kind.begins_with("moss_"): generated_voice.volume_db -= 2.0 if kind=="moss_dash" else 5.0
 		elif kind == "wall_impact": generated_voice.volume_db -= 12.0
 		elif kind == "ricochet": generated_voice.volume_db -= 8.0
-		elif kind in ["sentry_windup","lizard_inhale","quill_windup"]: generated_voice.volume_db -= 6.0
-		elif kind in ["sentry_swing","lizard_spit","sentry_down","lizard_down","quill_windup","quill_fire","quill_down"]: generated_voice.volume_db -= 3.0
+		elif kind in ["sentry_windup","lizard_inhale","quill_windup"]: generated_voice.volume_db -= 3.0
+		elif kind in ["sentry_swing","lizard_spit","quill_fire"]: generated_voice.volume_db += 2.0
+		elif kind in ["sentry_down","lizard_down","quill_down"]: generated_voice.volume_db -= 3.0
 		elif kind in ["boss_dash","boss_impact","boss_overdrive","boss_salvo","boss_cannon","boss_heavy_impact"]: generated_voice.volume_db -= 4.0
 		elif kind in ["boss_vent","boss_internal","boss_shell_impact"]: generated_voice.volume_db -= 8.0
 		generated_voice.stream = GENERATED[sample]
+		if kind == "chest_open_tier":
+			generated_voice.pitch_scale = [1.08,1.0,.9,.8][clampi(id,0,3)]
+			generated_voice.volume_db = volume_db+[-15.0,-14.0,-13.0,-12.0][clampi(id,0,3)]
+		elif kind == "chest_reward_tier": generated_voice.volume_db = volume_db-19.0
 		generated_voice.play()
 		played.emit(kind,id)
 		return
@@ -249,6 +259,7 @@ func play_sound(kind: String, id: int = 0) -> void:
 	next_voice = (next_voice+1)%voices.size()
 	voice.stop()
 	voice.stream_paused = false
+	voice.pitch_scale = 1.0
 	voice.set_meta("kind",kind)
 	voice.set_meta("owner",id)
 	voice.bus = bus_name if p.noise > 0 else "Master"
@@ -258,6 +269,8 @@ func play_sound(kind: String, id: int = 0) -> void:
 	played.emit(kind,id)
 
 func sample_key(kind: String, id: int = 0) -> String:
+	if kind == "chest_open_tier": return "chest_open"
+	if kind == "chest_reward_tier": return "legendary" if id >= 3 else "rare_pickup"
 	if kind == "shot":
 		if id in [0,20]: return "pistol"
 		if id in [23,26]: return "heavy"

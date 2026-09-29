@@ -8,6 +8,7 @@ func run() -> void:
 	for seed_value in [1,7,22,83,491]:
 		game.start_exploration(seed_value)
 		game.set_pause_reason("focus",false)
+		var cleared := 0
 		for id in game.floor_data.rooms:
 			var role: String = game.floor_data.rooms[id].role
 			if role not in ["treasure","normal"]: continue
@@ -18,7 +19,9 @@ func run() -> void:
 			if role == "treasure": assert(not reward.is_empty())
 			if not reward.is_empty(): points.append(reward.pos)
 			var supplies: Array = game.ExplorationSupplies.entries(game)
-			if role == "normal": assert(not supplies.is_empty())
+			if role == "normal":
+				cleared += 1
+				assert(supplies.size() == int(cleared%2 == 0)+int(cleared%3 == 0))
 			for supply in supplies: points.append(supply.pos)
 			for point in points:
 				assert(not game.arena.solid(point,24))

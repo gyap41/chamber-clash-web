@@ -233,11 +233,16 @@ func apply_command(index: int, command: Dictionary) -> void:
 func _step_players(dt: float) -> void:
 	for i in range(game.players.size()):
 		var player = game.players[i]
-		if player.state.hp <= 0: continue
+		if player.state.hp <= 0:
+			player.clear_action_inputs()
+			continue
 		var enemy = game.roster.nearest(i,game.players,player.state.pos)
 		var command: Dictionary = game.command_source.call(i,dt)
 		apply_command(i,command)
-		if player.step(dt,i,enemy,game.arena,false,command): fire(i)
+		var wants_fire: bool = player.step(dt,i,enemy,game.arena,false,command)
+		player.advance_melee_push(dt,game.arena)
+		player.resolve_buffered_melee(dt,i,game.shots,game.roster.enemies(i,game.players),game.arena)
+		if wants_fire and player.can_fire(): fire(i)
 		if player.state.roll > 0: game.presentation.dodge_trail(player.state.pos,player.visual_color())
 		player.try_phase_load(game.shots,i)
 		game.arena.apply_hazards(player,game.arena_inset())

@@ -5,6 +5,13 @@ const SHADOW_COLOR := Color(0,0,0,.32)
 func _ready() -> void:
 	# Sort from the sprite's feet, not its arbitrary authoring origin.
 	position = definition.position+Vector2(0,definition.visual_rect.end.y)
+	if definition.water_surface.has_area():
+		var ambience := preload("res://scripts/visuals/cistern_ambience.gd").new()
+		ambience.name = "CisternAmbience"
+		var rect: Rect2 = definition.visual_rect
+		rect.position.y -= definition.visual_rect.end.y
+		ambience.configure(definition,rect)
+		add_child(ambience)
 	if definition.light_radius > 0:
 		var gradient := Gradient.new()
 		gradient.colors = PackedColorArray([Color.WHITE,Color(1,1,1,0)])
@@ -22,6 +29,13 @@ func _ready() -> void:
 		light.energy = definition.light_energy
 		light.position = definition.light_offset-Vector2(0,definition.visual_rect.end.y)
 		add_child(light)
+		if definition.fire_kind > 0:
+			var fire := preload("res://scripts/visuals/prop_fire.gd").new()
+			fire.name = "PropFire"
+			var fire_rect: Rect2 = definition.visual_rect
+			fire_rect.position.y -= definition.visual_rect.end.y
+			fire.configure(definition,fire_rect,light)
+			add_child(fire)
 func _draw() -> void:
 	var rect: Rect2 = definition.visual_rect
 	rect.position.y -= definition.visual_rect.end.y

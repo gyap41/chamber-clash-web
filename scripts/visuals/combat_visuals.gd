@@ -8,6 +8,8 @@ var custom_effects: Array = []
 var named_effects: Array = []
 var particles: Array = []
 var rings: Array = []
+var melee_hits: Array = []
+var enemy_effects: Array = []
 var shake_strength := 0.0
 var shake_offset := Vector2.ZERO
 @export_range(0.0,1.0) var shake_scale := 1.0
@@ -44,11 +46,17 @@ func clear() -> void:
 	named_effects.clear()
 	particles.clear()
 	rings.clear()
+	melee_hits.clear()
+	enemy_effects.clear()
 	shake_strength = 0.0
 	shake_offset = Vector2.ZERO
 	queue_redraw()
 
 func step(dt: float) -> void:
+	for effect in enemy_effects: effect.age += dt
+	enemy_effects = enemy_effects.filter(func(effect): return effect.age < .22)
+	for hit in melee_hits: hit.age += dt
+	melee_hits = melee_hits.filter(func(hit): return hit.age < .16)
 	shake_strength = maxf(0.0,shake_strength-30.0*dt)
 	update_shake()
 	for i in range(custom_effects.size()-1,-1,-1):
@@ -71,6 +79,7 @@ func step(dt: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
+	draw_enemy_effects()
 	for e in named_effects:
 		var tex := Visuals.texture(str(e.spec.texture))
 		var frames := int(e.spec.get("frames",1))
@@ -93,6 +102,14 @@ func _draw() -> void:
 				var ray := Vector2.from_angle(i*TAU/5.0)
 				draw_line(ray*(3+progress*10),ray*(7+progress*17),tint,2.0,true)
 	draw_set_transform(Vector2.ZERO)
+	for hit in melee_hits:
+		var progress: float = hit.age/.16
+		var tint := Color(1.0,.94,.72,1.0-progress)
+		for n in range(6):
+			var ray := Vector2.from_angle(hit.angle+PI/6+n*TAU/6)
+			var reach := (19.0 if n%3 == 0 else 12.0)*(1.0+progress*.6)
+			draw_line(hit.pos+ray*progress*7,hit.pos+ray*reach,tint,2.5*(1.0-progress)+.5,true)
+		draw_circle(hit.pos,4.0*(1.0-progress),Color(1,1,1,1.0-progress))
 	for p in particles:
 		var color: Color = p.color
 		color.a *= minf(1.0,p.life*3.0)
@@ -102,8 +119,47 @@ func _draw() -> void:
 		color.a *= 1.0-effect.age/.45
 		draw_arc(effect.pos,5.0+effect.expansion*effect.age/.45,0,TAU,96,color,3.0,true)
 
+func draw_enemy_effects() -> void:
+	for effect in enemy_effects:
+		var t: float = effect.age/.22
+		var fade := 1.0-t
+		draw_set_transform(effect.pos,effect.angle)
+		match str(effect.family):
+			"flame":
+				var length := 18.0+24.0*t
+				draw_colored_polygon(PackedVector2Array([Vector2(-3,-7*fade),Vector2(length,-4*fade),Vector2(length+7,0),Vector2(length,4*fade),Vector2(-3,7*fade)]),Color(1,.42,.1,.65*fade))
+				draw_line(Vector2.ZERO,Vector2(length*.65,0),Color(1,.9,.52,fade),4*fade+1,true)
+			"quill":
+				for offset in effect.get("offsets",[-.44,-.22,0,.22,.44]):
+					var ray := Vector2.from_angle(float(offset))
+					draw_line(ray*(20+20*t),ray*(35+24*t),Color(1,.9,.61,fade),2*fade+1,true)
+			"sentry":
+				var reach: float = effect.get("reach",62.0)
+				draw_arc(Vector2.ZERO,reach,-1.0+t*.8,.2+t*.8,18,Color(1,.85,.5,.75*fade),4*fade+1,true)
+				draw_arc(Vector2.ZERO,reach-5,-.9+t*.8,.1+t*.8,18,Color(1,1,.9,.9*fade),2,true)
+			_:
+				var tint := Color(1,.48,.13,fade) if effect.family == "flame_hit" else Color(1,.9,.65,fade)
+				for n in range(7):
+					var ray := Vector2.from_angle(n*TAU/7)
+					draw_line(ray*(3+12*t),ray*(8+20*t),tint,2*fade+1,true)
+				draw_circle(Vector2.ZERO,5*fade,Color(1,.94,.72,fade))
+	draw_set_transform(Vector2.ZERO)
+
 func weapon_event(event: Dictionary) -> void:
 	var kind: String = str(event.get("kind",""))
+	if kind == "enemy_attack" or (kind == "hit" and event.get("variant","") in ["enemy_fire_seed","enemy_quill"]):
+		var effect := event.duplicate(true)
+		effect.age = 0.0
+		if kind == "hit": effect.family = "flame_hit" if event.variant == "enemy_fire_seed" else "quill_hit"
+		enemy_effects.append(effect)
+		while enemy_effects.size() > maxi(0,weapon_effect_limit): enemy_effects.pop_front()
+		queue_redraw()
+		return
+	if kind == "melee_hit":
+		melee_hits.append({"pos":event.pos,"angle":event.angle,"age":0.0})
+		while melee_hits.size() > maxi(0,weapon_effect_limit): melee_hits.pop_front()
+		queue_redraw()
+		return
 	if kind == "cannon_impact":
 		var node = preload("res://scripts/visuals/boss_cannon_impact.gd").new()
 		add_child(node)

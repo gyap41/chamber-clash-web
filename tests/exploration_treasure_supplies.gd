@@ -29,7 +29,7 @@ func run() -> void:
 	enter(game,treasure)
 	assert(game.players.size() == 1)
 	var chest: Dictionary = game.Reward.current(game)
-	assert(chest.source == "treasure" and chest.state == "closed")
+	assert(chest.source == "treasure" and chest.state == "closed" and chest.kind == "relic")
 	game.players[0].state.pos = chest.pos+Vector2(0,45)
 	game.players[0].sync_visual()
 	game.fit_field_camera()
@@ -70,7 +70,7 @@ func run() -> void:
 	assert(game.try_chest() and chest.state == "empty")
 	clear_room(game,normal[2])
 	assert(game.ExplorationSupplies.entries(game).size() == 1)
-	assert(game.Reward.current(game).is_empty())
+	assert(game.Reward.current(game).source == "third_clear" and game.Reward.current(game).kind == "weapon")
 	var heal: Dictionary = game.ExplorationSupplies.entries(game)[0]
 	player.state.pos = heal.pos
 	player.state.hp = player.state.max_hp

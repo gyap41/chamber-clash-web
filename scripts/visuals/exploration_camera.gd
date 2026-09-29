@@ -2,9 +2,9 @@ extends RefCounted
 # Logical play area excludes the fixed HUD bands (90px top, 110px bottom).
 const ZOOM := 1.2
 # 試験：キャラの大きさ案D（2026-09-26）。参考動画との比較で、カメラを寄せてキャラを大きく見せる。
-# 既定は無効。ゲーム中の C キー、または起動引数 --size-d で切替。遊び方への影響を確かめるための一時設定。
+# 既定で案D。Cキーで比較用の旧倍率へ切替。--legacy-cameraで旧倍率から起動。
 const ZOOM_D := 1.45
-static var size_d := OS.get_cmdline_user_args().has("--size-d")
+static var size_d := not OS.get_cmdline_user_args().has("--legacy-camera")
 static func zoom() -> float:
 	return ZOOM_D if size_d else ZOOM
 const CHAR_SCALE_D := 1.1 # 案Dでのリナ（仮組み込みの描画）の表示倍率。当たり判定は変えない

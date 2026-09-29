@@ -1,5 +1,41 @@
 ## 戦闘テスト（2026-09-28）
 
+## 水面・火元の環境演出（2026-09-30）
+
+`Godot --path . --script res://tests/cistern_ambience.gd --quit-after 900 -- --capture`：水面shaderの時間、描画ピクセルの変化と石枠固定、小型槽の適用、火元の光量変化、停止・再開、離室破棄と再構築を検証。.local/two-rooms-cistern-water-1.pngと2.png、camp-fire-1.pngと2.png、furnace-fire.pngに保存。ピクセル検査はcapture時のみ。描画ありPASS。`tests/authored_rooms.gd`も20室の配置・到達性PASS。GPU負荷の定量測定と混戦の手動確認は未実施。
+
+開始室の固定品撤去: random_floor_playの開始・帰還・再挑戦時の期待値を固定品なしに更新。固定2部屋のexploration_bag/room_instancesの検証品は維持。本編接続はproduction_floorで回帰確認する。
+
+## 宝箱レア度の表示とSE（2026-09-29）
+
+報酬アイコンの縦横比修正: exploration_rewardを描画ありcaptureで実行しPASS。横長のアークレールが正方形へ引き伸ばされず表示されることを目視確認。長辺40pxを維持する。
+
+採用版rarity-v2: chest_rarityは1254px四方の4画像・各4領域、開封0/.15/.28/.45秒のフレーム、着地埃の寿命を確認する。captureは閉/空と4段階を800×800で保存。exploration_reward、production_doorsも描画ありPASS。切出し台帳の再生成は `Godot --headless --path . --script res://tools/chest_atlas.gd`（開発専用、原本を変更しない）。画像変更時は台帳とCHEST_REGIONSを合わせる。
+
+素材更新後: chest_rarityは生成画像4枚の読み込みと閉/開2段の比較画像を出力する。exploration_rewardの描画ありcaptureで実床上の開封・取得を確認。双方PASS。原画・プロンプト・ハッシュはassets/sprites/chests/rarity-v1、目視画像はart/production/exploration-chestを参照。蓋の連続回転は実装対象外（2コマ切替）。
+
+`Godot --path . --script res://tests/chest_rarity.gd --quit-after 300 -- --capture`：C/B/A/Sの倍率増加・カタログ対応・開封音の素材/音程/重ね合わせ・voice再利用・ミュートを検査。.local/chest-rarity.pngに比較画像を保存。描画ありPASS、静止比較を目視済み。exploration_rewardとproduction_doorsもPASS。音の聴感、混在する背景上での外観、開封アニメーションの手動評価は未確認。環境のログ/キャッシュ/証明書エラー、一部終了時リソース警告は残る。
+
+## 探索報酬の種類と入手機会（2026-09-29）
+
+`Godot --headless --path . --script res://tests/exploration_reward_variety.gd --quit-after 900`：候補数、配置不能品除外、初戦・3室目保証、確定済み報酬との重複回避、seed別変化・同seed再現、レリック満杯保留・回収・再訪を確認。PASS。exploration_reward / exploration_treasure_supplies / exploration_reward_placement / production_doors / production_floorも確認。配置テストの旧「毎戦補給」前提を現在の2室ごと弾薬・3室ごと回復へ修正。ログ・証明書の環境エラーと一部終了時リソース警告あり。実プレイでの楽しさは未確認。
+
+## 通常敵3種の演出（2026-09-29）
+
+enemy_effects / enemy_audio / fire_pouch_lizard / quillbackのアサーション成功。攻撃演出の発火回数、寿命・停止・上限・消去、3種のSEゲイン、重複抑制、ミュート、5連射と2波攻撃の回帰を確認。`--script res://tests/enemy_effects.gd -- --capture`（描画あり）で `.local/enemy-effects-review.png` を出力し、図形表示を確認する。これは単独の演出比較で、実戦の全方向・最大混戦や音の試聴を確認済みとはしない。環境のログ/証明書・描画キャッシュ、一部終了時Resource警告は残る。
+
+## 通常敵の手応え調整（2026-09-29）
+
+トカゲ5連射への追加調整後、fire_pouch_lizard / enemy_audioを再実行して成功。5発で停止して硬直へ入ること、狙い直し・発射直前固定・画面外/死亡キャンセルと各発のSE発火を確認。混戦の手動難度は未確認。
+
+`tests/enemy_pressure.gd` を `--headless --path . --script res://tests/enemy_pressure.gd --quit-after 900` で実行。番機・走り番機に対する直線後退と横回避を30/60/120Hzで比較し、攻撃後の隙と衝突を検査。探索初期銃ID20（威力0.75）の実ダメージ適用で番機6発・トカゲ4発・ヤマアラシ5発・走り番機4発を確認。最初の命中から理論上それぞれ1.90/1.14/1.52/1.14秒（全弾命中、無改造、追加効果なし。飛翔・照準・回避時間は除外）。
+
+fire_pouch_lizard / quillback / exploration_encounter / enemy_audio / combat_lab / production_floorも成功。トカゲの狙い直しと最終固定、5+4発の時間差、壁・画面外・死亡・停止・音の発火、本編10seed・76戦の接続を検査。既存のログ/証明書エラーと一部終了時Resource/ObjectDB警告は残る。手動では初期装備で初戦・狭い室・苔玉とヤマアラシの混成を確認し、予告が読めるか、回避/近接が役立つか、HP4と補給量で厳しすぎないかを評価する。
+
+## 近接の判定・命中反応（2026-09-29）
+
+`tests/melee_impact.gd` をGodotの `--headless --path . --script res://tests/melee_impact.gd --quit-after 900` で実行する。扇形外周・側辺への円接触、範囲外・背後・無敵・壁越しの拒否、30/60/120Hzで同距離の押し戻し、実壁への衝突、部屋移動時の破棄、閃光の件数上限・消滅を確認。関連するaction_buffer / mouse_input / added_relicsのアサーションも成功。既存のログ/証明書エラーと一部終了時Resource/ObjectDB警告は残る。閃光の見栄えと実プレイの爽快感は手動受入待ち。
+
 ## 制作済み部屋を使う本編（2026-09-29）
 
 タイトルから「ストーリー」を選択する。直接起動は次のコマンド（PowerShell、リポジトリ直下）。
@@ -652,3 +688,8 @@ Visual Hubの部屋一覧：`Godot --headless --path . --script res://tests/visu
 8方向版: moss_leg_directionsは8方向の選択・接地・脚の伸び、停止時の向き保持、構えの固定方向、反射方向への展開を検証。moss_presentationは専用横倒し素材、直前姿勢の保存と静止、再戦を確認。いずれもPASS。capture_moss_directions.gdで8方向×72フレームを撮影。描画画像を確認したが、連続動作の自然さ・ユーザー採用は別確認。既存root_runner_motion・combat_labもPASS、終了時のObjectDB/Resource解放警告は残る。
 
 2026-09-29: `tests/moss_transitions.gd`を追加。構え終端と突進開始の重心、突進と復帰の上下動・回転の連続性、停止までの回転量1/4周以内、8通常敵の汎用撃破イベントが各1回であることを検証。root_runner_motion・moss_presentationとともにPASS。音のResource認識と聴感確認は別（新SEは未試聴）。終了時ObjectDB/Resource解放警告は残る。
+## 回避→近接と標準表示（2026-09-29）
+
+`tests/action_buffer.gd` は右クリック予約から回避後の命中、現在照準、1回だけの発動、近接クールダウン、近接後の回避を30/60/120Hz・リナと通常回避キャラで確認する。リロードによる予約破棄、死亡、停止、フォーカス喪失、結果・再挑戦も検査。`tests/exploration_rooms.gd` は部屋移動時の近接予約消去を含む。関連回帰は `dodge_flow`、`character_rig8`（新表示とC倍率の標準化・旧表示切替）、`exploration_camera`（標準値と比較用旧倍率のカメラ幾何）。実行は本書のGodotコマンドの `--script res://tests/<名前>.gd` を置き換える。
+
+手動受入: 通常起動のリナでSpace→回避中に右クリック→着地時の近接、近接から射撃／次の回避、壁際・移動標的での当てやすさを確認する。入力の自動検査と爽快感の評価は別扱い。

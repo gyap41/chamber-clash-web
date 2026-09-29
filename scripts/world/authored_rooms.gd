@@ -128,6 +128,10 @@ static func put(room, id: String, art: String, feet: Vector2, width: float, dept
 		prop.shadow_rect = Rect2(-width*.42,-8-shadow_lift,width*.84,8)
 		prop.drop_shadow = true
 	prop.flip_h = flip
+	if art == "quench_trough": prop.water_surface = Rect2(.13,.36,.57,.27)
+	if art == "lamp": prop.fire_kind = 1
+	if art == "campfire": prop.fire_kind = 2
+	if art == "furnace": prop.fire_kind = 3
 	room.field.placements.append(prop)
 	return prop
 

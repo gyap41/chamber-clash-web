@@ -13,7 +13,8 @@ func spit(i: int, arena) -> void:
 		return
 	var session = combat_service.get_ref()
 	var fired := false
-	for offset in [-.44,-.22,0.0,.22,.44]:
+	var offsets := [-.44,-.22,0.0,.22,.44] if shots_left != 1 else [-.33,-.11,.11,.33]
+	for offset in offsets:
 		var angle: float = attack_angle+offset
 		var origin: Vector2 = state.pos+Vector2.from_angle(angle)*24
 		if arena.solid(origin,4) or arena.line_blocked(state.pos,origin): continue
@@ -21,7 +22,9 @@ func spit(i: int, arena) -> void:
 			"speed":spec.projectile_speed,"damage":spec.damage,"radius":4.0,"life":spec.projectile_life,
 			"color":"#ffe4ac","visual_color":"#ffe4ac","visual_weapon":0,"visual_variant":"enemy_quill","can_lens":false})
 		fired = true
-	shots_left = 0
-	if fired: sound_requested.emit("quill_fire",0)
+	shots_left = maxi(0,shots_left-1)
+	if fired:
+		sound_requested.emit("quill_fire",0)
+		weapon_event_requested.emit({"kind":"enemy_attack","family":"quill","pos":state.pos,"angle":attack_angle,"offsets":offsets})
 	attack_phase = "spit"
 	attack_time = spec.shot_interval

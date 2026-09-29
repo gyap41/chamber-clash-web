@@ -92,6 +92,7 @@ func run() -> void:
 	game.mouse_fire_held = true
 	player.buffered_fire = .1
 	player.buffered_switch = .1
+	player.buffered_melee = .1
 	game.submit_command("p1",{"shoot":true})
 	key(game,true)
 	assert(game.exploration.room_id == "workshop_annex")
@@ -101,7 +102,7 @@ func run() -> void:
 	assert(game.players[0] == player and game.roster == roster and game.exploration.inventory == inventory)
 	assert(game.shots.is_empty() and game.wells.is_empty() and game.delayed_shots.is_empty())
 	assert(game.submitted_commands.is_empty() and not game.mouse_fire_held)
-	assert(player.buffered_fire == 0 and player.buffered_switch == 0)
+	assert(player.buffered_fire == 0 and player.buffered_switch == 0 and player.buffered_melee == 0)
 	assert(game.nearby_door().is_empty() and not game.try_enter_door())
 	assert(game.arena.get_node("CombatCamera").zoom == Vector2.ONE*preload("res://scripts/visuals/exploration_camera.gd").zoom())
 	assert(reachable(game.arena,player.state.pos,Rooms.door("workshop_annex","west").position))

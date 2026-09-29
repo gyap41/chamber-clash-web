@@ -33,16 +33,16 @@ func check_attack(game) -> void:
 	game.fit_field_camera()
 	game.refresh_hud()
 	# Observe the raised tool after the windup has started, without changing hit timing.
-	enemy.step(.30,1,player,game.arena)
+	enemy.step(.15,1,player,game.arena)
 	assert(player.state.hp == hp and enemy.attack_phase == "windup")
 	await capture("enemy-windup")
 	var locked_angle: float = enemy.enemy_visual_snapshot().angle
 	player.state.pos = enemy.state.pos-direction*40
-	enemy.step(.20,1,player,game.arena)
+	enemy.step(.10,1,player,game.arena)
 	assert(is_equal_approx(enemy.enemy_visual_snapshot().angle,locked_angle))
 	assert(player.state.hp == hp)
 	player.state.pos = enemy.state.pos+direction*40
-	enemy.step(.16,1,player,game.arena)
+	enemy.step(.14,1,player,game.arena)
 	assert(is_equal_approx(player.state.hp,hp-1.2) and enemy.attack_phase == "recover")
 	game.refresh_hud()
 	await capture("enemy-strike")

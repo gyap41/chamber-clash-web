@@ -210,7 +210,12 @@ func _draw() -> void:
 		return
 	if variant != "enemy_fire_seed": return
 	# Local core and tail are enlarged for readability; gameplay radius stays independent.
-	draw_colored_polygon(PackedVector2Array([Vector2(-3,-4),Vector2(-14,0),Vector2(-3,4)]),Color("dd6536"))
+	var flicker := sin(animation_age*37.0)
+	draw_circle(Vector2(-2,0),10.5+flicker*.6,Color(1,.3,.06,.12))
+	for n in range(3):
+		var wave := sin(animation_age*29.0+n*2.0)
+		var y := (n-1)*3.5
+		draw_colored_polygon(PackedVector2Array([Vector2(-2,y-3),Vector2(-23-wave*4,y+wave*2),Vector2(-5,y+3)]),Color(1,.34+n*.12,.09,.62))
 	draw_circle(Vector2.ZERO,7.5,Color("54271c"))
 	draw_circle(Vector2.ZERO,6,Color("ffac4b"))
-	draw_circle(Vector2(1,0),3,Color("fff0ae"))
+	draw_circle(Vector2(1,flicker*.5),3.3,Color("fff0ae"))

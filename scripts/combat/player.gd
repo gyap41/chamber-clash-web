@@ -33,6 +33,9 @@ var equipment_offset := Vector2.ZERO
 @export var dodge_cooldown: float = 1.65
 @export_range(0.0, 0.2) var input_buffer_duration: float = 0.1
 var buffered_fire := 0.0
+var buffered_melee := 0.0
+var melee_push := Vector2.ZERO
+var melee_push_time := 0.0
 var buffered_switch := 0.0
 var buffered_slot := -1
 var keyboard_fire_held := false
@@ -105,6 +108,8 @@ func set_character(id: int) -> void:
 		state.pulses = initial_pulses
 	$Sprite.frame = int(c.cell)
 func reset(spawn: Vector2) -> void:
+	melee_push = Vector2.ZERO
+	melee_push_time = 0.0
 	rally_wounds.clear()
 	cancel_reload_visual()
 	clear_action_inputs()
@@ -144,6 +149,8 @@ func begin_encounter(spawn: Vector2, replenish: bool = false) -> void:
 		for i in range(inventory.size()): inventory[i] = new_weapon_entry(inventory[i].id)
 	update_weapon_art()
 func move_to_room(spawn: Vector2) -> void:
+	melee_push = Vector2.ZERO
+	melee_push_time = 0.0
 	# Merely changing rooms does not begin a battle or replenish resources.
 	clear_action_inputs()
 	visual_moving = false
@@ -159,6 +166,8 @@ func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Diction
 	state.hp = maxf(0,state.hp-amount)
 	if state.hp <= 0:
 		rally_wounds.clear()
+		melee_push = Vector2.ZERO
+		melee_push_time = 0.0
 	elif rally_enabled and not hazard and attacker != self and (not is_instance_valid(attacker) or team_id.is_empty() or attacker.team_id.is_empty() or team_id != attacker.team_id):
 		rally_wounds.append({"amount":actual*RALLY_RATIO,"time":RALLY_DURATION})
 	if not hazard and is_instance_valid(attacker) and attacker != self:
@@ -227,7 +236,12 @@ func hostile_slot(other: int, own: int) -> bool:
 	return battle_roster.hostile(own,other) if battle_roster != null else own != other
 func try_melee(i: int, shots: Array, enemy, arena) -> void:
 	var p = state
-	if p.melee > 0 or p.reload > 0 or p.roll > 0: return
+	if p.hp <= 0 or p.melee > 0 or p.reload > 0: return
+	if p.roll > 0:
+		# Keep one press through the dodge, without retaining actor/projectile references.
+		buffered_melee = p.roll + input_buffer_duration
+		return
+	buffered_melee = 0.0
 	p.melee = melee_cooldown * (relic_value(26,"melee_ratio") if 26 in relics else 1.0)
 	p.slash = .16
 	p.shot = maxf(p.shot,.3)
@@ -247,7 +261,34 @@ func try_melee(i: int, shots: Array, enemy, arena) -> void:
 	var targets: Array = enemy if enemy is Array else ([enemy] if enemy != null else [])
 	for target in targets:
 		var offset: Vector2 = target.state.pos-p.pos
-		if offset.length() < melee_range and absf(wrapf(offset.angle()-p.angle,-PI,PI)) <= melee_arc and not arena.line_blocked(p.pos,target.state.pos): target.hurt(melee_damage,-1,false,{"kind":"melee"},self)
+		var contact := melee_contact(offset)
+		if offset.distance_to(contact) > target.radius or arena.line_blocked(p.pos,target.state.pos): continue
+		if not target.hurt(melee_damage,-1,false,{"kind":"melee"},self): continue
+		weapon_event_requested.emit({"kind":"melee_hit","pos":p.pos+contact,"angle":offset.angle()})
+		if target.state.hp > 0:
+			var direction := offset.normalized() if offset.length() > .001 else Vector2.from_angle(p.angle)
+			target.melee_push = direction*32.0*clampf(14.0/maxf(target.radius,1.0),.2,1.0)
+			target.melee_push_time = .12
+
+# Closest point on the same circular sector used by the slash visual.
+func melee_contact(offset: Vector2) -> Vector2:
+	var angle := wrapf(offset.angle()-state.angle,-PI,PI)
+	if absf(angle) <= melee_arc:
+		return offset.limit_length(melee_range)
+	var edge := Vector2.from_angle(state.angle+clampf(angle,-melee_arc,melee_arc))
+	return edge*clampf(offset.dot(edge),0.0,melee_range)
+
+func advance_melee_push(dt: float, arena) -> void:
+	if state.hp <= 0:
+		melee_push_time = 0.0
+		melee_push = Vector2.ZERO
+	if melee_push_time <= 0: return
+	var before := melee_push_time/.12
+	melee_push_time = maxf(0.0,melee_push_time-dt)
+	var after := melee_push_time/.12
+	# Integrate a decelerating push exactly, including a partial final tick.
+	arena.move_fighter(state,melee_push*(before*before-after*after),radius)
+	sync_visual()
 func step(dt: float, i: int, enemy, arena, mouse_shooting: bool = false, ai: Dictionary = {}) -> bool:
 	advance_rally(dt)
 	var p = state
@@ -301,8 +342,20 @@ func step(dt: float, i: int, enemy, arena, mouse_shooting: bool = false, ai: Dic
 	var ready := shooting and can_fire()
 	if ready: buffered_fire = 0.0
 	return ready
+func resolve_buffered_melee(dt: float, i: int, shots: Array, enemies: Array, arena) -> void:
+	var pending := buffered_melee > 0.0 and dt <= buffered_melee + 0.000001
+	buffered_melee = maxf(0.0,buffered_melee-dt)
+	if state.hp <= 0:
+		buffered_melee = 0.0
+		return
+	if pending and state.roll <= 0:
+		buffered_melee = 0.0
+		try_melee(i,shots,enemies,arena)
+		sync_visual()
+
 func clear_action_inputs() -> void:
 	buffered_fire = 0.0
+	buffered_melee = 0.0
 	buffered_switch = 0.0
 	buffered_slot = -1
 	keyboard_fire_held = false

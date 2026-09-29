@@ -126,7 +126,10 @@ static func loading_bay(a, r) -> void:
 static func cistern(a, r) -> void:
 	# Raised enclosed reservoir, not walkable water. Four sides remain accessible.
 	r.field.theme.ambient = Color(.73,.81,.83)
-	kit(a,r,"reservoir","cistern",560,465,290)
+	var reservoir = kit(a,r,"reservoir","cistern",560,465,290)
+	# Art atlas interior: inset to protect stone rim and its contact shadow.
+	reservoir.water_surface = Rect2(82.0/589,73.0/399,430.0/589,195.0/399)
+	reservoir.water_sunlight = true
 	for x in [355,765]:
 		column(a,r,x,282)
 		prop(a,r,"water_buttress_%d" % x,"buttress",x,152,54,18)

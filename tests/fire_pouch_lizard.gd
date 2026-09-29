@@ -75,18 +75,25 @@ func run() -> void:
 	assert(lizard.attack_time == remaining and game.shots.is_empty())
 	game.set_pause_reason("menu",false)
 	player.state.pos += Vector2(0,80)
-	lizard.step(.81,2,player,game.arena)
-	assert(game.shots.size() == 1 and is_zero_approx(game.shots[0].state.velocity.y))
-	lizard.step(.23,2,player,game.arena)
+	lizard.step(.51,2,player,game.arena)
+	var locked: float = lizard.attack_angle
+	player.state.pos.y -= 80
+	lizard.step(.12,2,player,game.arena)
+	assert(game.shots.size() == 1 and is_equal_approx(game.shots[0].state.velocity.angle(),locked))
+	lizard.step(.31,2,player,game.arena)
 	assert(game.shots.size() == 2 and is_zero_approx(game.shots[1].state.velocity.y))
-	lizard.step(.23,2,player,game.arena)
+	player.state.pos.y += 80
+	lizard.step(.31,2,player,game.arena)
 	assert(game.shots.size() == 3)
-	lizard.step(.23,2,player,game.arena)
+	for expected in [4,5]:
+		lizard.step(.31,2,player,game.arena)
+		assert(game.shots.size() == expected)
+	lizard.step(.31,2,player,game.arena)
 	assert(lizard.attack_phase == "recover")
 	lizard.step(.5,2,player,game.arena)
-	assert(game.shots.size() == 3)
+	assert(game.shots.size() == 5)
 	game.combat._step_projectiles(1.2)
-	assert(player.state.hp == 8) # sideways movement avoids the locked stream
+	assert(player.state.hp < 8) # The third shot re-aims at the new position.
 	# Ordinary collision, damage, hostile roster and pulse cancellation.
 	reset_pair(game,lizard)
 	game.players[1].state.pos = Vector2(600,450)
@@ -96,7 +103,7 @@ func run() -> void:
 	assert(game.shots[0].gun_id == -1 and not game.shots[0].state.comet)
 	game.combat._step_projectiles(1.0)
 	assert(is_equal_approx(player.state.hp,7.1) and game.players[1].state.hp == ally_hp)
-	lizard.step(.23,2,player,game.arena)
+	lizard.step(.31,2,player,game.arena)
 	assert(game.shots.size() == 1)
 	assert(game.combat.use_pulse(0) and game.shots.is_empty())
 	# Dodge/pulse invulnerability uses the same ordinary projectile damage gate.
@@ -130,7 +137,7 @@ func run() -> void:
 	lizard.state.pos = Vector2(800,395)
 	lizard.step(1.21,2,player,game.arena)
 	assert(lizard.attack_phase != "windup" and game.shots.is_empty())
-	lizard.state.pos = Vector2(800,500)
+	lizard.state.pos = Vector2(800,540) # Inside both supported camera scales.
 	lizard.step(.01,2,player,game.arena)
 	assert(lizard.attack_phase == "windup" and game.shots.is_empty())
 	lizard.state.pos = Vector2(800,395)
@@ -152,5 +159,5 @@ func run() -> void:
 	assert(game.exploration.room_states.values().all(func(value): return not value.has("enemy_ids")))
 	game.queue_free()
 	await process_frame
-	print("PASS: lizard introduction/mixed roster, locked three-shot burst, recovery, pause, walls, damage, pulse, offscreen cancellation, death and retry")
+	print("PASS: lizard roster, per-shot re-aim/final lock, five-shot burst, recovery, pause, walls, damage, pulse, offscreen cancellation, death/retry")
 	quit()

@@ -40,6 +40,7 @@ func spit(i: int, arena) -> void:
 		"color":"#ff9a43","visual_color":"#ff9a43","visual_weapon":2,"visual_variant":"enemy_fire_seed",
 		"can_lens":false})
 	shots_left -= 1
+	weapon_event_requested.emit({"kind":"enemy_attack","family":"flame","pos":mouth,"angle":attack_angle})
 	sound_requested.emit("lizard_spit",0)
 	attack_phase = "spit"
 	attack_time = spec.shot_interval
@@ -49,6 +50,9 @@ func step(dt: float, i: int, enemy, arena, _mouse_shooting: bool = false, _ai: D
 	var command := preload("res://scripts/combat/combat_command.gd").idle(state.angle)
 	var delta: Vector2 = enemy.state.pos-state.pos
 	var seen := visible_to_target(arena,enemy.state.pos)
+	# Only configured enemies re-aim. Freeze the final tell before each shot.
+	if spec.has("aim_lock") and attack_phase in ["windup","spit"] and shots_left > 0 and attack_time > float(spec.aim_lock):
+		attack_angle = delta.angle()
 	attack_time = maxf(0,attack_time-dt)
 	if attack_phase in ["windup","spit"]:
 		command.angle = attack_angle

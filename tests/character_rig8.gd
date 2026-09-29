@@ -3,7 +3,8 @@ extends SceneTree
 const RunRig = preload("res://scripts/visuals/character_rig8.gd")
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
-	assert(not RunRig.enabled)
+	assert(RunRig.enabled)
+	RunRig.enabled = false # Explicitly exercise the legacy fallback first.
 	var p = load("res://scenes/combat/player.tscn").instantiate()
 	root.add_child(p)
 	var anim = p.get_node("Animation")
@@ -112,7 +113,8 @@ func run() -> void:
 	assert(RunRig.enabled and anim.rig_frame >= 0)
 	# キャラの大きさ案D（C キー）：探索カメラ 1.2→1.45、リナの表示は足元を中心に1.1倍。既定は無効。
 	var Camera = RunRig.Camera
-	assert(not Camera.size_d and is_equal_approx(Camera.zoom(),1.2))
+	assert(Camera.size_d and is_equal_approx(Camera.zoom(),1.45))
+	Camera.toggle_size_d()
 	var ck := InputEventKey.new(); ck.keycode = KEY_C; ck.pressed = true
 	anim._input(ck); anim._input(ck)
 	assert(Camera.size_d and is_equal_approx(Camera.zoom(),1.45))
@@ -123,5 +125,5 @@ func run() -> void:
 	RunRig.enabled = false
 	p.queue_free()
 	await process_frame
-	print("PASS: 8-direction character rig (Rina; run/idle/dodge/melee) is off by default, selects 8 directions with mirroring, grip follows the hand")
+	print("PASS: rig and size D enabled by default, legacy toggles, 8 directions, run/idle/dodge/melee, grip follows hand")
 	quit()

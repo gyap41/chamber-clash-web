@@ -55,8 +55,12 @@ func run() -> void:
 	for n in range(5):
 		assert(is_equal_approx(game.shots[n].state.velocity.angle(),locked+(n-2)*.22))
 		assert(game.shots[n].gun_id == actor.Spec.QUILL_ID)
-	actor.step(.26,index,player,game.arena)
-	assert(actor.attack_phase == "recover" and game.shots.size() == 5)
+	actor.step(.43,index,player,game.arena)
+	assert(actor.attack_phase == "spit" and game.shots.size() == 9)
+	for n in range(4):
+		assert(is_equal_approx(game.shots[n+5].state.velocity.angle(),locked-.33+n*.22))
+	actor.step(.43,index,player,game.arena)
+	assert(actor.attack_phase == "recover" and game.shots.size() == 9)
 	game.combat._step_projectiles(.1)
 	await capture("quillback-fan")
 	reset_pair(game,actor)
@@ -85,5 +89,5 @@ func run() -> void:
 	assert(game.shots.is_empty() and game.players.size() == 1)
 	game.queue_free()
 	await process_frame
-	print("PASS: quillback roster, locked five-shot fan, recovery, offscreen/wall/death cancellation and organic death visual")
+	print("PASS: quillback roster, locked five/four staggered fans, recovery, offscreen/wall/death cancellation and organic death visual")
 	quit()

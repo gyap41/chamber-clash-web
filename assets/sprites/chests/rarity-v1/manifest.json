@@ -1,0 +1,74 @@
+[
+  {
+    "tier": "c",
+    "file": "assets/sprites/chests/rarity-v1/c.png",
+    "sha256": "11C66DD267F8371AB97F3FCEB5BBEF5E86F5AF704F84AFCE40E2E1FEBAAE2999",
+    "prompt": "c-prompt.txt",
+    "dimensions": [
+      1774,
+      887
+    ],
+    "alpha": true,
+    "provider": "built-in imagegen",
+    "frames": [
+      "closed",
+      "open-empty"
+    ],
+    "extraction": "CHEST_REGIONS in scripts/world/exploration_chest.gd; shared scale from closed width, foot y=10",
+    "generated": "2026-09-29"
+  },
+  {
+    "tier": "b",
+    "file": "assets/sprites/chests/rarity-v1/b.png",
+    "sha256": "908F39BC48B6D7DBA49CCEC71E24A38F49C97E72DA0797AD974F628DBC25E32E",
+    "prompt": "b-prompt.txt",
+    "dimensions": [
+      1774,
+      887
+    ],
+    "alpha": true,
+    "provider": "built-in imagegen",
+    "frames": [
+      "closed",
+      "open-empty"
+    ],
+    "extraction": "CHEST_REGIONS in scripts/world/exploration_chest.gd; shared scale from closed width, foot y=10",
+    "generated": "2026-09-29"
+  },
+  {
+    "tier": "a",
+    "file": "assets/sprites/chests/rarity-v1/a.png",
+    "sha256": "A49A893AA3B7B835530111BE26820EBA6A522B48706B6E921DA62E30CA9A9BF6",
+    "prompt": "a-prompt.txt",
+    "dimensions": [
+      1774,
+      887
+    ],
+    "alpha": true,
+    "provider": "built-in imagegen",
+    "frames": [
+      "closed",
+      "open-empty"
+    ],
+    "extraction": "CHEST_REGIONS in scripts/world/exploration_chest.gd; shared scale from closed width, foot y=10",
+    "generated": "2026-09-29"
+  },
+  {
+    "tier": "s",
+    "file": "assets/sprites/chests/rarity-v1/s.png",
+    "sha256": "1B0BEF612959930A474208004B1D15485C49219AD9D3D50368DF3942F3802487",
+    "prompt": "s-prompt.txt",
+    "dimensions": [
+      1774,
+      887
+    ],
+    "alpha": true,
+    "provider": "built-in imagegen",
+    "frames": [
+      "closed",
+      "open-empty"
+    ],
+    "extraction": "CHEST_REGIONS in scripts/world/exploration_chest.gd; shared scale from closed width, foot y=10",
+    "generated": "2026-09-29"
+  }
+]

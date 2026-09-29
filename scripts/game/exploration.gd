@@ -258,7 +258,7 @@ func door_hint() -> String:
 		return ""
 	if exploration.encounter_status == "active": return "敵を全滅させると出口が開きます  ·  Tab：バッグ"
 	if Reward.nearby(self):
-		if Reward.current(self).state == "closed": return "F：宝箱を開く"
+		if Reward.current(self).state == "closed": return "F：レリックの宝箱を開く" if Reward.current(self).kind == "relic" else "F：武器の宝箱を開く"
 		if loot_message.begins_with("取得できません"): return loot_message
 		return "F："+str(Reward.current(self).label)+"を控えへ取得  ·  Tab：バッグ"
 	var supply := ExplorationSupplies.nearby(self)
@@ -446,7 +446,7 @@ func apply_command(index: int, command: Dictionary) -> void:
 # Compatibility entry points; pickup policy and presentation live in ExplorationLoot.
 func room_loot() -> Array:
 	if not floor_data.is_empty() and floor_data.rooms[exploration.room_id].role == "start":
-		return Loot.entries(exploration.room_id,"workshop_trial")
+		return [] # Exploration starts with the equipped starter only; gear comes from rewards.
 	return Loot.entries(exploration.room_id,room_data(exploration.room_id).field.field_id)
 func nearby_loot() -> Dictionary:
 	return Loot.nearby(room_loot(),exploration.collected_loot,players[0].state.pos,arena)
@@ -522,7 +522,8 @@ func try_chest() -> bool:
 	if reward.state == "closed":
 		reward.state = "open"
 		chest_node.opening = chest_node.OPEN_DURATION
-		sound.play_sound("chest_open")
+		if reward.get("source","") == "boss": sound.play_sound("chest_open")
+		else: sound.play_chest_open(chest_node.rarity_rank())
 		loot_message = "宝箱を開きました · Fで中身を取得"
 	elif chest_node.opening <= 0:
 		if reward.get("source","") == "boss":

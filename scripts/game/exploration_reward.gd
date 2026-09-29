@@ -1,34 +1,89 @@
 extends RefCounted
 const Navigation = preload("res://scripts/ai/cpu_navigation.gd")
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
+const Relics = preload("res://scripts/catalog/relic_catalog.gd")
+const Items = preload("res://scripts/game/item_identity.gd")
 
 # First-clear and treasure rewards are independent guarantees.
 static func ensure(game) -> bool:
 	var progress = game.exploration
 	if progress.status != "active" or progress.encounter_status != "cleared": return false
-	if progress.room_states.values().any(func(value): return value.get("reward",{}).get("source","") == "first_clear"): return false
-	return create(game,"first_clear",[4,6,19])
+	if not has_source(progress,"first_clear"):
+		return create(game,"first_clear",weapon_pool(true))
+	var cleared := 0
+	for id in progress.room_states:
+		if progress.room_states[id].encounter == "cleared" and game.floor_data.get("rooms",{}).get(id,{}).get("role","") == "normal": cleared += 1
+	if cleared >= 3 and not has_source(progress,"third_clear"):
+		return create(game,"third_clear",weapon_pool(false))
+	return false
+
+static func has_source(progress, source: String) -> bool:
+	return progress.room_states.values().any(func(value): return value.get("reward",{}).get("source","") == source)
+
+static func weapon_pool(early: bool) -> Array:
+	return Weapons.SUPPORTED.filter(func(id):
+		var definition := Weapons.definition(id)
+		return id != 0 and not definition.get("exclusive",false) and (not early or definition.rarity != "S"))
+
+static func known_items(progress, kind: String) -> Array:
+	var result: Array = []
+	for token in progress.inventory.builds[0].owned:
+		if kind == "weapon" and Items.is_gun(token): result.append(Items.gun_id(token))
+		elif kind == "relic" and Items.is_relic(token): result.append(Items.relic_id(token))
+	for room in progress.room_states.values():
+		var reward: Dictionary = room.get("reward",{})
+		if reward.get("kind","") == kind: result.append(int(reward.item))
+	var unique: Array = []
+	for id in result:
+		if id not in unique: unique.append(id)
+	return unique
+
+static func relic_pool(progress) -> Array:
+	var guns := known_items(progress,"weapon")
+	var bounce := guns.any(func(id): return int(Weapons.definition(id).get("bounce",0)) > 0)
+	bounce = bounce or 2 in known_items(progress,"relic")
+	var returning := guns.any(func(id): return Weapons.definition(id).get("boomerang",false))
+	var fragments := guns.any(func(id):
+		var definition := Weapons.definition(id)
+		return definition.get("split",false) or definition.get("clover",false) or definition.get("parcel",false))
+	return Relics.SUPPORTED.filter(func(id):
+		if id in [4,34]: return false # Boss reward; duel chest timer has no exploration effect.
+		if id in [11,12,31] and not bounce: return false
+		if id in [14,33] and not returning: return false
+		if id == 32 and not fragments: return false
+		if id in [8,16,30] and guns.size() < 2: return false
+		return true)
 
 static func ensure_treasure(game) -> bool:
 	if game.floor_data.is_empty() or game.exploration.status != "active": return false
 	if game.floor_data.rooms[game.exploration.room_id].role != "treasure": return false
-	return create(game,"treasure",[5,8,11,13])
+	return create(game,"treasure",relic_pool(game.exploration),"relic")
 
-static func create(game, source: String, pool: Array) -> bool:
+static func create(game, source: String, pool: Array, kind: String = "weapon") -> bool:
 	var progress = game.exploration
 	var room: Dictionary = progress.room_state(progress.room_id)
 	if room.has("reward"): return false
+	var known := known_items(progress,kind)
+	var candidates := pool.filter(func(id): return id not in known and fits_bag(progress,id,kind))
+	if candidates.is_empty(): return false
 	var point = placement(game)
 	if point == null:
 		push_error("No reachable reward placement: "+progress.room_id)
 		return false
 	var rng := RandomNumberGenerator.new()
-	rng.seed = hash(str(progress.seed_value)+":"+source+":reward-v1")
-	var item: int = pool[rng.randi_range(0,pool.size()-1)]
+	rng.seed = hash(str(progress.seed_value)+":"+progress.room_id+":"+source+":reward-v2")
+	var item: int = candidates[rng.randi_range(0,candidates.size()-1)]
 	room.reward = {"id":progress.room_id+":chest", "source":source,
-		"kind":"weapon","item":item,"label":str(Weapons.definition(item).name),
+		"kind":kind,"item":item,"label":str((Weapons.definition(item) if kind == "weapon" else Relics.definition(item)).name),
 		"pos":point,"state":"closed"}
 	return true
+
+# Ignore occupied cells: rearranging gear is allowed, enlarging this run's bag is not.
+static func fits_bag(progress, id: int, kind: String) -> bool:
+	var inventory = progress.inventory
+	var token = Items.gun_token(id) if kind == "weapon" else Items.relic_token(id,0)
+	var cells: Dictionary = inventory.usable_cells(0)
+	return cells.keys().any(func(anchor): return inventory.BuildGrid.fits(token,anchor,cells,{}))
 
 # Search only reachable floor, preferring the room center and keeping interactions apart.
 static func placement(game, excluded: Array = []) -> Variant:

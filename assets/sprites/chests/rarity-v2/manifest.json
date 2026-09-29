@@ -1,0 +1,138 @@
+{
+	"a": {
+		"alpha_threshold": 0.5,
+		"file": "res://assets/sprites/chests/rarity-v2/a.png",
+		"padding": 3,
+		"prompt": "a-prompt.txt",
+		"provider": "built-in imagegen",
+		"regions": [
+			[
+				95,
+				164,
+				485,
+				398
+			],
+			[
+				673,
+				173,
+				485,
+				389
+			],
+			[
+				95,
+				712,
+				486,
+				406
+			],
+			[
+				672,
+				646,
+				485,
+				471
+			]
+		],
+		"sha256": "4e676fdfbf3379cd049bba53e977f5329739cccc93a7087bc3986a5c87e3ef9e"
+	},
+	"b": {
+		"alpha_threshold": 0.5,
+		"file": "res://assets/sprites/chests/rarity-v2/b.png",
+		"padding": 3,
+		"prompt": "b-prompt.txt",
+		"provider": "built-in imagegen",
+		"regions": [
+			[
+				60,
+				152,
+				532,
+				440
+			],
+			[
+				665,
+				149,
+				537,
+				443
+			],
+			[
+				64,
+				699,
+				523,
+				456
+			],
+			[
+				671,
+				632,
+				519,
+				524
+			]
+		],
+		"sha256": "8c825d14dd201606ee8a1da3f8c3271d5e1da40bb0ea0d654ccf561a36194fb7"
+	},
+	"c": {
+		"alpha_threshold": 0.5,
+		"file": "res://assets/sprites/chests/rarity-v2/c.png",
+		"padding": 3,
+		"prompt": "c-prompt.txt",
+		"provider": "built-in imagegen",
+		"regions": [
+			[
+				63,
+				142,
+				521,
+				398
+			],
+			[
+				675,
+				128,
+				526,
+				412
+			],
+			[
+				74,
+				696,
+				500,
+				456
+			],
+			[
+				699,
+				660,
+				479,
+				492
+			]
+		],
+		"sha256": "d8d67f0613104787de5375a4e2ac56ab5c7575572adc056679643dac2e33410e"
+	},
+	"s": {
+		"alpha_threshold": 0.5,
+		"file": "res://assets/sprites/chests/rarity-v2/s.png",
+		"padding": 3,
+		"prompt": "s-prompt.txt",
+		"provider": "built-in imagegen",
+		"regions": [
+			[
+				61,
+				93,
+				508,
+				447
+			],
+			[
+				681,
+				93,
+				517,
+				447
+			],
+			[
+				63,
+				696,
+				504,
+				470
+			],
+			[
+				687,
+				648,
+				506,
+				518
+			]
+		],
+		"sha256": "a519fc56f6a184a39e057e6e059e08b141b740967033c579fcc07298074c107e"
+	}
+}

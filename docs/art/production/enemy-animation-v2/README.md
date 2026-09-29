@@ -55,4 +55,7 @@
 - 目視（Claude）: 番機は両足、ヤマアラシは体の下が影に乗り、影が足より下へずれない。
 - 自動テスト: `enemy_motion`・`fire_pouch_lizard`・`quillback`・`exploration_enemy_spawns`・`enemy_audio`・`furnace_warden`・`boss_activity`・`boss_attack_selection`・`boss_cannon`・`boss_presentation`・`boss_pressure`・`boss_rewards` はPASS（`quillback_art` は描画確認用で、PASS表示なし）。
 - 未確認: ユーザーの目視確認と採用。
+## 2026-09-29：通常敵3種の攻撃演出調整
+
+読了: art/README、VISUAL_STYLE_GUIDE、ENEMY_CREATION_TEMPLATE、ENEMY_BOSS_ART_PLAN、AUDIO_BIBLE、音響manifest、音響CLI README、現行の敵・弾・Sound実装。対象は番機・トカゲ・ヤマアラシ。既存コマと専用SEを流用し、コード描画で発射・振り下ろし・着弾の短い演出と炎の揺らぎを追加する方式。必要な既存SEは揃っている。新規画像・SE生成は0件、原本・接続点の変更なし。SEのゲーム内ゲインを調整する。視認性、音色・混戦での聞き取りはユーザー受入待ち。火力・弾数・攻撃間隔を演出都合で変更しない。
 

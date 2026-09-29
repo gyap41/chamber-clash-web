@@ -24,6 +24,9 @@ extends Resource
 @export var tint := Color.WHITE
 # Mirror the picture left-right (variation for repeated pieces; lit from above, so both sides read).
 @export var flip_h := false
+@export var water_surface := Rect2() # Normalized texture coordinates, inset from masonry.
+@export var water_sunlight := false
+@export_enum("None", "Lamp", "Campfire", "Furnace") var fire_kind := 0
 # Soft copy of the picture dropped toward the lower right on the floor (light from the upper left).
 @export var drop_shadow := false
 
@@ -38,6 +41,11 @@ func validation_errors(field: Rect2) -> PackedStringArray:
 	if layer not in [0,1] or not is_finite(light_radius) or light_radius < 0 or not is_finite(light_energy) or light_energy < 0:
 		errors.append("Invalid placement layer or light")
 	if not light_offset.is_finite(): errors.append("Invalid light offset")
+	if water_surface != Rect2() and (not water_surface.position.is_finite() or not water_surface.size.is_finite() or not water_surface.has_area() or not Rect2(0,0,1,1).encloses(water_surface)):
+		errors.append("Invalid normalized water surface")
+	if water_sunlight and not water_surface.has_area(): errors.append("Water sunlight requires a water surface")
+	if fire_kind < 0 or fire_kind > 3 or (fire_kind > 0 and (texture == null or light_radius <= 0)):
+		errors.append("Fire ambience requires a textured light source")
 	if floor_mark not in [0,1,2]: errors.append("Invalid floor mark")
 	if floor_decal and (collision != Rect2() or light_radius > 0): errors.append("Floor decals cannot block movement or emit light")
 	if surface_overlay and (floor_decal or collision != Rect2() or light_radius > 0): errors.append("Surface overlays must be shallow, nonblocking attachments")

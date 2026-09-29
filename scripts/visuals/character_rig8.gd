@@ -1,5 +1,5 @@
 extends RefCounted
-## 8方向キャラクターリグの描画（2026-09-26、リナ v8 を一般化）。仮組み込み・既定は無効。
+## 8方向キャラクターリグの描画。登録済みキャラは既定で有効（2026-09-29）。
 ## ゲーム中の V キー（F8 は Godot エディターの実行停止と重なるため不可）、または起動引数 --rina-run で切替。
 ## data/character_rigs.json に登録されたキャラだけが対象（未登録のキャラは従来の素材のまま）。
 ## 素材と rig.json は tools/character_rig/build.py が設定ファイル（tools/character_rig/characters/<name>.json）から書き出す。
@@ -11,7 +11,7 @@ extends RefCounted
 const GRIP_LOCAL := Vector2(8,0) # player.gd の equipment_offset が grip を置く Weapon ローカル座標
 const SECTORS := ["e","se","s","sw","w","nw","n","ne"] # 45°刻み（画面座標、下が＋）
 const HYSTERESIS := 8.0 # 度。境界付近で向きがちらつかないよう、前の向きを保つ余裕
-static var enabled := OS.get_cmdline_user_args().has("--rina-run")
+static var enabled := not OS.get_cmdline_user_args().has("--legacy-character")
 static var last_toggle_event := 0
 static var registry: Dictionary = {}
 static var cache: Dictionary = {} # キャラID → {"rig":..., "textures":...}
