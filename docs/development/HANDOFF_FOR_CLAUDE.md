@@ -9,7 +9,7 @@
 1. ルートAGENTS.md、最新Git差分と対象コード。
 2. [資料索引](../README.md)、[現在地](../planning/ROADMAP.md)、[現行ルール](../design/GAME_RULES.md)。
 3. 探索は[工程](../planning/EXPLORATION_ROADMAP.md)と[検討案](../planning/EXPLORATION_DESIGN.md)。提案を実装済みと扱わない。
-4. [構成](ARCHITECTURE.md)、[テスト](TESTING.md)。素材制作時は[ステージテンプレート](../art/STAGE_CREATION_TEMPLATE.md)、API変更は[環境ガイド](ASSET_GENERATION_SETUP.md)。
+4. [構成](ARCHITECTURE.md)、[テスト](TESTING.md)。素材制作時は[素材制作の必読入口](../art/README.md)から対象別テンプレート、API変更は[環境ガイド](ASSET_GENERATION_SETUP.md)。
 
 ## 維持する境界
 

@@ -1,5 +1,9 @@
 # 資料索引
 
+素材の使用状況・旧素材を調べるときは[画像付き一覧と分類結果](../assets/README.md#グラフィックの使用状況2026-09-29)を参照してください。
+
+敵・ボス・ステージ・キャラクターの生成／差し替えは、まず[素材制作の必読入口](art/README.md)へ。共通画風 → 対象別規格 → 生成前記録の順に確認します。
+
 作業はこのページから始めます。[資料の配置・更新ルール](DOCUMENTATION_GUIDE.md)には仕様追加時の反映先とメモの終了方法、[全ファイル索引](CATALOG.md)にはリポジトリ内のMarkdownを分類して掲載しています。
 
 ## 依頼から探す
@@ -15,7 +19,7 @@
 |宝箱・報酬・演出を作る|[報酬と演出](planning/EXPLORATION_REWARDS.md)|採用案、実装済み動作、個別の制作記録|
 |画風・グラフィック全体の統一感を見直す|[画風の共通規格](art/VISUAL_STYLE_GUIDE.md) → [画風3案の比較](planning/art-direction-comps/README.md)|共通規格、各テンプレートの参照、適用結果はart/production|
 |ステージを作る／素材を直す|[制作テンプレート](art/STAGE_CREATION_TEMPLATE.md) → [素材規格](art/STAGE_ASSET_GUIDE.md)・[データ定義](development/STAGE_TEMPLATES.md)|共通ルールとart/productionの個別記録|
-|キャラ・アニメーションを変える|[キャラ美術](design/CHARACTER_BIBLE.md)、[Actor表示](development/ACTOR_ANIMATION.md)|設定・実装手順・採用画像の記録|
+|キャラ・アニメーションを変える|[生成前確認](art/README.md#キャラクターの制作前確認) → [キャラ美術](design/CHARACTER_BIBLE.md)、[Actor表示](development/ACTOR_ANIMATION.md)|設定・実装手順・採用画像の記録|
 |UIを変える|[対戦HUD](design/BATTLE_UI_C.md)、[準備画面](design/PREPARATION_UI_B.md)、[構成](development/ARCHITECTURE.md)|対象UI仕様。探索固有の操作はGAME_RULES|
 |音を作る／変更する|[音響基準](AUDIO_BIBLE.md)、対象実装・音響manifest|音響基準・manifest・試聴結果|
 |生成APIやツールを設定する|[生成環境](development/ASSET_GENERATION_SETUP.md) → [画像CLI](../tools/README.md)・[音響CLI](../tools/asset_generator/README.md)|共通設定と対象CLIのREADME|

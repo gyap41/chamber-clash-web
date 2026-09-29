@@ -49,4 +49,4 @@
 実クリック・ドラッグ、控えの各領域へのドロップ、拡張・取消・支払い、二重購入の拒否、HP重複加算、同時警告、通常5商品・控え8枠の表示を自動検証。
 実行方法は[TESTING](../development/TESTING.md)、ルールは[GAME_RULES](GAME_RULES.md)。人間による操作感・小さい文字の読みやすさは今後の評価対象。
 
-[改修前の資料](../archive/2026-09-12/PREPARATION_UI_BEFORE_REVISION.md)は履歴。現行撮影は `tools/capture_preparation_revision.gd`、全体描画は `tests/render.gd` を使う。
+[改修前の資料](../archive/2026-09-12/DOCUMENT_SNAPSHOTS.md#snapshot-09)は履歴。現行撮影は `tools/capture_preparation_revision.gd`、全体描画は `tests/render.gd` を使う。

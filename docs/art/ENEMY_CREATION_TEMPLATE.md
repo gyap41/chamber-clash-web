@@ -1,5 +1,7 @@
 # 敵素材の制作テンプレート
 
+[素材制作の必読入口](README.md)で共通画風と生成前確認を読み、本書の対象別仕様票へ進む。
+
 区分: 共通制作手順。敵・ボスの素材生成やアニメーション制作を始める前に使用する。必要素材の整理と、生成・実装・受入を分ける。資料作成だけでは有料生成しない。
 
 関連: [敵・ボスの計画](../planning/ENEMY_BOSS_ART_PLAN.md)、[現行ルール](../design/GAME_RULES.md)、[表示の構成](../development/ACTOR_ANIMATION.md)、[音響基準](../AUDIO_BIBLE.md)、[生成環境](../development/ASSET_GENERATION_SETUP.md)。

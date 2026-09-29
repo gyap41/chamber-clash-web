@@ -1,3 +1,20 @@
+# 2026-09-13 更新前資料の履歴集
+
+区分: 履歴。状態: 参照専用。旧仕様・承認・未実装一覧は現在の指示ではありません。
+
+更新前の全文バックアップを一冊へ統合しました。各節の旧ファイル名と本文を保持し、文書リンクのみ統合先へ更新しています。現行資料は[総合索引](../../README.md)から参照してください。
+
+## 収録資料
+- [GAME_RULES-before-equipment-completion.md](#snapshot-01)
+- [ROADMAP-before-equipment-completion.md](#snapshot-02)
+- [TESTING-before-equipment-completion.md](#snapshot-03)
+
+---
+
+<a id="snapshot-01"></a>
+
+## 旧ファイル: GAME_RULES-before-equipment-completion.md
+
 # ゲーム仕様
 
 2026-09-13：作り直したP-12（ID0）、ムーンリーパー（5）、アークレール（6）、ロケットペンシル（12）をゲームへ接続。武器カタログを通じて戦闘・準備画面・HUD・フィールドへ反映。戦闘サイズは共通基準の0.8／1.30／1.55／1.35倍、縦横比を維持して握り点と銃口を調整。性能変更・追加生成なし。
@@ -19,7 +36,7 @@
 更新: 2026-09-12。武器14種を差別化し、プラネタリウムを12→8方向へ削減。武器別基礎装填時間を追加。
 配置計算はbuild_grid、CPUの購入・配置方針はcpu_preparationへ共通化・分離した。
 コードの責務は[構成ガイド](../../development/ARCHITECTURE.md)を参照。旧主力継承・個数枠の仕様は
-[整理前の資料](../2026-09-11/BEFORE_GAME_RULES.md)へ保存した。
+[整理前の資料](../2026-09-11/DOCUMENT_SNAPSHOTS.md#snapshot-05)へ保存した。
 
 5本先取、戦闘上限90秒、準備は時間制限なし。以下の価格・容量・試合尺は試作値で、対人バランス確定ではない。
 勝利目標5・準備番号1〜9・バッグ面積を分離する。引き分けでは準備番号を進めない。
@@ -330,3 +347,246 @@ ID18「ミニフェザー」、ID19「パワーチップ」はstackable指定の
 左右は照準に合わせて反転し、上向きの照準では武器を体の後ろへ描く。背面専用絵は未制作で、上向きでも顔は見える。リナの回避は踏み切り0.04秒・飛び込み0.22秒・着地復帰0.12秒の計0.38秒。体を進行方向へ傾けて浮かせ、着地で縮んで戻す。1回転や旧高頭身画像への切替は行わない。
 リナは無敵0.31秒、着地終盤0.07秒は被弾可能。回避移動は累積距離を153.4×(2t−t²)（tは0〜1の進行度）として各ステップの差分を移動し、前半が速く終盤に減速する。壁のない場所の総距離は旧設定590×0.26＝153.4pxを維持。実移動は既存の壁衝突処理に従う。他キャラは回避0.26秒・速度590・無敵0.31秒を維持する。通常移動・射撃・装填・補給の計算と衝突半径は変更しない。
 duelの床画像と遮蔽物画像は既存配置の表示層。カメラ(0,-90)、3個の壁矩形と上下HUDの情報構成を保持する。
+
+
+---
+
+<a id="snapshot-02"></a>
+
+## 旧ファイル: ROADMAP-before-equipment-completion.md
+
+# 現在地と残課題
+
+2026-09-13：残り26武器・26レリックの多様なデザイン割り当てと生成指示10枚を準備済み。[制作計画](../../art/production/equipment-diversity-2026-09-13/README.md)。予算拡張確認待ち。旧工房調の連続制作は再開せず、1枚ごとの確認を挟んで進める。
+
+2026-09-13：作り直したP-12（ID0）、ムーンリーパー（5）、アークレール（6）、ロケットペンシル（12）をゲームへ接続。武器カタログを通じて戦闘・準備画面・HUD・フィールドへ反映。戦闘サイズは共通基準の0.8／1.30／1.55／1.35倍、縦横比を維持して握り点と銃口を調整。性能変更・追加生成なし。
+
+武器・レリック美術の追加制作はデザイン見直しで停止。共通配色・同型グリップに寄せすぎたため、実銃・SF・魔法・コミカルの構成へ再検討。[見直し案](../../art/production/equipment-rollout-2026-09-12/DESIGN_REVISION.md)。追加6枚の成功、7枚目の成否未確定を保持。新規分はカタログ未接続。
+
+武器・レリック美術：初期武器7種（ID21〜27）とレリック9種（ID0〜8）をゲームへ統合済み。武器の縦横比・握り点・銃口エフェクトを調整し、準備画面・HUD・フィールドへ接続。残りは武器ID0〜19・28〜37、レリックID9〜34の制作・採用。ID20は既存の正式ピストルを維持。[統合確認](../../art/reviews/weapon-relic-prototype-2026-09-12/in-game-equipment.png)。
+
+ユーザー確認によりキャラクターモーションは一区切りとし、追加の制作は残作業から外す。今回の画像・設定資料は[素材整理](../../art/README.md)で必要なものと不要候補を分離。不要候補は退避のみで削除していない。
+
+キャラクター美術：リナ基準を他7人へ展開済み。全8人がゲーム専用4方向、支持点を揃えた固定パーツ歩行、専用3段階回避を使用。通常等身画から加工した背面を置き換えた。[素材・映像](../../art/reviews/character-directions-2026-09-12/README.md)。残課題は人間による操作感・美術の受入。ポーズ間には細かな描線差があり、3段階の切替は見える。帽子・耳等による顔の見かけサイズの違いは残す。追加生成は今回の7枚で終了。
+
+更新: 2026-09-12。武器14種の差別化・武器別装填・プラネタリウム8方向化を実装。Fキー開封・勝敗後の戻るボタン・CPU縮小エリア退避の継続と迂回・星弾の追尾弱化（1.2rad/秒）を追加。購入経済と対人バランスは未確定。
+
+タイトルにゲームバージョンを表示（初期値 `v0.1.0-dev`、プロジェクト設定から取得）。
+
+途中ラウンドは次準備／引き分け再戦の単一ボタン＋Enter。試合決着時のみキャラ選択・タイトルへの戻り先を表示。
+
+## 実装の現在地
+
+|領域|状態|
+|---|---|
+|基本対戦|38武器・35レリック・8キャラ、CPU、90秒・5本先取、補給/危険地帯|
+|購入経済|12G開始、両者同額収入、残金持越し、武器/レリック/改造購入、売却、各準備1回2Gの商品更新|
+|バッグ|選択→配置の操作案内と購入不可理由を表示。初期8・最大表示6×6・開放上限24。4/6マスの有料拡張、各準備1個。自動/無料拡張を廃止|
+|個体と取得|レリック個体ID、取得元・実支払額・カードID、無料持ち帰り・明示確保、武器処分時の改造消去|
+|準備画面|キャラ/CPU確定後の初回表示を同期（仮P-12が残る不具合を修正）。装備・詳細・ショップの3列と控え8枠、クリック詳細／明示配置、バッグ拡張メニュー、価格・売切・重複HP・同時警告、任意の出撃|
+|CPU|共通APIで予算と配置を判定。拡張予算を確保して配置できる商品を購入する試作方針。戦闘は移動予測射撃・接近弾の軌道予測回避・回避方向修正・丸腰時の接近・武器別間合い・射線と間合いを確保する迂回を実装|
+|武器形状|継続使用武器は最低2マス。P-12/ダブルバックを横2マスへ変更。使い捨て例外は現時点でなし|
+|戦闘性能|初期8種を含む14武器の弾速・間隔・弾倉/予備・威力・装填を差別化。プラネタリウムは12→8方向、9マス16Gは維持|
+|演出・配布|既存合成SEと視覚演出。保存済み音響サンプル未組込み、最新配布版受入は未完了|
+|コード構成|共通操作データ、参加者/チーム、戦闘サービス、演出通知、ID索引、RunInventoryと対戦進行を分離。1対3・別フィールド・状態持ち越しを自動検証。詳細はARCHITECTURE|
+
+補給は各回1個の共有ドロップへ変更し、中央付近に配置。弾薬は開始時＋18秒後・以後22秒間隔（90秒で最大5箱）。1箱あたり予備弾40%は維持。Sレア特別投下は毎ラウンド確定から30%抽選へ変更（当選時のみ40秒予告・45秒投下）。取り合い・強武器の弾切れ・補給独占による一方的な展開の実プレイ評価が残る。
+
+対戦HUDは[C案](../../design/BATTLE_UI_C.md)を実装。下部92px・行動アイコン24pxへ縮小し、CPU武器非表示、重要レリックのみ表示、ポーズ中の全一覧を追加。仮SVGはskin.jsonで交換可能。残課題は正式レリック/行動素材の作成・差し替え、人間による縮小画面の視認性と操作感評価。
+
+## 次の評価
+
+素材の世界観はユーザー指定の[始まりの工房](../../art/settings/concepts/first-workshop-2026-09-11/README.md)を基準にする。仮画像の種族やジョーク武器中心の方向性を固定しない。現行ID/性能を保つ美術再解釈と、将来の探索素材を分けて制作計画へ反映済み。残課題は個別キャラ設定、武器の正式名称と外見の整合、携帯工房を背負った回避の見え方。現在の差替え予算を探索ゲーム全体の完成予算として扱わない。
+
+正式素材への差し替えは [素材制作計画・API予算](../../planning/ASSET_PRODUCTION_PLAN.md) を参照。リナ枠＋サービスピストルの最小構成、床/遮蔽物、待機/移動/回避、通常弾/VFX/弾薬箱/行動HUDを制作・接続済み。参照入力、フレーム/原点、予算/usage記録も実装済み。[制作結果](../2026-09-12/first-workshop/REPORT.md)に14回の記録と画面を保存。残りは他7キャラ・他37武器・35レリック・専用VFX・探索素材、人間による操作感/アニメの受入と請求画面での金額照合。追加の有料生成は別承認。
+
+リナは[低頭身デザイン](../../art/settings/concepts/rina-chibi-2026-09-12/README.md)を採用し、前後の待機4・回避6コマ、独立武器と足元原点を調整して導入済み。移動シートは脚の交代が不十分で不採用。現行歩行は待機画像の脚を交互に動かす6段階の描画。残課題は上下・斜め移動を含む人間の操作感評価と、必要なら正式歩行シートの再制作（別承認）。[導入結果](../2026-09-12/rina-chibi/REPORT.md)。画像累計18回、usage換算$1.979527、保守予約$18、承認上限$19。
+
+武器差別化は [検討時の比較案](../2026-09-12/WEAPON_DIFFERENTIATION_PROPOSAL.md) の14武器を実装し、追加依頼でプラネタリウムを8方向へ変更。残課題は同格武器の距離100/250/400px・壁あり/なしの比較、初期武器のキャラ込み評価、2発弾倉とワイドマガジン・装填短縮・切替の相性、8方向弾幕の実際の避けやすさ。
+
+追加18武器（初期専用8種＋通常10種）を実装。取得武器は即時に控え収納し、次準備で配置してから使用。控え8個満杯・所持済みでは宝箱を残す。引き分けでは収納品を保持して同じ装備で再戦。数値補正19種は同種重複可、特殊効果16種は同種1個。
+残課題: 初期武器のキャラ能力込みの均衡、35種の抽選で構成を揃えられるか、3連射・交差弾・防御/回復の実戦評価。追加武器の専用画像は未作成（既存画像を仮利用）。
+現在の全品・価格・形状・バッグ範囲は [アイテム一覧](../../design/ITEM_CATALOG.md) を参照。
+
+1. 人間のB案購入・売却・配置/ドラッグの操作感、価格表示と商品スクロールを確認する。
+2. 20〜30試合で5本先取の総所要時間・準備時間・完成構成で戦えた回数を測り、長ければ4本先取と比較する。
+3. 価格、初期8/上限24マス、控え8個、拡張購入時期、残金、更新率、CPUの高額武器投資を評価する。
+4. 全武器/レリックの採用率・勝率、プラネタリウム・オーロラファンの配置後の強さと次準備に向けた取得価値、補給差と連勝率、重複効果を測る。
+5. 最大弾幕の長時間負荷、Web/Windows配布版の一試合完走、先行入力と音の実プレイ確認。
+6. P9隣接シナジーは購入経済評価後。オンライン対応・音響生成は今回の対象外。
+
+追尾UPレリックによる補完は今後の候補（未実装）。縮小エリアでのCPU退避と追尾弱化の実プレイ評価は未完了。
+CPU強化の実プレイ評価は未完了。予測射撃の命中率、回避の強さ、武器別の間合い・壁を回り込む経路判断を実装済み。次は移動する相手への追従、近距離散弾の圧力、長射程武器の後退、補給との優先度を実プレイで評価する。
+
+自動テストの成功と人間の操作感・試合尺・対人バランス確定を区別する。
+数値理由は [購入経済仕様](../../planning/PURCHASE_ECONOMY_PROPOSAL.md)、現行ルールは [GAME_RULES](../../design/GAME_RULES.md)、
+実行方法と結果は [TESTING](../../development/TESTING.md)。旧ロードマップは [履歴](../2026-09-11/DOCUMENT_SNAPSHOTS.md#snapshot-10)。
+
+数値補正レリックの低額化・重複解禁後は、移動/装填/威力特化、少弾倉武器へのワイドマガジン集中、武器とレリックの購入比率を実プレイで評価する。
+
+## 拡張リファクタリング後の残課題
+
+8人の[設定画初稿](../../art/settings/character-settings-2026-09-12/README.md)を制作し、通常等身の前後と2頭身を分割保存済み。追加8回/$0.885463、累計28回/$3.093901（usage換算）、予約上限$29。残課題は設定画の採用確認、コハクとリナの識別差、ゲーム用固定パーツ・各キャラの回避表現。今回の設定画はゲームへ差し替えていない。
+
+8人の外見・専門分野・回避表現案と通常等身／2頭身の対応は [CHARACTER_BIBLE](../../design/CHARACTER_BIBLE.md) を参照。カタログ性能は変更なし。設定画の初稿生成は完了し、通常等身画はゲームへ直接使用しない。
+
+リナの回避を0.38秒の飛び込みへ更新。無敵0.31秒、最後0.07秒は被弾可能。減速曲線で総距離153.4pxを維持し、他キャラは従来0.26秒。[飛び込みの変更記録](../2026-09-12/rina-dive/REPORT.md)。残課題は人間による見え方・着地の隙・キャラ間の対戦バランス評価。
+
+最新のリナは2頭身案へ差し替え済み。生成歩行の輪郭揺れを避け、1枚の体・左右の靴の固定パーツと半周期ずらした連続歩行を使用。回避も同じ絵の縮小・回転。[最新の導入結果](../2026-09-12/rina-twohead/REPORT.md)。残課題は背面専用絵、回避の受け身表現、人間による歩行の自然さ・操作感評価。今回追加生成なし、累計20回/$2.208438のまま。
+
+リナの足の動きについて再検討し、追加承認の2回で [2頭身デザインと歩行比較](../../art/settings/concepts/rina-two-head-2026-09-12/README.md) を試作。現行ゲームは変更していない。新案は48/64pxで比較可能だが、生成歩行の足の交代と輪郭の安定には課題が残る。採用判断と安定した歩行制作が残課題。画像累計20回、usage換算$2.208438、保守予約$20、承認上限$21。
+
+通常入口をCPU戦専用に整理。共通入力・戦闘確定・フィールド情報・在庫取得・状態持ち越しの境界を追加した。
+完了した計画と検証は[変更記録](../2026-09-12/EXTENSION_REFACTOR.md)へ保存。
+
+- オンライン: 権限と送信者/参加者対応、操作の型/範囲検証、tick、欠落/再送、予測/補間、切断・復帰、同期対象・乱数方針。通信方式は未選定。
+- 多人数: 全参加者の装備詳細HUD、ロビー・チーム選択、人数別のフィールド/補給/勝敗バランス。実行中の参加者配列変更は未対応。
+- フィールド: 固定2フィールドを共通FieldDefinitionとFieldBuilderへ移行済み。残課題はランダム生成・到達可能性検証・再訪時状態保存・配置プレビュー・正式追加フィールドとギミック。検証用フィールドは正式ゲームモード/アートではない。
+- 探索: RunInventoryのショップ方針を使い分け、部屋/階層/ボス/生成/永続解放を別途実装する。永続化・セーブは未実装。
+- 人間によるCPU対戦の操作感、武器/効果・経済、別フィールドの視認性、最大弾幕負荷、配布版受入。
+
+自動回帰成功はオンライン動作や実プレイの確認を意味しない。
+
+フィールドの定義/配置分離と状態持ち越し検証の完了記録は[こちら](../2026-09-12/FIELD_DEFINITION_REFACTOR.md)。
+
+
+---
+
+<a id="snapshot-03"></a>
+
+## 旧ファイル: TESTING-before-equipment-completion.md
+
+# 検証手順
+
+2026-09-13：作り直し4武器の統合後、equipment_art・catalogに合格。tools/capture_weapon_diversity.gdで四方向と発射エフェクトを確認。[表示記録](../../art/reviews/weapon-diversity-2026-09-12/in-game.png)。
+
+武器サイズ調整：戦闘中はスカウトニードル1.10倍、ガードリベット1.15倍、ミニガトル1.25倍。他4種は従来どおり。UIの枠は維持。equipment_artテストと四方向描画確認に合格。
+
+武器・レリック統合：`tests/equipment_art.gd` が7武器の縦横比、4方向の握り点、銃口、回避中の非表示、9レリックの参照を検証。`tools/capture_equipment_art.gd` は全8キャラとHUDを描画する。全66テスト中65件合格後、旧画像前提のcatalogテストを更新して個別再実行に合格。宝箱テスト再実行とWebデータZIP起動も合格。全件実行ログ `.local/logs/run_tests-20260912-230214.log` は更新前catalogの失敗を含む。[描画確認](../../art/reviews/weapon-relic-prototype-2026-09-12/in-game-equipment.png)。
+
+武器・レリック試作：Pillow環境で `python tools/package_weapon_relic_prototypes.py` を実行して16素材と小型表示比較を再出力。`python -m unittest discover -s tools/tests -v` で画像送信の予算・重複・失敗停止6件を確認し、`python -X utf8 tools/verify_art_organization.py` で整理台帳とリンクを確認する。2026-09-12に通過。原画と透過切り出しを目視確認済み。ゲームへの接続前のため、装備・回転・発射との整合は未検証。[試作資料](../../art/reviews/weapon-relic-prototype-2026-09-12/README.md)。
+
+準備UI改修：`tests/preparation_redesign.gd` は通常5商品の表示、閲覧の非破壊性、購入後の明示配置、HP0〜3個加算、同時警告、Esc取消を検証。`preparation_ui.gd` は控えの所持品・空き枠・枠間への実ドロップも検証する。実画面撮影は `CHAMBER_SCREENSHOT` に既存の保存先ディレクトリを指定し、`Godot --path . --script res://tools/capture_preparation_revision.gd --quit-after 150`。[画面・実行記録](../../art/reviews/preparation-ui-2026-09-12/README.md)。
+
+配布内容の確認：`Godot --headless --path . --export-pack Web .local/art-export-audit.zip` でローカル検証用ZIPを作成し、内容一覧にdocs/・tests/・tools/・assets/generated/、未接続のsample_battle_02/test_ui_click、旧twohead_rinaがないことを確認する。これはゲームデータ部分の検証で、Web実行エンジン込みの配布容量とは異なる。将来音響サンプルを正式採用するときは、そのファイルのexclude_filterを解除する。
+
+素材整理後の検証：`python -X utf8 tools/verify_art_organization.py` で移動先の存在、画像のハッシュ一致、docs/art内のリンクを確認する。旧リナ画像はtests/fixtures/artへ移動。連番撮影は不要候補のraw-frames、完成GIF・まとめ画像はdocs/art/reviewsへ保存する。
+
+整理後の全64ヘッドレステスト合格（`.local/logs/run_tests-20260912-212428.log`）。[整理・検証記録](../2026-09-12/art-organization/REPORT.md)。
+
+全8人の方向別展開：`tests/character_directions.gd` で他7人の靴の支持中心・底辺、4方向選択、専用9ポーズと回避時間・無敵を検証。`tools/capture_direction_rollout.gd` で128フレームを撮影し、Pillow環境で `tools/package_direction_rollout.py` を実行して比較GIFを作る。全ヘッドレステスト合格（`.local/logs/run_tests-20260912-210616.log`）。[検証記録](../2026-09-12/character-directions/REPORT.md)。
+
+リナ現行：`rina_directions` は靴の支持中心・底辺、足の交代と胴体の支点を検証。`rina_dodge_poses` は専用9素材・段階の時刻・空中の上下動を検証する。回避性能は `rina_dive`。撮影は `tools/capture_rina_directions.gd`、GIF化はPillow環境で `tools/package_rina_motion.py`。[今回の8テストと描画確認](../2026-09-12/rina-gait-dodge/REPORT.md)。
+
+リナ4方向：`tests/rina_directions.gd` で方向選択、斜めの安定、正面の反転防止、後ろ歩き、回避方向優先、靴の交代と接地制約を検証。`tools/capture_rina_directions.gd` で実描画を撮影。[結果](../../art/reviews/rina-directions-2026-09-12/README.md)。
+
+8キャラの差し替え・固定パーツ歩行・前後切替・キャラ別回避は `tests/character_animation.gd`。描画比較は `Godot --path . --script res://tools/capture_character_rigs.gd --quit-after 900`、対戦撮影は `tools/capture_character_battle.gd`。既存回避性能はrina_dive、武器重なり等はworkshop_visualsも確認。[検証記録](../2026-09-12/character-integration/REPORT.md)。
+
+リナ飛び込みは `tests/rina_dive.gd` で距離の刻み幅非依存、0.31秒の無敵と着地中の被弾、他キャラの回避時間維持を検証。`tools/capture_rina_dive.gd` で連続画面を保存する。[実行結果](../2026-09-12/rina-dive/REPORT.md)。
+
+2頭身リナ：全59件合格（`.local/logs/run_tests-20260912-163851.log`）、最終描画調整後の `tests/workshop_visuals.gd` も合格。実移動撮影は `Godot --path . --script res://tools/capture_twohead_motion.gd --quit-after 900`。上下左右ポーズ撮影は `Godot --path . --script res://tools/capture_chibi.gd --quit-after 900 -- --twohead`。Godotはローカル実行ファイルへ置換。[結果と制限](../2026-09-12/rina-twohead/REPORT.md)。
+
+更新: 2026-09-12。現在の実行方法と受入条件を管理する。
+詳細な過去記録は[変更前の検証資料](../2026-09-12/DOCUMENT_SNAPSHOTS.md#snapshot-04)、
+今回の記録は[拡張リファクタリング](../2026-09-12/EXTENSION_REFACTOR.md)。
+
+## 全体回帰
+
+プロジェクトルートのPowerShellで実行する。
+
+```powershell
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --editor --import --quit
+powershell -ExecutionPolicy Bypass -File run_tests.ps1
+powershell -ExecutionPolicy Bypass -File run_tests.ps1 -IncludeRender
+```
+
+別のGodotは-GodotPathで指定。tests直下の.gdを自動検出し、通常はrender.gdを除外する。
+ログは.local/logs。終了コード、SCRIPT ERROR/ERROR/Assertion、PASS表示をすべて確認する。
+Godotのユーザーデータ・キャッシュ・証明書ストアへの権限拒否も成功扱いしない。
+
+通常mainはCPU対戦。武器/経済を隔離する既存テストではhelpers/battle.gdの
+passive_opponentsを明示使用し、CPUの自動射撃が期待弾数を変えないようにする。
+CPU統合テストは実際にis_cpuを有効にし、共通操作経路を通す。
+P2キーの旧テストは削除された入力を無視することと、共通操作APIによる同じ効果を検証する。
+
+## 拡張境界
+
+```powershell
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/extension_boundaries.gd --quit-after 120
+```
+
+1対3 CPUを別寸法・別壁配置のフィールドで10秒相当実行。さらに独立ケースで
+味方通過/敵命中、全敵への近接・爆発・重力、味方を消さないパルス、4番目の参加者による取得、
+共通操作/参加者ID入力の一致、全滅勝敗・一度だけの確定、フィールド境界と危険地帯、
+部屋/戦闘のHP・弾薬・装備持ち越し、UIなしのRunInventory、種類IDの並べ替え耐性を確認する。
+演出通知の受信を外した状態でも戦闘を実行する。通信自体の検証ではない。
+
+人間1人対CPU3人の手動検証用起動（自動テストとは別）:
+
+```powershell
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --path . --script res://tests/extension_boundaries.gd -- --extension-preview
+```
+
+検証装備を自動配置して開始する。マウス照準・左射撃・右近接・WASD・Space・R・E/数字/ホイール・Q・F。
+HUDは簡易参加者情報のみ拡張している。正式モードではない。
+
+## フィールド定義・配置・切替
+
+```powershell
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/field_layout.gd --quit-after 120
+```
+
+旧2シーンから転記した独立の期待値で、寸法・境界・床・全壁・全出現地点・全補給候補点を比較する。
+同じ定義の複数Arenaへの再利用、実行時の壁変更/削除・マーカー/私有コピー変更による元定義への非干渉、
+反復再配置でノードが重複しないことを検証する。
+
+シーンファイルを持たないメモリ上の定義も配置して同じ衝突・弾処理を実行する。原点が0でない定義も含む。
+不正矩形・NaN・境界外・出現地点不足/壁重複・不正補給型の拒否で、既存の壁/弾/入力/リソースが保たれることを確認する。
+フィールド往復でActor/MatchState/Rosterを維持し、HP・弾薬・モード・仮装備・所持金・装備配置・勝数を比較する。
+通常切替は一時タイマーを持ち越し、新encounter指定では一時状態だけリセットする。カメラ倍率の復帰も検証する。
+
+全体回帰はfield_layoutを自動検出する。1対3の実戦更新は既存のextension_boundariesで引き続き確認する。
+詳細と実行ログは[フィールド分離の記録](../2026-09-12/FIELD_DEFINITION_REFACTOR.md)を参照。
+
+## 描画と重点回帰
+
+描画可能な環境でrender.gd、hud_compact.gd、result_flow.gdを実行する。
+静止画/自動GUI入力と人間の操作感評価を区別する。
+
+- 入力: action_buffer、mouse_input、character_select、initial_preparation。
+- 戦闘: 全武器テスト、relics/synergies/added_relics/numeric_relic_stacking、projectile_hp、danger_zone、pulse。
+- 経済: purchase_economy、economy_rounds、match_progression、item_instances、relic_stacking、field_weapon_reserve。
+- CPU: cpu_ai、cpu_tactics、small_improvements。経路探索と間合い・弾予測・取得・危険地帯退避。
+- 表示/進行: preparation_ui、hud_compact、result_flow、render。
+
+武器はテスト側で明示的に用意する。自動サイドアームやローカルP2入力を仮定しない。
+素材APIの有料生成は行わず、audio_assetsは保存済み素材のGodot Resource認識のみ。
+素材ツールの無料mock検証は[素材生成設定](../../development/ASSET_GENERATION_SETUP.md)に従う。
+
+## 始まりの工房・最小画像構成
+
+`tests/workshop_visuals.gd` は一括ランナーが自動検出する。リナ＋サービスピストルの移動、射撃、装填、補給、6コマの回避選択、照準と異なる回避方向、回避と無敵の0.05秒差を検証する。
+原画・加工・API使用履歴は `assets/first-workshop/README.md` を参照。
+
+```powershell
+python -m unittest discover -s tools/tests -v
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/workshop_visuals.gd --quit-after 120
+& .local/tools/Godot_v4.7.2-stable_win64_console.exe --path . --script res://tools/capture_workshop.gd -- --motion
+```
+
+最後のコマンドは描画可能な環境で1120×800の画面・各アニメキー・射撃/装填/補給を `docs/archive/2026-09-12/first-workshop/` に保存する。
+撮影は決定的な状態を作る自動検証。手動プレイの操作感評価とは区別する。スクリプトは有料APIを呼ばない。
+
+## 未確認の受入
+
+人間による操作感・購入経済/チーム戦バランス、配布版の一試合完走、最大負荷、
+オンライン通信・同期・再接続は未確認。探索モード/階層/ボス/セーブは未実装。
+現在の検証結果とログは[今回の記録](../2026-09-12/EXTENSION_REFACTOR.md)を参照。
+# 低頭身リナの描画確認（2026-09-12）
+
+`python -m unittest discover -s tools/tests -v` で予算等5テストが合格。
+`powershell -ExecutionPolicy Bypass -File run_tests.ps1` で全59件が合格（ログ `.local/logs/run_tests-20260912-150858.log`）。
+`Godot --headless --path . --script res://tests/workshop_visuals.gd` は前後切替、後退位相、武器位置、回避性能維持を検証する。
+`Godot --path . --script res://tools/capture_chibi.gd --quit-after 900` で上下左右のゲーム内ポーズを撮影する（Godotはローカルの実行ファイルへ置換）。
+Pillow入りPythonで `tools/review_chibi_capture.py` を実行すると比較GIFを作成する。
+[結果・制限](../2026-09-12/rina-chibi/REPORT.md)。移動シートは不採用で、脚を交互に動かす描画を使用。手動プレイの自然さの最終評価は未実施。

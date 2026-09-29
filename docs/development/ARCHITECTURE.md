@@ -196,7 +196,7 @@ reset＋確定ビルドの全快適用を選ぶ。部屋・階層移動でこの
 配置計算はbuild_grid、個体比較はitem_identity、CPU購入はcpu_preparation、
 商品乱数はreward_generator、画像切り出しはatlas_regionsを共有する。
 ログはrun_logでuser://run-logsへ保存し、外部送信しない。
-ファイル構成の旧一覧・経緯は[変更前の構成](../archive/2026-09-12/BEFORE_EXTENSION_ARCHITECTURE.md)。
+ファイル構成の旧一覧・経緯は[変更前の構成](../archive/2026-09-12/DOCUMENT_SNAPSHOTS.md#snapshot-03)。
 素材環境は[素材生成設定](ASSET_GENERATION_SETUP.md)。今回有料生成は行っていない。
 
 

@@ -201,7 +201,7 @@ WebデータZIP `.local/projectile-effects-export.zip` に新素材60 PNGと `da
 2頭身リナ：全59件合格（`.local/logs/run_tests-20260912-163851.log`）、最終描画調整後の `tests/workshop_visuals.gd` も合格。実移動撮影は `Godot --path . --script res://tools/capture_twohead_motion.gd --quit-after 900`。上下左右ポーズ撮影は `Godot --path . --script res://tools/capture_chibi.gd --quit-after 900 -- --twohead`。Godotはローカル実行ファイルへ置換。[結果と制限](../archive/2026-09-12/rina-twohead/REPORT.md)。
 
 更新: 2026-09-12。現在の実行方法と受入条件を管理する。
-詳細な過去記録は[変更前の検証資料](../archive/2026-09-12/BEFORE_EXTENSION_TESTING.md)、
+詳細な過去記録は[変更前の検証資料](../archive/2026-09-12/DOCUMENT_SNAPSHOTS.md#snapshot-04)、
 今回の記録は[拡張リファクタリング](../archive/2026-09-12/EXTENSION_REFACTOR.md)。
 
 ## 回避から反撃への接続（2026-09-15）

@@ -1,5 +1,7 @@
 # 画像生成（開発専用）
 
+画像の生成・差し替え前は、まず[素材制作の必読入口](../docs/art/README.md)で対象別の規格を読み、制作記録の生成前確認を埋める。CLIの設定確認だけでは、美術規格の確認を済ませたことにならない。
+
 探索20室の専用素材: `Godot --headless --path . --script res://tools/build_exploration_kit.gd --quit-after 600`。インポート済みの `assets/stages/ashen-foundry-v2/exploration-kit/` の5枚の透過原画と遠景から19個のAtlasTextureを作り、実寸・抽出範囲をregions.jsonへ保存。ピクセル加工・追加生成は行わない。[生成条件と部屋への組み込み](../docs/art/production/authored-rooms/README.md)。
 
 回廊の崩落アトラス: `Godot --headless --path . --script res://tools/build_gallery_collapse_atlas.gd` で、インポート済みの `assets/stages/ashen-foundry-v2/gallery-collapse/atlas.png` から4つのAtlasTexture `.tres`を再構築する。画像生成・画像ピクセル加工は行わない。原本・内蔵画像生成の条件・表示寸法は[回廊制作記録](../docs/art/production/authored-rooms/README.md)を参照。
@@ -71,3 +73,9 @@ python tools/generate_image.py --plan 4
 展望室v2の欄干：`Godot --headless --path . --script res://tools/build_overlook_assets.gd --quit-after 100`。生成PNGの透過余白をAtlasTextureの参照範囲として除き、原本は変更しない。地底背景と生成条件は[展望室の制作記録](../docs/art/production/authored-rooms/README.md)を参照。
 
 苔玉8方向: `Godot --headless --path . --script res://tools/build_moss_directions.gd`で既存透過原本の抽出矩形・共通縮尺・甲羅原点を再計測する。`Godot --path . --script res://tools/capture_moss_directions.gd --quit-after 1800`で8方向の歩行と横倒しを72フレーム撮影する。生成指示と原本は[制作記録](../docs/art/production/root-runner-motion/README.md)を参照。
+
+## グラフィック使用状況の調査
+
+`python tools/graphics_inventory.py` は画像のパス・参照元・動的読込候補・Web除外・同一内容コピーを調べ、[画像一覧](../assets/graphics_inventory.html)と[JSON台帳](../assets/graphics_inventory.json)を再生成する。`--check`で更新漏れを検査する。詳細と限界は[素材の分類](../assets/README.md)。画像の変更・削除・API通信は行わない。
+
+回帰確認は `python tests/test_graphics_inventory.py`。書式付きAtlasTexture、JSON経由、動的フォルダー、原画保管、重複、キャッシュ除外を確認する。

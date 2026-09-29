@@ -4,7 +4,7 @@
 
 自動生成: `python tools/docs_index.py`。表題は本文の最初の見出しから取得。分類は役割の案内で、内容の検証完了や採用を示しません。過去計画は元のパスを維持して履歴に分類しています。
 
-対象 209 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
+対象 183 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
 
 ## 入口・運用
 
@@ -16,7 +16,7 @@
 |[docs/DOCUMENTATION_GUIDE.md](<DOCUMENTATION_GUIDE.md>)|資料の配置と更新ルール|
 |[docs/README.md](<README.md>)|資料索引|
 |[docs/archive/README.md](<archive/README.md>)|過去資料|
-|[docs/art/README.md](<art/README.md>)|画像・素材の整理入口|
+|[docs/art/README.md](<art/README.md>)|素材制作の必読入口|
 |[docs/design/README.md](<design/README.md>)|現行仕様|
 |[docs/development/README.md](<development/README.md>)|実装と検証の手順|
 |[docs/planning/README.md](<planning/README.md>)|計画と提案|
@@ -166,42 +166,18 @@
 |[docs/archive/2026-09-11/AUDIO_403_DIAGNOSIS.md](<archive/2026-09-11/AUDIO_403_DIAGNOSIS.md>)|Stability 403調査・修正|
 |[docs/archive/2026-09-11/AUDIO_SETUP_REPORT.md](<archive/2026-09-11/AUDIO_SETUP_REPORT.md>)|AI音響生成環境 構築結果|
 |[docs/archive/2026-09-11/AUDIO_TLS_DIAGNOSIS.md](<archive/2026-09-11/AUDIO_TLS_DIAGNOSIS.md>)|BGM通信エラー調査|
-|[docs/archive/2026-09-11/BEFORE_ARCHITECTURE.md](<archive/2026-09-11/BEFORE_ARCHITECTURE.md>)|プロジェクト構成|
-|[docs/archive/2026-09-11/BEFORE_FIELD_RESERVE_GAME_RULES.md](<archive/2026-09-11/BEFORE_FIELD_RESERVE_GAME_RULES.md>)|ゲーム仕様|
-|[docs/archive/2026-09-11/BEFORE_FIELD_RESERVE_TESTING.md](<archive/2026-09-11/BEFORE_FIELD_RESERVE_TESTING.md>)|検証手順|
-|[docs/archive/2026-09-11/BEFORE_FINE_GRID_ROADMAP.md](<archive/2026-09-11/BEFORE_FINE_GRID_ROADMAP.md>)|P9前：グリッド細分化と重複レリック|
-|[docs/archive/2026-09-11/BEFORE_GAME_RULES.md](<archive/2026-09-11/BEFORE_GAME_RULES.md>)|ゲーム仕様|
-|[docs/archive/2026-09-11/BEFORE_HANDOFF_FOR_CLAUDE.md](<archive/2026-09-11/BEFORE_HANDOFF_FOR_CLAUDE.md>)|開発引き継ぎ|
-|[docs/archive/2026-09-11/BEFORE_ITEM_EXPANSION_FOOTPRINT.md](<archive/2026-09-11/BEFORE_ITEM_EXPANSION_FOOTPRINT.md>)|全アイテム占有形状の評価・現行試作値|
-|[docs/archive/2026-09-11/BEFORE_ITEM_EXPANSION_TESTING.md](<archive/2026-09-11/BEFORE_ITEM_EXPANSION_TESTING.md>)|アイテム追加前の検証記録|
-|[docs/archive/2026-09-11/BEFORE_PURCHASE_FINE_GRID_ROADMAP.md](<archive/2026-09-11/BEFORE_PURCHASE_FINE_GRID_ROADMAP.md>)|P9前：グリッド細分化と重複レリック|
-|[docs/archive/2026-09-11/BEFORE_PURCHASE_ROADMAP.md](<archive/2026-09-11/BEFORE_PURCHASE_ROADMAP.md>)|現在地と残課題|
-|[docs/archive/2026-09-11/BEFORE_PURCHASE_TESTING.md](<archive/2026-09-11/BEFORE_PURCHASE_TESTING.md>)|検証手順|
-|[docs/archive/2026-09-11/BEFORE_README.md](<archive/2026-09-11/BEFORE_README.md>)|CHAMBER CLASH|
-|[docs/archive/2026-09-11/BEFORE_ROADMAP.md](<archive/2026-09-11/BEFORE_ROADMAP.md>)|現在地と今後の開発|
-|[docs/archive/2026-09-11/BEFORE_TESTING.md](<archive/2026-09-11/BEFORE_TESTING.md>)|検証手順|
+|[docs/archive/2026-09-11/DOCUMENT_SNAPSHOTS.md](<archive/2026-09-11/DOCUMENT_SNAPSHOTS.md>)|2026-09-11 更新前資料の履歴集|
 |[docs/archive/2026-09-11/EXPANSION_GUIDANCE.md](<archive/2026-09-11/EXPANSION_GUIDANCE.md>)|拡張の選択・配置案内|
 |[docs/archive/2026-09-11/INITIAL_PREPARATION_FIX.md](<archive/2026-09-11/INITIAL_PREPARATION_FIX.md>)|初回準備の仮P-12表示不整合|
 |[docs/archive/2026-09-11/ITEM_EXPANSION_PROPOSAL.md](<archive/2026-09-11/ITEM_EXPANSION_PROPOSAL.md>)|武器10種・レリック15種・キャラ別初期武器の追加案|
-|[docs/archive/2026-09-11/P9_BEFORE_FOOTPRINT_BALANCE_TESTING.md](<archive/2026-09-11/P9_BEFORE_FOOTPRINT_BALANCE_TESTING.md>)|形状評価前の検証記録|
-|[docs/archive/2026-09-11/P9_BEFORE_SELECTABLE_EXPANSION_TESTING.md](<archive/2026-09-11/P9_BEFORE_SELECTABLE_EXPANSION_TESTING.md>)|選択式バッグ拡張前の検証記録|
 |[docs/archive/2026-09-11/P9_FINE_GRID_VALIDATION.md](<archive/2026-09-11/P9_FINE_GRID_VALIDATION.md>)|P9前改修の段階検証履歴|
-|[docs/archive/2026-09-11/PREPARATION_UI_B_BEFORE_FINE_GRID.md](<archive/2026-09-11/PREPARATION_UI_B_BEFORE_FINE_GRID.md>)|B案：準備画面のレイアウト確定と検証|
 |[docs/archive/2026-09-11/PREPARATION_UI_OPTIONS.md](<archive/2026-09-11/PREPARATION_UI_OPTIONS.md>)|準備画面：3案の比較（2026-09-11）|
 |[docs/archive/2026-09-11/PURCHASE_ECONOMY_VALIDATION.md](<archive/2026-09-11/PURCHASE_ECONOMY_VALIDATION.md>)|購入経済試作の実装・検証日誌|
 |[docs/archive/2026-09-11/README.md](<archive/2026-09-11/README.md>)|2026-09-11 資料整理時の履歴|
 |[docs/archive/2026-09-11/ROGUELIKE_PVP_PLAN.md](<archive/2026-09-11/ROGUELIKE_PVP_PLAN.md>)|ローグライク×対人シューティング 実装計画|
-|[docs/archive/2026-09-12/BEFORE_CPU_STRENGTHENING_TESTING.md](<archive/2026-09-12/BEFORE_CPU_STRENGTHENING_TESTING.md>)|検証手順|
-|[docs/archive/2026-09-12/BEFORE_CPU_TACTICS_TESTING.md](<archive/2026-09-12/BEFORE_CPU_TACTICS_TESTING.md>)|検証手順|
-|[docs/archive/2026-09-12/BEFORE_EXTENSION_ARCHITECTURE.md](<archive/2026-09-12/BEFORE_EXTENSION_ARCHITECTURE.md>)|プロジェクト構成|
-|[docs/archive/2026-09-12/BEFORE_EXTENSION_TESTING.md](<archive/2026-09-12/BEFORE_EXTENSION_TESTING.md>)|検証手順|
-|[docs/archive/2026-09-12/BEFORE_REFACTOR_TESTING.md](<archive/2026-09-12/BEFORE_REFACTOR_TESTING.md>)|検証手順|
-|[docs/archive/2026-09-12/BEFORE_SHARED_SUPPLIES_TESTING.md](<archive/2026-09-12/BEFORE_SHARED_SUPPLIES_TESTING.md>)|検証手順|
-|[docs/archive/2026-09-12/BEFORE_SMALL_IMPROVEMENTS_TESTING.md](<archive/2026-09-12/BEFORE_SMALL_IMPROVEMENTS_TESTING.md>)|検証手順|
-|[docs/archive/2026-09-12/BEFORE_WEAPON_DIFFERENTIATION_TESTING.md](<archive/2026-09-12/BEFORE_WEAPON_DIFFERENTIATION_TESTING.md>)|武器差別化前の検証記録|
+|[docs/archive/2026-09-12/DOCUMENT_SNAPSHOTS.md](<archive/2026-09-12/DOCUMENT_SNAPSHOTS.md>)|2026-09-12 更新前資料の履歴集|
 |[docs/archive/2026-09-12/EXTENSION_REFACTOR.md](<archive/2026-09-12/EXTENSION_REFACTOR.md>)|将来拡張のための依存整理|
 |[docs/archive/2026-09-12/FIELD_DEFINITION_REFACTOR.md](<archive/2026-09-12/FIELD_DEFINITION_REFACTOR.md>)|フィールド定義と配置の分離|
-|[docs/archive/2026-09-12/PREPARATION_UI_BEFORE_REVISION.md](<archive/2026-09-12/PREPARATION_UI_BEFORE_REVISION.md>)|B案：準備画面|
 |[docs/archive/2026-09-12/REFACTOR_VALIDATION.md](<archive/2026-09-12/REFACTOR_VALIDATION.md>)|現行ルールを維持したリファクタリング|
 |[docs/archive/2026-09-12/WEAPON_DIFFERENTIATION_PROPOSAL.md](<archive/2026-09-12/WEAPON_DIFFERENTIATION_PROPOSAL.md>)|武器差別化の再検討案（検討時の履歴）|
 |[docs/archive/2026-09-12/art-organization/REPORT.md](<archive/2026-09-12/art-organization/REPORT.md>)|画像・関連ファイルの整理|
@@ -216,12 +192,10 @@
 |[docs/archive/2026-09-12/rina-dive/REPORT.md](<archive/2026-09-12/rina-dive/REPORT.md>)|リナの飛び込み回避|
 |[docs/archive/2026-09-12/rina-gait-dodge/REPORT.md](<archive/2026-09-12/rina-gait-dodge/REPORT.md>)|リナの足元・歩行・専用回避修正|
 |[docs/archive/2026-09-12/rina-twohead/REPORT.md](<archive/2026-09-12/rina-twohead/REPORT.md>)|2頭身リナの差し替えと歩行の安定化|
-|[docs/archive/2026-09-13/GAME_RULES-before-equipment-completion.md](<archive/2026-09-13/GAME_RULES-before-equipment-completion.md>)|ゲーム仕様|
-|[docs/archive/2026-09-13/ROADMAP-before-equipment-completion.md](<archive/2026-09-13/ROADMAP-before-equipment-completion.md>)|現在地と残課題|
+|[docs/archive/2026-09-13/DOCUMENT_SNAPSHOTS.md](<archive/2026-09-13/DOCUMENT_SNAPSHOTS.md>)|2026-09-13 更新前資料の履歴集|
 |[docs/archive/2026-09-13/SE_GAME_INTEGRATION.md](<archive/2026-09-13/SE_GAME_INTEGRATION.md>)|生成SE16種のゲーム接続|
 |[docs/archive/2026-09-13/SE_HTTP400_DIAGNOSIS.md](<archive/2026-09-13/SE_HTTP400_DIAGNOSIS.md>)|SE HTTP 400 調査|
 |[docs/archive/2026-09-13/SE_REMAINING_INTEGRATION.md](<archive/2026-09-13/SE_REMAINING_INTEGRATION.md>)|追加SEのゲーム接続|
-|[docs/archive/2026-09-13/TESTING-before-equipment-completion.md](<archive/2026-09-13/TESTING-before-equipment-completion.md>)|検証手順|
 |[docs/archive/2026-09-13/VISUAL_HUB_COMPARE_UPDATE_FIX.md](<archive/2026-09-13/VISUAL_HUB_COMPARE_UPDATE_FIX.md>)|Web比較対象・条件更新の修正|
 |[docs/archive/2026-09-13/VISUAL_HUB_HYBRID.md](<archive/2026-09-13/VISUAL_HUB_HYBRID.md>)|Visual Hub v1 Hybrid — 実装・検証記録|
 |[docs/archive/2026-09-13/VISUAL_HUB_MILESTONES.md](<archive/2026-09-13/VISUAL_HUB_MILESTONES.md>)|Visual Hub Hybrid 実装マイルストーン|

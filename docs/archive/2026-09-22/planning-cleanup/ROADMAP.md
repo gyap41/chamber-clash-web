@@ -142,7 +142,7 @@ CPU強化の実プレイ評価は未完了。予測射撃の命中率、回避�
 
 自動テストの成功と人間の操作感・試合尺・対人バランス確定を区別する。
 数値理由は [購入経済仕様](../../../planning/PURCHASE_ECONOMY_PROPOSAL.md)、現行ルールは [GAME_RULES](../../../design/GAME_RULES.md)、
-実行方法と結果は [TESTING](../../../development/TESTING.md)。旧ロードマップは [履歴](../../2026-09-11/BEFORE_PURCHASE_ROADMAP.md)。
+実行方法と結果は [TESTING](../../../development/TESTING.md)。旧ロードマップは [履歴](../../2026-09-11/DOCUMENT_SNAPSHOTS.md#snapshot-10)。
 
 数値補正レリックの低額化・重複解禁後は、移動/装填/威力特化、少弾倉武器へのワイドマガジン集中、武器とレリックの購入比率を実プレイで評価する。
 
