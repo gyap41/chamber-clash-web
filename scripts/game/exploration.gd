@@ -7,9 +7,12 @@ const FollowCamera = preload("res://scripts/visuals/exploration_camera.gd")
 const Encounter = preload("res://scripts/game/exploration_encounter.gd")
 const Reward = preload("res://scripts/game/exploration_reward.gd")
 const BossFlow = preload("res://scripts/game/exploration_boss_flow.gd")
+const ExplorationSupplies = preload("res://scripts/game/exploration_supplies.gd")
+const Loot = preload("res://scripts/game/exploration_loot.gd")
+const Loadout = preload("res://scripts/game/exploration_loadout.gd")
+const BOSS_ID := "furnace_warden"
 var boss_intro_seen := false
 var chest_node
-const ExplorationSupplies = preload("res://scripts/game/exploration_supplies.gd")
 var supply_nodes: Array = []
 var encounters_enabled := true
 var random_floor := false
@@ -19,8 +22,6 @@ var floor_data: Dictionary = {}
 var floor_map
 var room_catalog: Dictionary = Rooms.ROOMS
 var start_room := Rooms.START_ROOM
-const Loot = preload("res://scripts/game/exploration_loot.gd")
-const Loadout = preload("res://scripts/game/exploration_loadout.gd")
 var bag
 var loot_nodes: Array = []
 var loot_message := ""
@@ -47,66 +48,40 @@ func _ready() -> void:
 	hud.sound_requested.connect(func(): sound.set_enabled(not sound.enabled))
 	combat.countdown_enabled = false
 	combat.supplies_enabled = false
+	start_exploration(apply_launch_options(OS.get_cmdline_user_args()))
+# Applies command-line room/floor selection and returns the run seed.
+func apply_launch_options(args: PackedStringArray) -> int:
 	var seed_value := Time.get_ticks_usec()
-	for argument in OS.get_cmdline_user_args():
+	for argument in args:
 		if argument.begins_with("--seed="): seed_value = int(argument.trim_prefix("--seed="))
-	if "--random-floor" in OS.get_cmdline_user_args(): random_floor = true
-	if "--authored-floor" in OS.get_cmdline_user_args():
+	if "--random-floor" in args: random_floor = true
+	if "--authored-floor" in args:
 		random_floor=true
 		authored_campaign=true
-	if "--stage-four-way" in OS.get_cmdline_user_args():
+	if "--stage-four-way" in args:
 		random_floor = false
 		room_catalog = preload("res://scripts/world/four_way_demo.gd").catalog()
 		start_room = "crossroads"
-	if "--stage-collapse" in OS.get_cmdline_user_args():
+	if "--stage-collapse" in args:
 		random_floor = false
 		encounters_enabled = false
 		preserve_room_dressing = true
 		room_catalog = preload("res://scripts/world/collapsed_workshop_demo.gd").catalog()
 		start_room = "collapsed_workshop"
-	if "--stage-authored" in OS.get_cmdline_user_args():
+	if "--stage-authored" in args:
 		# Hand-authored room trial (docs/art/production/authored-rooms), no enemies.
 		random_floor = false
 		encounters_enabled = false
 		preserve_room_dressing = true
 		room_catalog = preload("res://scripts/world/authored_rooms.gd").catalog()
 		start_room = "collapsed_gallery"
-	start_exploration(seed_value)
+	return seed_value
 func start_exploration(seed_value: int) -> void:
 	sound.stop_all()
 	clear_enemy_deaths()
 	if floor_map != null: close_map()
 	if bag != null: close_bag()
-	if random_floor:
-		var generated := preload("res://scripts/game/production_floor.gd").generate(seed_value) if authored_campaign else Floor.generate(seed_value)
-		var generation_errors: PackedStringArray = generated.errors
-		if generation_errors.is_empty(): generation_errors = Floor.validation_errors(generated)
-		if generation_errors.is_empty():
-			for room in generated.catalog.values():
-				if not preload("res://scripts/world/room_reachability.gd").reachable(room): generation_errors.append("Unreachable room: "+room.display_name)
-		if not generation_errors.is_empty():
-			push_error("Floor generation rejected: "+str(generation_errors))
-			set_physics_process(false)
-			set_pause_reason("generation_error",true)
-			var failure := AcceptDialog.new()
-			failure.title = "探索を開始できません"
-			failure.dialog_text = "階層の接続を確認できませんでした。タイトルへ戻ります。"
-			failure.confirmed.connect(return_to_title)
-			failure.canceled.connect(return_to_title)
-			add_child(failure)
-			failure.popup_centered()
-			return
-		floor_data = generated
-		room_catalog = generated.catalog
-		start_room = generated.start
-	else:
-		var dressed_catalog := {}
-		for id in room_catalog:
-			var room = room_catalog[id].duplicate(true)
-			if not preserve_room_dressing:
-				preload("res://scripts/world/ashen_foundry_dressing.gd").apply(room,"start" if id == start_room else "normal",1)
-			dressed_catalog[id] = room
-		room_catalog = dressed_catalog
+	if not prepare_room_catalog(seed_value): return
 	if not room_catalog.has(start_room):
 		push_error("Start room is not in the room catalog")
 		return
@@ -155,6 +130,40 @@ func start_exploration(seed_value: int) -> void:
 	rebuild_doors()
 	get_node("/root/Music").play_context("play")
 	refresh_hud()
+# Generates (random floor) or dresses (fixed rooms) the room catalog. On a rejected
+# floor, pauses and offers a return to title, then returns false.
+func prepare_room_catalog(seed_value: int) -> bool:
+	if random_floor:
+		var generated := preload("res://scripts/game/production_floor.gd").generate(seed_value) if authored_campaign else Floor.generate(seed_value)
+		var generation_errors: PackedStringArray = generated.errors
+		if generation_errors.is_empty(): generation_errors = Floor.validation_errors(generated)
+		if generation_errors.is_empty():
+			for room in generated.catalog.values():
+				if not preload("res://scripts/world/room_reachability.gd").reachable(room): generation_errors.append("Unreachable room: "+room.display_name)
+		if not generation_errors.is_empty():
+			push_error("Floor generation rejected: "+str(generation_errors))
+			set_physics_process(false)
+			set_pause_reason("generation_error",true)
+			var failure := AcceptDialog.new()
+			failure.title = "探索を開始できません"
+			failure.dialog_text = "階層の接続を確認できませんでした。タイトルへ戻ります。"
+			failure.confirmed.connect(return_to_title)
+			failure.canceled.connect(return_to_title)
+			add_child(failure)
+			failure.popup_centered()
+			return false
+		floor_data = generated
+		room_catalog = generated.catalog
+		start_room = generated.start
+	else:
+		var dressed_catalog := {}
+		for id in room_catalog:
+			var room = room_catalog[id].duplicate(true)
+			if not preserve_room_dressing:
+				preload("res://scripts/world/ashen_foundry_dressing.gd").apply(room,"start" if id == start_room else "normal",1)
+			dressed_catalog[id] = room
+		room_catalog = dressed_catalog
+	return true
 func rebuild_doors() -> void:
 	Reward.ensure_treasure(self)
 	rebuild_loot()
@@ -313,11 +322,9 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		apply_command(0,HumanInput.key(players[0],event.keycode))
 func _physics_process(dt: float) -> void:
 	if phase == "result" and not paused:
-		for remains in get_tree().get_nodes_in_group("enemy_death_visuals"):
-			if is_ancestor_of(remains): remains.step(dt)
+		step_enemy_deaths(dt)
 	if phase == "play" and not paused and result.is_empty():
-		for remains in get_tree().get_nodes_in_group("enemy_death_visuals"):
-			if is_ancestor_of(remains): remains.step(dt)
+		step_enemy_deaths(dt)
 		if is_instance_valid(chest_node): chest_node.step(dt)
 		BossFlow.step_reward(self,dt)
 		combat_visuals.step(dt)
@@ -331,43 +338,54 @@ func _physics_process(dt: float) -> void:
 			combat.step(dt)
 		var active_weapon: int = players[0].weapon().id if players[0].has_weapon() else -1
 		if active_weapon != previous_weapon: Loadout.restore_active(players[0],exploration.weapon_bank)
-		var was_active: bool = exploration.encounter_status == "active"
-		exploration.settle(players[0].state.hp > 0,players.slice(1).any(func(p): return p.state.hp > 0))
-		if was_active and exploration.encounter_status == "cleared":
-			var defeated_at: Vector2 = players[1].state.pos if players.size() > 1 else players[0].state.pos
-			Encounter.retire(self)
-			loot_message = "部屋クリア · 出口が開きました"
-			if not floor_data.is_empty() and floor_data.rooms[exploration.room_id].role == "boss":
-				BossFlow.begin_reward(self,defeated_at)
-			if exploration.status == "active" and not BossFlow.is_room(self) and Reward.ensure(self):
-				rebuild_chest()
-				chest_node.spawning = .4
-				sound.play_sound("chest_spawn")
-				loot_message = "部屋クリア · 宝箱が出現しました"
-			if ExplorationSupplies.ensure(self): rebuild_supplies()
-		if exploration.status != "active":
-			if players.size() > 1: Encounter.retire(self)
-			result = "探索終了" if exploration.status == "dead" else "工房踏破！ 独楽の鋳造機を撃破"
-			phase = "result"
-			clear_action_inputs()
-			delayed_shots.clear()
-			sound.stop_all(exploration.status == "completed")
-			if exploration.status == "completed": sound.play_sound("win")
-			get_node("/root/Music").play_context("result")
+		settle_room()
 	if not paused:
-		var boss_alive: bool = phase == "play" and players.size() > 1 and players[1].get("spec") != null and players[1].spec.id == "furnace_warden" and players[1].state.hp > 0
-		if boss_alive:
-			sound.update_boss_engine(true,players[1].state.pos.distance_to(players[0].state.pos),1.0 if players[1].attack_phase == "dash" else .5 if players[1].second_phase else 0.0)
-		else:
-			sound.update_boss_engine(false)
-		var camera_target: Vector2 = players[0].state.pos
-		if boss_intro():
-			var progress: float = 1.0-players[1].attack_time/players[1].startup_total
-			camera_target = camera_target.lerp(players[1].state.pos,sin(progress*PI)*.7)
-		FollowCamera.follow(arena.get_node("CombatCamera"),arena.field_rect,camera_target)
+		update_boss_engine()
+		follow_player()
 	arena.get_node("DangerZone").refresh(0.0)
 	arena.get_node("CombatCamera").offset = -combat_visuals.shake_offset
 	refresh_hud()
+func step_enemy_deaths(dt: float) -> void:
+	for remains in get_tree().get_nodes_in_group("enemy_death_visuals"):
+		if is_ancestor_of(remains): remains.step(dt)
+# After a combat step: room clear (rewards/supplies) and end of the run.
+func settle_room() -> void:
+	var was_active: bool = exploration.encounter_status == "active"
+	exploration.settle(players[0].state.hp > 0,players.slice(1).any(func(p): return p.state.hp > 0))
+	if was_active and exploration.encounter_status == "cleared":
+		var defeated_at: Vector2 = players[1].state.pos if players.size() > 1 else players[0].state.pos
+		Encounter.retire(self)
+		loot_message = "部屋クリア · 出口が開きました"
+		if not floor_data.is_empty() and floor_data.rooms[exploration.room_id].role == "boss":
+			BossFlow.begin_reward(self,defeated_at)
+		if exploration.status == "active" and not BossFlow.is_room(self) and Reward.ensure(self):
+			rebuild_chest()
+			chest_node.spawning = .4
+			sound.play_sound("chest_spawn")
+			loot_message = "部屋クリア · 宝箱が出現しました"
+		if ExplorationSupplies.ensure(self): rebuild_supplies()
+	if exploration.status != "active":
+		if players.size() > 1: Encounter.retire(self)
+		result = "探索終了" if exploration.status == "dead" else "工房踏破！ 独楽の鋳造機を撃破"
+		phase = "result"
+		clear_action_inputs()
+		delayed_shots.clear()
+		sound.stop_all(exploration.status == "completed")
+		if exploration.status == "completed": sound.play_sound("win")
+		get_node("/root/Music").play_context("result")
+func update_boss_engine() -> void:
+	var boss_alive: bool = phase == "play" and players.size() > 1 and is_boss(players[1]) and players[1].state.hp > 0
+	if boss_alive:
+		sound.update_boss_engine(true,players[1].state.pos.distance_to(players[0].state.pos),1.0 if players[1].attack_phase == "dash" else .5 if players[1].second_phase else 0.0)
+	else:
+		sound.update_boss_engine(false)
+# During the boss intro the camera drifts toward the boss and back.
+func follow_player() -> void:
+	var camera_target: Vector2 = players[0].state.pos
+	if boss_intro():
+		var progress: float = 1.0-players[1].attack_time/players[1].startup_total
+		camera_target = camera_target.lerp(players[1].state.pos,sin(progress*PI)*.7)
+	FollowCamera.follow(arena.get_node("CombatCamera"),arena.field_rect,camera_target)
 func fit_field_camera() -> void:
 	var target: Vector2 = players[0].state.get("pos",arena.spawn_position(0))
 	if arena.runtime_definition.theme != null:
@@ -497,8 +515,12 @@ func rebuild_supplies() -> void:
 		arena.get_node("Players").add_child(node)
 		supply_nodes.append(node)
 
+# Chests and supplies share this gate: live run, no pause, no active fight.
+func can_use_pickups() -> bool:
+	return not paused and phase == "play" and exploration.status == "active" and players[0].state.hp > 0 and exploration.encounter_status != "active"
+
 func try_supply() -> bool:
-	if paused or phase != "play" or exploration.status != "active" or players[0].state.hp <= 0 or exploration.encounter_status == "active": return false
+	if not can_use_pickups(): return false
 	var entry := ExplorationSupplies.nearby(self)
 	if entry.is_empty(): return false
 	if not door_armed: return true
@@ -512,7 +534,7 @@ func try_supply() -> bool:
 	return true
 
 func try_chest() -> bool:
-	if paused or phase != "play" or exploration.status != "active" or players[0].state.hp <= 0 or exploration.encounter_status == "active": return false
+	if not can_use_pickups(): return false
 	if not Reward.nearby(self): return false
 	# Use the same release latch as doors so opening cannot also acquire or leave.
 	if not door_armed: return true
@@ -538,9 +560,12 @@ func try_chest() -> bool:
 	refresh_hud()
 	return true
 
+func is_boss(actor) -> bool:
+	return actor.get("spec") != null and actor.spec.id == BOSS_ID
+
 func boss_intro() -> bool:
-	return exploration != null and players.size() == 2 and players[1].get("spec") != null and players[1].spec.id == "furnace_warden" and players[1].attack_phase == "grace"
+	return exploration != null and players.size() == 2 and is_boss(players[1]) and players[1].attack_phase == "grace"
 
 func boss_hud() -> Dictionary:
-	if players.size() != 2 or players[1].get("spec") == null or players[1].spec.id != "furnace_warden": return {}
+	if players.size() != 2 or not is_boss(players[1]): return {}
 	return {"hp":players[1].state.hp,"max_hp":players[1].state.max_hp,"intro":boss_intro(),"second":players[1].second_phase}
