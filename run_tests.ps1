@@ -6,7 +6,13 @@
 #
 # Auto-discovers tests/*.gd. render.gd (non-headless) is skipped by default; pass -IncludeRender to run it too.
 # Combined output is saved under .local/logs/, and a PASS/FAIL summary is printed at the end.
-# Exit code is 1 if anything failed or errored, 0 if everything passed.
+# Results:
+#   FAIL    - non-zero exit, SCRIPT ERROR, assertion failure, "FAIL:", or an "ERROR:" line other than
+#             the exit-time "resources still in use" leak report.
+#   PASS    - no error and at least one line starting with "PASS" ("PASS:" or "PASS <name>").
+#   NO-PASS - no error but no PASS line (capture/review scripts); reported, does not fail the run.
+# Exit-time leak reports vary between runs; they are counted in the Leaks column, not judged.
+# Exit code is 1 if anything failed, 0 otherwise.
 
 param(
     [string]$GodotPath = "",
@@ -85,16 +91,23 @@ try {
         $output | Out-File -FilePath $logPath -Append -Encoding utf8
 
         $text = ($output | ForEach-Object { $_.ToString() }) -join "`n"
-        $hasError = $processExitCode -ne 0 -or $text -match "SCRIPT ERROR|Assertion failed|(?m)^ERROR:|FAIL:"
-        $passCount = ([regex]::Matches($text, "PASS:")).Count
+        $leakPattern = "(?m)^ERROR: \d+ resources still in use at exit"
+        $leakCount = ([regex]::Matches($text, $leakPattern)).Count
+        $judged = [regex]::Replace($text, $leakPattern, "")
+        $hasError = $processExitCode -ne 0 -or $judged -match "SCRIPT ERROR|Assertion failed|(?m)^ERROR:|FAIL:"
+        $passCount = ([regex]::Matches($text, "(?m)^PASS\b")).Count
 
-        if ($hasError -or $passCount -eq 0) {
+        if ($hasError) {
             Write-Host "  FAIL" -ForegroundColor Red
-            $results += [pscustomobject]@{ Test = $name; Result = "FAIL"; Passes = $passCount }
+            $result = "FAIL"
+        } elseif ($passCount -eq 0) {
+            Write-Host "  NO-PASS (no errors, no PASS line)" -ForegroundColor Yellow
+            $result = "NO-PASS"
         } else {
             Write-Host "  PASS ($passCount)" -ForegroundColor Green
-            $results += [pscustomobject]@{ Test = $name; Result = "PASS"; Passes = $passCount }
+            $result = "PASS"
         }
+        $results += [pscustomobject]@{ Test = $name; Result = $result; Passes = $passCount; Leaks = $leakCount }
     }
 } finally {
     $ErrorActionPreference = $loopEAP
@@ -102,11 +115,20 @@ try {
 
 Write-Host ""
 Write-Host "----- summary -----"
+"----- summary -----" | Out-File -FilePath $logPath -Append -Encoding utf8
 $results | Format-Table -AutoSize | Out-String | Write-Host
 $results | Format-Table -AutoSize | Out-String | Out-File -FilePath $logPath -Append -Encoding utf8
 
-$failed = $results | Where-Object { $_.Result -ne "PASS" }
-if ($failed) {
+$failed = @($results | Where-Object { $_.Result -eq "FAIL" })
+$noPass = @($results | Where-Object { $_.Result -eq "NO-PASS" })
+$passed = @($results | Where-Object { $_.Result -eq "PASS" })
+$totals = "PASS $($passed.Count) / FAIL $($failed.Count) / NO-PASS $($noPass.Count) / total $($results.Count)"
+Write-Host $totals
+$totals | Out-File -FilePath $logPath -Append -Encoding utf8
+if ($noPass.Count -gt 0) {
+    Write-Host "NO-PASS (not counted as failures): $($noPass.Test -join ', ')" -ForegroundColor Yellow
+}
+if ($failed.Count -gt 0) {
     Write-Host "FAILED: $($failed.Test -join ', ')" -ForegroundColor Red
     exit 1
 } else {

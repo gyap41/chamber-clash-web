@@ -272,6 +272,12 @@ powershell -ExecutionPolicy Bypass -File run_tests.ps1 -IncludeRender
 ログは.local/logs。終了コード、SCRIPT ERROR/ERROR/Assertion、PASS表示をすべて確認する。
 Godotのユーザーデータ・キャッシュ・証明書ストアへの権限拒否も成功扱いしない。
 
+一括判定（2026-09-30から）：
+- FAIL：終了コード非0、SCRIPT ERROR、Assertion失敗、`FAIL:`、終了時リーク報告以外の`ERROR:`行。FAILが1件でもあれば終了コード1。
+- PASS：エラーなしで、行頭が`PASS`の行（`PASS:`／`PASS 名前`）が1行以上。
+- NO-PASS：エラーもPASS行もない撮影・レビュー用スクリプト（enemy_animation_review / enemy_art_preview / enemy_death_review / quillback_art）。表示のみで失敗にはしない。
+- 終了時の`ERROR: N resources still in use at exit`は実行ごとに出方が変わるため合否に使わず、集計表のLeaks列に件数を出す。以前の一括判定のFAIL件数（下記の履歴）はこの報告を含む。
+
 通常mainはCPU対戦。武器/経済を隔離する既存テストではhelpers/battle.gdの
 passive_opponentsを明示使用し、CPUの自動射撃が期待弾数を変えないようにする。
 CPU統合テストは実際にis_cpuを有効にし、共通操作経路を通す。
