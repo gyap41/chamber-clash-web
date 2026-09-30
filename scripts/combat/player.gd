@@ -1,12 +1,27 @@
 extends Node2D
 const BuildGrid = preload("res://scripts/game/build_grid.gd")
 const Items = preload("res://scripts/game/item_identity.gd")
+const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
+const Relics = preload("res://scripts/catalog/relic_catalog.gd")
+const Characters = preload("res://scripts/catalog/character_catalog.gd")
+const VisualState = preload("res://scripts/visuals/actor_visual_state.gd")
+const RelicEffects = preload("res://scripts/combat/relic_effects.gd")
+const WeaponBehaviors = preload("res://scripts/combat/weapon_behaviors.gd")
+const RALLY_RATIO := 0.5
+const RALLY_DURATION := 3.0
+# Equipment-triggered timers are separate from persistent character stats.
+const ITEM_TIMERS := ["cool_grip_cd","sole_time","shell_time","shell_cd","aid_time","boots_time","sight_time","sight_cd","reel_cd"]
+const NO_WEAPON := {"id": -1, "clip": 0, "reserve": 0, "mode": 0}
+# 丸腰時のdefinition()。Weapons.definition(-1)はGDScriptの負数添字で配列末尾の武器を返して
+# しまうため、明示的な擬似定義を返す。can_fire()が偽になるので射撃系の値は読まれないが、
+# HUDの表示（name/desc）と装填ガード（mag）は実際に参照される。
+const NO_WEAPON_DEF := {"name": "素手", "desc": "武器を装備していない。近接で戦う。", "rarity": "C", "color": "#8f9aa3", "mag": 0, "stock": 0, "rate": .5, "damage": 0.0, "speed": 0.0}
+# 携行武器は操作/HUDの上限8丁を維持する。控え容量8個とは独立している。実際の上限は
+# グリッドの面積とそこに置いた武器の形状で決まるので、ここは暴走防止の天井にすぎない
+# （HUDの武器スロットもMAX_WEAPON_SLOTS＝8で確保している）。
+const MAX_CARRIED_WEAPONS := BuildGrid.MAX_CARRIED_WEAPONS
+
 signal weapon_event_requested(event: Dictionary)
-var combat_service: WeakRef
-var reload_visual_token := 0
-var reload_visual_active := false
-var reload_visual_weapon := -1
-var reload_visual_duration := 0.0
 signal burst_requested(pos: Vector2, color: Color, count: int)
 signal ring_requested(pos: Vector2, color: Color, expansion: float)
 signal shake_requested(strength: float)
@@ -20,6 +35,7 @@ signal sound_requested(kind: String, id: int)
 # origin_counter, so it asks via signal instead, matching the burst/ring/shake/sound pattern
 # above; main.gd owns the actual spawn timing and pulse-clearing behavior.
 signal delayed_shot_requested(data: Dictionary)
+
 @export_range(0,4) var initial_pulses: int = 2
 @export var pulse_invulnerability := .65
 @export var max_hp: float = 8.0
@@ -27,23 +43,10 @@ signal delayed_shot_requested(data: Dictionary)
 @export var roll_speed: float = 590.0
 @export var radius: float = 14.0
 @export var weapon_display_size := Vector2(40,30)
-var equipment_offset := Vector2.ZERO
 @export var reload_duration: float = 1.15
 @export var dodge_duration: float = 0.26
 @export var dodge_cooldown: float = 1.65
 @export_range(0.0, 0.2) var input_buffer_duration: float = 0.1
-var buffered_fire := 0.0
-var buffered_melee := 0.0
-var melee_push := Vector2.ZERO
-var melee_push_time := 0.0
-var buffered_switch := 0.0
-var buffered_slot := -1
-var keyboard_fire_held := false
-const RALLY_RATIO := 0.5
-const RALLY_DURATION := 3.0
-# Each wound expires independently: taking another hit never extends old recovery.
-var rally_enabled := true
-var rally_wounds: Array[Dictionary] = []
 # Legacy roll()/damage() keep invincibility (p.inv) separate from the roll animation timer
 # Default characters roll for .26s; Rina dives for .38s with a vulnerable landing.
 # p.inv is independently set to .31s, which gates Rina's incoming damage.
@@ -55,9 +58,23 @@ var rally_wounds: Array[Dictionary] = []
 @export var melee_arc: float = deg_to_rad(70.0) # 照準から左右の角度（旧 60°）
 @export var melee_damage: float = 0.6
 @export var melee_limit: int = 3
-const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
-const Relics = preload("res://scripts/catalog/relic_catalog.gd")
-const Characters = preload("res://scripts/catalog/character_catalog.gd")
+
+var combat_service: WeakRef
+var reload_visual_token := 0
+var reload_visual_active := false
+var reload_visual_weapon := -1
+var reload_visual_duration := 0.0
+var equipment_offset := Vector2.ZERO
+var buffered_fire := 0.0
+var buffered_melee := 0.0
+var melee_push := Vector2.ZERO
+var melee_push_time := 0.0
+var buffered_switch := 0.0
+var buffered_slot := -1
+var keyboard_fire_held := false
+# Each wound expires independently: taking another hit never extends old recovery.
+var rally_enabled := true
+var rally_wounds: Array[Dictionary] = []
 var inventory: Array = []
 var match_inventory
 var match_player_index := -1
@@ -76,10 +93,7 @@ var field_occupied := {}
 var telemetry
 var state: Dictionary = {}
 var char_id := -1
-const VisualState = preload("res://scripts/visuals/actor_visual_state.gd")
 var visual_moving := false
-# Equipment-triggered timers are separate from persistent character stats.
-const ITEM_TIMERS := ["cool_grip_cd","sole_time","shell_time","shell_cd","aid_time","boots_time","sight_time","sight_cd","reel_cd"]
 # Set by character_select.gd when CPU mode is chosen (always player index 1, matching the
 # legacy web version's mode==='cpu' hardcoding). Persists across reset_round() like char_id.
 var is_cpu := false
@@ -87,6 +101,14 @@ var participant_id := ""
 var team_id := ""
 var battle_roster
 var battle_slot := -1
+# P8z ステップA 丸腰耐性：ステップBで武器をグリッドに置く方式へ移ると、1丁も置かなかった
+# プレイヤーはinventoryが空のままラウンドを迎えうる。weapon()はinventory[state.gun]を無条件に
+# 添字参照していたため、毎フレーム走るstep()やHUDを含む約20箇所がその状態で落ちる。ここで
+# 「武器を持っていない」を正式な状態として扱えるようにしておく（この時点ではinventoryが空に
+# なる経路がまだ無いので、振る舞いは一切変わらない）。近接・回避・パルスは元から武器の状態を
+# 参照していないため、丸腰でも戦うこと自体はできる。
+var exploration_starter := false
+
 # Applies a character's base stats (HP, speed, reload multiplier, dodge cooldown, pulse
 # count, portrait frame). Mutates the live state dict in place rather than calling reset(),
 # so it is safe to call after reset() has already run this round (e.g. from a pre-match
@@ -159,7 +181,7 @@ func move_to_room(spawn: Vector2) -> void:
 func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Dictionary = {}, attacker = null) -> bool:
 	if state.hp <= 0 or amount <= 0: return false
 	if (char_id != 0 and state.roll > 0) or (volley >= 0 and state.blocked_volley == volley) or (state.inv > 0 and (volley < 0 or state.last_volley != volley)): return false
-	amount = preload("res://scripts/combat/relic_effects.gd").incoming_damage(self,amount,volley,hazard)
+	amount = RelicEffects.incoming_damage(self,amount,volley,hazard)
 	if amount <= 0: return false
 	state.last_volley = volley
 	var actual := minf(state.hp,amount)
@@ -168,13 +190,12 @@ func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Diction
 		rally_wounds.clear()
 		melee_push = Vector2.ZERO
 		melee_push_time = 0.0
-	elif rally_enabled and not hazard and attacker != self and (not is_instance_valid(attacker) or team_id.is_empty() or attacker.team_id.is_empty() or team_id != attacker.team_id):
+	elif rally_enabled and not hazard and attacker != self and not_teammate(attacker):
 		rally_wounds.append({"amount":actual*RALLY_RATIO,"time":RALLY_DURATION})
-	if not hazard and is_instance_valid(attacker) and attacker != self:
-		if team_id.is_empty() or attacker.team_id.is_empty() or team_id != attacker.team_id:
-			attacker.recover_rally(actual)
+	if not hazard and is_instance_valid(attacker) and attacker != self and not_teammate(attacker):
+		attacker.recover_rally(actual)
 	if state.hp <= 0: cancel_reload_visual()
-	preload("res://scripts/combat/relic_effects.gd").damaged(self,actual,hazard)
+	RelicEffects.damaged(self,actual,hazard)
 	if telemetry != null: telemetry.record("damage",{"player":str(name),"amount":actual,"volley":volley,"hazard":hazard,"origin":origin})
 	state.inv = .22
 	burst_requested.emit(state.pos,visual_color(),14)
@@ -183,11 +204,16 @@ func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Diction
 	# Dead actors are skipped by CombatSession on the next tick; publish now.
 	sync_visual()
 	return true
-func rally_available() -> float:
-	if not rally_enabled or state.hp <= 0: return 0.0
+# Unknown attackers and actors without a team count as opponents.
+func not_teammate(attacker) -> bool:
+	return not is_instance_valid(attacker) or team_id.is_empty() or attacker.team_id.is_empty() or team_id != attacker.team_id
+func rally_total() -> float:
 	var total := 0.0
 	for wound in rally_wounds: total += float(wound.amount)
-	return minf(total,maxf(0.0,state.max_hp-state.hp))
+	return total
+func rally_available() -> float:
+	if not rally_enabled or state.hp <= 0: return 0.0
+	return minf(rally_total(),maxf(0.0,state.max_hp-state.hp))
 func recover_rally(dealt: float) -> void:
 	var recovered := minf(maxf(0.0,dealt),rally_available())
 	if recovered <= 0: return
@@ -205,9 +231,7 @@ func advance_rally(dt: float) -> void:
 	for wound in rally_wounds: wound.time -= dt
 	rally_wounds = rally_wounds.filter(func(w): return w.time > 0 and w.amount > 0)
 func trim_rally() -> void:
-	var total := 0.0
-	for wound in rally_wounds: total += float(wound.amount)
-	var excess := maxf(0.0,total-maxf(0.0,state.max_hp-state.hp))
+	var excess := maxf(0.0,rally_total()-maxf(0.0,state.max_hp-state.hp))
 	for wound in rally_wounds:
 		var removed := minf(excess,float(wound.amount))
 		wound.amount -= removed
@@ -231,7 +255,7 @@ func try_dodge() -> bool:
 	p.inv = maxf(p.inv,dodge_invulnerability)
 	burst_requested.emit(p.pos,visual_color(),8)
 	sound_requested.emit("heavy_dodge" if char_id in [3,7] else "dodge",0)
-	return preload("res://scripts/combat/relic_effects.gd").dodge_started(self)
+	return RelicEffects.dodge_started(self)
 func hostile_slot(other: int, own: int) -> bool:
 	return battle_roster.hostile(own,other) if battle_roster != null else own != other
 func try_melee(i: int, shots: Array, enemy, arena) -> void:
@@ -257,7 +281,7 @@ func try_melee(i: int, shots: Array, enemy, arena) -> void:
 			burst_requested.emit(b.pos,Color(b.color),6)
 			removed += 1
 	if removed > 0: sound_requested.emit("melee_clear",0)
-	preload("res://scripts/combat/relic_effects.gd").melee_cleared(self,removed)
+	RelicEffects.melee_cleared(self,removed)
 	var targets: Array = enemy if enemy is Array else ([enemy] if enemy != null else [])
 	for target in targets:
 		var offset: Vector2 = target.state.pos-p.pos
@@ -424,21 +448,9 @@ func sync_visual() -> void:
 	$Slash.rotation = state.angle
 	$Animation.present(visual_snapshot())
 
-# P8z ステップA 丸腰耐性：ステップBで武器をグリッドに置く方式へ移ると、1丁も置かなかった
-# プレイヤーはinventoryが空のままラウンドを迎えうる。weapon()はinventory[state.gun]を無条件に
-# 添字参照していたため、毎フレーム走るstep()やHUDを含む約20箇所がその状態で落ちる。ここで
-# 「武器を持っていない」を正式な状態として扱えるようにしておく（この時点ではinventoryが空に
-# なる経路がまだ無いので、振る舞いは一切変わらない）。近接・回避・パルスは元から武器の状態を
-# 参照していないため、丸腰でも戦うこと自体はできる。
-var exploration_starter := false
 func infinite_reserve(id: int) -> bool:
 	return exploration_starter and id == 20
 
-const NO_WEAPON := {"id": -1, "clip": 0, "reserve": 0, "mode": 0}
-# 丸腰時のdefinition()。Weapons.definition(-1)はGDScriptの負数添字で配列末尾の武器を返して
-# しまうため、明示的な擬似定義を返す。can_fire()が偽になるので射撃系の値は読まれないが、
-# HUDの表示（name/desc）と装填ガード（mag）は実際に参照される。
-const NO_WEAPON_DEF := {"name": "素手", "desc": "武器を装備していない。近接で戦う。", "rarity": "C", "color": "#8f9aa3", "mag": 0, "stock": 0, "rate": .5, "damage": 0.0, "speed": 0.0}
 func has_weapon() -> bool:
 	return state.gun >= 0 and state.gun < inventory.size()
 func weapon() -> Dictionary:
@@ -464,21 +476,20 @@ func new_weapon_entry(id: int) -> Dictionary:
 	return entry
 func top_up_weapon(id: int) -> bool:
 	for entry in inventory:
-		if entry.id == id and (infinite_reserve(id) or entry.reserve > 0) and entry.clip < int(resolved_definition(id).mag):
-			entry.clip += 1
-			if not infinite_reserve(id): entry.reserve -= 1
-			return true
+		if entry.id == id and load_one_round(entry): return true
 	return false
+# Moves one round from reserve into the clip, without reload completion effects.
+func load_one_round(entry: Dictionary) -> bool:
+	if not (infinite_reserve(entry.id) or entry.reserve > 0) or entry.clip >= int(resolved_definition(entry.id).mag): return false
+	entry.clip += 1
+	if not infinite_reserve(entry.id): entry.reserve -= 1
+	return true
 func recover_projectile(id: int) -> void:
-	preload("res://scripts/combat/relic_effects.gd").recovered(self,id)
+	RelicEffects.recovered(self,id)
 func definition() -> Dictionary:
 	return resolved_definition(weapon().id) if has_weapon() else NO_WEAPON_DEF
 func owns(id: int) -> bool:
 	return inventory.any(func(w): return w.id == id)
-# 携行武器は操作/HUDの上限8丁を維持する。控え容量8個とは独立している。実際の上限は
-# グリッドの面積とそこに置いた武器の形状で決まるので、ここは暴走防止の天井にすぎない
-# （HUDの武器スロットもMAX_WEAPON_SLOTS＝8で確保している）。
-const MAX_CARRIED_WEAPONS := BuildGrid.MAX_CARRIED_WEAPONS
 func add_gun(id: int) -> bool:
 	if not Weapons.supported(id) or owns(id) or inventory.size() >= MAX_CARRIED_WEAPONS: return false
 	inventory.append(new_weapon_entry(id))
@@ -489,7 +500,7 @@ func equip_slot(index: int, apply_switch_delay: bool = true) -> void:
 	# P8z ステップA：下の2つのレリック効果はいずれも「切り替え前の武器」を必要とするため、
 	# 丸腰から1丁目を装備する場合は対象外になる（Weapons.definition(-1)が負数添字で配列末尾を
 	# 返してしまうのも、ここで防いでいる）。
-	preload("res://scripts/combat/relic_effects.gd").switching(self)
+	RelicEffects.switching(self)
 	cancel_reload_visual()
 	state.gun = index
 	state.reload = 0.0
@@ -506,7 +517,7 @@ func start_reload() -> void:
 	# 武器の並びがグリッド由来になると添字が動きうるため（idはadd_gun()が重複を弾くので一意）。
 	state.reload_slot = weapon().id
 	present_reload()
-	preload("res://scripts/combat/weapon_behaviors.gd").dispatch(reload_visual_weapon,&"reload_start",{"actor":self})
+	WeaponBehaviors.dispatch(reload_visual_weapon,&"reload_start",{"actor":self})
 	# 空薬莢の祝福 only cares about a reload that began from a *fully* empty clip; partial
 	# top-ups never reach here anyway (guarded above), but this keeps the "empty" distinction
 	# explicit and independent of that guard's exact bounds.
@@ -543,10 +554,10 @@ func finish_reload() -> void:
 	if not infinite_reserve(w.id): amount = mini(amount,int(w.reserve))
 	w.clip += amount
 	if not infinite_reserve(w.id): w.reserve -= amount
-	preload("res://scripts/combat/relic_effects.gd").reload_completed(self,amount,w)
+	RelicEffects.reload_completed(self,amount,w)
 	if reload_visual_active:
 		emit_weapon_event("reload_complete" if amount>0 and state.hp>0 else "reload_cancel",reload_visual_weapon)
-	if amount>0: preload("res://scripts/combat/weapon_behaviors.gd").dispatch(w.id,&"reload_complete",{"actor":self,"amount":amount})
+	if amount>0: WeaponBehaviors.dispatch(w.id,&"reload_complete",{"actor":self,"amount":amount})
 	reload_visual_active = false
 	state.reload_started_empty = false
 	state.reload_slot = -1
@@ -669,16 +680,12 @@ func try_phase_load(shots: Array, index: int) -> void:
 		# 負数添字で配列末尾を返してしまうため、has_weapon()で手前から弾く。
 		if phase_triggered and has_weapon():
 			state.phase_load_used = true
-			var phase_weapon: Dictionary = weapon()
-			var phase_def: Dictionary = resolved_definition(phase_weapon.id)
-			if (infinite_reserve(phase_weapon.id) or phase_weapon.reserve > 0) and phase_weapon.clip < int(phase_def.mag):
-				phase_weapon.clip += 1
-				if not infinite_reserve(phase_weapon.id): phase_weapon.reserve -= 1
+			load_one_round(weapon())
 
 func cancel_reload_visual() -> void:
 	if not reload_visual_active: return
 	emit_weapon_event("reload_cancel",reload_visual_weapon)
-	preload("res://scripts/combat/weapon_behaviors.gd").dispatch(reload_visual_weapon,&"reload_cancel",{"actor":self})
+	WeaponBehaviors.dispatch(reload_visual_weapon,&"reload_cancel",{"actor":self})
 	reload_visual_active = false
 
 func emit_weapon_event(kind: String, id: int) -> void:
