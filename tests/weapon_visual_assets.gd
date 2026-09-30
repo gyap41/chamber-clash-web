@@ -1,7 +1,7 @@
 extends SceneTree
 const V = preload("res://scripts/catalog/weapon_visual_catalog.gd")
 func _initialize() -> void:
-	for id in range(38):
+	for id in preload("res://scripts/catalog/weapon_catalog.gd").SUPPORTED:
 		var p := V.profile(id)
 		assert(ResourceLoader.exists(str(p.bullet)))
 		assert(ResourceLoader.exists(str(p.body.texture)))

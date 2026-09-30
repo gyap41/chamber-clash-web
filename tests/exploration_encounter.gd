@@ -169,7 +169,9 @@ func run() -> void:
 	await process_frame
 	game.set_pause_reason("focus",false)
 	await visit(game,game.start_room)
-	assert(checked_combat and normal_count == 6 and visited.size() == 10)
+	# Every room but the boss room is visited, and every normal room was fought.
+	var normal_rooms: int = game.floor_data.rooms.values().filter(func(meta): return meta.role == "normal").size()
+	assert(checked_combat and normal_rooms > 0 and normal_count == normal_rooms and visited.size() == game.floor_data.rooms.size()-1)
 	# Retry during combat and death both retire actors without duplicated player signals.
 	var normal_id: String = game.floor_data.rooms.keys().filter(func(id): return game.floor_data.rooms[id].role == "normal")[0]
 	game.exploration.enter_room(normal_id,game.room_data(normal_id).field.field_id)

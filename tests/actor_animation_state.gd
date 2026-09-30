@@ -66,7 +66,7 @@ func run() -> void:
 	var anim = p.get_node("Animation")
 	var machine = anim.get_node("StateMachine")
 	var move := {"dx":1.0,"dy":0.0,"angle":0.0,"shoot":false}
-	for id in range(8):
+	for id in range(preload("res://scripts/catalog/character_catalog.gd").count()):
 		p.set_character(id)
 		p.reset(Vector2(350,450))
 		p.add_gun(0)

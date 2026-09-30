@@ -45,8 +45,8 @@ func run() -> void:
 	p.reset(Vector2(500,500))
 	assert(p.state.max_hp == 8.0 and p.state.pulses == 3 and p.char_id == 0)
 
-	# character_catalog.gd exposes all 8 roster entries.
-	assert(game.players[0].Characters.count() == 8)
+	# character_catalog.gd exposes every roster entry in the catalog.
+	assert(game.players[0].Characters.count() == game.catalog.characters.size())
 	assert(game.players[0].Characters.definition(7).name == "クロウ")
 
 	# Portraits use the selected character's fixed game image, not a legacy sheet cell.

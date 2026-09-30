@@ -49,14 +49,14 @@ func run() -> void:
 	assert(not hud.actions[0].available and hud.actions[2].available)
 	for key in ["dodge","melee","pulse"]:
 		assert(Art.texture(key) != null)
-	for id in range(35): assert(Art.texture("relic_%02d" % id) != null)
+	for id in preload("res://scripts/catalog/relic_catalog.gd").SUPPORTED: assert(Art.texture("relic_%02d" % id) != null)
 	assert(Art.texture("missing_key") == Art.texture("fallback"))
 	await capture("cpu")
 	for id in range(2,8): p.add_gun(id)
 	assert(p.inventory.size() == 8)
 	p.relic_capacity = 36
 	p.relics = []
-	for id in range(35): p.relics.append(id)
+	for id in preload("res://scripts/catalog/relic_catalog.gd").SUPPORTED: p.relics.append(id)
 	p.relics.append(18)
 	p.temporary_relic = 18
 	p.temporary_relic_slot = 35

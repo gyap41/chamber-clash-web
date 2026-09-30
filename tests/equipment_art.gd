@@ -5,7 +5,7 @@ func _initialize() -> void:
 func run() -> void:
 	var p = load("res://scenes/combat/player.tscn").instantiate()
 	root.add_child(p)
-	for id in range(38):
+	for id in preload("res://scripts/catalog/weapon_catalog.gd").SUPPORTED:
 		if id == 20: continue
 		p.set_character(id-20 if id>=21 and id<=27 else 0);p.reset(Vector2(300,300))
 		p.inventory=[Weapons.new_inventory_entry(id)];p.update_weapon_art()
@@ -21,7 +21,7 @@ func run() -> void:
 			assert(p.equipment_muzzle().x>grip.x)
 		p.state.roll=p.dodge_duration;p.sync_visual()
 		assert(not p.get_node("Weapon").visible)
-	for id in range(35):
+	for id in preload("res://scripts/catalog/relic_catalog.gd").SUPPORTED:
 		var art = preload("res://scripts/ui/hud_assets.gd").texture("relic_%02d"%id)
 		assert(art.resource_path.contains("equipment/relics/") and art.get_size()==Vector2(96,96))
 	p.queue_free()

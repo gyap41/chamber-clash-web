@@ -1,15 +1,8 @@
 extends "res://scripts/game/exploration.gd"
 # Disposable playtest session: no encounter generation, rewards or progression persistence.
 const Authored = preload("res://scripts/world/authored_rooms.gd")
-const EnemyScripts := {
- "root_runner_prototype":preload("res://scripts/combat/root_runner_prototype.gd"),
- "workshop_sentry":preload("res://scripts/combat/exploration_enemy.gd"),
- "fire_pouch_lizard":preload("res://scripts/combat/fire_pouch_lizard.gd"),
- "quillback":preload("res://scripts/combat/quillback.gd"),
- "scatter_drone":preload("res://scripts/combat/scatter_drone.gd"),
- "runner_sentry":preload("res://scripts/combat/runner_sentry.gd"),
- "ram_sentry":preload("res://scripts/combat/ram_sentry.gd"),
- "ring_sentry":preload("res://scripts/combat/ring_sentry.gd")}
+const Registry = preload("res://scripts/catalog/enemy_registry.gd")
+const EnemyScripts := Registry.ENEMIES
 var lab_panel: PanelContainer
 var lab_room: OptionButton
 var lab_weapon: OptionButton

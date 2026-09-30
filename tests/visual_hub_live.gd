@@ -4,7 +4,7 @@ func _initialize():call_deferred("run")
 func run():
  var live=Live.new();root.add_child(live);live.set_process(false)
  var entries=[]
- for character in range(8):
+ for character in range(preload("res://scripts/catalog/character_catalog.gd").count()):
   for action in ["待機","歩行","回避"]:
    entries.append({"key":str(character)+action,"id":"character:"+str(character),"rect":[250,80,200,160],"conditions":{"action":action,"weapon":20}})
  live.apply({"slots":entries,"signature":"first","playing":false,"clip":[224,0,1200,800]})

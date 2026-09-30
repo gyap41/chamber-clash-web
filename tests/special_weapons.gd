@@ -88,7 +88,7 @@ func run() -> void:
 		assert(game.shots.is_empty())
 		assert(id in game.Weapons.rarity_pool(game.Weapons.definition(id).rarity))
 	game.reset_round()
-	assert(game.Weapons.SUPPORTED.size() == 38)
+	assert(game.Weapons.SUPPORTED.size() == game.catalog.guns.size())
 	print("PASS: homing turn/angle wrap, acceleration cap/walls, bubble delay/direction, seed stop/contact, pause/expiry/melee, supported pools")
 	game.queue_free()
 	quit()

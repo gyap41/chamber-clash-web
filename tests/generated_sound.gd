@@ -12,7 +12,9 @@ func run() -> void:
 	audio.played.connect(func(kind,id):
 		events.append([kind,id])
 		playback_refs.append(weakref(audio.voices[(audio.next_voice+15)%16].get_stream_playback())))
-	assert(audio.GENERATED.size() == 73) # 50 gameplay cues + exploration enemy/boss/reward cues
+	# The cue list grows with content; every entry must be a playable stream.
+	assert(not audio.GENERATED.is_empty())
+	for cue in audio.GENERATED: assert(audio.GENERATED[cue] is AudioStream and audio.GENERATED[cue].get_length() > 0,cue)
 	for kind in ["wall_impact","ricochet"]:
 		audio.contact_times.clear()
 		var before := events.size()
@@ -34,7 +36,7 @@ func run() -> void:
 		var voice = audio.voices[(audio.next_voice+15)%16]
 		assert(voice.stream == audio.GENERATED[pair[1]])
 		assert(voice.volume_db <= -12 and voice.bus == audio.bus_name)
-	for id in range(38): assert(not audio.sample_key("shot",id).is_empty())
+	for id in preload("res://scripts/catalog/weapon_catalog.gd").SUPPORTED: assert(not audio.sample_key("shot",id).is_empty())
 	assert(audio.sample_key("shot",999).is_empty())
 	audio.play_sound("legacy_test",0)
 	assert(audio.voices[(audio.next_voice+15)%16].stream is AudioStreamWAV)

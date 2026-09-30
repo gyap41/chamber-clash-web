@@ -5,8 +5,15 @@ func run() -> void:
 	game.random_floor = true
 	root.add_child(game)
 	game.set_physics_process(false)
-	assert(game.Reward.weapon_pool(true).size() == 24)
-	assert(game.Reward.weapon_pool(false).size() == 29)
+	# Pools are rules over the catalog: no starter sidearm (0), no character-exclusive weapon,
+	# and the early pool is the full pool without S rarity.
+	var late: Array = game.Reward.weapon_pool(false)
+	var early: Array = game.Reward.weapon_pool(true)
+	for id in game.Weapons.SUPPORTED:
+		var definition: Dictionary = game.Weapons.definition(id)
+		assert((id in late) == (id != 0 and not definition.get("exclusive",false)),str(id))
+		assert((id in early) == (id in late and definition.rarity != "S"),str(id))
+	assert(not early.is_empty() and early.size() < late.size())
 	var first_items: Array = []
 	var previous: Array = []
 	for seed_value in [22,22,41,73,104]:
@@ -15,8 +22,11 @@ func run() -> void:
 		assert(not game.Reward.fits_bag(game.exploration,15,"weapon"))
 		assert(not game.Reward.fits_bag(game.exploration,34,"weapon"))
 		assert(not game.Reward.fits_bag(game.exploration,35,"weapon"))
-		assert(game.Reward.weapon_pool(true).filter(func(id): return game.Reward.fits_bag(game.exploration,id,"weapon")).size() == 22)
-		assert(game.Reward.weapon_pool(false).filter(func(id): return game.Reward.fits_bag(game.exploration,id,"weapon")).size() == 26)
+		# Bag fit removes some candidates (34/35 above) but always leaves choices in both pools.
+		var early_fit: Array = game.Reward.weapon_pool(true).filter(func(id): return game.Reward.fits_bag(game.exploration,id,"weapon"))
+		var late_fit: Array = game.Reward.weapon_pool(false).filter(func(id): return game.Reward.fits_bag(game.exploration,id,"weapon"))
+		assert(not early_fit.is_empty() and early_fit.size() < game.Reward.weapon_pool(true).size())
+		assert(late_fit.size() > early_fit.size() and 34 not in late_fit and 35 not in late_fit)
 		var normal: Array = game.floor_data.rooms.keys().filter(func(id): return game.floor_data.rooms[id].role == "normal")
 		var treasure: Array = game.floor_data.rooms.keys().filter(func(id): return game.floor_data.rooms[id].role == "treasure")
 		var initial_pool: Array = game.Reward.relic_pool(game.exploration)

@@ -11,7 +11,7 @@ func run() -> void:
 	var anim = p.get_node("Animation")
 	var machine = anim.get_node("StateMachine")
 	var parts = machine.parts
-	for id in range(8):
+	for id in range(preload("res://scripts/catalog/character_catalog.gd").count()):
 		p.set_character(id)
 		p.reset(Vector2(240,220))
 		p.add_gun(0)

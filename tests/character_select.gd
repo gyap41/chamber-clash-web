@@ -6,7 +6,7 @@ func run() -> void:
 	root.add_child(select)
 	assert(select.char_turn == 0 and select.picked == [-1,-1])
 	var cards: Array = select.get_node("Panel/Content/Cards").get_children()
-	assert(cards.size() == 8)
+	assert(cards.size() == preload("res://scripts/catalog/character_catalog.gd").count())
 	# Regression check for the reported "no portrait / cards run off screen" issue: every card
 	# has a portrait icon, and clip_text+ellipsis (not an unbounded custom_minimum_size) is what
 	# keeps a long note from widening the button past its fixed size. 4 columns at this fixed

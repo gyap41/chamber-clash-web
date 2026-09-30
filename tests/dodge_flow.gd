@@ -9,7 +9,7 @@ func run() -> void:
 	preload("res://tests/helpers/battle.gd").start(game)
 	var p = game.players[0]
 	var idle := {"dx":0.0,"dy":0.0,"angle":0.0,"shoot":false}
-	for id in range(8):
+	for id in range(preload("res://scripts/catalog/character_catalog.gd").count()):
 		p.set_character(id)
 		p.reset(Vector2(350,450))
 		p.add_gun(0)

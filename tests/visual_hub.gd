@@ -11,13 +11,19 @@ func adapter(item: Dictionary, conditions: Dictionary):
 func run() -> void:
 	index.reload()
 	check(index.errors.is_empty(),str(index.errors))
-	for pair in [["キャラ",8],["武器",38],["レリック",35],["ステージ",4],["敵",8],["行動アイコン",3]]:
+	# Expected counts come from each source of truth, so adding content does not break this test.
+	var actions: int = index.skin.keys().filter(func(key): return not key.begins_with("relic_") and key != "fallback").size()
+	for pair in [["キャラ",preload("res://scripts/catalog/character_catalog.gd").count()],
+			["武器",preload("res://scripts/catalog/weapon_catalog.gd").SUPPORTED.size()],
+			["レリック",preload("res://scripts/catalog/relic_catalog.gd").SUPPORTED.size()],
+			["ステージ",index.files("res://data/fields",["tres"]).size()],
+			["敵",preload("res://scripts/catalog/enemy_registry.gd").ENEMIES.size()],["行動アイコン",actions]]:
 		check(index.enumerate("",pair[0]).size()==pair[1],str(pair))
 	for item in index.records:
 		check(item.issues.is_empty(),item.id+": "+str(item.issues))
 		check(item.preview,"Preview supported: "+item.id)
 	check(index.enumerate("weapon:20").size()==1,"Typed ID search")
-	print("PASS: current catalog 8 / 38 / 35 / 4 / 7 enemies + 1 prototype / 3; dependencies and support diagnostics")
+	print("PASS: catalog counts match their sources (characters/weapons/relics/stages/enemies/actions); dependencies and support diagnostics")
 	index.install_game_snapshot()
 	var conditions:=Store.defaults()
 	for item in index.enumerate("","キャラ"):
@@ -44,7 +50,7 @@ func run() -> void:
 		node.finish(); node.free()
 		await process_frame
 	check(max_wells>0,"Gravity derived effect reached")
-	print("PASS: all 38 weapons, 6 seconds of real fire/projectile/hit/reload simulation; gravity reached")
+	print("PASS: all weapons, 6 seconds of real fire/projectile/hit/reload simulation; gravity reached")
 	conditions.action="単発"
 	var a=adapter(index.detail("weapon:37"),conditions)
 	var b=adapter(index.detail("weapon:37"),conditions)
@@ -85,7 +91,7 @@ func run() -> void:
 	Store.save(Store.DIRECTORY+"/test-conditions.json",{"conditions":conditions})
 	var restored:=Store.normalize(Store.read(Store.DIRECTORY+"/test-conditions.json").conditions)
 	check(restored.compare==conditions.compare and restored.seed==152 and restored.zoom==4.0 and restored.time==2.5,"Conditions roundtrip")
-	check(index.enumerate("","武器").size()==38,"No dummy catalog modifications")
+	check(index.enumerate("","武器").size()==preload("res://scripts/catalog/weapon_catalog.gd").SUPPORTED.size(),"No dummy catalog modifications")
 	check(Store.unique_path("png")!=Store.unique_path("png"),"No overwrite output names")
 	print("PASS: additions/deletions/malformed data/missing assets/unsupported methods/reload and condition persistence")
 	await process_frame

@@ -8,7 +8,7 @@ func run() -> void:
 	var index := Index.new()
 	index.reload()
 	var rooms := index.enumerate("","部屋")
-	assert(rooms.size() == 20)
+	assert(rooms.size() == preload("res://scripts/world/authored_rooms.gd").ORDER.size())
 	for item in rooms:
 		assert(item.preview and item.game and item.status == "現行")
 		assert(item.issues.is_empty(),item.id+str(item.issues))
@@ -22,5 +22,5 @@ func run() -> void:
 		assert(adapter.players.is_empty(),"Stage preview must not start combat")
 		adapter.finish()
 		adapter.free()
-	print("PASS: 20 authored room records, references/status/metadata, real isolated stage adapters")
+	print("PASS: ",rooms.size()," authored room records, references/status/metadata, real isolated stage adapters")
 	quit()

@@ -1,13 +1,16 @@
 extends SceneTree
 const Index = preload("res://tools/visual_hub/asset_index.gd")
 const Registry = preload("res://tools/visual_hub/preview_registry.gd")
+const EnemyRegistry = preload("res://scripts/catalog/enemy_registry.gd")
 const Store = preload("res://tools/visual_hub/conditions.gd")
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	var index := Index.new()
 	index.reload()
 	var enemies := index.enumerate("","敵").filter(func(item): return item.game)
-	assert(enemies.size() == 8) # includes the moss runner (root_runner_prototype) used in story rooms
+	# The hub lists exactly the enemies registered for exploration encounters.
+	assert(enemies.size() == EnemyRegistry.ENEMIES.size())
+	for id in EnemyRegistry.ENEMIES: assert(enemies.any(func(item): return item.id == "enemy:"+id),id)
 	var registry := Registry.new()
 	for enemy in enemies:
 		assert(enemy.preview and enemy.game and enemy.method == "enemy")
@@ -33,5 +36,5 @@ func run() -> void:
 				adapter.finish()
 				assert(adapter.players.is_empty() and adapter.shots.is_empty())
 				adapter.free()
-	print("PASS: 8 enemies x 4 directions x idle/walk/real attack, target survival, projectiles, cleanup")
+	print("PASS: ",enemies.size()," enemies x 4 directions x idle/walk/real attack, target survival, projectiles, cleanup")
 	quit()

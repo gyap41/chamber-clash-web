@@ -40,9 +40,12 @@ func run() -> void:
 	await process_frame
 	await process_frame
 	game.set_pause_reason("focus",false)
-	# Story floors pick from the 20 authored rooms; the count depends on the seed (9-14 over seeds 0-199).
+	# Story floors pick authored rooms; the count depends on the seed. Check the structure instead:
+	# one start, one antechamber and one boss room, and every room is reachable (walk below).
 	var room_count: int = game.floor_data.catalog.size()
-	assert(room_count >= 9 and room_count <= 14 and room_count == game.floor_data.rooms.size())
+	assert(room_count == game.floor_data.rooms.size())
+	for role in ["start","antechamber","boss"]:
+		assert(game.floor_data.rooms.values().filter(func(meta): return meta.role == role).size() == 1,role)
 	assert(game.floor_data.seed == 22)
 	var first_layout: Dictionary = game.floor_data.rooms.duplicate(true)
 	var player = game.players[0]

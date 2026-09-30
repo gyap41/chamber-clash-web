@@ -258,7 +258,7 @@ ExplorationCameraがfield_rectとプレイヤー座標からCamera2Dの左上位
 
 ### 探索の遭遇と所有者寿命
 
-`exploration_encounter.gd` は入室後（CombatSession.step外）に到着点から通行可能な位置を探索し、通常室だけ広さに応じて3〜6体を登録する。探索主人公は常にslot 0。敵は部屋インスタンスID/個体番号の参加者IDとenemy controllerを使う。`bind_combat_actor` は新規役者に一度だけ適用し、主人公のsignalを再登録しない。`exploration_enemy_catalog.gd` が性能、`exploration_enemy.gd` が予告/接近/攻撃/硬直と仮描画を担当する。現段階ではPlayerシーンの共通被弾・移動アダプターを継承し、購入/装備・対戦CPU判断は使用しない。将来の別Actor化では共通CombatSessionのactor契約を維持する。
+`exploration_encounter.gd` は入室後（CombatSession.step外）に到着点から通行可能な位置を探索し、通常室だけ広さに応じて3〜6体を登録する。探索主人公は常にslot 0。敵は部屋インスタンスID/個体番号の参加者IDとenemy controllerを使う。`bind_combat_actor` は新規役者に一度だけ適用し、主人公のsignalを再登録しない。`exploration_enemy_catalog.gd` が性能、`enemy_registry.gd` が敵IDとスクリプトの一覧（遭遇・戦闘ラボ・Visual Hubが共通で参照。敵の追加はここへ1行）、`exploration_enemy.gd` が予告/接近/攻撃/硬直と仮描画を担当する。現段階ではPlayerシーンの共通被弾・移動アダプターを継承し、購入/装備・対戦CPU判断は使用しない。将来の別Actor化では共通CombatSessionのactor契約を維持する。
 
 全滅判定はstepの後に行い、探索状態の部屋をclearedへ変更する。`Encounter.retire` は弾・遅延射撃・重力場・入力キューを先に消し、敵ノードとfighters/participantsを退役させる。生存中のowner slotを途中で詰めず、死亡役者も部屋全滅まで保持する。移動/再挑戦前に旧owner参照が残らない。通常の攻略はrunを終了せず、死亡が優先する。進行はメモリ上のみで、戦闘中の離脱と途中敵HP復元は対象外。
 

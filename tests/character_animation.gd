@@ -10,7 +10,7 @@ func run() -> void:
 	var p = game.players[0]
 	var anim = p.get_node("Animation")
 	var rig = preload("res://scripts/visuals/character_rig.gd")
-	for id in range(8):
+	for id in range(preload("res://scripts/catalog/character_catalog.gd").count()):
 		game.assign_character(0,id)
 		p.reset(Vector2(350,450))
 		assert(p.Characters.art(id).atlas != p.Characters.SHEET)

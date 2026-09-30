@@ -6,8 +6,14 @@ const Match = preload("res://scripts/game/match_state.gd")
 func _initialize() -> void:
 	call_deferred("run")
 func run() -> void:
-	assert(Weapons.SUPPORTED.size() == 38 and Relics.SUPPORTED.size() == 35)
-	assert(Weapons.distributable_pool().size() == 30)
+	# Counts follow the catalog: every catalog entry is implemented, and the shop pool is
+	# every weapon except the character-exclusive starters.
+	var catalog = preload("res://scripts/catalog/game_catalog.gd").data
+	assert(Weapons.SUPPORTED.size() == catalog.guns.size() and Relics.SUPPORTED.size() == catalog.relics.size())
+	var starters := {}
+	for character in range(Characters.count()): starters[Characters.start_gun(character)] = true
+	for id in Weapons.SUPPORTED: assert(bool(Weapons.definition(id).get("exclusive",false)) == starters.has(id))
+	assert(Weapons.distributable_pool().size() == Weapons.SUPPORTED.size()-starters.size())
 	var seen := {}
 	for seed_value in range(100):
 		var m := Match.new(seed_value)
@@ -18,8 +24,8 @@ func run() -> void:
 				assert(card.price > 0)
 				if m.is_gun(card.entry): assert(Weapons.distributable(m.gun_id(card.entry)))
 				else: seen[card.entry] = true
-	assert(seen.size() == 35)
-	for character in range(8):
+	assert(seen.size() == Relics.SUPPORTED.size()) # every relic reaches the shop within 100 seeds
+	for character in range(Characters.count()):
 		var m := Match.new(character)
 		var id := Characters.start_gun(character)
 		assert(id == 20+character and not Weapons.distributable(id))
@@ -61,14 +67,14 @@ func run() -> void:
 		var field_entry = owned.filter(func(item): return item == entry if typeof(entry) == TYPE_STRING else m.is_relic(item) and m.relic_id(item) == entry)[0]
 		assert(m.sale_value(0,field_entry) == 0 and m.builds[0].acquisitions[field_entry].source == "field")
 	# CPU starts from every exclusive starter and uses the same purchase/placement paths.
-	for character in range(8):
+	for character in range(Characters.count()):
 		game.players[1].set_character(character)
 		game.new_match(character)
 		game.match_state._set_products(1,[20,24,34,"gun:28","gun:29"])
 		game.preparation.auto_prepare(1)
 		assert(game.match_state.gold[1] >= 0 and game.match_state.ready[1])
 		assert(20+character in game.match_state.carried_guns(1))
-	print("PASS: 35-relic pool coverage, exclusive free starters, all new purchase/placement/sale/field carry paths, CPU starters")
+	print("PASS: full relic pool coverage, exclusive free starters, all new purchase/placement/sale/field carry paths, CPU starters")
 	game.queue_free()
 	quit()
 

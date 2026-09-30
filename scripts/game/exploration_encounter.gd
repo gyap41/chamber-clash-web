@@ -10,6 +10,7 @@ const Ram = preload("res://scripts/combat/ram_sentry.gd")
 const Ring = preload("res://scripts/combat/ring_sentry.gd")
 const ActorScene = preload("res://scenes/combat/player.tscn")
 const Navigation = preload("res://scripts/ai/cpu_navigation.gd")
+const Registry = preload("res://scripts/catalog/enemy_registry.gd")
 
 # Composition follows room size; the first fight remains a melee-only introduction.
 static func composition(arena, introduced: bool, encounter_index: int = 0) -> Array:
@@ -94,9 +95,7 @@ static func begin(game) -> void:
 	# Entry is outside CombatSession.step; the previous room has no live owners.
 	for index in range(positions.size()):
 		var actor = ActorScene.instantiate()
-		var scripts := {"root_runner_prototype":Moss,"runner_sentry":Runner,"ram_sentry":Ram,"ring_sentry":Ring,"scatter_drone":Scatter,
-			"furnace_warden":Boss,"quillback":Quillback,"fire_pouch_lizard":Lizard}
-		actor.set_script(scripts.get(room_state.enemy_ids[index],Actor))
+		actor.set_script(Registry.script_for(room_state.enemy_ids[index]))
 		actor.name = "Enemy%d" % index
 		game.arena.get_node("Players").add_child(actor)
 		actor.prepare(positions[index])

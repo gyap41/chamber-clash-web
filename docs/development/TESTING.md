@@ -278,6 +278,11 @@ Godotのユーザーデータ・キャッシュ・証明書ストアへの権限
 - NO-PASS：エラーもPASS行もない撮影・レビュー用スクリプト（enemy_animation_review / enemy_art_preview / enemy_death_review / quillback_art）。表示のみで失敗にはしない。
 - 終了時の`ERROR: N resources still in use at exit`は実行ごとに出方が変わるため合否に使わず、集計表のLeaks列に件数を出す。以前の一括判定のFAIL件数（下記の履歴）はこの報告を含む。
 
+期待値の書き方（2026-09-30から）：
+- コンテンツの数（武器・レリック・キャラ・敵・部屋・SE・ステージ）はテストに直書きしない。正本（weapon_catalog.SUPPORTED、relic_catalog.SUPPORTED、character_catalog.count()、enemy_registry.ENEMIES、authored_rooms.ORDER、data/fieldsなど）から取り、全件が満たすべき性質（素材がある、到達できる、再生できる等）を確認する。全件のループも正本の一覧を回す。
+- 階層の部屋数のようにseedで変わる値は、構造（開始・前室・ボスが各1室、全室到達）で確認する。
+- 弾数・演出上限・グリッド寸法など挙動の仕様値は固定値で確認してよい。変わったら仕様変更として意図を確認する。
+
 通常mainはCPU対戦。武器/経済を隔離する既存テストではhelpers/battle.gdの
 passive_opponentsを明示使用し、CPUの自動射撃が期待弾数を変えないようにする。
 CPU統合テストは実際にis_cpuを有効にし、共通操作経路を通す。

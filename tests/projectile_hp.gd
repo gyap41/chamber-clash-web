@@ -9,7 +9,7 @@ func run() -> void:
 	game.phase = "play"
 	var p = game.players[0]
 	var q = game.players[1]
-	for id in range(38):
+	for id in preload("res://scripts/catalog/weapon_catalog.gd").SUPPORTED:
 		game.spawn_shot(0,id,0,{"pos":Vector2(400,100)})
 		var shot = game.shots.back()
 		var art = shot.get_node("Art")

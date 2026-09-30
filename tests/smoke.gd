@@ -7,8 +7,9 @@ func run() -> void:
 	preload("res://tests/helpers/battle.gd").passive_opponents(game)
 	game.set_physics_process(false)
 	start_combat(game)
-	assert(game.catalog.guns.size() == 38)
-	assert(game.catalog.relics.size() == 35) # Includes stackable IDs 18/19
+	# Every catalog entry is implemented (stackable relic IDs 18/19 included).
+	assert(not game.catalog.guns.is_empty() and game.catalog.guns.size() == preload("res://scripts/catalog/weapon_catalog.gd").SUPPORTED.size())
+	assert(not game.catalog.relics.is_empty() and game.catalog.relics.size() == preload("res://scripts/catalog/relic_catalog.gd").SUPPORTED.size())
 	game.fighters[0].pos = Vector2(60,82)
 	game.move_fighter(game.fighters[0],Vector2(-100,-100))
 	assert(game.fighters[0].pos == Vector2(60,82))
@@ -49,7 +50,7 @@ func right_click(game) -> void:
 	game._unhandled_input(event)
 
 func extended(game) -> void:
-	assert(game.catalog.characters.size() == 8)
+	assert(not game.catalog.characters.is_empty() and game.catalog.characters.size() == preload("res://scripts/catalog/character_catalog.gd").count())
 	# All four corners: clamp, then escape inward.
 	for corner in [Vector2(60,82),Vector2(1060,82),Vector2(60,540),Vector2(1060,540)]:
 		var inward := Vector2(1 if corner.x == 60 else -1,1 if corner.y == 82 else -1)

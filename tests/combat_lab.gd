@@ -5,7 +5,9 @@ func run():
  root.add_child(game)
  game.set_physics_process(false)
  assert(game.paused and game.lab_panel.visible)
- assert(game.room_ids.size()==23 and game.lab_counts.size()==8)
+ # Every authored room and every registered enemy is available in the lab.
+ assert(game.room_ids.size()==game.room_catalog.size() and game.lab_counts.size()==game.EnemyScripts.size())
+ for id in game.Authored.ORDER: assert(id in game.room_ids,id)
  for id in game.room_ids:
   assert(game.launch_test(id,[],0),"Room failed: "+id)
   assert(game.players.size()==1 and game.exploration.room_id==id)
@@ -33,5 +35,5 @@ func run():
  game.queue_free()
  await process_frame
  await process_frame
- print("PASS combat_lab: 23 rooms, 8 enemies, mixed combat, pause, death/retry, invalid requests")
+ print("PASS combat_lab: all rooms, all registered enemies, mixed combat, pause, death/retry, invalid requests")
  quit()

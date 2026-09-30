@@ -6,7 +6,8 @@ const Reach = preload("res://scripts/world/room_reachability.gd")
 const RADIUS := 14.0
 func _initialize() -> void:
 	var catalog: Dictionary = Authored.catalog()
-	assert(catalog.size() == 20)
+	assert(catalog.size() == Authored.ORDER.size())
+	for id in Authored.ORDER: assert(catalog.has(id),id)
 	var errors := Rooms.validation_errors(RADIUS,catalog)
 	assert(errors.is_empty(),str(errors))
 	for id in catalog:

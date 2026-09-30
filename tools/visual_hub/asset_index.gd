@@ -100,9 +100,9 @@ func _required(item: Dictionary, keys: Array) -> bool:
 	return valid
 
 func _enemies() -> void:
-	for filename in ["exploration_enemy","fire_pouch_lizard","quillback","scatter_drone","runner_sentry","ram_sentry","ring_sentry","root_runner_prototype"]:
-		var path: String = "res://scripts/combat/"+filename+".gd"
-		var actor = load(path).new()
+	for enemy_script in preload("res://scripts/catalog/enemy_registry.gd").ENEMIES.values():
+		var path: String = enemy_script.resource_path
+		var actor = enemy_script.new()
 		var spec: Dictionary = actor.spec.duplicate(true)
 		actor.free()
 		var item := Record.make("enemy:"+spec.id,spec.name,"敵")
