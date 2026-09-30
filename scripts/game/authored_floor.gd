@@ -1,11 +1,19 @@
 extends RefCounted
-# Three explorable structures: straight, bent main route, and rejoining loop; two discovery terminals.
-# Geometry is authored; RNG selects compatible templates, branch directions and lengths.
+# Version 4 (2026-09-30, docs/planning/FLOOR_EXPANSION_PLAN.md): the main route leaves the entrance in any
+# direction and turns two or three times, and side routes branch from it and from each other (sometimes
+# rejoining it), so the way to the finale cannot be read from the map's shape. Two side-route terminals are
+# discoveries; other dead ends are ordinary rooms. Geometry is authored; RNG selects topology, then templates.
 const A = preload("res://scripts/world/authored_rooms.gd")
 const Shell = A.Shell
 const ExistingFloor = preload("res://scripts/game/exploration_floor.gd")
 const Reach = preload("res://scripts/world/room_reachability.gd")
-const VERSION := 3
+const VERSION := 4
+const ROOMS := Vector2i(15,18)
+const MAIN_ROOMS := Vector2i(6,8) # Entrance and ordinary rooms before the antechamber.
+const JUNCTIONS := Vector2i(4,6)
+const DISCOVERY_COUNT := 2
+const LOOP_CHANCE := .5
+const ATTEMPTS := 200
 
 static func pick(rng: RandomNumberGenerator, pool: Array) -> String:
 	return pool[rng.randi_range(0,pool.size()-1)]
@@ -14,62 +22,10 @@ static func generate(seed_value: int) -> Dictionary:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = seed_value
 	var nodes: Array = []
-	var occupied := {}
-	var layout := rng.randi_range(0,2)
-	var sign_y := 1 if rng.randf() < .5 else -1
-	var main_cells: Array[Vector2i] = []
-	if layout == 1:
-		main_cells.assign([Vector2i(0,0),Vector2i(1,0),Vector2i(1,sign_y),Vector2i(2,sign_y),Vector2i(3,sign_y)])
-	else:
-		for x in range(rng.randi_range(4,6)): main_cells.append(Vector2i(x,0))
-	for cell in main_cells:
-		var index := add_node(nodes,occupied,cell,"camp_remains" if nodes.is_empty() else "","start" if nodes.is_empty() else "normal")
-		if index > 0: connect_cells(nodes,index-1,index)
-	var pre := add_node(nodes,occupied,main_cells.back()+Vector2i.RIGHT,"antechamber","antechamber")
-	connect_cells(nodes,pre-1,pre)
-	var boss := add_node(nodes,occupied,nodes[pre].cell+Vector2i.UP,"root_hall","boss")
-	connect_cells(nodes,pre,boss)
-	if layout == 2:
-		# Alternative route rejoins the main route; it is not another dead-end branch.
-		var parent := 1
-		for x in range(1,4):
-			var next := add_node(nodes,occupied,Vector2i(x,sign_y),"","normal")
-			connect_cells(nodes,parent,next)
-			parent = next
-		connect_cells(nodes,parent,3)
-	var origins := {}
-	for branch in range(2):
-		var options: Array = []
-		for index in range(1,nodes.size()):
-			if nodes[index].role != "normal" or origins.has(index): continue
-			for vertical in ["north","south"]:
-				for depth in [0,1,2]:
-					var at: Vector2i = nodes[index].cell
-					var clear := true
-					for step in range(depth):
-						at += Vector2i(Shell.DIRECTIONS[vertical])
-						if occupied.has(at): clear = false
-					if not clear: continue
-					for turn_side in ["west","east"]:
-						if not occupied.has(at+Vector2i(Shell.DIRECTIONS[turn_side])):
-							options.append([index,vertical,depth,turn_side])
-		assert(not options.is_empty(),"No compatible branch route")
-		# Loop maps already have a detour; keep their optional discoveries short.
-		if layout == 2:
-			var shortest := 3
-			for option in options: shortest = mini(shortest,option[2])
-			options = options.filter(func(option): return option[2] == shortest)
-		var option: Array = options[rng.randi_range(0,options.size()-1)]
-		var parent: int = option[0]
-		origins[parent] = true
-		var at: Vector2i = nodes[parent].cell
-		for step in range(option[2]):
-			at += Vector2i(Shell.DIRECTIONS[option[1]])
-			var next := add_node(nodes,occupied,at,"","normal")
-			connect_cells(nodes,parent,next)
-			parent = next
-		var terminal := add_node(nodes,occupied,at+Vector2i(Shell.DIRECTIONS[option[3]]),"","discovery")
-		connect_cells(nodes,parent,terminal)
+	for attempt in range(ATTEMPTS):
+		nodes = topology(rng)
+		if not nodes.is_empty(): break
+	assert(not nodes.is_empty(),"No floor topology for seed %d" % seed_value)
 	assign_templates(nodes,rng)
 	var catalog := {}
 	var metadata := {}
@@ -85,9 +41,110 @@ static func generate(seed_value: int) -> Dictionary:
 				if door.id == edge[0]: door.target_room = "authored_%d" % edge[1]
 		catalog[id] = room
 		metadata[id] = {"cell":node.cell,"role":node.role,"template_id":node.art}
-	var floor := {"version":VERSION,"seed":seed_value,"layout":layout,"start":"authored_0","catalog":catalog,"rooms":metadata,"errors":PackedStringArray()}
+	var floor := {"version":VERSION,"seed":seed_value,"loops":loop_count(nodes),"start":"authored_0","catalog":catalog,"rooms":metadata,"errors":PackedStringArray()}
 	floor.errors = validation_errors(floor)
 	return floor
+
+# One attempt at the room graph; empty when the walk runs into itself or misses a target.
+static func topology(rng: RandomNumberGenerator) -> Array:
+	var nodes: Array = []
+	var occupied := {}
+	var sides: Array = Shell.DIRECTIONS.keys()
+	add_node(nodes,occupied,Vector2i.ZERO,"camp_remains","start")
+	# Main route: turns fall on distinct interior steps, so every straight run is at least one room long.
+	var heading: String = pick(rng,sides)
+	var steps := rng.randi_range(MAIN_ROOMS.x,MAIN_ROOMS.y)-1
+	var interior: Array = range(1,steps)
+	var turns := {}
+	for turn in range(rng.randi_range(2,3)):
+		turns[interior.pop_at(rng.randi_range(0,interior.size()-1))] = true
+	for step in range(steps):
+		if turns.has(step): heading = turn_from(heading,rng)
+		var cell: Vector2i = nodes.back().cell+Vector2i(Shell.DIRECTIONS[heading])
+		if occupied.has(cell): return []
+		connect_cells(nodes,nodes.size()-1,add_node(nodes,occupied,cell,"","normal"))
+	# The finale keeps its sole south entrance: the antechamber is entered from west, east or south.
+	var last: int = nodes.size()-1
+	var gateways: Array = []
+	for entrance in ["west","east","south"]:
+		var gate: Vector2i = nodes[last].cell-Vector2i(Shell.DIRECTIONS[entrance])
+		if not occupied.has(gate) and not occupied.has(gate+Vector2i.UP): gateways.append(gate)
+	if gateways.is_empty(): return []
+	var gate: Vector2i = gateways[rng.randi_range(0,gateways.size()-1)]
+	var pre := add_node(nodes,occupied,gate,"antechamber","antechamber")
+	connect_cells(nodes,last,pre)
+	connect_cells(nodes,pre,add_node(nodes,occupied,gate+Vector2i.UP,"root_hall","boss"))
+	# Side routes grow from any ordinary room, including earlier side routes, and may bend.
+	var target := rng.randi_range(ROOMS.x,ROOMS.y)
+	while nodes.size() < target:
+		var options: Array = []
+		for index in range(nodes.size()):
+			if nodes[index].role not in ["start","normal"]: continue
+			for side in sides:
+				if not occupied.has(nodes[index].cell+Vector2i(Shell.DIRECTIONS[side])): options.append([index,side])
+		if options.is_empty(): return []
+		var option: Array = options[rng.randi_range(0,options.size()-1)]
+		var parent: int = option[0]
+		var side: String = option[1]
+		for step in range(mini(rng.randi_range(1,3),target-nodes.size())):
+			var cell: Vector2i = nodes[parent].cell+Vector2i(Shell.DIRECTIONS[side])
+			if occupied.has(cell): break
+			var next := add_node(nodes,occupied,cell,"","normal")
+			connect_cells(nodes,parent,next)
+			parent = next
+			if rng.randf() < .4: side = turn_from(side,rng)
+	# A side route sometimes rejoins a distant part of the floor: a detour that never shortens the way to the finale.
+	if rng.randf() < LOOP_CHANCE:
+		var distance := distances(nodes,0)
+		var joins: Array = []
+		var finale: int = pre+1
+		for a in range(nodes.size()):
+			for b in range(a+1,nodes.size()):
+				if nodes[a].role not in ["start","normal"] or nodes[b].role not in ["start","normal"]: continue
+				if nodes[a].links.size() >= 3 or nodes[b].links.size() >= 3: continue
+				if (nodes[a].cell-nodes[b].cell).length_squared() != 1 or linked(nodes,a,b): continue
+				if absi(distance[a]-distance[b]) < 3: continue
+				# Through the join, the nearer room reaches the farther one's side of the tree in one step.
+				var near: int = a if distance[a] < distance[b] else b
+				var far: int = b if near == a else a
+				if distance[near]+1+distances(nodes,far)[finale] >= distance[finale]: joins.append([a,b])
+		if not joins.is_empty():
+			var join: Array = joins[rng.randi_range(0,joins.size()-1)]
+			connect_cells(nodes,join[0],join[1])
+	var leaves: Array = range(nodes.size()).filter(func(index): return nodes[index].role == "normal" and nodes[index].links.size() == 1)
+	if leaves.size() < DISCOVERY_COUNT: return []
+	for count in range(DISCOVERY_COUNT):
+		var terminal: int = leaves.pop_at(rng.randi_range(0,leaves.size()-1))
+		nodes[terminal].role = "discovery"
+	var junctions: int = nodes.filter(func(node): return node.links.size() >= 3).size()
+	if junctions < JUNCTIONS.x or junctions > JUNCTIONS.y: return []
+	return nodes
+
+static func turn_from(heading: String, rng: RandomNumberGenerator) -> String:
+	var options: Array = ["west","east"] if heading in ["north","south"] else ["north","south"]
+	return pick(rng,options)
+
+static func linked(nodes: Array, a: int, b: int) -> bool:
+	return nodes[a].links.any(func(edge): return edge[1] == b)
+
+static func distances(nodes: Array, from: int) -> Array:
+	var result: Array = []
+	result.resize(nodes.size())
+	result.fill(-1)
+	result[from] = 0
+	var pending: Array = [from]
+	while not pending.is_empty():
+		var index: int = pending.pop_front()
+		for edge in nodes[index].links:
+			if result[edge[1]] < 0:
+				result[edge[1]] = result[index]+1
+				pending.append(edge[1])
+	return result
+
+static func loop_count(nodes: Array) -> int:
+	var edges := 0
+	for node in nodes: edges += node.links.size()
+	return edges/2-nodes.size()+1
 
 # Select after topology is complete, using actual openings and least-used compatible rooms.
 # Fixed start/finale identities also count; no room shares its identity with a neighbour.
@@ -101,7 +158,7 @@ static func assign_templates(nodes: Array, rng: RandomNumberGenerator) -> void:
 	for node in nodes:
 		if not node.art.is_empty(): continue
 		var sides := A.canonical_sides(node.links.map(func(edge): return edge[0]))
-		var pool: Array = A.DISCOVERIES if node.role == "discovery" else A.PASSAGES + ["colonnade","courtyard"]
+		var pool: Array = A.DISCOVERIES if node.role == "discovery" else A.COMBAT_ROOMS.filter(func(art): return art != "camp_remains")
 		var neighbours: Array = node.links.map(func(edge): return nodes[edge[1]].art)
 		var candidates: Array = []
 		var minimum := 10000
@@ -137,7 +194,7 @@ static func connect_nodes(nodes: Array, from: int, to: int, side: String) -> voi
 
 static func validation_errors(floor: Dictionary) -> PackedStringArray:
 	var errors := ExistingFloor.validation_errors(floor)
-	var branches := 0
+	var junctions := 0
 	var discoveries := 0
 	for id in floor.catalog:
 		var room = floor.catalog[id]
@@ -145,12 +202,14 @@ static func validation_errors(floor: Dictionary) -> PackedStringArray:
 		var sides := A.canonical_sides(room.doors.map(func(d): return d.id))
 		if sides not in A.connection_sets(meta.template_id): errors.append("Unsupported openings: "+id)
 		if not Reach.reachable(room): errors.append("Unreachable: "+id)
-		if room.doors.size() >= 3: branches += 1
+		if room.doors.size() >= 3: junctions += 1
 		if meta.role == "discovery":
 			discoveries += 1
 			if room.doors.size() != 1 or meta.template_id not in A.DISCOVERIES: errors.append("Discovery must be a suitable terminal")
 		if meta.role == "antechamber":
 			for door in room.doors:
 				if door.id == "north" and floor.rooms[door.target_room].role != "boss": errors.append("Gateway must lead to finale")
-	if branches < 2 or discoveries != 2: errors.append("Expected two optional branches and discoveries")
+	if floor.catalog.size() < ROOMS.x or floor.catalog.size() > ROOMS.y: errors.append("Room count outside %s" % ROOMS)
+	if junctions < JUNCTIONS.x or junctions > JUNCTIONS.y: errors.append("Junction count outside %s" % JUNCTIONS)
+	if discoveries != DISCOVERY_COUNT: errors.append("Expected %d discoveries" % DISCOVERY_COUNT)
 	return errors

@@ -27,17 +27,18 @@ func run() -> void:
 	game.open_map()
 	await grab("random-map-seed27")
 	game.close_map()
-	var layouts := {}
+	# Version 4: one tree-shaped and one looping floor.
+	var loop_kinds := {}
 	for map_seed in range(30):
 		game.start_exploration(map_seed)
-		var layout: int = game.generated_floor.layout
-		if layouts.has(layout): continue
-		layouts[layout] = true
+		var loops: int = game.generated_floor.loops
+		if loop_kinds.has(loops): continue
+		loop_kinds[loops] = true
 		for room_id in game.room_catalog: game.exploration.visited_rooms[room_id] = true
 		game.open_map()
-		await grab("random-layout-%d-seed%d" % [layout,map_seed])
+		await grab("random-loops-%d-seed%d" % [loops,map_seed])
 		game.close_map()
-		if layouts.size() == 3: break
+		if loop_kinds.size() == 2: break
 	for specification in [["colonnade",["north","west","east"]],["courtyard",["south","east"]],["antechamber",["north","west"]],["storage_cells",["west","east"]],["secret_room",["west","east"]],["twin_halls",["west","east"]],["loading_bay",["north","south","west","east"]],["guard_post",["north","south","west","east"]]]:
 		var room = preload("res://scripts/world/authored_rooms.gd").make_room(specification[0],specification[1])
 		game.arena.configure_field(room.field,1,14)

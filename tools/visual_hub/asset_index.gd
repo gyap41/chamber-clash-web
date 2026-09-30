@@ -225,7 +225,7 @@ func _authored_rooms() -> void:
 	for id in authored.ORDER:
 		var room = authored.make_room(id,["west","east"])
 		var item := Record.make("room:"+id,authored.NAMES[id],"部屋","現行")
-		var role := "分岐・曲がり" if id in authored.JUNCTIONS else ("寄り道の終点" if id in authored.DISCOVERIES else ("前室" if id == "antechamber" else "通過"))
+		var role := "寄り道の終点" if id in authored.DISCOVERIES else ("前室" if id == "antechamber" else ("分岐・曲がり" if authored.open_sides(id).size() >= 3 else "通過"))
 		var openings: Array = []
 		var names := {"north":"北","south":"南","west":"西","east":"東"}
 		for sides in authored.connection_sets(id):

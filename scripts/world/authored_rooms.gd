@@ -43,25 +43,35 @@ static func catalog() -> Dictionary:
 		rooms[id] = room
 	return rooms
 
-# Junctions are deliberately authored for all cardinal subsets, without rotating their art.
-const JUNCTIONS := ["colonnade","courtyard","camp_remains","loading_bay","guard_post"]
+# Openings are centred on each wall and never rotate the art. Sides a room's set pieces occupy are withheld
+# (opening audit 2026-09-30, docs/art/production/authored-rooms): chapel altar, archive records, overlook shaft,
+# twin_halls partition, repair_room shoring and lamp face the north wall; the storage/secret bays fill north and south.
+# Every other side combination is allowed, so rooms can turn and branch in any direction.
 const DISCOVERIES := ["vault","archive","storage_cells","secret_room","chapel","overlook"]
-const PASSAGES := ["collapsed_gallery","casting_line","root_hall","twin_halls","loading_bay","cistern","guard_post","fallen_gate","beast_nest","repair_room"]
+const COMBAT_ROOMS := ["collapsed_gallery","casting_line","camp_remains","root_hall","colonnade","courtyard","twin_halls",
+	"loading_bay","cistern","guard_post","fallen_gate","beast_nest","repair_room"]
+const OPEN_SIDES := {"twin_halls":["south","west","east"],"repair_room":["south","west","east"],
+	"chapel":["south","west","east"],"archive":["south","west","east"],"overlook":["south","west","east"],
+	"storage_cells":["west","east"],"secret_room":["west","east"]}
+static func open_sides(id: String) -> Array:
+	return OPEN_SIDES.get(id,Shell.DIRECTIONS.keys())
 static func connection_sets(id: String) -> Array:
 	if id not in ORDER: return []
-	var sets: Array = [["west"],["east"],["west","east"]]
-	if id in JUNCTIONS:
-		sets.clear()
-		var directions: Array = Shell.DIRECTIONS.keys()
-		for mask in range(1,16):
-			var sides: Array = []
-			for i in range(4):
-				if mask & (1 << i): sides.append(directions[i])
-			sets.append(sides)
-	elif id == "antechamber":
-		sets.append_array([["north","west"],["north","east"],["north","south"]])
-	elif id == "root_hall":
-		sets.append(["south"])
+	if id == "antechamber": return [["west"],["east"],["west","east"],["north","west"],["north","east"],["north","south"]]
+	var allowed := open_sides(id)
+	var sets: Array = []
+	# Discoveries are terminals on the floor: one entrance, from whichever permitted side. Their original
+	# west-east pass-through remains for the room preview chain.
+	if id in DISCOVERIES:
+		for side in allowed: sets.append([side])
+		sets.append(["west","east"])
+		return sets
+	var directions: Array = Shell.DIRECTIONS.keys()
+	for mask in range(1,16):
+		var sides: Array = []
+		for i in range(4):
+			if mask & (1 << i): sides.append(directions[i])
+		if sides.all(func(side): return side in allowed): sets.append(sides)
 	return sets
 
 static func canonical_sides(sides: Array) -> Array:
@@ -73,6 +83,10 @@ static func canonical_sides(sides: Array) -> Array:
 # Builds geometry independently of the preview order. The graph assembler assigns door targets.
 static func make_room(id: String, sides: Array):
 	assert(sides.size() == canonical_sides(sides).size() and canonical_sides(sides) in connection_sets(id),"Unsupported authored room openings: "+id+str(sides))
+	return build_room(id,sides)
+
+# Unchecked construction, used by make_room and by the opening audit that decides connection_sets.
+static func build_room(id: String, sides: Array):
 	var dimensions: Vector2 = SIZES.get(id,Vector2(1120,800))
 	# These rooms keep their entrances at y560, below the northern discovery alcoves.
 	var room = Shell.make_room(id,sides,Vector2(dimensions.x,1120) if id in ["storage_cells","secret_room"] else dimensions)

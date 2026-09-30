@@ -4,14 +4,24 @@ const A = Floor.A
 const Camera = preload("res://scripts/visuals/exploration_camera.gd")
 func _initialize() -> void:
 	var signatures := {}
-	var layouts := {}
+	var loop_kinds := {}
+	var headings := {}
+	var finale_sides := {}
 	for seed_value in range(40):
 		var floor := Floor.generate(seed_value)
 		assert(floor.errors.is_empty(),str(seed_value)+str(floor.errors))
-		layouts[floor.layout] = true
+		assert(floor.catalog.size() >= Floor.ROOMS.x and floor.catalog.size() <= Floor.ROOMS.y)
+		loop_kinds[floor.loops] = true
 		var edges := 0
 		for room_value in floor.catalog.values(): edges += room_value.doors.size()
-		assert(edges/2-floor.catalog.size()+1 == (1 if floor.layout == 2 else 0),"Incorrect loop topology")
+		assert(edges/2-floor.catalog.size()+1 == floor.loops and floor.loops <= 1,"Incorrect loop topology")
+		# The finale is at least the whole main route away, and lies in any direction from the entrance.
+		var boss: String = floor.rooms.keys().filter(func(id): return floor.rooms[id].role == "boss")[0]
+		assert(door_distance(floor,floor.start,boss) >= Floor.MAIN_ROOMS.x+1,"Finale too close: seed %d" % seed_value)
+		var offset: Vector2i = floor.rooms[boss].cell
+		finale_sides["north" if offset.y < 0 else "south"] = true
+		finale_sides["west" if offset.x < 0 else "east"] = true
+		headings[floor.rooms.authored_1.cell] = true # The main route's first step.
 		var counts := {}
 		for id in floor.catalog:
 			var art: String = floor.rooms[id].template_id
@@ -22,7 +32,8 @@ func _initialize() -> void:
 		signatures[JSON.stringify(floor.rooms)] = true
 		if seed_value < 3:
 			assert(floor.rooms == Floor.generate(seed_value).rooms,"Seed must reproduce topology and templates")
-	assert(layouts.size() == 3,"All three map structures must be exercised")
+	assert(loop_kinds.size() == 2,"Both tree-shaped and looping floors must be exercised")
+	assert(finale_sides.size() == 4 and headings.size() == 4,"Entrance heading and finale direction must vary")
 	assert(signatures.size() > 30,"Seeds must vary topology and template selection")
 	var room = A.make_room("storage_cells",["west","east"])
 	var coffer = room.field.placements.filter(func(p): return p.placement_id == "authored_cell_hidden_coffer")[0]
@@ -49,5 +60,16 @@ func _initialize() -> void:
 	assert(not screen.floor_decal and not screen.surface_overlay and screen.collision.has_area())
 	assert(Floor.Reach.clear_point(twin.field,Vector2(720,580)))
 	assert(Floor.Reach.clear_point(twin.field,Vector2(720,680)))
-	print("PASS: 40 seeded branching maps, deterministic generation, role/door constraints and camera-based discovery")
+	print("PASS: 40 seeded v4 maps (turning main route, 4-6 junctions, finale in every direction), deterministic generation, role/door constraints and camera-based discovery")
 	quit()
+
+static func door_distance(floor: Dictionary, from: String, to: String) -> int:
+	var distance := {from:0}
+	var pending: Array = [from]
+	while not pending.is_empty():
+		var id: String = pending.pop_front()
+		for door in floor.catalog[id].doors:
+			if not distance.has(door.target_room):
+				distance[door.target_room] = distance[id]+1
+				pending.append(door.target_room)
+	return distance.get(to,-1)

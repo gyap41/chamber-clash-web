@@ -4,7 +4,7 @@
 
 自動生成: `python tools/docs_index.py`。表題は本文の最初の見出しから取得。分類は役割の案内で、内容の検証完了や採用を示しません。過去計画は元のパスを維持して履歴に分類しています。
 
-対象 183 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
+対象 184 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
 
 ## 入口・運用
 
@@ -40,6 +40,7 @@
 |[docs/planning/EXPLORATION_DESIGN.md](<planning/EXPLORATION_DESIGN.md>)|探索体験・敵・ボスの設計案|
 |[docs/planning/EXPLORATION_REWARDS.md](<planning/EXPLORATION_REWARDS.md>)|探索報酬・宝箱・発見の演出案|
 |[docs/planning/EXPLORATION_ROADMAP.md](<planning/EXPLORATION_ROADMAP.md>)|探索・ストーリーモード開発ロードマップ|
+|[docs/planning/FLOOR_EXPANSION_PLAN.md](<planning/FLOOR_EXPANSION_PLAN.md>)|階層構造・部屋種類・イベント部屋の拡張計画|
 |[docs/planning/ROADMAP.md](<planning/ROADMAP.md>)|現在地と残課題|
 |[docs/planning/ROOM_SHAPE_STUDIES.md](<planning/ROOM_SHAPE_STUDIES.md>)|部屋形状15案|
 |[docs/planning/WORLD_AND_DUNGEON_CONCEPT.md](<planning/WORLD_AND_DUNGEON_CONCEPT.md>)|始まりの工房：世界観・探索ループ・5階層案|
