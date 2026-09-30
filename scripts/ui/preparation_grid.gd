@@ -4,6 +4,7 @@ const RelicGridCell = preload("res://scripts/ui/relic_grid_cell.gd")
 const RelicChip = preload("res://scripts/ui/relic_chip.gd")
 const Relics = preload("res://scripts/catalog/relic_catalog.gd")
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
+const Widgets = preload("res://scripts/ui/preparation_widgets.gd")
 const CELL_SIZE := 50
 const CELL_GAP := 4
 static func build(view, parent: Node, state, i: int, build: Dictionary) -> void:
@@ -35,7 +36,7 @@ static func build(view, parent: Node, state, i: int, build: Dictionary) -> void:
 				style.bg_color = Color("151f29")
 				style.border_color = Color("2c3945")
 				panel.tooltip_text = "未開放：バッグ拡張で使用可能になる領域"
-				view.text_at(panel,"Locked","×",Rect2(18,14,24,24),18,Color("65727d"))
+				Widgets.text_at(panel,"Locked","×",Rect2(18,14,24,24),18,Color("65727d"))
 			if occupied.has(cell):
 				var entry = occupied[cell]
 				style.bg_color = Color("30758a") if state.is_gun(entry) else Color(Relics.definition(state.relic_id(entry)).color).darkened(.5)

@@ -1,4 +1,5 @@
 extends CanvasLayer
+# Full-screen preparation: rewards / equipment / reserve and persistent details.
 const CpuPreparation = preload("res://scripts/ai/cpu_preparation.gd")
 const Items = preload("res://scripts/game/item_identity.gd")
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
@@ -7,6 +8,7 @@ const RelicChip = preload("res://scripts/ui/relic_chip.gd")
 const RelicTray = preload("res://scripts/ui/relic_tray.gd")
 const Footprint = preload("res://scripts/ui/item_footprint.gd")
 const GridView = preload("res://scripts/ui/preparation_grid.gd")
+const Widgets = preload("res://scripts/ui/preparation_widgets.gd")
 const CELL_SIZE := GridView.CELL_SIZE
 const CELL_GAP := GridView.CELL_GAP
 const CELL_PITCH := CELL_SIZE+CELL_GAP
@@ -26,7 +28,7 @@ var preview_cells: Array = []
 var rendered_turn := -1
 func _ready() -> void:
 	$Root/Panel/Content/Ready.pressed.connect(ready_shop)
-	style_button($Root/Panel/Content/Ready,true)
+	Widgets.style_button($Root/Panel/Content/Ready,true)
 func begin() -> void:
 	turn = 0
 	selected_expansion = ""
@@ -110,36 +112,9 @@ func ready_shop() -> void:
 	game.launch_round()
 	refresh()
 # Deterministic tag-based heuristic; the same state methods enforce every CPU limit.
-# P8z：基準が「主力1丁」から「グリッドに置いている武器（複数丁）」に変わったため、gunsは配列で
-# 受け取る。相性そのものの計算は先頭の1丁（＝グリッドの読み順で最初の武器）を代表として使う
-# 単純な近似で、丸腰のときは武器0の定義を仮の基準にする（従来のmaxi(0,gun)と同じ扱い）。
-func affinity(id, guns: Array, equipped: Array = []) -> int:
-	return CpuPreparation.affinity(id,guns,equipped)
 func auto_prepare(i: int) -> void:
 	CpuPreparation.auto_prepare(game.match_state,i)
 	game.telemetry.record("cpu_prepare",{"player":i,"build":game.match_state.builds[i],"gold":game.match_state.gold[i]})
-func purchase_score(card: Dictionary, i: int) -> float:
-	return CpuPreparation.purchase_score(card,game.match_state,i)
-func weapon_score(id: int, relics: Array) -> int:
-	return CpuPreparation.weapon_score(id,relics)
-func label_at(parent: Node, text: String) -> void:
-	var label := Label.new()
-	label.text = text
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.custom_minimum_size.x = 320
-	label.add_theme_font_size_override("font_size",14)
-	parent.add_child(label)
-func button_at(parent: Node, text: String, action: Callable, disabled: bool = false, tooltip: String = "") -> Button:
-	var button := Button.new()
-	button.text = text
-	button.disabled = disabled
-	button.custom_minimum_size = Vector2(320,30)
-	button.clip_text = true
-	button.add_theme_font_size_override("font_size",14)
-	if tooltip != "": button.tooltip_text = tooltip
-	button.pressed.connect(action)
-	parent.add_child(button)
-	return button
 # P8z：所持庫・グリッドに載る要素（武器＝"gun:<id>"／レリック＝int）の表示名と説明。改造済みの
 # 武器は名前の後ろに⚙で分岐名を添える。
 func entry_info(entry) -> Dictionary:
@@ -172,70 +147,6 @@ func build_text(build: Dictionary) -> String:
 	var mods: Dictionary = build.get("mods",{})
 	var mod_tag := "" if mods.is_empty() else "・改造%d件" % mods.size()
 	return ("素手" if gun_names.is_empty() else "・".join(gun_names)) + mod_tag + " / " + "・".join(relic_names)
-# Full-screen preparation: rewards / equipment / reserve and persistent details.
-func panel_at(parent: Node, node_name: String, rect: Rect2) -> Panel:
-	var panel := Panel.new()
-	panel.name = node_name
-	panel.position = rect.position
-	panel.size = rect.size
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color("182534")
-	style.set_corner_radius_all(8)
-	panel.add_theme_stylebox_override("panel",style)
-	parent.add_child(panel)
-	return panel
-func text_at(parent: Node, node_name: String, text: String, rect: Rect2, font_size: int = 18, color: Color = Color("e4edf5")) -> Label:
-	var label := Label.new()
-	label.name = node_name
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.clip_text = true
-	label.max_lines_visible = 2 if rect.size.y >= 40 else 1
-	label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	label.add_theme_font_size_override("font_size",font_size)
-	label.add_theme_color_override("font_color",color)
-	# Configure wrapping before text/size: an unwrapped label can otherwise retain
-	# its full-text minimum width even after switching to wrapping or ellipsis.
-	label.text = text
-	label.position = rect.position
-	label.size = rect.size
-	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	parent.add_child(label)
-	return label
-func style_button(button: Button, accent: bool = false) -> void:
-	for state_name in ["normal","hover","pressed","disabled"]:
-		var style := StyleBoxFlat.new()
-		style.bg_color = Color("69d9c2") if accent else Color("223648")
-		if state_name == "hover": style.bg_color = style.bg_color.lightened(.12)
-		if state_name == "pressed": style.bg_color = style.bg_color.darkened(.12)
-		if state_name == "disabled": style.bg_color = Color("25303d")
-		style.set_corner_radius_all(6)
-		style.content_margin_left = 10
-		style.content_margin_right = 10
-		button.add_theme_stylebox_override(state_name,style)
-	button.add_theme_color_override("font_color",Color("101925") if accent else Color("e4edf5"))
-	button.add_theme_color_override("font_hover_color",Color("101925") if accent else Color("ffffff"))
-	button.add_theme_color_override("font_pressed_color",Color("101925") if accent else Color("ffffff"))
-	button.add_theme_color_override("font_disabled_color",Color("8c9cab"))
-	button.add_theme_font_size_override("font_size",18)
-	var focus_style := StyleBoxFlat.new()
-	focus_style.bg_color = Color.TRANSPARENT
-	focus_style.border_color = Color("cdefff")
-	focus_style.set_border_width_all(2)
-	button.add_theme_stylebox_override("focus",focus_style)
-func scroll_at(parent: Node, node_name: String, rect: Rect2) -> VBoxContainer:
-	var scroll := ScrollContainer.new()
-	scroll.name = node_name
-	scroll.position = rect.position
-	scroll.size = rect.size
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.follow_focus = true
-	parent.add_child(scroll)
-	var list := VBoxContainer.new()
-	list.name = "List"
-	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	list.add_theme_constant_override("separation",10)
-	scroll.add_child(list)
-	return list
 func same_entry(a, b) -> bool:
 	return Items.same_entry(a,b)
 func detail_path() -> Node:
@@ -465,19 +376,6 @@ func buy_selected() -> void:
 func return_detail() -> void:
 	if selected_detail != null and not selected_reward: unequip_relic(selected_detail)
 
-func action_button(parent: Node, name_value: String, caption: String, rect: Rect2, callback: Callable, accent: bool = false) -> Button:
-	var button := Button.new()
-	button.name = name_value
-	button.text = caption
-	button.position = rect.position
-	button.size = rect.size
-	style_button(button,accent)
-	button.add_theme_font_size_override("font_size",14)
-	button.clip_text = true
-	button.pressed.connect(callback)
-	parent.add_child(button)
-	return button
-
 func open_expansions() -> void:
 	var popup: PanelContainer = $Root/Panel/Content/Cards/Equipment/ExpansionPopup
 	var was_visible := popup.visible
@@ -485,8 +383,8 @@ func open_expansions() -> void:
 	popup.visible = not was_visible
 
 func build_expansions(equipment: Node, state) -> void:
-	action_button(equipment,"Expand","バッグを拡張",Rect2(20,436,150,38),open_expansions)
-	text_at(equipment,"ExpansionState","今回購入済み" if state.expansion_bought[turn] else "今回 未購入 / 上限24",Rect2(178,445,195,24),13,Color("91a7bc"))
+	Widgets.action_button(equipment,"Expand","バッグを拡張",Rect2(20,436,150,38),open_expansions)
+	Widgets.text_at(equipment,"ExpansionState","今回購入済み" if state.expansion_bought[turn] else "今回 未購入 / 上限24",Rect2(178,445,195,24),13,Color("91a7bc"))
 	var popup := PanelContainer.new()
 	popup.name = "ExpansionPopup"
 	popup.position = Vector2(20,190)
@@ -516,7 +414,7 @@ func build_expansions(equipment: Node, state) -> void:
 		choice.disabled = not why.is_empty()
 		choice.tooltip_text = "選択後にバッグへ配置。Escで取消。" if why.is_empty() else why
 		choice.custom_minimum_size = Vector2(330,48)
-		style_button(choice)
+		Widgets.style_button(choice)
 		choice.add_theme_font_size_override("font_size",14)
 		choice.pressed.connect(select_expansion.bind(shape))
 		list.add_child(choice)
@@ -535,24 +433,24 @@ func build_product(reward_list: Node, offer: Dictionary, state) -> void:
 	var layout := Control.new()
 	layout.custom_minimum_size = Vector2(0,70)
 	card.add_child(layout)
-	var inspect := action_button(layout,"Inspect","",Rect2(0,0,244,70),inspect_offer.bind(str(offer.id)))
+	var inspect := Widgets.action_button(layout,"Inspect","",Rect2(0,0,244,70),inspect_offer.bind(str(offer.id)))
 	for key in ["normal","hover","pressed"]: inspect.add_theme_stylebox_override(key,StyleBoxEmpty.new())
 	inspect.tooltip_text = info.name+"\n"+info.desc+"\n"+reason
 	inspect.focus_entered.connect(inspect_offer.bind(str(offer.id)))
 	if not str(entry).begins_with("mod:"): add_item_art(inspect,entry,Rect2(10,10,26,24))
-	else: text_at(inspect,"Mod","改",Rect2(10,10,26,24),17)
-	text_at(inspect,"Name",info.name,Rect2(44,6,192,28),16)
-	var effect := text_at(inspect,"Effect",info.desc if reason.is_empty() else reason,Rect2(10,39,230,24),13,Color("b2c6d8") if reason.is_empty() else Color("ffad83"))
+	else: Widgets.text_at(inspect,"Mod","改",Rect2(10,10,26,24),17)
+	Widgets.text_at(inspect,"Name",info.name,Rect2(44,6,192,28),16)
+	var effect := Widgets.text_at(inspect,"Effect",info.desc if reason.is_empty() else reason,Rect2(10,39,230,24),13,Color("b2c6d8") if reason.is_empty() else Color("ffad83"))
 	effect.autowrap_mode = TextServer.AUTOWRAP_OFF
 	var caption: String = "無料確保" if offer.id == "field" else ("売切" if offer.sold else "%dG 購入" % offer.price)
-	var buy := action_button(layout,"Claim",caption,Rect2(248,27,80,34),claim.bind(str(offer.id)),true)
+	var buy := Widgets.action_button(layout,"Claim",caption,Rect2(248,27,80,34),claim.bind(str(offer.id)),true)
 	buy.disabled = not reason.is_empty()
 	buy.tooltip_text = reason
 
 func build_reserve(reserve: Node, state, build: Dictionary) -> void:
 	var entries: Array = build.owned.filter(func(entry): return entry not in build.equipped)
-	text_at(reserve,"Heading","控え %d / 8" % entries.size(),Rect2(16,8,142,26),18)
-	text_at(reserve,"Capacity","未装備・クリックで詳細 / ドラッグで配置",Rect2(158,10,480,24),14,Color("91a7bc"))
+	Widgets.text_at(reserve,"Heading","控え %d / 8" % entries.size(),Rect2(16,8,142,26),18)
+	Widgets.text_at(reserve,"Capacity","未装備・クリックで詳細 / ドラッグで配置",Rect2(158,10,480,24),14,Color("91a7bc"))
 	var tray := RelicTray.new()
 	tray.name = "DropZone"
 	tray.position = Vector2(0,0)
@@ -560,7 +458,7 @@ func build_reserve(reserve: Node, state, build: Dictionary) -> void:
 	tray.on_drop = unequip_relic
 	tray.add_theme_stylebox_override("panel",StyleBoxEmpty.new())
 	reserve.add_child(tray)
-	text_at(tray,"Hint","装備をこの欄へ戻すと解除",Rect2(746,10,310,24),14,Color("83deca"))
+	Widgets.text_at(tray,"Hint","装備をこの欄へ戻すと解除",Rect2(746,10,310,24),14,Color("83deca"))
 	# Retain the node path used by captures; scrolling is disabled and all 8 slots fit.
 	var scroll := ScrollContainer.new()
 	scroll.name = "Scroll"
@@ -580,7 +478,7 @@ func build_reserve(reserve: Node, state, build: Dictionary) -> void:
 			empty.custom_minimum_size = Vector2(123,44)
 			empty.on_drop = unequip_relic
 			list.add_child(empty)
-			text_at(empty,"Empty","%d   空き" % (index+1),Rect2(8,10,107,24),14,Color("657d90"))
+			Widgets.text_at(empty,"Empty","%d   空き" % (index+1),Rect2(8,10,107,24),14,Color("657d90"))
 			continue
 		var entry = entries[index]
 		var chip := RelicChip.new()
@@ -589,13 +487,13 @@ func build_reserve(reserve: Node, state, build: Dictionary) -> void:
 		chip.on_reserve_drop = unequip_relic
 		chip.custom_minimum_size = Vector2(123,44)
 		chip.tooltip_text = entry_info(entry).name+"\n"+entry_info(entry).desc
-		style_button(chip)
+		Widgets.style_button(chip)
 		if latest_purchase != null and same_entry(entry,latest_purchase): chip.modulate = Color("b1ffe4")
 		chip.pressed.connect(browse_entry.bind(entry))
 		chip.focus_entered.connect(focus_entry.bind(entry))
 		list.add_child(chip)
 		add_item_art(chip,entry,Rect2(6,8,19,22))
-		var caption := text_at(chip,"Caption",entry_info(entry).name,Rect2(29,12,89,22),13)
+		var caption := Widgets.text_at(chip,"Caption",entry_info(entry).name,Rect2(29,12,89,22),13)
 		caption.autowrap_mode = TextServer.AUTOWRAP_OFF
 
 func refresh() -> void:
@@ -613,6 +511,27 @@ func refresh() -> void:
 		latest_purchase = null
 		rendered_turn = turn
 	state.sync_mod_product(turn)
+	update_header(state,build)
+	for child in $Root/Panel/Content/Cards.get_children():
+		child.get_parent().remove_child(child)
+		child.queue_free()
+	var cards := $Root/Panel/Content/Cards
+	var equipment := Widgets.panel_at(cards,"Equipment",Rect2(0,0,676,490))
+	var rewards := Widgets.panel_at(cards,"Rewards",Rect2(692,0,380,490))
+	var reserve := Widgets.panel_at(cards,"Reserve",Rect2(0,506,1072,96))
+	reserve.set_script(RelicTray)
+	reserve.set("on_drop",unequip_relic)
+	var details := Widgets.panel_at(equipment,"Details",Rect2(396,0,280,490))
+	build_equipment(equipment,state,build)
+	build_details(details)
+	var offers := build_shop(rewards,state)
+	build_reserve(reserve,state,build)
+	var selection_exists: bool = selected_detail != null and (offers.any(func(offer): return same_entry(offer.entry,selected_detail)) if selected_reward else selected_detail in build.owned)
+	if placement_entry != null and placement_entry not in build.owned: placement_entry = null
+	if selection_exists: show_detail(selected_detail,selected_reward)
+	if not selected_expansion.is_empty(): select_expansion(selected_expansion)
+
+func update_header(state, build: Dictionary) -> void:
 	$Root/Panel/Content/Title.text = "携帯工房 / P%d ラウンド準備" % (turn+1)
 	$Root/Panel/Content/Info.text = "準備 %d / 5本先取 / SCORE %d : %d / 所持金 %dG" % [state.stage,state.scores[0],state.scores[1],state.gold[turn]]
 	$Root/Panel/Content/Info.tooltip_text = "相手の前ラウンド確定ビルド：" + " / ".join(game.roster.enemies(turn,game.players).map(func(player): return build_text(state.previous[game.players.find(player)])))
@@ -628,26 +547,20 @@ func refresh() -> void:
 	$Root/Panel/Content/Summary.text = " / ".join(warnings) if not warnings.is_empty() else "出撃装備："+" / ".join(names)
 	$Root/Panel/Content/Summary.add_theme_color_override("font_color",Color("ffce88") if not warnings.is_empty() else Color("91a7bc"))
 	$Root/Panel/Content/Summary.tooltip_text = " / ".join(warnings)+"\n"+build_text(build)+"\n武器順はグリッドの左上から。戦闘開始時に全快。"
-	for child in $Root/Panel/Content/Cards.get_children():
-		child.get_parent().remove_child(child)
-		child.queue_free()
-	var cards := $Root/Panel/Content/Cards
-	var equipment := panel_at(cards,"Equipment",Rect2(0,0,676,490))
-	var rewards := panel_at(cards,"Rewards",Rect2(692,0,380,490))
-	var reserve := panel_at(cards,"Reserve",Rect2(0,506,1072,96))
-	reserve.set_script(RelicTray)
-	reserve.set("on_drop",unequip_relic)
-	var details := panel_at(equipment,"Details",Rect2(396,0,280,490))
-	text_at(equipment,"Heading","装備するもの",Rect2(20,16,206,32),22)
-	text_at(equipment,"Capacity","使用 %d / %dマス" % [state.occupied_cells(turn).size(),state.capacity(turn)],Rect2(230,23,150,26),16,Color("83deca"))
-	text_at(equipment,"Hint","ここに配置した装備で出撃します",Rect2(20,49,358,24),14,Color("91a7bc"))
+
+func build_equipment(equipment: Node, state, build: Dictionary) -> void:
+	Widgets.text_at(equipment,"Heading","装備するもの",Rect2(20,16,206,32),22)
+	Widgets.text_at(equipment,"Capacity","使用 %d / %dマス" % [state.occupied_cells(turn).size(),state.capacity(turn)],Rect2(230,23,150,26),16,Color("83deca"))
+	Widgets.text_at(equipment,"Hint","ここに配置した装備で出撃します",Rect2(20,49,358,24),14,Color("91a7bc"))
 	build_relic_grid(equipment,state,turn,build)
-	text_at(equipment,"ExpansionHint","未開放マスは拡張で追加できます",Rect2(20,409,358,24),14,Color("91a7bc"))
+	Widgets.text_at(equipment,"ExpansionHint","未開放マスは拡張で追加できます",Rect2(20,409,358,24),14,Color("91a7bc"))
 	build_expansions(equipment,state)
-	text_at(details,"Heading","アイテム詳細",Rect2(16,16,248,26),19)
-	text_at(details,"Name","品をクリックして確認",Rect2(16,54,248,58),21,Color("83deca"))
-	text_at(details,"Meta","クリックで詳細 / ドラッグで配置",Rect2(16,114,248,26),14,Color("91a7bc"))
-	var detail_list := scroll_at(details,"TextScroll",Rect2(16,150,248,186))
+
+func build_details(details: Node) -> void:
+	Widgets.text_at(details,"Heading","アイテム詳細",Rect2(16,16,248,26),19)
+	Widgets.text_at(details,"Name","品をクリックして確認",Rect2(16,54,248,58),21,Color("83deca"))
+	Widgets.text_at(details,"Meta","クリックで詳細 / ドラッグで配置",Rect2(16,114,248,26),14,Color("91a7bc"))
+	var detail_list := Widgets.scroll_at(details,"TextScroll",Rect2(16,150,248,186))
 	detail_description = Label.new()
 	detail_description.name = "Description"
 	detail_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -655,30 +568,29 @@ func refresh() -> void:
 	detail_description.add_theme_font_size_override("font_size",16)
 	detail_description.text = "購入した品は控えに入ります。\n\n控えからドラッグ、または詳細の「配置する」で装備してください。"
 	detail_list.add_child(detail_description)
-	text_at(details,"Status","詳細確認中は装備を動かしません",Rect2(16,342,248,48),14,Color("91a7bc"))
-	action_button(details,"Place","配置する",Rect2(16,395,119,38),place_selected,true).hide()
-	action_button(details,"Return","控えへ戻す",Rect2(143,395,121,38),return_detail).hide()
-	action_button(details,"Buy","購入して控えへ",Rect2(16,395,248,38),buy_selected,true).hide()
-	action_button(details,"Cancel","配置を取消",Rect2(16,442,119,36),cancel_placement).disabled = placement_entry == null and selected_expansion.is_empty()
-	var discard_button := action_button(details,"Discard","売却 / 破棄",Rect2(143,442,121,36),discard_selected)
+	Widgets.text_at(details,"Status","詳細確認中は装備を動かしません",Rect2(16,342,248,48),14,Color("91a7bc"))
+	Widgets.action_button(details,"Place","配置する",Rect2(16,395,119,38),place_selected,true).hide()
+	Widgets.action_button(details,"Return","控えへ戻す",Rect2(143,395,121,38),return_detail).hide()
+	Widgets.action_button(details,"Buy","購入して控えへ",Rect2(16,395,248,38),buy_selected,true).hide()
+	Widgets.action_button(details,"Cancel","配置を取消",Rect2(16,442,119,36),cancel_placement).disabled = placement_entry == null and selected_expansion.is_empty()
+	var discard_button := Widgets.action_button(details,"Discard","売却 / 破棄",Rect2(143,442,121,36),discard_selected)
 	discard_button.add_theme_color_override("font_color",Color("ffad83"))
 	discard_button.tooltip_text = "完全に手放します。控えへ戻す操作とは異なります。"
 	discard_button.hide()
-	text_at(rewards,"Heading","ショップ",Rect2(18,16,165,32),22)
-	text_at(rewards,"Remaining","%dG / 購入は任意・控えへ追加" % state.gold[turn],Rect2(18,49,344,24),14,Color("83deca"))
-	var reroll := action_button(rewards,"Refresh","商品更新 2G",Rect2(218,12,144,36),refresh_shop)
+
+# Returns the listed offers, including an unclaimed free field item.
+func build_shop(rewards: Node, state) -> Array:
+	Widgets.text_at(rewards,"Heading","ショップ",Rect2(18,16,165,32),22)
+	Widgets.text_at(rewards,"Remaining","%dG / 購入は任意・控えへ追加" % state.gold[turn],Rect2(18,49,344,24),14,Color("83deca"))
+	var reroll := Widgets.action_button(rewards,"Refresh","商品更新 2G",Rect2(218,12,144,36),refresh_shop)
 	reroll.disabled = state.refreshed[turn] or state.gold[turn] < 2 or state.ready[turn]
 	reroll.tooltip_text = "各準備1回。拡張・無料確保品は更新しません。"
-	var reward_list := scroll_at(rewards,"Scroll",Rect2(18,77,344,397))
+	var reward_list := Widgets.scroll_at(rewards,"Scroll",Rect2(18,77,344,397))
 	reward_list.add_theme_constant_override("separation",8)
 	var offers: Array = state.products[turn].duplicate(true)
 	if state.temporary[turn] >= 0: offers.push_front({"id":"field","entry":state.temporary[turn],"price":0,"sold":false})
 	for offer in offers: build_product(reward_list,offer,state)
-	build_reserve(reserve,state,build)
-	var selection_exists: bool = selected_detail != null and (offers.any(func(offer): return same_entry(offer.entry,selected_detail)) if selected_reward else selected_detail in build.owned)
-	if placement_entry != null and placement_entry not in build.owned: placement_entry = null
-	if selection_exists: show_detail(selected_detail,selected_reward)
-	if not selected_expansion.is_empty(): select_expansion(selected_expansion)
+	return offers
 
 func build_relic_grid(parent: Node, state, i: int, build: Dictionary) -> void:
 	GridView.build(self,parent,state,i,build)

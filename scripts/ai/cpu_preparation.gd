@@ -4,6 +4,9 @@ const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const Items = preload("res://scripts/game/item_identity.gd")
 const BuildGrid = preload("res://scripts/game/build_grid.gd")
 
+# P8z：基準が「主力1丁」から「グリッドに置いている武器（複数丁）」に変わったため、gunsは配列で
+# 受け取る。相性そのものの計算は先頭の1丁（＝グリッドの読み順で最初の武器）を代表として使う
+# 単純な近似で、丸腰のときは武器0の定義を仮の基準にする（従来のmaxi(0,gun)と同じ扱い）。
 static func affinity(id, guns: Array, equipped: Array = []) -> int:
 	# P5 mod tokens ("mod:<weapon_id>:<key>") aren't relics; score them like a solid-but-not-
 	# best pick when they target a weapon the CPU actually carries, and never applicable
