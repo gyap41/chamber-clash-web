@@ -22,6 +22,12 @@ func _initialize() -> void:
 		finale_sides["north" if offset.y < 0 else "south"] = true
 		finale_sides["west" if offset.x < 0 else "east"] = true
 		headings[floor.rooms.authored_1.cell] = true # The main route's first step.
+		# Event rooms: shop and altar are dead ends, the challenge is off the main route, teleporters are spread.
+		for event in ["shop","altar","challenge"]:
+			assert(floor.rooms.values().filter(func(meta): return meta.role == event).size() == 1,event)
+		var pads: Array = floor.rooms.keys().filter(func(id): return floor.rooms[id].teleporter)
+		assert(floor.start in pads and pads.size() >= 3,"Teleporters at the entrance, antechamber and shop")
+		for id in pads: assert(floor.rooms[id].role in ["start","antechamber","shop","normal"])
 		var counts := {}
 		for id in floor.catalog:
 			var art: String = floor.rooms[id].template_id
@@ -60,7 +66,7 @@ func _initialize() -> void:
 	assert(not screen.floor_decal and not screen.surface_overlay and screen.collision.has_area())
 	assert(Floor.Reach.clear_point(twin.field,Vector2(720,580)))
 	assert(Floor.Reach.clear_point(twin.field,Vector2(720,680)))
-	print("PASS: 40 seeded v4 maps (turning main route, 4-6 junctions, finale in every direction), deterministic generation, role/door constraints and camera-based discovery")
+	print("PASS: 40 seeded v5 maps with event rooms and teleporters (turning main route, 4-6 junctions, finale in every direction), deterministic generation, role/door constraints and camera-based discovery")
 	quit()
 
 static func door_distance(floor: Dictionary, from: String, to: String) -> int:

@@ -28,7 +28,9 @@ func _ready() -> void:
 	health.size = Vector2(280,16)
 	health.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	canvas.add_child(health)
-	Widgets.label(canvas,"Health",Rect2(28,58,300,22),17)
+	Widgets.label(canvas,"Health",Rect2(28,58,160,22),17)
+	var gold := Widgets.label(canvas,"Gold",Rect2(188,58,130,22),17)
+	gold.add_theme_color_override("font_color",Color("ffd35a"))
 	Widgets.label(canvas,"Heading",Rect2(350,12,440,26),20)
 	Widgets.label(canvas,"Status",Rect2(350,47,470,24),15)
 	Widgets.button(canvas,"Bag",Rect2(698,22,120,30),"Tab バッグ",func(): bag_requested.emit())
@@ -96,6 +98,11 @@ func present(view: Dictionary, mode: Dictionary) -> void:
 	if mode.get("encounter_cleared",false): $Root/Status.text = "攻略済み  ·  次の部屋へ進めます"
 	if mode.get("room_role","") == "treasure":
 		$Root/Status.text = "宝箱を発見  ·  近づいてFで開封" if mode.get("reward_state","") == "closed" else "箱の中身を回収できます" if mode.get("reward_state","") == "open" else "宝箱回収済み  ·  次の部屋へ進めます"
+	$Root/Gold.text = "所持金 %dG" % mode.get("gold",0)
+	match mode.get("room_role",""):
+		"shop": $Root/Status.text = "工房の露店  ·  品物に近づいてFで購入"
+		"altar": $Root/Status.text = "祭壇の間  ·  HPを1捧げるとレリックを授かる"
+		"challenge": $Root/Status.text = "試練の間  ·  中央の台で挑戦するか選べます" if not mode.get("encounter_cleared",false) else "試練を突破"
 	if mode.get("room_role","") == "antechamber": $Root/Status.text = "ボス前室  ·  Tabで装備整理  ·  北の扉は独楽の鋳造機へ"
 	if mode.get("room_role","") == "boss": $Root/Status.text = "独楽の鋳造機  ·  動作を見て攻撃を避けよう"
 	if mode.get("room_role","") == "boss" and mode.get("encounter_cleared",false): $Root/Status.text = ""

@@ -7,11 +7,14 @@ const A = preload("res://scripts/world/authored_rooms.gd")
 const Shell = A.Shell
 const ExistingFloor = preload("res://scripts/game/exploration_floor.gd")
 const Reach = preload("res://scripts/world/room_reachability.gd")
-const VERSION := 4
+const VERSION := 5
 const ROOMS := Vector2i(15,18)
 const MAIN_ROOMS := Vector2i(6,8) # Entrance and ordinary rooms before the antechamber.
 const JUNCTIONS := Vector2i(4,6)
 const DISCOVERY_COUNT := 2
+# Event rooms (docs/planning/FLOOR_EXPANSION_PLAN.md stage 3) use existing rooms as provisional vessels.
+const TERMINAL_EVENTS := ["shop","altar"]
+const EVENT_NAMES := {"shop":"工房の露店","altar":"祭壇の間","challenge":"試練の間"}
 const LOOP_CHANCE := .5
 const ATTEMPTS := 200
 
@@ -35,12 +38,12 @@ static func generate(seed_value: int) -> Dictionary:
 		var sides: Array = node.links.map(func(edge): return edge[0])
 		var room = A.make_room(node.art,sides)
 		room.field.field_id = id
-		room.display_name = A.NAMES[node.art] if node.role != "boss" else "最奥の広間（ボス配置予定）"
+		room.display_name = EVENT_NAMES.get(node.role,A.NAMES[node.art]) if node.role != "boss" else "最奥の広間（ボス配置予定）"
 		for door in room.doors:
 			for edge in node.links:
 				if door.id == edge[0]: door.target_room = "authored_%d" % edge[1]
 		catalog[id] = room
-		metadata[id] = {"cell":node.cell,"role":node.role,"template_id":node.art}
+		metadata[id] = {"cell":node.cell,"role":node.role,"template_id":node.art,"teleporter":node.get("teleporter",false)}
 	var floor := {"version":VERSION,"seed":seed_value,"loops":loop_count(nodes),"start":"authored_0","catalog":catalog,"rooms":metadata,"errors":PackedStringArray()}
 	floor.errors = validation_errors(floor)
 	return floor
@@ -111,13 +114,29 @@ static func topology(rng: RandomNumberGenerator) -> Array:
 		if not joins.is_empty():
 			var join: Array = joins[rng.randi_range(0,joins.size()-1)]
 			connect_cells(nodes,join[0],join[1])
-	var leaves: Array = range(nodes.size()).filter(func(index): return nodes[index].role == "normal" and nodes[index].links.size() == 1)
-	if leaves.size() < DISCOVERY_COUNT: return []
-	for count in range(DISCOVERY_COUNT):
-		var terminal: int = leaves.pop_at(rng.randi_range(0,leaves.size()-1))
-		nodes[terminal].role = "discovery"
 	var junctions: int = nodes.filter(func(node): return node.links.size() >= 3).size()
 	if junctions < JUNCTIONS.x or junctions > JUNCTIONS.y: return []
+	# Dead ends hold the discoveries and the terminal events; other dead ends stay ordinary rooms.
+	var leaves: Array = range(nodes.size()).filter(func(index): return nodes[index].role == "normal" and nodes[index].links.size() == 1)
+	var terminals: Array = []
+	for count in range(DISCOVERY_COUNT): terminals.append("discovery")
+	terminals.append_array(TERMINAL_EVENTS)
+	if leaves.size() < terminals.size(): return []
+	for event in terminals:
+		nodes[leaves.pop_at(rng.randi_range(0,leaves.size()-1))].role = event
+	# The challenge is an optional side-route room: indices after the finale were grown as side routes.
+	var side: Array = range(pre+2,nodes.size()).filter(func(index): return nodes[index].role == "normal")
+	if side.is_empty(): return []
+	nodes[side[rng.randi_range(0,side.size()-1)]].role = "challenge"
+	# Teleporters: entrance, antechamber, shop, and up to two junctions spread across the floor.
+	var pads: Array = [0,pre]
+	pads.append_array(range(nodes.size()).filter(func(index): return nodes[index].role == "shop"))
+	var hubs: Array = range(nodes.size()).filter(func(index): return nodes[index].role == "normal" and nodes[index].links.size() >= 3)
+	while pads.size() < 5 and not hubs.is_empty():
+		var hub: int = hubs.pop_at(rng.randi_range(0,hubs.size()-1))
+		var spread := distances(nodes,hub)
+		if pads.all(func(pad): return spread[pad] >= 3): pads.append(hub)
+	for pad in pads: nodes[pad].teleporter = true
 	return nodes
 
 static func turn_from(heading: String, rng: RandomNumberGenerator) -> String:
@@ -151,14 +170,18 @@ static func loop_count(nodes: Array) -> int:
 static func assign_templates(nodes: Array, rng: RandomNumberGenerator) -> void:
 	var counts := {}
 	for node in nodes:
-		if node.role in ["normal","discovery"]:
+		if node.role in ["normal","discovery","challenge"] or node.role in TERMINAL_EVENTS:
 			node.art = ""
 		else:
 			counts[node.art] = counts.get(node.art,0)+1
 	for node in nodes:
 		if not node.art.is_empty(): continue
 		var sides := A.canonical_sides(node.links.map(func(edge): return edge[0]))
-		var pool: Array = A.DISCOVERIES if node.role == "discovery" else A.COMBAT_ROOMS.filter(func(art): return art != "camp_remains")
+		var ordinary: Array = A.COMBAT_ROOMS.filter(func(art): return art != "camp_remains")
+		# Event vessels may also be ordinary rooms, so a floor never needs one terminal room three times.
+		var pool: Array = A.DISCOVERIES if node.role == "discovery" else (A.DISCOVERIES+ordinary if node.role in TERMINAL_EVENTS else ordinary)
+		# The chapel's altar makes it the altar's vessel whenever its openings allow.
+		if node.role == "altar" and sides in A.connection_sets("chapel"): pool = ["chapel"]
 		var neighbours: Array = node.links.map(func(edge): return nodes[edge[1]].art)
 		var candidates: Array = []
 		var minimum := 10000
@@ -212,4 +235,8 @@ static func validation_errors(floor: Dictionary) -> PackedStringArray:
 	if floor.catalog.size() < ROOMS.x or floor.catalog.size() > ROOMS.y: errors.append("Room count outside %s" % ROOMS)
 	if junctions < JUNCTIONS.x or junctions > JUNCTIONS.y: errors.append("Junction count outside %s" % JUNCTIONS)
 	if discoveries != DISCOVERY_COUNT: errors.append("Expected %d discoveries" % DISCOVERY_COUNT)
+	for event in TERMINAL_EVENTS+["challenge"]:
+		var rooms: Array = floor.rooms.keys().filter(func(id): return floor.rooms[id].role == event)
+		if rooms.size() != 1: errors.append("Expected one %s room" % event)
+		elif event in TERMINAL_EVENTS and floor.catalog[rooms[0]].doors.size() != 1: errors.append("%s must be a terminal" % event)
 	return errors

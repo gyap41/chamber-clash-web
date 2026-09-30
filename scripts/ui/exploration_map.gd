@@ -13,11 +13,14 @@ const OUTLINE := 3.0
 const COLORS := {"visited":Color("33477d"),"current":Color("4d67b3"),"unknown":Color("1a2130"),
 	"edge":Color("dfe6f5"),"unknown_edge":Color("6d7a92"),"corridor":Color("aab6d6"),"marker":Color("ffd35a")}
 signal close_requested
+signal teleport_requested(room_id: String)
 var floor_data: Dictionary
 var current := ""
 var visited: Dictionary
 var room_states: Dictionary
 var player_pos := Vector2(-1,-1) # Position in the current room; negative when unknown.
+var teleporters: Array = [] # Rooms with an active teleporter, marked on the map.
+var teleport_targets: Array = [] # In teleport mode: numbered destinations, chosen by click or number key.
 var canvas: Control
 var map_scale := 1.0
 var origin := Vector2.ZERO
@@ -46,13 +49,22 @@ func _ready() -> void:
 		rule.position = Vector2(40,band.end.y-2 if band.position.y == 0 else band.position.y)
 		rule.size = Vector2(1040,2)
 		root.add_child(rule)
+	# Clicks on a numbered destination teleport; the buttons added later stay on top of this catcher.
+	var catcher := Control.new()
+	catcher.size = Vector2(1120,800)
+	catcher.mouse_filter = Control.MOUSE_FILTER_STOP if not teleport_targets.is_empty() else Control.MOUSE_FILTER_IGNORE
+	catcher.gui_input.connect(func(event: InputEvent):
+		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			for id in teleport_targets:
+				if room_rects(id).any(func(rect): return rect.grow(6).has_point(event.position)): teleport_requested.emit(id))
+	root.add_child(catcher)
 	var title := Widgets.label(root,"Title",Rect2(0,22,1120,40),26)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.text = "第1階層"
+	title.text = "第1階層" if teleport_targets.is_empty() else "転送先を選ぶ（番号キーまたはクリック）"
 	var count := Widgets.label(root,"Visited",Rect2(40,26,300,30),16)
 	count.text = "訪問 %d部屋" % visited.size()
 	var legend := Widgets.label(root,"Legend",Rect2(40,738,760,28),15)
-	legend.text = "◆現在地　焚き火：入口　箱：宝箱（開封済みは空箱）　髑髏：最奥　？：未訪問"
+	legend.text = "◆現在地　焚き火：入口　箱：宝箱　G：露店　炎：祭壇　剣：試練　髑髏：最奥　◎：転送装置　？：未訪問"
 	if floor_data.get("preview",false):
 		var note := Widgets.label(root,"Seed",Rect2(40,762,760,24),13)
 		note.text = "seed %d ／ 部屋構成の見学・戦闘と報酬なし" % floor_data.seed
@@ -147,6 +159,7 @@ func draw_map() -> void:
 		var center := room_center(id)
 		if known: draw_icon(id,center)
 		else: draw_text("?",center,20,COLORS.unknown_edge)
+		if known and id in teleporters: draw_teleport(id)
 	if visited.has(current) and player_pos.x >= 0:
 		var point := to_map(current,player_pos)
 		var pulse := 1.0+.25*sin(clock*6.0)
@@ -157,6 +170,24 @@ func door_position(id: String, door_id: String) -> Vector2:
 	for door in floor_data.catalog[id].doors:
 		if door.id == door_id: return door.position
 	return floor_data.catalog[id].field.field_rect.size*.5
+
+# Number keys choose destinations in the order they are labelled.
+func choose(index: int) -> bool:
+	if index < 0 or index >= teleport_targets.size(): return false
+	teleport_requested.emit(teleport_targets[index])
+	return true
+
+func draw_teleport(id: String) -> void:
+	var bounds := Rect2()
+	for rect in room_rects(id): bounds = rect if bounds.size == Vector2.ZERO else bounds.merge(rect)
+	var corner := bounds.position+Vector2(bounds.size.x-12,12)
+	canvas.draw_arc(corner,7,0,TAU,16,Color(.55,.85,1),2)
+	canvas.draw_circle(corner,3,Color(.7,.9,1))
+	var number := teleport_targets.find(id)
+	if number >= 0:
+		var pulse := .6+.4*sin(clock*5.0)
+		canvas.draw_rect(bounds.grow(6),Color(.55,.85,1,pulse),false,3)
+		draw_text(str(number+1),bounds.position+Vector2(14,16),18,Color(.75,.92,1))
 
 func draw_icon(id: String, center: Vector2) -> void:
 	var cleared: bool = room_states.get(id,{}).get("encounter","") == "cleared"
@@ -171,7 +202,17 @@ func draw_icon(id: String, center: Vector2) -> void:
 			canvas.draw_texture_rect_region(Chest.CHEST_TEXTURES[0],Rect2(center-size*.5,size),region,Color(1,1,1,.55 if opened else 1.0))
 		"boss": draw_skull(center,Color(1,1,1,.45) if cleared else Color("f0e4d0"))
 		"antechamber": draw_gate(center)
-		"shop": draw_text("G",center,18,Color("ffd35a"))
+		"shop":
+			canvas.draw_circle(center,11,Color("8a5a12"))
+			canvas.draw_circle(center,9,Color("f2c14e"))
+			draw_text("G",center,14,Color("5a3a08"))
+		"altar":
+			canvas.draw_rect(Rect2(center+Vector2(-10,0),Vector2(20,9)),Color("c8c0d0"))
+			canvas.draw_circle(center+Vector2(0,-5),5,Color(.95,.3,.3) if not room_states.get(id,{}).get("altar",{}).get("used",false) else Color(1,1,1,.3))
+		"challenge":
+			var tint := Color(1,.8,.35) if room_states.get(id,{}).get("challenge",{}).get("state","idle") != "done" else Color(1,1,1,.4)
+			canvas.draw_line(center+Vector2(-9,-9),center+Vector2(9,9),tint,3)
+			canvas.draw_line(center+Vector2(9,-9),center+Vector2(-9,9),tint,3)
 		_:
 			if cleared: draw_text("✓",center,16,Color(.8,.9,1,.55))
 

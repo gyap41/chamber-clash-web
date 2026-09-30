@@ -10,6 +10,8 @@ const BossFlow = preload("res://scripts/game/exploration_boss_flow.gd")
 const ExplorationSupplies = preload("res://scripts/game/exploration_supplies.gd")
 const Loot = preload("res://scripts/game/exploration_loot.gd")
 const Loadout = preload("res://scripts/game/exploration_loadout.gd")
+const Coins = preload("res://scripts/game/exploration_coins.gd")
+const Events = preload("res://scripts/game/exploration_events.gd")
 const BOSS_ID := "furnace_warden"
 var boss_intro_seen := false
 var chest_node
@@ -24,6 +26,8 @@ var room_catalog: Dictionary = Rooms.ROOMS
 var start_room := Rooms.START_ROOM
 var bag
 var loot_nodes: Array = []
+var coin_nodes: Array = []
+var event_nodes: Array = []
 var loot_message := ""
 var exploration
 var pause_reasons: Dictionary = {}
@@ -166,9 +170,12 @@ func prepare_room_catalog(seed_value: int) -> bool:
 	return true
 func rebuild_doors() -> void:
 	Reward.ensure_treasure(self)
+	Events.prepare(self)
 	rebuild_loot()
 	rebuild_chest()
 	rebuild_supplies()
+	rebuild_events()
+	Coins.rebuild(self,coin_nodes)
 	for node in doors:
 		node.get_parent().remove_child(node)
 		node.queue_free()
@@ -199,8 +206,11 @@ func try_enter_door() -> bool:
 		return true
 	var partner := door_data(entry.target_room,entry.target_door)
 	if partner.is_empty(): return false
-	var definition: FieldDefinition = room_data(entry.target_room).field.duplicate(true)
-	definition.spawns = PackedVector2Array([partner.arrival])
+	return move_to_room(entry.target_room,partner.arrival)
+# Enters another room at `arrival` (through a door or a teleporter).
+func move_to_room(target: String, arrival: Vector2) -> bool:
+	var definition: FieldDefinition = room_data(target).field.duplicate(true)
+	definition.spawns = PackedVector2Array([arrival])
 	var was_firing: bool = mouse_fire_held or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 	phase = "transition"
 	clear_enemy_deaths()
@@ -210,7 +220,7 @@ func try_enter_door() -> bool:
 		push_error("; ".join(errors))
 		return false
 	loot_message = ""
-	exploration.enter_room(entry.target_room,room_data(entry.target_room).field.field_id)
+	exploration.enter_room(target,room_data(target).field.field_id)
 	Encounter.begin(self)
 	door_armed = false
 	fire_requires_release = was_firing
@@ -226,6 +236,9 @@ func _input(event: InputEvent) -> void:
 	if floor_map != null:
 		if event is InputEventKey and event.pressed and not event.echo and event.keycode in [KEY_M,KEY_ESCAPE]:
 			close_map()
+			get_viewport().set_input_as_handled()
+		elif event is InputEventKey and event.pressed and not event.echo and event.keycode >= KEY_1 and event.keycode <= KEY_9:
+			floor_map.choose(event.keycode-KEY_1)
 			get_viewport().set_input_as_handled()
 		return
 	if bag != null:
@@ -253,7 +266,7 @@ func refresh_hud() -> void:
 		"room_name":room_data(exploration.room_id).name,"door_hint":door_hint(),
 		"encounter_active":exploration.encounter_status == "active",
 		"encounter_cleared":exploration.encounter_status == "cleared",
-		"bag_open":bag != null,"enemies_alive":players.slice(1).filter(func(player): return player.state.hp > 0).size()})
+		"bag_open":bag != null,"gold":exploration.inventory.gold[0],"enemies_alive":players.slice(1).filter(func(player): return player.state.hp > 0).size()})
 	var nearby := nearby_door()
 	for node in doors:
 		node.set_locked(exploration.encounter_status == "active" or BossFlow.blocks_exit(self))
@@ -280,6 +293,8 @@ func door_hint() -> String:
 	if not loot.is_empty():
 		if not loot_message.is_empty() and loot_message.begins_with("取得できません"): return loot_message
 		return "F："+loot.label+"を控えへ取得  ·  Tab：バッグ"
+	var event_hint := Events.hint(self)
+	if not event_hint.is_empty(): return event_hint if loot_message.is_empty() else loot_message+"  ·  "+event_hint
 	var entry := nearby_door()
 	if entry.is_empty(): return loot_message if not loot_message.is_empty() else "扉に近づいて F で移動  ·  Tab：バッグ"
 	return "F：%s へ移動" % room_data(entry.target_room).name
@@ -318,7 +333,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		return
 	if phase == "play" and not paused and result.is_empty():
 		if event.keycode == KEY_F:
-			if not try_chest() and not try_supply() and not try_collect_loot(): try_enter_door()
+			if not try_chest() and not try_supply() and not try_collect_loot() and not Events.use(self): try_enter_door()
 			get_viewport().set_input_as_handled()
 			return
 		apply_command(0,HumanInput.key(players[0],event.keycode))
@@ -338,6 +353,10 @@ func _physics_process(dt: float) -> void:
 			BossFlow.step_intro(self,dt)
 		else:
 			combat.step(dt)
+		if Coins.drop(self): Coins.rebuild(self,coin_nodes)
+		if Coins.step(self,dt) > 0:
+			sound.play_sound("bell")
+			Coins.rebuild(self,coin_nodes)
 		var active_weapon: int = players[0].weapon().id if players[0].has_weapon() else -1
 		if active_weapon != previous_weapon: Loadout.restore_active(players[0],exploration.weapon_bank)
 		settle_room()
@@ -360,12 +379,15 @@ func settle_room() -> void:
 		loot_message = "部屋クリア · 出口が開きました"
 		if not floor_data.is_empty() and floor_data.rooms[exploration.room_id].role == "boss":
 			BossFlow.begin_reward(self,defeated_at)
-		if exploration.status == "active" and not BossFlow.is_room(self) and Reward.ensure(self):
+		# A challenge wave owns its clear: next wave or its own prize, no first-clear reward or supplies.
+		if Events.on_cleared(self): pass
+		elif exploration.status == "active" and not BossFlow.is_room(self) and Reward.ensure(self):
 			rebuild_chest()
 			chest_node.spawning = .4
 			sound.play_sound("chest_spawn")
 			loot_message = "部屋クリア · 宝箱が出現しました"
 		if ExplorationSupplies.ensure(self): rebuild_supplies()
+		rebuild_events()
 	if exploration.status != "active":
 		if players.size() > 1: Encounter.retire(self)
 		result = "探索終了" if exploration.status == "dead" else "工房踏破！ 独楽の鋳造機を撃破"
@@ -406,7 +428,8 @@ func return_to_title() -> void:
 
 func room_data(id: String) -> Dictionary:
 	return Rooms.room(id,room_catalog)
-func open_map() -> bool:
+# With `teleport`, the map offers the other active teleporters as destinations.
+func open_map(teleport: bool = false) -> bool:
 	if floor_data.is_empty() or boss_intro() or paused or phase != "play" or exploration.status != "active": return false
 	set_pause_reason("map",true)
 	floor_map = preload("res://scripts/ui/exploration_map.gd").new()
@@ -415,6 +438,11 @@ func open_map() -> bool:
 	floor_map.visited = exploration.visited_rooms.duplicate()
 	floor_map.room_states = exploration.room_states.duplicate(true)
 	floor_map.player_pos = players[0].state.pos
+	floor_map.teleporters = Events.destinations(self)
+	if teleport: floor_map.teleport_targets = floor_map.teleporters.filter(func(id): return id != exploration.room_id)
+	floor_map.teleport_requested.connect(func(id: String):
+		close_map()
+		Events.teleport(self,id))
 	floor_map.close_requested.connect(close_map)
 	add_child(floor_map)
 	refresh_hud()
@@ -572,3 +600,6 @@ func boss_intro() -> bool:
 func boss_hud() -> Dictionary:
 	if players.size() != 2 or not is_boss(players[1]): return {}
 	return {"hp":players[1].state.hp,"max_hp":players[1].state.max_hp,"intro":boss_intro(),"second":players[1].second_phase}
+
+func rebuild_events() -> void:
+	Events.rebuild(self,event_nodes)

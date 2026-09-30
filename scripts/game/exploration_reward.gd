@@ -88,6 +88,13 @@ static func fits_bag(progress, id: int, kind: String) -> bool:
 # Search only reachable floor, preferring the room center and keeping interactions apart.
 static func placement(game, excluded: Array = []) -> Variant:
 	var start: Vector2 = game.players[0].state.pos
+	# Event interactables (teleporter pad, shop stock, altar, challenge) keep their own space.
+	var room: Dictionary = game.exploration.room_state(game.exploration.room_id)
+	excluded = excluded.duplicate()
+	if room.get("teleporter") != null: excluded.append(room.teleporter)
+	for item in room.get("shop",[]): excluded.append(item.pos)
+	for key in ["altar","challenge"]:
+		if room.has(key) and room[key].pos != null: excluded.append(room[key].pos)
 	var pending := [Vector2i.ZERO]
 	var seen := {Vector2i.ZERO:true}
 	var cursor := 0

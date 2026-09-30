@@ -73,8 +73,14 @@ static func begin(game) -> void:
 		room_state.enemy_ids = ["furnace_warden"] if game.floor_data.rooms[id].role == "boss" else composition(game.arena,introduced,game.exploration.room_states.values().filter(func(value): return value.has("enemy_ids")).size())
 		if game.floor_data.get("production",false) and game.floor_data.rooms[id].role=="normal":
 			room_state.enemy_ids=production_composition(game.floor_data.rooms[id].template_id,introduced,game.exploration.room_states.values().filter(func(value): return value.has("enemy_ids")).size())
+	if not spawn(game,room_state): return
+	if game.floor_data.rooms[id].role == "boss": game.BossFlow.begin_intro(game)
+
+# Places room_state.enemy_ids around the player and starts the encounter; false ends the run on failure.
+static func spawn(game, room_state: Dictionary) -> bool:
+	var id: String = game.exploration.room_id
 	var positions := spawn_positions(game.arena,game.players[0].state.pos,room_state.enemy_ids.size())
-	if game.floor_data.get("production",false) and game.floor_data.rooms[id].role=="normal" and not positions.is_empty():
+	if game.floor_data.get("production",false) and game.floor_data.rooms[id].role in ["normal","challenge"] and not positions.is_empty():
 		room_state.enemy_ids.resize(positions.size())
 	if game.floor_data.rooms[id].role == "boss":
 		positions = [Vector2(game.arena.field_rect.get_center().x,game.arena.field_rect.end.y-430)]
@@ -84,7 +90,7 @@ static func begin(game) -> void:
 		game.exploration.finish("abandoned")
 		game.phase = "result"
 		game.result = "敵の配置に失敗しました。再挑戦してください"
-		return
+		return false
 	# Local clearance matters even in an L-shaped room with a large bounding box.
 	for index in range(positions.size()):
 		if room_state.enemy_ids[index] not in ["ram_sentry","ring_sentry"]: continue
@@ -106,7 +112,7 @@ static func begin(game) -> void:
 	game.roster.configure(game.participant_config)
 	for index in range(1,game.players.size()): game.bind_combat_actor(index)
 	game.exploration.encounter_status = "active"
-	if game.floor_data.rooms[id].role == "boss": game.BossFlow.begin_intro(game)
+	return true
 
 static func retire(game) -> void:
 	game.sound.update_boss_engine(false)

@@ -4,7 +4,7 @@
 
 自動生成: `python tools/docs_index.py`。表題は本文の最初の見出しから取得。分類は役割の案内で、内容の検証完了や採用を示しません。過去計画は元のパスを維持して履歴に分類しています。
 
-対象 184 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
+対象 185 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
 
 ## 入口・運用
 
@@ -87,6 +87,7 @@
 |[docs/art/production/equipment-diversity-2026-09-13/README.md](<art/production/equipment-diversity-2026-09-13/README.md>)|多様な武器・レリックの残り制作|
 |[docs/art/production/equipment-rollout-2026-09-12/DESIGN_REVISION.md](<art/production/equipment-rollout-2026-09-12/DESIGN_REVISION.md>)|武器・レリックのデザイン見直し|
 |[docs/art/production/equipment-rollout-2026-09-12/README.md](<art/production/equipment-rollout-2026-09-12/README.md>)|残り武器・レリックの制作指示|
+|[docs/art/production/event-rooms/README.md](<art/production/event-rooms/README.md>)|イベント部屋の仮表示（2026-09-30）|
 |[docs/art/production/exploration-chest/README.md](<art/production/exploration-chest/README.md>)|探索の宝箱と補給：仮演出|
 |[docs/art/production/exploration-first-enemy/README.md](<art/production/exploration-first-enemy/README.md>)|探索の最初の敵・仮表示（2026-09-22）|
 |[docs/art/production/fire-pouch-lizard/README.md](<art/production/fire-pouch-lizard/README.md>)|火袋トカゲ：射撃・混成の試作と素材仕様|
