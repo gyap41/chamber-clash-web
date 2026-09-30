@@ -12,6 +12,7 @@ const Loot = preload("res://scripts/game/exploration_loot.gd")
 const Loadout = preload("res://scripts/game/exploration_loadout.gd")
 const Coins = preload("res://scripts/game/exploration_coins.gd")
 const Events = preload("res://scripts/game/exploration_events.gd")
+const EventFx = preload("res://scripts/visuals/event_fx.gd")
 const BOSS_ID := "furnace_warden"
 var boss_intro_seen := false
 var chest_node
@@ -28,6 +29,8 @@ var bag
 var loot_nodes: Array = []
 var coin_nodes: Array = []
 var event_nodes: Array = []
+var fx # Event effects above actors, with the screen banner and flash.
+var fx_floor # Event rings on the floor, under actors.
 var loot_message := ""
 var exploration
 var pause_reasons: Dictionary = {}
@@ -50,6 +53,13 @@ func _ready() -> void:
 		if phase == "result": start_exploration(Time.get_ticks_usec()))
 	hud.title_requested.connect(return_to_title)
 	hud.sound_requested.connect(func(): sound.set_enabled(not sound.enabled))
+	fx_floor = EventFx.new()
+	fx_floor.z_index = -1
+	arena.add_child(fx_floor)
+	fx = EventFx.new()
+	fx.z_index = 20
+	arena.add_child(fx)
+	fx.enable_screen()
 	combat.countdown_enabled = false
 	combat.supplies_enabled = false
 	start_exploration(apply_launch_options(OS.get_cmdline_user_args()))
@@ -169,6 +179,7 @@ func prepare_room_catalog(seed_value: int) -> bool:
 		room_catalog = dressed_catalog
 	return true
 func rebuild_doors() -> void:
+	clear_fx()
 	Reward.ensure_treasure(self)
 	Events.prepare(self)
 	rebuild_loot()
@@ -345,6 +356,8 @@ func _physics_process(dt: float) -> void:
 		if is_instance_valid(chest_node): chest_node.step(dt)
 		BossFlow.step_reward(self,dt)
 		combat_visuals.step(dt)
+		fx.step(dt)
+		fx_floor.step(dt)
 		_step_pulse_effects(dt)
 		var previous_weapon: int = players[0].weapon().id if players[0].has_weapon() else -1
 		Loadout.capture(players[0],exploration.weapon_bank)
@@ -354,9 +367,15 @@ func _physics_process(dt: float) -> void:
 		else:
 			combat.step(dt)
 		if Coins.drop(self): Coins.rebuild(self,coin_nodes)
-		if Coins.step(self,dt) > 0:
+		var coins := Coins.step(self,dt)
+		if not coins.is_empty():
 			sound.play_sound("bell")
 			Coins.rebuild(self,coin_nodes)
+			var amount := 0
+			for coin in coins:
+				amount += int(coin.value)
+				fx.burst(coin.pos+Vector2(0,-8),Color("ffd35a"),6,90.0,.4,180.0,2.5)
+			fx.float_text(players[0].state.pos+Vector2(0,-64),"+%dG" % amount,Color("ffd35a"))
 		var active_weapon: int = players[0].weapon().id if players[0].has_weapon() else -1
 		if active_weapon != previous_weapon: Loadout.restore_active(players[0],exploration.weapon_bank)
 		settle_room()
@@ -603,3 +622,7 @@ func boss_hud() -> Dictionary:
 
 func rebuild_events() -> void:
 	Events.rebuild(self,event_nodes)
+
+func clear_fx() -> void:
+	if fx != null: fx.clear()
+	if fx_floor != null: fx_floor.clear()

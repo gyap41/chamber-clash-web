@@ -15,6 +15,7 @@ signal title_requested
 signal sound_requested
 var slots: Array = []
 var actions: Array = []
+var shown_gold := -1
 func _ready() -> void:
 	var canvas := Control.new()
 	canvas.name = "Root"
@@ -98,7 +99,18 @@ func present(view: Dictionary, mode: Dictionary) -> void:
 	if mode.get("encounter_cleared",false): $Root/Status.text = "攻略済み  ·  次の部屋へ進めます"
 	if mode.get("room_role","") == "treasure":
 		$Root/Status.text = "宝箱を発見  ·  近づいてFで開封" if mode.get("reward_state","") == "closed" else "箱の中身を回収できます" if mode.get("reward_state","") == "open" else "宝箱回収済み  ·  次の部屋へ進めます"
-	$Root/Gold.text = "所持金 %dG" % mode.get("gold",0)
+	var gold: int = mode.get("gold",0)
+	$Root/Gold.text = "所持金 %dG" % gold
+	# A gain briefly enlarges and brightens the counter; spending does not.
+	if shown_gold >= 0 and gold > shown_gold:
+		var label: Label = $Root/Gold
+		label.pivot_offset = Vector2(0,11)
+		var tween := label.create_tween()
+		label.scale = Vector2.ONE*1.3
+		label.modulate = Color(1.6,1.5,1.1)
+		tween.tween_property(label,"scale",Vector2.ONE,.25)
+		tween.parallel().tween_property(label,"modulate",Color.WHITE,.25)
+	shown_gold = gold
 	match mode.get("room_role",""):
 		"shop": $Root/Status.text = "工房の露店  ·  品物に近づいてFで購入"
 		"altar": $Root/Status.text = "祭壇の間  ·  HPを1捧げるとレリックを授かる"

@@ -94,6 +94,9 @@ static func shop_row(game, taken: Array, count: int) -> Array:
 			best_score = score
 	return best
 
+static func on_altar(game) -> bool:
+	return game.arena.runtime_definition.placements.any(func(p): return p.placement_id == "authored_altar")
+
 # In the chapel the offering is made in front of its altar; elsewhere at the most central free point.
 static func altar_point(game, taken: Array) -> Variant:
 	for placement in game.arena.runtime_definition.placements:
@@ -157,19 +160,30 @@ static func buy(game, item: Dictionary) -> bool:
 	if item.sold: return false
 	if gold(game) < int(item.price):
 		game.loot_message = "資金不足：%s は %dG（所持 %dG）" % [item.label,item.price,gold(game)]
+		refuse(game,item)
 		return false
 	var outcome: Dictionary
 	if item.kind in ["heal","ammo"]: outcome = Supplies.collect(game,{"kind":item.kind,"taken":false})
 	else: outcome = Loot.collect({"id":item.id,"kind":item.kind,"item":item.item,"label":item.label},game.exploration)
 	if not outcome.acquired:
 		game.loot_message = outcome.message+"（代金は払っていません）"
+		refuse(game,item)
 		return false
 	game.exploration.inventory.gold[0] -= int(item.price)
 	item.sold = true
 	game.loot_message = "%s を購入しました（残り %dG）" % [item.label,gold(game)]
-	game.sound.play_sound("pickup")
+	game.sound.play_sound("ui_purchase")
+	game.fx.burst(item.pos,Color("ffd35a"),14,150.0,.6)
+	game.fx_floor.ring(item.pos,Color("ffd35a"),8,48,.4,3)
+	game.fx.float_text(item.pos+Vector2(0,-40),"-%dG" % int(item.price),Color("ffd35a"))
 	game.rebuild_events()
 	return true
+
+# Refusal: blocked sound and the price tag shakes.
+static func refuse(game, item: Dictionary) -> void:
+	game.sound.play_sound("ui_blocked")
+	for node in game.event_nodes:
+		if is_instance_valid(node) and node.entry == item: node.shake = .35
 
 static func offer(game, altar: Dictionary) -> bool:
 	var player = game.players[0]
@@ -182,6 +196,11 @@ static func offer(game, altar: Dictionary) -> bool:
 	player.sync_visual()
 	altar.used = true
 	game.sound.play_sound("hit")
+	var bowl: Vector2 = altar.pos+(Vector2(0,-118) if on_altar(game) else Vector2(0,-34))
+	game.fx.stream(player.state.pos+Vector2(0,-30),bowl,Color(1,.25,.3),16,.7)
+	game.fx.pillar(bowl+Vector2(0,20),Color(1,.3,.3),240,.9,40)
+	game.fx.burst(bowl,Color(1,.4,.35),16,160,.7)
+	game.fx.screen_flash(Color(.8,.1,.15),.35)
 	if Reward.create(game,"altar",Reward.relic_pool(game.exploration),"relic"):
 		game.rebuild_chest()
 		game.chest_node.spawning = .4
@@ -198,6 +217,9 @@ static func begin_challenge(game, challenge: Dictionary) -> bool:
 	challenge.state = "active"
 	challenge.wave = 1
 	game.rebuild_events()
+	game.sound.play_sound("danger_warning")
+	game.fx_floor.ring(challenge.pos,Color(1,.78,.3),20,220,.7,5)
+	game.fx.burst(challenge.pos+Vector2(0,-30),Color(1,.78,.3),12,140,.5)
 	spawn_wave(game,challenge)
 	return true
 
@@ -209,6 +231,11 @@ static func spawn_wave(game, challenge: Dictionary) -> void:
 	room.enemy_ids = ids
 	if Encounter.spawn(game,room):
 		game.loot_message = "試練 第%d波 / %d" % [challenge.wave,WAVES]
+		game.fx.show_banner("試練  第%d波 / %d" % [challenge.wave,WAVES],Color(1,.82,.4))
+		if challenge.wave > 1: game.sound.play_sound("ui_expand")
+		# Warning circles last while the new enemies hold still on entry.
+		for actor in game.players.slice(1):
+			game.fx_floor.warning(actor.state.pos,34,maxf(float(actor.get("attack_time")),.5))
 
 # After a cleared wave: the next wave, or the prize. True when the challenge owned the clear.
 static func on_cleared(game) -> bool:
@@ -220,6 +247,9 @@ static func on_cleared(game) -> bool:
 		spawn_wave(game,challenge)
 		return true
 	challenge.state = "done"
+	game.sound.play_sound("rare_pickup")
+	game.fx.show_banner("試練突破！",Color(1,.85,.45),1.8)
+	game.fx.burst(game.players[0].state.pos+Vector2(0,-30),Color(1,.82,.4),24,220,.9)
 	var pool: Array = Reward.weapon_pool(false).filter(func(id): return Weapons.definition(id).rarity in ["A","S"])
 	if Reward.create(game,"challenge",pool,"weapon"):
 		game.rebuild_chest()
@@ -248,17 +278,33 @@ static func teleport(game, target: String) -> bool:
 	var arrival: Vector2 = pad+PAD_ARRIVAL
 	var field = game.room_data(target).field
 	if not preload("res://scripts/world/room_reachability.gd").clear_point(field,arrival): arrival = pad
-	return game.move_to_room(target,arrival)
+	if not game.move_to_room(target,arrival): return false
+	game.sound.play_sound("energy")
+	game.fx.pillar(pad,Color(.55,.85,1),280,.8,52)
+	game.fx_floor.ring(pad,Color(.55,.85,1),10,110,.6,5)
+	game.fx.burst(arrival+Vector2(0,-20),Color(.65,.9,1),16,170,.6,120)
+	game.fx.screen_flash(Color(.6,.85,1),.3)
+	return true
 
 class EventNode extends Node2D:
 	var kind := ""
 	var entry: Dictionary = {}
 	var active := true
 	var on_altar := false
+	var game
+	var shake := 0.0
 	var time := 0.0
 	func _process(delta: float) -> void:
+		if game != null and game.paused: return
 		time += delta
+		shake = maxf(shake-delta,0)
 		queue_redraw()
+	# Stateless rising motes: each follows a looping phase, so they need no storage and freeze with time.
+	func motes(origin: Vector2, color: Color, count: int, spread: float, rise: float, period: float) -> void:
+		for index in range(count):
+			var phase := fmod(time/period+float(index)/count,1.0)
+			var x := sin(index*2.4+time*1.3)*spread
+			draw_circle(origin+Vector2(x,-rise*phase),2.2*(1.0-phase)+.8,Color(color,color.a*(1.0-phase)))
 	func _draw() -> void:
 		var font := ThemeDB.fallback_font
 		match kind:
@@ -270,6 +316,7 @@ class EventNode extends Node2D:
 				draw_arc(Vector2.ZERO,22,0,TAU,32,Color(.6,.85,1,glow*.8),3)
 				draw_circle(Vector2.ZERO,10,Color(.7,.9,1,glow))
 				draw_set_transform(Vector2.ZERO)
+				if active: motes(Vector2.ZERO,Color(.65,.9,1,.8),8,22,70,1.8)
 			"altar":
 				# In the chapel the flame burns in the real altar's bowl; elsewhere a small stone altar is drawn.
 				var bowl := Vector2(0,-118) if on_altar else Vector2(0,-34)
@@ -281,6 +328,7 @@ class EventNode extends Node2D:
 					draw_circle(bowl,14+flicker,Color(.9,.15,.2,.25))
 					draw_circle(bowl+Vector2(0,-4),8+flicker*.5,Color(1,.3,.3,.9))
 					draw_circle(bowl+Vector2(0,-8),4,Color(1,.8,.6,.95))
+					motes(bowl+Vector2(0,-10),Color(1,.45,.3,.9),6,8,46,1.1)
 			"challenge":
 				var tint := Color(1,.78,.3,.9 if active else .25)
 				draw_set_transform(Vector2(0,6),0,Vector2(1,.5))
@@ -294,7 +342,8 @@ class EventNode extends Node2D:
 		if kind == "shop":
 			# Supplies draw their own name under the icon, so their price sits one line lower.
 			var y := 58.0 if entry.kind in ["heal","ammo"] else 40.0
-			draw_string(font,Vector2(-14,y),"%dG" % int(entry.price),HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("ffd35a"))
+			var jolt := sin(shake*60.0)*6.0*shake/.35
+			draw_string(font,Vector2(-14+jolt,y),"%dG" % int(entry.price),HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("ffd35a"))
 
 static func rebuild(game, nodes: Array) -> void:
 	for node in nodes:
@@ -307,6 +356,7 @@ static func rebuild(game, nodes: Array) -> void:
 	var layer = game.arena.get_node("Players")
 	if room.get("teleporter") != null:
 		var pad := EventNode.new()
+		pad.game = game
 		pad.kind = "teleporter"
 		pad.position = room.teleporter
 		pad.active = room.get("encounter","none") != "active"
@@ -317,6 +367,7 @@ static func rebuild(game, nodes: Array) -> void:
 	for item in room.get("shop",[]):
 		if item.sold: continue
 		var node := EventNode.new()
+		node.game = game
 		node.kind = "shop"
 		node.entry = item
 		node.position = item.pos
@@ -334,6 +385,7 @@ static func rebuild(game, nodes: Array) -> void:
 	for key in ["altar","challenge"]:
 		if not room.has(key) or room[key].pos == null: continue
 		var node := EventNode.new()
+		node.game = game
 		node.kind = key
 		node.entry = room[key]
 		node.position = room[key].pos
