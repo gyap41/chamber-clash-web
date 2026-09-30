@@ -63,6 +63,6 @@ foreach($n in $notes) { Txt 1180 $n[3] $n[0] 20 '#69d9c2'; Txt 1180 ($n[3]+42) $
 Txt 1180 824 '準備中は戦闘HUDを覆う。' 15
 Txt 1180 858 '注釈は設計資料のみ。' 15 '#91a7bc'
 Txt 1180 892 '数値・品名は表示例です。' 14 '#91a7bc'
-$bmp.Save('C:/GameCreate/chamber-clash/docs/design/preparation-ui-concept.png')
+$bmp.Save('C:/GameCreate/chamber-clash/docs/archive/2026-09-11/preparation-ui-work/preparation-ui-concept.png')
 $g.Dispose()
 $bmp.Dispose()

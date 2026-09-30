@@ -14,13 +14,13 @@
 
 ## A：一覧型
 
-![A案](../../design/preparation-options/A-overview.png)
+![A案](preparation-ui-work/preparation-options/A-overview.png)
 
 左で報酬取得、中央で配置、右で控えと詳細確認。情報を常設し、既存のタブ往復をなくします。
 
 ## B：配置中心型
 
-![B案](../../design/preparation-options/B-backpack.png)
+![B案](preparation-ui-work/preparation-options/B-backpack.png)
 
 中央から左を配置作業に使い、下の控えから上へドラッグします。ドラッグ中だけ候補位置と形状を表示し、成功時は装備がグリッドへ収まる変化を見せます。不成立時は「他の装備と重なる」「グリッドの外」など理由を表示します。
 
@@ -28,7 +28,7 @@
 
 ## C：手順型
 
-![C案](../../design/preparation-options/C-guided.png)
+![C案](preparation-ui-work/preparation-options/C-guided.png)
 
 報酬、配置、確認の3ステップ。取得の取り消しや無料交換など新しいゲームルールを追加する案ではありません。戻る操作は画面移動だけで、既に取得した報酬はそのままです。
 
@@ -46,4 +46,4 @@
 
 最初の設計イメージを基にA型の全画面レイアウトをコードで試作済み。ユーザーから複数案の希望があったため、最終案の確定とB/Cへの実装は保留です。A型試作のheadless33本は成功（`.local/logs/run_tests-20260911-015755.log`）。描画も成功（`.local/logs/preparation-redesign-draft.log`）。これは最終デザインの承認や実際のドラッグ操作の受入完了を意味しません。
 
-画像は `draw_preparation_options.ps1` で再生成できます。
+画像は `preparation-ui-work/draw_preparation_options.ps1` で再生成できます。

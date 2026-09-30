@@ -24,12 +24,12 @@ func run() -> void:
 	await process_frame
 	await process_frame
 	await RenderingServer.frame_post_draw
-	assert(root.get_texture().get_image().save_png("res://docs/design/preparation-b-implemented.png") == OK)
+	assert(root.get_texture().get_image().save_png("res://docs/archive/2026-09-11/preparation-ui-work/preparation-b-implemented.png") == OK)
 	prep.select_entry(0)
 	assert(prep.preview_at(0,Vector2i(3,3)))
 	await process_frame
 	await RenderingServer.frame_post_draw
-	assert(root.get_texture().get_image().save_png("res://docs/design/preparation-b-preview.png") == OK)
+	assert(root.get_texture().get_image().save_png("res://docs/archive/2026-09-11/preparation-ui-work/preparation-b-preview.png") == OK)
 	game.queue_free()
 	await process_frame
 	print("PASS: B native-size reference captures")

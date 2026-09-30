@@ -14,9 +14,6 @@
 |[ENEMY_BOSS_ART_PLAN.md](ENEMY_BOSS_ART_PLAN.md)|敵とボスの寸法・パーツ・アニメーション案|
 |[EXPLORATION_REWARDS.md](EXPLORATION_REWARDS.md)|宝箱・部屋報酬・開封演出の提案|
 |[ASSET_PRODUCTION_PLAN.md](ASSET_PRODUCTION_PLAN.md)|旧制作計画を含む参考資料。未制作・予算の再照合が必要|
-|[AUDIO_ASSET_INVENTORY_2026-09-13.md](AUDIO_ASSET_INVENTORY_2026-09-13.md)|当時の音響素材調査。現在の採用はmanifestで確認|
 |[PURCHASE_ECONOMY_PROPOSAL.md](PURCHASE_ECONOMY_PROPOSAL.md)|購入経済の過去の設計根拠。現行数値の正本ではない|
-|[se16-2026-09-13/README.md](se16-2026-09-13/README.md)|過去のSE制作指示・記録|
-|[se34-2026-09-13/README.md](se34-2026-09-13/README.md)|過去のSE制作記録|
 
 - [ゲーム画面で比較する画風3案](art-direction-comps/README.md)：キャラ寄り・中間・背景寄りの生成カンプ。未採用、本編未反映。

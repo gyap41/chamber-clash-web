@@ -192,6 +192,7 @@
 |[docs/archive/2026-09-12/rina-dive/REPORT.md](<archive/2026-09-12/rina-dive/REPORT.md>)|リナの飛び込み回避|
 |[docs/archive/2026-09-12/rina-gait-dodge/REPORT.md](<archive/2026-09-12/rina-gait-dodge/REPORT.md>)|リナの足元・歩行・専用回避修正|
 |[docs/archive/2026-09-12/rina-twohead/REPORT.md](<archive/2026-09-12/rina-twohead/REPORT.md>)|2頭身リナの差し替えと歩行の安定化|
+|[docs/archive/2026-09-13/AUDIO_ASSET_INVENTORY.md](<archive/2026-09-13/AUDIO_ASSET_INVENTORY.md>)|現行ゲームの音響素材数|
 |[docs/archive/2026-09-13/DOCUMENT_SNAPSHOTS.md](<archive/2026-09-13/DOCUMENT_SNAPSHOTS.md>)|2026-09-13 更新前資料の履歴集|
 |[docs/archive/2026-09-13/SE_GAME_INTEGRATION.md](<archive/2026-09-13/SE_GAME_INTEGRATION.md>)|生成SE16種のゲーム接続|
 |[docs/archive/2026-09-13/SE_HTTP400_DIAGNOSIS.md](<archive/2026-09-13/SE_HTTP400_DIAGNOSIS.md>)|SE HTTP 400 調査|
@@ -206,7 +207,9 @@
 |[docs/archive/2026-09-13/bgm3-action-review/README.md](<archive/2026-09-13/bgm3-action-review/README.md>)|BGM改訂02：冒険とガンアクション|
 |[docs/archive/2026-09-13/bgm3-review/README.md](<archive/2026-09-13/bgm3-review/README.md>)|始まりの工房 BGM3曲：素材レビュー|
 |[docs/archive/2026-09-13/se-review-revisions/README.md](<archive/2026-09-13/se-review-revisions/README.md>)|SEレビュー反映（2026-09-13）|
+|[docs/archive/2026-09-13/se16-production/README.md](<archive/2026-09-13/se16-production/README.md>)|実行結果（最新）|
 |[docs/archive/2026-09-13/se16-review/README.md](<archive/2026-09-13/se16-review/README.md>)|工房SE16種・レビュー一覧|
+|[docs/archive/2026-09-13/se34-production/README.md](<archive/2026-09-13/se34-production/README.md>)|追加SE34種|
 |[docs/archive/2026-09-13/se34-review/README.md](<archive/2026-09-13/se34-review/README.md>)|Remaining 34 SE review|
 |[docs/archive/2026-09-14/WEB_AUDIO_FIX.md](<archive/2026-09-14/WEB_AUDIO_FIX.md>)|Web音響の修正|
 |[docs/archive/2026-09-14/battle-bgm-candidates/README.md](<archive/2026-09-14/battle-bgm-candidates/README.md>)|戦闘BGM：3方向の比較候補|
@@ -227,10 +230,7 @@
 |[docs/archive/MIGRATION_PLAN.md](<archive/MIGRATION_PLAN.md>)|CHAMBER CLASH Godot移行計画|
 |[docs/archive/README_BEFORE_REFACTOR.md](<archive/README_BEFORE_REFACTOR.md>)|CHAMBER CLASH Godot移行|
 |[docs/planning/ASSET_PRODUCTION_PLAN.md](<planning/ASSET_PRODUCTION_PLAN.md>)|探索用の追加素材計画（2026-09-21）|
-|[docs/planning/AUDIO_ASSET_INVENTORY_2026-09-13.md](<planning/AUDIO_ASSET_INVENTORY_2026-09-13.md>)|現行ゲームの音響素材数|
 |[docs/planning/PURCHASE_ECONOMY_PROPOSAL.md](<planning/PURCHASE_ECONOMY_PROPOSAL.md>)|購入制・バッグ投資・試合尺の採用試作仕様|
-|[docs/planning/se16-2026-09-13/README.md](<planning/se16-2026-09-13/README.md>)|実行結果（最新）|
-|[docs/planning/se34-2026-09-13/README.md](<planning/se34-2026-09-13/README.md>)|追加SE34種|
 
 ## 旧Web・テスト資料
 

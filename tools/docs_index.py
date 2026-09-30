@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / 'docs/CATALOG.md'
 EXCLUDED = {'.git', '.godot', '.local', 'node_modules', '.venv', 'venv', '__pycache__', 'web-build', 'export_templates'}
 GROUPS = ['入口・運用', '現行仕様', '計画・提案', '実装・検証手順', '美術・音響の共通基準', '制作・採用・設定の記録', '一時メモ', '素材・ツールの説明', '過去の計画・履歴', '旧Web・テスト資料', '未分類（要整理）']
-HISTORICAL_PLANS = {'ASSET_PRODUCTION_PLAN.md', 'AUDIO_ASSET_INVENTORY_2026-09-13.md', 'PURCHASE_ECONOMY_PROPOSAL.md'}
+HISTORICAL_PLANS = {'ASSET_PRODUCTION_PLAN.md', 'PURCHASE_ECONOMY_PROPOSAL.md'}
 
 def files():
     result = []
@@ -27,7 +27,7 @@ def category(path):
     name = path.relative_to(ROOT).as_posix()
     if name in {'AGENTS.md', 'README.md', 'docs/README.md', 'docs/DOCUMENTATION_GUIDE.md', 'docs/CATALOG.md'} or name in {'docs/design/README.md', 'docs/planning/README.md', 'docs/development/README.md', 'docs/art/README.md', 'docs/archive/README.md'}:
         return GROUPS[0]
-    if name.startswith('docs/archive/') or (name.startswith('docs/planning/') and (path.name in HISTORICAL_PLANS or '/se16-' in name or '/se34-' in name)):
+    if name.startswith('docs/archive/') or (name.startswith('docs/planning/') and (path.name in HISTORICAL_PLANS)):
         return GROUPS[8]
     if name.startswith('docs/design/'): return GROUPS[1]
     if name.startswith('docs/planning/'): return GROUPS[2]

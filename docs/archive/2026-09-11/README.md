@@ -19,5 +19,5 @@
 |[旧構成ガイド](DOCUMENT_SNAPSHOTS.md#snapshot-01)|旧責務説明の保管|
 |[旧細分化計画](DOCUMENT_SNAPSHOTS.md#snapshot-04)|基盤のみだった段階の記録|
 
-比較画像は既存のdocs/design/preparation-options/を参照する。再生成用スクリプトと画像の配置は維持した。
+比較画像・準備画面B案の確認画像と再生成用スクリプトは[preparation-ui-work](preparation-ui-work/)に保存（2026-09-30にdocs/designから移動。現行の描画確認はtests/render.gd）。
 利用不能な外部アイデアメモへのリンクは、現行の細分化計画への参照に差し替えた。
