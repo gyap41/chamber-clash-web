@@ -414,6 +414,7 @@ func open_map() -> bool:
 	floor_map.current = exploration.room_id
 	floor_map.visited = exploration.visited_rooms.duplicate()
 	floor_map.room_states = exploration.room_states.duplicate(true)
+	floor_map.player_pos = players[0].state.pos
 	floor_map.close_requested.connect(close_map)
 	add_child(floor_map)
 	refresh_hud()

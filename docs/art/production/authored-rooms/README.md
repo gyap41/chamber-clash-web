@@ -639,7 +639,7 @@ v3実施：内蔵imagegenを1回使用。[下層背景原本](../../../../assets
 - 失敗した試行（自己交差・前室の置き場なし・分岐数が範囲外）は同じRNGで作り直す。200seedで失敗なし。
 - 本編（production_floor）は同じ生成を使う。寄り道終点2室は宝箱部屋、通常室はすべて戦闘室になるため、戦闘室は10〜13室に増える（旧6〜8）。報酬量の調整は未実施。
 
-生成例（全室訪問状態、地図は旧表示のまま）：[seed3](views/floor-v4-seed3.png)・[seed27](views/floor-v4-seed27.png)。地図の表示改善は計画の段階2。
+生成例（全室訪問状態、旧地図で撮影）：[seed3](views/floor-v4-seed3.png)・[seed27](views/floor-v4-seed27.png)。地図版2（同日、仕様はGAME_RULES）での表示：[本編seed5の全室訪問](views/map-v2-story-seed5.png)・[見学seed27の4室訪問](views/map-v2-partial-seed27.png)。
 
 検証：`authored_floor`（40seedの部屋数・分岐数・ループ・最奥までの距離・入口の向きと最奥方向の分散・再現性）、`authored_room_connections`（208開口構成）、`authored_rooms`、`production_floor`（10seed・124戦闘の出現）、`production_doors`、`visual_hub_rooms` はPASS。全体回帰は[TESTING](../../../development/TESTING.md)に記録する。
 

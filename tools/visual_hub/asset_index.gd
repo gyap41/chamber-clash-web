@@ -225,12 +225,12 @@ func _authored_rooms() -> void:
 	for id in authored.ORDER:
 		var room = authored.make_room(id,["west","east"])
 		var item := Record.make("room:"+id,authored.NAMES[id],"部屋","現行")
-		var role := "寄り道の終点" if id in authored.DISCOVERIES else ("前室" if id == "antechamber" else ("分岐・曲がり" if authored.open_sides(id).size() >= 3 else "通過"))
+		var role := "寄り道の終点" if id in authored.DISCOVERIES else ("前室" if id == "antechamber" else ("戦闘・四方向" if authored.open_sides(id).size() == 4 else "戦闘・北口なし"))
 		var openings: Array = []
 		var names := {"north":"北","south":"南","west":"西","east":"東"}
 		for sides in authored.connection_sets(id):
 			openings.append("・".join(sides.map(func(side): return names[side])))
-		item.definition = {"authored_id":id,"field_id":id,"size":"%d × %d" % [room.field.field_rect.size.x,room.field.field_rect.size.y],"role":role,"connections":" / ".join(openings),"desc":"作り込み部屋。ストーリーモードの階層（production_floor）の候補として本編で使用。","order":authored.ORDER.find(id)+1}
+		item.definition = {"authored_id":id,"field_id":id,"size":"%d × %d" % [room.field.field_rect.size.x,room.field.field_rect.size.y],"role":role,"connections":" / ".join(openings),"desc":"作り込み部屋。ストーリーモードの階層（production_floor、生成版4）の候補として本編で使用。開口は各壁の中央で、対応する組合せから接続に合うものを選ぶ。","order":authored.ORDER.find(id)+1}
 		item.image = "res://docs/art/production/authored-rooms/views/%02d-%s-overview.png" % [authored.ORDER.find(id)+1,id]
 		item.defined = true
 		item.game = true

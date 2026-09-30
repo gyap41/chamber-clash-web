@@ -1,67 +1,195 @@
 extends CanvasLayer
+# Floor map (version 2, 2026-09-30, docs/planning/FLOOR_EXPANSION_PLAN.md stage 2). Each room is drawn from its
+# real floor outline, centred in its floor cell, with corridors between the actual door positions. Visited rooms
+# show their role icon; rooms seen through a door are dim outlines with "?" until entered. Only what the player
+# has seen decides the framing, so the map never hints at the unexplored extent of the floor.
 const Widgets = preload("res://scripts/ui/hud_widgets.gd")
+const Chest = preload("res://scripts/world/exploration_chest.gd")
+const CAMPFIRE = preload("res://assets/stages/ashen-foundry-v2/props/campfire.png")
+const AREA := Rect2(40,92,1040,628)
+const MAX_SCALE := .085 # World px to map px: a 1440 px room is at most about 122 px wide.
+const CELL_GAP := 1.3 # Cell pitch relative to the typical room, leaving room for corridors.
+const OUTLINE := 3.0
+const COLORS := {"visited":Color("33477d"),"current":Color("4d67b3"),"unknown":Color("1a2130"),
+	"edge":Color("dfe6f5"),"unknown_edge":Color("6d7a92"),"corridor":Color("aab6d6"),"marker":Color("ffd35a")}
 signal close_requested
 var floor_data: Dictionary
 var current := ""
 var visited: Dictionary
 var room_states: Dictionary
+var player_pos := Vector2(-1,-1) # Position in the current room; negative when unknown.
+var canvas: Control
+var map_scale := 1.0
+var origin := Vector2.ZERO
+var pitch := Vector2.ONE
+var clock := 0.0
+
 func _ready() -> void:
 	layer = 25
 	var root := Control.new()
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(root)
+	# The paused room stays faintly visible behind the map, as in the reference; the title and legend sit on
+	# solid bands so the combat HUD underneath never shows through the text.
 	var shade := ColorRect.new()
-	shade.color = Color(0,0,0,.78)
+	shade.color = Color(.02,.03,.06,.9)
 	shade.size = Vector2(1120,800)
 	root.add_child(shade)
-	var panel := Widgets.box(root,"Map",Rect2(100,120,920,560))
-	Widgets.label(panel,"Title",Rect2(24,16,870,34),23).text = "第1階層 ／ 訪問 %d / %d部屋" % [visited.size(),floor_data.rooms.size()]
-	Widgets.label(panel,"Legend",Rect2(24,57,870,30),15).text = "金枠：現在地　青：訪問済み　灰：隣接する未訪問　✓：攻略済み"
-	Widgets.label(panel,"Seed",Rect2(24,510,650,28),15).text = "seed %d ／ 生成版 %d　　ショップ・ボスは配置のみの試作" % [floor_data.seed,floor_data.version]
+	for band in [Rect2(0,0,1120,78),Rect2(0,726,1120,74)]:
+		var bar := ColorRect.new()
+		bar.color = Color("080b12")
+		bar.position = band.position
+		bar.size = band.size
+		root.add_child(bar)
+		var rule := ColorRect.new()
+		rule.color = Color(COLORS.edge,.7)
+		rule.position = Vector2(40,band.end.y-2 if band.position.y == 0 else band.position.y)
+		rule.size = Vector2(1040,2)
+		root.add_child(rule)
+	var title := Widgets.label(root,"Title",Rect2(0,22,1120,40),26)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.text = "第1階層"
+	var count := Widgets.label(root,"Visited",Rect2(40,26,300,30),16)
+	count.text = "訪問 %d部屋" % visited.size()
+	var legend := Widgets.label(root,"Legend",Rect2(40,738,760,28),15)
+	legend.text = "◆現在地　焚き火：入口　箱：宝箱（開封済みは空箱）　髑髏：最奥　？：未訪問"
 	if floor_data.get("preview",false):
-		panel.get_node("Seed").text = "seed %d ／ 部屋構成の見学・戦闘と報酬なし" % floor_data.seed
-	Widgets.button(panel,"Close",Rect2(720,506,176,38),"M / Esc：閉じる",func(): close_requested.emit())
-	var diagram := Control.new()
-	diagram.position = Vector2(24,102)
-	diagram.size = Vector2(872,380)
-	diagram.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	panel.add_child(diagram)
-	diagram.draw.connect(func(): draw_map(diagram))
+		var note := Widgets.label(root,"Seed",Rect2(40,762,760,24),13)
+		note.text = "seed %d ／ 部屋構成の見学・戦闘と報酬なし" % floor_data.seed
+	Widgets.button(root,"Close",Rect2(900,736,180,40),"M / Esc：閉じる",func(): close_requested.emit())
+	canvas = Control.new()
+	canvas.position = Vector2.ZERO
+	canvas.size = Vector2(1120,800)
+	canvas.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(canvas)
+	canvas.draw.connect(draw_map)
+	frame()
+
+func _process(delta: float) -> void:
+	clock += delta
+	canvas.queue_redraw()
+
 func visible_rooms() -> Dictionary:
-	var visible := visited.duplicate()
+	var seen := visited.duplicate()
 	for id in visited:
-		for door in floor_data.catalog[id].doors: visible[door.target_room] = true
-	return visible
-func draw_map(canvas: Control) -> void:
-	var visible := visible_rooms()
-	var low := Vector2(100,100)
-	var high := Vector2(-100,-100)
-	for id in floor_data.rooms:
+		for door in floor_data.catalog[id].doors: seen[door.target_room] = true
+	return seen
+
+func role(id: String) -> String:
+	var meta: Dictionary = floor_data.rooms[id]
+	return meta.get("map_role",meta.role)
+
+# Cell pitch comes from the ordinary rooms; a larger room (the boss hall) is shrunk to fit its cell.
+func frame() -> void:
+	var typical := Vector2(600,400)
+	for id in floor_data.catalog:
+		if role(id) != "boss": typical = typical.max(floor_data.catalog[id].field.field_rect.size)
+	pitch = typical*CELL_GAP
+	var low := Vector2(INF,INF)
+	var high := -low
+	for id in visible_rooms():
 		var cell := Vector2(floor_data.rooms[id].cell)
 		low = low.min(cell)
 		high = high.max(cell)
-	var span := high-low+Vector2.ONE
-	var pitch := minf(95,minf(canvas.size.x/span.x,canvas.size.y/span.y))
-	var origin := (canvas.size-(span-Vector2.ONE)*pitch)*.5-low*pitch
-	for id in visible:
-		var point := origin+Vector2(floor_data.rooms[id].cell)*pitch
+	var span := (high-low+Vector2.ONE)*pitch
+	map_scale = minf(MAX_SCALE,minf(AREA.size.x/span.x,AREA.size.y/span.y))
+	origin = AREA.get_center()-span*map_scale*.5-low*pitch*map_scale
+
+func room_scale(id: String) -> float:
+	var size: Vector2 = floor_data.catalog[id].field.field_rect.size
+	return minf(1.0,minf(pitch.x/CELL_GAP/size.x,pitch.y/CELL_GAP/size.y))
+
+# World point inside a room to map coordinates.
+func to_map(id: String, point: Vector2) -> Vector2:
+	var size: Vector2 = floor_data.catalog[id].field.field_rect.size
+	var fit := room_scale(id)
+	var corner := Vector2(floor_data.rooms[id].cell)*pitch+(pitch-size*fit)*.5
+	return origin+(corner+point*fit)*map_scale
+
+func room_rects(id: String) -> Array:
+	var rects: Array = []
+	for rect in floor_data.catalog[id].field.floor_regions:
+		var a := to_map(id,rect.position)
+		rects.append(Rect2(a,to_map(id,rect.end)-a))
+	return rects
+
+func room_center(id: String) -> Vector2:
+	var bounds := Rect2()
+	for rect in room_rects(id): bounds = rect if bounds.size == Vector2.ZERO else bounds.merge(rect)
+	return bounds.get_center()
+
+func draw_map() -> void:
+	var seen := visible_rooms()
+	# Corridors first, from door to door, bending once at the midpoint when the doors are offset.
+	var drawn := {}
+	for id in seen:
 		for door in floor_data.catalog[id].doors:
-			if visible.has(door.target_room) and (visited.has(id) or visited.has(door.target_room)):
-				canvas.draw_line(point,origin+Vector2(floor_data.rooms[door.target_room].cell)*pitch,Color("73828a"),2)
-	for id in visible:
-		var point := origin+Vector2(floor_data.rooms[id].cell)*pitch
-		var rect := Rect2(point-Vector2(pitch*.4,18),Vector2(pitch*.8,36))
-		canvas.draw_rect(rect,Color("30566a") if visited.has(id) else Color("30363b"))
-		canvas.draw_rect(rect,Color("ffd37a") if id == current else Color("87949c"),false,3 if id == current else 1)
-		var label: String = "未訪問"
-		if visited.has(id):
-			label = {"start":"入口","normal":"作業室","treasure":"宝箱","shop":"店","boss":"ボス","antechamber":"前室"}[floor_data.rooms[id].role]
-			label = floor_data.rooms[id].get("map_label",label)
-			if room_states.get(id,{}).get("encounter","") == "cleared": label += "✓"
-			elif room_states.get(id,{}).get("reward",{}).get("state","") == "empty": label += "✓"
-		var font := ThemeDB.fallback_font
-		var font_size := 13
-		if pitch < 55:
-			label = label.replace("作業室","室").replace("未訪問","?")
-			font_size = 11
-		canvas.draw_string(font,point+Vector2(-font.get_string_size(label,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x*.5,5),label,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size)
+			var other: String = door.target_room
+			if not seen.has(other) or not (visited.has(id) or visited.has(other)): continue
+			var key := [id,other]
+			key.sort()
+			if drawn.has(str(key)): continue
+			drawn[str(key)] = true
+			var target := door_position(other,door.target_door)
+			var start := to_map(id,door.position)
+			var finish := to_map(other,target)
+			var middle := (start+finish)*.5
+			var points := PackedVector2Array([start,Vector2(middle.x,start.y),Vector2(middle.x,finish.y),finish]) if absf(door.direction.x) > 0 else PackedVector2Array([start,Vector2(start.x,middle.y),Vector2(finish.x,middle.y),finish])
+			canvas.draw_polyline(points,COLORS.corridor,2.0)
+	for id in seen:
+		var known: bool = visited.has(id)
+		var fill: Color = COLORS.current if id == current else (COLORS.visited if known else COLORS.unknown)
+		var edge: Color = COLORS.edge if known else COLORS.unknown_edge
+		var rects := room_rects(id)
+		# The outline is the union's border: every rectangle grown by the line width, then all fills on top.
+		for rect in rects: canvas.draw_rect(rect.grow(OUTLINE if known else 1.5),edge)
+		for rect in rects: canvas.draw_rect(rect,fill)
+		var center := room_center(id)
+		if known: draw_icon(id,center)
+		else: draw_text("?",center,20,COLORS.unknown_edge)
+	if visited.has(current) and player_pos.x >= 0:
+		var point := to_map(current,player_pos)
+		var pulse := 1.0+.25*sin(clock*6.0)
+		canvas.draw_circle(point,7.0*pulse,Color(COLORS.marker,.35))
+		canvas.draw_colored_polygon(PackedVector2Array([point+Vector2(0,-6),point+Vector2(5,0),point+Vector2(0,6),point+Vector2(-5,0)]),COLORS.marker)
+
+func door_position(id: String, door_id: String) -> Vector2:
+	for door in floor_data.catalog[id].doors:
+		if door.id == door_id: return door.position
+	return floor_data.catalog[id].field.field_rect.size*.5
+
+func draw_icon(id: String, center: Vector2) -> void:
+	var cleared: bool = room_states.get(id,{}).get("encounter","") == "cleared"
+	match role(id):
+		"start":
+			var size := Vector2(28,28*CAMPFIRE.get_height()/float(CAMPFIRE.get_width()))
+			canvas.draw_texture_rect(CAMPFIRE,Rect2(center-size*.5,size),false)
+		"treasure","discovery":
+			var opened: bool = room_states.get(id,{}).get("reward",{}).get("state","") == "empty"
+			var region: Rect2 = Chest.CHEST_REGIONS[0][3 if opened else 0]
+			var size: Vector2 = region.size*(30.0/region.size.x)
+			canvas.draw_texture_rect_region(Chest.CHEST_TEXTURES[0],Rect2(center-size*.5,size),region,Color(1,1,1,.55 if opened else 1.0))
+		"boss": draw_skull(center,Color(1,1,1,.45) if cleared else Color("f0e4d0"))
+		"antechamber": draw_gate(center)
+		"shop": draw_text("G",center,18,Color("ffd35a"))
+		_:
+			if cleared: draw_text("✓",center,16,Color(.8,.9,1,.55))
+
+func draw_skull(center: Vector2, color: Color) -> void:
+	canvas.draw_circle(center+Vector2(0,-3),10,color)
+	canvas.draw_rect(Rect2(center+Vector2(-6,3),Vector2(12,8)),color)
+	var hollow := Color("1a2130")
+	canvas.draw_circle(center+Vector2(-4,-3),3,hollow)
+	canvas.draw_circle(center+Vector2(4,-3),3,hollow)
+	for x in [-3,0,3]: canvas.draw_line(center+Vector2(x,6),center+Vector2(x,11),hollow,1.5)
+
+func draw_gate(center: Vector2) -> void:
+	var color := Color("c8d2e8")
+	canvas.draw_arc(center+Vector2(0,-2),8,PI,TAU,12,color,3)
+	canvas.draw_line(center+Vector2(-8,-2),center+Vector2(-8,10),color,3)
+	canvas.draw_line(center+Vector2(8,-2),center+Vector2(8,10),color,3)
+
+func draw_text(text: String, center: Vector2, size: int, color: Color) -> void:
+	var font := ThemeDB.fallback_font
+	var width := font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,size).x
+	canvas.draw_string(font,center+Vector2(-width*.5,size*.36),text,HORIZONTAL_ALIGNMENT_LEFT,-1,size,color)

@@ -37,7 +37,7 @@ func start_exploration(seed_value: int) -> void:
 	floor_data = generated_floor.duplicate(true)
 	floor_data.preview = true
 	for meta in floor_data.rooms.values():
-		meta.map_label = {"normal":"通路","start":"入口","discovery":"寄り道","antechamber":"前室","boss":"最奥"}[meta.role]
+		meta.map_role = meta.role # The map's icons follow the generated role.
 		meta.role = "start" if meta.role == "start" else "normal"
 	room_catalog = generated_floor.catalog
 	start_room = generated_floor.start
