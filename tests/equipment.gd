@@ -53,6 +53,8 @@ func run() -> void:
 	combat(game)
 	game.new_match(18)
 	preload("res://tests/helpers/battle.gd").start(game)
+	# start() replaces the builds after launch; physics is off, so present them to the HUD.
+	game.refresh_hud()
 	game.hud.slots[0][0].pressed.emit()
 	game.hud.slots[1][0].pressed.emit()
 	assert(p.state.gun == 0 and q.state.gun == 0)

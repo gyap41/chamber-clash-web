@@ -10,7 +10,7 @@ func run() -> void:
 	var rooms := index.enumerate("","部屋")
 	assert(rooms.size() == 20)
 	for item in rooms:
-		assert(item.preview and not item.game and item.status == "見学用")
+		assert(item.preview and item.game and item.status == "現行")
 		assert(item.issues.is_empty(),item.id+str(item.issues))
 		assert(FileAccess.file_exists(item.image))
 		assert(not item.definition.connections.is_empty())

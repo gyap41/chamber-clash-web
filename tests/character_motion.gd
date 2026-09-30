@@ -1,6 +1,11 @@
 extends SceneTree
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
+	# Covers the part-based body shared by all eight characters. Rina's default 8-direction
+	# rig hides these parts and is covered by tests/character_rig8.gd.
+	var rig8 = preload("res://scripts/visuals/character_rig8.gd")
+	var rig8_enabled: bool = rig8.enabled
+	rig8.enabled = false
 	var p = load("res://scenes/combat/player.tscn").instantiate()
 	root.add_child(p)
 	var anim = p.get_node("Animation")
@@ -99,5 +104,6 @@ func run() -> void:
 		responses.append(parts.lean)
 	assert(absf(responses[0]-responses[1]) < .00001)
 	p.free()
+	rig8.enabled = rig8_enabled
 	print("PASS: 8-character keyframes, canvas inheritance, breathing loop, 4-direction support, stop blend, interruption, weapon aim, manual clock and stable lean")
 	quit()

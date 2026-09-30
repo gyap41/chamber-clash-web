@@ -11,7 +11,7 @@ func walk(game, id: String) -> void:
 		game.players[0].sync_visual()
 		game.fit_field_camera()
 		game.refresh_hud()
-		assert(game.arena.get_node("CombatCamera").zoom == Vector2.ONE)
+		assert(game.arena.get_node("CombatCamera").zoom == Vector2.ONE*preload("res://scripts/visuals/exploration_camera.gd").zoom())
 		await capture("variant-"+shape)
 		game.players[0].state.pos = position
 		game.players[0].sync_visual()
@@ -40,7 +40,9 @@ func run() -> void:
 	await process_frame
 	await process_frame
 	game.set_pause_reason("focus",false)
-	assert(game.floor_data.catalog.size() == 11)
+	# Story floors pick from the 20 authored rooms; the count depends on the seed (9-14 over seeds 0-199).
+	var room_count: int = game.floor_data.catalog.size()
+	assert(room_count >= 9 and room_count <= 14 and room_count == game.floor_data.rooms.size())
 	assert(game.floor_data.seed == 22)
 	var first_layout: Dictionary = game.floor_data.rooms.duplicate(true)
 	var player = game.players[0]
@@ -60,7 +62,7 @@ func run() -> void:
 	game.refresh_hud()
 	await capture("random-start")
 	await walk(game,game.start_room)
-	assert(reached.size() == 11 and game.exploration.visited_rooms.size() == 11)
+	assert(reached.size() == room_count and game.exploration.visited_rooms.size() == room_count)
 	assert(snapshot(player,game.exploration.inventory) == before)
 	assert(game.loot_nodes.is_empty() and game.exploration.collected_loot.is_empty())
 	assert(game.open_map())

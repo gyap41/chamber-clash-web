@@ -12,7 +12,7 @@ func run() -> void:
 	audio.played.connect(func(kind,id):
 		events.append([kind,id])
 		playback_refs.append(weakref(audio.voices[(audio.next_voice+15)%16].get_stream_playback())))
-	assert(audio.GENERATED.size() == 50)
+	assert(audio.GENERATED.size() == 73) # 50 gameplay cues + exploration enemy/boss/reward cues
 	for kind in ["wall_impact","ricochet"]:
 		audio.contact_times.clear()
 		var before := events.size()

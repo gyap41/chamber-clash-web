@@ -37,6 +37,8 @@ func run() -> void:
 	game.door_armed = true
 	assert(game.try_enter_door() and game.exploration.room_id == pre)
 	assert(game.players[0].state.hp == 2.0)
+	# Without a defeated boss the south door is an ordinary exit, not a completed run.
+	assert(game.exploration.status == "active")
 	game.queue_free()
 	await process_frame
 	print("PASS: safe antechamber, bag, boss south entry, return and no free healing")

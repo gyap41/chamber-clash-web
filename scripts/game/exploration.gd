@@ -190,7 +190,9 @@ func try_enter_door() -> bool:
 	var entry := nearby_door()
 	if entry.is_empty(): return false
 	if BossFlow.blocks_exit(self): return false
-	if BossFlow.is_room(self) and not BossFlow.blocks_exit(self):
+	# Leaving the boss room completes the run only after the boss is defeated. Without an
+	# encounter (debug launches with encounters disabled) it stays an ordinary door.
+	if BossFlow.is_room(self) and exploration.encounter_status == "cleared" and not BossFlow.blocks_exit(self):
 		door_armed = false
 		clear_action_inputs()
 		exploration.finish("completed")

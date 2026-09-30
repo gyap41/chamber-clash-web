@@ -224,13 +224,13 @@ func _authored_rooms() -> void:
 	var authored = preload("res://scripts/world/authored_rooms.gd")
 	for id in authored.ORDER:
 		var room = authored.make_room(id,["west","east"])
-		var item := Record.make("room:"+id,authored.NAMES[id],"部屋","見学用")
+		var item := Record.make("room:"+id,authored.NAMES[id],"部屋","現行")
 		var role := "分岐・曲がり" if id in authored.JUNCTIONS else ("寄り道の終点" if id in authored.DISCOVERIES else ("前室" if id == "antechamber" else "通過"))
 		var openings: Array = []
 		var names := {"north":"北","south":"南","west":"西","east":"東"}
 		for sides in authored.connection_sets(id):
 			openings.append("・".join(sides.map(func(side): return names[side])))
-		item.definition = {"authored_id":id,"field_id":id,"size":"%d × %d" % [room.field.field_rect.size.x,room.field.field_rect.size.y],"role":role,"connections":" / ".join(openings),"desc":"作り込み部屋。ランダム見学へ接続済み、本編の戦闘階層へは未採用。","order":authored.ORDER.find(id)+1}
+		item.definition = {"authored_id":id,"field_id":id,"size":"%d × %d" % [room.field.field_rect.size.x,room.field.field_rect.size.y],"role":role,"connections":" / ".join(openings),"desc":"作り込み部屋。ストーリーモードの階層（production_floor）の候補として本編で使用。","order":authored.ORDER.find(id)+1}
 		item.image = "res://docs/art/production/authored-rooms/views/%02d-%s-overview.png" % [authored.ORDER.find(id)+1,id]
 		item.defined = true
 		item.game = true

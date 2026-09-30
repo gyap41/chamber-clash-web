@@ -40,7 +40,8 @@ func run() -> void:
 	assert(not arena.solid(player.state.pos,player.radius))
 	player.sync_visual()
 	await capture("beside-bench")
-	var other = preload("res://data/fields/workshop_annex.tres")
+	# duel.tres uses the flat workshop theme (no depth_sort); the annex became a depth-sorted room.
+	var other = preload("res://data/fields/duel.tres")
 	assert(game.switch_field(other).is_empty())
 	assert(not arena.y_sort_enabled and not arena.get_node("Players").y_sort_enabled)
 	assert(arena.get_node("Walls").z_index == 0)

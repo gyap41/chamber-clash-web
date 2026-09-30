@@ -7,7 +7,7 @@ func run() -> void:
 	var index := Index.new()
 	index.reload()
 	var enemies := index.enumerate("","敵").filter(func(item): return item.game)
-	assert(enemies.size() == 7)
+	assert(enemies.size() == 8) # includes the moss runner (root_runner_prototype) used in story rooms
 	var registry := Registry.new()
 	for enemy in enemies:
 		assert(enemy.preview and enemy.game and enemy.method == "enemy")
@@ -27,11 +27,11 @@ func run() -> void:
 				assert(adapter.players[1].state.hp > 0)
 				if action == "攻撃":
 					assert(attacking,enemy.id+" failed to attack direction "+str(direction))
-					if enemy.definition.range > 100 and enemy.definition.id != "ram_sentry": assert(max_shots > 0,enemy.id)
+					if enemy.definition.range > 100 and enemy.definition.id not in ["ram_sentry","root_runner_prototype"]: assert(max_shots > 0,enemy.id) # dash attackers fire nothing
 				elif action == "歩行": assert(adapter.players[0].gait_phase > 0)
 				else: assert(adapter.players[0].gait_phase == 0)
 				adapter.finish()
 				assert(adapter.players.is_empty() and adapter.shots.is_empty())
 				adapter.free()
-	print("PASS: 7 enemies x 4 directions x idle/walk/real attack, target survival, projectiles, cleanup")
+	print("PASS: 8 enemies x 4 directions x idle/walk/real attack, target survival, projectiles, cleanup")
 	quit()

@@ -51,8 +51,19 @@ func run() -> void:
 	player.state.shot = 0.0
 	player.equip_slot(0)
 	game.refresh_hud()
-	assert(hud.get_node("Root/HP").recoverable_hp == 1.0)
+	# Exploration disables rally recovery: nothing recoverable is shown.
+	assert(hud.get_node("Root/HP").recoverable_hp == 0.0)
+	assert(not "反撃回復" in hud.get_node("Root/Health").text)
+	# The shared HP bar still presents rally when an actor has it enabled.
+	player.rally_enabled = true
+	player.state.inv = 0.0
+	player.hurt(1.0)
+	game.refresh_hud()
+	assert(hud.get_node("Root/HP").recoverable_hp == 0.5)
 	assert("反撃回復" in hud.get_node("Root/Health").text)
+	player.rally_enabled = false
+	player.rally_wounds.clear()
+	game.refresh_hud()
 	# Mutating a view cannot change ammunition or the actor's inventory.
 	var view := View.capture(player,true)
 	var ammo: int = player.inventory[0].clip

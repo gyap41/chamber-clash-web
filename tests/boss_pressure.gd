@@ -35,14 +35,16 @@ func run() -> void:
 	boss.attack_phase = "chase"
 	boss.attack_time = 0
 	boss.state.pos = Vector2(1000,600)
-	player.state.pos = Vector2(1400,600)
+	# Attacks start only while the boss is on screen: at the 1.45x camera the half width is ~367px.
+	player.state.pos = Vector2(1300,600)
 	boss.step(.01,1,player,game.arena)
 	assert(boss.move_name == "dash" and boss.attack_phase == "windup")
 	boss.step(1.01,1,player,game.arena)
 	assert(boss.attack_phase == "dash")
 	var start: Vector2 = boss.state.pos
 	for frame in range(36): boss.step(.016,1,player,game.arena)
-	assert(boss.state.pos.distance_to(start) > 250)
+	# The dash closes the gap and stops within 110px of the target.
+	assert(boss.state.pos.distance_to(start) > 150 and boss.state.pos.distance_to(player.state.pos) <= 110)
 	assert(boss.attack_phase == "windup" and boss.move_name == "slam")
 	assert(player.state.hp == 4) # The dash itself is not unavoidable contact damage.
 	assert(boss.chain_left == 1 and not boss.combo_finisher)
