@@ -2473,6 +2473,94 @@
       "fingerprint": "8c3af436ba0958a83d47656389b0fd58398abda39a979c6ea558f142a7a1ba9a",
       "sha256": "ffa7016b57be59896900baaf22b41ddefe27366227179d9347eb9293e42004d7",
       "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_coin_pickup_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_coin_pickup_01.mp3",
+      "purpose": "Exploration: pick up a brass gear coin (event-rooms)",
+      "prompt": "One tiny bright clink of a small brass gear coin being picked up, a crisp short metallic tick with a light pleasant ring, very quick attack and short clean decay, soft enough to repeat many times, no music, no voice, no whoosh",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-30T15:57:09.600031+00:00",
+      "fingerprint": "d5033f749425b0d25d822c1588b4d42ef1d0b81273c058deb4026aee9fd76a40",
+      "sha256": "d94c5d1a381bd685b1e77d5af75ddac656f56a3f1595515a7a1a325d164aa0d1",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_teleport_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_teleport_01.mp3",
+      "purpose": "Exploration: arrive through a teleporter pad (event-rooms)",
+      "prompt": "Short magical machine teleport arrival: a soft rising airy suction whoosh that resolves into a clear glassy shimmering chime with a faint low brass mechanism hum underneath, smooth short tail, calm and not threatening, no voice, no music",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.0,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 1.0448979591836736,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-30T15:57:21.139377+00:00",
+      "fingerprint": "38d8488c70457bb75a4d815eeffcd66c9f32078d3c5ebe1cd01c4f227a14901c",
+      "sha256": "bdbc7ada8e2d3893314ef39aa138b672be1434564f2560034c778e51583f77b6",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_altar_offer_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_altar_offer_01.mp3",
+      "purpose": "Exploration: offer HP at the altar (event-rooms)",
+      "prompt": "An offering at an old stone altar: a deep soft resonant hum swelling briefly while a small flame puffs up with a warm whoomp, slightly mysterious but not scary, short smooth decay, no voice, no screams, no music",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.0,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 1.0448979591836736,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-30T15:57:23.516973+00:00",
+      "fingerprint": "b1420f94bc1952e4c9899fd941336ad1e206dcb57464cb32b59af3a7cdaa429e",
+      "sha256": "abf821a926c7329803935ba5f062feb42ed3ba0edaed3161035b16162861aa81",
+      "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_challenge_start_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_challenge_start_01.mp3",
+      "purpose": "Exploration: start the challenge trial, doors close (event-rooms)",
+      "prompt": "A heavy stone mechanism clunks and grinds shut once, followed by a single low bronze bell toll that rings out briefly, tense and ready-for-battle, clean short tail, no voice, no music, no alarm beeps",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.0,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 1.0448979591836736,
+      "duration_source": "audio_header",
+      "generated_at": "2026-09-30T15:57:25.991183+00:00",
+      "fingerprint": "ae3dbca1b730a437747938cffda80309b2cd8ab640e126342cfc2a1d5cdf9b89",
+      "sha256": "254f1973897aaec1da4892d6143ae5182b3fad7dc0a576e60f804a7b59eb2a48",
+      "loop_verified": false
     }
   ]
 }

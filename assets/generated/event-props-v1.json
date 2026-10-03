@@ -1,0 +1,30 @@
+{
+  "name": "event-props-v1",
+  "fingerprint": "c201014f12735f2668e5a5f32bd0f96fc0fb5ed3b008118c247041aa04a56bda",
+  "status": "success",
+  "reserved_usd": 0.25,
+  "sent_at": "2026-09-30T15:54:47.813891+00:00",
+  "endpoint": "edits",
+  "request": {
+    "model": "gpt-image-2",
+    "prompt": "Create one game asset sheet of NINE separate props for a top-down 2D action roguelite set in an ancient stone workshop ruin (stone, brass, dark wood, soot, warm lamp light). Match the drawing style of the reference character exactly: smooth dark outlines in a darker shade of each part's own color (not black), large clean color shapes, simple 3-tone cel shading with one small highlight, light from the upper left. Clear illustration readable at small size, no fine texture noise, no tiny details, no painterly realism, no dithering.\n\nCamera for every prop: strong top-down orthographic view (about 70 degrees from the floor), horizontal edges stay horizontal, top surfaces dominant, short front faces only, no isometric angle, no perspective convergence.\n\nLayout: an exact 3 columns x 3 rows grid of equal square cells on a FLAT PURE MAGENTA background (#FF00FF, one uniform color, no gradient, no texture, no vignette). One prop centered in each cell, about 60 percent of the cell size, generous empty magenta padding, nothing touching or crossing cell borders. Do not draw grid lines. No floor, no ground shadow, no glow halo on the background, no particles, no text, no letters, no numbers, no labels, no watermark. Never use magenta or pink inside any prop.\n\nRow 1:\n1. Small workshop coin: a brass token shaped like a small gear (8 short rounded teeth) with a round blue-green gem set in the center, seen from above. Warm brass, not bright yellow gold.\n2. Large workshop coin: the same gear token design but larger and thicker, 10 teeth, with a larger blue-green gem and a thin darker brass ring around it.\n3. Shop display stand: a low square wooden crate-pedestal with a folded dark red cloth draped over its top, top surface dominant and flat so an item can sit on it, short front face, no item on it.\n\nRow 2:\n4. Shop signboard: a small standing wooden A-frame sign with a painted emblem of a crossed hammer and wrench and one gear coin. Absolutely no writing or letters.\n5. Teleporter platform: a round stone platform set flush into the floor, seen from above as a wide ellipse (about twice as wide as tall), with a brass outer rim and engraved concentric rune channels inlaid with blue-green crystal. Unlit, calm colors.\n6. Teleporter glow layer: ONLY the rune channels of prop 5 as bright glowing blue-green and white light lines, same ellipse size and shape as prop 5, with no stone and no brass, on the magenta background.\n\nRow 3:\n7. Challenge plinth: a waist-high square stone pillar with a small bronze bell hanging from a bracket on top and a carved emblem of two crossed blades on its front face. Unlit.\n8. Challenge emblem glow layer: ONLY the crossed-blades emblem of prop 7 as bright warm amber light, same size and position it has on the plinth front, nothing else, on the magenta background.\n9. Small altar: a low stone altar block with a shallow bronze offering bowl on top, a simple carved root-and-circle motif on its front, dark red cloth strip. The bowl is empty, no fire.\n\nAll nine props share the same scale: the shop stand is about as wide as a person's shoulders, the plinth and altar about waist high, the coins tiny compared to them but drawn large enough in their cells to read clearly.\n",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [
+    {
+      "path": "docs\\art\\production\\style-reference-2026-09-26\\ref-rina.png",
+      "sha256": "55bd4a8299def054df8c01ff39e9390e8e144d787286f330388e5248dffcf7f4"
+    }
+  ],
+  "usage": {
+    "input_tokens_details": {
+      "text_tokens": 732,
+      "image_tokens": 432
+    },
+    "output_tokens": 7024
+  },
+  "pricing_estimate_usd": 0.108918
+}

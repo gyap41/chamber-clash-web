@@ -1,5 +1,9 @@
 # Chamber Clash 音響設計基準
 
+## 探索のイベント部屋SE（2026-10-01）
+
+ユーザー承認の4本を、ElevenLabsのCLIでdry-runの後に1本ずつ生成した（各1候補、再試行なし）。fw_coin_pickup_01（0.5秒要求、Godot上0.48秒、硬貨の取得、-18dB）、fw_teleport_01・fw_altar_offer_01・fw_challenge_start_01（各1.0秒、転送の到着・祭壇に捧げる・試練の開始、-12dB）。sound.gdの辞書にcoin／teleport／altar_offer／challenge_startとして登録し、仮に使っていた既存音と置き換えた。プロンプトとハッシュはmanifest。**未試聴・ユーザー未採用**。硬貨は連続して鳴るので、耳障りでないかを優先して確認する。[制作記録](art/production/event-rooms/README.md)。
+
 ## 探索宝箱のレア度別開封音（2026-09-29）
 
 通常箱のみC/B/A/Sで既存fw_chest_open_01のpitchを1.08/1.0/0.9/0.8、相対音量を-15/-14/-13/-12dBにする。Aはfw_rare_pickup_01、Sはfw_rare_drop_02を-19dBで同時に重ねる。開封受理時に一度だけ再生し、再訪・満杯時の再取得では再発音しない。ボス箱と対戦は従来音。共有voiceの再利用時にpitchを1へ戻す。ミュート・素材参照・再生設定を自動検証。聴感は未試聴／ユーザー受入待ち。既存manifest登録音を再利用し、生成・加工・原本変更なし。

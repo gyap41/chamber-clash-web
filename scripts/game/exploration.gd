@@ -369,7 +369,7 @@ func _physics_process(dt: float) -> void:
 		if Coins.drop(self): Coins.rebuild(self,coin_nodes)
 		var coins := Coins.step(self,dt)
 		if not coins.is_empty():
-			sound.play_sound("bell")
+			sound.play_sound("coin")
 			Coins.rebuild(self,coin_nodes)
 			var amount := 0
 			for coin in coins:

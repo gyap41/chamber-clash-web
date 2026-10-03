@@ -51,6 +51,8 @@ static func step(game, dt: float) -> Array:
 	return taken
 
 class CoinNode extends Node2D:
+	const COIN_SMALL = preload("res://assets/stages/ashen-foundry-v2/event-props/coin_small.tres")
+	const COIN_LARGE = preload("res://assets/stages/ashen-foundry-v2/event-props/coin_large.tres")
 	var coin: Dictionary
 	var game
 	var time := 0.0
@@ -67,10 +69,13 @@ class CoinNode extends Node2D:
 		draw_set_transform(Vector2(0,6),0,Vector2(1,.45))
 		draw_circle(Vector2.ZERO,7,Color(0,0,0,.35))
 		draw_set_transform(Vector2.ZERO)
-		var radius := 8.0 if int(coin.value) <= 1 else 10.0
-		draw_circle(Vector2(0,-6-lift),radius,Color("8a5a12"))
-		draw_circle(Vector2(0,-6-lift),radius-1.5,Color("f2c14e"))
-		draw_rect(Rect2(-1.5,-6-lift-radius*.5,3,radius),Color("fff0b0"))
+		# Brass gear token (event-props-v1). The spin is a horizontal squash; the gem keeps it readable edge-on.
+		var large := int(coin.value) > 1
+		var art: Texture2D = COIN_LARGE if large else COIN_SMALL
+		var size := 20.0 if large else 16.0
+		var turn := absf(cos(time*4.0+float(coin.id.hash()%5)))*.75+.25
+		var extent := Vector2(size*turn,size*art.get_height()/float(art.get_width()))
+		draw_texture_rect(art,Rect2(Vector2(-extent.x*.5,-6-lift-extent.y*.5),extent),false)
 
 static func rebuild(game, nodes: Array) -> void:
 	for node in nodes:

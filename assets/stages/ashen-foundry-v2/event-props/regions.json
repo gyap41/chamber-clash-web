@@ -1,0 +1,69 @@
+{
+  "key": "magenta #FF00FF, alpha from colour distance .25..0.6 with unmixing and magenta despill",
+  "regions": {
+    "altar_small": [
+      710,
+      688,
+      232,
+      254
+    ],
+    "challenge_emblem_glow": [
+      415,
+      721,
+      153,
+      182
+    ],
+    "challenge_plinth": [
+      103,
+      612,
+      159,
+      340
+    ],
+    "coin_large": [
+      401,
+      61,
+      210,
+      197
+    ],
+    "coin_small": [
+      115,
+      95,
+      135,
+      127
+    ],
+    "shop_sign": [
+      89,
+      343,
+      178,
+      250
+    ],
+    "shop_stand": [
+      719,
+      67,
+      232,
+      207
+    ],
+    "teleporter_base": [
+      348,
+      377,
+      297,
+      217
+    ],
+    "teleporter_glow": [
+      348,
+      377,
+      297,
+      217
+    ],
+    "teleporter_glow_drawn": [
+      695,
+      386,
+      263,
+      199
+    ]
+  },
+  "sheet": "res://assets/stages/ashen-foundry-v2/event-props/event-props-v1.png",
+  "source": "res://assets/generated/event-props-v1.png",
+  "source_sha256": "e1297fcfa635941480922e6c21b1ddd674cc42ebe8a0092e93a0aac9a8815ffd",
+  "threshold": "alpha >= 0.1, 2 px margin"
+}

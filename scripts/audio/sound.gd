@@ -74,6 +74,11 @@ const GENERATED := {
 	"ui_cancel": preload("res://assets/audio/se/fw_ui_cancel_short_01.mp3"),
 	"ui_place": preload("res://assets/audio/se/fw_ui_place_short_01.mp3"),
 	"ui_purchase": preload("res://assets/audio/se/fw_ui_purchase_short_01.mp3"),
+	# Exploration event rooms (docs/art/production/event-rooms), generated 2026-10-01.
+	"coin": preload("res://assets/audio/se/fw_coin_pickup_01.mp3"),
+	"teleport": preload("res://assets/audio/se/fw_teleport_01.mp3"),
+	"altar_offer": preload("res://assets/audio/se/fw_altar_offer_01.mp3"),
+	"challenge_start": preload("res://assets/audio/se/fw_challenge_start_01.mp3"),
 	"ui_blocked": preload("res://assets/audio/se/fw_ui_blocked_short_01.mp3"),
 	"win": preload("res://assets/audio/se/fw_victory_short_01.mp3"),
 	"lose": preload("res://assets/audio/se/fw_defeat_short_01.mp3")
@@ -238,6 +243,7 @@ func play_sound(kind: String, id: int = 0) -> void:
 		if kind=="enemy_defeat": generated_voice.volume_db -= 5.0
 		elif kind.begins_with("moss_"): generated_voice.volume_db -= 2.0 if kind=="moss_dash" else 5.0
 		elif kind == "wall_impact": generated_voice.volume_db -= 12.0
+		elif kind == "coin": generated_voice.volume_db -= 6.0 # Frequent: kept under combat sounds.
 		elif kind == "ricochet": generated_voice.volume_db -= 8.0
 		elif kind in ["sentry_windup","lizard_inhale","quill_windup"]: generated_voice.volume_db -= 3.0
 		elif kind in ["sentry_swing","lizard_spit","quill_fire"]: generated_voice.volume_db += 2.0

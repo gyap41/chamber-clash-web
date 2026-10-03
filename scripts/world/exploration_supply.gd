@@ -1,5 +1,6 @@
 extends Node2D
 var kind := "ammo"
+var show_label := true
 func _draw() -> void:
 	draw_set_transform(Vector2(0,11.25),0,Vector2(1.25,.5))
 	draw_circle(Vector2.ZERO,16,Color(0,0,0,.35))
@@ -14,4 +15,4 @@ func _draw() -> void:
 		draw_rect(Rect2(-3,-11,6,17),Color("c35346"))
 		draw_rect(Rect2(-8,-6,16,6),Color("c35346"))
 	draw_set_transform(Vector2.ZERO)
-	draw_string(ThemeDB.fallback_font,Vector2(-17,34),"弾薬" if kind == "ammo" else "回復",HORIZONTAL_ALIGNMENT_LEFT,-1,12)
+	if show_label: draw_string(ThemeDB.fallback_font,Vector2(-17,34),"弾薬" if kind == "ammo" else "回復",HORIZONTAL_ALIGNMENT_LEFT,-1,12)

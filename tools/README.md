@@ -34,6 +34,10 @@ HTTPエラーは共通設定ガイドに従い切り分けます。ステータ�
 
 仕様: [OpenAI Image API公式ガイド](https://developers.openai.com/api/docs/guides/image-generation)
 
+## イベント部屋の素材の抜き出し
+
+`Godot --headless --path . --script res://tools/build_event_props.gd --quit-after 3000`。生成シート `assets/generated/event-props-v1.png`（マゼンタ背景、3×3）から、透過にしたシート・転送装置の光のマスク・9点のAtlasTexture・regions.jsonを `assets/stages/ashen-foundry-v2/event-props/` に作る。原本は変更しない。作り直した後はGodotの再インポート（`--headless --path . --import`）が必要。[制作記録](../docs/art/production/event-rooms/README.md)。
+
 ## アイテム一覧の更新
 
 `python tools/export_item_catalog.py` でカタログ・価格・占有形状から `docs/design/ITEM_CATALOG.md` の表を再出力する。バッグ範囲の説明は手動更新。外部通信・素材生成なし。

@@ -30,7 +30,9 @@ static func prepare(game) -> void:
 	if room.has("reward"): taken.append(room.reward.pos)
 	match role(game):
 		"shop":
-			if not room.has("shop"): room.shop = shop_stock(game,taken)
+			if not room.has("shop"):
+				room.shop = shop_stock(game,taken)
+				room.shop_sign = sign_point(game,room.shop)
 		"altar":
 			if not room.has("altar"): room.altar = {"pos":altar_point(game,taken),"used":false}
 		"challenge":
@@ -72,6 +74,16 @@ static func shop_stock(game, taken: Array) -> Array:
 		taken.append(point)
 		placed.append(entry)
 	return placed
+
+# The sign stands at one end of the stock row, where there is room for it.
+static func sign_point(game, stock: Array) -> Variant:
+	if stock.is_empty(): return null
+	var ends: Array = [stock[0].pos+Vector2(-96,0),stock[-1].pos+Vector2(96,0)]
+	for point in ends:
+		var doors: Array = game.room_data(game.exploration.room_id).doors
+		if game.arena.solid(point,28) or doors.any(func(door): return point.distance_to(door.position) <= 112 or point.distance_to(door.arrival) <= 80): continue
+		return point
+	return null
 
 static func shop_row(game, taken: Array, count: int) -> Array:
 	var center: Vector2 = game.arena.field_rect.get_center()
@@ -195,7 +207,7 @@ static func offer(game, altar: Dictionary) -> bool:
 	player.trim_rally()
 	player.sync_visual()
 	altar.used = true
-	game.sound.play_sound("hit")
+	game.sound.play_sound("altar_offer")
 	var bowl: Vector2 = altar.pos+(Vector2(0,-118) if on_altar(game) else Vector2(0,-34))
 	game.fx.stream(player.state.pos+Vector2(0,-30),bowl,Color(1,.25,.3),16,.7)
 	game.fx.pillar(bowl+Vector2(0,20),Color(1,.3,.3),240,.9,40)
@@ -217,7 +229,7 @@ static func begin_challenge(game, challenge: Dictionary) -> bool:
 	challenge.state = "active"
 	challenge.wave = 1
 	game.rebuild_events()
-	game.sound.play_sound("danger_warning")
+	game.sound.play_sound("challenge_start")
 	game.fx_floor.ring(challenge.pos,Color(1,.78,.3),20,220,.7,5)
 	game.fx.burst(challenge.pos+Vector2(0,-30),Color(1,.78,.3),12,140,.5)
 	spawn_wave(game,challenge)
@@ -279,7 +291,7 @@ static func teleport(game, target: String) -> bool:
 	var field = game.room_data(target).field
 	if not preload("res://scripts/world/room_reachability.gd").clear_point(field,arrival): arrival = pad
 	if not game.move_to_room(target,arrival): return false
-	game.sound.play_sound("energy")
+	game.sound.play_sound("teleport")
 	game.fx.pillar(pad,Color(.55,.85,1),280,.8,52)
 	game.fx_floor.ring(pad,Color(.55,.85,1),10,110,.6,5)
 	game.fx.burst(arrival+Vector2(0,-20),Color(.65,.9,1),16,170,.6,120)
@@ -287,6 +299,8 @@ static func teleport(game, target: String) -> bool:
 	return true
 
 class EventNode extends Node2D:
+	# Generated props (docs/art/production/event-rooms, event-props-v1). Sizes are world units, feet at the origin.
+	const KIT := "res://assets/stages/ashen-foundry-v2/event-props/%s.tres"
 	var kind := ""
 	var entry: Dictionary = {}
 	var active := true
@@ -294,11 +308,28 @@ class EventNode extends Node2D:
 	var game
 	var shake := 0.0
 	var time := 0.0
+	var glow: Sprite2D
 	func _process(delta: float) -> void:
 		if game != null and game.paused: return
 		time += delta
 		shake = maxf(shake-delta,0)
+		if glow != null:
+			glow.visible = active
+			glow.modulate.a = .55+.35*sin(time*3.0)
 		queue_redraw()
+	# Additive light layer drawn over the prop, pulsed in _process.
+	func add_glow(art: String, rect: Rect2) -> void:
+		glow = Sprite2D.new()
+		glow.texture = load(KIT % art)
+		glow.centered = false
+		glow.position = rect.position
+		glow.scale = rect.size/glow.texture.get_size()
+		var additive := CanvasItemMaterial.new()
+		additive.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+		glow.material = additive
+		add_child(glow)
+	func art(id: String, rect: Rect2, tint: Color = Color.WHITE) -> void:
+		draw_texture_rect(load(KIT % id),rect,false,tint)
 	# Stateless rising motes: each follows a looping phase, so they need no storage and freeze with time.
 	func motes(origin: Vector2, color: Color, count: int, spread: float, rise: float, period: float) -> void:
 		for index in range(count):
@@ -309,20 +340,16 @@ class EventNode extends Node2D:
 		var font := ThemeDB.fallback_font
 		match kind:
 			"teleporter":
-				var glow := .55+.25*sin(time*3.0) if active else .2
-				draw_set_transform(Vector2.ZERO,0,Vector2(1,.5))
-				draw_circle(Vector2.ZERO,34,Color("1d2638"))
-				draw_arc(Vector2.ZERO,34,0,TAU,40,Color(.45,.75,1,glow),4)
-				draw_arc(Vector2.ZERO,22,0,TAU,32,Color(.6,.85,1,glow*.8),3)
-				draw_circle(Vector2.ZERO,10,Color(.7,.9,1,glow))
-				draw_set_transform(Vector2.ZERO)
-				if active: motes(Vector2.ZERO,Color(.65,.9,1,.8),8,22,70,1.8)
+				art("teleporter_base",Rect2(-52,-38,104,76),Color.WHITE if active else Color(.7,.7,.75))
+				if active: motes(Vector2.ZERO,Color(.65,.9,1,.8),8,26,70,1.8)
 			"altar":
-				# In the chapel the flame burns in the real altar's bowl; elsewhere a small stone altar is drawn.
-				var bowl := Vector2(0,-118) if on_altar else Vector2(0,-34)
+				# In the chapel the flame burns in the real altar's bowl; elsewhere the small altar is drawn.
+				var bowl := Vector2(0,-118) if on_altar else Vector2(0,-58)
 				if not on_altar:
-					draw_rect(Rect2(-22,-26,44,26),Color("4a4450"))
-					draw_rect(Rect2(-26,-4,52,8),Color("39333d"))
+					draw_set_transform(Vector2(0,-2),0,Vector2(1,.35))
+					draw_circle(Vector2.ZERO,30,Color(0,0,0,.3))
+					draw_set_transform(Vector2.ZERO)
+					art("altar_small",Rect2(-30,-66,60,66))
 				if active:
 					var flicker := 2.0*sin(time*7.0)
 					draw_circle(bowl,14+flicker,Color(.9,.15,.2,.25))
@@ -330,20 +357,24 @@ class EventNode extends Node2D:
 					draw_circle(bowl+Vector2(0,-8),4,Color(1,.8,.6,.95))
 					motes(bowl+Vector2(0,-10),Color(1,.45,.3,.9),6,8,46,1.1)
 			"challenge":
-				var tint := Color(1,.78,.3,.9 if active else .25)
-				draw_set_transform(Vector2(0,6),0,Vector2(1,.5))
-				draw_arc(Vector2.ZERO,40,0,TAU,40,Color(tint,tint.a*(.6+.3*sin(time*3.0))),4)
+				var tint := Color(1,.78,.3,.9 if active else .0)
+				draw_set_transform(Vector2(0,2),0,Vector2(1,.5))
+				draw_circle(Vector2.ZERO,26,Color(0,0,0,.3))
+				if active: draw_arc(Vector2.ZERO,42,0,TAU,40,Color(tint,tint.a*(.5+.3*sin(time*3.0))),4)
 				draw_set_transform(Vector2.ZERO)
-				draw_rect(Rect2(-20,-44,40,44),Color("5a5248"))
-				draw_rect(Rect2(-20,-44,40,6),Color("736a5d"))
-				draw_rect(Rect2(-26,-4,52,10),Color("463f37"))
-				draw_line(Vector2(-11,-34),Vector2(11,-12),tint,4)
-				draw_line(Vector2(11,-34),Vector2(-11,-12),tint,4)
-		if kind == "shop":
-			# Supplies draw their own name under the icon, so their price sits one line lower.
-			var y := 58.0 if entry.kind in ["heal","ammo"] else 40.0
-			var jolt := sin(shake*60.0)*6.0*shake/.35
-			draw_string(font,Vector2(-14+jolt,y),"%dG" % int(entry.price),HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("ffd35a"))
+				art("challenge_plinth",Rect2(-22,-94,44,94),Color.WHITE if active else Color(.75,.75,.75))
+			"sign":
+				draw_set_transform(Vector2(0,-1),0,Vector2(1,.35))
+				draw_circle(Vector2.ZERO,22,Color(0,0,0,.3))
+				draw_set_transform(Vector2.ZERO)
+				art("shop_sign",Rect2(-26,-72,52,72))
+			"shop":
+				draw_set_transform(Vector2(0,20),0,Vector2(1,.35))
+				draw_circle(Vector2.ZERO,30,Color(0,0,0,.3))
+				draw_set_transform(Vector2.ZERO)
+				art("shop_stand",Rect2(-30,-20,60,44))
+				var jolt := sin(shake*60.0)*6.0*shake/.35
+				draw_string(font,Vector2(-14+jolt,44),"%dG" % int(entry.price),HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("ffd35a"))
 
 static func rebuild(game, nodes: Array) -> void:
 	for node in nodes:
@@ -360,10 +391,18 @@ static func rebuild(game, nodes: Array) -> void:
 		pad.kind = "teleporter"
 		pad.position = room.teleporter
 		pad.active = room.get("encounter","none") != "active"
+		pad.add_glow("teleporter_glow",Rect2(-52,-38,104,76))
 		# The pad lies on the floor under actors.
 		pad.z_index = -1
 		layer.add_child(pad)
 		nodes.append(pad)
+	if room.get("shop_sign") != null:
+		var sign := EventNode.new()
+		sign.game = game
+		sign.kind = "sign"
+		sign.position = room.shop_sign
+		layer.add_child(sign)
+		nodes.append(sign)
 	for item in room.get("shop",[]):
 		if item.sold: continue
 		var node := EventNode.new()
@@ -371,14 +410,19 @@ static func rebuild(game, nodes: Array) -> void:
 		node.kind = "shop"
 		node.entry = item
 		node.position = item.pos
+		# The item sits on the stand's cloth top.
 		if item.kind in ["heal","ammo"]:
 			var supply := preload("res://scripts/world/exploration_supply.gd").new()
 			supply.kind = item.kind
+			supply.show_label = false
+			supply.position = Vector2(0,-10)
+			supply.scale = Vector2.ONE*.8
 			node.add_child(supply)
 		else:
 			var sprite := Sprite2D.new()
 			sprite.texture = Weapons.art(item.item) if item.kind == "weapon" else Art.texture("relic_%02d" % item.item)
-			sprite.scale = Vector2.ONE*45.0/maxf(sprite.texture.get_width(),sprite.texture.get_height())
+			sprite.scale = Vector2.ONE*40.0/maxf(sprite.texture.get_width(),sprite.texture.get_height())
+			sprite.position = Vector2(0,-10)
 			node.add_child(sprite)
 		layer.add_child(node)
 		nodes.append(node)
@@ -390,6 +434,7 @@ static func rebuild(game, nodes: Array) -> void:
 		node.entry = room[key]
 		node.position = room[key].pos
 		node.active = not room[key].get("used",false) and room[key].get("state","idle") == "idle"
-		node.on_altar = key == "altar" and game.arena.runtime_definition.placements.any(func(p): return p.placement_id == "authored_altar")
+		node.on_altar = key == "altar" and on_altar(game)
+		if key == "challenge": node.add_glow("challenge_emblem_glow",Rect2(-13,-41,21,25))
 		layer.add_child(node)
 		nodes.append(node)

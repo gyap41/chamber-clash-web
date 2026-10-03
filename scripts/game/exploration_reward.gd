@@ -92,6 +92,7 @@ static func placement(game, excluded: Array = []) -> Variant:
 	var room: Dictionary = game.exploration.room_state(game.exploration.room_id)
 	excluded = excluded.duplicate()
 	if room.get("teleporter") != null: excluded.append(room.teleporter)
+	if room.get("shop_sign") != null: excluded.append(room.shop_sign)
 	for item in room.get("shop",[]): excluded.append(item.pos)
 	for key in ["altar","challenge"]:
 		if room.has(key) and room[key].pos != null: excluded.append(room[key].pos)

@@ -1,0 +1,8 @@
+[gd_resource type="AtlasTexture" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/stages/ashen-foundry-v2/event-props/event-props-v1.png" id="1_3t2o0"]
+
+[resource]
+atlas = ExtResource("1_3t2o0")
+region = Rect2(710, 688, 232, 254)
+filter_clip = true
