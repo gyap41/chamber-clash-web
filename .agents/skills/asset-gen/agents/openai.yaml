@@ -1,0 +1,4 @@
+# 自動生成: tools/agent/sync_agents.py（台帳: tools/agent/agents.toml）。直接編集せず、台帳を直して同期する。
+# 有料などの理由で、プロンプトの内容から自動では起動させない（$asset-gen で明示的に呼んだときだけ）。
+policy:
+  allow_implicit_invocation: false

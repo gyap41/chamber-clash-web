@@ -1,0 +1,57 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import os,subprocess,sys,runpy;r=subprocess.run(['git','rev-parse','--show-toplevel'],capture_output=True,text=True).stdout.strip() or '.';d=os.path.join(r,'tools','agent');f=os.path.join(d,'session_start.py');os.path.isfile(f) or sys.exit(0);sys.path.insert(0,d);sys.argv=[f];runpy.run_path(f,run_name='__main__')\"",
+            "commandWindows": "python -c \"import os,subprocess,sys,runpy;r=subprocess.run(['git','rev-parse','--show-toplevel'],capture_output=True,text=True).stdout.strip() or '.';d=os.path.join(r,'tools','agent');f=os.path.join(d,'session_start.py');os.path.isfile(f) or sys.exit(0);sys.path.insert(0,d);sys.argv=[f];runpy.run_path(f,run_name='__main__')\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import os,subprocess,sys,runpy;r=subprocess.run(['git','rev-parse','--show-toplevel'],capture_output=True,text=True).stdout.strip() or '.';d=os.path.join(r,'tools','agent');f=os.path.join(d,'guard.py');os.path.isfile(f) or sys.exit(0);sys.path.insert(0,d);sys.argv=[f];runpy.run_path(f,run_name='__main__')\"",
+            "commandWindows": "python -c \"import os,subprocess,sys,runpy;r=subprocess.run(['git','rev-parse','--show-toplevel'],capture_output=True,text=True).stdout.strip() or '.';d=os.path.join(r,'tools','agent');f=os.path.join(d,'guard.py');os.path.isfile(f) or sys.exit(0);sys.path.insert(0,d);sys.argv=[f];runpy.run_path(f,run_name='__main__')\"",
+            "timeout": 10,
+            "statusMessage": "Checking for secrets"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^apply_patch$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import os,subprocess,sys,runpy;r=subprocess.run(['git','rev-parse','--show-toplevel'],capture_output=True,text=True).stdout.strip() or '.';d=os.path.join(r,'tools','agent');f=os.path.join(d,'post_edit.py');os.path.isfile(f) or sys.exit(0);sys.path.insert(0,d);sys.argv=[f];runpy.run_path(f,run_name='__main__')\"",
+            "commandWindows": "python -c \"import os,subprocess,sys,runpy;r=subprocess.run(['git','rev-parse','--show-toplevel'],capture_output=True,text=True).stdout.strip() or '.';d=os.path.join(r,'tools','agent');f=os.path.join(d,'post_edit.py');os.path.isfile(f) or sys.exit(0);sys.path.insert(0,d);sys.argv=[f];runpy.run_path(f,run_name='__main__')\"",
+            "timeout": 90,
+            "statusMessage": "Checking edited files"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import os,subprocess,sys,runpy;r=subprocess.run(['git','rev-parse','--show-toplevel'],capture_output=True,text=True).stdout.strip() or '.';d=os.path.join(r,'tools','agent');f=os.path.join(d,'stop_check.py');os.path.isfile(f) or sys.exit(0);sys.path.insert(0,d);sys.argv=[f];runpy.run_path(f,run_name='__main__')\"",
+            "commandWindows": "python -c \"import os,subprocess,sys,runpy;r=subprocess.run(['git','rev-parse','--show-toplevel'],capture_output=True,text=True).stdout.strip() or '.';d=os.path.join(r,'tools','agent');f=os.path.join(d,'stop_check.py');os.path.isfile(f) or sys.exit(0);sys.path.insert(0,d);sys.argv=[f];runpy.run_path(f,run_name='__main__')\"",
+            "timeout": 300,
+            "statusMessage": "Checking changed .gd files"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+# CHAMBER CLASH command rules for Codex (apply to commands that would run outside the sandbox).
+# Loaded only after the project .codex/ layer is trusted. Test with:
+#   codex execpolicy check --pretty --rules .codex/rules/project.rules -- <command>
+
+PYTHON = [".local/audio-venv/Scripts/python.exe", ".local\\audio-venv\\Scripts\\python.exe", "python", "python3"]
+
+# Paid generation always asks, even when escalation was approved earlier in the session.
+prefix_rule(
+    pattern = [PYTHON, ["tools/generate_image.py", "tools\\generate_image.py"]],
+    decision = "prompt",
+    justification = "Paid OpenAI image generation. Confirm the number of images and the monthly budget (--plan) first.",
+)
+
+prefix_rule(
+    pattern = [PYTHON, ["tools/asset_generator/asset.py", "tools\\asset_generator\\asset.py"], ["se", "bgm"]],
+    decision = "prompt",
+    justification = "Paid ElevenLabs/Stability audio generation. Show the --dry-run first; one command makes one asset.",
+)
+
+prefix_rule(
+    pattern = ["git", "push", ["--force", "-f", "--force-with-lease"]],
+    decision = "forbidden",
+    justification = "Never rewrite the remote history of this solo project from an agent.",
+)
+
+prefix_rule(
+    pattern = ["git", "push"],
+    decision = "prompt",
+    justification = "Push only when the user asked for it.",
+)

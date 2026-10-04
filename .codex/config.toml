@@ -1,0 +1,28 @@
+# CHAMBER CLASH project settings for Codex. Loaded only after you trust this project's .codex/ layer.
+# Instructions come from AGENTS.md (shared with Claude Code, which reads it through CLAUDE.md).
+# Overview of both agents' setup: tools/agent/README.md
+
+# The main model is left to your user config (~/.codex/config.toml); subagents pin their own in .codex/agents/.
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+# No network inside the sandbox: the paid image/SE/BGM APIs can only be reached through an approved
+# escalation, so a generation never happens without your OK (see also .codex/rules/project.rules).
+network_access = false
+
+[shell_environment_policy]
+# Keep API keys out of every command Codex runs. The generator CLIs fall back to reading .env themselves
+# and never print the values; if your keys live only in environment variables, run paid generation yourself.
+inherit = "all"
+ignore_default_excludes = false
+exclude = ["*_API_KEY", "*KEY*", "*SECRET*", "*TOKEN*"]
+
+[features]
+hooks = true
+multi_agent = true
+
+[agents]
+max_threads = 4
+
+# Skills live in .agents/skills/; asset-gen is explicit-only via its agents/openai.yaml.

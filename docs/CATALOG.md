@@ -4,7 +4,7 @@
 
 自動生成: `python tools/docs_index.py`。表題は本文の最初の見出しから取得。分類は役割の案内で、内容の検証完了や採用を示しません。過去計画は元のパスを維持して履歴に分類しています。
 
-対象 185 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
+対象 199 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
 
 ## 入口・運用
 
@@ -56,7 +56,7 @@
 |[docs/development/EDITOR_GUIDE.md](<development/EDITOR_GUIDE.md>)|エディタでの調整|
 |[docs/development/HANDOFF_FOR_CLAUDE.md](<development/HANDOFF_FOR_CLAUDE.md>)|開発引き継ぎ（エージェント共通）|
 |[docs/development/STAGE_TEMPLATES.md](<development/STAGE_TEMPLATES.md>)|ステージの素材セットと部屋テンプレート|
-|[docs/development/TESTING.md](<development/TESTING.md>)|戦闘テスト（2026-09-28）|
+|[docs/development/TESTING.md](<development/TESTING.md>)|候補素材の分離とプレビュー（2026-10-04）|
 |[docs/development/WEAPON_EXTENSIONS.md](<development/WEAPON_EXTENSIONS.md>)|武器・演出・特殊効果を追加する|
 
 ## 美術・音響の共通基準
@@ -64,6 +64,7 @@
 |ファイル|表題・内容の手掛かり|
 |---|---|
 |[docs/AUDIO_BIBLE.md](<AUDIO_BIBLE.md>)|Chamber Clash 音響設計基準|
+|[docs/art/ART_BIBLE.md](<art/ART_BIBLE.md>)|素材レビュー基準（アートバイブル）|
 |[docs/art/BOSS_CREATION_TEMPLATE.md](<art/BOSS_CREATION_TEMPLATE.md>)|ボス制作テンプレート|
 |[docs/art/ENEMY_CREATION_TEMPLATE.md](<art/ENEMY_CREATION_TEMPLATE.md>)|敵素材の制作テンプレート|
 |[docs/art/ROOM_VISUAL_DIRECTION.md](<art/ROOM_VISUAL_DIRECTION.md>)|探索部屋の空間表現|
@@ -151,12 +152,18 @@
 |ファイル|表題・内容の手掛かり|
 |---|---|
 |[assets/README.md](<../assets/README.md>)|アセット分類|
+|[assets/candidates/README.md](<../assets/candidates/README.md>)|候補素材（未採用・審査中）|
 |[assets/first-workshop/README.md](<../assets/first-workshop/README.md>)|必要：ゲーム使用素材|
 |[assets/first-workshop/equipment/README.md](<../assets/first-workshop/equipment/README.md>)|ゲーム使用：武器・レリック|
 |[assets/first-workshop/projectiles/README.md](<../assets/first-workshop/projectiles/README.md>)|ゲーム用：弾・発射・着弾|
 |[assets/generated/README.md](<../assets/generated/README.md>)|必要：生成原画・生成履歴|
+|[assets/retired/README.md](<../assets/retired/README.md>)|不採用・旧版の素材|
 |[assets/ui/hud/README.md](<../assets/ui/hud/README.md>)|対戦HUD素材の差し替え|
 |[tools/README.md](<../tools/README.md>)|画像生成（開発専用）|
+|[tools/agent/README.md](<../tools/agent/README.md>)|AIエージェントの設定（Claude Code・Codex）|
+|[tools/agent/reviewers/art_reviewer.md](<../tools/agent/reviewers/art_reviewer.md>)|画像素材レビュー係の指示|
+|[tools/agent/reviewers/audio_reviewer.md](<../tools/agent/reviewers/audio_reviewer.md>)|音響素材レビュー係の指示|
+|[tools/asset_check/README.md](<../tools/asset_check/README.md>)|素材の機械チェック（開発専用）|
 |[tools/asset_generator/README.md](<../tools/asset_generator/README.md>)|AI音響素材生成（開発専用）|
 |[tools/character_rig/README.md](<../tools/character_rig/README.md>)|8方向キャラクターリグの作り方|
 |[tools/visual_hub/README.md](<../tools/visual_hub/README.md>)|Chamber Clash Visual Hub / Web Live|
@@ -240,3 +247,15 @@
 |---|---|
 |[legacy-web/README.md](<../legacy-web/README.md>)|CHAMBER CLASH — 星くずトレジャーデュエル|
 |[tests/fixtures/art/README.md](<../tests/fixtures/art/README.md>)|必要：画像に関するテスト用素材|
+
+## 未分類（要整理）
+
+|ファイル|表題・内容の手掛かり|
+|---|---|
+|[.agents/skills/asset-gen/SKILL.md](<../.agents/skills/asset-gen/SKILL.md>)|name/description は 自動生成: tools/agent/sync_agents.py（台帳: tools/agent/agents.toml）。直接編集せず、台帳を直して同期する。|
+|[.agents/skills/run-tests/SKILL.md](<../.agents/skills/run-tests/SKILL.md>)|name/description は 自動生成: tools/agent/sync_agents.py（台帳: tools/agent/agents.toml）。直接編集せず、台帳を直して同期する。|
+|[.claude/agents/art-reviewer.md](<../.claude/agents/art-reviewer.md>)|見出しなし（本文参照）|
+|[.claude/agents/audio-reviewer.md](<../.claude/agents/audio-reviewer.md>)|見出しなし（本文参照）|
+|[.claude/skills/asset-gen/SKILL.md](<../.claude/skills/asset-gen/SKILL.md>)|見出しなし（本文参照）|
+|[.claude/skills/run-tests/SKILL.md](<../.claude/skills/run-tests/SKILL.md>)|見出しなし（本文参照）|
+|[CLAUDE.md](<../CLAUDE.md>)|Claude Code固有の補足|

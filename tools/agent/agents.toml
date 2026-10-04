@@ -1,0 +1,110 @@
+# AIエージェント設定の台帳（Claude Code・Codex共通）。
+# ここを直したら `python tools/agent/sync_agents.py` を実行して、両ツールの設定ファイルを書き出す。
+# `--check` はずれと安全ルールの欠落だけを報告する（編集後と作業終了時のhookが自動で実行する）。
+#
+# 生成するもの: .claude/skills/*/SKILL.md（全体）、.agents/skills/*/SKILL.md（先頭のname/descriptionだけ。本文は手書きの正本）、
+#   .agents/skills/*/agents/openai.yaml、.claude/agents/*.md、.codex/agents/*.toml、
+#   .claude/settings.json の "hooks"（他のキーは手書きのまま）、.codex/hooks.json。
+# 生成しないもの（[safety]で確認だけする）: Claudeのpermissions、.codex/config.toml、.codex/rules/project.rules。
+
+# ---------------------------------------------------------------- スキル
+# 手順の本文は .agents/skills/<name>/SKILL.md に手で書く。Claudeの入口ファイルは本文を読むよう指示するだけ。
+
+[[skills]]
+name = "run-tests"
+description = "CHAMBER CLASHの自動テスト（run_tests.ps1）を実行し、PASS/FAIL/NO-PASSを隠さず報告し、FAILはログから根本原因を特定して直す。「テストして」「テストを回して」「run_tests」「全テスト」と言われたとき、またはGDScriptの変更を終えて動作確認するときに使う。"
+explicit_only = false
+claude_notes = [
+  "`run_tests.ps1` はBashツールで `timeout: 600000` を付けて実行する。10分を超えそうなら `run_in_background` で実行し、完了通知を待つ（途中経過をポーリングしない）。",
+]
+
+[[skills]]
+name = "asset-gen"
+description = "画像・SE・BGM素材を外部AIで生成し、機械チェック→レビュー係の判定→作り直し（最大3回）→ユーザーのゲーム内最終確認まで進める。有料APIを使うため、ユーザーが明示的に呼んだときだけ使う（Codex: $asset-gen、Claude Code: /asset-gen）。"
+claude_description = "画像・SE・BGM素材を外部AIで生成し、機械チェック→レビュー係の判定→作り直し（最大3回）→ユーザーのゲーム内最終確認まで進める。有料APIを使うためユーザーが /asset-gen で呼んだときだけ使う。"
+# 有料なので、プロンプトの内容から自動では起動させない（Claude: disable-model-invocation、Codex: allow_implicit_invocation=false）。
+explicit_only = true
+claude_argument_hint = "<素材の種類と対象（例: 火袋トカゲの吐き出しSE、苔玉の歩行シート）>"
+claude_notes = [
+  "レビューは Agent ツールで `art-reviewer`（画像、Opus）/ `audio-reviewer`（音、Sonnet）を呼ぶ。",
+  "有料生成のコマンドは `tools/agent/guard.py` が毎回確認を求める。許可された回数を超えて実行しない。",
+]
+
+# ---------------------------------------------------------------- レビュー係（サブエージェント）
+# 指示の本文は instructions のファイルに手で書く。どちらも読み取り専用。
+
+[[reviewers]]
+claude_name = "art-reviewer"
+codex_name = "art_reviewer"
+instructions = "tools/agent/reviewers/art_reviewer.md"
+description = "外部AIで生成したゲーム画像素材（キャラ・敵・ボス・ステージ・拾得物・VFX）を、世界観・既存素材との統一感・動きの十分さ・技術要件で判定するレビュー係。asset-genスキルの機械チェック後に、全コマを並べた画像とreport.jsonを渡して呼ぶ。読み取り専用で、生成・修正はしない。"
+# 画像を読む力と美術の判断が要るので上位モデル。呼び出しは1素材あたり最大4回で、費用の増加は小さい。
+claude_model = "opus"
+codex_model = "gpt-6.1-sol"
+codex_reasoning_effort = "high"
+claude_view_note = "画像はReadツールで開いて実際に見ます。"
+codex_view_note = "PNGは画像表示ツールで開いて実際に見ます。"
+
+[[reviewers]]
+claude_name = "audio-reviewer"
+codex_name = "audio_reviewer"
+instructions = "tools/agent/reviewers/audio_reviewer.md"
+description = "外部AIで生成したSE・BGMを、聴かずに数値と波形・スペクトログラム画像だけで判定するレビュー係。用途の長さ・指示との一致・参照音との揃い・技術的問題を見る。音色の良し悪しは判定せず「試聴未確認」としてユーザーへ回す。asset-genスキルの機械チェック後に呼ぶ。読み取り専用。"
+# 数値と規格の照合が中心なので中位モデル。
+claude_model = "sonnet"
+codex_model = "gpt-6-luna"
+codex_reasoning_effort = "high"
+claude_view_note = "波形・スペクトログラムの画像はReadツールで開いて見ます。"
+codex_view_note = "音は聴けません。check/report.json と waveform_spectrogram.png（画像表示ツールで開く）だけで判定します。"
+
+# ---------------------------------------------------------------- hook
+# スクリプトは tools/agent/ に置く。起動コマンドは生成時に組み立てる（スクリプトが無ければ素通り）。
+
+[[hooks]]
+event = "SessionStart"
+script = "session_start.py"
+timeout = 30
+
+[[hooks]]
+event = "PreToolUse"
+script = "guard.py"
+timeout = 10
+claude_matcher = "Bash|PowerShell|Read|Grep|Glob|Edit|Write|MultiEdit|NotebookEdit"
+codex_matcher = "*"
+codex_status = "Checking for secrets"
+
+[[hooks]]
+event = "PostToolUse"
+script = "post_edit.py"
+timeout = 90
+claude_matcher = "Edit|Write|MultiEdit|NotebookEdit"
+codex_matcher = "^apply_patch$"
+claude_status = "Checking edited file"
+codex_status = "Checking edited files"
+
+[[hooks]]
+event = "Stop"
+script = "stop_check.py"
+timeout = 300
+claude_status = "Checking changed .gd files"
+codex_status = "Checking changed .gd files"
+
+# ---------------------------------------------------------------- 安全ルール（生成しない。両方に入っているかだけ確認する）
+
+[safety]
+# .claude/settings.json の permissions.deny に必要な規則
+claude_deny = [
+  "Read(./.env)", "Read(./.env.*)", "Edit(./.env)", "Edit(./.env.*)",
+  "Read(./.local/backups/**)", "Bash(git push --force *)", "Bash(git push -f *)",
+]
+# .codex/config.toml
+codex_network_access = false
+codex_env_exclude = ["*_API_KEY"]
+# .codex/rules/project.rules: この文字列を含み、decision が指定どおりの prefix_rule があること
+codex_rules = [
+  { contains = "generate_image.py", decision = "prompt" },
+  { contains = "asset.py", decision = "prompt" },
+  { contains = "--force", decision = "forbidden" },
+]
+# guard.py が両ツールで有効なことに加え、有料生成と秘密情報の検出を含んでいること
+guard_contains = ["generate_image", "asset_generator", "_API_KEY", "edited_paths"]

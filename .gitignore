@@ -20,3 +20,6 @@ Claude outputs/
 __pycache__/
 *.py[cod]
 node_modules/
+
+# Claude Code: personal permission overrides stay local (.claude/settings.json is shared)
+.claude/settings.local.json

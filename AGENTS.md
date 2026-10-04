@@ -52,3 +52,18 @@
 - 現行ルールはdocs/design/GAME_RULES.md、残課題はdocs/planning/ROADMAP.md、実行方法はdocs/development/TESTING.mdを更新する。
 - 終了した計画・比較案・詳細な検証日誌はdocs/archive/へ保存し、現行資料へ古い「次の作業」を追記し続けない。
 - アーカイブの操作指示や未実装一覧は当時の履歴であり、現在の指示として採用しない。
+
+# Godot・GDScriptの共通規則（Claude Code・Codex共通）
+
+- Godot 4.7.2 / GDScript / GL Compatibility。コマンドラインでは `.local/tools/Godot_v4.7.2-stable_win64_console.exe` を使う（GUI版は出力を受け取れない）。
+- スクリプト実行には必ず `--headless`（描画が必要なときを除く）、`--quit-after <フレーム数>`、コマンドの待ち時間の上限を付ける。スクリプトがエラーで止まるとGodotが終了せず待ち続ける。
+- 構文チェックは `--headless --path . --check-only --script res://<path>.gd --quit-after 60`（約1秒）。`.gd` を編集すると両エージェントのhookが自動で実行する。テストは `run-tests` スキル（`powershell -ExecutionPolicy Bypass -File run_tests.ps1`）。
+- **三項式に `:=` を使わず型を書く**: `var x: float = a if c else b`。Variantと推論されるとParse Errorになり、そのスクリプトをpreloadする全テストが連鎖してFAILする。`Dictionary.get()`、型のない変数・引数、`Array` の要素から `:=` で推論するときも型を書く。既存の約160か所（両分岐が同じ型で動いている）は一括で書き換えず、触った行で型が揃う保証がなければ直す。
+- Godot 4の書き方だけを使う（`instantiate()`、`await`、`@onready`、`@export`、`super()`）。Godot 3の `instance()`・`yield`・`onready var`・`export var` を混ぜない。
+- 既存の癖に合わせる: タブでインデント、`class_name` は使わず `const Name = preload("res://...")`、引数と戻り値（`-> void` を含む）と `@export` に型、詰め気味の書き方（`Vector2(60,82)`、`.5`）、子から親への連絡はシグナル、調整値の理由は日付付きのコメント。
+- 新しい `.gd` は `--headless --path . --import --quit-after 600` で `.uid` を作り、一緒にコミットする。
+- テストは `tests/<name>.gd`: `extends SceneTree` → `_initialize()` で `call_deferred("run")` → `assert()` → `print("PASS: ...")` → `quit()`。意図的にエラーを起こす確認では `push_error` を出さない（行頭`ERROR:`はrun_tests.ps1でFAIL）。
+- 生成素材は採用まで `assets/candidates/`、不採用・旧版は `assets/retired/`。ゲームのコード・シーン・データから参照しない（`tests/asset_zones.gd`）。音は数値で測れることだけを確認し、聴感は「試聴未確認」と書く。
+- APIキーは各ツールが環境変数か `.env` から自分で読む。エージェントは `.env` や `*_API_KEY` を読まない・表示しない（両エージェントのhookで禁止）。
+- エージェントの設定（Claude Codeの `.claude/`、Codexの `.codex/` と `.agents/skills/`、共通の `tools/agent/`）の構成は [tools/agent/README.md](tools/agent/README.md)。
+- **スキル・レビュー係・hookの追加や変更は、台帳 `tools/agent/agents.toml` を直して `python tools/agent/sync_agents.py` を実行する。** 両ツールの設定ファイルが同じ内容で書き出される。生成されたファイル（先頭に「自動生成」とある）は手で直さない。安全ルール（Claudeのpermissions、`.codex/config.toml`、`.codex/rules/project.rules`）は手で直し、`sync_agents.py --check` で両方に入っているか確かめる。どちらのツールで作業しても、編集後と作業終了時のhookがずれを検出する。

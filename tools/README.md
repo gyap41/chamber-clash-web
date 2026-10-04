@@ -8,6 +8,10 @@
 
 過去の生成枠・予算変更は[制作履歴](../docs/archive/2026-09-22/markdown-audit/IMAGE_CLI_BEFORE.md)に分離しました。新規生成の許可や残予算として使わず、今回の依頼と使用量台帳・CLIの制限を確認してください。
 
+AIエージェント（Claude Code・Codex）の設定・hook・レビュー係は[agent](agent/README.md)。
+
+生成後の機械チェック（画像の全コマ並べ・接地・明度、音の長さ・音量・スペクトログラム）は[asset_check](asset_check/README.md)。未採用の候補素材をゲームで試すには `powershell -ExecutionPolicy Bypass -File tools/preview_candidate.ps1 <asset_id>/<版>`（[候補素材の運用](../assets/candidates/README.md)）。
+
 画像・SE・BGM共通の環境設定と連携変更手順は [AI素材生成環境ガイド](../docs/development/ASSET_GENERATION_SETUP.md) を最初に参照してください。
 音響CLIの詳細は [音響生成README](asset_generator/README.md)。本書は画像CLI固有の手順です。
 
