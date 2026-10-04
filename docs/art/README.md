@@ -11,6 +11,7 @@
 3. 次の表から対象の資料を順に読む。複数の種類を制作する場合は、それぞれの行を確認する。
 4. 生成する場合は[生成環境](../development/ASSET_GENERATION_SETUP.md)と利用するツールの手順（[画像CLI](../../tools/README.md)、[音響CLI](../../tools/asset_generator/README.md)）を読む。内蔵画像生成でも対象別の制作規格は省略しない。
 5. 対象の制作記録へ下の確認欄を埋め、必要な素材と今回の範囲を確定してからプロンプト作成・生成へ進む。
+6. 生成物は[候補素材](../../assets/candidates/README.md)として置き、[機械チェック](../../tools/asset_check/README.md)と[レビュー基準（下書き）](ART_BIBLE.md)で判定してから、ユーザーがゲーム内で最終確認する。不採用・旧版は `assets/retired/` へ分ける。
 
 |対象|必読資料と読む順番|記録先|
 |---|---|---|
@@ -55,6 +56,7 @@
 |採用結果の確認資料|[reviews](reviews/README.md)|必要。まとめ画像、比較GIF、実装・加工の説明|
 |制作指示・再加工資料|[production](production/README.md)|必要。プロンプト、参照、加工レシピ。個別のレシピはreviewsにも保存|
 |生成原画・API履歴|[assets/generated](../../assets/generated/README.md)|必要。PNG原画・同名JSON・使用量・成否不明の記録|
+|候補（未採用）・不採用／旧版|[assets/candidates](../../assets/candidates/README.md) / [assets/retired](../../assets/retired/README.md)|2026-10-04開始。ゲームから参照しない（tests/asset_zones.gdで確認）。候補は起動引数でゲーム内に差し替えて試せる|
 |テスト用の旧素材|[tests/fixtures/art](../../tests/fixtures/art/README.md)|必要。現行描画では未使用でも自動テストで参照|
 |不要候補の退避|[unused-candidates](../archive/2026-09-12/art-organization/unused-candidates/README.md)|現行ゲームには不要。連番画像、置換済み素材、原画の旧importファイル|
 

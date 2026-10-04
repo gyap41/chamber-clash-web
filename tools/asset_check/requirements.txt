@@ -1,0 +1,4 @@
+# tools/asset_check (image/audio mechanical checks). Installed into .local/audio-venv on 2026-10-04.
+numpy==2.5.3
+soundfile==0.14.0
+Pillow==12.3.0

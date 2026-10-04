@@ -56,6 +56,20 @@ class AssetTests(unittest.TestCase):
         self.send.assert_not_called()
         self.assertEqual(before, sorted(str(p) for p in self.root.rglob("*")))
 
+    def test_candidate_output_goes_to_candidates_folder(self):
+        asset.run(self.args("--candidate", "battle_theme/v2"))
+        target = self.root / "assets/candidates/battle_theme/v2/test_battle.wav"
+        self.assertTrue(target.is_file())
+        self.assertFalse((self.audio / "bgm/test_battle.wav").exists())
+        manifest = json.loads((self.audio / "asset_manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["assets"][0]["file_path"], "res://assets/candidates/battle_theme/v2/test_battle.wav")
+
+    def test_invalid_candidate_rejected_before_network(self):
+        for value in ["Battle/v1", "battle", "battle/v0", "../x/v1", "battle/v1/extra"]:
+            with self.assertRaises(ValueError):
+                asset.run(self.args("--candidate", value))
+        self.send.assert_not_called()
+
     def test_success_manifest_and_duplicate_prevention(self):
         asset.run(self.args())
         manifest = json.loads((self.audio / "asset_manifest.json").read_text())

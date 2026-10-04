@@ -53,4 +53,6 @@
 
 現在のSEは `scripts/audio/sound.gd` の生成音源と合成処理、BGMは `scripts/audio/music.gd` の採用3曲です。設定は [素材生成環境](../docs/development/ASSET_GENERATION_SETUP.md)、音響台帳は `audio/asset_manifest.json` を参照してください。UI画像は `ui/`、背景は `environments/`、キャラ別の素材が増えたら `characters/<character_id>/` とします。用途が生じる前に空の分類を増やす必要はありません。
 
+2026-10-04以降の生成物は、ユーザーの最終確認まで `candidates/`（未採用・ゲームから参照しない・書き出し除外）に置き、不採用と旧版は `retired/`（インポートしない）へ移す。手順は[候補素材の運用](candidates/README.md)。
+
 追加時は安定した英小文字のファイル名を付け、この一覧に利用先・シート構成・出所・利用条件を記録します。既存素材の入手元と権利情報は、この整理では新たに確定していません。未使用だけを理由に元データを削除せず、採用を取りやめた素材は `reference/` で区別します。

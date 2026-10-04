@@ -21,6 +21,7 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [autoload]
 
+CandidatePreview="*res://scripts/dev/candidate_preview.gd"
 Music="*res://scripts/audio/music.gd"
 
 [display]

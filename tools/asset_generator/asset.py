@@ -81,7 +81,18 @@ def parser():
         command.add_argument("--timeout", type=float, default=180, help="Socket timeout and download deadline, seconds")
         command.add_argument("--dry-run", action="store_true")
         command.add_argument("--allow-repeat", action="store_true", help="Explicitly permit previously attempted conditions; new name required")
+        command.add_argument("--candidate", metavar="ASSET_ID/VERSION",
+                             help="Save under assets/candidates/<asset_id>/<version>/ (unadopted) instead of assets/audio/<type>/")
     return result
+
+
+def output_path(args, extension):
+    if not args.candidate:
+        return AUDIO / args.type / (args.name + "." + extension)
+    match = re.fullmatch(r"([a-z][a-z0-9_-]{0,63})/(v[1-9][0-9]{0,2})", args.candidate)
+    if not match:
+        raise ValueError("--candidate must be <asset_id>/v<N> (lowercase id, e.g. lizard_spit/v2).")
+    return ROOT / "assets/candidates" / match[1] / match[2] / (args.name + "." + extension)
 
 
 def run(argv=None):
@@ -104,7 +115,7 @@ def run(argv=None):
         raise ValueError("Read/create docs/AUDIO_BIBLE.md before generation.")
     provider = PROVIDERS[args.type]
     params = provider.parameters(args)
-    target = AUDIO / args.type / (args.name + "." + provider.EXTENSION)
+    target = output_path(args, provider.EXTENSION)
     plan = {"asset_id": args.type + ":" + args.name, "type": args.type, "provider": provider.NAME,
             "file_path": "res://" + target.relative_to(ROOT).as_posix(), "purpose": args.purpose,
             "prompt": args.prompt, "loop": args.loop, "generation_parameters": params}

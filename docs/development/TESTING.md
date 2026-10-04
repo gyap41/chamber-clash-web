@@ -1,3 +1,11 @@
+## 候補素材の分離とプレビュー（2026-10-04）
+
+`tests/asset_zones.gd`: scripts・scenes・data・assets（台帳を除く）とproject.godotが `assets/candidates/`・`assets/retired/`（候補のUIDを含む）を参照していないこと、retiredの `.gdignore`、Web書き出しの除外、`CandidatePreview` がAutoloadの先頭であることを確認する。`tests/candidate_preview.gd`: `tests/fixtures/candidate_preview/v1/preview.json` で使用中の画像・SEを差し替え、`load()`・UID・`preload`・音声のいずれでも候補が返ること、不正な指定がエラーとして記録されることを確認する。どちらもrun_tests.ps1に含まれる。
+
+起動時の順番（Godotは全Autoloadのスクリプトを先に読み込む）は、一時的な候補でMusicのpreload済みBGMが差し替わることを手動で確認した（2026-10-04）。ゲーム内での見た目の確認は `tools/preview_candidate.ps1` でユーザーが行う。
+
+生成素材の機械チェックは自動テストではない。手順と判定は[tools/asset_check](../../tools/asset_check/README.md)。
+
 ## 戦闘テスト（2026-09-28）
 
 ## 水面・火元の環境演出（2026-09-30）

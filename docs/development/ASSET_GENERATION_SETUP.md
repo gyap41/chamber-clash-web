@@ -12,7 +12,7 @@
 |実装上のモデル|gpt-image-2（変更可）|eleven_text_to_sound_v2|stable-audio-2.5|
 |キー変数|OPENAI_API_KEY|ELEVENLABS_API_KEY|STABILITY_API_KEY|
 |CLI|tools/generate_image.py|tools/asset_generator/asset.py se|tools/asset_generator/asset.py bgm|
-|出力先|assets/generated/|assets/audio/se/|assets/audio/bgm/|
+|出力先|assets/generated/（原本）|assets/audio/se/、`--candidate`で assets/candidates/|assets/audio/bgm/、`--candidate`で assets/candidates/|
 |出力形式|PNG、1024×1024|MP3、44.1kHz/128kbps|WAV|
 |既定設定|low、1枚|0.5秒、1個|20秒、steps8、1個|
 |無料のローカル確認|--check|--dry-run / check-keys|--dry-run / check-keys|
@@ -21,6 +21,7 @@
 |自動再試行|なし|なし|なし|
 
 すべて開発用Pythonツール。ゲーム実行時にキーやAPI通信は必要ない。
+2026-10-04以降、新しい生成物はユーザーの最終確認まで[候補素材](../../assets/candidates/README.md)として使用中の素材と分ける。生成後の機械チェックは[tools/asset_check](../../tools/asset_check/README.md)（numpy・soundfile・Pillowを同じ仮想環境へ追加）。
 生成素材のゲーム組み込みは別作業で、CLIは既存Sceneや再生処理を自動変更しない。
 
 ## 環境の準備

@@ -51,6 +51,7 @@ Activate済みなら `python tools/asset_generator/asset.py bgm ...` / `se ...` 
 |--prompt-influence|SEのみ0〜1、既定0.3|
 |--timeout|既定180秒、5〜600。ソケット待ち時間と読み込み期限。最後のread待ちにより最大でさらに1待ち時間延びうる|
 |--allow-repeat|既に試行した同条件を明示的に再生成。必ず新しい名前を使う。課金が再発生する|
+|--candidate|`<asset_id>/v<N>`。未採用の候補として `assets/candidates/<asset_id>/v<N>/` へ保存する（使用中の `assets/audio/<type>/` には置かない）。manifestの `file_path` も候補の場所になる。採用・不採用後の移動は[候補素材の運用](../../assets/candidates/README.md)|
 
 ## 出力・manifest
 

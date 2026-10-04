@@ -1,0 +1,9 @@
+{
+  "asset_id": "candidate_preview_fixture",
+  "version": "v1",
+  "note": "tests/candidate_preview.gd 用。使用中の2素材を別の既存素材へ差し替えられるかだけを確かめる。",
+  "replaces": {
+    "res://assets/first-workshop/ammo.png": "res://assets/first-workshop/bullet.png",
+    "res://assets/audio/se/fw_enemy_defeat_01.mp3": "res://assets/audio/se/fw_moss_dash_03.mp3"
+  }
+}
