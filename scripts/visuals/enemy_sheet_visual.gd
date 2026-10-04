@@ -33,7 +33,8 @@ static func frame(view: Dictionary, lizard: bool) -> Dictionary:
 	var row := 6
 	if view.get("death_progress",-1.0) >= 0: row = 7
 	elif view.phase == "windup": row = 4
-	elif lizard and view.phase == "spit": row = 5
+	elif lizard and view.phase == "spit":
+		row = int(fposmod(float(view.get("gait",0)),TAU)/TAU*4)%4 if view.get("walking_fire",false) and float(view.get("motion",0)) > .1 else 5
 	elif not lizard and view.phase == "recover" and float(view.recovery)-float(view.remaining) < .2: row = 5
 	elif view.phase == "chase" and float(view.get("motion",0)) > .1: row = int(fposmod(float(view.get("gait",0)),TAU)/TAU*4)%4
 	if view.get("enemy_id","") == "quillback":
@@ -106,6 +107,12 @@ static func paint(canvas: Node2D, view: Dictionary, lizard: bool) -> void:
 	if fire_lizard and death < 0: paint_pouch_glow(canvas,view,selected,clock)
 	canvas.draw_texture_rect_region(QUILLBACK if view.get("enemy_id","") == "quillback" else (LIZARD if lizard else SENTRY),
 		rect,region,color)
+	if fire_lizard and death < 0 and view.phase == "spit" and selected.row < 4 and selected.column != 1:
+		# Walking feet remain in the base frame; replace only the mouth/head from the spit frame.
+		var head := Rect2(126,130,98,100) if selected.column == 0 else Rect2(241 if selected.column == 2 else 0,110,103,108)
+		var destination := Rect2(rect.position+head.position*float(selected.scale),head.size*float(selected.scale))
+		var source := Rect2(Vector2(selected.column,5)*LIZARD_CELL+head.position,head.size)
+		canvas.draw_texture_rect_region(LIZARD,destination,source,color)
 	if fire_lizard and hit > 0 and death < 0:
 		canvas.draw_texture_rect_region(LIZARD_FLASH,rect,region,Color(1,1,1,.75*hit))
 	canvas.draw_set_transform(Vector2.ZERO)

@@ -28,11 +28,10 @@ func info(entry) -> Dictionary:
 	return Weapons.definition(draft.gun_id(entry)) if draft.is_gun(entry) else Relics.definition(draft.relic_id(entry))
 func select(entry) -> void:
 	selected = entry
-	var data := info(entry)
 	footprint.shape = draft.shape_of(entry)
 	footprint.visible = true
 	footprint.queue_redraw()
-	detail.text = str(data.name)+" ／ %dマス\n" % draft.shape_of(entry).size()+str(data.get("desc",""))+"\n\n選択 → 空いているマスをクリックで配置"
+	detail.text = preload("res://scripts/ui/item_description.gd").describe("weapon" if draft.is_gun(entry) else "relic",draft.gun_id(entry) if draft.is_gun(entry) else draft.relic_id(entry),draft,false,true)
 func commit_layout() -> bool:
 	if on_change.is_valid() and on_change.call(): return true
 	message = "変更できません。配置と所持品を確認してください。"
@@ -76,24 +75,31 @@ func refresh() -> void:
 	shade.color = Color(0,0,0,.72)
 	shade.size = Vector2(1120,800)
 	body.add_child(shade)
-	var panel := Widgets.box(body,"Bag",Rect2(80,110,960,570))
-	Widgets.label(panel,"Title",Rect2(24,15,870,34),24).text = "携帯工房 ／ 装備の整理（探索停止中）"
-	Widgets.label(panel,"Help",Rect2(24,54,910,35),15).text = message
-	Widgets.label(panel,"Equipped",Rect2(24,95,330,28),18).text = "バッグ ／ 使用 %d / %d マス" % [draft.occupied_cells(0).size(),draft.usable_cells(0).size()]
+	var panel := Widgets.box(body,"Bag",Rect2(80,65,960,680))
+	var background := TextureRect.new()
+	background.texture = preload("res://assets/ui/exploration/workshop-case-v1.png")
+	background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	background.stretch_mode = TextureRect.STRETCH_SCALE
+	background.size = panel.size
+	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.add_child(background)
+	Widgets.label(panel,"Title",Rect2(32,43,580,34),24).text = "携帯工房 ／ 装備の整理（探索停止中）"
+	Widgets.label(panel,"Help",Rect2(32,72,580,35),15).text = message
+	Widgets.label(panel,"Equipped",Rect2(44,113,570,28),18).text = "バッグ ／ 使用 %d / %d マス" % [draft.occupied_cells(0).size(),draft.usable_cells(0).size()]
 	build_grid(panel)
 	build_reserve(panel)
 	build_details(panel)
-	Widgets.button(panel,"Unequip",Rect2(662,410,270,40),"選択した装備を控えへ",func():
+	Widgets.button(panel,"Unequip",Rect2(670,526,245,40),"選択した装備を控えへ",func():
 		if selected != null: remove(selected))
-	Widgets.button(panel,"Close",Rect2(750,510,182,40),"閉じる ／ Esc",func(): close_requested.emit())
-	Widgets.label(panel,"Controls",Rect2(24,510,710,35),14).text = "変更は即時反映  ・  Tab / Esc：閉じる  ・  ドラッグ／クリックで配置"
+	Widgets.button(panel,"Close",Rect2(670,576,245,40),"閉じる ／ Esc",func(): close_requested.emit())
+	Widgets.label(panel,"Controls",Rect2(32,605,580,22),14).text = "変更は即時反映  ・  Tab / Esc：閉じる  ・  ドラッグ／クリックで配置"
 	if selected != null: select(selected)
 
 func build_grid(panel: Control) -> void:
 	var grid := GridContainer.new()
 	grid.name = "Grid"
 	grid.columns = Grid.MAX_GRID_SIZE.x
-	grid.position = Vector2(24,130)
+	grid.position = Vector2(150,155)
 	grid.add_theme_constant_override("h_separation",3)
 	grid.add_theme_constant_override("v_separation",3)
 	panel.add_child(grid)
@@ -135,11 +141,11 @@ func build_grid(panel: Control) -> void:
 			elif not usable.has(pos): Widgets.label(cell,"Locked",Rect2(13,9,25,30),21).text = "×"
 
 func build_reserve(panel: Control) -> void:
-	Widgets.label(panel,"ReserveTitle",Rect2(365,95,270,28),18).text = "控え %d / %d" % [draft.reserve_items(0).size(),Grid.RESERVE_CAPACITY]
+	Widgets.label(panel,"ReserveTitle",Rect2(32,463,580,28),18).text = "控え %d / %d" % [draft.reserve_items(0).size(),Grid.RESERVE_CAPACITY]
 	var tray := Tray.new()
 	tray.name = "Reserve"
-	tray.position = Vector2(360,130)
-	tray.size = Vector2(280,355)
+	tray.position = Vector2(30,501)
+	tray.size = Vector2(600,110)
 	tray.on_drop = remove
 	panel.add_child(tray)
 	var reserve: Array = draft.reserve_items(0)
@@ -147,9 +153,10 @@ func build_reserve(panel: Control) -> void:
 		var entry = reserve[i]
 		var chip := Chip.new()
 		chip.entry = entry
-		chip.position = Vector2(6,i*43+4)
-		chip.size = Vector2(268,40)
-		chip.text = "       "+str(info(entry).name)+" [%dマス]" % draft.shape_of(entry).size()
+		chip.position = Vector2(6+(i%4)*148,(i/4)*54+4)
+		chip.size = Vector2(142,48)
+		chip.text = "       "+str(info(entry).name)
+		chip.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		chip.add_theme_font_size_override("font_size",14)
 		chip.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		chip.tooltip_text = str(info(entry).name)+"\n"+str(info(entry).get("desc",""))
@@ -160,11 +167,22 @@ func build_reserve(panel: Control) -> void:
 		add_art(chip,entry,Rect2(6,3,32,32))
 
 func build_details(panel: Control) -> void:
-	detail = Widgets.label(panel,"Detail",Rect2(662,130,274,210),16)
+	var scroll := ScrollContainer.new()
+	scroll.name = "DetailScroll"
+	scroll.position = Vector2(670,120)
+	scroll.size = Vector2(246,325)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	panel.add_child(scroll)
+	detail = Label.new()
+	detail.name = "Detail"
+	detail.custom_minimum_size.x = 226
+	detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	detail.add_theme_font_size_override("font_size",16)
+	scroll.add_child(detail)
 	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	detail.text = "装備を選ぶと詳細を表示します。\n\n控えの武器の弾薬・モード・待ち時間は保持されます。\n装備の着脱でHPは回復しません。"
 	footprint = Footprint.new()
-	footprint.position = Vector2(680,350)
+	footprint.position = Vector2(702,464)
 	footprint.size = Vector2(92,48)
 	footprint.visible = false
 	panel.add_child(footprint)

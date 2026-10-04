@@ -275,7 +275,7 @@ func begin_recovery() -> void:
 func fire_bolt(i: int, arena, angle: float, speed: float, cue: bool = true) -> void:
 	if combat_service == null or combat_service.get_ref() == null: return
 	var origin: Vector2 = state.pos+Vector2.from_angle(angle)*MUZZLE_DISTANCE
-	if arena.solid(origin,6) or arena.line_blocked(state.pos,origin): return
+	if preload("res://scripts/combat/projectile_collision.gd").solid(arena,origin,6) or preload("res://scripts/combat/projectile_collision.gd").line_blocked(arena,state.pos,origin): return
 	combat_service.get_ref().spawn_shot(i,BOLT_ID,angle,{"pos":origin,"speed":speed,"damage":.85,
 		"radius":6.0,"life":3.6,"visual_weapon":2,"visual_variant":"boss_rivet","can_lens":false})
 	if cue:
@@ -289,7 +289,7 @@ func fire_cannon(i: int, arena, angle: float, heavy: bool, cue: bool = true) -> 
 	if combat_service == null or combat_service.get_ref() == null: return false
 	var shot_radius := 14.0 if heavy else 7.0
 	var origin: Vector2 = state.pos+Vector2.from_angle(angle)*MUZZLE_DISTANCE
-	if arena.solid(origin,shot_radius) or arena.line_blocked(state.pos,origin): return false
+	if preload("res://scripts/combat/projectile_collision.gd").solid(arena,origin,shot_radius) or preload("res://scripts/combat/projectile_collision.gd").line_blocked(arena,state.pos,origin): return false
 	combat_service.get_ref().spawn_shot(i,BOLT_ID,angle,{"pos":origin,
 		"speed":900.0 if heavy else (330.0 if second_phase else 280.0),
 		"damage":2.0 if heavy else 1.0,"radius":shot_radius,"life":2.4,

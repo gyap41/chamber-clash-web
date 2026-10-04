@@ -1,0 +1,36 @@
+{
+  "sample_rate": 48000,
+  "duration": 15.936,
+  "listening_verified": false,
+  "conditions": "Godot Master recording; Sound volume_db 0; game BGM from 9s; six machine requests coalesced per 60ms; 12 batches at 0.5s; aurora each batch; not proof for every weapon mix",
+  "sections": [
+    {
+      "name": "ram",
+      "start_seconds": 0,
+      "end_seconds": 3,
+      "peak_dbfs": -18.0,
+      "clipped_samples": 0
+    },
+    {
+      "name": "ring",
+      "start_seconds": 3,
+      "end_seconds": 6,
+      "peak_dbfs": -18.01,
+      "clipped_samples": 0
+    },
+    {
+      "name": "aurora",
+      "start_seconds": 6,
+      "end_seconds": 9,
+      "peak_dbfs": -17.84,
+      "clipped_samples": 0
+    },
+    {
+      "name": "stress",
+      "start_seconds": 9,
+      "end_seconds": 16,
+      "peak_dbfs": -17.26,
+      "clipped_samples": 0
+    }
+  ]
+}

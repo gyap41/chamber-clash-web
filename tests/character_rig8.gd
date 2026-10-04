@@ -29,7 +29,7 @@ func run() -> void:
 		var e: Array = expected[angle]
 		assert(anim.rig_dir == e[0] and anim.rig_view == e[1] and anim.rig_mirror == e[2])
 		assert(anim.rig_action == "idle" and anim.rig_frame >= 0 and not parts.visible and not sprite.visible)
-		assert(p.get_node("Weapon").visible and absf(angle_difference(p.get_node("Weapon").rotation,RunRig.visual_angle(angle))) < .00001)
+		assert(p.get_node("Weapon").visible and absf(angle_difference(p.get_node("Weapon").rotation,RunRig.visual_angle(angle,RunRig.is_long_gun(sprite,0)))) < .00001)
 		# grip（Weapon ローカル (8,0)）が手の位置に来る。
 		var base: Transform2D = RunRig.base_transform(anim.pose,anim.rig_mirror)
 		var grip: Vector2 = p.get_node("Weapon").transform*RunRig.GRIP_LOCAL

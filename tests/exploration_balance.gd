@@ -12,7 +12,7 @@ func run() -> void:
 	player.state.hp = 2.0
 	var baseline: float = player.Weapons.definition(20).damage
 	assert(player.infinite_reserve(20) and not player.infinite_reserve(4))
-	assert(is_equal_approx(player.definition().damage,baseline*.75))
+	assert(is_equal_approx(player.definition().damage,baseline*.55))
 	var w: Dictionary = player.weapon()
 	w.reserve = 0
 	for i in range(20):

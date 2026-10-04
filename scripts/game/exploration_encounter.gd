@@ -11,6 +11,7 @@ const Ring = preload("res://scripts/combat/ring_sentry.gd")
 const ActorScene = preload("res://scenes/combat/player.tscn")
 const Navigation = preload("res://scripts/ai/cpu_navigation.gd")
 const Registry = preload("res://scripts/catalog/enemy_registry.gd")
+const LARGE_ENEMIES := ["ram_sentry","ring_sentry","ash_ram","triple_ring"]
 
 # Composition follows room size; the first fight remains a melee-only introduction.
 static func composition(arena, introduced: bool, encounter_index: int = 0) -> Array:
@@ -30,7 +31,7 @@ static func composition(arena, introduced: bool, encounter_index: int = 0) -> Ar
 	return ids
 
 # Flood reachable floor, then spread approach angles instead of taking the first BFS cells.
-static func spawn_positions(arena, arrival: Vector2, count: int = 3) -> Array:
+static func spawn_positions(arena, arrival: Vector2, count: int = 3, clearances: Array = []) -> Array:
 	var candidates: Array = []
 	var found: Array = []
 	var pending := [Vector2i.ZERO]
@@ -56,12 +57,20 @@ static func spawn_positions(arena, arrival: Vector2, count: int = 3) -> Array:
 			for other in found: angular = minf(angular,1.0-direction.dot((other-arrival).normalized()))
 			var preferred := 420.0 if index%3 == 1 else 330.0
 			var score: float = angular*240.0-absf(point.distance_to(arrival)-preferred)
+			# Prefer a usable attack area before degrading a large enemy to a sentry.
+			if index < clearances.size() and float(clearances[index]) > 0 and spawn_clearance(arena,point,float(clearances[index])):
+				score += 1000000.0
 			if score > best_score:
 				best = point
 				best_score = score
 		if best == null: return found
 		found.append(best)
 	return found
+
+static func spawn_clearance(arena, point: Vector2, distance: float) -> bool:
+	for n in range(8):
+		if not Navigation.segment_clear(arena,point,point+Vector2.from_angle(n*TAU/8)*distance,20): return false
+	return true
 
 static func begin(game) -> void:
 	if not game.encounters_enabled or game.floor_data.is_empty(): return
@@ -73,13 +82,28 @@ static func begin(game) -> void:
 		room_state.enemy_ids = ["furnace_warden"] if game.floor_data.rooms[id].role == "boss" else composition(game.arena,introduced,game.exploration.room_states.values().filter(func(value): return value.has("enemy_ids")).size())
 		if game.floor_data.get("production",false) and game.floor_data.rooms[id].role=="normal":
 			room_state.enemy_ids=production_composition(game.floor_data.rooms[id].template_id,introduced,game.exploration.room_states.values().filter(func(value): return value.has("enemy_ids")).size())
+		if game.floor_data.get("production",false) and introduced and game.floor_data.rooms[id].role == "normal":
+			# Estimate usable combat space, excluding solid scenery and narrow cells.
+			var clear_cells := 0
+			for y in range(int(game.arena.field_rect.position.y),int(game.arena.field_rect.end.y),64):
+				for x in range(int(game.arena.field_rect.position.x),int(game.arena.field_rect.end.x),64):
+					if not game.arena.solid(Vector2(x+32,y+32),26): clear_cells += 1
+			var target := clampi(clear_cells/40,3,6)
+			while room_state.enemy_ids.size() < target:
+				room_state.enemy_ids.append("runner_sentry" if room_state.enemy_ids.size()%2 == 0 else "fire_pouch_lizard")
+			var ordinal: int = game.exploration.room_states.values().filter(func(value): return value.has("enemy_ids")).size()
+			if ordinal >= 3:
+				room_state.enemy_ids[-1] = "ember_lizard" if ordinal%2 == 0 else "iron_quill"
+			if ordinal >= 5 and target >= 4:
+				room_state.enemy_ids[0] = "ash_ram" if ordinal%2 == 0 else "triple_ring"
 	if not spawn(game,room_state): return
 	if game.floor_data.rooms[id].role == "boss": game.BossFlow.begin_intro(game)
 
 # Places room_state.enemy_ids around the player and starts the encounter; false ends the run on failure.
 static func spawn(game, room_state: Dictionary) -> bool:
 	var id: String = game.exploration.room_id
-	var positions := spawn_positions(game.arena,game.players[0].state.pos,room_state.enemy_ids.size())
+	var clearances: Array = room_state.enemy_ids.map(func(enemy_id): return 96.0 if enemy_id in LARGE_ENEMIES else 0.0)
+	var positions := spawn_positions(game.arena,game.players[0].state.pos,room_state.enemy_ids.size(),clearances)
 	if game.floor_data.get("production",false) and game.floor_data.rooms[id].role in ["normal","challenge"] and not positions.is_empty():
 		room_state.enemy_ids.resize(positions.size())
 	if game.floor_data.rooms[id].role == "boss":
@@ -93,11 +117,8 @@ static func spawn(game, room_state: Dictionary) -> bool:
 		return false
 	# Local clearance matters even in an L-shaped room with a large bounding box.
 	for index in range(positions.size()):
-		if room_state.enemy_ids[index] not in ["ram_sentry","ring_sentry"]: continue
-		var open := true
-		for n in range(8):
-			if not Navigation.segment_clear(game.arena,positions[index],positions[index]+Vector2.from_angle(n*TAU/8)*96,20): open = false
-		if not open: room_state.enemy_ids[index] = "workshop_sentry"
+		if room_state.enemy_ids[index] in LARGE_ENEMIES and not spawn_clearance(game.arena,positions[index],96):
+			room_state.enemy_ids[index] = "workshop_sentry"
 	# Entry is outside CombatSession.step; the previous room has no live owners.
 	for index in range(positions.size()):
 		var actor = ActorScene.instantiate()

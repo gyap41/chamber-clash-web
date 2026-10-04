@@ -137,6 +137,9 @@ func spawn_shot(index: int, id: int, angle: float, opts: Dictionary = {}) -> voi
 	bullet.burst_requested.connect(game.presentation.burst)
 	bullet.visual_event_requested.connect(game.presentation.weapon_event)
 	bullet.derived_shot_requested.connect(_on_projectile_derived_shot)
+	# 2026-10-04: a 24px muzzle offset cannot spawn a round through thin cover.
+	# Explicit origins belong to fragments/enemy muzzles and have their own checks.
+	if not opts.has("pos"): bullet.clip_spawn_path(game.arena,game.players[index].state.pos)
 	game.shots.append(bullet)
 	game.telemetry.record("projectile",{"player":index,"weapon":id,"root":opts.get("root",opts.get("volley",-1)),"kind":opts.get("kind","shot"),"volley":opts.get("volley",-1)})
 
@@ -175,7 +178,7 @@ func _step_projectiles(dt: float) -> void:
 				if b.state.comet:
 					game.presentation.play_sound("explosion")
 					for enemy in game.roster.enemies(b.state.owner,game.players):
-						if b.state.pos.distance_to(enemy.state.pos) < b.comet_blast_radius and not game.arena.line_blocked(b.state.pos,enemy.state.pos): enemy.hurt(b.comet_blast_damage,-1,false,b.log_origin,b.source_player)
+						if b.state.pos.distance_to(enemy.state.pos) < b.comet_blast_radius and not preload("res://scripts/combat/projectile_collision.gd").line_blocked(game.arena,b.state.pos,enemy.state.pos): enemy.hurt(b.comet_blast_damage,-1,false,b.log_origin,b.source_player)
 					game.presentation.shake(5.0)
 				if b.state.gravity: spawn_well(b.state.pos,b.state.owner)
 			var fragments: Dictionary = b.fragments()
@@ -190,7 +193,7 @@ func _step_projectiles(dt: float) -> void:
 func resolve_cannon_impact(b) -> void:
 	var heavy: bool = b.visual_variant == "boss_cannon"
 	for enemy in game.roster.enemies(b.state.owner,game.players):
-		if enemy.state.hp > 0 and b.state.pos.distance_to(enemy.state.pos) <= b.cannon_blast_radius+enemy.radius and not game.arena.line_blocked(b.state.pos,enemy.state.pos):
+		if enemy.state.hp > 0 and b.state.pos.distance_to(enemy.state.pos) <= b.cannon_blast_radius+enemy.radius and not preload("res://scripts/combat/projectile_collision.gd").line_blocked(game.arena,b.state.pos,enemy.state.pos):
 			enemy.hurt(b.damage,-1,false,b.log_origin,b.source_player)
 	game.presentation.weapon_event({"kind":"cannon_impact","pos":b.state.pos,"heavy":heavy})
 	game.presentation.play_sound("boss_heavy_impact" if heavy else "boss_shell_impact")
@@ -242,6 +245,7 @@ func _step_players(dt: float) -> void:
 		var wants_fire: bool = player.step(dt,i,enemy,game.arena,false,command)
 		player.advance_melee_push(dt,game.arena)
 		player.resolve_buffered_melee(dt,i,game.shots,game.roster.enemies(i,game.players),game.arena)
+		player.resolve_melee_hits(i,game.shots,game.roster.enemies(i,game.players),game.arena)
 		if wants_fire and player.can_fire(): fire(i)
 		if player.state.roll > 0: game.presentation.dodge_trail(player.state.pos,player.visual_color())
 		player.try_phase_load(game.shots,i)

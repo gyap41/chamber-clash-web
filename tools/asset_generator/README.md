@@ -145,3 +145,5 @@ provider追加は同じinterfaceを実装し、PROVIDERSへ登録する。
 ```
 
 テストは通信をmockし、実生成も課金もしない。
+
+SE指示文は450文字以内を運用目安とする。CLI内部の10000文字制限はサービスの受理保証ではない。473文字でHTTP400・290文字への短縮後成功した事例とWeb/API仕様の区別は[共通設定ガイド](../../docs/development/ASSET_GENERATION_SETUP.md#sound-effects指示文の長さ2026-10-04)を参照。失敗時に無断で短縮再送しない。

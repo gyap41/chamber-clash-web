@@ -40,6 +40,21 @@ func run() -> void:
 	var hp: float = q.state.hp
 	p.try_melee(0,[],q,game.arena)
 	assert(q.state.hp < hp)
+	prepare(p,q,Vector2(p.melee_range+q.radius+10,0))
+	hp = q.state.hp
+	p.try_melee(0,[],q,game.arena)
+	assert(q.state.hp == hp)
+	q.state.pos = p.state.pos+Vector2(40,0)
+	p.resolve_melee_hits(0,[],q,game.arena)
+	assert(q.state.hp < hp,"A target entering the visible swing must be hit")
+	hp = q.state.hp
+	q.state.inv = 0
+	p.resolve_melee_hits(0,[],q,game.arena)
+	assert(q.state.hp == hp,"A swing hits each target only once")
+	prepare(p,q,Vector2(40,0))
+	p.state.slash = 0
+	p.resolve_melee_hits(0,[],q,game.arena)
+	assert(q.state.hp == q.state.max_hp,"An expired swing cannot hit")
 	# Damage rejection must not generate a push or melee-specific flash.
 	prepare(p,q,Vector2(40,0))
 	q.state.inv = 1.0

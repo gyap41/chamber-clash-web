@@ -45,6 +45,8 @@ func _draw() -> void:
 		draw_set_transform(Vector2.ZERO)
 	elif view.get("enemy_id","") == "furnace_warden":
 		preload("res://scripts/visuals/furnace_warden_visual.gd").paint_destruction(self,view,elapsed)
+	elif view.get("enemy_id","") in ["ash_ram","triple_ring"]:
+		preload("res://scripts/visuals/elite_machine_visual.gd").paint(self,view)
 	elif view.get("enemy_id","") in ["runner_sentry","ram_sentry","ring_sentry"]:
 		preload("res://scripts/visuals/sentry_variants_visual.gd").paint(self,view)
 	elif view.get("enemy_id","") == "scatter_drone":

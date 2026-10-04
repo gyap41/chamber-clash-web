@@ -81,7 +81,7 @@ func run() -> void:
 	lizard.step(.12,2,player,game.arena)
 	assert(game.shots.size() == 1 and is_equal_approx(game.shots[0].state.velocity.angle(),locked))
 	lizard.step(.31,2,player,game.arena)
-	assert(game.shots.size() == 2 and is_zero_approx(game.shots[1].state.velocity.y))
+	assert(game.shots.size() == 2 and is_equal_approx(game.shots[1].state.velocity.angle(),lizard.attack_angle+.18))
 	player.state.pos.y += 80
 	lizard.step(.31,2,player,game.arena)
 	assert(game.shots.size() == 3)

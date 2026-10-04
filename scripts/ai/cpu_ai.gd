@@ -110,7 +110,7 @@ static func sample(game, player, enemy, dt: float) -> Dictionary:
 		elif offset.length() > 35.0:
 			continue
 		if (offset-velocity*approach).length() > player.radius+shot.radius+18.0: continue
-		if not shot.state.get("boomerang",false) and arena.line_blocked(shot.state.pos,p.pos): continue
+		if not shot.state.get("boomerang",false) and preload("res://scripts/combat/projectile_collision.gd").line_blocked(arena,shot.state.pos,p.pos): continue
 		if approach < soonest:
 			soonest = approach
 			threat = shot
@@ -174,9 +174,9 @@ static func sample(game, player, enemy, dt: float) -> Dictionary:
 		command.angle += command.aim_jitter
 		return command
 	var def: Dictionary = player.resolved_definition(player.inventory[command.switch].id) if command.switch >= 0 else player.definition()
-	var shoot: bool = not arena.line_blocked(p.pos,enemy.state.pos) or int(def.get("bounce",0)) > 0 or bool(def.get("boomerang",false))
+	var shoot: bool = not preload("res://scripts/combat/projectile_collision.gd").line_blocked(arena,p.pos,enemy.state.pos) or int(def.get("bounce",0)) > 0 or bool(def.get("boomerang",false))
 	var aim: Vector2 = predicted_target(p,enemy,def,dt,arena)
-	if arena.line_blocked(p.pos,aim): aim = enemy.state.pos
+	if preload("res://scripts/combat/projectile_collision.gd").line_blocked(arena,p.pos,aim): aim = enemy.state.pos
 	command.shoot = shoot
 	command.aim_jitter = wrapf((aim-p.pos).angle()-to_enemy.angle(),-PI,PI)+sin(elapsed*2.2)*.035
 	command.angle += command.aim_jitter
@@ -243,7 +243,7 @@ static func combat_direction(arena, p: Dictionary, enemy: Vector2, band: Vector2
 	var path: Array = p.get("ai_combat_path",[])
 	var cooldown: float = maxf(0.0,float(p.get("ai_path_cd",0.0))-dt)
 	while not path.is_empty() and p.pos.distance_to(path[0]) < 6.0: path.pop_front()
-	var blocked: bool = arena.line_blocked(p.pos,enemy)
+	var blocked: bool = preload("res://scripts/combat/projectile_collision.gd").line_blocked(arena,p.pos,enemy)
 	var movement_blocked := not move.is_zero_approx() and not Navigation.segment_clear(arena,p.pos,p.pos+move.normalized()*45.0)
 	if not blocked and (Navigation.firing_position(arena,p.pos,enemy,band) or (path.is_empty() and not movement_blocked)):
 		p.ai_combat_path = []

@@ -17,7 +17,7 @@ func configure(id: int, parcel: bool, shard: bool, visual_variant: String = "", 
 		var trail = preload("res://scripts/visuals/projectile_trail.gd").new();trail.name="Trail";trail.show_behind_parent=true;add_child(trail)
 	profile = Visuals.profile(id)
 	variant = visual_variant if not visual_variant.is_empty() else ("parcel" if parcel else ("derived" if shard else ""))
-	var readability_scale := ENEMY_SCALE if is_enemy and variant != "boss_cannon" else 1.0
+	var readability_scale: float = ENEMY_SCALE if is_enemy and variant != "boss_cannon" else 1.0
 	shot_color = Color(color_override if not color_override.is_empty() else str(profile.get("color","#ffffff")))
 	profile.color = shot_color.to_html()
 	if variant in ["enemy_fire_seed","enemy_quill","enemy_scatter","boss_rivet","boss_shell","boss_cannon"]:
@@ -187,6 +187,15 @@ func draw_aurora(canvas: Node2D, max_length: float, width: float) -> void:
 		canvas.draw_line(points[i-1],points[i],Color(tint,.12*fade),body_width*2.7,true)
 		canvas.draw_line(points[i-1],points[i],Color(tint,.42*fade),body_width*1.65,true)
 		canvas.draw_line(points[i-1],points[i],Color(tint,.88*fade),body_width,true)
+	# A few fixed-cost glints follow the ribbon; never create additional collision bodies.
+	for n in range(5):
+		var t := fposmod(animation_age*1.8+n*.2,1.0)
+		var index := mini(points.size()-1,int(t*(points.size()-1)))
+		var point := points[index]+Vector2(0,sin(animation_age*9+n)*width)
+		var alpha := sin(t*PI)*.7
+		var tint := Color(rainbow_color(t).lerp(Color.WHITE,.5),alpha)
+		canvas.draw_line(point-Vector2(2,0),point+Vector2(2,0),tint,1,true)
+		canvas.draw_line(point-Vector2(0,2),point+Vector2(0,2),tint,1,true)
 
 func _draw() -> void:
 	if variant in ["boss_shell","boss_cannon"]:

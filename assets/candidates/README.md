@@ -66,3 +66,16 @@ powershell -ExecutionPolicy Bypass -File tools/preview_candidate.ps1 lizard/v2
 |不採用|候補フォルダーを `assets/retired/<asset_id>/v<N>/` へ移し、`preview.json` の status を `rejected`、理由を `review.md` と制作記録に書く。使用中の素材は変更しない|
 
 どちらも、制作記録（`docs/art/production/` または音響manifest）に結果と日付を書く。音響manifestの `file_path` は移動先へ更新する。移動後に `run_tests.ps1` を実行し、`asset_zones` を含めて通ることを確認する。
+
+## 機械SEのレビュー候補（2026-10-04）
+
+- [破砕機の発進](ash-ram-launch/v1/review.md)：原本保持、依頼範囲の本編接続済み、試聴待ち。
+- [環砲機の斉射](triple-ring-salvo/v1/review.md)：原本保持、再生ゲイン補正で本編接続済み、試聴待ち。
+
+音色再指定後の候補：
+
+- [神々しいオーロラ](aurora-divine/v3/review.md)
+- [重厚な破砕機](ash-ram-launch/v2/review.md)
+- [重厚な環砲機](triple-ring-salvo/v2/review.md)
+
+いずれも本編接続済み、ユーザー試聴採用待ち。旧版は比較用に保持。

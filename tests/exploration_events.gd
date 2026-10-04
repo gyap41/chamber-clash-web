@@ -56,13 +56,18 @@ func run() -> void:
 		var shop := room_of("shop")
 		enter(shop)
 		var stock: Array = game.exploration.room_state(shop).shop
-		assert(stock.size() == 5 and stock.filter(func(item): return item.kind in ["weapon","relic"]).size() == 3)
+		assert(stock.size() == 6 and stock.filter(func(item): return item.kind in ["weapon","relic"]).size() == 3)
 		var weapon: Dictionary = stock.filter(func(item): return item.kind == "weapon")[0]
 		inventory.gold[0] = weapon.price-1
 		stand(weapon.pos)
-		assert(press_f() and not weapon.sold and inventory.gold[0] == weapon.price-1)
+		assert(press_f() and game.shop_detail != null and not weapon.sold and inventory.gold[0] == weapon.price-1)
+		assert(game.shop_detail.buy_button.disabled)
+		assert(not game.confirm_shop_purchase())
+		game.close_shop()
 		inventory.gold[0] = weapon.price+5
-		assert(press_f() and weapon.sold and inventory.gold[0] == 5)
+		assert(press_f() and not weapon.sold)
+		assert(game.confirm_shop_purchase() and weapon.sold and inventory.gold[0] == 5)
+		assert(game.event_nodes.any(func(node): return node.kind == "shop" and node.entry == weapon and node.get_child_count() == 0),"Sold pedestal remains without merchandise")
 		assert(not game.fx.particles.is_empty(),"Purchase burst")
 		# Effects hold still while the game is paused and resume afterwards.
 		var ages: Array = game.fx.particles.map(func(particle): return particle.t)
@@ -79,8 +84,8 @@ func run() -> void:
 		assert(weapon.sold and game.event_nodes.size() == sold_nodes,"Sold stock stays sold on revisit")
 		# Teleporter: from the shop back to the entrance, arriving beside the pad.
 		assert(game.start_room in Events.destinations(game) and shop in Events.destinations(game))
-		assert(game.open_map(true) and game.floor_map.teleport_targets == [game.start_room])
-		assert(game.floor_map.choose(0) and game.floor_map == null and game.exploration.room_id == game.start_room)
+		assert(game.open_map(true) and game.start_room in game.floor_map.teleport_targets)
+		assert(game.floor_map.choose(game.floor_map.teleport_targets.find(game.start_room)) and game.floor_map == null and game.exploration.room_id == game.start_room)
 		var pad: Vector2 = game.exploration.room_state(game.start_room).teleporter
 		assert(game.players[0].state.pos.distance_to(pad) <= 70)
 		assert(game.fx.effects.any(func(effect): return effect.kind == "pillar") and game.fx.flash_life > 0,"Arrival pillar and flash")

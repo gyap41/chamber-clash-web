@@ -8,7 +8,10 @@ static func ensure(game) -> bool:
 	if game.floor_data.rooms[progress.room_id].role != "normal": return false
 	var room: Dictionary = progress.room_state(progress.room_id)
 	if room.has("supplies"): return false
-	var cleared: int = progress.room_states.values().filter(func(value): return value.encounter == "cleared").size()
+	var cleared := 0
+	for id in progress.room_states:
+		if progress.room_states[id].encounter == "cleared" and game.floor_data.rooms.get(id,{}).get("role","") == "normal":
+			cleared += 1
 	var kinds: Array = []
 	if cleared%2 == 0: kinds.append("ammo")
 	if cleared%3 == 0: kinds.append("heal")

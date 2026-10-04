@@ -20,6 +20,8 @@
 1. data/fieldsの工房定義を複製し、field_id、床領域・壁・開始位置を編集する。
 2. wallsとwall_idsを対応させる。並べ替えは矩形とIDを一緒に移動する。wall_materialsはIDをキーにcover/top/faceを指定する。
 3. themeに素材セットを指定する。素材だけ変更するときは衝突矩形を編集しない。
+射撃用の形状は `StagePlacement.projectile_rect()`。既定では衝突付き家具の床占有幅を描画高さへ延長する。`projectile_collision` に明示矩形を設定すると既定の形状を上書きできる。歩行用 `collision` を射撃のために広げない。衝突なしの装飾・床模様は既定では弾も通す。特殊な輪郭では移動と弾の両方を通常倍率で確認する。
+
 4. 家具・照明はStagePlacementのResourceとしてplacementsへ追加する。衝突なしはcollisionを空のRect2にする。light_radiusが正ならPointLight2Dを生成する。
 5. data/roomsにRoomTemplateを作り、表示名と上下左右の扉を設定する。相手側にも対応する接続先を定義する。
 6. ExplorationRooms.ROOMSへ登録する。部屋一覧の自動検出は未実装。P2の生成入口はExplorationFloorから同形式のカタログを渡す。

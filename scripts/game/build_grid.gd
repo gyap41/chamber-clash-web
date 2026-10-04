@@ -18,6 +18,7 @@ static func usable_cells(build: Dictionary) -> Dictionary:
 		for x in range(4): cells[Vector2i(x,y)] = true
 	for patch in build.get("bag_expansions",[]):
 		for offset in Expansions.SHAPES[patch.shape]: cells[patch.anchor+offset] = true
+	for cell in build.get("extra_cells",[]): cells[cell] = true
 	return cells
 
 static func occupied_cells(build: Dictionary, exclude_id = -1) -> Dictionary:

@@ -19,6 +19,8 @@ var damage: float = 1.0
 var cannon_blast_radius := 0.0
 var bank_bonus: float = .25
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
+const Collision = preload("res://scripts/combat/projectile_collision.gd")
+const PLAYER_CORE_SCALE := 1.2 # 2026-10-04: matches the 20% artwork enlargement, excluding glow/trails.
 var source_player
 var state: Dictionary
 var log_origin: Dictionary = {}
@@ -55,6 +57,10 @@ func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionar
 	elif g.get("seed",false): radius = opts.get("radius",9.0)
 	# Gameplay dimensions are independent of light, smoke and sprite bounds.
 	radius = float(opts.get("radius",g.get("parcel_radius",radius) if opts.get("parcel",false) else g.get("projectile_radius",radius)))
+	if id >= 0 and player.get("team_id") != "enemies" and not opts.has("radius"):
+		radius *= PLAYER_CORE_SCALE
+	var relic_size: float = 1.0+minf(.6,player.relic_value(6,"size_bonus")) if direct else 1.0
+	radius *= relic_size
 	var special: bool = g.get("split",false) or g.get("comet",false) or g.get("gravity",false) or g.get("boomerang",false) or g.get("seed",false) or g.get("bubble",false) or g.get("clover",false)
 	var can_lens: bool = opts.get("can_lens", true)
 	var bounce: int = int(g.get("bounce",0)) + (1 if (not special and can_lens and 2 in player.relics) else 0)
@@ -75,9 +81,25 @@ func launch(player, index: int, id: int = 0, angle: float = 0.0, opts: Dictionar
 	$Visual.modulate = Color(opts.get("color",g.color))
 	$Visual.scale = Vector2.ONE * radius/4.0
 	$Art.configure(visual_id,bool(opts.get("parcel",false)),bool(opts.get("shard",false)),visual_variant,visual_color,player.get("team_id") == "enemies")
+	$Art.base_scale *= relic_size
 	$Art.refresh(state.age,state.velocity)
 	$Visual.visible = not $Art.visible
 	queue_redraw()
+func clip_spawn_path(arena, from: Vector2) -> void:
+	if state.boomerang: return
+	var destination: Vector2 = state.pos
+	var steps := maxi(1,ceili(from.distance_to(destination)/maxf(.5,minf(radius,4.0))))
+	var previous := from
+	for index in range(steps+1):
+		var point := from.lerp(destination,float(index)/steps)
+		if Collision.solid(arena,point,radius):
+			state.pos = previous
+			position = previous
+			state.life = 0.0
+			notify_visual("hit",previous)
+			return
+		previous = point
+
 func step(dt: float, arena, targets) -> void:
 	var enemies: Array = targets if targets is Array else ([targets] if targets != null else [])
 	var enemy = null
@@ -99,7 +121,7 @@ func step(dt: float, arena, targets) -> void:
 	if enemy != null and b.seed and b.age >= .6 and not b.launched:
 		b.velocity = Vector2.ZERO
 		var seed_def: Dictionary = source_player.resolved_definition(gun_id)
-		if b.pos.distance_to(enemy.state.pos) <= float(seed_def.get("seed_trigger_radius",100.0)) and not arena.line_blocked(b.pos,enemy.state.pos):
+		if b.pos.distance_to(enemy.state.pos) <= float(seed_def.get("seed_trigger_radius",100.0)) and not Collision.line_blocked(arena,b.pos,enemy.state.pos):
 			b.launched = true
 			b.velocity = (enemy.state.pos-b.pos).normalized()*float(seed_def.get("seed_seek_speed",440.0))
 			burst_requested.emit(b.pos,Color(b.color),8)
@@ -126,12 +148,12 @@ func step(dt: float, arena, targets) -> void:
 	var motion: Vector2 = b.velocity
 	if b.helix:
 		motion += Vector2(-b.velocity.y,b.velocity.x)/speed*cos(b.age*14.0)*90.0*b.phase
-	var steps := maxi(1,ceili(motion.length()*dt/5))
+	var steps := maxi(1,ceili(motion.length()*dt/maxf(.5,minf(radius,5.0))))
 	for n in range(steps):
 		if b.dead or b.life <= 0: break
 		var previous: Vector2 = b.pos
 		b.pos += motion*dt/steps
-		if not b.boomerang and (b.pos.x < bounds.position.x or b.pos.x > bounds.end.x or b.pos.y < bounds.position.y or b.pos.y > bounds.end.y or arena.solid(b.pos,radius)):
+		if not b.boomerang and (b.pos.x < bounds.position.x or b.pos.x > bounds.end.x or b.pos.y < bounds.position.y or b.pos.y > bounds.end.y or Collision.solid(arena,b.pos,radius)):
 			if b.bounce > 0:
 				b.bounce -= 1
 				b.rebounds += 1
@@ -140,7 +162,7 @@ func step(dt: float, arena, targets) -> void:
 				notify_visual("bounce",previous)
 				if b.bank: damage += bank_bonus
 				preload("res://scripts/combat/relic_effects.gd").first_bounce(self,previous)
-				if b.pos.x < bounds.position.x or b.pos.x > bounds.end.x or arena.solid(Vector2(b.pos.x,previous.y),radius): b.velocity.x *= -1
+				if b.pos.x < bounds.position.x or b.pos.x > bounds.end.x or Collision.solid(arena,Vector2(b.pos.x,previous.y),radius): b.velocity.x *= -1
 				else: b.velocity.y *= -1
 				b.pos = previous
 				motion = b.velocity

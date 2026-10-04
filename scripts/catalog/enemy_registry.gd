@@ -3,6 +3,11 @@ extends RefCounted
 # from here, so adding an enemy means one entry instead of several parallel lists.
 # The boss is separate: it only appears in the boss room.
 const ENEMIES := {
+	"ember_lizard":preload("res://scripts/combat/ember_lizard.gd"),
+	"iron_quill":preload("res://scripts/combat/iron_quill.gd"),
+	"ash_ram":preload("res://scripts/combat/ash_ram.gd"),
+	"triple_ring":preload("res://scripts/combat/triple_ring.gd"),
+
 	"workshop_sentry":preload("res://scripts/combat/exploration_enemy.gd"),
 	"fire_pouch_lizard":preload("res://scripts/combat/fire_pouch_lizard.gd"),
 	"quillback":preload("res://scripts/combat/quillback.gd"),

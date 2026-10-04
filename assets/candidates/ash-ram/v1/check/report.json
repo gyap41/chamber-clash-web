@@ -1,0 +1,63 @@
+{
+  "image": "assets\\candidates\\ash-ram\\v1\\ash-ram-parts-v1.png",
+  "size": [
+    1254,
+    1254
+  ],
+  "grid": [
+    1,
+    1
+  ],
+  "cell": [
+    1254,
+    1254
+  ],
+  "display_scale": 0.1408,
+  "camera_zoom": 1.2,
+  "kind": "prop",
+  "directions": {
+    "dir0": {
+      "frames": [
+        {
+          "empty": false,
+          "bbox": [
+            41,
+            100,
+            1177,
+            1065
+          ],
+          "feet_y": 1164,
+          "touches_edge": false,
+          "magenta_ratio": 0.0,
+          "semi_transparent_ratio": 0.037,
+          "display_size": [
+            147,
+            109
+          ],
+          "luma_mean": 32.9,
+          "luma_std": 21.0,
+          "saturation_mean": 28.6,
+          "detail": 4.96,
+          "edge_contrast": 10.9
+        }
+      ],
+      "groups": {
+        "all": {
+          "height_variation": 0.0
+        }
+      }
+    }
+  },
+  "thresholds_note": "provisional 2026-10-04; colour metrics use a floor composite without lighting/shadows, so compare them with a baseline measured by this tool, not with the absolute VISUAL_STYLE_GUIDE 3.5 numbers",
+  "summary_median": {
+    "luma_mean": 32.9,
+    "luma_std": 21.0,
+    "saturation_mean": 28.6,
+    "detail": 5.0,
+    "edge_contrast": 10.9,
+    "display_height_px_max": 109
+  },
+  "hard_failures": [],
+  "warnings": [],
+  "verdict": "PASS"
+}

@@ -26,10 +26,10 @@ func run() -> void:
 	assert(game.bag != null and game.paused)
 	var bag = game.bag
 	var relic = bag.draft.reserve_items(0)[1]
-	await click(Vector2(590,307))
+	await click(bag.body.get_node("Bag/Reserve").get_child(1).get_global_rect().get_center())
 	assert(bag.selected == relic)
 	var target: Vector2i = bag.draft.auto_place(0,relic)
-	await click(Vector2(104,240)+Vector2(target)*51+Vector2(24,24))
+	await click(bag.body.get_node("Bag/Grid/Cell_%d_%d" % [target.x,target.y]).get_global_rect().get_center())
 	assert(relic in bag.draft.builds[0].equipped)
 	assert(relic in game.exploration.inventory.builds[0].equipped)
 	assert(bag.body.get_node("Bag/Equipped").text == "バッグ ／ 使用 %d / %d マス" % [bag.draft.occupied_cells(0).size(),bag.draft.usable_cells(0).size()])
@@ -37,7 +37,7 @@ func run() -> void:
 	bag.select(relic)
 	assert("%dマス" % bag.draft.shape_of(relic).size() in bag.detail.text)
 	await capture("bag-ui")
-	await click(Vector2(911,639))
+	await click(bag.body.get_node("Bag/Close").get_global_rect().get_center())
 	assert(game.bag == null and not game.paused)
 	assert(relic in game.exploration.inventory.builds[0].equipped)
 	assert(not game.mouse_fire_held)

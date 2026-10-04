@@ -26,6 +26,7 @@ var floor_map
 var room_catalog: Dictionary = Rooms.ROOMS
 var start_room := Rooms.START_ROOM
 var bag
+var shop_detail
 var loot_nodes: Array = []
 var coin_nodes: Array = []
 var event_nodes: Array = []
@@ -36,6 +37,7 @@ var exploration
 var pause_reasons: Dictionary = {}
 var doors: Array = []
 var door_armed := true
+var auto_door_armed := true
 var fire_requires_release := false
 func _ready() -> void:
 	# This prototype starts in a non-combat room. Remove the duel scene's extra
@@ -91,6 +93,7 @@ func apply_launch_options(args: PackedStringArray) -> int:
 		start_room = "collapsed_gallery"
 	return seed_value
 func start_exploration(seed_value: int) -> void:
+	if shop_detail != null: close_shop()
 	sound.stop_all()
 	clear_enemy_deaths()
 	if floor_map != null: close_map()
@@ -122,6 +125,7 @@ func start_exploration(seed_value: int) -> void:
 	sound.pause_boss_audio(false)
 	remaining = 0.0
 	door_armed = true
+	auto_door_armed = true
 	fire_requires_release = false
 	fighters.clear()
 	for i in range(players.size()):
@@ -202,8 +206,18 @@ func nearby_door() -> Dictionary:
 		if players[0].state.pos.distance_to(entry.position) <= Rooms.INTERACT_RADIUS and not arena.line_blocked(players[0].state.pos,entry.position):
 			return entry
 	return {}
-func try_enter_door() -> bool:
-	if phase != "play" or paused or not result.is_empty() or players[0].state.hp <= 0 or not door_armed: return false
+# 2026-10-04: crossing the threshold needs no interaction key; arrival must leave it first.
+func step_auto_door() -> void:
+	if phase != "play" or paused or not result.is_empty() or players[0].state.hp <= 0: return
+	var entry := nearby_door()
+	if entry.is_empty():
+		auto_door_armed = true
+		return
+	if not auto_door_armed or players[0].state.pos.distance_to(entry.position) > 24.0: return
+	if try_enter_door(true): auto_door_armed = false
+
+func try_enter_door(automatic: bool = false) -> bool:
+	if phase != "play" or paused or not result.is_empty() or players[0].state.hp <= 0 or (not automatic and not door_armed): return false
 	if exploration.status != "active" or exploration.encounter_status == "active": return false
 	var entry := nearby_door()
 	if entry.is_empty(): return false
@@ -212,6 +226,7 @@ func try_enter_door() -> bool:
 	# encounter (debug launches with encounters disabled) it stays an ordinary door.
 	if BossFlow.is_room(self) and exploration.encounter_status == "cleared" and not BossFlow.blocks_exit(self):
 		door_armed = false
+		auto_door_armed = false
 		clear_action_inputs()
 		exploration.finish("completed")
 		return true
@@ -220,6 +235,7 @@ func try_enter_door() -> bool:
 	return move_to_room(entry.target_room,partner.arrival)
 # Enters another room at `arrival` (through a door or a teleporter).
 func move_to_room(target: String, arrival: Vector2) -> bool:
+	if shop_detail != null: close_shop()
 	var definition: FieldDefinition = room_data(target).field.duplicate(true)
 	definition.spawns = PackedVector2Array([arrival])
 	var was_firing: bool = mouse_fire_held or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
@@ -234,11 +250,17 @@ func move_to_room(target: String, arrival: Vector2) -> bool:
 	exploration.enter_room(target,room_data(target).field.field_id)
 	Encounter.begin(self)
 	door_armed = false
+	auto_door_armed = false
 	fire_requires_release = was_firing
 	rebuild_doors()
 	refresh_hud()
 	return true
 func _input(event: InputEvent) -> void:
+	if shop_detail != null:
+		if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
+			close_shop()
+			get_viewport().set_input_as_handled()
+		return
 	if boss_intro():
 		if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ENTER:
 			BossFlow.finish_intro(self)
@@ -287,7 +309,7 @@ func door_hint() -> String:
 	if BossFlow.is_room(self) and exploration.encounter_status == "cleared":
 		var boss_reward := Reward.current(self)
 		if boss_reward.get("state","") == "forming": return ""
-		if not nearby_door().is_empty() and not BossFlow.blocks_exit(self): return "F：工房を踏破して帰還" if not nearby_door().is_empty() else loot_message
+		if not nearby_door().is_empty() and not BossFlow.blocks_exit(self): return "出口へ進むと帰還します"
 		if Reward.nearby(self) and loot_message.begins_with("取得できません"): return loot_message
 		if Reward.nearby(self): return "F：鋳造機の遺産を開く" if boss_reward.state == "closed" else "F：アイテムを拾う · Tab：バッグ整理"
 		return ""
@@ -305,11 +327,10 @@ func door_hint() -> String:
 		if not loot_message.is_empty() and loot_message.begins_with("取得できません"): return loot_message
 		return "F："+loot.label+"を控えへ取得  ·  Tab：バッグ"
 	var event_hint := Events.hint(self)
-	if not event_hint.is_empty(): return event_hint if loot_message.is_empty() else loot_message+"  ·  "+event_hint
-	var entry := nearby_door()
-	if entry.is_empty(): return loot_message if not loot_message.is_empty() else "扉に近づいて F で移動  ·  Tab：バッグ"
-	return "F：%s へ移動" % room_data(entry.target_room).name
+	if not event_hint.is_empty(): return event_hint if loot_message.is_empty() or loot_message.begins_with("煤の帳守：") else loot_message+"  ·  "+event_hint
+	return "" if loot_message.begins_with("煤の帳守：") else loot_message
 func toggle_pause() -> void:
+	if shop_detail != null: close_shop(); return
 	if floor_map != null: close_map(); return
 	if bag != null: close_bag(); return
 	if phase != "play" or not result.is_empty(): return
@@ -344,6 +365,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		return
 	if phase == "play" and not paused and result.is_empty():
 		if event.keycode == KEY_F:
+			# Legacy shortcut remains usable; walking alone now triggers room travel.
 			if not try_chest() and not try_supply() and not try_collect_loot() and not Events.use(self): try_enter_door()
 			get_viewport().set_input_as_handled()
 			return
@@ -379,6 +401,7 @@ func _physics_process(dt: float) -> void:
 		var active_weapon: int = players[0].weapon().id if players[0].has_weapon() else -1
 		if active_weapon != previous_weapon: Loadout.restore_active(players[0],exploration.weapon_bank)
 		settle_room()
+		step_auto_door()
 	if not paused:
 		update_boss_engine()
 		follow_player()
@@ -488,6 +511,38 @@ func open_bag() -> bool:
 	add_child(bag)
 	refresh_hud()
 	return true
+
+func open_shop(item: Dictionary) -> bool:
+	if shop_detail != null or not can_use_pickups() or item.sold: return false
+	set_pause_reason("shop",true)
+	shop_detail = preload("res://scripts/ui/exploration_shop.gd").new()
+	shop_detail.game = self
+	shop_detail.entry = item
+	shop_detail.close_requested.connect(close_shop)
+	shop_detail.purchase_requested.connect(confirm_shop_purchase)
+	add_child(shop_detail)
+	refresh_hud()
+	return true
+func confirm_shop_purchase() -> bool:
+	if shop_detail == null or phase != "play" or exploration.status != "active" or players[0].state.hp <= 0: return false
+	if pause_reasons.keys().any(func(reason): return reason != "shop"): return false
+	var item: Dictionary = shop_detail.entry
+	if item not in exploration.room_state(exploration.room_id).get("shop",[]): return false
+	if Events.buy(self,item):
+		close_shop()
+		return true
+	shop_detail.refresh()
+	return false
+func close_shop() -> void:
+	if shop_detail == null: return
+	remove_child(shop_detail)
+	shop_detail.queue_free()
+	shop_detail = null
+	set_pause_reason("shop",false)
+	fire_requires_release = true
+	door_armed = false
+	auto_door_armed = false
+	refresh_hud()
 func apply_bag_changes() -> bool:
 	if bag == null: return false
 	var valid: bool = phase == "play" and exploration.status == "active" and players[0].state.hp > 0
@@ -575,6 +630,7 @@ func try_supply() -> bool:
 	if entry.is_empty(): return false
 	if not door_armed: return true
 	door_armed = false
+	auto_door_armed = false
 	var outcome := ExplorationSupplies.collect(self,entry)
 	loot_message = outcome.message
 	if outcome.acquired:
@@ -589,6 +645,7 @@ func try_chest() -> bool:
 	# Use the same release latch as doors so opening cannot also acquire or leave.
 	if not door_armed: return true
 	door_armed = false
+	auto_door_armed = false
 	var reward := Reward.current(self)
 	if chest_node.spawning > 0: return true
 	if reward.state == "closed":

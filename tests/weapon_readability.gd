@@ -16,12 +16,12 @@ func run() -> void:
 			assert(art.get_node("Trail").material==null and not art.get_node("Trail").use_parent_material)
 			shot.notify_visual("hit",shot.position)
 			assert(game.arena.get_node("CombatVisuals").named_effects.back().visual_color==palette[i])
-			assert(shot.radius==(4.0 if id==8 else 5.0))
+			assert(is_equal_approx(shot.radius,4.8 if id==8 else 6.0))
 	# Small rounds are thickened without increasing their gameplay collision radius.
 	for id in [0,4,19,20,21,24,26,27,29,30,31]:
 		game.spawn_shot(0,id,0)
 		var shot=game.shots.back();var art=shot.get_node("Art")
-		assert(art.texture.get_height()*art.base_scale.y>=8.0 and shot.radius==5.0)
+		assert(art.texture.get_height()*art.base_scale.y>=8.0 and shot.radius==6.0)
 	# Switching away cannot retain a rainbow material; cached UI materials are reusable.
 	var p=game.players[0];p.inventory=[p.Weapons.new_inventory_entry(37),p.Weapons.new_inventory_entry(0)];p.state.gun=0;p.update_weapon_art()
 	assert(p.get_node("Weapon/Sprite").material!=null)

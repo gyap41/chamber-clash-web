@@ -6,9 +6,10 @@ const SENTRY := {"id":"workshop_sentry","name":"工房番機","death_sound":"sen
 
 const LIZARD := {"id":"fire_pouch_lizard","name":"火袋トカゲ","death_sound":"lizard_down","hp":3.0,"speed":125.0,
 	"radius":18.0,"range":350.0,"damage":0.9,"windup":0.62,"recovery":0.7,"entry_grace":1.2,
-	"shot_interval":0.3,"projectile_speed":300.0,"projectile_life":2.8,"shots":5,"aim_lock":0.12}
+	"shot_interval":0.3,"projectile_speed":300.0,"projectile_life":2.8,"shots":5,"aim_lock":0.12,"walking_fire":true,"fire_move_ratio":0.45,"lead_time":0.35,"spray":[0.0,0.18,-0.18,0.09,-0.09]}
 # Negative id is outside the player weapon catalog; no shop weapon behavior is inherited.
 const FIRE_SEED_ID := -1
+const FIRE_SEED_RADIUS := 7.8 # Bright core radius 6 times the enemy artwork scale 1.3.
 const FIRE_SEED := {"speed":300.0,"damage":0.9,"color":"#ff9a43"}
 
 const QUILLBACK := {"id":"quillback","name":"棘背ヤマアラシ","death_sound":"quill_down","hp":3.4,"speed":100.0,

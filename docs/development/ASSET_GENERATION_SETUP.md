@@ -154,3 +154,7 @@ Godot実行ファイルの場所は環境に合わせる。画像のインポー
 - [ElevenLabs Sound Effects API](https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert)
 
 本書の設定値は現在のローカル実装を記録したもの。公式仕様の再確認日は各連携の変更時に記録する。
+
+### Sound Effects指示文の長さ（2026-10-04）
+
+オーロラの473文字の指示が2回HTTP400となり、ユーザーの再試行指示後に290文字の短縮版が成功。直接原因は非公開エラー本文を確認していないため未確定。[公式ヘルプ](https://help.elevenlabs.io/hc/en-us/articles/25735182995985-What-is-Sound-Effects)はWeb入力上限450文字と案内するが、API上限と同一とは断定しない。現行CLIの10000文字制限は内部入力検査でありサービスの受理保証ではない。実制作のSE指示は450文字以内を運用目安とし、失敗時の停止/再試行承認ルールは維持する。

@@ -11,7 +11,7 @@ const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const Relics = preload("res://scripts/catalog/relic_catalog.gd")
 const Art = preload("res://scripts/ui/hud_assets.gd")
 const RADIUS := 64.0
-const SUPPLY_PRICES := {"heal":3,"ammo":2}
+const SUPPLY_PRICES := {"heal":8,"ammo":6}
 const WAVES := 3
 const PAD_ARRIVAL := Vector2(0,64)
 
@@ -20,7 +20,7 @@ static func role(game) -> String:
 	return game.floor_data.rooms[game.exploration.room_id].role
 
 static func has_teleporter(game, id: String) -> bool:
-	return not game.floor_data.is_empty() and game.floor_data.rooms[id].get("teleporter",false)
+	return not game.floor_data.is_empty() and game.floor_data.rooms[id].role != "boss"
 
 # Creates this room's event state on first entry (positions are searched from the arrival point).
 static func prepare(game) -> void:
@@ -51,17 +51,18 @@ static func shop_stock(game, taken: Array) -> Array:
 	rng.seed = hash(str(progress.seed_value)+":"+progress.room_id+":shop-v1")
 	var known_weapons := Reward.known_items(progress,"weapon")
 	var weapons: Array = Reward.weapon_pool(false).filter(func(id): return id not in known_weapons and Shop.WEAPON_PRICES[id] > 0)
-	var relics: Array = Reward.relic_pool(progress).filter(func(id): return id not in Reward.known_items(progress,"relic"))
+	var relics: Array = Reward.relic_pool(progress).filter(func(id): return Relics.stackable(id) or id not in Reward.known_items(progress,"relic"))
 	var stock: Array = []
 	for count in range(2):
 		if weapons.is_empty(): break
 		var item: int = weapons.pop_at(rng.randi_range(0,weapons.size()-1))
-		stock.append({"kind":"weapon","item":item,"price":Shop.WEAPON_PRICES[item],"label":str(Weapons.definition(item).name)})
+		stock.append({"kind":"weapon","item":item,"price":{"C":10,"B":16,"A":24,"S":36}[Weapons.definition(item).rarity],"label":str(Weapons.definition(item).name)})
 	if not relics.is_empty():
 		var relic: int = relics[rng.randi_range(0,relics.size()-1)]
-		stock.append({"kind":"relic","item":relic,"price":Shop.RELIC_PRICES[relic],"label":str(Relics.definition(relic).name)})
+		stock.append({"kind":"relic","item":relic,"price":{"C":8,"B":14,"A":22}[Relics.rarity(relic)],"label":str(Relics.definition(relic).name)})
 	stock.append({"kind":"heal","price":SUPPLY_PRICES.heal,"label":"回復（HP2）"})
 	stock.append({"kind":"ammo","price":SUPPLY_PRICES.ammo,"label":"弾薬補給"})
+	stock.append({"kind":"expansion","price":8,"label":"バッグを1マス拡張","cell":Vector2i(-1,-1)})
 	# A counter-like row: the most central position where every slot is clear; otherwise each item searches alone.
 	var slots := shop_row(game,taken,stock.size())
 	var placed: Array = []
@@ -122,6 +123,7 @@ static func nearby(game) -> Dictionary:
 	if game.floor_data.is_empty(): return {}
 	var room: Dictionary = game.exploration.room_state(game.exploration.room_id)
 	var options: Array = []
+	if room.get("shop_sign") != null: options.append({"kind":"merchant","entry":room,"pos":room.shop_sign})
 	for item in room.get("shop",[]):
 		if not item.sold: options.append({"kind":"shop","entry":item,"pos":item.pos})
 	if room.has("altar") and not room.altar.used and room.altar.pos != null: options.append({"kind":"altar","entry":room.altar,"pos":room.altar.pos})
@@ -144,9 +146,10 @@ static func hint(game) -> String:
 	var option := nearby(game)
 	if option.is_empty(): return ""
 	match option.kind:
+		"merchant": return "F：煤の帳守と話す"
 		"shop":
 			var item: Dictionary = option.entry
-			return "F：%s を %dG で購入（所持 %dG）" % [item.label,item.price,gold(game)]
+			return "F：%s の効果・価格を確認（%dG ／ 所持 %dG）" % [item.label,item.price,gold(game)]
 		"altar": return "F：HPを1捧げて祭壇の恵みを受ける" if game.players[0].state.hp > 1 else "祭壇：HPが2以上必要です"
 		"challenge": return "F：試練を始める（扉が閉じ、%d波の敵。突破でA/Sランクの武器）" % WAVES
 		"teleporter": return "F：転送装置を使う" if destinations(game).size() > 1 else "転送装置：他の起動済み装置がありません"
@@ -160,13 +163,39 @@ static func use(game) -> bool:
 	if not game.door_armed: return true
 	game.door_armed = false
 	match option.kind:
-		"shop": buy(game,option.entry)
+		"merchant":
+			var lines := ["煤の帳守：その歯車貨、まだ回るね。ここでは1枚を1Gと数える。", "煤の帳守：品物の前でFを押してごらん。効き目を確かめてから買えばいい。", "煤の帳守：荷が増えたら、鞄の継ぎ目を一つ広げよう。場所は君が選ぶんだ。"]
+			var count: int = option.entry.get("talk_count",0)
+			game.loot_message = lines[count%lines.size()]
+			option.entry.talk_count = count+1
+			for node in game.event_nodes:
+				if node.kind == "sign": node.say(lines[count%lines.size()].trim_prefix("煤の帳守："))
+		"shop": game.open_shop(option.entry)
 		"altar": offer(game,option.entry)
 		"challenge": begin_challenge(game,option.entry)
 		"teleporter":
 			if destinations(game).size() > 1: game.open_map(true)
 	game.refresh_hud()
 	return true
+
+static func purchase_reason(game, item: Dictionary) -> String:
+	if item.sold: return "売り切れ"
+	if gold(game) < int(item.price): return "資金不足：あと%dG必要です" % (int(item.price)-gold(game))
+	var inventory = game.exploration.inventory
+	if item.kind == "expansion":
+		if inventory.expansion_cells().is_empty(): return "バッグは拡張上限です"
+		if item.cell not in inventory.expansion_cells(): return "隣接する拡張先を選んでください"
+	if item.kind == "weapon": return inventory.field_weapon_reason(0,item.item)
+	if item.kind == "relic":
+		if inventory.reserve_full(0): return "控え8個が満杯です。Tabで整理してください。"
+		if not Relics.stackable(item.item) and item.item in inventory.Items.relic_ids(inventory.builds[0].owned): return "同種のレリックを所持済みです"
+	if item.kind == "heal" and game.players[0].state.hp >= game.players[0].state.max_hp: return "HPは満タンです"
+	if item.kind == "ammo":
+		var needs_ammo := false
+		for gun in game.players[0].inventory:
+			if not game.players[0].infinite_reserve(gun.id) and gun.reserve < Weapons.definition(gun.id).stock: needs_ammo = true
+		if not needs_ammo: return "装備中の予備弾薬は満タンです（無限弾薬・控えは対象外）"
+	return ""
 
 static func buy(game, item: Dictionary) -> bool:
 	if item.sold: return false
@@ -175,19 +204,23 @@ static func buy(game, item: Dictionary) -> bool:
 		refuse(game,item)
 		return false
 	var outcome: Dictionary
-	if item.kind in ["heal","ammo"]: outcome = Supplies.collect(game,{"kind":item.kind,"taken":false})
+	if item.kind == "expansion": outcome = {"acquired":game.exploration.inventory.buy_cell(item.cell,0),"message":"拡張先を選んでください"}
+	elif item.kind in ["heal","ammo"]: outcome = Supplies.collect(game,{"kind":item.kind,"taken":false})
 	else: outcome = Loot.collect({"id":item.id,"kind":item.kind,"item":item.item,"label":item.label},game.exploration)
 	if not outcome.acquired:
 		game.loot_message = outcome.message+"（代金は払っていません）"
 		refuse(game,item)
 		return false
 	game.exploration.inventory.gold[0] -= int(item.price)
-	item.sold = true
+	item.sold = item.kind != "expansion"
 	game.loot_message = "%s を購入しました（残り %dG）" % [item.label,gold(game)]
 	game.sound.play_sound("ui_purchase")
 	game.fx.burst(item.pos,Color("ffd35a"),14,150.0,.6)
 	game.fx_floor.ring(item.pos,Color("ffd35a"),8,48,.4,3)
 	game.fx.float_text(item.pos+Vector2(0,-40),"-%dG" % int(item.price),Color("ffd35a"))
+	if item.kind == "expansion":
+		item.price += 2
+		item.cell = Vector2i(-1,-1)
 	game.rebuild_events()
 	return true
 
@@ -309,9 +342,44 @@ class EventNode extends Node2D:
 	var shake := 0.0
 	var time := 0.0
 	var glow: Sprite2D
+	var bubble: PanelContainer
+	var speech_remaining := 0.0
+	func say(text: String) -> void:
+		if bubble == null:
+			bubble = PanelContainer.new()
+			bubble.position = Vector2(-150,-184)
+			bubble.z_index = 20
+			bubble.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			var style := StyleBoxFlat.new()
+			style.bg_color = Color("252d32")
+			style.border_color = Color("cbbd96")
+			style.set_border_width_all(2)
+			style.set_corner_radius_all(10)
+			style.content_margin_left = 14
+			style.content_margin_right = 14
+			style.content_margin_top = 10
+			style.content_margin_bottom = 10
+			bubble.add_theme_stylebox_override("panel",style)
+			var label := Label.new()
+			label.name = "Text"
+			label.custom_minimum_size.x = 272
+			label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			label.add_theme_font_size_override("font_size",14)
+			label.add_theme_color_override("font_color",Color("f5edd8"))
+			bubble.add_child(label)
+			add_child(bubble)
+		bubble.get_node("Text").text = text
+		bubble.reset_size()
+		bubble.visible = true
+		speech_remaining = 6.0
 	func _process(delta: float) -> void:
 		if game != null and game.paused: return
 		time += delta
+		speech_remaining = maxf(0,speech_remaining-delta)
+		if bubble != null:
+			bubble.visible = speech_remaining > 0
+			bubble.modulate.a = minf(1,speech_remaining/.25)
+			bubble.position.y = -114-bubble.size.y+8*(1.0-minf(1,(6.0-speech_remaining)/.15))
 		shake = maxf(shake-delta,0)
 		if glow != null:
 			glow.visible = active
@@ -338,6 +406,8 @@ class EventNode extends Node2D:
 			draw_circle(origin+Vector2(x,-rise*phase),2.2*(1.0-phase)+.8,Color(color,color.a*(1.0-phase)))
 	func _draw() -> void:
 		var font := ThemeDB.fallback_font
+		if kind == "sign" and speech_remaining > 0:
+			draw_colored_polygon(PackedVector2Array([Vector2(-8,-115),Vector2(0,-101),Vector2(8,-115)]),Color(Color("cbbd96"),minf(1,speech_remaining/.25)))
 		match kind:
 			"teleporter":
 				art("teleporter_base",Rect2(-52,-38,104,76),Color.WHITE if active else Color(.7,.7,.75))
@@ -367,14 +437,17 @@ class EventNode extends Node2D:
 				draw_set_transform(Vector2(0,-1),0,Vector2(1,.35))
 				draw_circle(Vector2.ZERO,22,Color(0,0,0,.3))
 				draw_set_transform(Vector2.ZERO)
-				art("shop_sign",Rect2(-26,-72,52,72))
+				var portrait := preload("res://assets/stages/ashen-foundry-v2/event-props/merchant-v1.png")
+				draw_texture_rect(portrait,Rect2(-55,-100+sin(time*1.6),110,116),false)
+				draw_circle(Vector2(0,-64+sin(time*1.6)),6,Color(.3,.85,.75,.06+.03*sin(time*2.3)))
+				art("shop_sign",Rect2(30,-39,28,39))
 			"shop":
 				draw_set_transform(Vector2(0,20),0,Vector2(1,.35))
 				draw_circle(Vector2.ZERO,30,Color(0,0,0,.3))
 				draw_set_transform(Vector2.ZERO)
 				art("shop_stand",Rect2(-30,-20,60,44))
 				var jolt := sin(shake*60.0)*6.0*shake/.35
-				draw_string(font,Vector2(-14+jolt,44),"%dG" % int(entry.price),HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("ffd35a"))
+				draw_string(font,Vector2(-24+jolt,44),"売り切れ" if entry.sold else "%dG" % int(entry.price),HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("ffd35a"))
 
 static func rebuild(game, nodes: Array) -> void:
 	for node in nodes:
@@ -404,14 +477,19 @@ static func rebuild(game, nodes: Array) -> void:
 		layer.add_child(sign)
 		nodes.append(sign)
 	for item in room.get("shop",[]):
-		if item.sold: continue
 		var node := EventNode.new()
 		node.game = game
 		node.kind = "shop"
 		node.entry = item
 		node.position = item.pos
 		# The item sits on the stand's cloth top.
-		if item.kind in ["heal","ammo"]:
+		if item.sold: pass
+		elif item.kind == "expansion":
+			var label := Label.new()
+			label.text = "+1"
+			label.position = Vector2(-12,-25)
+			node.add_child(label)
+		elif item.kind in ["heal","ammo"]:
 			var supply := preload("res://scripts/world/exploration_supply.gd").new()
 			supply.kind = item.kind
 			supply.show_label = false
@@ -420,7 +498,7 @@ static func rebuild(game, nodes: Array) -> void:
 			node.add_child(supply)
 		else:
 			var sprite := Sprite2D.new()
-			sprite.texture = Weapons.art(item.item) if item.kind == "weapon" else Art.texture("relic_%02d" % item.item)
+			sprite.texture = Weapons.pickup_art(item.item) if item.kind == "weapon" else Art.texture("relic_%02d" % item.item)
 			sprite.scale = Vector2.ONE*40.0/maxf(sprite.texture.get_width(),sprite.texture.get_height())
 			sprite.position = Vector2(0,-10)
 			node.add_child(sprite)

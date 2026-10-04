@@ -36,7 +36,7 @@ static func rebuild(arena, entries: Array, collected: Dictionary, nodes: Array) 
 		var node := Node2D.new()
 		node.position = loot.pos
 		var sprite := Sprite2D.new()
-		sprite.texture = Weapons.art(loot.item) if loot.kind == "weapon" else Art.texture("relic_%02d" % loot.item)
+		sprite.texture = Weapons.pickup_art(loot.item) if loot.kind == "weapon" else Art.texture("relic_%02d" % loot.item)
 		sprite.scale = Vector2.ONE*45.0/maxf(sprite.texture.get_width(),sprite.texture.get_height())
 		node.add_child(sprite)
 		var label := Label.new()

@@ -93,7 +93,7 @@ func present(view: Dictionary, mode: Dictionary) -> void:
 	$Root/Active.refresh(view)
 	for slot in slots: slot.refresh(view)
 	View.refresh_actions(actions,view)
-	$Root/Heading.text = "探索試作 ／ "+mode.room_name
+	$Root/Heading.visible = false
 	$Root/Help.text = mode.door_hint if not mode.paused and mode.result.is_empty() else ""
 	$Root/Status.text = "敵なし  ·  移動・射撃・UIを自由に確認できます"
 	if mode.get("encounter_cleared",false): $Root/Status.text = "攻略済み  ·  次の部屋へ進めます"
@@ -112,7 +112,7 @@ func present(view: Dictionary, mode: Dictionary) -> void:
 		tween.parallel().tween_property(label,"modulate",Color.WHITE,.25)
 	shown_gold = gold
 	match mode.get("room_role",""):
-		"shop": $Root/Status.text = "工房の露店  ·  品物に近づいてFで購入"
+		"shop": $Root/Status.text = "工房の露店  ·  品物に近づいてFで効果・価格を確認"
 		"altar": $Root/Status.text = "祭壇の間  ·  HPを1捧げるとレリックを授かる"
 		"challenge": $Root/Status.text = "試練の間  ·  中央の台で挑戦するか選べます" if not mode.get("encounter_cleared",false) else "試練を突破"
 	if mode.get("room_role","") == "antechamber": $Root/Status.text = "ボス前室  ·  Tabで装備整理  ·  北の扉は独楽の鋳造機へ"

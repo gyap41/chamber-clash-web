@@ -136,7 +136,7 @@ func combat(game) -> void:
 	setup(game,17)
 	game.players[0].weapon().clip = 1
 	game.fire(0)
-	assert(game.shots[0].state.parcel and game.shots[0].radius == 14)
+	assert(game.shots[0].state.parcel and is_equal_approx(game.shots[0].radius,16.8))
 	game.shots[0].state.life = 0.0
 	game._physics_process(.01)
 	assert(game.shots.size() == 5 and game.shots[0].damage == .35)

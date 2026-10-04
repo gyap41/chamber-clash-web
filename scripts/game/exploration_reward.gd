@@ -64,7 +64,7 @@ static func create(game, source: String, pool: Array, kind: String = "weapon") -
 	var room: Dictionary = progress.room_state(progress.room_id)
 	if room.has("reward"): return false
 	var known := known_items(progress,kind)
-	var candidates := pool.filter(func(id): return id not in known and fits_bag(progress,id,kind))
+	var candidates := pool.filter(func(id): return (id not in known or (kind == "relic" and Relics.stackable(id))) and fits_bag(progress,id,kind))
 	if candidates.is_empty(): return false
 	var point = placement(game)
 	if point == null:

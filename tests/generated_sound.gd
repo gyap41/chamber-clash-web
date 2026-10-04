@@ -36,7 +36,12 @@ func run() -> void:
 		var voice = audio.voices[(audio.next_voice+15)%16]
 		assert(voice.stream == audio.GENERATED[pair[1]])
 		assert(voice.volume_db <= -12 and voice.bus == audio.bus_name)
-	for id in preload("res://scripts/catalog/weapon_catalog.gd").SUPPORTED: assert(not audio.sample_key("shot",id).is_empty())
+	for id in preload("res://scripts/catalog/weapon_catalog.gd").SUPPORTED:
+		if id == 37:
+			audio.play_sound("shot",id)
+			assert(audio.voices[(audio.next_voice+15)%16].stream == audio.GENERATED.aurora_divine)
+			assert(audio.voices[(audio.next_voice+15)%16].pitch_scale == 1.0)
+		else: assert(not audio.sample_key("shot",id).is_empty())
 	assert(audio.sample_key("shot",999).is_empty())
 	audio.play_sound("legacy_test",0)
 	assert(audio.voices[(audio.next_voice+15)%16].stream is AudioStreamWAV)

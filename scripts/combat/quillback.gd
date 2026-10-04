@@ -17,7 +17,7 @@ func spit(i: int, arena) -> void:
 	for offset in offsets:
 		var angle: float = attack_angle+offset
 		var origin: Vector2 = state.pos+Vector2.from_angle(angle)*24
-		if arena.solid(origin,4) or arena.line_blocked(state.pos,origin): continue
+		if preload("res://scripts/combat/projectile_collision.gd").solid(arena,origin,4) or preload("res://scripts/combat/projectile_collision.gd").line_blocked(arena,state.pos,origin): continue
 		session.spawn_shot(i,Spec.QUILL_ID,angle,{"pos":origin,"kind":"enemy_quill",
 			"speed":spec.projectile_speed,"damage":spec.damage,"radius":4.0,"life":spec.projectile_life,
 			"color":"#ffe4ac","visual_color":"#ffe4ac","visual_weapon":0,"visual_variant":"enemy_quill","can_lens":false})

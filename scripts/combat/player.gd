@@ -67,6 +67,8 @@ var reload_visual_duration := 0.0
 var equipment_offset := Vector2.ZERO
 var buffered_fire := 0.0
 var buffered_melee := 0.0
+var melee_hit_ids: Dictionary = {}
+var melee_cleared := 0
 var melee_push := Vector2.ZERO
 var melee_push_time := 0.0
 var buffered_switch := 0.0
@@ -180,10 +182,9 @@ func move_to_room(spawn: Vector2) -> void:
 	sync_visual()
 func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Dictionary = {}, attacker = null) -> bool:
 	if state.hp <= 0 or amount <= 0: return false
-	if (char_id != 0 and state.roll > 0) or (volley >= 0 and state.blocked_volley == volley) or (state.inv > 0 and (volley < 0 or state.last_volley != volley)): return false
+	if (char_id != 0 and state.roll > 0) or (volley >= 0 and state.blocked_volley == volley) or damage_window_blocks(volley,origin): return false
 	amount = RelicEffects.incoming_damage(self,amount,volley,hazard)
 	if amount <= 0: return false
-	state.last_volley = volley
 	var actual := minf(state.hp,amount)
 	state.hp = maxf(0,state.hp-amount)
 	if state.hp <= 0:
@@ -197,13 +198,19 @@ func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Diction
 	if state.hp <= 0: cancel_reload_visual()
 	RelicEffects.damaged(self,actual,hazard)
 	if telemetry != null: telemetry.record("damage",{"player":str(name),"amount":actual,"volley":volley,"hazard":hazard,"origin":origin})
-	state.inv = .22
+	record_damage_window(volley,origin)
 	burst_requested.emit(state.pos,visual_color(),14)
 	shake_requested.emit(4.0)
 	sound_requested.emit("hit",0)
 	# Dead actors are skipped by CombatSession on the next tick; publish now.
 	sync_visual()
 	return true
+# Enemy melee can use a separate window without changing dodge/shield guards.
+func damage_window_blocks(volley: int, _origin: Dictionary) -> bool:
+	return state.inv > 0 and (volley < 0 or state.last_volley != volley)
+func record_damage_window(volley: int, _origin: Dictionary) -> void:
+	state.last_volley = volley
+	state.inv = .22
 # Unknown attackers and actors without a team count as opponents.
 func not_teammate(attacker) -> bool:
 	return not is_instance_valid(attacker) or team_id.is_empty() or attacker.team_id.is_empty() or team_id != attacker.team_id
@@ -270,24 +277,34 @@ func try_melee(i: int, shots: Array, enemy, arena) -> void:
 	p.slash = .16
 	p.shot = maxf(p.shot,.3)
 	sound_requested.emit("slash",0)
+	melee_hit_ids.clear()
+	melee_cleared = 0
+	resolve_melee_hits(i,shots,enemy,arena)
+
+func resolve_melee_hits(i: int, shots: Array, enemy, arena) -> void:
+	var p = state
+	if p.hp <= 0 or p.slash <= 0: return
 	var removed := 0
 	for bullet in shots:
 		var b = bullet.state
 		var offset: Vector2 = b.pos-p.pos
 		# Legacy inSlash() (game.js:47) requires !lineBlocked(p,target) for both the bullets
 		# melee eats and the enemy it can hit; a wall between the two blocks the swing.
-		if hostile_slot(b.owner,i) and not b.dead and offset.length() <= melee_range and absf(wrapf(offset.angle()-p.angle,-PI,PI)) <= melee_arc and removed < melee_limit and not arena.line_blocked(p.pos,b.pos):
+		if hostile_slot(b.owner,i) and not b.dead and offset.length() <= melee_range and absf(wrapf(offset.angle()-p.angle,-PI,PI)) <= melee_arc and melee_cleared < melee_limit and not arena.line_blocked(p.pos,b.pos):
 			b.dead = true
 			burst_requested.emit(b.pos,Color(b.color),6)
 			removed += 1
+			melee_cleared += 1
 	if removed > 0: sound_requested.emit("melee_clear",0)
 	RelicEffects.melee_cleared(self,removed)
 	var targets: Array = enemy if enemy is Array else ([enemy] if enemy != null else [])
 	for target in targets:
+		if not is_instance_valid(target) or melee_hit_ids.has(target.get_instance_id()): continue
 		var offset: Vector2 = target.state.pos-p.pos
 		var contact := melee_contact(offset)
 		if offset.distance_to(contact) > target.radius or arena.line_blocked(p.pos,target.state.pos): continue
 		if not target.hurt(melee_damage,-1,false,{"kind":"melee"},self): continue
+		melee_hit_ids[target.get_instance_id()] = true
 		weapon_event_requested.emit({"kind":"melee_hit","pos":p.pos+contact,"angle":offset.angle()})
 		if target.state.hp > 0:
 			var direction := offset.normalized() if offset.length() > .001 else Vector2.from_angle(p.angle)
@@ -445,6 +462,10 @@ func sync_visual() -> void:
 	if has_weapon() and Weapons.EQUIPMENT_POINTS.has(weapon().id):
 		$Weapon/Sprite.position = equipment_offset * Vector2(1,-1 if $Weapon/Sprite.flip_v else 1)
 	$Slash.visible = state.slash > 0
+	$ReloadProgress.visible = state.reload > 0 and state.hp > 0
+	if state.reload > 0:
+		$ReloadProgress.value = 100.0*(1.0-clampf(state.reload/maxf(reload_visual_duration,.001),0,1))
+		$ReloadProgress/Time.visible = false
 	$Slash.rotation = state.angle
 	$Animation.present(visual_snapshot())
 
@@ -464,8 +485,8 @@ func resolved_definition(id: int) -> Dictionary:
 	var resolved := Weapons.resolved_definition(id, weapon_mods.get(id, ""))
 	if infinite_reserve(id):
 		resolved = resolved.duplicate()
-		resolved.damage *= .75
-		resolved.desc = "探索用：予備弾無限・威力75%。装填は必要。"
+		resolved.damage *= .55
+		resolved.desc = "探索用：予備弾無限・威力55%。装填は必要。"
 	if 21 in relics:
 		resolved = resolved.duplicate()
 		resolved.mag = int(resolved.mag)+int(relic_value(21,"mag_bonus"))
@@ -569,7 +590,7 @@ func update_weapon_art() -> void:
 	if Weapons.EQUIPMENT_POINTS.has(weapon().id):
 		var size: Vector2 = $Weapon/Sprite.texture.get_size()
 		var ratio := minf(weapon_display_size.x/size.x,weapon_display_size.y/size.y)
-		ratio *= float(Weapons.EQUIPMENT_SCALE.get(weapon().id,1.0))
+		ratio *= float(Weapons.EQUIPMENT_SCALE.get(weapon().id,1.0))*1.12
 		$Weapon/Sprite.scale = Vector2.ONE*ratio
 		equipment_offset = Vector2(8,0)+(Vector2(.5,.5)-Weapons.EQUIPMENT_POINTS[weapon().id][0])*size*ratio
 		$Weapon/Sprite.position = equipment_offset * Vector2(1,-1 if cos(float(state.get("angle",0.0)))<0 else 1)

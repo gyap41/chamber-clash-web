@@ -19,7 +19,7 @@ func spit(i: int, arena) -> void:
 	for offset in [-.56,-.28,0.0,.28,.56]:
 		var angle: float = attack_angle+offset+shift
 		var origin: Vector2 = state.pos+Vector2.from_angle(angle)*24
-		if arena.solid(origin,4) or arena.line_blocked(state.pos,origin): continue
+		if preload("res://scripts/combat/projectile_collision.gd").solid(arena,origin,4) or preload("res://scripts/combat/projectile_collision.gd").line_blocked(arena,state.pos,origin): continue
 		session.spawn_shot(i,Spec.SCATTER_ID,angle,{"pos":origin,"kind":"enemy_scatter",
 			"speed":spec.projectile_speed,"damage":spec.damage,"radius":4.0,"life":spec.projectile_life,
 			"color":"#ffcf70","visual_color":"#ffcf70","visual_weapon":0,"visual_variant":"enemy_scatter","can_lens":false})

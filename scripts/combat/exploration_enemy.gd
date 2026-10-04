@@ -6,6 +6,7 @@ const Navigation = preload("res://scripts/ai/cpu_navigation.gd")
 var spec: Dictionary = Spec.SENTRY
 var attack_phase := "grace"
 var attack_time := 1.0
+var melee_damage_window := 0.0
 var attack_angle := 0.0
 var route: Array = []
 var route_time := 0.0
@@ -40,17 +41,38 @@ func prepare(spawn: Vector2) -> void:
 func recover_rally(_dealt: float) -> void:
 	pass
 
+func reset(spawn: Vector2) -> void:
+	melee_damage_window = 0.0
+	super.reset(spawn)
+
+func separate_melee_window(origin: Dictionary) -> bool:
+	return spec.id != "furnace_warden" and origin.get("kind","") == "melee"
+
+func damage_window_blocks(volley: int, origin: Dictionary) -> bool:
+	if separate_melee_window(origin):
+		# Only bypass a known projectile hit, never unrelated invulnerability.
+		return melee_damage_window > 0 or (state.inv > 0 and (state.last_volley < 0 or state.inv > .22))
+	return super.damage_window_blocks(volley,origin)
+
+func record_damage_window(volley: int, origin: Dictionary) -> void:
+	if separate_melee_window(origin):
+		melee_damage_window = .22
+	else:
+		super.record_damage_window(volley,origin)
+
 func hurt(amount: float, volley: int = -1, hazard: bool = false, origin: Dictionary = {}, attacker = null) -> bool:
 	var alive: bool = state.hp > 0
 	var applied := super.hurt(amount,volley,hazard,origin,attacker)
 	if applied and alive and state.hp <= 0:
+		if spec.get("machine_audio",false): sound_requested.emit("machine_stop",get_instance_id())
 		sound_requested.emit(spec.death_sound,0)
 		if spec.id != "furnace_warden": sound_requested.emit("enemy_defeat",0)
 		var remains := preload("res://scripts/visuals/enemy_death.gd").new()
 		remains.snapshot = enemy_visual_snapshot()
+		remains.material = material
 		for connection in sound_requested.get_connections():
 			remains.sound_requested.connect(connection.callable)
-		remains.organic = spec.id not in ["workshop_sentry","furnace_warden","scatter_drone","runner_sentry","ram_sentry","ring_sentry"]
+		remains.organic = spec.id not in ["workshop_sentry","furnace_warden","scatter_drone","runner_sentry","ram_sentry","ring_sentry","ash_ram","triple_ring"]
 		remains.position = state.pos
 		remains.add_to_group("enemy_death_visuals")
 		get_parent().add_child(remains)
@@ -62,7 +84,7 @@ func advance_visual(dt: float, _moving: bool) -> void:
 	previous_visual_position = state.pos
 	visual_time += dt
 	# Actual displacement drives feet; pushing against a wall does not walk in place.
-	var walking := distance > .01 and distance < 50 and attack_phase == "chase"
+	var walking: bool = distance > .01 and distance < 50 and (attack_phase == "chase" or (spec.get("walking_fire",false) and attack_phase == "spit") or (spec.id == "ash_ram" and attack_phase == "dash"))
 	if walking:
 		gait_phase += distance / 38.0 * TAU
 		# Starting from a stop, take the new direction at once; while walking, smooth small route bends.
@@ -125,6 +147,7 @@ func step(dt: float, i: int, enemy, arena, _mouse_shooting: bool = false, _ai: D
 	return move_with_command(dt,i,enemy,arena,command)
 
 func move_with_command(dt: float, i: int, enemy, arena, command: Dictionary) -> bool:
+	melee_damage_window = maxf(0.0,melee_damage_window-dt)
 	super.step(dt,i,enemy,arena,false,command)
 	return false
 
@@ -133,7 +156,7 @@ func enemy_visual_snapshot() -> Dictionary:
 	var view := {"enemy_id":spec.id,"alive":not state.is_empty() and state.hp > 0,
 		"phase":attack_phase,"remaining":attack_time,"windup":float(spec.windup),
 		"gait":gait_phase,"motion":motion_weight,"visual_time":visual_time,
-		"hit":clampf(float(state.get("inv",0))/.22,0,1),
+		"hit":clampf(maxf(float(state.get("inv",0)),melee_damage_window)/.22,0,1),
 		"recovery":float(spec.recovery),"reach":float(spec.range),
 		"angle":attack_angle if attack_phase in ["windup","recover"] else float(state.get("angle",0)),
 		"hp_ratio":float(state.get("hp",0))/maxf(1.0,float(state.get("max_hp",1)))}

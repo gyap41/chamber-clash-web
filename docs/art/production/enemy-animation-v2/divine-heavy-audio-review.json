@@ -1,0 +1,27 @@
+{
+  "rate": 48000,
+  "duration": 15.946666666666667,
+  "listening_verified": false,
+  "sections": [
+    {
+      "name": "ram",
+      "peak_dbfs": -18.0,
+      "clipped_samples": 0
+    },
+    {
+      "name": "ring",
+      "peak_dbfs": -18.05,
+      "clipped_samples": 0
+    },
+    {
+      "name": "aurora",
+      "peak_dbfs": -18.13,
+      "clipped_samples": 0
+    },
+    {
+      "name": "mix",
+      "peak_dbfs": -18.37,
+      "clipped_samples": 0
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "created": "2026-10-04",
+  "provider": "built-in imagegen",
+  "status": "integrated for review; user visual acceptance pending",
+  "assets": [
+    {
+      "path": "assets/ui/exploration/workshop-case-v1.png",
+      "sha256": "c50769922a031e6c57c891435bdf7a8ff332f0b7893500a48a435a375bc2edf7"
+    },
+    {
+      "path": "assets/stages/ashen-foundry-v2/event-props/merchant-v1.png",
+      "sha256": "17706b224690cb7dcf60b08d8704a9e5fbf03b992fe1208cffe77ea0355054f1"
+    }
+  ],
+  "recipes": {
+    "workshop-case-v1": "opaque 7:5 empty teal felt portable workshop panel; code overlays interactive elements",
+    "merchant-v1": "transparent stationary hooded brass-mask shopkeeper; no combat rig; gentle idle vertical movement in EventNode"
+  }
+}

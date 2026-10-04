@@ -2561,6 +2561,126 @@
       "fingerprint": "ae3dbca1b730a437747938cffda80309b2cd8ab640e126342cfc2a1d5cdf9b89",
       "sha256": "254f1973897aaec1da4892d6143ae5182b3fad7dc0a576e60f804a7b59eb2a48",
       "loop_verified": false
+    },
+    {
+      "asset_id": "se:fw_ash_ram_launch_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_ash_ram_launch_01.mp3",
+      "purpose": "Ash ram dash start; one candidate; requested machine SE revision",
+      "prompt": "One compact heavy clockwork ram launching forward: immediate deep metal piston clack and punchy compressed air thrust, brief brass gear chatter decaying smoothly. Weighty mechanical attack, no explosion, no debris impact, no scraping, no voice, no music, no silence at start. Single 0.5 second game action.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-10-04T07:41:26.155059+00:00",
+      "fingerprint": "3e06a8dc46da8da329da236264ab98d059fb5a8eebf4892b90432de74dadd63f",
+      "sha256": "dd66c7087a75098d1b97446e5b290dac570e493cef85d8c742fa6bdfd968e10f",
+      "loop_verified": false,
+      "candidate_file_path": "res://assets/candidates/ash-ram-launch/v1/fw_ash_ram_launch_01.mp3",
+      "integration_status": "superseded by version 02; retained for comparison, not currently connected"
+    },
+    {
+      "asset_id": "se:fw_triple_ring_salvo_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_triple_ring_salvo_01.mp3",
+      "purpose": "Triple ring actual salvo; one candidate; requested machine SE revision",
+      "prompt": "One compact circular brass turret volley: immediate layered pneumatic pop and resonant metal barrel thunk with a bright brief clockwork snap. Three tightly stacked timbres as one simultaneous discharge, not a burst sequence. Punchy midrange, restrained bass, soft fading air tail, no explosion, no voice, no music, no silence at start. 0.5 second game sound.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-10-04T07:41:58.908258+00:00",
+      "fingerprint": "0d3b66a7fb7c0b2170b94ad8d012ad255ed5d6287772108154c476c11c5b6ab2",
+      "sha256": "8c7b62b6f17c4f66a97c6206194cd794bd7b5dd64d877db98870601e0f658608",
+      "loop_verified": false,
+      "candidate_file_path": "res://assets/candidates/triple-ring-salvo/v1/fw_triple_ring_salvo_01.mp3",
+      "integration_status": "superseded by version 02; retained for comparison, not currently connected"
+    },
+    {
+      "asset_id": "se:fw_aurora_divine_03",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_aurora_divine_03.mp3",
+      "purpose": "User approved shortened divine Aurora prompt after HTTP 400; one candidate",
+      "prompt": "One divine rainbow magic shot: immediate sacred bell chord, warm wordless choir-like harmonics and luminous crystalline overtones. Majestic, holy, full-bodied. Smooth short reverberant decay within 0.8 seconds. No melody, speech, lyrics, percussion, harsh laser or beep. No leading silence.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.8,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.8359183673469388,
+      "duration_source": "audio_header",
+      "generated_at": "2026-10-04T09:24:07.837720+00:00",
+      "fingerprint": "7c554076d9dae644f2ce18ceb4d727f3028fcba52a49e4426fe19ff16b917386",
+      "sha256": "3deb6aff48dad18a4e33517c7bd9ead667e9565e99793b400f6c2be5ad2aa4ef",
+      "loop_verified": false,
+      "candidate_file_path": "res://assets/candidates/aurora-divine/v3/fw_aurora_divine_03.mp3",
+      "integration_status": "connected; provisionally accepted by user on 2026-10-04; device-specific and maximum-mix listening unverified"
+    },
+    {
+      "asset_id": "se:fw_ash_ram_launch_02",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_ash_ram_launch_02.mp3",
+      "purpose": "User requests heavier mechanical ram launch replacing 01; one candidate",
+      "prompt": "One massive industrial mech piston launch. Immediate deep steel locking clunk, thick hydraulic thrust, dense low-mid gear resonance. Heavy forged iron moving forcefully with gritty motor torque, weight in 100-500 Hz. Single action with a short smooth decay. No thin hiss, chirp, beep, voice, music, explosion or lead-in silence.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-10-04T09:24:37.959048+00:00",
+      "fingerprint": "dce4be340759cff266ed3c48bf83da13806c03f15ece740b6a493310d87c99dd",
+      "sha256": "9857fe23b383f6085026531dc7b88bea63679c338cef59a67e795f5653f5410b",
+      "loop_verified": false,
+      "candidate_file_path": "res://assets/candidates/ash-ram-launch/v2/fw_ash_ram_launch_02.mp3",
+      "integration_status": "connected; provisionally accepted by user on 2026-10-04; device-specific and maximum-mix listening unverified"
+    },
+    {
+      "asset_id": "se:fw_triple_ring_salvo_02",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_triple_ring_salvo_02.mp3",
+      "purpose": "User requests heavier mechanical ring turret salvo replacing 01; one candidate",
+      "prompt": "Single heavy mechanical turret salvo. Immediate bassy steel breech slam and three simultaneous barrel thumps, dense bronze resonance with a short hydraulic recoil clack. Solid industrial machinery, powerful low-mid body and restrained highs. Smooth decay within half a second. No burst sequence, laser, beep, thin hiss, voice or music. No leading silence.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-10-04T09:24:59.235206+00:00",
+      "fingerprint": "3edc57bd9af2a5270fe5b5dd80ed72b54843b77abf84677baa574164912aa878",
+      "sha256": "bf81354b55c8c4fa246205fa60564f0f36f7f54c673d991a8ba8f4a67b1ec58e",
+      "loop_verified": false,
+      "candidate_file_path": "res://assets/candidates/triple-ring-salvo/v2/fw_triple_ring_salvo_02.mp3",
+      "integration_status": "connected; provisionally accepted by user on 2026-10-04; device-specific and maximum-mix listening unverified"
     }
   ]
 }

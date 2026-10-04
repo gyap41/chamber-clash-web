@@ -1,3 +1,11 @@
+## 射撃の遮蔽・接触半径
+
+`tests/projectile_cover.gd` は20種類の部屋にある衝突付き配置185件の射撃範囲と歩行矩形維持を検査する。列柱の広間で本物のトカゲ弾が柱の根元/画像中央に当たること、900px/s・0.2秒刻みでも抜けないこと、通常弾の芯内外のかすり、跳弾、2px遮蔽物を24pxの銃口オフセットで飛び越せないことを検査。非衝突の装飾は非衝突のまま。`projectile_personality`、`equipment`、`pattern_weapons`、`legendary_weapons`、`weapon_readability` の半径期待値は今回の接触判定拡大の依頼に対応する実寸へ更新し、判定条件は削除していない。明示半径、敵弾、壁通過する月刃の回帰検査を維持。
+
+## 試遊後の読みやすさと自動扉
+
+`tests/playtest_readability.gd` はFなしの移動、戦闘/停止時の拒否、到着直後の往復防止と再受付、部屋名/扉字幕/リロード秒数の非表示、38武器の拾得画像の余白除去、吹き出しの停止/消去を検査する。`tests/player_feedback.gd -- --capture` を描画ありで実行すると、実際のショップにある店員の吹き出しを `.local/feedback-merchant.png` へ保存する。今回の確認は文字折り返しと配置であり、全UIの美術採用とは区別する。 弾は通常倍率のサービスピストル・オーロラを描画確認（.local/feedback-bullet-20.png、37.png）。寸法定義44件のみを1.2倍に変更したことを差分比較で確認。混戦の視認性評価とは区別する。
+
 ## 候補素材の分離とプレビュー（2026-10-04）
 
 `tests/asset_zones.gd`: scripts・scenes・data・assets（台帳を除く）とproject.godotが `assets/candidates/`・`assets/retired/`（候補のUIDを含む）を参照していないこと、retiredの `.gdignore`、Web書き出しの除外、`CandidatePreview` がAutoloadの先頭であることを確認する。`tests/candidate_preview.gd`: `tests/fixtures/candidate_preview/v1/preview.json` で使用中の画像・SEを差し替え、`load()`・UID・`preload`・音声のいずれでも候補が返ること、不正な指定がエラーとして記録されることを確認する。どちらもrun_tests.ps1に含まれる。
@@ -13,6 +21,30 @@
 `Godot --path . --script res://tests/cistern_ambience.gd --quit-after 900 -- --capture`：水面shaderの時間、描画ピクセルの変化と石枠固定、小型槽の適用、火元の光量変化、停止・再開、離室破棄と再構築を検証。.local/two-rooms-cistern-water-1.pngと2.png、camp-fire-1.pngと2.png、furnace-fire.pngに保存。ピクセル検査はcapture時のみ。描画ありPASS。`tests/authored_rooms.gd`も20室の配置・到達性PASS。GPU負荷の定量測定と混戦の手動確認は未実施。
 
 開始室の固定品撤去: random_floor_playの開始・帰還・再挑戦時の期待値を固定品なしに更新。固定2部屋のexploration_bag/room_instancesの検証品は維持。本編接続はproduction_floorで回帰確認する。
+
+武器説明の更新時は `player_feedback.gd -- --capture` の既存購入前表示・キャンセル・バッグ検証を利用する。長い説明はショップの固定領域とバッグのスクロール領域の両方を実描画で確認する。2026-10-04の説明8種更新では既存検証PASS、撮影用の商品指定をオーロラへ替えた一時fixtureでも文字が必要面積・購入ボタンに重ならないことを確認。性能値は変更前後のカタログ比較で一致。
+
+## 混戦と補給の診断
+
+`exploration_supply_cadence.gd` は試練クリア済みの本編から通常6室を攻略し、弾薬/回復の間隔と再検査時の二重生成防止を確認する。修正前は最初の通常室で弾薬が出て失敗した。`exploration_elite_placement.gd` は双広間で機械2体の96px余白・入口260px・相互160px・再現性を確認し、幅120pxの検証通路では普通の配置地点へ戻せることを確認する。
+
+`Godot --headless --path . --script res://tools/review_encounter_balance.gd --quit-after 300` を240秒のプロセスタイムアウト付きで実行。`.local/encounter-balance.json` に、本編3seedの通常室を生成順に訪問した全入口の配置/経路と、8条件の自動操作結果を保存する。自動操作は60Hz、最大30秒、初期銃/ホチキス、レリック/改造なし、満タン開始、ラリー回復なし。8方向の壁回避・敵との距離・弾の予測位置で移動先を選び、照準/射撃・回避・近接を既存の戦闘処理へ渡す。道順を計画する人間の操作は再現せず、見えていない敵弾も参照するため、人間の勝率・反応難度とは区別する。
+
+描画確認は同じコマンドから --headless を外して末尾へ -- --capture を加える。ホチキス装備時の2秒/8秒を .local/encounter-*.png に保存する。通常の探索更新を呼び、撃破後の残骸・環境演出・HUDも進行させる。静止画での視認性と人による連続操作の評価は分ける。
+
+6体の追加条件は通常抽選の評価と区別し、配置後の実際の敵IDを記録する。余白不足による代替が起きた場合に、指定した強敵と戦ったことにしない。敗北すると本編が敵を退役させるため、診断出力は outcome=dead、survivors=-1（退役後は計数不可）とし、敵配列が空でも勝利扱いにしない。数値比較はROADMAP、実装済みの補給/配置ルールはGAME_RULESを参照。
+
+## 探索敵への銃・近接連携
+
+`exploration_melee_combo.gd` は登録済み探索敵12種で銃弾直後の実斬撃、命中イベントと押し戻し、同じ斬撃の二重命中禁止、同じ斉射の後続弾と別斉射の拒否、近接→銃弾、近接受付の時間経過と初期化、汎用無敵の保護を確認する。ボスIDでの共有受付とプレイヤーの従来受付も検査。ボス固有の開始/段階移行は既存 `furnace_warden` 等で別に確認する。`melee_impact` の円と扇形・壁・押し戻し、`action_buffer` の入力予約も併用する。
+
+前回の `review_weapon_balance.gd` の銃弾後0/0.1/0.23秒の近接比較は、修正後すべて0.6ダメージとなることを確認する。自動検査と手動操作による爽快感の評価は分ける。
+
+## 探索武器の比較計測
+
+`Godot --headless --path . --script res://tools/review_weapon_balance.gd --quit-after 240` を180秒のプロセスタイムアウト付きで実行する。出力は `.local/weapon-balance.json`。38武器×距離40/80/180/320px、各10秒・120Hz。リナの探索補正あり、レリック/改造なし、予備弾のみ補充した満弾状態で開始する。壁なし・半径18pxの静止標的に正面から連射し、本編の発射・弾道・遅延弾・被弾無敵・自動装填を使う。
+
+標的のAIと移動は止め、HPを10000にして累積3/8ダメージ到達時刻と10秒総ダメージを保存する。`ttk_hp3` / `ttk_hp8` はその条件での撃破相当時間で、-1は10秒以内の未到達。敵の本来のHP・回避・反射用の壁・複数標的・プレイヤー操作は再現しない。近接・移動射撃トカゲは `melee_impact` / `action_buffer` / `mobile_lizard_and_elites` の回帰検査と実プレイで別に評価する。これは順位の合否テストではなく、調整前後に同条件で比較する計測ツール。
 
 ## 宝箱レア度の表示とSE（2026-09-29）
 
@@ -712,3 +744,36 @@ Visual Hubの部屋一覧：`Godot --headless --path . --script res://tests/visu
 `tests/action_buffer.gd` は右クリック予約から回避後の命中、現在照準、1回だけの発動、近接クールダウン、近接後の回避を30/60/120Hz・リナと通常回避キャラで確認する。リロードによる予約破棄、死亡、停止、フォーカス喪失、結果・再挑戦も検査。`tests/exploration_rooms.gd` は部屋移動時の近接予約消去を含む。関連回帰は `dodge_flow`、`character_rig8`（新表示とC倍率の標準化・旧表示切替）、`exploration_camera`（標準値と比較用旧倍率のカメラ幾何）。実行は本書のGodotコマンドの `--script res://tests/<名前>.gd` を置き換える。
 
 手動受入: 通常起動のリナでSpace→回避中に右クリック→着地時の近接、近接から射撃／次の回避、壁際・移動標的での当てやすさを確認する。入力の自動検査と爽快感の評価は別扱い。
+
+
+## 試遊改善の回帰確認（2026-10-04）
+
+`tests/player_feedback.gd` は購入前表示とキャンセル、1マス拡張の支払・再購入価格・重複拒否・24マス上限・バッグ再表示、遠方硬貨の回収と二重加算防止、各部屋の転送装置、頭上装填表示、弾薬満タン時の購入不可、再挑戦時の商品確認画面の破棄を確認する。描画付きで `-- --capture` を渡すと `.local/feedback-shop.png`・`feedback-expansion.png`・`feedback-bag.png`・`feedback-merchant.png` を出す。通常の全テストでは描画撮影を行わない。
+
+`melee_impact` は斬撃の途中で範囲に入る標的、同じ斬撃の再命中拒否、有効時間終了後の命中拒否を追加。`projectile_personality` はヘビーコア1/2/8個の弾径・画像倍率の一致、60%上限、派生弾への非適用を追加。`exploration_bag_ui` は実際のボタン/セルの座標でクリックし、選択・配置・終了を検証する。`visual_hub_enemies` は追加4種を含む12種の実攻撃を確認する。
+
+UI・店員の1120×800描画は確認済み。音色、混戦の視認性、初期武器からの持替えの楽しさ、敵強度と物価は手動試遊の受入対象。自動テストや静止画確認で聴感・遊び心地の採用を代替しない。
+
+最終実行: `run_tests-20261004-153122.log`、PASS 148 / FAIL 0 / NO-PASS 4 / 合計152。NO-PASSはenemy_animation_review・enemy_art_preview・enemy_death_review・quillback_art（撮影用、失敗ではない）。最初の4件のFAILは、依頼された表示倍率/UI配置/音源経路の変更と新規突進敵に対する検証を修正して解消。既存の終了時ObjectDB/Resource解放警告は一部残る。資料索引は199 Markdown・2358リンク、欠落0。
+
+## 移動射撃と専用機械（2026-10-04）
+
+`tests/mobile_lizard_and_elites.gd` は通常/強化トカゲの射撃中移動、他敵の停止、弾の左右分散、先読みと最終狙い固定、歩行表示、専用機械18パーツの領域、機械の撃破分類と砲座反動を検査する。既存 `fire_pouch_lizard` の第2弾期待値は依頼された+0.18rad分散へ更新した。
+
+描画撮影はGodotで `--path . --script res://tools/capture_elite_machines.gd --quit-after 2000`（外部timeout240秒）。`node tools/encode_elite_machines.mjs` で撮影後の315コマを歩行・攻撃・撃破のWebPへ変換する。4方向の実Actorを使用し、撮影用ダミー標的は表示しない。生成動画と静止抽出は enemy-animation-v2 制作記録を参照。撮影成功と連続動作の美術採用は別。
+
+今回の最終実行: `run_tests-20261004-160454.log`、PASS 149 / FAIL 0 / NO-PASS 4 / 合計153。NO-PASS: enemy_animation_review、enemy_art_preview、enemy_death_review、quillback_art（撮影用、失敗ではない）。一部の既存終了時Resource/ObjectDB解放警告は残る。資料索引199 Markdown・2362リンク、欠落0。
+
+配色/混戦確認：`tools/capture_enemy_variants.gd` は同じ床・1.45倍・4方向で通常/強化の4種を撮影する。`tools/review_mixed_enemies.gd` は6体を中庭/工房主室で各20秒動かし、停止復帰・撃破時の2種のmaterial継承を検査する。Godot描画あり、`--quit-after 2400`、外部timeout180秒で実行。無敵の静止標的のため手動回避の難度判定には使わない。
+
+配色変更後の全体検証：`run_tests-20261004-163032.log`、PASS 149 / FAIL 0 / NO-PASS 4 / 計153。NO-PASSはenemy_animation_review・enemy_art_preview・enemy_death_review・quillback_art（撮影用）。既存の終了時リソース解放警告は一部残る。描画付き混戦チェックも2床でPASS。
+
+## 機械SE・オーロラ演出の回帰
+
+`tests/machine_weapon_presentation.gd` は破砕の構え/発進/復帰、環砲の3斉射33発と専用音3回、死亡時停止、個体別停止、ポーズ/ミュート、オーロラ合成音の端点0、扇状粒子の方向と消去を検査する。`tools/review_machine_audio.gd` はGodotマスター出力の単発3種とBGM混合を録音。`tools/capture_aurora_revision.gd` は実射撃の5時点を撮影する。描画あり `--quit-after 2400` と外部timeout180秒で実行。音源認識/録音/ピーク測定と試聴の評価は区別する。
+
+音響改訂の全体検証：`run_tests-20261004-164852.log`、PASS 150 / FAIL 0 / NO-PASS 4 / 計154。NO-PASSはenemy_animation_review・enemy_art_preview・enemy_death_review・quillback_art（撮影用）。初回個別確認でelite_machine_visualの予告線startの型推論エラーを検出しVector2指定で修正、個別・全体再確認で解消。既存の終了時リソース解放警告は一部残る。資料201 Markdown・2373リンク、欠落0。
+
+音色の再指定ではgenerated_soundのID37期待値を、ユーザー指定に従い旧合成WAVから専用aurora_divine音源・pitch=1へ更新。machine_weapon_presentationは環砲の音量+2dBと合成層追加後のvoice位置を検査する。攻撃回数・停止/ミュートの検査は維持。review_machine_audioの現行出力はmachine-aurora-divine-mix.wav、旧録音は比較用に保持する。
+
+神々しい/重厚な音色への差し替え後：`run_tests-20261004-182658.log`、PASS 150 / FAIL 0 / NO-PASS 4 / 計154。NO-PASSはenemy_animation_review・enemy_art_preview・enemy_death_review・quillback_art（撮影用）。終了時の既存Resource/ObjectDB警告は一部残る。音響個別検査もPASS。試聴の評価は未確認。資料204 Markdown・2383リンク、欠落0。

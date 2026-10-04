@@ -34,8 +34,8 @@ func run() -> void:
 	# Test the actual exploration starter (ID20), not the duel sidearm (ID0).
 	player.exploration_starter = true
 	var starter: Dictionary = player.resolved_definition(20)
-	assert(is_equal_approx(starter.damage,.75))
-	var expected := [6,4,5,4]
+	assert(is_equal_approx(starter.damage,.55))
+	var expected := [8,6,7,5]
 	var specs := [enemy.Spec.SENTRY,enemy.Spec.LIZARD,enemy.Spec.QUILLBACK,enemy.Spec.RUNNER]
 	for index in range(specs.size()):
 		enemy.spec = specs[index]

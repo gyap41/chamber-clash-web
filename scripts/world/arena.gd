@@ -13,12 +13,13 @@ func configure_field(source: Definition, participant_count: int = 0, radius: flo
 	var errors := Builder.apply(self,source,participant_count,radius)
 	if errors.is_empty(): definition = source
 	return errors
-func solid(pos: Vector2, radius: float) -> bool:
+func solid(pos: Vector2, radius: float, projectile: bool = false) -> bool:
 	if runtime_definition != null:
 		if not runtime_definition.floor_contains(pos): return true
 		for placement in runtime_definition.placements:
-			if placement.collision == Rect2(): continue
-			var rect := Rect2(placement.position+placement.collision.position,placement.collision.size)
+			var local: Rect2 = placement.projectile_rect() if projectile else placement.collision
+			if not local.has_area(): continue
+			var rect := Rect2(placement.position+local.position,local.size)
 			if pos.distance_to(pos.clamp(rect.position,rect.end)) < radius: return true
 	for node in $Walls.get_children():
 		var wall: Rect2 = node.collision_rect()
@@ -26,6 +27,38 @@ func solid(pos: Vector2, radius: float) -> bool:
 		if pos.distance_to(closest) < radius:
 			return true
 	return false
+
+func projectile_solid(pos: Vector2, radius: float) -> bool:
+	return solid(pos,radius,true)
+
+func projectile_line_blocked(from: Vector2, to: Vector2, radius: float = 2.0) -> bool:
+	# Analytic cover rays are also used by pathfinding: don't sample every prop at every pixel.
+	if runtime_definition != null:
+		if runtime_definition.constrain_to_floor:
+			var steps := maxi(1,ceili(from.distance_to(to)/4.0))
+			for index in range(steps+1):
+				if not runtime_definition.floor_contains(from.lerp(to,float(index)/steps)): return true
+		for placement in runtime_definition.placements:
+			var local: Rect2 = placement.projectile_rect()
+			if local.has_area() and segment_hits_rect(from,to,Rect2(placement.position+local.position,local.size).grow(radius)): return true
+	for wall in $Walls.get_children():
+		if segment_hits_rect(from,to,wall.collision_rect().grow(radius)): return true
+	return false
+
+static func segment_hits_rect(from: Vector2, to: Vector2, rect: Rect2) -> bool:
+	var delta := to-from
+	var first := 0.0
+	var last := 1.0
+	for axis in range(2):
+		if absf(delta[axis]) < .00001:
+			if from[axis] < rect.position[axis] or from[axis] > rect.end[axis]: return false
+		else:
+			var a: float = (rect.position[axis]-from[axis])/delta[axis]
+			var b: float = (rect.end[axis]-from[axis])/delta[axis]
+			first = maxf(first,minf(a,b))
+			last = minf(last,maxf(a,b))
+			if first > last: return false
+	return true
 
 func move_fighter(p: Dictionary, delta: Vector2, radius: float = 14.0) -> void:
 	var steps := maxi(1,ceili(delta.length()/5))

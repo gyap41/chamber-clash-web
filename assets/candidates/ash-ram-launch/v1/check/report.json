@@ -1,0 +1,104 @@
+{
+  "candidate": {
+    "file": "assets\\candidates\\ash-ram-launch\\v1\\fw_ash_ram_launch_01.mp3",
+    "sample_rate": 44100,
+    "channels": 2,
+    "file_duration_s": 0.48,
+    "leading_silence_ms": 0.0,
+    "attack_ms": 189.6,
+    "active_length_s": 0.379,
+    "audible_until_s": 0.379,
+    "trailing_silence_ms": 100.9,
+    "peak_dbfs": -2.3,
+    "clipped_samples": 0,
+    "rms_dbfs_active": -21.0,
+    "loudness_lufs_approx": -15.1,
+    "dc_offset": 0.00012,
+    "hits": 3,
+    "hit_times_ms": [
+      0.0,
+      264.4,
+      329.3
+    ],
+    "spectral_centroid_hz": 6557,
+    "rolloff85_hz": 10772,
+    "spectral_flatness": 0.002,
+    "band_energy_share": {
+      "sub_<120": 0.0,
+      "low_120-500": 0.005,
+      "mid_500-2k": 0.071,
+      "presence_2k-6k": 0.474,
+      "air_>6k": 0.45
+    },
+    "harmonicity": 0.16,
+    "pitch_hz": null,
+    "stereo_correlation": 0.987
+  },
+  "category": "attack",
+  "references": [
+    {
+      "file": "assets\\audio\\se\\fw_sentry_swing_01.mp3",
+      "sample_rate": 44100,
+      "channels": 2,
+      "file_duration_s": 0.48,
+      "leading_silence_ms": 0.0,
+      "attack_ms": 20.0,
+      "active_length_s": 0.08,
+      "audible_until_s": 0.08,
+      "trailing_silence_ms": 400.2,
+      "peak_dbfs": -0.13,
+      "clipped_samples": 0,
+      "rms_dbfs_active": -18.7,
+      "loudness_lufs_approx": -19.5,
+      "dc_offset": -0.00014,
+      "hits": 1,
+      "hit_times_ms": [
+        20.0
+      ],
+      "spectral_centroid_hz": 5177,
+      "rolloff85_hz": 8682,
+      "spectral_flatness": 0.0,
+      "band_energy_share": {
+        "sub_<120": 0.0,
+        "low_120-500": 0.001,
+        "mid_500-2k": 0.015,
+        "presence_2k-6k": 0.64,
+        "air_>6k": 0.344
+      },
+      "harmonicity": 0.48,
+      "pitch_hz": null,
+      "stereo_correlation": 0.996
+    }
+  ],
+  "comparison": {
+    "loudness_lufs_approx": {
+      "candidate": -15.1,
+      "reference_median": -19.5,
+      "difference": 4.4
+    },
+    "active_length_s": {
+      "candidate": 0.379,
+      "reference_median": 0.08,
+      "difference": 0.3
+    },
+    "spectral_centroid_hz": {
+      "candidate": 6557,
+      "reference_median": 5177.0,
+      "difference": 1380.0
+    },
+    "attack_ms": {
+      "candidate": 189.6,
+      "reference_median": 20.0,
+      "difference": 169.6
+    },
+    "leading_silence_ms": {
+      "candidate": 0.0,
+      "reference_median": 0.0,
+      "difference": 0.0
+    }
+  },
+  "hard_failures": [],
+  "warnings": [],
+  "verdict": "PASS",
+  "not_measurable": "timbre quality, fit with the visual, mix in real play, loop musicality: user listening required"
+}

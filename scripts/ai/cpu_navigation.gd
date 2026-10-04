@@ -11,7 +11,7 @@ static func segment_clear(arena, from: Vector2, to: Vector2, clearance: float = 
 
 static func firing_position(arena, point: Vector2, enemy: Vector2, band: Vector2) -> bool:
 	var distance := point.distance_to(enemy)
-	return distance >= band.x and distance <= band.y and not arena.line_blocked(point,enemy)
+	return distance >= band.x and distance <= band.y and not preload("res://scripts/combat/projectile_collision.gd").line_blocked(arena,point,enemy)
 
 static func combat_path(arena, start: Vector2, enemy: Vector2, band: Vector2, max_nodes: int = MAX_NODES, clearance: float = 18.0) -> Array:
 	var frontier: Array[Vector2i] = [Vector2i.ZERO]

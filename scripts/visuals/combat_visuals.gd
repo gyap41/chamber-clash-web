@@ -96,6 +96,7 @@ func _draw() -> void:
 			for i in range(palette.size()):
 				var ray := Vector2.from_angle((i-(palette.size()-1)*.5)*.14)
 				canvas_rainbow_ray(ray,Color(palette[i]),progress)
+				draw_arc(Vector2.ZERO,12+progress*19,(i-(palette.size()-1)*.5)*.14-.08,(i-(palette.size()-1)*.5)*.14+.08,5,Color(Color(palette[i]),(1-progress)*.65),1.5,true)
 		elif not str(e.get("visual_color","")).is_empty():
 			var tint := Color(e.visual_color);tint.a = 1.0-progress
 			for i in range(5):
@@ -147,6 +148,19 @@ func draw_enemy_effects() -> void:
 
 func weapon_event(event: Dictionary) -> void:
 	var kind: String = str(event.get("kind",""))
+	var weapon: int = int(event.get("weapon",-1))
+	if weapon >= 0 and kind in ["fire","hit"]:
+		var profile := Visuals.profile(weapon)
+		var color_text: String = str(event.get("visual_color",""))
+		var tint := Color(color_text if not color_text.is_empty() else str(profile.get("color","#dce9ff")))
+		if weapon == 37:
+			var palette: Array = profile.get("palette",["#8eefff"])
+			for n in range(palette.size()*2):
+				var angle := float(event.get("angle",0))+(float(n)/maxf(1,palette.size()*2-1)-.5)*1.0
+				if kind == "hit": angle += PI+(n%2-.5)*.7
+				particles.append({"pos":event.pos,"velocity":Vector2.from_angle(angle)*(90+n%3*30),"life":.18+n%3*.04,"color":Color(palette[n%palette.size()]),"size":3.0})
+			while particles.size() > maxi(0,particle_limit): particles.pop_front()
+		else: burst(event.pos,tint,2 if kind == "fire" else 3)
 	if kind == "enemy_attack" or (kind == "hit" and event.get("variant","") in ["enemy_fire_seed","enemy_quill"]):
 		var effect := event.duplicate(true)
 		effect.age = 0.0

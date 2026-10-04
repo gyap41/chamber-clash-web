@@ -1,0 +1,44 @@
+{
+  "candidate": {
+    "file": "assets\\candidates\\aurora-divine\\v3\\fw_aurora_divine_03.mp3",
+    "sample_rate": 44100,
+    "channels": 2,
+    "file_duration_s": 0.8,
+    "leading_silence_ms": 0.0,
+    "attack_ms": 5.0,
+    "active_length_s": 0.723,
+    "audible_until_s": 0.728,
+    "trailing_silence_ms": 71.7,
+    "peak_dbfs": -0.06,
+    "clipped_samples": 0,
+    "rms_dbfs_active": -14.2,
+    "loudness_lufs_approx": -9.8,
+    "dc_offset": 1e-05,
+    "hits": 1,
+    "hit_times_ms": [
+      0.0
+    ],
+    "spectral_centroid_hz": 1823,
+    "rolloff85_hz": 2087,
+    "spectral_flatness": 0.0,
+    "band_energy_share": {
+      "sub_<120": 0.0,
+      "low_120-500": 0.001,
+      "mid_500-2k": 0.748,
+      "presence_2k-6k": 0.248,
+      "air_>6k": 0.003
+    },
+    "harmonicity": 0.43,
+    "pitch_hz": null,
+    "stereo_correlation": 0.999
+  },
+  "category": "heavy",
+  "references": [],
+  "comparison": {},
+  "hard_failures": [],
+  "warnings": [
+    "peak -0.06 dBFS leaves no headroom"
+  ],
+  "verdict": "WARN",
+  "not_measurable": "timbre quality, fit with the visual, mix in real play, loop musicality: user listening required"
+}

@@ -147,10 +147,10 @@ func paint_item() -> void:
 	if reward.get("kind","weapon") == "relic":
 		icon = preload("res://scripts/ui/hud_assets.gd").texture("relic_%02d" % int(reward.item))
 	else:
-		icon = preload("res://scripts/catalog/weapon_catalog.gd").art(reward.item)
+		icon = preload("res://scripts/catalog/weapon_catalog.gd").pickup_art(reward.item)
 	draw_circle(point,27.5,Color(1,.72,.24,.15))
 	draw_set_transform(point,sin(flight*TAU)*.2)
 	var icon_size := icon.get_size()
-	var display_size := icon_size*(40.0/maxf(icon_size.x,icon_size.y))
+	var display_size := icon_size*(52.0/maxf(icon_size.x,icon_size.y))
 	draw_texture_rect(icon,Rect2(-display_size*.5,display_size),false)
 	draw_set_transform(Vector2.ZERO)

@@ -1,0 +1,10 @@
+{
+  "provider": "built-in imagegen",
+  "status": "integrated for requested animation review; user art acceptance pending",
+  "source": "exec-34f008ae-979b-4eae-bba0-d628b3b034d7.png",
+  "sha256": "fcb913d64ac27633192e9a329671e0761f40d4c59032363df9967b036faab253",
+  "layout": "three columns front/back/right; rows body/weapon/locomotion; left mirrored; original preserved",
+  "spec": "docs/art/production/enemy-animation-v2/README.md#2026-10-04",
+  "width": 1254,
+  "height": 1254
+}

@@ -156,3 +156,7 @@ boss_cannon_art.gdが生成シートの切出し・砲口原点・弾・8コマ�
 
 
 苔玉8方向試作: root_runner_rigはdirections-v1.pngとdirections-regions-v1.jsonから8通常姿勢と横倒しを読む。画像反転は使わず、共通甲羅幅36pxとセル別の甲羅中心で揃える。脚の接地計算は別の世界座標で保持。顔・触角は胴と一体の生成絵なので、現在の収納は丸い攻撃甲羅へのクロスフェード。さらに自然な収納には方向別の独立パーツが必要。横倒し原画を接続したため、撃破用に全身を画面上で回転させる処理は廃止した。
+
+## 強化通常敵の配色
+
+`ember_lizard` と `iron_quill` はprepareで専用ShaderMaterialを設定する。`enemy_variant_palette.gdshader` は元画像の色と明度に応じて材質色を置換し、図形描画と白い被弾フラッシュを保つ。`exploration_enemy.hurt` が撃破表示へmaterialを渡すため、通常種への色戻りを防ぐ。原画の書換えや寸法変更は不要。

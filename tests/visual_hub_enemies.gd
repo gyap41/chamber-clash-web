@@ -30,7 +30,7 @@ func run() -> void:
 				assert(adapter.players[1].state.hp > 0)
 				if action == "攻撃":
 					assert(attacking,enemy.id+" failed to attack direction "+str(direction))
-					if enemy.definition.range > 100 and enemy.definition.id not in ["ram_sentry","root_runner_prototype"]: assert(max_shots > 0,enemy.id) # dash attackers fire nothing
+					if enemy.definition.range > 100 and enemy.definition.id not in ["ram_sentry","ash_ram","root_runner_prototype"]: assert(max_shots > 0,enemy.id) # dash attackers fire nothing
 				elif action == "歩行": assert(adapter.players[0].gait_phase > 0)
 				else: assert(adapter.players[0].gait_phase == 0)
 				adapter.finish()

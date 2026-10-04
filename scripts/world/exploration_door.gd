@@ -35,7 +35,7 @@ func configure(entry: Dictionary, destination: String, _theme = null) -> void:
 func set_available(value: bool) -> void:
 	if available == value: return
 	available = value
-	caption.visible = value
+	caption.visible = false
 	queue_redraw()
 func set_locked(value: bool) -> void:
 	if locked == value: return

@@ -5,6 +5,7 @@ extends Resource
 @export var texture: Texture2D
 @export var visual_rect := Rect2(-24,-48,48,48)
 @export var collision := Rect2()
+@export var projectile_collision := Rect2()
 @export_enum("Background", "Foreground") var layer := 0
 @export var light_radius := 0.0
 @export var light_color := Color(1,.65,.3)
@@ -30,6 +31,15 @@ extends Resource
 # Soft copy of the picture dropped toward the lower right on the floor (light from the upper left).
 @export var drop_shadow := false
 
+# 2026-10-04: solid scenery blocks shots through its body, without stealing walkable floor.
+# Empty override derives a vertical body using the authored footprint width. Decals/lights
+# without a footprint stay nonblocking; unusual silhouettes can specify an exact rectangle.
+func projectile_rect() -> Rect2:
+	if projectile_collision.has_area(): return projectile_collision
+	if not collision.has_area(): return Rect2()
+	var body := Rect2(Vector2(collision.position.x,visual_rect.position.y),Vector2(collision.size.x,visual_rect.size.y))
+	return collision.merge(body)
+
 func validation_errors(field: Rect2) -> PackedStringArray:
 	var errors := PackedStringArray()
 	if placement_id.is_empty() or not position.is_finite() or not field.has_point(position): errors.append("Invalid placement ID or position")
@@ -38,6 +48,10 @@ func validation_errors(field: Rect2) -> PackedStringArray:
 	if collision != Rect2():
 		if not collision.position.is_finite() or not collision.size.is_finite() or collision.size.x <= 0 or collision.size.y <= 0 or not field.encloses(Rect2(position+collision.position,collision.size)):
 			errors.append("Invalid placement collision")
+	if projectile_collision != Rect2():
+		if not projectile_collision.position.is_finite() or not projectile_collision.size.is_finite() or not projectile_collision.has_area():
+			errors.append("Invalid projectile collision")
+		if floor_decal or surface_overlay: errors.append("Floor overlays cannot block projectiles")
 	if layer not in [0,1] or not is_finite(light_radius) or light_radius < 0 or not is_finite(light_energy) or light_energy < 0:
 		errors.append("Invalid placement layer or light")
 	if not light_offset.is_finite(): errors.append("Invalid light offset")

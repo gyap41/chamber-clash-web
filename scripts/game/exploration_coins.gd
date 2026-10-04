@@ -1,7 +1,7 @@
 extends RefCounted
 # Gold dropped by defeated enemies (docs/planning/FLOOR_EXPANSION_PLAN.md stage 3). Coins are room state, so
 # ones left behind stay for a revisit; nearby coins drift to the player and are taken without a key press.
-const LARGE := ["ram_sentry","ring_sentry","scatter_drone"]
+const LARGE := ["ram_sentry","ring_sentry","scatter_drone","ember_lizard","iron_quill","ash_ram","triple_ring"]
 const PULL_RADIUS := 110.0
 const TAKE_RADIUS := 22.0
 const PULL_SPEED := 420.0
@@ -43,7 +43,7 @@ static func step(game, dt: float) -> Array:
 		coin.age = float(coin.get("age",HOP))+dt
 		if coin.age < HOP: continue # Still in the air.
 		var distance: float = coin.pos.distance_to(player)
-		if distance <= PULL_RADIUS: coin.pos = coin.pos.move_toward(player,PULL_SPEED*dt)
+		if game.exploration.encounter_status == "cleared" or distance <= PULL_RADIUS: coin.pos = coin.pos.move_toward(player,PULL_SPEED*dt)
 		if coin.pos.distance_to(player) <= TAKE_RADIUS:
 			taken.append(coin)
 			list.erase(coin)

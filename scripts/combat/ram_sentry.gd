@@ -13,7 +13,7 @@ func spit(_i: int, _arena) -> void:
 	dash_left = 310
 	dash_hit = false
 	shots_left = 0
-	sound_requested.emit("sentry_swing",0)
+	sound_requested.emit(spec.get("attack_sound","sentry_swing"),get_instance_id() if spec.get("machine_audio",false) else 0)
 func step(dt: float, i: int, enemy, arena, shooting: bool = false, ai: Dictionary = {}) -> bool:
 	if state.hp <= 0 or enemy == null or enemy.state.hp <= 0: return false
 	if attack_phase != "dash": return super.step(dt,i,enemy,arena,shooting,ai)

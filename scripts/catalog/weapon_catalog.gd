@@ -4,6 +4,7 @@ const SUPPORTED := [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
 const Catalog = preload("res://scripts/catalog/game_catalog.gd")
 const AtlasRegions = preload("res://scripts/visuals/atlas_regions.gd")
 static var textures: Dictionary = {}
+static var pickup_textures: Dictionary = {}
 # Combat-only size variation; inventory icons retain their UI bounds.
 const Visuals = preload("res://scripts/catalog/weapon_visual_catalog.gd")
 # Compatibility accessors backed by the single presentation registry.
@@ -23,6 +24,13 @@ static func stats_text(g: Dictionary) -> String:
 static func new_inventory_entry(id: int) -> Dictionary:
 	var gun := definition(id)
 	return {"id": id, "clip": int(gun.mag), "reserve": int(gun.stock), "mode": 0}
+
+static func pickup_art(id: int) -> AtlasTexture:
+	if not pickup_textures.has(id):
+		var source := art(id)
+		var used: Rect2i = source.get_image().get_used_rect()
+		pickup_textures[id] = AtlasRegions.region(source,Rect2(used)) if used.has_area() else source
+	return pickup_textures[id]
 
 static func supported(id: int) -> bool:
 	return id in SUPPORTED

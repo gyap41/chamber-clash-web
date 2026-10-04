@@ -3,6 +3,9 @@ signal played(kind: String, id: int)
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const RATE := 44100
 const GENERATED := {
+	"aurora_divine": preload("res://assets/audio/se/fw_aurora_divine_03.mp3"),
+	"machine_ram_launch": preload("res://assets/audio/se/fw_ash_ram_launch_02.mp3"),
+	"machine_ring_salvo": preload("res://assets/audio/se/fw_triple_ring_salvo_02.mp3"),
 	"enemy_defeat": preload("res://assets/audio/se/fw_enemy_defeat_01.mp3"),
 	"moss_dash": preload("res://assets/audio/se/fw_moss_dash_03.mp3"),
 	"moss_wall": preload("res://assets/audio/se/fw_moss_impact_01.mp3"),
@@ -146,7 +149,7 @@ func pause_boss_audio(value: bool) -> void:
 	for roller in moss_rollers.values(): roller.stream_paused=value
 	boss_engine.stream_paused = value
 	for voice in voices:
-		if str(voice.get_meta("kind","")).begins_with("boss_") or str(voice.get_meta("kind","")).begins_with("moss_"): voice.stream_paused = value
+		if str(voice.get_meta("kind","")).begins_with("boss_") or str(voice.get_meta("kind","")).begins_with("moss_") or str(voice.get_meta("kind","")).begins_with("machine_"): voice.stream_paused = value
 
 func set_enabled(value: bool) -> void:
 	enabled = value
@@ -154,6 +157,13 @@ func set_enabled(value: bool) -> void:
 	else: play_sound("toggle")
 
 func profile(kind: String, id: int = 0) -> Dictionary:
+	if kind in ["machine_ram_windup","machine_ring_windup","machine_vent","machine_ram_body","machine_ring_body"]:
+		var vent := kind == "machine_vent"
+		var ram := kind in ["machine_ram_windup","machine_ram_body"]
+		var body := kind in ["machine_ram_body","machine_ring_body"]
+		return {"duration":.22 if vent else .18 if body else .38,"frequency":100.0 if ram else 160.0,"end":55.0 if vent or body else 145.0 if ram else 220.0,"wave":"sine","gain":.018 if vent else .065,"noise":.045 if vent else .016,"cutoff":1600.0 if vent else 900.0,"bandpass":false,"soft_edges":true,"metallic":not vent}
+	if kind == "shot" and id == 37:
+		return {"duration":.32,"frequency":880.0,"end":520.0,"wave":"sine","gain":.08,"noise":.018,"cutoff":6200.0,"bandpass":true,"harmonics":true,"shimmer":true,"soft_edges":true}
 	if kind in ["moss_curl","moss_roll","moss_contact"]:
 		return {"duration":.10 if kind=="moss_roll" else .18,"frequency":95.0 if kind=="moss_contact" else 65.0,"end":35.0,"wave":"sine","gain":.045 if kind=="moss_contact" else .006,"noise":.05 if kind=="moss_curl" else .018,"cutoff":750.0 if kind=="moss_curl" else 340.0,"bandpass":false}
 	var tones := {"equip":[200,.06],"bell":[700,.14],"pickup":[640,.18],"start":[530,.18],"legendary":[850,.3],"win":[650,.3],"lose":[280,.3],"toggle":[500,.06],"gravity":[100,.3]}
@@ -184,6 +194,8 @@ func synthesize(p: Dictionary) -> AudioStreamWAV:
 		var progress := float(i)/count
 		var frequency: float = p.frequency*pow(p.end/p.frequency,progress)
 		var wave: float = sin(phase*TAU) if p.wave == "sine" else (2.0*(phase-floorf(phase+.5)) if p.wave == "sawtooth" else 2.0/PI*asin(sin(phase*TAU)))
+		if p.get("harmonics",false): wave += .45*sin(phase*TAU*1.5)+.25*sin(phase*TAU*2.01)
+		if p.get("metallic",false): wave += .38*sin(phase*TAU*2.73)+.22*sin(phase*TAU*4.17)
 		phase += frequency/RATE
 		var value: float = wave*p.gain*pow(.001/p.gain,progress)
 		if p.noise > 0:
@@ -201,6 +213,13 @@ func synthesize(p: Dictionary) -> AudioStreamWAV:
 			y2 = y1
 			y1 = y
 			value += y*p.noise*pow(.001/p.noise,progress)
+		if p.get("shimmer",false):
+			var seconds := float(i)/RATE
+			for n in range(3):
+				var age: float = seconds-n*.035
+				if age >= 0:
+					value += sin(TAU*(1320+n*330)*age)*.018*exp(-age*24)*minf(1,age/.004)
+		if p.get("soft_edges",false): value *= minf(1,float(i)/maxf(1,RATE*.004))*minf(1,float(count-1-i)/maxf(1,RATE*.012))
 		bytes.encode_s16(i*2,int(clampf(value,-1,1)*32767))
 	var stream := AudioStreamWAV.new()
 	stream.format = AudioStreamWAV.FORMAT_16_BITS
@@ -213,6 +232,10 @@ func play_chest_open(rank: int) -> void:
 	if rank >= 2: play_sound("chest_reward_tier",clampi(rank,0,3))
 
 func play_sound(kind: String, id: int = 0) -> void:
+	if kind == "machine_stop":
+		for voice in voices:
+			if voice.get_meta("owner",-1)==id and str(voice.get_meta("kind","")).begins_with("machine_"): voice.stop()
+		return
 	if kind=="moss_stop":
 		stop_moss_roll(id)
 		for voice in voices:
@@ -223,7 +246,7 @@ func play_sound(kind: String, id: int = 0) -> void:
 		update_moss_roll(id,.82 if kind=="moss_roll_low" else 1.12)
 		return
 	# Coalesce simultaneous pellet impacts without changing projectile simulation.
-	if kind in ["enemy_defeat","moss_dash","moss_wall","moss_down","moss_curl","moss_roll","moss_contact","boss_shell_impact","boss_heavy_impact","wall_impact","ricochet","sentry_windup","lizard_inhale","sentry_swing","lizard_spit","sentry_down","lizard_down","quill_windup","quill_fire","quill_down"]:
+	if kind in ["machine_ram_launch","machine_ring_salvo","machine_ram_windup","machine_ring_windup","machine_vent","enemy_defeat","moss_dash","moss_wall","moss_down","moss_curl","moss_roll","moss_contact","boss_shell_impact","boss_heavy_impact","wall_impact","ricochet","sentry_windup","lizard_inhale","sentry_swing","lizard_spit","sentry_down","lizard_down","quill_windup","quill_fire","quill_down"]:
 		var now := Time.get_ticks_msec()
 		var interval := 100 if kind.begins_with("boss_") else 200 if kind == "wall_impact" else 120 if kind == "ricochet" else 60
 		var throttle_key := kind+"/"+str(id) if kind in ["moss_dash","moss_curl"] else kind
@@ -240,7 +263,10 @@ func play_sound(kind: String, id: int = 0) -> void:
 		generated_voice.set_meta("owner",id)
 		generated_voice.bus = bus_name
 		generated_voice.volume_db = volume_db + (-18.0 if kind.begins_with("ui_") or kind == "toggle" else -12.0)
-		if kind=="enemy_defeat": generated_voice.volume_db -= 5.0
+		if kind == "machine_ram_launch": generated_voice.volume_db = volume_db-7.0
+		elif kind == "machine_ring_salvo": generated_voice.volume_db = volume_db+2.0
+		elif kind == "shot" and id == 37: generated_voice.volume_db = volume_db-18.0
+		elif kind=="enemy_defeat": generated_voice.volume_db -= 5.0
 		elif kind.begins_with("moss_"): generated_voice.volume_db -= 2.0 if kind=="moss_dash" else 5.0
 		elif kind == "wall_impact": generated_voice.volume_db -= 12.0
 		elif kind == "coin": generated_voice.volume_db -= 6.0 # Frequent: kept under combat sounds.
@@ -251,12 +277,15 @@ func play_sound(kind: String, id: int = 0) -> void:
 		elif kind in ["boss_dash","boss_impact","boss_overdrive","boss_salvo","boss_cannon","boss_heavy_impact"]: generated_voice.volume_db -= 4.0
 		elif kind in ["boss_vent","boss_internal","boss_shell_impact"]: generated_voice.volume_db -= 8.0
 		generated_voice.stream = GENERATED[sample]
+		if kind == "shot" and id != 37: generated_voice.pitch_scale = pow(2.0,float(id%7-3)/24.0)
 		if kind == "chest_open_tier":
 			generated_voice.pitch_scale = [1.08,1.0,.9,.8][clampi(id,0,3)]
 			generated_voice.volume_db = volume_db+[-15.0,-14.0,-13.0,-12.0][clampi(id,0,3)]
 		elif kind == "chest_reward_tier": generated_voice.volume_db = volume_db-19.0
 		generated_voice.play()
 		played.emit(kind,id)
+		if kind == "machine_ram_launch": play_sound("machine_ram_body",id)
+		elif kind == "machine_ring_salvo": play_sound("machine_ring_body",id)
 		return
 	var p := profile(kind,id)
 	var key := str(p)
@@ -278,6 +307,7 @@ func sample_key(kind: String, id: int = 0) -> String:
 	if kind == "chest_open_tier": return "chest_open"
 	if kind == "chest_reward_tier": return "legendary" if id >= 3 else "rare_pickup"
 	if kind == "shot":
+		if id == 37: return "aurora_divine"
 		if id in [0,20]: return "pistol"
 		if id in [23,26]: return "heavy"
 		if id in [19,27,28]: return "rapid"

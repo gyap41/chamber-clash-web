@@ -1,0 +1,44 @@
+{
+  "candidate": {
+    "file": "assets\\candidates\\ash-ram-launch\\v2\\fw_ash_ram_launch_02.mp3",
+    "sample_rate": 44100,
+    "channels": 2,
+    "file_duration_s": 0.48,
+    "leading_silence_ms": 0.0,
+    "attack_ms": 15.0,
+    "active_length_s": 0.439,
+    "audible_until_s": 0.404,
+    "trailing_silence_ms": 75.9,
+    "peak_dbfs": -7.72,
+    "clipped_samples": 0,
+    "rms_dbfs_active": -26.1,
+    "loudness_lufs_approx": -23.6,
+    "dc_offset": 0.0021,
+    "hits": 3,
+    "hit_times_ms": [
+      0.0,
+      124.7,
+      369.2
+    ],
+    "spectral_centroid_hz": 91,
+    "rolloff85_hz": 150,
+    "spectral_flatness": 0.0,
+    "band_energy_share": {
+      "sub_<120": 0.827,
+      "low_120-500": 0.152,
+      "mid_500-2k": 0.021,
+      "presence_2k-6k": 0.0,
+      "air_>6k": 0.0
+    },
+    "harmonicity": 0.14,
+    "pitch_hz": null,
+    "stereo_correlation": 0.463
+  },
+  "category": "heavy",
+  "references": [],
+  "comparison": {},
+  "hard_failures": [],
+  "warnings": [],
+  "verdict": "PASS",
+  "not_measurable": "timbre quality, fit with the visual, mix in real play, loop musicality: user listening required"
+}
