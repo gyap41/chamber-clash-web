@@ -33,7 +33,8 @@ func run():
     fought+=1
    elif meta.role=="treasure":
     assert(not game.Reward.current(game).is_empty())
-  assert(game.exploration.room_states.values().any(func(r):return r.get("reward",{}).get("source","")=="first_clear"))
+  assert(game.exploration.room_states.values().filter(func(r):return r.get("reward",{}).get("source","")=="first_clear").size()==1)
+  assert(game.exploration.room_states.values().all(func(r):return r.get("reward",{}).get("source","")!="third_clear"))
  print("PASS production floor: 10 seeds, encounters=",fought," template coverage=",types.size())
  game.queue_free()
  await process_frame

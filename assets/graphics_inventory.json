@@ -15,16 +15,26 @@
     "web-build"
   ],
   "counts": {
-    "runtime_reference": 196,
-    "unresolved": 42,
-    "dynamic_candidate": 265,
-    "development_reference": 201,
-    "generated_original": 125,
-    "archive": 635,
-    "documentation": 501,
+    "dynamic_candidate": 275,
+    "runtime_reference": 211,
+    "unresolved": 58,
+    "development_reference": 228,
+    "generated_original": 132,
+    "archive": 642,
+    "documentation": 542,
     "legacy_web": 7
   },
   "duplicate_groups": [
+    [
+      "assets/candidates/ash-ram/v1/ash-ram-parts-v1.png",
+      "assets/first-workshop/enemies/elite-machines/ash-ram-parts-v1.png",
+      "assets/generated/elite-machines/ash-ram-parts-v1.png"
+    ],
+    [
+      "assets/candidates/triple-ring/v1/triple-ring-parts-v1.png",
+      "assets/first-workshop/enemies/elite-machines/triple-ring-parts-v1.png",
+      "assets/generated/elite-machines/triple-ring-parts-v1.png"
+    ],
     [
       "assets/characters/fighters.png",
       "legacy-web/dist/assets/fighters.png"
@@ -36,6 +46,26 @@
     [
       "assets/effects/weapon-effects.png",
       "legacy-web/dist/assets/weapon-effects.png"
+    ],
+    [
+      "assets/first-workshop/enemies/remaining-machines/ram_sentry-v1.png",
+      "assets/generated/remaining-machines/ram_sentry-v1.png",
+      "assets/retired/ram_sentry/v1/parts.png"
+    ],
+    [
+      "assets/first-workshop/enemies/remaining-machines/ring_sentry-v1.png",
+      "assets/generated/remaining-machines/ring_sentry-v1.png",
+      "assets/retired/ring_sentry/v1/parts.png"
+    ],
+    [
+      "assets/first-workshop/enemies/remaining-machines/runner_sentry-v1.png",
+      "assets/generated/remaining-machines/runner_sentry-v1.png",
+      "assets/retired/runner_sentry/v1/parts.png"
+    ],
+    [
+      "assets/first-workshop/enemies/remaining-machines/scatter_drone-v1.png",
+      "assets/generated/remaining-machines/scatter_drone-v1.png",
+      "assets/retired/scatter_drone/v1/parts.png"
     ],
     [
       "assets/first-workshop/environment/workshop-walls-v1.png",
@@ -334,6 +364,164 @@
   ],
   "images": [
     {
+      "path": "assets/candidates/ash-ram-launch/v1/check/waveform_spectrogram.png",
+      "category": "dynamic_candidate",
+      "bytes": 131842,
+      "sha256": "2f9d01443c744a5cfa5ac60a152f7521c3b2fa78c1dc67f8c4a9c6e6ff5ac99f",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/candidates/ash-ram-launch/v2/check/waveform_spectrogram.png",
+      "category": "dynamic_candidate",
+      "bytes": 45031,
+      "sha256": "58f1572e8215816fdec52a5f70020e1c590bec65259081a46e5aa8d114e7aec5",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/candidates/ash-ram/v1/ash-ram-parts-v1.png",
+      "category": "dynamic_candidate",
+      "bytes": 1085905,
+      "sha256": "fcb913d64ac27633192e9a329671e0761f40d4c59032363df9967b036faab253",
+      "references": [
+        "assets/candidates/ash-ram/v1/check/report.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/candidates/ash-ram/v1/check/contact_display.png",
+      "category": "dynamic_candidate",
+      "bytes": 52330,
+      "sha256": "0dd16cf66ea2b6837e8dfa0aa65411cc2e43a0e1d76da34f8aa13be2834e6d87",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/candidates/ash-ram/v1/check/contact_zoom3.png",
+      "category": "dynamic_candidate",
+      "bytes": 75429,
+      "sha256": "79c0460aeb95b7b48180b7c0554805360d664ab5c0838d79a3451c3c4bd85562",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/candidates/aurora-divine/v3/check/waveform_spectrogram.png",
+      "category": "dynamic_candidate",
+      "bytes": 101583,
+      "sha256": "f6e3948c664eb8b7206e32380728bdf750a31bda9b63debab4ba7abdd8018e8d",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/candidates/triple-ring-salvo/v1/check/waveform_spectrogram.png",
+      "category": "dynamic_candidate",
+      "bytes": 118330,
+      "sha256": "f07d6a39d9783bd9d2b7c23d67b8f051bbdeea2a21c489dcf00d94423a39d99c",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/candidates/triple-ring-salvo/v2/check/waveform_spectrogram.png",
+      "category": "dynamic_candidate",
+      "bytes": 44081,
+      "sha256": "239ca53f21df9a80d12e92fdfc30afeb829cb0de34438002c23f4d490d7e3f61",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/candidates/triple-ring/v1/check/contact_display.png",
+      "category": "dynamic_candidate",
+      "bytes": 54286,
+      "sha256": "d0b48f51b2024a0e7b871fc57ada00bd5324a47488d34c18875fd9d1baa7d12c",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/candidates/triple-ring/v1/check/contact_zoom3.png",
+      "category": "dynamic_candidate",
+      "bytes": 78563,
+      "sha256": "549fe01d5fd0c53f1c106b3da06d1052294cafbcd0aaef80551dd9206033b440",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/candidates/triple-ring/v1/triple-ring-parts-v1.png",
+      "category": "dynamic_candidate",
+      "bytes": 1399924,
+      "sha256": "9e86cbca4ceac4b433f1298158a25fdfe26a8115f6139b72e2297c5cc7a5353b",
+      "references": [
+        "assets/candidates/triple-ring/v1/check/report.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": false
+    },
+    {
       "path": "assets/characters/fighters.png",
       "category": "runtime_reference",
       "bytes": 2110688,
@@ -391,7 +579,9 @@
       "references": [
         "assets/first-workshop/manifest.json",
         "scripts/world/exploration_supply.gd",
-        "scripts/world/pickup.gd"
+        "scripts/world/pickup.gd",
+        "tests/candidate_preview.gd",
+        "tests/fixtures/candidate_preview/v1/preview.json"
       ],
       "runtime_references": [
         "scripts/world/exploration_supply.gd",
@@ -412,7 +602,9 @@
       "references": [
         "assets/first-workshop/manifest.json",
         "data/weapon_visuals.json",
-        "scripts/catalog/weapon_visual_catalog.gd"
+        "scripts/catalog/weapon_visual_catalog.gd",
+        "tests/candidate_preview.gd",
+        "tests/fixtures/candidate_preview/v1/preview.json"
       ],
       "runtime_references": [
         "data/weapon_visuals.json",
@@ -3120,6 +3312,44 @@
       "godot_ignored": false
     },
     {
+      "path": "assets/first-workshop/enemies/elite-machines/ash-ram-parts-v1.png",
+      "category": "runtime_reference",
+      "bytes": 1085905,
+      "sha256": "fcb913d64ac27633192e9a329671e0761f40d4c59032363df9967b036faab253",
+      "references": [
+        "scripts/visuals/elite_machine_visual.gd"
+      ],
+      "runtime_references": [
+        "scripts/visuals/elite_machine_visual.gd"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tests/characters.gd",
+        "tests/enemy_art_preview.gd"
+      ],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/first-workshop/enemies/elite-machines/triple-ring-parts-v1.png",
+      "category": "runtime_reference",
+      "bytes": 1399924,
+      "sha256": "9e86cbca4ceac4b433f1298158a25fdfe26a8115f6139b72e2297c5cc7a5353b",
+      "references": [
+        "scripts/visuals/elite_machine_visual.gd"
+      ],
+      "runtime_references": [
+        "scripts/visuals/elite_machine_visual.gd"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tests/characters.gd",
+        "tests/enemy_art_preview.gd"
+      ],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
       "path": "assets/first-workshop/enemies/lizard-sheet-v1.png",
       "category": "development_reference",
       "bytes": 942366,
@@ -3181,6 +3411,7 @@
       "bytes": 1744378,
       "sha256": "696cbba15de593be7f4716302fdc09fe2a1cfad476a9c5aa0134ddb1f4e8cf53",
       "references": [
+        "assets/candidates/README.md",
         "docs/art/production/fire-pouch-lizard/README.md",
         "scripts/visuals/enemy_sheet_visual.gd",
         "tools/build_lizard_v3_atlas.gd",
@@ -3215,6 +3446,86 @@
       "development_dynamic_candidates": [
         "tests/characters.gd",
         "tests/enemy_art_preview.gd"
+      ],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/first-workshop/enemies/remaining-machines/ram_sentry-v1.png",
+      "category": "runtime_reference",
+      "bytes": 1267275,
+      "sha256": "b21b27d7f50aca09a12c570bed33909c6eb4914affdeab9f4f320fb9fff397ef",
+      "references": [
+        "scripts/visuals/remaining_machine_visual.gd"
+      ],
+      "runtime_references": [
+        "scripts/visuals/remaining_machine_visual.gd"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tests/characters.gd",
+        "tests/enemy_art_preview.gd",
+        "tests/remaining_machine_art.gd"
+      ],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/first-workshop/enemies/remaining-machines/ring_sentry-v1.png",
+      "category": "runtime_reference",
+      "bytes": 1353783,
+      "sha256": "f76acf289a8de51b6573d59be5884d6a8d2609cbb17fb904df84334358948566",
+      "references": [
+        "scripts/visuals/remaining_machine_visual.gd"
+      ],
+      "runtime_references": [
+        "scripts/visuals/remaining_machine_visual.gd"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tests/characters.gd",
+        "tests/enemy_art_preview.gd",
+        "tests/remaining_machine_art.gd"
+      ],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/first-workshop/enemies/remaining-machines/runner_sentry-v1.png",
+      "category": "runtime_reference",
+      "bytes": 950718,
+      "sha256": "35c3ff137ac3a9b20161815be56e2077ebba6796e0fe7f3478a02faf3031ef54",
+      "references": [
+        "scripts/visuals/remaining_machine_visual.gd"
+      ],
+      "runtime_references": [
+        "scripts/visuals/remaining_machine_visual.gd"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tests/characters.gd",
+        "tests/enemy_art_preview.gd",
+        "tests/remaining_machine_art.gd"
+      ],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/first-workshop/enemies/remaining-machines/scatter_drone-v1.png",
+      "category": "runtime_reference",
+      "bytes": 1139274,
+      "sha256": "5b46c0f71694dce416d88df774d563f9aa55d7c436f93f97336ea19fbdae1050",
+      "references": [
+        "scripts/visuals/remaining_machine_visual.gd"
+      ],
+      "runtime_references": [
+        "scripts/visuals/remaining_machine_visual.gd"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tests/characters.gd",
+        "tests/enemy_art_preview.gd",
+        "tests/remaining_machine_art.gd"
       ],
       "web_excluded": false,
       "godot_ignored": false
@@ -7622,6 +7933,34 @@
       "godot_ignored": true
     },
     {
+      "path": "assets/generated/elite-machines/ash-ram-parts-v1.png",
+      "category": "generated_original",
+      "bytes": 1085905,
+      "sha256": "fcb913d64ac27633192e9a329671e0761f40d4c59032363df9967b036faab253",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/visual_hub/asset_index.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/generated/elite-machines/triple-ring-parts-v1.png",
+      "category": "generated_original",
+      "bytes": 1399924,
+      "sha256": "9e86cbca4ceac4b433f1298158a25fdfe26a8115f6139b72e2297c5cc7a5353b",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/visual_hub/asset_index.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
       "path": "assets/generated/enemy-field-concepts/mineral-boar-v1.png",
       "category": "generated_original",
       "bytes": 617817,
@@ -7773,6 +8112,24 @@
       "dynamic_candidates": [],
       "development_dynamic_candidates": [
         "tools/capture_enemy_field_concepts.gd",
+        "tools/visual_hub/asset_index.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/generated/event-props-v1.png",
+      "category": "generated_original",
+      "bytes": 1173800,
+      "sha256": "e1297fcfa635941480922e6c21b1ddd674cc42ebe8a0092e93a0aac9a8815ffd",
+      "references": [
+        "assets/stages/ashen-foundry-v2/event-props/regions.json",
+        "docs/art/production/event-rooms/README.md",
+        "tools/build_event_props.gd"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
         "tools/visual_hub/asset_index.gd"
       ],
       "web_excluded": true,
@@ -9214,6 +9571,62 @@
       "godot_ignored": true
     },
     {
+      "path": "assets/generated/remaining-machines/ram_sentry-v1.png",
+      "category": "generated_original",
+      "bytes": 1267275,
+      "sha256": "b21b27d7f50aca09a12c570bed33909c6eb4914affdeab9f4f320fb9fff397ef",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/visual_hub/asset_index.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/generated/remaining-machines/ring_sentry-v1.png",
+      "category": "generated_original",
+      "bytes": 1353783,
+      "sha256": "f76acf289a8de51b6573d59be5884d6a8d2609cbb17fb904df84334358948566",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/visual_hub/asset_index.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/generated/remaining-machines/runner_sentry-v1.png",
+      "category": "generated_original",
+      "bytes": 950718,
+      "sha256": "35c3ff137ac3a9b20161815be56e2077ebba6796e0fe7f3478a02faf3031ef54",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/visual_hub/asset_index.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/generated/remaining-machines/scatter_drone-v1.png",
+      "category": "generated_original",
+      "bytes": 1139274,
+      "sha256": "5b46c0f71694dce416d88df774d563f9aa55d7c436f93f97336ea19fbdae1050",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/visual_hub/asset_index.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
       "path": "assets/generated/rina-arm-parts-v2.png",
       "category": "generated_original",
       "bytes": 861553,
@@ -9601,6 +10014,162 @@
       "godot_ignored": true
     },
     {
+      "path": "assets/retired/ram_sentry/v1/check/contact_display.png",
+      "category": "unresolved",
+      "bytes": 49465,
+      "sha256": "533e591c96d87b3a16364c8ac5f3ae4faba658549a1c459ce63a9617759cb0a6",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/ram_sentry/v1/check/contact_zoom3.png",
+      "category": "unresolved",
+      "bytes": 71577,
+      "sha256": "710066c317ca6fe59c39c51f68b521ac1ac14f878f874b863d5bc43c2c7bf90e",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/ram_sentry/v1/parts.png",
+      "category": "unresolved",
+      "bytes": 1267275,
+      "sha256": "b21b27d7f50aca09a12c570bed33909c6eb4914affdeab9f4f320fb9fff397ef",
+      "references": [
+        "assets/retired/ram_sentry/v1/preview.json",
+        "assets/retired/remaining-machines/v1/preview.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/ring_sentry/v1/check/contact_display.png",
+      "category": "unresolved",
+      "bytes": 58072,
+      "sha256": "c9c76d523611ab4d323f56dc55b5d9151b2f11ebac041a2b1e278ab00de55cbd",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/ring_sentry/v1/check/contact_zoom3.png",
+      "category": "unresolved",
+      "bytes": 84486,
+      "sha256": "4344c51415a7245c288f3d96f3fe912ab51e4fbc09fba47b37cefc32e89161c8",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/ring_sentry/v1/parts.png",
+      "category": "unresolved",
+      "bytes": 1353783,
+      "sha256": "f76acf289a8de51b6573d59be5884d6a8d2609cbb17fb904df84334358948566",
+      "references": [
+        "assets/retired/remaining-machines/v1/preview.json",
+        "assets/retired/ring_sentry/v1/preview.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/runner_sentry/v1/check/contact_display.png",
+      "category": "unresolved",
+      "bytes": 44160,
+      "sha256": "d303ed7705671054be8dce85d2ab2c6da5d3f2cdc2abe9c20491f2b175f2d146",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/runner_sentry/v1/check/contact_zoom3.png",
+      "category": "unresolved",
+      "bytes": 64701,
+      "sha256": "df40263e99564181558407e01efe5ce14463669d2b0a259ca33cf77045d6d301",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/runner_sentry/v1/parts.png",
+      "category": "unresolved",
+      "bytes": 950718,
+      "sha256": "35c3ff137ac3a9b20161815be56e2077ebba6796e0fe7f3478a02faf3031ef54",
+      "references": [
+        "assets/retired/remaining-machines/v1/preview.json",
+        "assets/retired/runner_sentry/v1/preview.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/scatter_drone/v1/check/contact_display.png",
+      "category": "unresolved",
+      "bytes": 43585,
+      "sha256": "0ec5fa3fb57db9351dfe10025541f03e333b2fc033ae7ae3a02838cef1111da0",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/scatter_drone/v1/check/contact_zoom3.png",
+      "category": "unresolved",
+      "bytes": 64193,
+      "sha256": "7adc4d7e68626021271d0ce0e00a24b8392eaaeac12808613db7cc52d77f0efd",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/scatter_drone/v1/parts.png",
+      "category": "unresolved",
+      "bytes": 1139274,
+      "sha256": "5b46c0f71694dce416d88df774d563f9aa55d7c436f93f97336ea19fbdae1050",
+      "references": [
+        "assets/retired/remaining-machines/v1/preview.json",
+        "assets/retired/scatter_drone/v1/preview.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
       "path": "assets/sprites/boss/foundry-spinner/body.png",
       "category": "runtime_reference",
       "bytes": 2640725,
@@ -9700,6 +10269,138 @@
       "godot_ignored": false
     },
     {
+      "path": "assets/sprites/chests/rarity-v1/a.png",
+      "category": "unresolved",
+      "bytes": 1007782,
+      "sha256": "a49a893aa3b7b835530111be26820eba6a522b48706b6e921da62e30ca9a9bf6",
+      "references": [
+        "assets/sprites/chests/rarity-v1/manifest.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/sprites/chests/rarity-v1/b.png",
+      "category": "unresolved",
+      "bytes": 887167,
+      "sha256": "908f39bc48b6d7dba49ccec71e24a38f49c97e72da0797ad974f628dbc25e32e",
+      "references": [
+        "assets/sprites/chests/rarity-v1/manifest.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/sprites/chests/rarity-v1/c.png",
+      "category": "unresolved",
+      "bytes": 766943,
+      "sha256": "11c66dd267f8371ab97f3fceb5bbef5e86f5af704f84afce40e2e1febaae2999",
+      "references": [
+        "assets/sprites/chests/rarity-v1/manifest.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/sprites/chests/rarity-v1/s.png",
+      "category": "unresolved",
+      "bytes": 998224,
+      "sha256": "1b0bef612959930a474208004b1d15485c49219ad9d3d50368df3942f3802487",
+      "references": [
+        "assets/sprites/chests/rarity-v1/manifest.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/sprites/chests/rarity-v2/a.png",
+      "category": "runtime_reference",
+      "bytes": 1092140,
+      "sha256": "4e676fdfbf3379cd049bba53e977f5329739cccc93a7087bc3986a5c87e3ef9e",
+      "references": [
+        "assets/sprites/chests/rarity-v2/manifest.json",
+        "scripts/world/exploration_chest.gd"
+      ],
+      "runtime_references": [
+        "scripts/world/exploration_chest.gd"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/chest_atlas.gd"
+      ],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/sprites/chests/rarity-v2/b.png",
+      "category": "runtime_reference",
+      "bytes": 1263168,
+      "sha256": "8c825d14dd201606ee8a1da3f8c3271d5e1da40bb0ea0d654ccf561a36194fb7",
+      "references": [
+        "assets/sprites/chests/rarity-v2/manifest.json",
+        "scripts/world/exploration_chest.gd"
+      ],
+      "runtime_references": [
+        "scripts/world/exploration_chest.gd"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/chest_atlas.gd"
+      ],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/sprites/chests/rarity-v2/c.png",
+      "category": "runtime_reference",
+      "bytes": 1021365,
+      "sha256": "d8d67f0613104787de5375a4e2ac56ab5c7575572adc056679643dac2e33410e",
+      "references": [
+        "assets/sprites/chests/rarity-v2/manifest.json",
+        "scripts/world/exploration_chest.gd"
+      ],
+      "runtime_references": [
+        "scripts/world/exploration_chest.gd"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/chest_atlas.gd"
+      ],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/sprites/chests/rarity-v2/s.png",
+      "category": "runtime_reference",
+      "bytes": 1334893,
+      "sha256": "a519fc56f6a184a39e057e6e059e08b141b740967033c579fcc07298074c107e",
+      "references": [
+        "assets/sprites/chests/rarity-v2/manifest.json",
+        "scripts/world/exploration_chest.gd"
+      ],
+      "runtime_references": [
+        "scripts/world/exploration_chest.gd"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/chest_atlas.gd"
+      ],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
       "path": "assets/stages/ashen-foundry-v2/edge.png",
       "category": "runtime_reference",
       "bytes": 224,
@@ -9712,6 +10413,81 @@
       ],
       "dynamic_candidates": [],
       "development_dynamic_candidates": [
+        "tools/build_stage_v2_materials.gd"
+      ],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/stages/ashen-foundry-v2/event-props/event-props-v1.png",
+      "category": "runtime_reference",
+      "bytes": 652265,
+      "sha256": "f9305a8d09da82c311f835547452c194941a33081179c0c9a0197f5b92bf0fea",
+      "references": [
+        "assets/stages/ashen-foundry-v2/event-props/altar_small.tres",
+        "assets/stages/ashen-foundry-v2/event-props/challenge_emblem_glow.tres",
+        "assets/stages/ashen-foundry-v2/event-props/challenge_plinth.tres",
+        "assets/stages/ashen-foundry-v2/event-props/coin_large.tres",
+        "assets/stages/ashen-foundry-v2/event-props/coin_small.tres",
+        "assets/stages/ashen-foundry-v2/event-props/regions.json",
+        "assets/stages/ashen-foundry-v2/event-props/shop_sign.tres",
+        "assets/stages/ashen-foundry-v2/event-props/shop_stand.tres",
+        "assets/stages/ashen-foundry-v2/event-props/teleporter_base.tres",
+        "assets/stages/ashen-foundry-v2/event-props/teleporter_glow_drawn.tres"
+      ],
+      "runtime_references": [
+        "assets/stages/ashen-foundry-v2/event-props/altar_small.tres",
+        "assets/stages/ashen-foundry-v2/event-props/challenge_emblem_glow.tres",
+        "assets/stages/ashen-foundry-v2/event-props/challenge_plinth.tres",
+        "assets/stages/ashen-foundry-v2/event-props/coin_large.tres",
+        "assets/stages/ashen-foundry-v2/event-props/coin_small.tres",
+        "assets/stages/ashen-foundry-v2/event-props/shop_sign.tres",
+        "assets/stages/ashen-foundry-v2/event-props/shop_stand.tres",
+        "assets/stages/ashen-foundry-v2/event-props/teleporter_base.tres",
+        "assets/stages/ashen-foundry-v2/event-props/teleporter_glow_drawn.tres"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/build_event_props.gd",
+        "tools/build_stage_v2_materials.gd"
+      ],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/stages/ashen-foundry-v2/event-props/merchant-v1.png",
+      "category": "runtime_reference",
+      "bytes": 690979,
+      "sha256": "17706b224690cb7dcf60b08d8704a9e5fbf03b992fe1208cffe77ea0355054f1",
+      "references": [
+        "assets/ui/exploration/manifest.json",
+        "scripts/game/exploration_events.gd"
+      ],
+      "runtime_references": [
+        "scripts/game/exploration_events.gd"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/build_event_props.gd",
+        "tools/build_stage_v2_materials.gd"
+      ],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/stages/ashen-foundry-v2/event-props/teleporter-glow-v1.png",
+      "category": "runtime_reference",
+      "bytes": 14598,
+      "sha256": "99beefb4d0904a879f4aae7e1cce76cd9e85497ae07d4e19459e06f1d986c2fa",
+      "references": [
+        "assets/stages/ashen-foundry-v2/event-props/teleporter_glow.tres"
+      ],
+      "runtime_references": [
+        "assets/stages/ashen-foundry-v2/event-props/teleporter_glow.tres"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/build_event_props.gd",
         "tools/build_stage_v2_materials.gd"
       ],
       "web_excluded": false,
@@ -9967,7 +10743,8 @@
         "assets/generated/stage-v2-decals-b.json",
         "assets/generated/stage-v2-props-a.json",
         "assets/generated/stage-v2-props-b.json",
-        "data/stage_themes/ashen_foundry_v2.tres"
+        "data/stage_themes/ashen_foundry_v2.tres",
+        "tools/asset_check/check_image.py"
       ],
       "runtime_references": [
         "data/stage_themes/ashen_foundry_v2.tres"
@@ -10155,11 +10932,15 @@
     },
     {
       "path": "assets/stages/ashen-foundry-v2/props/campfire.png",
-      "category": "dynamic_candidate",
+      "category": "runtime_reference",
       "bytes": 70411,
       "sha256": "38626e43b4776903cad29c7f5900841233b21de087cd1e4e7669426dc0098c91",
-      "references": [],
-      "runtime_references": [],
+      "references": [
+        "scripts/ui/exploration_map.gd"
+      ],
+      "runtime_references": [
+        "scripts/ui/exploration_map.gd"
+      ],
       "dynamic_candidates": [
         "scripts/world/ashen_foundry_dressing.gd"
       ],
@@ -11136,6 +11917,23 @@
       "godot_ignored": false
     },
     {
+      "path": "assets/ui/exploration/workshop-case-v1.png",
+      "category": "runtime_reference",
+      "bytes": 2201490,
+      "sha256": "c50769922a031e6c57c891435bdf7a8ff332f0b7893500a48a435a375bc2edf7",
+      "references": [
+        "assets/ui/exploration/manifest.json",
+        "scripts/ui/exploration_bag.gd"
+      ],
+      "runtime_references": [
+        "scripts/ui/exploration_bag.gd"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
       "path": "assets/ui/hud/dodge.svg",
       "category": "unresolved",
       "bytes": 298,
@@ -11630,6 +12428,102 @@
       "development_dynamic_candidates": [],
       "web_excluded": true,
       "godot_ignored": false
+    },
+    {
+      "path": "docs/archive/2026-09-11/preparation-ui-work/preparation-b-implemented.png",
+      "category": "archive",
+      "bytes": 129614,
+      "sha256": "78258ac5e54e432837d4cd37f5648e407d0d774c29f11ee3e51a5b90f0194db8",
+      "references": [
+        "docs/archive/2026-09-11/preparation-ui-work/capture_preparation_b.gd"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/archive/2026-09-11/preparation-ui-work/preparation-b-preview.png",
+      "category": "archive",
+      "bytes": 121637,
+      "sha256": "4208e9c58a347c936809fe9704814a7b1b2c9ba2f6c5c23340f8e27217a346a5",
+      "references": [
+        "docs/archive/2026-09-11/preparation-ui-work/capture_preparation_b.gd"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/archive/2026-09-11/preparation-ui-work/preparation-b-reviewed.png",
+      "category": "archive",
+      "bytes": 167355,
+      "sha256": "28240b3d73e6a2d4684090af16c35dfcec6990e8eddb34b7eab171e3d1daf1c5",
+      "references": [
+        "docs/archive/2026-09-11/DOCUMENT_SNAPSHOTS.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/archive/2026-09-11/preparation-ui-work/preparation-options/A-overview.png",
+      "category": "archive",
+      "bytes": 88787,
+      "sha256": "924d82f668178441201befcc3d70976ffcef94b20e9d31cce52a4f7abc521333",
+      "references": [
+        "docs/archive/2026-09-11/PREPARATION_UI_OPTIONS.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/archive/2026-09-11/preparation-ui-work/preparation-options/B-backpack.png",
+      "category": "archive",
+      "bytes": 91920,
+      "sha256": "05650dec74911f04522647741efdaba595b7054873d24e4a46cfe136a231a25c",
+      "references": [
+        "docs/archive/2026-09-11/PREPARATION_UI_OPTIONS.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/archive/2026-09-11/preparation-ui-work/preparation-options/C-guided.png",
+      "category": "archive",
+      "bytes": 82175,
+      "sha256": "7699828919d347ccdbd5bbb4b3a3b741d27a1d9d214a2f33e5a9b5373e28b388",
+      "references": [
+        "docs/archive/2026-09-11/PREPARATION_UI_OPTIONS.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/archive/2026-09-11/preparation-ui-work/preparation-ui-concept.png",
+      "category": "archive",
+      "bytes": 87100,
+      "sha256": "6a14cf2da9e4932351f8582cb9741d220baf7e2d5b31c6f0173074be58eb8c23",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
     },
     {
       "path": "docs/archive/2026-09-12/art-organization/unused-candidates/raw-frames/character-directions-2026-09-12/motion-000.png",
@@ -20332,6 +21226,20 @@
       "godot_ignored": true
     },
     {
+      "path": "docs/art/production/authored-rooms/cistern-ambience.png",
+      "category": "documentation",
+      "bytes": 925338,
+      "sha256": "f2c51cfaf641dcbc61a31f8b22d5462c6f02b74ab57e4104c4acf8ea7e632293",
+      "references": [
+        "docs/art/production/authored-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
       "path": "docs/art/production/authored-rooms/collisions/01-collapsed_gallery.png",
       "category": "documentation",
       "bytes": 962708,
@@ -21387,6 +22295,34 @@
       "godot_ignored": true
     },
     {
+      "path": "docs/art/production/authored-rooms/views/floor-v4-seed27.png",
+      "category": "documentation",
+      "bytes": 186460,
+      "sha256": "6c35ac5aeed1efc7e9bea7025704b930cc94b7ed9a0c2263695a1725e9357b00",
+      "references": [
+        "docs/art/production/authored-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/authored-rooms/views/floor-v4-seed3.png",
+      "category": "documentation",
+      "bytes": 193668,
+      "sha256": "de503408ce9ff89705f17c2e4c02828440fa083ec3671a57b28529f303e363c7",
+      "references": [
+        "docs/art/production/authored-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
       "path": "docs/art/production/authored-rooms/views/hub-duel.png",
       "category": "development_reference",
       "bytes": 779838,
@@ -21443,6 +22379,49 @@
         "tools/visual_hub/asset_index.gd",
         "tools/visual_hub/capture_stages.gd"
       ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/authored-rooms/views/map-v2-partial-seed27.png",
+      "category": "documentation",
+      "bytes": 329713,
+      "sha256": "f0c76124d661ce5980b3649a2d5309377aecb210fbf50138116a1b36abd343fa",
+      "references": [
+        "docs/art/production/authored-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/authored-rooms/views/map-v2-story-seed5.png",
+      "category": "documentation",
+      "bytes": 301439,
+      "sha256": "790c7abe4b015136fc3f82a94646ad92dd12ca7c4ca81c3a9b329584b1b82cf7",
+      "references": [
+        "docs/art/production/authored-rooms/README.md",
+        "docs/design/GAME_RULES.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/authored-rooms/views/openings-2026-09-30.png",
+      "category": "documentation",
+      "bytes": 2665037,
+      "sha256": "caedfc271248f0bd2204abfffd11c997718356048f78d52d212525c57e18dc87",
+      "references": [
+        "docs/art/production/authored-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
       "web_excluded": true,
       "godot_ignored": true
     },
@@ -21804,10 +22783,196 @@
       "godot_ignored": true
     },
     {
+      "path": "docs/art/production/enemy-animation-v2/aurora-001.png",
+      "category": "development_reference",
+      "bytes": 1073400,
+      "sha256": "f173df4cadaa40329d25c7ef0c616d50d59599507e2e30f37a439a39b73b847f",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_aurora_revision.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/aurora-012.png",
+      "category": "development_reference",
+      "bytes": 1085008,
+      "sha256": "3726eb6d36865526fcef0ecf3c5a5e8ed7858e2bd3a3fd1a91d05b35546da488",
+      "references": [
+        "docs/art/production/enemy-animation-v2/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_aurora_revision.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/aurora-038.png",
+      "category": "development_reference",
+      "bytes": 1091777,
+      "sha256": "46d099ca37a800caf72f08d29fca4f89b62ee7e7ab286e5d05d1d9e24767b417",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_aurora_revision.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/aurora-065.png",
+      "category": "development_reference",
+      "bytes": 1097218,
+      "sha256": "d1c69000810d156dbe93124a3f26fa1515a6703ef998b5d31d4e2400f182b109",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_aurora_revision.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/aurora-100.png",
+      "category": "development_reference",
+      "bytes": 1094557,
+      "sha256": "3ae6b1acd9c642b3c239dffb017785e08302b6534e48a360635606379bcfd2c8",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_aurora_revision.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
       "path": "docs/art/production/enemy-animation-v2/death-review.png",
       "category": "documentation",
       "bytes": 48259,
       "sha256": "a9c55860d3ddb456d9707f152be8a15d12fff6ccaee32c055882b5e7c4b47296",
+      "references": [
+        "docs/art/production/enemy-animation-v2/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/elite-020.png",
+      "category": "development_reference",
+      "bytes": 449037,
+      "sha256": "3644ae745608dcc0b010977ec76a90d3cbf03768d4de8e269cbf1a12f451f422",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_elite_machines.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/elite-068.png",
+      "category": "development_reference",
+      "bytes": 895670,
+      "sha256": "463905a371b785cef7810be6466e60dad788c92a6e077d3e882c08c6c68d732c",
+      "references": [
+        "docs/art/production/enemy-animation-v2/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_elite_machines.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/elite-090.png",
+      "category": "development_reference",
+      "bytes": 891236,
+      "sha256": "e85df7f0d5e057a1f2885f75aab9262e41f45e2b7c81892dc666885c8df9e787",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_elite_machines.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/elite-140.png",
+      "category": "development_reference",
+      "bytes": 895897,
+      "sha256": "f33038114db6159831e770c22841b68bff40ca490fd56c9a46ef41d6fb194e54",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_elite_machines.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/elite-302.png",
+      "category": "development_reference",
+      "bytes": 882779,
+      "sha256": "4888b889a1f6f060ec6a6dc28c2369101c3942e6cfdaabb052742531a8841211",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_elite_machines.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/elite-attack.webp",
+      "category": "documentation",
+      "bytes": 11443824,
+      "sha256": "8209751f5283b6e9ea1505083c9838619daa0b170754065503425da1cd4529a5",
+      "references": [
+        "docs/art/production/enemy-animation-v2/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/elite-death.webp",
+      "category": "documentation",
+      "bytes": 543412,
+      "sha256": "d79e66c332eb2bb09e8e4cf1b3282692aabfc5378cb8f962fc60dd9ff819ed68",
+      "references": [
+        "docs/art/production/enemy-animation-v2/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/elite-walk.webp",
+      "category": "documentation",
+      "bytes": 1394194,
+      "sha256": "54af9d674388479fee8f3fc69c6f2cbf46c9df5389e3e849c17ab76e4c479e23",
       "references": [
         "docs/art/production/enemy-animation-v2/README.md"
       ],
@@ -21846,6 +23011,325 @@
       "godot_ignored": true
     },
     {
+      "path": "docs/art/production/enemy-animation-v2/machine-muzzle-review.png",
+      "category": "documentation",
+      "bytes": 860160,
+      "sha256": "2d2305d8743fcc5c9149920901444c1525cd39256cdd341cadbae97362c1e40b",
+      "references": [
+        "docs/art/production/enemy-animation-v2/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/machines-000.png",
+      "category": "development_reference",
+      "bytes": 208961,
+      "sha256": "2726a4889546d4ea66aad8b3314a4d94d5df21e8f869c620de752118c254dec5",
+      "references": [
+        "docs/art/production/enemy-animation-v2/remaining-machines.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_remaining_machines.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/machines-037.png",
+      "category": "development_reference",
+      "bytes": 204432,
+      "sha256": "c558ff6e0facbe996d22d1ae52dbe1f62842ec9b1471f86b34f4191f50cc153d",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_remaining_machines.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/machines-047.png",
+      "category": "development_reference",
+      "bytes": 230189,
+      "sha256": "6358dfede8e89efc0a988d83e7e7388b058c44a3426d32d258586691008462eb",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_remaining_machines.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/machines-064.png",
+      "category": "development_reference",
+      "bytes": 210530,
+      "sha256": "41e5a1463eb4a9baa3e8930bde53a8d6e9979b627de9e0b390a0653f8cf33753",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_remaining_machines.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/machines-123.png",
+      "category": "development_reference",
+      "bytes": 194502,
+      "sha256": "f02fbe501a08f1cbb573e8b6225a8d7bd2e33427b6017912d5c8772020bff14a",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_remaining_machines.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/machines-live-020.png",
+      "category": "development_reference",
+      "bytes": 437219,
+      "sha256": "25571f95525f995d49384f3016058daa152bc0e4e32b355a4206cba42a0edf27",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_remaining_machines.gd",
+        "tools/capture_remaining_machines_live.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/machines-live-068.png",
+      "category": "development_reference",
+      "bytes": 790195,
+      "sha256": "add0c51881a1fcbf8332d8b10f4a25c5ddf7ca3326d080cbcb62e20a363bedd2",
+      "references": [
+        "docs/art/production/enemy-animation-v2/remaining-machines.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_remaining_machines.gd",
+        "tools/capture_remaining_machines_live.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/machines-live-090.png",
+      "category": "development_reference",
+      "bytes": 779419,
+      "sha256": "edc9bd7be96e4ab1fe9bfdf6ad85a9b660e8432d05f9aceac459a861eeff5222",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_remaining_machines.gd",
+        "tools/capture_remaining_machines_live.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/machines-live-140.png",
+      "category": "development_reference",
+      "bytes": 782564,
+      "sha256": "da341383c344d07567f9a5e2ba334a9b021d9d1a4280edd9ee85a9c37e3b4004",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_remaining_machines.gd",
+        "tools/capture_remaining_machines_live.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/machines-live-302.png",
+      "category": "development_reference",
+      "bytes": 778075,
+      "sha256": "21b0fcead178247a71bf321eb33600bc043e59082573f8e6e255e5bc454a7579",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_remaining_machines.gd",
+        "tools/capture_remaining_machines_live.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/mixed-courtyard-1100.png",
+      "category": "development_reference",
+      "bytes": 1051769,
+      "sha256": "d99bd5a50126ae99702904d9cd76ff802851862c1c944d2e0312b4a9754fe90d",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/review_mixed_enemies.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/mixed-courtyard-120.png",
+      "category": "development_reference",
+      "bytes": 1036563,
+      "sha256": "b85c559610d2cf913f9ac7e5c11b1280201c58abd8a0feb1907156b5a58b83a3",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/review_mixed_enemies.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/mixed-courtyard-360.png",
+      "category": "development_reference",
+      "bytes": 1056318,
+      "sha256": "f4b54919badad5955d64b446d2d42e006754715467cc6825f237e9f8cef5db26",
+      "references": [
+        "docs/art/production/enemy-animation-v2/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/review_mixed_enemies.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/mixed-courtyard-720.png",
+      "category": "development_reference",
+      "bytes": 1055367,
+      "sha256": "711c03a4bab5919c865ac2151380d76c4688ee02de92c93e67ac5578684a3a53",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/review_mixed_enemies.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/mixed-stage_workshop_trial-1100.png",
+      "category": "development_reference",
+      "bytes": 1176931,
+      "sha256": "e65456a6d00df4c0563bc4d3d91dc790bdfb4eea8066e2b57e52f183c26cb555",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/review_mixed_enemies.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/mixed-stage_workshop_trial-120.png",
+      "category": "development_reference",
+      "bytes": 1180584,
+      "sha256": "d16a4d87063c09308a9685765b67493a978fe58cde22b1f39a9db604585512e5",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/review_mixed_enemies.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/mixed-stage_workshop_trial-360.png",
+      "category": "development_reference",
+      "bytes": 1178399,
+      "sha256": "4710848c93ed4355a7f1e4a6b5b9274fcbd91cdf1d59becf86f34bd6db933483",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/review_mixed_enemies.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/mixed-stage_workshop_trial-720.png",
+      "category": "development_reference",
+      "bytes": 1178874,
+      "sha256": "60356d5e8da8aaedf8b5ebd0862d5e20c24bf48532dd3caafe10254328fe5869",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/review_mixed_enemies.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/relic-size-32.png",
+      "category": "documentation",
+      "bytes": 41581,
+      "sha256": "0aca08f9b4f3627c0af769a2d5d66cef016cc904f1dc9c685d2f0f9d9a262575",
+      "references": [
+        "docs/art/production/enemy-animation-v2/remaining-machines.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/remaining-machines-live.webp",
+      "category": "documentation",
+      "bytes": 4875870,
+      "sha256": "ccaf82bc6b2540c074ef5a68fa57c4db484f1812cd00703aa1417972bd72beff",
+      "references": [
+        "docs/art/production/enemy-animation-v2/remaining-machines.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/remaining-machines.webp",
+      "category": "documentation",
+      "bytes": 4426402,
+      "sha256": "8e1464df92783a1a6fa28263ae04606a749a4e008999df9cd27362195224b215",
+      "references": [
+        "docs/art/production/enemy-animation-v2/remaining-machines.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
       "path": "docs/art/production/enemy-animation-v2/review.png",
       "category": "documentation",
       "bytes": 358029,
@@ -21867,6 +23351,34 @@
       "references": [
         "docs/art/production/enemy-animation-v2/README.md"
       ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/variants-after-000.png",
+      "category": "development_reference",
+      "bytes": 560208,
+      "sha256": "9cebb49204c9d5073fb4c8caae5c77fcea96b6f529aa4eed74894bb029ee85bd",
+      "references": [
+        "docs/art/production/enemy-animation-v2/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/capture_enemy_variants.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/enemy-animation-v2/variants-before-000.png",
+      "category": "documentation",
+      "bytes": 564238,
+      "sha256": "4a152b13fed795c0f3a91c1b1c394b72473cd1202a218a1c0638d2392f4b2621",
+      "references": [],
       "runtime_references": [],
       "dynamic_candidates": [],
       "development_dynamic_candidates": [],
@@ -22042,6 +23554,272 @@
       "godot_ignored": true
     },
     {
+      "path": "docs/art/production/event-rooms/altar.png",
+      "category": "documentation",
+      "bytes": 932518,
+      "sha256": "db6c497101eb8239235e5118023a1ab68717cfb123e0faf388165bdbb40c5790",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/art-altar-chapel.png",
+      "category": "documentation",
+      "bytes": 933042,
+      "sha256": "bbb4976ffe0297ce803ce8917c7227520da2e172cfe309f17b1db166545e0ab1",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/art-challenge.png",
+      "category": "documentation",
+      "bytes": 1001228,
+      "sha256": "2fde9e4aafb8a777f219b887b6e7a8d5d42e299aa267aece53bef3f102bf2dab",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/art-coin.png",
+      "category": "documentation",
+      "bytes": 997823,
+      "sha256": "80388bf98e2cfaf7b05b376b6196365143aaa2ed644e079b3c048e49f43a05e7",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/art-shop.png",
+      "category": "documentation",
+      "bytes": 954234,
+      "sha256": "2a30f8f6164b52016926cf977324f88bd9d9c0b2f8fe0ef39c25007fd5766a71",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/art-teleporter.png",
+      "category": "documentation",
+      "bytes": 1012792,
+      "sha256": "c74e5480140f8c91d30744afb9fb6bad9978003a05a8beb8831034057ab4caad",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/challenge.png",
+      "category": "documentation",
+      "bytes": 1030855,
+      "sha256": "a98f3184f6a5c62c28220e264e35b52b3c44055d205592ee9512200321248b3d",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/event-props-keyed-review.png",
+      "category": "documentation",
+      "bytes": 680955,
+      "sha256": "0ade50d117bb8d41ab598ca4b8bc7011108eb9b21d6686193bc379d9f280d50b",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/feedback-bag.png",
+      "category": "documentation",
+      "bytes": 1046088,
+      "sha256": "09c89ff4f3ab64f1ab31670ad15604853226d3a42f020ab1285bcfdd58a50053",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/feedback-expansion.png",
+      "category": "documentation",
+      "bytes": 368335,
+      "sha256": "6c41eba689676d80b2dd9102642a9002317b2c1ba88fd0931c7e377aff413e99",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/feedback-merchant.png",
+      "category": "documentation",
+      "bytes": 1002109,
+      "sha256": "0d5aa8c9924b80f15f468b70e5a34c884b36c381d775875d468cc807f31f8a04",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/feedback-shop.png",
+      "category": "documentation",
+      "bytes": 375093,
+      "sha256": "77743205678581bf9d522ede7a9c59aacbe9cb664873819d10aba3a2b2e6bd3c",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/fx-altar.png",
+      "category": "documentation",
+      "bytes": 907190,
+      "sha256": "7c984c116366e712dbb5acdef2bfb55e5f8b7daefcab2bc47ba441fd1a4754f6",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/fx-challenge.png",
+      "category": "documentation",
+      "bytes": 1001928,
+      "sha256": "5b636ff6a25d94410bab2e102d95adda8e2f07407865d0878c0a2e178519c552",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/fx-coin-pickup.png",
+      "category": "documentation",
+      "bytes": 998517,
+      "sha256": "42d159f0f71bcccff3cc76bfde3e79e37d28e4f621e8a78e86b2e438d99b1fee",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/fx-purchase.png",
+      "category": "documentation",
+      "bytes": 932505,
+      "sha256": "f617c2c2a61d87dac4f31f88e6c4a988d2089800a3aa826cb70c10d980136ea9",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/fx-teleport.png",
+      "category": "documentation",
+      "bytes": 1002850,
+      "sha256": "669a7b1faaa77c5001dd924f47320938c138365d89ac6d598ded2ed2a9340eaf",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/map-teleport.png",
+      "category": "documentation",
+      "bytes": 345197,
+      "sha256": "fbde96b4b4880cd8d8752d3a0ee5b3c0dc13e3216db70eaec5690cab32f99970",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/shop.png",
+      "category": "documentation",
+      "bytes": 924316,
+      "sha256": "e9eefd5595e0d4e34c37618e92d1c0550270b44d4643f933f5f5da8040ae7669",
+      "references": [
+        "docs/art/production/event-rooms/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
       "path": "docs/art/production/exploration-chest/closed.png",
       "category": "documentation",
       "bytes": 786200,
@@ -22056,10 +23834,192 @@
       "godot_ignored": true
     },
     {
+      "path": "docs/art/production/exploration-chest/comp-adventure-v1.png",
+      "category": "documentation",
+      "bytes": 1323818,
+      "sha256": "5d2cac3dcc48bf711a876f3b2c4d1f0f0bab7a5e81d85b237f728974c5e7b6d4",
+      "references": [
+        "docs/art/production/exploration-chest/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/exploration-chest/comp-classic-v1.png",
+      "category": "documentation",
+      "bytes": 967679,
+      "sha256": "599eb8c8a5cdb9ce45377c45f8bd0a632217ca98d2c1ab2eec970aff9e039c64",
+      "references": [
+        "docs/art/production/exploration-chest/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/exploration-chest/comp-forest-v1.png",
+      "category": "documentation",
+      "bytes": 1555290,
+      "sha256": "37f18fa813a0eb797723f407e6fadbc5f8398ffcf81b4e834d7f3b9fa8a3b65b",
+      "references": [
+        "docs/art/production/exploration-chest/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/exploration-chest/comp-keepsake-v1.png",
+      "category": "documentation",
+      "bytes": 1460403,
+      "sha256": "2582d6e9cfab978b486e25ebd3ebcedd86a13d183edf4dd5c5c9c16089bd3551",
+      "references": [
+        "docs/art/production/exploration-chest/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/exploration-chest/comp-ruins-v1.png",
+      "category": "documentation",
+      "bytes": 1553658,
+      "sha256": "16e91396c7e039d2f4cacf9ea26762f7f08f3aa963e92a71bdea2a446bdf6488",
+      "references": [
+        "docs/art/production/exploration-chest/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/exploration-chest/comp-traditional-v2.png",
+      "category": "documentation",
+      "bytes": 1275272,
+      "sha256": "b044174e45c5e3cfa3120a91bfe060cf11b76788bf7b3c49bc12af9f8857736d",
+      "references": [
+        "docs/art/production/exploration-chest/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/exploration-chest/comp-traditional-v3.png",
+      "category": "documentation",
+      "bytes": 1541429,
+      "sha256": "45b61d294cf067418145f0513d1ea5bcc28a62251c53e58546e7d1225abf7017",
+      "references": [
+        "docs/art/production/exploration-chest/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/exploration-chest/comp-workshop-v1.png",
+      "category": "documentation",
+      "bytes": 1161891,
+      "sha256": "1eec4a1200bc173ad1d68dcee291b1a391cb7df5303790200932af206cc4cd1c",
+      "references": [
+        "docs/art/production/exploration-chest/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/exploration-chest/design-comp-v2.png",
+      "category": "documentation",
+      "bytes": 1483762,
+      "sha256": "6a98f77759f818eb84910647c5652bdf59378dcd8089d14f44642b7e04320e9f",
+      "references": [
+        "docs/art/production/exploration-chest/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
       "path": "docs/art/production/exploration-chest/open.png",
       "category": "documentation",
       "bytes": 791954,
       "sha256": "f1296337df28bb05e6053c734d3dc6e4221731c5af8098e566fb42cae2b6f05f",
+      "references": [
+        "docs/art/production/exploration-chest/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/exploration-chest/rarity-in-game.png",
+      "category": "documentation",
+      "bytes": 568012,
+      "sha256": "f9a428361719b55a7b38a5774661a5b9ae531faf4c69ce7a8a6f578c49ee11f1",
+      "references": [
+        "docs/art/production/exploration-chest/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/exploration-chest/rarity-v1.png",
+      "category": "documentation",
+      "bytes": 57189,
+      "sha256": "c8af844cb7d300e81e513e351d6c4181a63b68aaaa89c7f20c388d4a2b928f9f",
+      "references": [
+        "docs/art/production/exploration-chest/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/exploration-chest/rarity-v2-in-game.png",
+      "category": "documentation",
+      "bytes": 564232,
+      "sha256": "033b697040fbc4c3e4de556a779540f776af9e373fabb9d3b3ad93fb9d59f4d6",
+      "references": [
+        "docs/art/production/exploration-chest/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/exploration-chest/rarity-v2-stages.png",
+      "category": "documentation",
+      "bytes": 186621,
+      "sha256": "2b940fd692ef6d17ef681a9487c2780714d2c47446d8f57ea243fcf48f06598f",
       "references": [
         "docs/art/production/exploration-chest/README.md"
       ],
@@ -23492,6 +25452,7 @@
       "bytes": 69114,
       "sha256": "55bd4a8299def054df8c01ff39e9390e8e144d787286f330388e5248dffcf7f4",
       "references": [
+        "assets/generated/event-props-v1.json",
         "assets/generated/first-workshop-usage.json",
         "assets/generated/lizard-v3-sheet-a.json",
         "assets/generated/stage-room-mock-v1.json",
@@ -23502,6 +25463,7 @@
         "assets/generated/style-reference-v1.json",
         "assets/generated/style-reference-v2.json",
         "docs/art/production/ashen-foundry-v2/README.md",
+        "docs/art/production/event-rooms/README.md",
         "docs/art/production/fire-pouch-lizard/README.md",
         "docs/art/production/style-reference-2026-09-26/README.md"
       ],
@@ -26739,6 +28701,7 @@
       "bytes": 517711,
       "sha256": "959b82288f0b1e9fa15e645148a07ff8973b4b69b7554f5a8a0768ea3c8231d0",
       "references": [
+        "docs/art/ART_BIBLE.md",
         "docs/art/reviews/rina-style-check-2026-09-26/README.md"
       ],
       "runtime_references": [],
@@ -26884,7 +28847,9 @@
       "category": "documentation",
       "bytes": 509252,
       "sha256": "7985dbd9a51d180a074a8f52e3d29b2a2886dff454b173e3d073269a93a170fc",
-      "references": [],
+      "references": [
+        "docs/art/ART_BIBLE.md"
+      ],
       "runtime_references": [],
       "dynamic_candidates": [],
       "development_dynamic_candidates": [],
@@ -26965,6 +28930,7 @@
       "bytes": 349169,
       "sha256": "2f79c83816cb56b357af71b2a2f50bcb6f3f896fdf189ca5a837d676c4643e4a",
       "references": [
+        "docs/art/ART_BIBLE.md",
         "docs/art/reviews/style-comparison-2026-09-26/README.md"
       ],
       "runtime_references": [],
@@ -29151,102 +31117,6 @@
         "docs/archive/2026-09-12/art-organization/relocations.json",
         "docs/art/settings/concepts/screen-overview-2026-09-12/README.md"
       ],
-      "runtime_references": [],
-      "dynamic_candidates": [],
-      "development_dynamic_candidates": [],
-      "web_excluded": true,
-      "godot_ignored": true
-    },
-    {
-      "path": "docs/design/preparation-b-implemented.png",
-      "category": "development_reference",
-      "bytes": 129614,
-      "sha256": "78258ac5e54e432837d4cd37f5648e407d0d774c29f11ee3e51a5b90f0194db8",
-      "references": [
-        "docs/design/capture_preparation_b.gd"
-      ],
-      "runtime_references": [],
-      "dynamic_candidates": [],
-      "development_dynamic_candidates": [],
-      "web_excluded": true,
-      "godot_ignored": true
-    },
-    {
-      "path": "docs/design/preparation-b-preview.png",
-      "category": "development_reference",
-      "bytes": 121637,
-      "sha256": "4208e9c58a347c936809fe9704814a7b1b2c9ba2f6c5c23340f8e27217a346a5",
-      "references": [
-        "docs/design/capture_preparation_b.gd"
-      ],
-      "runtime_references": [],
-      "dynamic_candidates": [],
-      "development_dynamic_candidates": [],
-      "web_excluded": true,
-      "godot_ignored": true
-    },
-    {
-      "path": "docs/design/preparation-b-reviewed.png",
-      "category": "documentation",
-      "bytes": 167355,
-      "sha256": "28240b3d73e6a2d4684090af16c35dfcec6990e8eddb34b7eab171e3d1daf1c5",
-      "references": [
-        "docs/archive/2026-09-11/DOCUMENT_SNAPSHOTS.md"
-      ],
-      "runtime_references": [],
-      "dynamic_candidates": [],
-      "development_dynamic_candidates": [],
-      "web_excluded": true,
-      "godot_ignored": true
-    },
-    {
-      "path": "docs/design/preparation-options/A-overview.png",
-      "category": "documentation",
-      "bytes": 88787,
-      "sha256": "924d82f668178441201befcc3d70976ffcef94b20e9d31cce52a4f7abc521333",
-      "references": [
-        "docs/archive/2026-09-11/PREPARATION_UI_OPTIONS.md"
-      ],
-      "runtime_references": [],
-      "dynamic_candidates": [],
-      "development_dynamic_candidates": [],
-      "web_excluded": true,
-      "godot_ignored": true
-    },
-    {
-      "path": "docs/design/preparation-options/B-backpack.png",
-      "category": "documentation",
-      "bytes": 91920,
-      "sha256": "05650dec74911f04522647741efdaba595b7054873d24e4a46cfe136a231a25c",
-      "references": [
-        "docs/archive/2026-09-11/PREPARATION_UI_OPTIONS.md"
-      ],
-      "runtime_references": [],
-      "dynamic_candidates": [],
-      "development_dynamic_candidates": [],
-      "web_excluded": true,
-      "godot_ignored": true
-    },
-    {
-      "path": "docs/design/preparation-options/C-guided.png",
-      "category": "documentation",
-      "bytes": 82175,
-      "sha256": "7699828919d347ccdbd5bbb4b3a3b741d27a1d9d214a2f33e5a9b5373e28b388",
-      "references": [
-        "docs/archive/2026-09-11/PREPARATION_UI_OPTIONS.md"
-      ],
-      "runtime_references": [],
-      "dynamic_candidates": [],
-      "development_dynamic_candidates": [],
-      "web_excluded": true,
-      "godot_ignored": true
-    },
-    {
-      "path": "docs/design/preparation-ui-concept.png",
-      "category": "documentation",
-      "bytes": 87100,
-      "sha256": "6a14cf2da9e4932351f8582cb9741d220baf7e2d5b31c6f0173074be58eb8c23",
-      "references": [],
       "runtime_references": [],
       "dynamic_candidates": [],
       "development_dynamic_candidates": [],

@@ -1,5 +1,7 @@
 # キャラクターの状態とアニメーション
 
+2026-10-04: 走り番機・浮遊散弾機・破砕番機・環砲機は `remaining_machine_visual.gd` の専用部品リグを通常起動で使う。4画像と計測済み9領域は同スクリプトの既定データ。敵のスナップショットを生存描画と `enemy_death.gd` の両方へ渡す。候補指定不要、戦闘数値は変更なし。[制作記録](../art/production/enemy-animation-v2/remaining-machines.md)。
+
 更新: 2026-09-21。標準AnimationTreeに、8人共通の待機・歩行キーフレームとパーツ表示を接続。
 この資料は現行の拡張手順。戦闘ルールは[GAME_RULES](../design/GAME_RULES.md)、検証方法は[TESTING](TESTING.md)。
 

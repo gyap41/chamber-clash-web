@@ -1,0 +1,63 @@
+{
+  "image": "assets\\candidates\\scatter_drone\\v1\\parts.png",
+  "size": [
+    1254,
+    1254
+  ],
+  "grid": [
+    1,
+    1
+  ],
+  "cell": [
+    1254,
+    1254
+  ],
+  "display_scale": 0.1302,
+  "camera_zoom": 1.2,
+  "kind": "prop",
+  "directions": {
+    "dir0": {
+      "frames": [
+        {
+          "empty": false,
+          "bbox": [
+            62,
+            38,
+            1137,
+            1152
+          ],
+          "feet_y": 1189,
+          "touches_edge": false,
+          "magenta_ratio": 0.0,
+          "semi_transparent_ratio": 0.056,
+          "display_size": [
+            128,
+            138
+          ],
+          "luma_mean": 40.7,
+          "luma_std": 21.5,
+          "saturation_mean": 47.5,
+          "detail": 6.01,
+          "edge_contrast": 6.8
+        }
+      ],
+      "groups": {
+        "all": {
+          "height_variation": 0.0
+        }
+      }
+    }
+  },
+  "thresholds_note": "provisional 2026-10-04; colour metrics use a floor composite without lighting/shadows, so compare them with a baseline measured by this tool, not with the absolute VISUAL_STYLE_GUIDE 3.5 numbers",
+  "summary_median": {
+    "luma_mean": 40.7,
+    "luma_std": 21.5,
+    "saturation_mean": 47.5,
+    "detail": 6.0,
+    "edge_contrast": 6.8,
+    "display_height_px_max": 138
+  },
+  "hard_failures": [],
+  "warnings": [],
+  "verdict": "PASS"
+}

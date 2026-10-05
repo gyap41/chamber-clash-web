@@ -30,11 +30,11 @@ static func stack_summary(id: int, count: int) -> String:
 	for key in relic.get("stack_stats",[]):
 		var value := float(relic[key])
 		if key.ends_with("_ratio"):
-			parts.append("-%.1f%%" % ((1.0-pow(value,count))*100.0))
+			parts.append(("弾速" if key == "heavy_ratio" else "")+"-%.1f%%" % ((1.0-pow(value,count))*100.0))
 		elif key in ["hp_bonus","mag_bonus","last_bonus"]:
 			parts.append("+%s%s" % [("%.2f" % (value*count)).trim_suffix("0").trim_suffix("0").trim_suffix("."),"HP" if key == "hp_bonus" else ("発" if key == "mag_bonus" else "ダメージ")])
 		elif key == "size_bonus":
 			parts.append("弾径+%d%%" % roundi(minf(.6,value*count)*100.0))
 		else:
-			parts.append("+%d%%" % roundi(value*count*100.0))
+			parts.append(("威力" if key == "heavy_bonus" else "")+"+%d%%" % roundi(value*count*100.0))
 	return " / ".join(parts)

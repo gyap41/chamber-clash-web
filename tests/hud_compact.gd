@@ -31,7 +31,7 @@ func run() -> void:
 	p.relics = [0,1,3,18,18,14]
 	p.temporary_relic = 14
 	p.temporary_relic_slot = 5
-	p.state.return_battery_armed = true
+	p.state.return_battery_charge = true
 	p.state.shield = 2.3
 	q.relics = [2,4,7]
 	p.state.pos = Vector2(300,300)

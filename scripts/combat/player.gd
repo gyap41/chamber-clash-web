@@ -148,12 +148,11 @@ func reset(spawn: Vector2) -> void:
 	# ai_cd: CPU-only dodge-roll cooldown (legacy makePlayer()'s p.ai=rnd(.25,.6); unused by
 	# human players). Decremented only while a bullet threat is present, see cpu_ai.gd.
 	# P3 synergy state (all reset every round, same as the timers above): reload_started_empty
-	# tracks whether the *current* reload attempt began from a fully empty clip (空薬莢の祝福);
+	# tracks the current reload's initial state for timing snapshots;
 	# empty_casing_charge/residual_heat_charge/return_battery_charge are one-shot "next fire()
-	# gets a bonus" flags; return_battery_armed distinguishes "charged" from "switched while
-	# charged, next shot is boosted"; echo_holster_cd is a plain cooldown timer (decremented
+	# gets a bonus" flags; echo_holster_cd is a plain cooldown timer (decremented
 	# alongside the other timers in step()); phase_load_used resets at the start of each dodge.
-	state = {"pulses":initial_pulses,"pos":spawn,"hp":max_hp,"max_hp":max_hp,"angle":0.0,"shot":0.0,"roll":0.0,"dodge":0.0,"slash":0.0,"melee":0.0,"inv":0.0,"reload":0.0,"reload_slot":-1,"last_volley":-1,"blocked_volley":-1,"shield":0.0,"holster":0.0,"dir":Vector2.RIGHT,"gun":0,"ai_cd":randf_range(.25,.6),"reload_started_empty":false,"empty_casing_charge":false,"residual_heat_charge":false,"return_battery_charge":false,"return_battery_armed":false,"echo_holster_cd":0.0,"phase_load_used":false}
+	state = {"pulses":initial_pulses,"pos":spawn,"hp":max_hp,"max_hp":max_hp,"angle":0.0,"shot":0.0,"roll":0.0,"dodge":0.0,"slash":0.0,"melee":0.0,"inv":0.0,"reload":0.0,"reload_slot":-1,"last_volley":-1,"blocked_volley":-1,"shield":0.0,"holster":0.0,"dir":Vector2.RIGHT,"gun":0,"ai_cd":randf_range(.25,.6),"reload_started_empty":false,"empty_casing_charge":false,"residual_heat_charge":false,"return_battery_charge":false,"echo_holster_cd":0.0,"phase_load_used":false}
 	for timer in ITEM_TIMERS: state[timer] = 0.0
 	state.aid_used = 0
 	state.alternate_shots = 0
@@ -539,9 +538,7 @@ func start_reload() -> void:
 	state.reload_slot = weapon().id
 	present_reload()
 	WeaponBehaviors.dispatch(reload_visual_weapon,&"reload_start",{"actor":self})
-	# 空薬莢の祝福 only cares about a reload that began from a *fully* empty clip; partial
-	# top-ups never reach here anyway (guarded above), but this keeps the "empty" distinction
-	# explicit and independent of that guard's exact bounds.
+	# Keep the reload snapshot compatible; relic triggers now use actual rounds loaded.
 	state.reload_started_empty = weapon().clip == 0
 	sound_requested.emit("reload",weapon().id)
 	$Animation.present(visual_snapshot())

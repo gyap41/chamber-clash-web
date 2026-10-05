@@ -151,6 +151,8 @@ func paint_item() -> void:
 	draw_circle(point,27.5,Color(1,.72,.24,.15))
 	draw_set_transform(point,sin(flight*TAU)*.2)
 	var icon_size := icon.get_size()
-	var display_size := icon_size*(52.0/maxf(icon_size.x,icon_size.y))
+	# 2026-10-04: keep relic icons compact while preserving enlarged gun art.
+	var longest: float = 32.0 if reward.get("kind","weapon") == "relic" else 52.0
+	var display_size := icon_size*(longest/maxf(icon_size.x,icon_size.y))
 	draw_texture_rect(icon,Rect2(-display_size*.5,display_size),false)
 	draw_set_transform(Vector2.ZERO)

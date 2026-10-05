@@ -10,7 +10,7 @@
       "speed": 480,
       "damage": 0.8,
       "mag": 16,
-      "stock": 64,
+      "stock": 96,
       "color": "#dce9ff",
       "reload_time": 1.35,
       "id": 0
@@ -25,7 +25,7 @@
       "speed": 390,
       "damage": 1,
       "mag": 12,
-      "stock": 48,
+      "stock": 72,
       "color": "#86efdd",
       "bounce": 2,
       "mods": [
@@ -56,7 +56,7 @@
       "speed": 250,
       "damage": 1,
       "mag": 4,
-      "stock": 16,
+      "stock": 24,
       "color": "#ffb8d8",
       "split": true,
       "id": 2
@@ -71,7 +71,7 @@
       "speed": 270,
       "damage": 0.55,
       "mag": 8,
-      "stock": 32,
+      "stock": 48,
       "color": "#e8ed9a",
       "count": 3,
       "homing": true,
@@ -87,7 +87,7 @@
       "speed": 430,
       "damage": 0.65,
       "mag": 2,
-      "stock": 20,
+      "stock": 30,
       "color": "#ffaec1",
       "count": 5,
       "spread": 0.16,
@@ -104,7 +104,7 @@
       "speed": 390,
       "damage": 1,
       "mag": 7,
-      "stock": 28,
+      "stock": 42,
       "color": "#ceb0ff",
       "boomerang": true,
       "mods": [
@@ -136,7 +136,7 @@
       "speed": 950,
       "damage": 2,
       "mag": 4,
-      "stock": 16,
+      "stock": 24,
       "color": "#b4e9ff",
       "rail": true,
       "id": 6
@@ -151,7 +151,7 @@
       "speed": 340,
       "damage": 0.65,
       "mag": 12,
-      "stock": 36,
+      "stock": 54,
       "color": "#aaecc6",
       "helix": true,
       "count": 2,
@@ -167,7 +167,7 @@
       "speed": 710,
       "damage": 0.75,
       "mag": 3,
-      "stock": 9,
+      "stock": 14,
       "color": "#fff0ae",
       "count": 5,
       "spread": 0.12,
@@ -185,7 +185,7 @@
       "speed": 245,
       "damage": 1.5,
       "mag": 2,
-      "stock": 6,
+      "stock": 9,
       "color": "#ffcc87",
       "comet": true,
       "homing": true,
@@ -202,7 +202,7 @@
       "speed": 300,
       "damage": 1.0,
       "mag": 3,
-      "stock": 9,
+      "stock": 14,
       "color": "#d7aaff",
       "gravity": true,
       "id": 10,
@@ -218,7 +218,7 @@
       "speed": 270,
       "damage": 1.6,
       "mag": 4,
-      "stock": 16,
+      "stock": 24,
       "color": "#b1ee99",
       "seed": true,
       "seed_life": 4.8,
@@ -252,7 +252,7 @@
       "speed": 130,
       "damage": 1.1,
       "mag": 6,
-      "stock": 24,
+      "stock": 36,
       "color": "#ffe49a",
       "boost": true,
       "id": 12
@@ -267,7 +267,7 @@
       "speed": 60,
       "damage": 0.55,
       "mag": 4,
-      "stock": 16,
+      "stock": 24,
       "color": "#a6efff",
       "bubble": true,
       "bubble_delay": 1.0,
@@ -302,7 +302,7 @@
       "speed": 250,
       "damage": 0.6,
       "mag": 5,
-      "stock": 20,
+      "stock": 30,
       "color": "#97edba",
       "clover": true,
       "id": 14
@@ -317,7 +317,7 @@
       "speed": 340,
       "damage": 0.8,
       "mag": 4,
-      "stock": 12,
+      "stock": 18,
       "color": "#d4c3ff",
       "radial": true,
       "turn_rate": 1.2,
@@ -337,7 +337,7 @@
       "speed": 460,
       "damage": 0.6,
       "mag": 6,
-      "stock": 30,
+      "stock": 45,
       "color": "#f3dea2",
       "bounce": 2,
       "bank": true,
@@ -355,7 +355,7 @@
       "speed": 340,
       "damage": 0.85,
       "mag": 5,
-      "stock": 20,
+      "stock": 30,
       "color": "#f4a55e",
       "parcel": true,
       "id": 17,
@@ -371,7 +371,7 @@
       "speed": 490,
       "damage": 1.1,
       "mag": 6,
-      "stock": 30,
+      "stock": 45,
       "color": "#b4d9eb",
       "switcher": true,
       "id": 18
@@ -386,7 +386,7 @@
       "speed": 440,
       "damage": 0.55,
       "mag": 8,
-      "stock": 32,
+      "stock": 48,
       "color": "#ceb2ec",
       "echo": true,
       "reload_time": 1.25,
@@ -402,7 +402,7 @@
       "speed": 510,
       "damage": 1,
       "mag": 10,
-      "stock": 50,
+      "stock": 75,
       "color": "#f5a7ce",
       "art_id": 0,
       "exclusive": true,
@@ -419,7 +419,7 @@
       "speed": 700,
       "damage": 0.65,
       "mag": 7,
-      "stock": 42,
+      "stock": 63,
       "color": "#98c7ff",
       "art_id": 6,
       "exclusive": true,
@@ -436,7 +436,7 @@
       "speed": 380,
       "damage": 0.75,
       "mag": 12,
-      "stock": 48,
+      "stock": 72,
       "color": "#ffd28e",
       "art_id": 1,
       "bounce": 1,
@@ -454,7 +454,7 @@
       "speed": 390,
       "damage": 1.5,
       "mag": 8,
-      "stock": 40,
+      "stock": 60,
       "color": "#96e5d5",
       "art_id": 12,
       "exclusive": true,
@@ -471,7 +471,7 @@
       "speed": 460,
       "damage": 0.4,
       "mag": 10,
-      "stock": 40,
+      "stock": 60,
       "color": "#e8b457",
       "art_id": 4,
       "count": 2,
@@ -490,7 +490,7 @@
       "speed": 300,
       "damage": 0.9,
       "mag": 8,
-      "stock": 40,
+      "stock": 60,
       "color": "#a69ad9",
       "art_id": 3,
       "homing": true,
@@ -510,7 +510,7 @@
       "speed": 650,
       "damage": 1.5,
       "mag": 6,
-      "stock": 30,
+      "stock": 45,
       "color": "#d78063",
       "art_id": 0,
       "exclusive": true,
@@ -527,7 +527,7 @@
       "speed": 430,
       "damage": 0.45,
       "mag": 28,
-      "stock": 84,
+      "stock": 126,
       "color": "#8aa0ac",
       "art_id": 7,
       "alternate_spread": 0.04,
@@ -545,7 +545,7 @@
       "speed": 520,
       "damage": 0.6,
       "mag": 8,
-      "stock": 32,
+      "stock": 48,
       "color": "#b7d4ea",
       "art_id": 19,
       "burst_count": 3,
@@ -562,7 +562,7 @@
       "speed": 420,
       "damage": 0.55,
       "mag": 6,
-      "stock": 24,
+      "stock": 36,
       "color": "#eeadcc",
       "art_id": 7,
       "count": 4,
@@ -574,15 +574,16 @@
       "glyph": "➶",
       "rarity": "C",
       "type": "RIFLE",
-      "desc": "細い高速の直進弾を狙って撃つ。1発1.4、連射は控えめ。",
+      "desc": "1発ずつ装填する高威力ライフル。初弾強化と最終弾強化が同時に乗る。弾倉を拡張すると続けて撃てる。",
       "rate": 0.62,
       "speed": 680,
-      "damage": 1.4,
-      "mag": 8,
-      "stock": 40,
+      "damage": 2.6,
+      "mag": 1,
+      "stock": 60,
       "color": "#d9e7ee",
       "art_id": 6,
-      "id": 30
+      "id": 30,
+      "reload_time": 1.25
     },
     {
       "name": "ペッパーボックス",
@@ -594,7 +595,7 @@
       "speed": 410,
       "damage": 0.32,
       "mag": 8,
-      "stock": 32,
+      "stock": 48,
       "color": "#e9b391",
       "art_id": 4,
       "count": 4,
@@ -612,7 +613,7 @@
       "speed": 360,
       "damage": 0.6,
       "mag": 7,
-      "stock": 28,
+      "stock": 42,
       "color": "#a5e2d1",
       "art_id": 1,
       "count": 2,
@@ -630,7 +631,7 @@
       "speed": 360,
       "damage": 0.55,
       "mag": 5,
-      "stock": 20,
+      "stock": 30,
       "color": "#c3b5ed",
       "art_id": 5,
       "count": 2,
@@ -649,7 +650,7 @@
       "speed": 150,
       "damage": 0.7,
       "mag": 6,
-      "stock": 24,
+      "stock": 36,
       "color": "#f0d38f",
       "art_id": 12,
       "count": 2,
@@ -667,7 +668,7 @@
       "speed": 270,
       "damage": 0.8,
       "mag": 4,
-      "stock": 16,
+      "stock": 24,
       "color": "#a6d9ac",
       "art_id": 11,
       "count": 3,
@@ -688,7 +689,7 @@
       "speed": 900,
       "damage": 1.15,
       "mag": 3,
-      "stock": 15,
+      "stock": 23,
       "color": "#b8d0e8",
       "art_id": 6,
       "rail": true,
@@ -706,7 +707,7 @@
       "speed": 400,
       "damage": 0.55,
       "mag": 4,
-      "stock": 12,
+      "stock": 18,
       "color": "#c1b7ff",
       "art_id": 8,
       "count": 7,
@@ -723,70 +724,76 @@
       "name": "フェザー",
       "glyph": "➶",
       "color": "#a9e7de",
-      "desc": "移動速度が6%アップ。回避中の速度は変わらない。 同種重複可（数値は1個分）。",
+      "desc": "移動速度が6%上がる。",
       "key": "feather",
       "move_bonus": 0.06,
       "stackable": true,
       "stack_stats": [
         "move_bonus"
       ],
-      "id": 0
+      "id": 0,
+      "details": "回避中の速度は変わらない。"
     },
     {
       "name": "クイックギア",
       "glyph": "⋈",
       "color": "#ffb8d8",
-      "desc": "リロード時間を12%短縮。弾切れの隙を小さく。 同種重複可（数値は1個分）。",
+      "desc": "リロード時間が12%短くなる。",
       "key": "ribbon",
       "reload_ratio": 0.88,
       "stackable": true,
       "stack_stats": [
         "reload_ratio"
       ],
-      "id": 1
+      "id": 1,
+      "details": "複数装備すると、残りの時間をさらに12%ずつ短縮。"
     },
     {
       "name": "プリズムレンズ",
       "glyph": "◇",
       "color": "#b5c4ff",
-      "desc": "通常・散弾・追尾・螺旋・レール弾の壁反射を1回追加。",
+      "desc": "弾が壁で跳ね返る回数が1回増える。",
       "key": "lens",
-      "id": 2
+      "id": 2,
+      "details": "通常・散弾・追尾・螺旋・レール弾に有効。分裂や往復などの特殊弾は対象外。"
     },
     {
       "name": "ガードベル",
       "glyph": "♧",
       "color": "#ffe2a0",
-      "desc": "敵の攻撃を1回防ぐ。12秒で再び使える。危険地帯には無効。",
+      "desc": "敵の攻撃を1回防ぐ。12秒で再使用できる。",
       "key": "bell",
-      "id": 3
+      "id": 3,
+      "details": "危険地帯のダメージは防げない。"
     },
     {
       "name": "ライフアンプ",
       "glyph": "♥",
       "color": "#ffa7bd",
-      "desc": "装備で最大HP+1。戦闘開始時に全快。戦闘中の仮取得時のみHP+1。 同種重複可（数値は1個分）。",
+      "desc": "最大HPが1増える。",
       "key": "heart",
       "hp_bonus": 1,
       "stackable": true,
       "stack_stats": [
         "hp_bonus"
       ],
-      "id": 4
+      "id": 4,
+      "details": "戦闘中の仮取得ではHPも1回復。バッグの付け外しでは回復しない。"
     },
     {
       "name": "ドッジノヴァ",
       "glyph": "✶",
       "color": "#d8b4ff",
-      "desc": "ドッジ開始時、6方向へ小さな星弾を放つ。",
+      "desc": "回避すると、6方向へ星弾を放つ。",
       "key": "comet",
-      "id": 5
+      "id": 5,
+      "details": "星弾は1発0.35ダメージ。"
     },
     {
       "name": "ヘビーコア",
       "glyph": "⬟",
       "color": "#e8b776",
-      "desc": "弾の威力+8%、弾速-10%。直接撃つ弾の大きさと当たり判定+12%（最大+60%）。同種重複可（数値は1個分）。",
+      "desc": "弾の威力が8%上がり、弾速が10%下がる。直接撃つ弾は12%大きくなる。",
       "key": "heavy",
       "heavy_bonus": 0.08,
       "heavy_ratio": 0.9,
@@ -797,160 +804,175 @@
         "size_bonus"
       ],
       "id": 6,
-      "size_bonus": 0.12
+      "size_bonus": 0.12,
+      "details": "弾の当たり判定も拡大。大きさの増加は合計60%まで。"
     },
     {
       "name": "スターターセル",
       "glyph": "ϟ",
       "color": "#a5d7f2",
-      "desc": "満タンの弾倉から撃つ最初の1射だけ、発射弾の威力+10%。 同種重複可（数値は1個分）。",
+      "desc": "満タンの弾倉から撃つ最初の1射が25%強くなる。",
       "key": "starter",
-      "starter_bonus": 0.1,
+      "starter_bonus": 0.25,
       "stackable": true,
       "stack_stats": [
         "starter_bonus"
       ],
-      "id": 7
+      "id": 7,
+      "details": "装弾1発の銃にも有効。"
     },
     {
       "name": "予備マガジン",
       "glyph": "▤",
       "color": "#b7cca6",
-      "desc": "武器切替時、しまう武器へ予備弾から1発装填。再使用1.5秒。",
+      "desc": "武器を持ち替えると、しまった銃に1発装填する。",
       "key": "holster",
-      "id": 8
+      "id": 8,
+      "details": "予備弾を消費。再使用まで1.5秒。リロード完了の効果は発動しない。"
     },
     {
       "name": "パルスリレー",
       "glyph": "⊕",
       "color": "#b8a5eb",
-      "desc": "パルス使用時に6方向へ低速弾。各0.35ダメージ、追加パルスなし。",
+      "desc": "パルスを使うと、6方向へ弾を放つ。",
       "key": "relay",
-      "id": 9
+      "id": 9,
+      "details": "1発0.35ダメージ。パルスの使用回数は増えない。"
     },
     {
       "name": "パリィダイナモ",
       "glyph": "⌁",
       "color": "#efc386",
-      "desc": "近接で敵弾を消すと回避の残り待ち時間を0.3秒短縮。1振り1回。",
+      "desc": "近接で敵弾を消すと、次の回避までの待ち時間が0.3秒減る。",
       "key": "dynamo",
-      "id": 10
+      "id": 10,
+      "details": "1回の近接攻撃につき1回発動。"
     },
     {
       "name": "リバウンドテープ",
       "glyph": "↗",
       "color": "#95d8c9",
-      "desc": "反射する弾の最初の反射後に弾速+10%。反射回数は増えない。 同種重複可（数値は1個分）。",
+      "desc": "壁で1回跳ね返った弾の速度が10%上がる。",
       "key": "rebound",
       "rebound_bonus": 0.1,
       "stackable": true,
       "stack_stats": [
         "rebound_bonus"
       ],
-      "id": 11
+      "id": 11,
+      "details": "同じ弾には1回だけ。反射回数は増えない。"
     },
     {
       "name": "反響の種",
       "glyph": "❈",
       "color": "#8fd6c9",
-      "desc": "弾が壁に最初に当たって跳ね返ると、その場に短命な停止弾を残す。一射撃につき1回、停止弾自体は新たな種を残さない。",
+      "desc": "弾が壁で跳ね返ると、その場に攻撃する種を残す。",
       "key": "echo_seed",
       "seed_damage": 0.4,
       "seed_life": 1.2,
       "seed_radius": 5.0,
-      "id": 12
+      "id": 12,
+      "details": "直接撃った各弾の最初の反射だけ。種は0.4ダメージ、1.2秒で消える。種から種は生まれない。"
     },
     {
       "name": "空薬莢の祝福",
       "glyph": "⊚",
       "color": "#e0d29a",
-      "desc": "空の弾倉から装填が完了すると、次の初弾（満タンからの1射目）に小さな追加弾が加わる。途中装填や切替時の1発装填では発動しない。",
+      "desc": "リロードすると、次の射撃に追加弾が1発付く。",
       "key": "empty_casing",
       "casing_damage": 0.5,
       "casing_speed_ratio": 0.75,
-      "id": 13
+      "id": 13,
+      "details": "追加弾は0.5ダメージ。実際に弾を装填して完了した時に発動。中断やレリックによる1発補填は対象外。蓄積は1回分。"
     },
     {
       "name": "帰還バッテリー",
       "glyph": "⌬",
       "color": "#a0c9ff",
-      "desc": "帰還する弾を持ち主が回収すると充電される（最大1つ）。武器切替の後、次の1射に追加ダメージを付与する。命中や寿命切れは回収扱いにしない。",
+      "desc": "戻ってきた弾を回収すると、次の1射に0.45ダメージを追加する。",
       "key": "return_battery",
       "battery_bonus": 0.45,
-      "id": 14
+      "id": 14,
+      "details": "持ち替え不要。追加ダメージは直接弾に均等配分。蓄積は1回分。命中・消滅は回収に含まない。"
     },
     {
       "name": "余熱コンデンサ",
       "glyph": "♨",
       "color": "#ffb37a",
-      "desc": "近接攻撃で敵弾を1発以上消すと、次の射撃に追加弾が加わる。1振りにつき1回、蓄積は1つまで。",
+      "desc": "近接で敵弾を消すと、次の射撃に追加弾が1発付く。",
       "key": "residual_heat",
       "heat_damage": 0.4,
       "heat_speed_ratio": 0.85,
-      "id": 15
+      "id": 15,
+      "details": "追加弾は0.4ダメージ。蓄積は1回分。"
     },
     {
       "name": "残響ホルスター",
       "glyph": "⟲",
       "color": "#c7a6e6",
-      "desc": "武器を切り替えると、しまう武器の弾を1発消費して弱い追射を予約する。再使用には待ち時間があり、弾が空なら不発。",
+      "desc": "武器を持ち替えると、しまった銃が威力半分で追い撃ちする。",
       "key": "echo_holster",
       "holster_ratio": 0.5,
       "holster_cooldown": 2.5,
-      "id": 16
+      "id": 16,
+      "details": "しまった銃の弾を1発消費。弾切れでは発動しない。再使用まで2.5秒。"
     },
     {
       "name": "すり抜け装填",
       "glyph": "⇌",
       "color": "#9adbb0",
-      "desc": "回避中に敵弾が近くを通過すると、装備中の武器へ予備弾から1発装填する。1回の回避につき1回まで。装填完了の効果は発動しない。",
+      "desc": "敵弾の近くを回避すると、持っている銃に1発装填する。",
       "key": "phase_load",
       "phase_radius": 42.0,
-      "id": 17
+      "id": 17,
+      "details": "予備弾を消費。1回の回避につき1発。リロード完了の効果は発動しない。"
     },
     {
       "name": "ミニフェザー",
       "glyph": "➶",
       "color": "#a9e7de",
-      "desc": "移動速度+2%。同種は加算（3個で+6%）。回避速度は変わらない。",
+      "desc": "移動速度が4%上がる。",
       "key": "mini_feather",
       "stackable": true,
-      "move_bonus": 0.02,
+      "move_bonus": 0.04,
       "stack_stats": [
         "move_bonus"
       ],
-      "id": 18
+      "id": 18,
+      "details": "回避中の速度は変わらない。"
     },
     {
       "name": "パワーチップ",
       "glyph": "⬟",
       "color": "#e8b776",
-      "desc": "直接発射する各弾のダメージ+2%。同種は加算（3個で+6%）。追加弾・爆発・近接は対象外。",
+      "desc": "銃から直接撃つ弾の威力が5%上がる。",
       "key": "power_chip",
       "stackable": true,
-      "shot_bonus": 0.02,
+      "shot_bonus": 0.05,
       "stack_stats": [
         "shot_bonus"
       ],
-      "id": 19
+      "id": 19,
+      "details": "追加弾・破片・爆発・近接は対象外。"
     },
     {
       "name": "ロングバレル",
       "key": "long_barrel",
-      "desc": "直接発射弾の初速+8%。派生弾は対象外。 同種重複可（数値は1個分）。",
+      "desc": "銃から直接撃つ弾の速度が15%上がる。",
       "glyph": "➶",
       "color": "#9dcce5",
-      "speed_bonus": 0.08,
+      "speed_bonus": 0.15,
       "stackable": true,
       "stack_stats": [
         "speed_bonus"
       ],
-      "id": 20
+      "id": 20,
+      "details": "追加弾や破片は対象外。"
     },
     {
       "name": "ワイドマガジン",
       "key": "wide_magazine",
-      "desc": "全武器の弾倉上限+1。戦闘中取得では弾は増えず、予備から装填。 同種重複可（数値は1個分）。",
+      "desc": "すべての銃の弾倉が1発増える。",
       "glyph": "▤",
       "color": "#a7dcb7",
       "mag_bonus": 1,
@@ -958,35 +980,38 @@
       "stack_stats": [
         "mag_bonus"
       ],
-      "id": 21
+      "id": 21,
+      "details": "戦闘中に装備した時は、予備弾からリロードして埋める。装弾1発の銃は初弾と最終弾が別の射撃になる。"
     },
     {
       "name": "ラストスタンプ",
       "key": "last_stamp",
-      "desc": "最後の1射に合計+0.15ダメージ。直接弾に均等配分。 同種重複可（数値は1個分）。",
+      "desc": "弾倉の最後の1射に0.4ダメージを追加する。",
       "glyph": "✦",
       "color": "#eabf89",
-      "last_bonus": 0.15,
+      "last_bonus": 0.4,
       "stackable": true,
       "stack_stats": [
         "last_bonus"
       ],
-      "id": 22
+      "id": 22,
+      "details": "直接弾に均等配分。追加弾・追射は対象外。"
     },
     {
       "name": "クールグリップ",
       "key": "cool_grip",
-      "desc": "実弾装填完了で回避待ち-0.25秒。再使用2秒、1発補填は対象外。",
+      "desc": "リロードすると、次の回避までの待ち時間が0.25秒減る。",
       "glyph": "❄",
       "color": "#9dcce5",
       "cool_reduction": 0.25,
       "cool_reuse": 2.0,
-      "id": 23
+      "id": 23,
+      "details": "実際の装填完了で発動。再使用まで2秒。レリックによる1発補填は対象外。"
     },
     {
       "name": "ステップスプリング",
       "key": "step_spring",
-      "desc": "回避クールダウン-6%。回避の速度・無敵時間は不変。 同種重複可（数値は1個分）。",
+      "desc": "回避の待ち時間が6%短くなる。",
       "glyph": "↗",
       "color": "#a7dcb7",
       "dodge_ratio": 0.94,
@@ -994,26 +1019,28 @@
       "stack_stats": [
         "dodge_ratio"
       ],
-      "id": 24
+      "id": 24,
+      "details": "回避の速度・無敵時間は変わらない。複数装備は残り時間への乗算。"
     },
     {
       "name": "セーフティソール",
       "key": "safety_sole",
-      "desc": "回避終了後0.8秒、通常移動+6%。 同種重複可（数値は1個分）。",
+      "desc": "回避の直後、0.8秒間だけ移動速度が15%上がる。",
       "glyph": "⌁",
       "color": "#eabf89",
       "sole_duration": 0.8,
-      "sole_bonus": 0.06,
+      "sole_bonus": 0.15,
       "stackable": true,
       "stack_stats": [
         "sole_bonus"
       ],
-      "id": 25
+      "id": 25,
+      "details": "複数装備しても持続時間は増えない。"
     },
     {
       "name": "クイックシース",
       "key": "quick_sheath",
-      "desc": "近接クールダウン-8%。威力・範囲・弾消し時間は不変。 同種重複可（数値は1個分）。",
+      "desc": "近接攻撃の待ち時間が8%短くなる。",
       "glyph": "†",
       "color": "#9dcce5",
       "melee_ratio": 0.92,
@@ -1021,98 +1048,106 @@
       "stack_stats": [
         "melee_ratio"
       ],
-      "id": 26
+      "id": 26,
+      "details": "威力・範囲・弾消し時間は変わらない。複数装備は残り時間への乗算。"
     },
     {
       "name": "パリィシェル",
       "key": "parry_shell",
-      "desc": "弾消し後2秒以内の次の敵攻撃を0.5軽減。蓄積1、再使用6秒。危険地帯対象外。",
+      "desc": "近接で敵弾を消すと、2秒以内に受ける次の攻撃を0.5ダメージ軽減する。",
       "glyph": "◇",
       "color": "#a7dcb7",
       "shell_duration": 2.0,
       "shell_reuse": 6.0,
       "shell_reduction": 0.5,
-      "id": 27
+      "id": 27,
+      "details": "再使用まで6秒。蓄積は1回分。危険地帯は対象外。"
     },
     {
       "name": "応急パッチ",
       "key": "aid_patch",
-      "desc": "敵攻撃でHPが減ると2秒後に0.5回復。ラウンド2回、予約重複・死亡後・危険地帯は対象外。",
+      "desc": "敵に傷つけられると、2秒後にHPが0.5回復する。",
       "glyph": "♥",
       "color": "#eabf89",
       "aid_delay": 2.0,
       "aid_heal": 0.5,
       "aid_limit": 2,
-      "id": 28
+      "id": 28,
+      "details": "1ラウンド2回まで。回復待ちは重複しない。危険地帯と死亡後は対象外。"
     },
     {
       "name": "パルスブーツ",
       "key": "pulse_boots",
-      "desc": "パルス使用後2秒、通常移動+8%。回避速度・パルス回数は不変。 同種重複可（数値は1個分）。",
+      "desc": "パルスを使うと、2秒間だけ移動速度が20%上がる。",
       "glyph": "ϟ",
       "color": "#9dcce5",
       "boots_duration": 2.0,
-      "boots_bonus": 0.08,
+      "boots_bonus": 0.2,
       "stackable": true,
       "stack_stats": [
         "boots_bonus"
       ],
-      "id": 29
+      "id": 29,
+      "details": "回避速度・パルス回数・持続時間は増えない。"
     },
     {
       "name": "チェンジサイト",
       "key": "change_sight",
-      "desc": "切替後2秒以内の最初の1射は初速+12%。再使用2秒、派生弾対象外。 同種重複可（数値は1個分）。",
+      "desc": "持ち替え直後の1射は、弾の速度が25%上がる。",
       "glyph": "⊙",
       "color": "#a7dcb7",
       "sight_duration": 2.0,
       "sight_reuse": 2.0,
-      "sight_bonus": 0.12,
+      "sight_bonus": 0.25,
       "stackable": true,
       "stack_stats": [
         "sight_bonus"
       ],
-      "id": 30
+      "id": 30,
+      "details": "切替から2秒以内の直接弾が対象。再使用まで2秒。"
     },
     {
       "name": "ラバーチップ",
       "key": "rubber_chip",
-      "desc": "直接弾の最初の壁反射で威力+6%。反射回数は増えない。 同種重複可（数値は1個分）。",
+      "desc": "壁で1回跳ね返った弾の威力が15%上がる。",
       "glyph": "↪",
       "color": "#eabf89",
-      "rubber_bonus": 0.06,
+      "rubber_bonus": 0.15,
       "stackable": true,
       "stack_stats": [
         "rubber_bonus"
       ],
-      "id": 31
+      "id": 31,
+      "details": "直接撃った各弾に1回だけ。反射回数は増えない。"
     },
     {
       "name": "整流コイル",
       "key": "rectifier_coil",
-      "desc": "花火・四つ葉・小包の破片の威力+6%。爆風・星くず・追加弾対象外。 同種重複可（数値は1個分）。",
+      "desc": "花火・四つ葉・小包から出る破片の威力が15%上がる。",
       "glyph": "⋈",
       "color": "#9dcce5",
-      "fragment_bonus": 0.06,
+      "fragment_bonus": 0.15,
       "stackable": true,
       "stack_stats": [
         "fragment_bonus"
       ],
-      "id": 32
+      "id": 32,
+      "details": "爆風・星くず・追加弾は対象外。"
     },
     {
       "name": "帰還リール",
       "key": "return_reel",
-      "desc": "往復弾回収で発射元武器へ予備から1発装填。再使用1秒。",
+      "desc": "戻ってきた弾を回収すると、その銃に1発装填する。",
       "glyph": "⟲",
       "color": "#a7dcb7",
       "reel_reuse": 1.0,
-      "id": 33
+      "id": 33,
+      "details": "予備弾を消費。再使用まで1秒。持ち替え後も発射元の銃に装填する。"
     },
     {
       "name": "サプライキー",
       "key": "supply_key",
-      "desc": "武器・レリック宝箱の開封時間-10%（標準1.5→1.35秒）。 同種重複可（数値は1個分）。",
+      "desc": "対戦の宝箱を開ける時間が10%短くなる。",
       "glyph": "⚿",
       "color": "#eabf89",
       "chest_ratio": 0.9,
@@ -1120,7 +1155,8 @@
       "stack_stats": [
         "chest_ratio"
       ],
-      "id": 34
+      "id": 34,
+      "details": "標準1.5秒から1.35秒へ。探索の即時開封には効果がないため、探索の宝箱抽選からは除外。"
     }
   ],
   "characters": [

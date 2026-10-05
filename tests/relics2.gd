@@ -70,11 +70,11 @@ func run() -> void:
 	assert(is_equal_approx(game.shots[-1].state.velocity.length(),480*.9))
 	assert(is_equal_approx(game.shots[-1].damage,.864))
 
-	# Starter Cell: +10% damage on the first shot from a full magazine only.
+	# Starter Cell: +25% damage on the first shot from a full magazine only.
 	setup(game,0)
 	assert(p.add_relic(7))
 	game.fire(0)
-	assert(is_equal_approx(game.shots[-1].damage,.88))
+	assert(is_equal_approx(game.shots[-1].damage,1.0))
 	p.state.shot = 0.0
 	game.fire(0)
 	assert(is_equal_approx(game.shots[-1].damage,.8))
@@ -82,9 +82,9 @@ func run() -> void:
 	setup(game,19)
 	assert(p.add_relic(7))
 	game.fire(0)
-	assert(is_equal_approx(game.delayed_shots[0].damage,.605))
+	assert(is_equal_approx(game.delayed_shots[0].damage,.6875))
 	game._physics_process(.25)
-	assert(is_equal_approx(game.shots[-1].damage,.605))
+	assert(is_equal_approx(game.shots[-1].damage,.6875))
 
 	# Reserve Holster: switching guns tops the outgoing weapon up by 1 round from reserve, 1.5s reuse.
 	# setup() already gives both players id 0 and id 1 (tests/helpers/battle.gd places both on the grid),

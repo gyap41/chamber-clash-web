@@ -32,7 +32,7 @@ func run() -> void:
 	p.step(.49,0,q,game.arena)
 	assert(p.weapon().clip == 0 and p.state.reload > 0)
 	p.step(.19,0,q,game.arena)
-	assert(p.weapon().clip == 7 and p.weapon().reserve == 35)
+	assert(p.weapon().clip == 7 and p.weapon().reserve == 56)
 	p.weapon().clip = 6
 	p.start_reload()
 	p.equip_slot(0)
@@ -50,7 +50,7 @@ func run() -> void:
 	p.step(1.5,0,q,game.arena)
 	assert(p.weapon().clip == 1 and p.state.reload > 0)
 	p.step(.1,0,q,game.arena)
-	assert(p.weapon().clip == 3 and p.weapon().reserve == 18)
+	assert(p.weapon().clip == 3 and p.weapon().reserve == 28)
 	# Unspecified weapons retain 1.15 seconds and actual reload flips the spanner.
 	setup(game,18)
 	p.weapon().clip = 5

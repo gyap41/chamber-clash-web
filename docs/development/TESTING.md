@@ -1,3 +1,21 @@
+## ボス耐久と宝箱頻度
+
+`tools/review_boss_durability.gd` は本編seed22の動くボスに対し、HP48/72/96×初期銃/ホチキス/単発ライフル（初弾・最終弾・装填短縮）/オーロラを比較する。60Hz、起動後最大120秒、静止・無敵・正確な照準・予備弾10000の診断。実弾道・装填・被弾判定と段階移行を使い、時間・移行時刻・攻撃開始数・消費弾数を `.local/boss-durability.json` へ出力する。無限予備の銃はspent=-1。通常の満弾総数も併記し、有限弾の1丁だけで倒せるという保証にはしない。コマンドは `--headless --path . --script res://tools/review_boss_durability.gd --quit-after 1800`、外側に240秒上限を付ける。
+
+`exploration_reward_variety` は複数seedですべての通常室を攻略し、初戦以外に箱が増えないこと、初戦の再訪固定、宝箱部屋の保証/満杯保留/回収を検査。`production_floor` は本編10seedでも初戦箱1個・third_clearなしを確認する。`exploration_treasure_supplies` は3室目の箱なしでも回復品が出ることを確認。`furnace_warden` はHP72・最大HP72、HP36.01では通常、36で移行する境界を確認。既存の攻撃・演出・撃破報酬・祭壇/試練の検査を維持する。
+
+## レリック・単発ライフル・予備弾（2026-10-04）
+
+`tests/relic_rifle_balance.gd` は実射撃で装弾1発の初弾/最終弾同時適用、リロード完了前後、追加弾の一度消費、弾倉2発への拡張で効果が分かれること、予備不足の途中装填、持替えなしの往復弾回収、補給量と上限、35種の説明・補足・重複表示を検査する。`synergies` は装填中断・回収以外での不発・派生の再帰防止を維持。今回の依頼で変更した効果量と予備弾数の既存期待値を更新し、弾消費・重複・回避・補填の条件は省略していない。
+
+全体は `run_tests.ps1`。単独は `--headless --path . --script res://tests/relic_rifle_balance.gd --quit-after 120` に120秒上限を付ける。自動確認は実プレイの強さや購入画面の読みやすさの受入とは区別する。
+
+描画確認：35種すべてのショップ説明が高さ300pxの枠内に収まることを確認。ヘビーコア・スターターセル・空薬莢・帰還バッテリーの画面も確認した。静止標的の比較（180px・レリックなし）ではチョークのHP3相当1.59秒／HP8相当4.38秒、初期サービス銃2.18秒／6.31秒。混戦の手動操作評価とは区別する。
+
+## 機械4種の専用素材
+
+`tests/remaining_machine_art.gd` は起動引数なしで4種の使用中シートが登録されること、9領域の画像内収まり、方向選択、Actor IDとの対応、撃破中の射撃反動停止を検査する。`tools/capture_remaining_machines.gd` は4方向・通常1.2倍/拡大の位相比較、`tools/capture_remaining_machines_live.gd` は実AI・実床の4方向、歩行→攻撃→撃破を315フレーム撮影する。描画あり、`--quit-after 1500` と120秒上限で実行する。前者のphase注入と後者の実戦撮影を区別する。採用後の撮影コードは候補差し替えを呼ばず、通常起動の登録だけを使う。[制作記録](../art/production/enemy-animation-v2/remaining-machines.md)。
+
 ## 射撃の遮蔽・接触半径
 
 `tests/projectile_cover.gd` は20種類の部屋にある衝突付き配置185件の射撃範囲と歩行矩形維持を検査する。列柱の広間で本物のトカゲ弾が柱の根元/画像中央に当たること、900px/s・0.2秒刻みでも抜けないこと、通常弾の芯内外のかすり、跳弾、2px遮蔽物を24pxの銃口オフセットで飛び越せないことを検査。非衝突の装飾は非衝突のまま。`projectile_personality`、`equipment`、`pattern_weapons`、`legendary_weapons`、`weapon_readability` の半径期待値は今回の接触判定拡大の依頼に対応する実寸へ更新し、判定条件は削除していない。明示半径、敵弾、壁通過する月刃の回帰検査を維持。
@@ -58,7 +76,7 @@
 
 ## 探索報酬の種類と入手機会（2026-09-29）
 
-`Godot --headless --path . --script res://tests/exploration_reward_variety.gd --quit-after 900`：候補数、配置不能品除外、初戦・3室目保証、確定済み報酬との重複回避、seed別変化・同seed再現、レリック満杯保留・回収・再訪を確認。PASS。exploration_reward / exploration_treasure_supplies / exploration_reward_placement / production_doors / production_floorも確認。配置テストの旧「毎戦補給」前提を現在の2室ごと弾薬・3室ごと回復へ修正。ログ・証明書の環境エラーと一部終了時リソース警告あり。実プレイでの楽しさは未確認。
+`Godot --headless --path . --script res://tests/exploration_reward_variety.gd --quit-after 900`：候補数、配置不能品除外、初戦保証・通常2室目以降の箱なし、確定済み報酬との重複回避、seed別変化・同seed再現、レリック満杯保留・回収・再訪を確認。PASS。exploration_reward / exploration_treasure_supplies / exploration_reward_placement / production_doors / production_floorも確認。配置テストの旧「毎戦補給」前提を現在の2室ごと弾薬・3室ごと回復へ修正。ログ・証明書の環境エラーと一部終了時リソース警告あり。実プレイでの楽しさは未確認。
 
 ## 通常敵3種の演出（2026-09-29）
 

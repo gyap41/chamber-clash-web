@@ -191,7 +191,7 @@ func relic_state(player, id: int) -> Dictionary:
 	var charged := false
 	if id == 3: wait = player.state.shield
 	if id == 13: charged = player.state.empty_casing_charge
-	if id == 14: charged = player.state.return_battery_charge or player.state.return_battery_armed
+	if id == 14: charged = player.state.return_battery_charge
 	if id == 15: charged = player.state.residual_heat_charge
 	var timers := {16:"echo_holster_cd",23:"cool_grip_cd",27:"shell_cd",30:"sight_cd",33:"reel_cd"}
 	if timers.has(id): wait = player.state.get(timers[id],0.0)
@@ -214,6 +214,7 @@ func refresh_relics(index: int, player) -> void:
 		card.configure(id,1,temporary,state.seconds,state.charged)
 		var relic: Dictionary = Relics.definition(id)
 		card.tooltip_text = ("【このラウンドの仮装備】\n" if temporary else "【装備中】\n") + str(relic.name) + "\n" + str(relic.desc)
+		if relic.has("details"): card.tooltip_text += "\n補足："+str(relic.details)
 		if Relics.stackable(id): card.tooltip_text += "\n同種%d個 / 合計%s" % [count,Relics.stack_summary(id,count)]
 		if state.seconds > 0: card.tooltip_text += "\n再使用まで %d秒" % state.seconds
 		if state.charged: card.tooltip_text += "\n効果待機中"

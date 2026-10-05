@@ -34,7 +34,7 @@ func run() -> void:
 	preload("res://tests/helpers/battle.gd").start(game)
 	p.relic_capacity = 24
 	p.relics = [0,0,0,18,1,1,1,24,24,26,26,34,34]
-	assert(is_equal_approx(p.effective_move_speed(),205*1.20))
+	assert(is_equal_approx(p.effective_move_speed(),205*1.22))
 	assert(is_equal_approx(p.effective_reload_duration(),1.15*pow(.88,3)))
 	assert(is_equal_approx(p.effective_chest_duration(1.5),1.5*.81))
 	p.handle_key(KEY_SPACE,0,game.shots,q,game.arena)
@@ -45,10 +45,10 @@ func run() -> void:
 	p.relics = [25,25,29,29,30,30]
 	p.state.sole_time = .8
 	assert(game.use_pulse(0) and p.state.boots_time == 2.0)
-	assert(is_equal_approx(p.effective_move_speed(),205*1.28))
+	assert(is_equal_approx(p.effective_move_speed(),205*1.70))
 	p.equip_slot(0)
 	assert(p.state.sight_time == 2.0 and p.state.sight_cd == 2.0)
-	assert(is_equal_approx(p.relic_value(30,"sight_bonus"),.24))
+	assert(is_equal_approx(p.relic_value(30,"sight_bonus"),.50))
 	p.relics = [6,6,6,7,7,20,20,22,22,11,11,31,31,32,32]
 	p.state.shot = 0
 	p.state.sight_time = 0
@@ -57,18 +57,18 @@ func run() -> void:
 	p.equip_slot(0)
 	p.weapon().clip = p.definition().mag
 	game.fire(0)
-	assert(is_equal_approx(game.shots[-1].damage,.8*1.2*1.24))
-	assert(is_equal_approx(game.shots[-1].speed,480*1.16*pow(.9,3)))
+	assert(is_equal_approx(game.shots[-1].damage,.8*1.5*1.24))
+	assert(is_equal_approx(game.shots[-1].speed,480*1.30*pow(.9,3)))
 	game.spawn_shot(0,0,0,{"depth":1,"damage":1.0,"speed":200.0})
 	assert(is_equal_approx(game.shots[-1].damage,1.24))
 	assert(is_equal_approx(game.shots[-1].speed,200*pow(.9,3)))
 	p.state.shot = 0
 	p.weapon().clip = 1
 	game.fire(0)
-	assert(is_equal_approx(game.shots[-1].damage,(.8+.30)*1.24))
+	assert(is_equal_approx(game.shots[-1].damage,(.8+.80)*1.24))
 	assert(is_equal_approx(p.relic_value(11,"rebound_bonus"),.20))
-	assert(is_equal_approx(p.relic_value(31,"rubber_bonus"),.12))
-	assert(is_equal_approx(p.relic_value(32,"fragment_bonus"),.12))
+	assert(is_equal_approx(p.relic_value(31,"rubber_bonus"),.30))
+	assert(is_equal_approx(p.relic_value(32,"fragment_bonus"),.30))
 	p.relics = [21,21,21]
 	assert(p.definition().mag == 19)
 	p.state.hp = 3

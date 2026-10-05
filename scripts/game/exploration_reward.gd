@@ -10,11 +10,8 @@ static func ensure(game) -> bool:
 	if progress.status != "active" or progress.encounter_status != "cleared": return false
 	if not has_source(progress,"first_clear"):
 		return create(game,"first_clear",weapon_pool(true))
-	var cleared := 0
-	for id in progress.room_states:
-		if progress.room_states[id].encounter == "cleared" and game.floor_data.get("rooms",{}).get(id,{}).get("role","") == "normal": cleared += 1
-	if cleared >= 3 and not has_source(progress,"third_clear"):
-		return create(game,"third_clear",weapon_pool(false))
+	# 2026-10-04: remove the third-room bonus chest; treasure/event rewards reward detours.
+	# The first weapon remains guaranteed, including a later retry if no candidate fitted.
 	return false
 
 static func has_source(progress, source: String) -> bool:

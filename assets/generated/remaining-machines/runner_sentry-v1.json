@@ -1,0 +1,21 @@
+{
+  "tool": "builtin image_gen",
+  "source": "C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e\\exec-bbd4946f-b1e7-4af6-817a-3e28dfbbdd39.png",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "sha256": "35c3ff137ac3a9b20161815be56e2077ebba6796e0fe7f3478a02faf3031ef54",
+  "rows": [
+    0,
+    430,
+    810,
+    1254
+  ],
+  "columns": 3,
+  "adopted": false,
+  "prompt": "Create a production transparent game sprite PARTS atlas for a small fast RUNNER SENTRY automaton. Use the attached Rina image ONLY as drawing-style reference: smooth dark brown outlines, clean broad cel-shaded shapes, warm ivory and muted teal enamel with bronze joints, upper-left lighting, no pixel art. NO human, text, labels, grid lines, floor, shadow, glow backdrop. Orthographic top-down 3/4 game view. Strict square canvas divided into 3 EQUAL columns and 3 EQUAL rows with large clear transparent gutters. Each cell contains ONE isolated cutout part, centered, entire part visible, no overlap. Columns are facing DOWN/front, UP/back, RIGHT/side. Row1: compact narrow torso with small integrated visor head and exposed shoulder/hip mounting sockets, NO arms or legs attached. Row2: one articulated short arm ending in a chunky blunt metal striking gauntlet, shoulder at top, hand bottom. Row3: one slim articulated mechanical running leg, hip at top, knee midway, broad small foot at bottom. Three views of each same part. Body cheerful but threatening little ancient guard, NOT sci-fi military, no horns. Distinct light athletic silhouette, few large plates, no tiny rivets. Parts intended to assemble into a 48px tall biped with two separately animated arms and legs. All parts proportional and ample empty padding. Output genuinely transparent RGBA PNG.\n",
+  "usage": null,
+  "cost": null
+}

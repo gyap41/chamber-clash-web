@@ -21,5 +21,7 @@ static func describe(kind: String, id: int, inventory, preview_addition: bool = 
 			text += "重複強化可能 ／ 装備中 %d個\n" % count
 			text += ("追加装備時：%s → %s\n" % [Relics.stack_summary(id,count),Relics.stack_summary(id,count+1)]) if preview_addition else ("現在の合計：%s\n" % Relics.stack_summary(id,count))
 		else: text += "同種は1個まで（重複効果なし）\n"
+	if not str(data.get("details","")).is_empty():
+		text += "\n補足：%s\n" % data.details
 	text += "\n必要な面積：%dマス" % Grid.shape_of(token).size()
 	return text

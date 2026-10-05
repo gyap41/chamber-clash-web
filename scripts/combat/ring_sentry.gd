@@ -26,4 +26,5 @@ func spit(i: int, arena) -> void:
 	attack_phase = "spit"
 	attack_time = spec.shot_interval
 func _draw() -> void:
+	if preload("res://scripts/visuals/remaining_machine_visual.gd").paint(self,enemy_visual_snapshot()): return
 	preload("res://scripts/visuals/sentry_variants_visual.gd").paint(self,enemy_visual_snapshot())

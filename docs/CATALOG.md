@@ -4,7 +4,7 @@
 
 自動生成: `python tools/docs_index.py`。表題は本文の最初の見出しから取得。分類は役割の案内で、内容の検証完了や採用を示しません。過去計画は元のパスを維持して履歴に分類しています。
 
-対象 204 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
+対象 205 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
 
 ## 入口・運用
 
@@ -27,7 +27,7 @@
 |---|---|
 |[docs/design/BATTLE_UI_C.md](<design/BATTLE_UI_C.md>)|対戦HUD C案（実装）|
 |[docs/design/CHARACTER_BIBLE.md](<design/CHARACTER_BIBLE.md>)|始まりの工房：キャラクター美術定義|
-|[docs/design/GAME_RULES.md](<design/GAME_RULES.md>)|弾の芯と物体の遮蔽（2026-10-04）|
+|[docs/design/GAME_RULES.md](<design/GAME_RULES.md>)|機械4種の専用素材（2026-10-04）|
 |[docs/design/ITEM_CATALOG.md](<design/ITEM_CATALOG.md>)|アイテム・キャラクター・バッグ一覧|
 |[docs/design/ITEM_FOOTPRINT_BALANCE.md](<design/ITEM_FOOTPRINT_BALANCE.md>)|アイテム占有形状の方針|
 |[docs/design/PREPARATION_UI_B.md](<design/PREPARATION_UI_B.md>)|準備画面：携帯工房|
@@ -56,7 +56,7 @@
 |[docs/development/EDITOR_GUIDE.md](<development/EDITOR_GUIDE.md>)|エディタでの調整|
 |[docs/development/HANDOFF_FOR_CLAUDE.md](<development/HANDOFF_FOR_CLAUDE.md>)|開発引き継ぎ（エージェント共通）|
 |[docs/development/STAGE_TEMPLATES.md](<development/STAGE_TEMPLATES.md>)|ステージの素材セットと部屋テンプレート|
-|[docs/development/TESTING.md](<development/TESTING.md>)|射撃の遮蔽・接触半径|
+|[docs/development/TESTING.md](<development/TESTING.md>)|ボス耐久と宝箱頻度|
 |[docs/development/WEAPON_EXTENSIONS.md](<development/WEAPON_EXTENSIONS.md>)|武器・演出・特殊効果を追加する|
 
 ## 美術・音響の共通基準
@@ -83,6 +83,7 @@
 |[docs/art/production/boss-approach/README.md](<art/production/boss-approach/README.md>)|ボス前室・南入口の制作記録|
 |[docs/art/production/collapsed-workshop/README.md](<art/production/collapsed-workshop/README.md>)|崩落した作業室：実機試作|
 |[docs/art/production/enemy-animation-v2/README.md](<art/production/enemy-animation-v2/README.md>)|通常敵アニメーション v2 制作記録|
+|[docs/art/production/enemy-animation-v2/remaining-machines.md](<art/production/enemy-animation-v2/remaining-machines.md>)|仮描画4種の専用素材制作（2026-10-04）|
 |[docs/art/production/enemy-appearance-v1/README.md](<art/production/enemy-appearance-v1/README.md>)|通常敵2種：外見候補 v1|
 |[docs/art/production/enemy-field-concepts/README.md](<art/production/enemy-field-concepts/README.md>)|敵とフィールドの外見比較|
 |[docs/art/production/equipment-diversity-2026-09-13/README.md](<art/production/equipment-diversity-2026-09-13/README.md>)|多様な武器・レリックの残り制作|

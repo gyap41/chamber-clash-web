@@ -36,20 +36,19 @@ func run() -> void:
 		assert(first.item in game.Reward.weapon_pool(true))
 		assert(game.Reward.fits_bag(game.exploration,first.item,"weapon"))
 		first_items.append(first.item)
-		clear_room(game,normal[1])
-		assert(game.Reward.current(game).is_empty())
-		clear_room(game,normal[2])
-		var third: Dictionary = game.Reward.current(game).duplicate(true)
-		assert(third.source == "third_clear" and third.item != first.item)
-		assert(game.Reward.fits_bag(game.exploration,third.item,"weapon"))
-		assert(not game.Reward.ensure(game))
-		var sequence: Array = [first.item,third.item]
+		# 2026-10-04: only the first normal clear grants a chest, including later/revisited rooms.
+		for room_id in normal.slice(1):
+			clear_room(game,room_id)
+			assert(game.Reward.current(game).is_empty())
+			assert(not game.Reward.ensure(game))
+		assert(game.exploration.room_states.values().filter(func(room): return room.has("reward")).size() == 1)
+		var sequence: Array = [first.item]
 		for room_id in treasure:
 			enter(game,room_id)
 			var reward: Dictionary = game.Reward.current(game)
 			assert(reward.kind == "relic" and reward.item not in [4,34])
 			assert(game.Reward.fits_bag(game.exploration,reward.item,"relic"))
-			assert(reward.item not in sequence.slice(2))
+			assert(reward.item not in sequence.slice(1))
 			sequence.append(reward.item)
 			assert(not game.Reward.ensure_treasure(game))
 			var inventory = game.exploration.inventory
@@ -79,5 +78,5 @@ func run() -> void:
 	assert(first_items.any(func(id): return id != first_items[0]))
 	game.queue_free()
 	await process_frame
-	print("PASS: reward pools, seed diversity/replay, first/third guarantees, unique reserved loot, relic capacity/collect/revisit")
+	print("PASS: reward pools, seed diversity/replay, first-only normal chest, treasure guarantees, unique reserved loot, relic capacity/collect/revisit")
 	quit()

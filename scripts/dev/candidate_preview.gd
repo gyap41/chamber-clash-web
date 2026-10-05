@@ -64,6 +64,28 @@ static func apply_folder(folder: String) -> void:
 		var source: String = str(replaces[original])
 		var candidate_path: String = source if source.begins_with("res://") else folder.path_join(source)
 		replace(str(original), candidate_path)
+	# New cutout rigs have no existing bitmap path to replace. Explicit preview only.
+	var machines: Variant = parsed.get("machine_sheets",{})
+	if typeof(machines) != TYPE_DICTIONARY:
+		_fail("machine_sheets must be a dictionary")
+		return
+	var visual = preload("res://scripts/visuals/remaining_machine_visual.gd")
+	for id in machines:
+		var entry: Variant = machines[id]
+		if id not in visual.IDS or typeof(entry) != TYPE_DICTIONARY:
+			_fail("Unknown machine sheet")
+			continue
+		var path: String = folder.path_join(str(entry.get("file","")))
+		var rows: Array = entry.get("rows",[])
+		if not ResourceLoader.exists(path) or rows.size() != 4:
+			_fail("Missing machine texture or four row boundaries")
+			continue
+		var texture: Texture2D = load(path) as Texture2D
+		if texture == null or rows[0] != 0 or rows[3] != texture.get_height() or rows[1] <= 0 or rows[2] <= rows[1] or rows[3] <= rows[2]:
+			_fail("Invalid machine sheet bounds")
+			continue
+		visual.register_sheet(str(id),texture,rows,entry.get("regions",[]))
+		replaced.append("machine:"+str(id))
 
 static func replace(original: String, candidate_path: String) -> void:
 	if not ResourceLoader.exists(original):

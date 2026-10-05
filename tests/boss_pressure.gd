@@ -143,7 +143,7 @@ func run() -> void:
 	boss.step(.41,1,player,game.arena)
 	assert(boss.attack_phase == "recover" and not boss.waves.is_empty())
 	boss.second_phase = false
-	boss.state.hp = 24
+	boss.state.hp = boss.state.max_hp*.5
 	boss.step(.01,1,player,game.arena)
 	boss.step(.65,1,player,game.arena)
 	assert(boss.attack_phase == "transition" and boss.opening > 0 and boss.opening < 1)

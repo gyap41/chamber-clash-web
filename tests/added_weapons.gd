@@ -58,8 +58,9 @@ func run() -> void:
 	game.fire(0)
 	assert(game.delayed_shots.size() == 2 and p.weapon().clip == 0)
 	var volley: int = game.shots[0].state.volley
-	assert(is_equal_approx(game.shots[0].damage,.65))
-	assert(is_equal_approx(game.shots[0].speed,520*1.08*1.12))
+	# 2026-10-04: last-shot +0.4 is shared by all three rounds, never repeated per round.
+	assert(is_equal_approx(game.shots[0].damage,.6+.4/3.0))
+	assert(is_equal_approx(game.shots[0].speed,520*1.15*1.25))
 	p.equip_slot(0)
 	p.state.angle = PI
 	game._physics_process(.081)
@@ -68,8 +69,8 @@ func run() -> void:
 	assert(game.delayed_shots.is_empty() and game.shots.size() == 3)
 	for shot in game.shots:
 		assert(shot.gun_id == 28 and shot.state.volley == volley)
-		assert(is_equal_approx(shot.damage,.65) and is_zero_approx(shot.state.velocity.angle()))
-		assert(is_equal_approx(shot.speed,520*1.08*1.12))
+		assert(is_equal_approx(shot.damage,.6+.4/3.0) and is_zero_approx(shot.state.velocity.angle()))
+		assert(is_equal_approx(shot.speed,520*1.15*1.25))
 	# Pulse clears enemy reservations, pause preserves them, round result discards them.
 	setup(game,28)
 	game.fire(0)

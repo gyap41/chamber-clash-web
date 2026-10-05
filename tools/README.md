@@ -8,6 +8,8 @@
 
 過去の生成枠・予算変更は[制作履歴](../docs/archive/2026-09-22/markdown-audit/IMAGE_CLI_BEFORE.md)に分離しました。新規生成の許可や残予算として使わず、今回の依頼と使用量台帳・CLIの制限を確認してください。
 
+ボス耐久の診断: `review_boss_durability.gd`。[実行条件と読み方](../docs/development/TESTING.md#ボス耐久と宝箱頻度)に従い、手動試遊の代わりにはしない。
+
 AIエージェント（Claude Code・Codex）の設定・hook・レビュー係は[agent](agent/README.md)。
 
 生成後の機械チェック（画像の全コマ並べ・接地・明度、音の長さ・音量・スペクトログラム）は[asset_check](asset_check/README.md)。未採用の候補素材をゲームで試すには `powershell -ExecutionPolicy Bypass -File tools/preview_candidate.ps1 <asset_id>/<版>`（[候補素材の運用](../assets/candidates/README.md)）。

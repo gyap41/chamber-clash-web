@@ -81,7 +81,7 @@ func run() -> void:
 	for i in range(2): assert(m.confirm(i))
 	game.launch_round()
 	assert(p.owns(30) and p.inventory.size() == 2)
-	assert(p.inventory[1].clip == 8 and p.inventory[1].reserve == 40)
+	assert(p.inventory[1].clip == 1 and p.inventory[1].reserve == 60)
 	# Final victory and a new match discard stored field loot.
 	item = chest(game,31)
 	assert(game.supplies.acquire(0,item,true))

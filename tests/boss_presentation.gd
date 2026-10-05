@@ -34,7 +34,7 @@ func run() -> void:
 		assert(game.shots.size() == 1)
 		assert(game.shots[0].state.pos.is_equal_approx(boss.state.pos+boss.enemy_visual_snapshot().muzzle))
 		assert(is_equal_approx(boss.recoil,1.8))
-	boss.state.hp = 24
+	boss.state.hp = boss.state.max_hp*.5
 	boss.step(.01,1,player,game.arena)
 	assert(events.count("boss_overdrive") == 1)
 	for angle in [0.0,PI/2,PI,-PI/2]:

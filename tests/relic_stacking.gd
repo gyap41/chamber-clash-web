@@ -26,26 +26,26 @@ func run() -> void:
 		assert(m.place(0,chip,Vector2i(round_index,1)))
 	var player = game.players[0]
 	player.apply_build(m.builds[0],m.capacity(),true)
-	assert(is_equal_approx(player.effective_move_speed(),player.move_speed*1.06))
+	assert(is_equal_approx(player.effective_move_speed(),player.move_speed*1.12))
 	# Both direct bullets in a volley receive the bonus, derived bullets do not.
 	for depth in [0,0,1]:
 		var bullet = load("res://scenes/combat/projectile.tscn").instantiate()
 		root.add_child(bullet)
 		bullet.launch(player,0,0,0.0,{"damage":2.0,"depth":depth})
-		assert(is_equal_approx(bullet.damage,2.12 if depth == 0 else 2.0))
+		assert(is_equal_approx(bullet.damage,2.3 if depth == 0 else 2.0))
 		bullet.queue_free()
 	game.preparation.cancel_placement()
 	game.preparation.refresh()
 	game.preparation.show_detail(feathers[0])
-	assert("装備中3個 / 同種合計+6%" in game.preparation.detail_description.text)
+	assert("装備中3個 / 同種合計+12%" in game.preparation.detail_description.text)
 	assert(m.toggle(0,feathers[1]))
 	assert(m.discard(0,chips[1]))
 	player.apply_build(m.builds[0],m.capacity(),true)
-	assert(is_equal_approx(player.effective_move_speed(),player.move_speed*1.04))
-	assert(is_equal_approx(player.Relics.additive_bonus(player.relics,"shot_bonus"),.04))
+	assert(is_equal_approx(player.effective_move_speed(),player.move_speed*1.08))
+	assert(is_equal_approx(player.Relics.additive_bonus(player.relics,"shot_bonus"),.10))
 	# One temporary copy works even when the same type is stored/equipped.
 	assert(player.acquire_temporary(18))
-	assert(is_equal_approx(player.effective_move_speed(),player.move_speed*1.06))
+	assert(is_equal_approx(player.effective_move_speed(),player.move_speed*1.12))
 	game.hud.refresh_relics(0,player)
 	var marked := 0
 	for slot in range(player.relics.size()):
@@ -53,11 +53,11 @@ func run() -> void:
 		if "【このラウンドの仮装備】" in card.tooltip_text:
 			marked += 1
 			assert(slot == player.temporary_relic_slot)
-		if player.relics[slot] == 18: assert("同種3個 / 合計+6%" in card.tooltip_text)
+		if player.relics[slot] == 18: assert("同種3個 / 合計+12%" in card.tooltip_text)
 	assert(marked == 1)
 	assert(not player.acquire_temporary(18))
 	player.apply_build(m.builds[0],m.capacity(),true)
-	assert(is_equal_approx(player.effective_move_speed(),player.move_speed*1.04))
+	assert(is_equal_approx(player.effective_move_speed(),player.move_speed*1.08))
 	# Special relics still cannot be acquired twice, even across reward refreshes.
 	m.generate_rewards()
 	m._set_products(0,[3])
@@ -94,7 +94,7 @@ func run() -> void:
 	game.fire(0)
 	assert(game.shots.size() == 1)
 	var comet = game.shots[0]
-	assert(is_equal_approx(comet.damage,float(player.definition().damage)*1.06))
+	assert(is_equal_approx(comet.damage,float(player.definition().damage)*1.15))
 	comet.state.pos = Vector2(500,100)
 	comet.state.life = 0
 	game._physics_process(.01)

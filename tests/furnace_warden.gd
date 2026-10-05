@@ -12,7 +12,7 @@ func run() -> void:
 	enter(game,room_id)
 	var boss = game.players[1]
 	var player = game.players[0]
-	assert(boss.spec.id == "furnace_warden" and boss.state.hp == 48 and boss.radius == 44)
+	assert(boss.spec.id == "furnace_warden" and boss.state.hp == 72 and boss.state.max_hp == 72 and boss.radius == 44)
 	assert(not game.arena.solid(boss.state.pos,boss.radius))
 	assert(not game.try_enter_door() and not boss.hurt(10))
 	game.apply_command(0,{"pulse":true})
@@ -63,7 +63,10 @@ func run() -> void:
 	assert(boss.attack_phase == "chase" and boss.attack_time == 0 and game.shots.is_empty())
 	player.state.pos = boss.state.pos+Vector2(140,0)
 	boss.state.inv = 0
-	boss.state.hp = 24
+	boss.state.hp = 36.01
+	boss.step(.01,1,player,game.arena)
+	assert(not boss.second_phase)
+	boss.state.hp = 36
 	boss.step(.01,1,player,game.arena)
 	assert(boss.second_phase and boss.attack_phase == "transition")
 	boss.step(1.21,1,player,game.arena)

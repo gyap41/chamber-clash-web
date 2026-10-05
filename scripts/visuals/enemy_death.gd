@@ -48,9 +48,11 @@ func _draw() -> void:
 	elif view.get("enemy_id","") in ["ash_ram","triple_ring"]:
 		preload("res://scripts/visuals/elite_machine_visual.gd").paint(self,view)
 	elif view.get("enemy_id","") in ["runner_sentry","ram_sentry","ring_sentry"]:
-		preload("res://scripts/visuals/sentry_variants_visual.gd").paint(self,view)
+		if not preload("res://scripts/visuals/remaining_machine_visual.gd").paint(self,view):
+			preload("res://scripts/visuals/sentry_variants_visual.gd").paint(self,view)
 	elif view.get("enemy_id","") == "scatter_drone":
-		preload("res://scripts/visuals/scatter_drone_visual.gd").paint(self,view)
+		if not preload("res://scripts/visuals/remaining_machine_visual.gd").paint(self,view):
+			preload("res://scripts/visuals/scatter_drone_visual.gd").paint(self,view)
 	else:
 		preload("res://scripts/visuals/enemy_sheet_visual.gd").paint(self,view,organic)
 	# Fixed particles have no simulation/owner references or random gameplay effects.

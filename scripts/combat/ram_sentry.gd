@@ -39,4 +39,5 @@ func enemy_visual_snapshot() -> Dictionary:
 	if attack_phase == "dash": view.angle = attack_angle
 	return view
 func _draw() -> void:
+	if preload("res://scripts/visuals/remaining_machine_visual.gd").paint(self,enemy_visual_snapshot()): return
 	preload("res://scripts/visuals/sentry_variants_visual.gd").paint(self,enemy_visual_snapshot())

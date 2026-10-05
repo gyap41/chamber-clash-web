@@ -72,14 +72,15 @@ func run() -> void:
 	derived_bullet.step(.02,game.arena,q)
 	assert(derived_bullet.state.rebounds == 1 and game.shots.size() == shots_before_derived) # no new pool
 
-	# --- 空薬莢の祝福 (13): reload-from-empty charges the next full-magazine shot only. ---
+	# --- 空薬莢の祝福 (13): every completed reload charges the next shot once. ---
 	setup(game,0)
 	assert(p.add_relic(13))
-	p.weapon().clip = 3 # not empty: this reload must NOT set the charge
+	p.weapon().clip = 3 # 2026-10-04: partial reload now charges the next shot
 	p.start_reload()
 	assert(not p.state.reload_started_empty)
 	p.step(p.state.reload+.01,0,q,game.arena)
-	assert(not p.state.empty_casing_charge)
+	assert(p.state.empty_casing_charge)
+	p.state.empty_casing_charge = false
 	p.weapon().clip = 0
 	p.start_reload()
 	assert(p.state.reload_started_empty)
@@ -132,16 +133,16 @@ func run() -> void:
 	moon.state.life = .001
 	moon.step(.01,game.arena,q)
 	assert(moon.state.life <= 0 and not p.state.return_battery_charge)
-	# Charge arms on switch, is spent by exactly the next fire() call, then clears.
+	# Recovery charge survives switching and is spent by exactly the next shot.
 	setup(game,5)
 	assert(p.add_relic(14))
 	p.state.return_battery_charge = true
 	p.equip_slot(1) # switch from moonreaper (slot 2) back to candy (slot 1, already owned)
-	assert(p.state.return_battery_armed and not p.state.return_battery_charge)
+	assert(p.state.return_battery_charge)
 	p.state.shot = 0.0 # equip_slot() itself sets a .15s switch cooldown; bypass it so this fire() isn't silently skipped
 	game.fire(0)
 	assert(is_equal_approx(game.shots[-1].damage,g_damage(game,1)+.45))
-	assert(not p.state.return_battery_armed)
+	assert(not p.state.return_battery_charge)
 	var damage_before: float = game.shots[-1].damage
 	p.state.shot = 0.0 # bypass the fire-rate cooldown so this second shot is not silently skipped
 	game.fire(0) # bonus already spent: normal damage this time
@@ -228,6 +229,6 @@ func run() -> void:
 	game._unhandled_key_input(key_event(KEY_SPACE))
 	assert(not p.state.phase_load_used)
 
-	print("PASS: echo seed bounce/no-recursion, empty casing charge/interrupted reload, return battery recovery-only/switch-arm, residual heat charge, echo holster ammo/cooldown/pulse-clear, phase load once-per-dodge/no-reload-trigger")
+	print("PASS: echo seed bounce/no-recursion, empty casing charge/interrupted reload, return battery recovery-only/next-shot, residual heat charge, echo holster ammo/cooldown/pulse-clear, phase load once-per-dodge/no-reload-trigger")
 	game.queue_free()
 	quit()

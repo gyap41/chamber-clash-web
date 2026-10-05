@@ -1,0 +1,63 @@
+{
+  "image": "assets\\candidates\\runner_sentry\\v1\\parts.png",
+  "size": [
+    1254,
+    1254
+  ],
+  "grid": [
+    1,
+    1
+  ],
+  "cell": [
+    1254,
+    1254
+  ],
+  "display_scale": 0.1299,
+  "camera_zoom": 1.2,
+  "kind": "prop",
+  "directions": {
+    "dir0": {
+      "frames": [
+        {
+          "empty": false,
+          "bbox": [
+            97,
+            55,
+            1039,
+            1155
+          ],
+          "feet_y": 1209,
+          "touches_edge": false,
+          "magenta_ratio": 0.0,
+          "semi_transparent_ratio": 0.07,
+          "display_size": [
+            84,
+            138
+          ],
+          "luma_mean": 39.0,
+          "luma_std": 21.9,
+          "saturation_mean": 44.7,
+          "detail": 8.0,
+          "edge_contrast": 9.0
+        }
+      ],
+      "groups": {
+        "all": {
+          "height_variation": 0.0
+        }
+      }
+    }
+  },
+  "thresholds_note": "provisional 2026-10-04; colour metrics use a floor composite without lighting/shadows, so compare them with a baseline measured by this tool, not with the absolute VISUAL_STYLE_GUIDE 3.5 numbers",
+  "summary_median": {
+    "luma_mean": 39.0,
+    "luma_std": 21.9,
+    "saturation_mean": 44.7,
+    "detail": 8.0,
+    "edge_contrast": 9.0,
+    "display_height_px_max": 138
+  },
+  "hard_failures": [],
+  "warnings": [],
+  "verdict": "PASS"
+}

@@ -17,7 +17,7 @@ func run() -> void:
 	var p = game.players[0]
 	var q = game.players[1]
 	p.relics = [2,6,7,12,13,14]
-	p.state.return_battery_armed = true
+	p.state.return_battery_charge = true
 	p.state.empty_casing_charge = true
 	game.fire(0)
 	var damage := 0.0
@@ -25,8 +25,8 @@ func run() -> void:
 		if bullet.state.depth == 0:
 			damage += bullet.damage
 			q.hurt(bullet.damage,bullet.state.volley)
-	assert(is_equal_approx(damage,4.941) and q.state.hp > 2.0)
-	assert(not p.state.return_battery_armed)
+	assert(is_equal_approx(damage,5.5485) and q.state.hp > 2.0)
+	assert(not p.state.return_battery_charge)
 	print("PASS: full prism + core/cell/battery = %.4f damage (previously 8.4525)" % damage)
 	# Measure representative non-prism damage through the actual collision/expiry paths.
 	setup(game,2)
@@ -47,7 +47,7 @@ func run() -> void:
 		bank.state.pos = Vector2(1087,100)
 		bank.state.velocity = Vector2(370,0)
 		bank.step(.02,game.arena,q)
-	assert(is_equal_approx(bank.damage,.6*1.1*1.08+2*.6))
+	assert(is_equal_approx(bank.damage,.6*1.25*1.08+2*.6))
 	setup(game,19)
 	p.relics = [6,7]
 	game.fire(0)
@@ -56,7 +56,7 @@ func run() -> void:
 	game._physics_process(.24)
 	game.shots[-1].state.pos = q.state.pos
 	game.shots[-1].step(.001,game.arena,q)
-	assert(is_equal_approx(q.state.hp,6.6932))
+	assert(is_equal_approx(q.state.hp,6.515))
 	setup(game,11)
 	p.relics = [6,7]
 	game.fire(0)
@@ -65,14 +65,14 @@ func run() -> void:
 	var well = game.spawn_well(q.state.pos,0)
 	q.state.inv = 0.0
 	well.step(.001,game.arena,game.players,game.shots)
-	assert(is_equal_approx(q.state.hp,5.4492)) # buffed seed 1.6 * core/cell + gravity .65
+	assert(is_equal_approx(q.state.hp,5.19)) # buffed seed 1.6 * core/cell + gravity .65
 	var hp_before_dodge: float = q.state.hp
 	q.try_dodge()
 	well.state.tick = 0.0
 	well.step(.001,game.arena,game.players,game.shots)
 	assert(q.state.hp == hp_before_dodge)
 	assert(game.use_pulse(1) and game.wells.is_empty())
-	print("PASS: clustered fragments .65, boosted 2-bounce 1.9128, echo pair 1.3068, mine + gravity tick 2.5508")
+	print("PASS: clustered fragments .65, boosted 2-bounce 2.01, echo pair 1.485, mine + gravity tick 2.81")
 	# Against each late-game weapon family, dodge prevents contact damage and melee
 	# removes a dangerous projectile without spawning fragments or gravity wells.
 	for weapon in [2,8,10,11,16,19]:

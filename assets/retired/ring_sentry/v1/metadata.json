@@ -1,0 +1,18 @@
+{
+  "tool": "builtin image_gen",
+  "source": "C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e\\exec-7546754c-8956-489b-8559-b3cd6beeca59.png",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "sha256": "f76acf289a8de51b6573d59be5884d6a8d2609cbb17fb904df84334358948566",
+  "rows": [
+    0,
+    440,
+    735,
+    1254
+  ],
+  "columns": 3,
+  "adopted": false
+}

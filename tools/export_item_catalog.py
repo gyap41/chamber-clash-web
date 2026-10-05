@@ -57,7 +57,7 @@ def main():
     for index, relic in enumerate(catalog["relics"]):
         shape = relics.get(str(index), "1・`#`")
         stack = ("可・乗算含む" if any(k.endswith("_ratio") for k in relic.get("stack_stats", [])) else "可・加算") if relic.get("stackable") else "不可"
-        lines.append(f'|{index}|{relic["name"]}|{relic["desc"]}|{shape}|{prices["RELIC"][index]}|{stack}|')
+        lines.append(f'|{index}|{relic["name"]}|{relic["desc"]} 補足：{relic.get("details", "")}|{shape}|{prices["RELIC"][index]}|{stack}|')
     lines += ["", "## 現行キャラと初期武器", "", "初期武器は無料で控えへ保証する。各キャラの2マス専用武器を配置して出撃できる。",
               "移動はpx/秒、装填は武器別基礎装填時間への倍率、回避はクールダウン秒。", "",
               "|キャラ|役割|HP|移動|装填倍率|回避待ち|パルス回数|現在の初期武器|", "|---|---|---:|---:|---:|---:|---:|---|"]

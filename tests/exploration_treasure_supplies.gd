@@ -70,7 +70,7 @@ func run() -> void:
 	assert(game.try_chest() and chest.state == "empty")
 	clear_room(game,normal[2])
 	assert(game.ExplorationSupplies.entries(game).size() == 1)
-	assert(game.Reward.current(game).source == "third_clear" and game.Reward.current(game).kind == "weapon")
+	assert(game.Reward.current(game).is_empty()) # 2026-10-04: third-clear chest removed; supplies remain.
 	var heal: Dictionary = game.ExplorationSupplies.entries(game)[0]
 	player.state.pos = heal.pos
 	player.state.hp = player.state.max_hp

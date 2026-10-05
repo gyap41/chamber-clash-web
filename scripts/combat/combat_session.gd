@@ -78,7 +78,6 @@ func fire(index: int) -> void:
 	var count: int = 3 if scatter else int(g.get("count", 1))
 	var burst_count := int(g.get("burst_count",1))
 	var trigger := Effects.shooting(player,g,w,scatter,count,burst_count)
-	var first_shot: bool = trigger.first
 	var shot_damage: float = trigger.damage
 	var echo_damage: float = trigger.echo_damage
 	var damage_scale: float = trigger.damage_scale
@@ -107,11 +106,9 @@ func fire(index: int) -> void:
 			game.delayed_shots.append(delayed)
 	if g.get("echo", false):
 		game.delayed_shots.append({"root":game.origin_counter,"owner":index,"gun":w.id,"angle":player.state.angle,"delay":.24,"volley":game.volley_counter,"damage":echo_damage,"kind":"echo","depth":1})
-	# 空薬莢の祝福: only the next *first* shot (full magazine) after an empty-clip reload
-	# consumes the charge, matching "次の初射"; 余熱コンデンサ has no such qualifier and is
-	# spent by the very next fire() call regardless of magazine state. Both are one-shot bonus
-	# pellets, depth 1, can't re-trigger any further P3 generation.
-	if 13 in player.relics and first_shot and player.state.get("empty_casing_charge", false):
+	# 2026-10-04: reload and parry charges each add one pellet to the next shot.
+	# Depth 1 prevents recursive generation; neither charge requires a full magazine.
+	if 13 in player.relics and player.state.get("empty_casing_charge", false):
 		player.state.empty_casing_charge = false
 		var relic13 := Relics.definition(13)
 		spawn_shot(index,0,player.state.angle,{"kind":"empty_casing","damage":float(relic13.get("casing_damage",.5)),"speed":g.speed*float(relic13.get("casing_speed_ratio",.75)),"life":1.6,"radius":4.0,"color":relic13.color,"can_lens":false,"depth":1})

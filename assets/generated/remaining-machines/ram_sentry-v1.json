@@ -1,0 +1,21 @@
+{
+  "tool": "builtin image_gen",
+  "source": "C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e\\exec-eb8d8e71-460c-4f00-938e-47df9af1dfe8.png",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "sha256": "b21b27d7f50aca09a12c570bed33909c6eb4914affdeab9f4f320fb9fff397ef",
+  "rows": [
+    0,
+    430,
+    810,
+    1254
+  ],
+  "columns": 3,
+  "adopted": false,
+  "prompt": "Transparent game sprite PARTS atlas for a HEAVY RAM SENTRY ancient automaton. Style of attached Rina ONLY: clean smooth dark outlines, large cel-shaded planes, upper-left light. Square exact 3 columns x 3 rows with generous empty transparent gutters. Each cell ONE isolated centered part, no overlap, consistent scale across directional views. Columns front facing DOWN, back facing UP, side facing RIGHT. Row1: low broad squat rust-red ceramic and bronze armored hull with narrow amber visor, no legs or front ram attached, big mounting sockets. Row2: thick blunt frontal Battering shield/plow plate, dark bronze with two large pale ivory reinforced corners and sturdy attachment boss, NOT horns/animal face; front/back/right views. Row3: ONE heavy mechanical articulated short leg with broad rectangular foot, hip at top, knee center, foot bottom, front/back/right views. Four copies of this leg will support the hull. Heavy grounded silhouette, ancient foundry equipment, few chunky shapes, no treads (distinct from existing tracked elite). Whole assembled machine will be 52px wide by 52px tall. Avoid any floor, shadows, glow backdrop, labels, text, grid lines, humans, pixelated rendering. Genuine transparent RGBA background. Every part fits entirely in its own equal grid cell with at least 10 percent padding on every edge.\n",
+  "usage": null,
+  "cost": null
+}

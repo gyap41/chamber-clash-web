@@ -6,13 +6,12 @@ static func scales(player, direct: bool) -> Vector2:
 static func shooting(player, g: Dictionary, w: Dictionary, scatter: bool, count: int, burst_count: int) -> Dictionary:
 	var first_shot: bool = w.clip == int(g.mag)
 	var shot_damage: float = (.5 if scatter else g.damage) * (1.0+player.relic_value(7,"starter_bonus") if first_shot else 1.0)
-	# 帰還バッテリー: a charge armed by the *previous* weapon switch boosts this volley once,
-	# then clears itself; it cannot re-arm until another boomerang recovery + switch happens.
-	if 14 in player.relics and player.state.get("return_battery_armed", false):
+	var echo_damage: float = shot_damage
+	# 2026-10-04: recovery alone charges the next volley; switching is no longer required.
+	if 14 in player.relics and player.state.get("return_battery_charge", false):
 		# One charge belongs to the shot, shared across pellets rather than multiplied by count.
 		shot_damage += float(Relics.definition(14).get("battery_bonus",.45))/(count*burst_count)
-		player.state.return_battery_armed = false
-	var echo_damage := shot_damage
+		player.state.return_battery_charge = false
 	if w.clip == 1 and 22 in player.relics:
 		shot_damage += player.relic_value(22,"last_bonus")/(count*burst_count)
 	var damage_scale: float = scales(player,true).x
@@ -43,11 +42,9 @@ static func reload_completed(player, amount: int, w: Dictionary) -> void:
 		state.dodge = maxf(0.0,state.dodge-player.relic_value(23,"cool_reduction"))
 		state.cool_grip_cd = player.relic_value(23,"cool_reuse")
 	if amount > 0 and player.definition().get("switcher", false): w.mode = 1-w.mode
-	# 空薬莢の祝福: only a reload that both started from empty AND actually completed here
-	# (not interrupted — an interrupted reload never reaches finish_reload(), see the
-	# reload_slot guard above, and 予備マガジン's 1-round top-up never goes through
-	# start_reload()/finish_reload() at all) charges the next full-magazine shot.
-	if state.reload_started_empty and 13 in player.relics: state.empty_casing_charge = true
+	# 2026-10-04: any completed real reload charges once, including a partial reserve.
+	# Holster/reel top-ups and interrupted reloads never dispatch this completion.
+	if amount > 0 and 13 in player.relics: state.empty_casing_charge = true
 
 # Damage guards run after dodge/volley immunity and before HP subtraction.
 static func incoming_damage(player, amount: float, volley: int, hazard: bool) -> float:
@@ -98,11 +95,6 @@ static func switching(player) -> void:
 			if outgoing.clip > 0: outgoing.clip -= 1
 			elif not player.infinite_reserve(outgoing.id): outgoing.reserve -= 1
 			player.delayed_shot_requested.emit({"gun":outgoing.id,"angle":state.angle,"delay":.22,"damage":float(outgoing_def.damage)*float(relic16.get("holster_ratio",.5)),"kind":"echo_holster","can_lens":false,"depth":1})
-	# 帰還バッテリー: a stored charge arms on the switch itself; the bonus is spent by the
-	# *next* fire() call (see main.gd), not by this switch.
-	if 14 in player.relics and state.return_battery_charge:
-		state.return_battery_charge = false
-		state.return_battery_armed = true
 	if player.has_weapon() and 30 in player.relics and state.sight_cd <= 0:
 		state.sight_time = player.relic_value(30,"sight_duration")
 		state.sight_cd = player.relic_value(30,"sight_reuse")

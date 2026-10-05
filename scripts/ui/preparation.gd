@@ -162,6 +162,8 @@ func show_detail(entry, reward: bool = false) -> void:
 	details.get_node("Name").tooltip_text = info.name
 	detail_description.text = info.desc
 	var relic: int = game.match_state.relic_id(entry)
+	if Relics.supported(relic):
+		detail_description.text += "\n\n補足："+str(Relics.definition(relic).get("details",""))
 	if Relics.stackable(relic):
 		var equipped: Array = game.match_state.equipped_relics(turn)
 		var count: int = equipped.count(relic)
