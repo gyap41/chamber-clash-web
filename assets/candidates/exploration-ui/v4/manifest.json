@@ -1,0 +1,52 @@
+{
+  "version": 4,
+  "status": "candidate-concept-only",
+  "generator": "built-in image_gen",
+  "generated_count": 3,
+  "reference": "assets/candidates/exploration-ui/v3/satchel-frame.png",
+  "assets": [
+    {
+      "file": "cell.png",
+      "prompt": "Create ONE isolated textless 2D videogame UI sprite/material asset. Attached satchel is STYLE AND MATERIAL REFERENCE ONLY. Smooth hand-drawn dark outlines, broad restrained shaded colors, abandoned-foundry explorer's portable tools world. Muted blue-green cloth, tobacco brown leather, aged dull brass. Front-on flat orthographic UI with perfectly straight parallel edges, no perspective. No letters, no symbols, no icons, no weapons, no text, no labels, no tiny filigree, no gears. Transparent exterior outside the sprite, solid opaque interior. Fill canvas with the sprite leaving just 2% transparent margin. Designed for scalable nine-slice rendering: consistent thin edges, fixed small corners, very quiet homogeneous center free of decoration. Internal features only at perimeter, no internal subdivisions. Same soft illustrated style as reference, not photoreal, not pixel art. A SQUARE recessed cloth equipment compartment tile. Dark desaturated teal heavy canvas center, subtle large-scale weave rather than noisy grain. A THIN softly padded canvas rim with a single neat row of warm grey stitched threads on each edge. Low contrast, utilitarian shallow pocket, no metal corner badges, no straps. Canvas center accounts for 85% of area. Practical equipment bag slot. Square aspect.",
+      "source_hint": "Generated images are saved to C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e as C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e\\exec-0733c41e-0534-468f-b950-fa2643d1c5eb.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    {
+      "file": "detail.png",
+      "prompt": "Create ONE isolated textless 2D videogame UI sprite/material asset. Attached satchel is STYLE AND MATERIAL REFERENCE ONLY. Smooth hand-drawn dark outlines, broad restrained shaded colors, abandoned-foundry explorer's portable tools world. Muted blue-green cloth, tobacco brown leather, aged dull brass. Front-on flat orthographic UI with perfectly straight parallel edges, no perspective. No letters, no symbols, no icons, no weapons, no text, no labels, no tiny filigree, no gears. Transparent exterior outside the sprite, solid opaque interior. Fill canvas with the sprite leaving just 2% transparent margin. Designed for scalable nine-slice rendering: consistent thin edges, fixed small corners, very quiet homogeneous center free of decoration. Internal features only at perimeter, no internal subdivisions. Same soft illustrated style as reference, not photoreal, not pixel art. A TALL PORTRAIT rectangular dark slate writing panel carried in an artisan's satchel, around 1:2 width to height. A VERY THIN warm tobacco leather binding, stitched just inside the leather edge, two tiny dull brass attachment rivets only on the upper outside corners. Opaque charcoal teal almost black matte interior, extremely subtle texture, legible cream text will be added later. Empty neutral center accounts for 88% of area. It is a light tool identification card, not a huge ornate frame.",
+      "source_hint": "Generated images are saved to C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e as C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e\\exec-14729adf-90ec-4ba7-a655-667bd9b9acb9.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    {
+      "file": "button.png",
+      "prompt": "Create ONE isolated textless 2D videogame UI sprite/material asset. Attached satchel is STYLE AND MATERIAL REFERENCE ONLY. Smooth hand-drawn dark outlines, broad restrained shaded colors, abandoned-foundry explorer's portable tools world. Muted blue-green cloth, tobacco brown leather, aged dull brass. Front-on flat orthographic UI with perfectly straight parallel edges, no perspective. No letters, no symbols, no icons, no weapons, no text, no labels, no tiny filigree, no gears. Transparent exterior outside the sprite, solid opaque interior. Fill canvas with the sprite leaving just 2% transparent margin. Designed for scalable nine-slice rendering: consistent thin edges, fixed small corners, very quiet homogeneous center free of decoration. Internal features only at perimeter, no internal subdivisions. Same soft illustrated style as reference, not photoreal, not pixel art. A WIDE HORIZONTAL rectangular button plate, 4:1 width to height. Restrained brown leather center with a tiny raised bevel, thin aged brass binding only along outside edge, one small attachment rivet at each extreme end. Huge clean EMPTY flat center for a short Japanese action label added later. Very slight warm highlight from upper left, no glowing edge. Practical pressable leather label tab, softly rounded corners. The result is a single clean full button, no variants, no text.",
+      "source_hint": "Generated images are saved to C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e as C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e\\exec-a21935bd-6211-4eb4-81d8-2296003b7c5a.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    }
+  ],
+  "rendering": {
+    "method": "nine-slice in temporary Godot concept renderer; alpha >= 0.5 content bounds",
+    "source_modified": false,
+    "text_and_icons": "existing production textures and catalog; rendered separately",
+    "outputs": [
+      "bag.png",
+      "shop.png",
+      "states.png"
+    ],
+    "screenshot_size": [
+      1120,
+      800
+    ],
+    "button_states": [
+      "normal",
+      "hover",
+      "pressed",
+      "disabled"
+    ],
+    "game_implementation": false,
+    "animation_implementation": false
+  },
+  "checks": {
+    "rendered": true,
+    "script_errors": 0,
+    "visual_review": true,
+    "full_game_suite_run": false
+  }
+}

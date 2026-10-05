@@ -1,0 +1,54 @@
+{
+  "date": "2026-10-06",
+  "method": "built-in image_gen",
+  "reference": "assets/ui/exploration/workshop/shell.png",
+  "source": "source.png",
+  "prompt": "prompt.txt",
+  "sha256": "6a16d61aaa366c8a8fc9c43a34e08bb362fb15955f868d76118a802b156ca34d",
+  "regions": {
+    "health": [
+      48,
+      106,
+      763,
+      146
+    ],
+    "weapon": [
+      845,
+      94,
+      640,
+      261
+    ],
+    "socket": [
+      81,
+      398,
+      270,
+      255
+    ],
+    "action": [
+      475,
+      396,
+      270,
+      264
+    ],
+    "boss": [
+      837,
+      489,
+      639,
+      89
+    ],
+    "currency": [
+      652,
+      687,
+      260,
+      255
+    ]
+  },
+  "processing": "No pixel edits; Godot region sampling and nine-patch stretching only",
+  "status": "production integration authorized; visual acceptance pending",
+  "verification_images": [
+    "in-game.png",
+    "eight-reload.png",
+    "small.png",
+    "hover.png"
+  ]
+}

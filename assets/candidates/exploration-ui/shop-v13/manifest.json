@@ -1,0 +1,21 @@
+{
+  "tool": "built-in image_gen",
+  "source": "accessories-source.png",
+  "prompt": "prompt.txt",
+  "sha256": "cb4007f0c33f5d55ddeda751299cffa0e2599a7dbbed6e94a20fc485afcede69",
+  "size": [
+    1536,
+    1024
+  ],
+  "transparent_pixels": 843826,
+  "status": "candidate; preview connected; not production",
+  "regions": "regions.json",
+  "pivot": "center",
+  "attachments": {
+    "plinth": "right edge socket",
+    "drawer": "upper slot",
+    "rail": "top and bottom mounts",
+    "housing": "center rotation axis"
+  },
+  "alpha_preserved": true
+}

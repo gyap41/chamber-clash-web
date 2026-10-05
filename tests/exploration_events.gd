@@ -56,6 +56,9 @@ func run() -> void:
 		var shop := room_of("shop")
 		enter(shop)
 		var stock: Array = game.exploration.room_state(shop).shop
+		var merchant: Vector2 = game.exploration.room_state(shop).shop_sign
+		for product in stock:
+			assert(merchant.distance_to(product.pos) >= 144,"Merchant must avoid all stock, including scattered items")
 		assert(stock.size() == 6 and stock.filter(func(item): return item.kind in ["weapon","relic"]).size() == 3)
 		var weapon: Dictionary = stock.filter(func(item): return item.kind == "weapon")[0]
 		inventory.gold[0] = weapon.price-1

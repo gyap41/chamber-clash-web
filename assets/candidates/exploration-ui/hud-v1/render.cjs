@@ -1,0 +1,24 @@
+const fs=require('fs'),path=require('path'),assert=require('assert');
+const {createCanvas,loadImage,GlobalFonts}=require(process.env.CANVAS_PACKAGE);
+const base=__dirname,root=path.resolve(base,'../../../..');
+GlobalFonts.registerFromPath('C:/Windows/Fonts/meiryo.ttc','Meiryo');
+let im={},cv=createCanvas(1120,800),c=cv.getContext('2d');
+function box(x,y,w,h,color='#152e2edc',border='#a08b59',r=6){c.beginPath();c.roundRect(x,y,w,h,r);c.fillStyle=color;c.fill();if(border){c.strokeStyle=border;c.lineWidth=1;c.stroke()}}
+function text(t,x,y,n=19,col='#f1e8ca',align='left'){c.font=`${n}px Meiryo`;c.fillStyle=col;c.textAlign=align;c.fillText(t,x,y);c.textAlign='left';const w=c.measureText(t).width;assert(y<795&&y-n>=0);assert((align==='right'?x-w:x)>=0&&x<=1120)}
+function frame(x,y,w,h){const r=[33,753,594,388],sx=[0,100,494,594],sy=[0,90,298,388],dx=[x,x+19,x+w-19,x+w],dy=[y,y+16,y+h-16,y+h];box(x+5,y+5,w-10,h-10,'#102626e8',null);for(let j=0;j<3;j++)for(let i=0;i<3;i++)if(i!==1||j!==1)c.drawImage(im.shell,r[0]+sx[i],r[1]+sy[j],sx[i+1]-sx[i],sy[j+1]-sy[j],dx[i],dy[j],dx[i+1]-dx[i],dy[j+1]-dy[j]);}
+function art(key,x,y,w,h){const a=im[key],s=Math.min(w/a.width,h/a.height);c.drawImage(a,x+(w-a.width*s)/2,y+(h-a.height*s)/2,a.width*s,a.height*s)}
+function hp(x,y,w){box(x,y,w,19,'#0a191a','#9c8255',4);c.save();c.beginPath();c.roundRect(x+3,y+3,w-6,13,2);c.clip();const g=c.createLinearGradient(x,y,x,y+19);g.addColorStop(0,'#e28869');g.addColorStop(1,'#a9493f');c.fillStyle=g;c.fillRect(x+3,y+3,(w-6)*.8,13);for(let i=1;i<4;i++){c.fillStyle='#24342e';c.fillRect(x+w*i/4,y+2,2,15)}c.restore();}
+function coin(x,y){c.beginPath();c.arc(x,y,8,0,7);c.fillStyle='#b49a55';c.fill();c.strokeStyle='#f2d58a';c.stroke();c.beginPath();c.moveTo(x,y-4);c.lineTo(x,y+4);c.stroke()}
+function action(key,x,y,count){c.beginPath();c.arc(x+20,y+20,20,0,7);c.fillStyle='#132d2dde';c.fill();c.strokeStyle='#af9660';c.lineWidth=2;c.stroke();art(key,x+6,y+6,28,28);if(key==='melee'){c.beginPath();c.arc(x+20,y+20,22,-Math.PI/2,Math.PI*.5);c.strokeStyle='#88d8c2';c.stroke()}if(count){for(let i=0;i<3;i++)box(x+5+i*12,y+46,7,4,'#7bd6bc',null,1)}}
+function utility(x,y){for(let i=0;i<3;i++)frame(x+i*48,y,42,45);c.strokeStyle='#d3c497';c.lineWidth=1.6;c.beginPath();c.moveTo(x+10,y+12);c.lineTo(x+18,y+9);c.lineTo(x+26,y+13);c.lineTo(x+32,y+10);c.lineTo(x+32,y+29);c.lineTo(x+24,y+32);c.lineTo(x+17,y+28);c.lineTo(x+10,y+31);c.closePath();c.stroke();c.beginPath();c.moveTo(x+18,y+10);c.lineTo(x+18,y+28);c.moveTo(x+25,y+13);c.lineTo(x+25,y+30);c.stroke();box(x+59,y+16,21,17,'#28443c','#c1a66a',3);c.beginPath();c.arc(x+69,y+16,6,Math.PI,0);c.stroke();box(x+61,y+22,17,2,'#b79860',null,0);box(x+111,y+13,4,19,'#e3d6ad',null,1);box(x+120,y+13,4,19,'#e3d6ad',null,1);}
+function weapon(x,y,w=296){frame(x,y,w,86);art('weapon-20',x+14,y+12,99,58);text('7',x+130,y+46,33);text('/ ∞',x+166,y+43,20,'#a7bfb0');for(let i=0;i<10;i++)box(x+128+i*13,y+61,8,7,i<7?'#95d2b9':'#304940',null,1);}
+function spare(x,y){for(let i=0;i<2;i++){frame(x+i*60,y,54,48);art('weapon-'+[23,28][i],x+7+i*60,y+8,40,30)}}
+function render(mode){c.drawImage(im.bg,0,0);if(mode==='a'){
+ frame(22,22,268,66);hp(43,42,225);coin(316,51);text('28',334,59,21);utility(952,22);
+ weapon(802,690);spare(675,726);action('dodge',944,624);action('melee',997,624);action('pulse',1050,624,3);
+}else{
+ frame(22,622,408,155);hp(42,641,280);coin(350,650);text('28',368,658,20);
+ art('weapon-20',41,678,100,54);text('7',157,713,33);text('/ ∞',194,710,20,'#a7bfb0');for(let i=0;i<10;i++)box(153+i*11,730,7,6,i<7?'#95d2b9':'#304940',null,1);
+ action('dodge',272,682);action('melee',324,682);action('pulse',376,682,3);spare(445,729);utility(952,22);
+}fs.writeFileSync(path.join(base,mode+'.png'),cv.toBuffer('image/png'));return cv.toBuffer('image/png')}
+(async()=>{im.bg=await loadImage(path.join(base,'background.png'));im.shell=await loadImage(path.join(root,'assets/ui/exploration/workshop/shell.png'));for(const k of ['weapon-20','weapon-23','weapon-28'])im[k]=await loadImage(path.join(base,k+'.png'));for(const k of ['dodge','melee','pulse'])im[k]=await loadImage(path.join(root,'assets/first-workshop',k+'.png'));const sheet=createCanvas(1120,860),sc=sheet.getContext('2d');sc.fillStyle='#102323';sc.fillRect(0,0,1120,860);for(const [i,m]of ['a','b'].entries()){sc.drawImage(await loadImage(render(m)),i*560,28,560,400);sc.font='17px Meiryo';sc.fillStyle='#eee2bf';sc.fillText(i===0?'A  四隅へ分散':'B  左下に集約',i*560+18,22)}sc.drawImage(await loadImage(path.join(base,'current.png')),0,452,560,400);sc.font='17px Meiryo';sc.fillText('現在のHUD',18,448);sc.font='20px Meiryo';sc.fillText('HP・弾数・行動残数・所持金を維持',594,506);sc.fillText('マップ / バッグ / 停止は右上のアイコン',594,551);sc.fillText('常時の説明文・上下の帯を省く',594,596);sc.fillText('数値と状態は比較用のサンプル',594,673);fs.writeFileSync(path.join(base,'comparison.png'),sheet.toBuffer('image/png'));console.log('PASS: 2 layout comps rendered at 1120x800')})().catch(e=>{console.error(e);process.exit(1)});

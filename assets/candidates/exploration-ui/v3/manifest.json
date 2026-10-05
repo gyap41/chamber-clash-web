@@ -1,0 +1,35 @@
+{
+  "version": 3,
+  "status": "concept-only",
+  "generator": "built-in image_gen",
+  "reference": "assets/ui/exploration/workshop-case-v1.png",
+  "generated_frames": [
+    {
+      "file": "satchel-frame.png",
+      "source": "C:/Users/ikare/.codex/generated_images/01a0ec22-6e99-76e2-b992-ff88fcb0442e/exec-5b63e14b-21ed-4d10-93b4-3469a629cbe6.png",
+      "prompt": "Create a single empty game UI material panel asset, landscape 7:5 aspect ratio. The attached current game case texture is STYLE REFERENCE ONLY: match its smooth illustrated dark outlines, restrained cel-shaded worn materials, dark teal and brown colors, low contrast fabric, muted brass. Do not copy its ornament-heavy construction. Front-on orthographic, perfectly flat UI not an isometric scene. Outer silhouette occupies 96% of image, generous empty rectangular interior with absolutely no text, no letters, no icons, no inventory cells, no weapons, no labels, no buttons. NO diagonal perspective. No gradients of light through center, no glow. Fully opaque very dark desaturated teal empty cloth/leather interior suitable for ivory text and a grid. Fine texture only, subtle broad shaded areas. Thin modest outer rim, no elements protruding across the writing area. No central divider (we add in code). Transparent background only outside the silhouette; interior opaque. Restrained charming hand-illustrated dungeon adventure aesthetic, not photoreal, not pixel art, not Victorian gears, not ornate fantasy filigree. Keep 90% of the width and height visually quiet for actual UI content. Design B: an unfolded explorer's field tool satchel, a rectangular desaturated teal waxed canvas lining with soft slightly irregular fabric edge, dark tobacco leather binding and just four small reinforced leather corners, hand-stitched seams along outside edge. A couple of functional brass strap studs, one small worn repair patch only in lower outside rim. Thin rolled canvas lip around edge instead of wood. Feels light, portable, patched and cared for; everyday artisan's equipment taken into ash-covered ruins. All panels empty."
+    },
+    {
+      "file": "tray-frame.png",
+      "source": "C:/Users/ikare/.codex/generated_images/01a0ec22-6e99-76e2-b992-ff88fcb0442e/exec-47a59243-21a1-4c7f-abb5-684bf4d334a8.png",
+      "prompt": "Create a single empty game UI material panel asset, landscape 7:5 aspect ratio. The attached current game case texture is STYLE REFERENCE ONLY: match its smooth illustrated dark outlines, restrained cel-shaded worn materials, dark teal and brown colors, low contrast fabric, muted brass. Do not copy its ornament-heavy construction. Front-on orthographic, perfectly flat UI not an isometric scene. Outer silhouette occupies 96% of image, generous empty rectangular interior with absolutely no text, no letters, no icons, no inventory cells, no weapons, no labels, no buttons. NO diagonal perspective. No gradients of light through center, no glow. Fully opaque very dark desaturated teal empty cloth/leather interior suitable for ivory text and a grid. Fine texture only, subtle broad shaded areas. Thin modest outer rim, no elements protruding across the writing area. No central divider (we add in code). Transparent background only outside the silhouette; interior opaque. Restrained charming hand-illustrated dungeon adventure aesthetic, not photoreal, not pixel art, not Victorian gears, not ornate fantasy filigree. Keep 90% of the width and height visually quiet for actual UI content. Design C: a mysterious ash-foundry merchant's shallow trading tray, thin dark aged walnut wooden rim, an almost black teal felt base, two tiny tarnished brass corner brackets and worn reddish brown leather underlining at edges. One tiny asymmetrical dull brass tally seal attached to the outer rim only. A low practical rectangular presentation tray rather than an ornate chest. Gentle wear confined to outside edge. Implies careful shopkeeper's handling and old foundry craftsmanship, not technological machinery. All panels empty."
+    }
+  ],
+  "render": "Godot 4.7.2; actual production art/catalog; code-defined text and geometry. No production UI changes.",
+  "checks": {
+    "screen_size": [
+      1120,
+      800
+    ],
+    "grid": [
+      6,
+      6
+    ],
+    "open_cells": 24,
+    "occupied_cells": 14,
+    "overlaps": 0,
+    "reserve_slots": 8,
+    "visual_review": "six static screens",
+    "interaction_tested": false
+  }
+}

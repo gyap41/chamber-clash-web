@@ -2681,6 +2681,102 @@
       "loop_verified": false,
       "candidate_file_path": "res://assets/candidates/triple-ring-salvo/v2/fw_triple_ring_salvo_02.mp3",
       "integration_status": "connected; provisionally accepted by user on 2026-10-04; device-specific and maximum-mix listening unverified"
+    },
+    {
+      "asset_id": "se:fw_workshop_open_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_workshop_open_01.mp3",
+      "purpose": "Portable workshop inventory opening; heavy mechanical release and energy startup; 700ms animation; one candidate",
+      "prompt": "A compact ancient industrial device unfolds: a weighty steel latch clunks open, chunky interlocking gears engage with a brief low servo growl, then a deep layered electrical power surge settles. Dense tactile metal, restrained bass, crisp dry detail, short decay. No toy clicks, beeps, melody, voices or music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.7,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.7314285714285714,
+      "duration_source": "audio_header",
+      "generated_at": "2026-10-05T08:17:49.863398+00:00",
+      "fingerprint": "6c59e94eb5bd3a1da7f212f2256476bc82d966bb5785ff312f996e8559f0114b",
+      "sha256": "6cd421c6c8f39ffe3de82ba7580f8ff2a53047f35b53aea581f63a56e9519add",
+      "loop_verified": false,
+      "source_archive": "res://assets/retired/workshop-open/v1/fw_workshop_open_01.mp3",
+      "integration_status": "Source for adopted opening mix; not played separately"
+    },
+    {
+      "asset_id": "se:fw_workshop_energy_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_workshop_energy_01.mp3",
+      "purpose": "Energy layer starting 350ms into portable workshop opening; blend with existing mechanical candidate; one candidate",
+      "prompt": "A powerful ancient energy core ignites: a deep resonant electrical swell rises into a broad warm charged hum, with airy plasma texture and a short smooth tail. Dense layered low-mid body, sophisticated restrained power, tactile and weighty. Energy only, no mechanical clicks, beeps, chimes, melody, voices or music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-10-05T09:47:03.708619+00:00",
+      "fingerprint": "eec6789cf717138fba9577ba16e59a0327169971e4d334d1bcc8c3744d3c36e9",
+      "sha256": "70cbaaa3ed94d6b8a767b69a98be4dbcad0bf8782111cb8dd522ef5374abd6eb",
+      "loop_verified": false,
+      "source_archive": "res://assets/retired/workshop-open/v2/fw_workshop_energy_01.mp3",
+      "integration_status": "Source for adopted opening mix; not played separately"
+    },
+    {
+      "asset_id": "se:fw_workshop_open_energy_01",
+      "type": "se",
+      "provider": "local_mix",
+      "file_path": "res://assets/audio/se/fw_workshop_open_energy_01.wav",
+      "purpose": "Workshop opening; mechanical layer unchanged, energy sustain faded out per user feedback",
+      "duration": 0.83,
+      "duration_source": "decoded_pcm",
+      "loop": false,
+      "loop_verified": false,
+      "sha256": "2c31afa7fc9851888708655ac425380cfb7b84a7a1e4ef646a5b5834ad689277",
+      "source_assets": [
+        "se:fw_workshop_open_01",
+        "se:fw_workshop_energy_01"
+      ],
+      "mix_recipe": {
+        "sources": [
+          {
+            "file": "v1\\fw_workshop_open_01.mp3",
+            "start_s": 0.0,
+            "gain_db": -12.0,
+            "sha256": "6cd421c6c8f39ffe3de82ba7580f8ff2a53047f35b53aea581f63a56e9519add"
+          },
+          {
+            "file": "v2\\fw_workshop_energy_01.mp3",
+            "start_s": 0.35,
+            "gain_db": -10.0,
+            "sha256": "70cbaaa3ed94d6b8a767b69a98be4dbcad0bf8782111cb8dd522ef5374abd6eb"
+          }
+        ],
+        "fade_in_ms": 4,
+        "fade_out_ms": 25,
+        "sample_rate": 44100,
+        "duration_s": 0.83,
+        "status": "adopted",
+        "listening_verified": false,
+        "user_accepted_on": "2026-10-05",
+        "energy_tail_edit": {
+          "keep_until_s": 0.12,
+          "fade_out_end_s": 0.22,
+          "curve": "1 - smoothstep",
+          "times_relative_to_energy_start": true,
+          "absolute_silence_from_s": 0.57,
+          "preserve_file_duration_s": 0.83
+        }
+      },
+      "integration_status": "User-requested tail removal applied 2026-10-05; subjective listening unverified"
     }
   ]
 }

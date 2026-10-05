@@ -1,5 +1,6 @@
 # 候補素材（未採用・審査中）
 
+
 4種類の機械の専用素材: [制作・確認記録](../../docs/art/production/enemy-animation-v2/remaining-machines.md)。2026-10-04の適用指示を受け、4種は使用中素材へ昇格。旧候補一式はretiredへ保存済み。新規部品シートには置換先PNGがないため、`preview.json`の`machine_sheets`へ敵ID・file・rows・計測regionsを指定し、開発用Autoloadが起動引数付きのときだけ登録する。この候補登録機能自体は通常起動・書き出しでは動かない。採用済み4種は使用中の画像を既定で読み込む。
 
 区分: 素材の置き場所と運用手順。状態: 運用中（2026-10-04開始）。定義する範囲: 生成後、ユーザーの最終確認が終わるまでの素材。関連する正本: [素材制作の必読入口](../../docs/art/README.md) / [レビュー基準](../../docs/art/ART_BIBLE.md) / [音響基準](../../docs/AUDIO_BIBLE.md)
@@ -81,3 +82,5 @@ powershell -ExecutionPolicy Bypass -File tools/preview_candidate.ps1 lizard/v2
 - [重厚な環砲機](triple-ring-salvo/v2/review.md)
 
 いずれも本編接続済み、ユーザー試聴採用待ち。旧版は比較用に保持。
+
+- `exploration-ui/hud-v2/`：2026-10-06、A案HUD専用の6部品アトラス1枚。source.pngが内蔵生成原本、prompt.txtに全指示、manifest.jsonに領域とSHA-256。本編適用依頼に従いassets/ui/exploration/workshop/hud-atlas.pngへ同一コピー済み。最終見た目の採用はユーザー確認待ち。

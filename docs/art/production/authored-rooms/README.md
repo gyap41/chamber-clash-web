@@ -1,3 +1,9 @@
+## 露店の店員配置修正（2026-10-05）
+
+対象：工房の露店。読了資料：STAGE_CREATION_TEMPLATE、STAGE_ASSET_GUIDE、development/STAGE_TEMPLATESとexploration_eventsの配置・描画。既存の店員110×116px、看板28×39px、台座60×44pxと接地原点を流用し、素材不足・新規生成なし。商品の列端だけを見る方式を、全商品から144px以上離した候補探索へ変更。正面40pxの会話位置と壁・扉を確認し、転送装置にも店員位置を予約する。既存の浮遊・吹き出しアニメーションを維持する。
+
+通常倍率の `.local/feedback-merchant.png` で店員と商品が離れ、会話できる配置を目視確認。商品説明の操作は自動回帰検査で確認。全seedの目視とユーザー試遊は未確認。現行操作はGAME_RULES、再実行手順はTESTINGを参照。
+
 ## 弾の遮蔽修正（2026-10-04）
 
 対象：既存20室の配置物。読了資料：STAGE_CREATION_TEMPLATE、STAGE_ASSET_GUIDE、development/STAGE_TEMPLATES、StagePlacement/arenaの現行実装。既存画像・配置・接地原点・歩行判定を維持し、射撃用の本体矩形を追加する方式。新規素材・有料生成なし。柱の根元だけにあった判定では画像中央を実際の火球が通れたため、射撃だけを本体高さへ広げる。照明・床模様など衝突なしの装飾は遮蔽物にしない。

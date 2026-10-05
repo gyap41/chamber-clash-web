@@ -1,0 +1,24 @@
+{
+  "viewport": [
+    1120,
+    800
+  ],
+  "sample_interval_ms": 10,
+  "range_ms": [
+    0,
+    700
+  ],
+  "sprite_and_content_bounds": [
+    56,
+    82,
+    1064,
+    715
+  ],
+  "content_safe_area": [
+    176,
+    202,
+    944,
+    656
+  ],
+  "note": "Rotated sprite AABBs and content rects checked; effects also visually reviewed."
+}

@@ -1,5 +1,11 @@
 ## ボス耐久と宝箱頻度
 
+## 携帯工房の本編接続（2026-10-05）
+
+`tests/workshop_inventory.gd` は本物のマウスドラッグで、未開放マスの拒否、装着、原点以外を掴んだ解除、ドラッグ中収納を検査する。500msの操作開始、更新時の演出維持、開閉SEの回数/停止/ミュート、フォーカス停止の保持も確認する。未選択の初期表示、空きマスのクリックで初期武器が動かないこと、明示選択時だけプレビュー表示、成功/拒否ドロップ後にプレビューが消えることも検査。ヘッドレスではOSマウス座標が0のため、実GUI入力で状態を変更し、表示検査には同じupdate_hoverへ明示グリッド座標を渡す。採用した結合WAVの形式/長さ・両端ゼロ・ヘッドルーム、起動1回/旧合成音0回、追加減衰なし、350msより前の収納で開く音が停止することも検査する。`-- --capture-audio` を付けると `.local/workshop-open-review.wav` へ試聴用の重ね合わせを書き出す。`exploration_bag` は既存のHP・弾薬・装填状態の保持、`exploration_bag_ui` はクリック選択/配置/×での収納を検査する。
+
+通常の `run_tests.ps1` に含まれる。実画面は `tests/exploration_bag_ui.gd` を描画あり、`--quit-after 240 -- --capture` と90秒の実行上限で起動し、`.local/two-rooms-bag-ui.png` に保存する。自動テストと静止画の目視は、連続動作の操作感・SE試聴・ユーザー採用評価とは分ける。
+
 `tools/review_boss_durability.gd` は本編seed22の動くボスに対し、HP48/72/96×初期銃/ホチキス/単発ライフル（初弾・最終弾・装填短縮）/オーロラを比較する。60Hz、起動後最大120秒、静止・無敵・正確な照準・予備弾10000の診断。実弾道・装填・被弾判定と段階移行を使い、時間・移行時刻・攻撃開始数・消費弾数を `.local/boss-durability.json` へ出力する。無限予備の銃はspent=-1。通常の満弾総数も併記し、有限弾の1丁だけで倒せるという保証にはしない。コマンドは `--headless --path . --script res://tools/review_boss_durability.gd --quit-after 1800`、外側に240秒上限を付ける。
 
 `exploration_reward_variety` は複数seedですべての通常室を攻略し、初戦以外に箱が増えないこと、初戦の再訪固定、宝箱部屋の保証/満杯保留/回収を検査。`production_floor` は本編10seedでも初戦箱1個・third_clearなしを確認する。`exploration_treasure_supplies` は3室目の箱なしでも回復品が出ることを確認。`furnace_warden` はHP72・最大HP72、HP36.01では通常、36で移行する境界を確認。既存の攻撃・演出・撃破報酬・祭壇/試練の検査を維持する。
@@ -31,6 +37,10 @@
 起動時の順番（Godotは全Autoloadのスクリプトを先に読み込む）は、一時的な候補でMusicのpreload済みBGMが差し替わることを手動で確認した（2026-10-04）。ゲーム内での見た目の確認は `tools/preview_candidate.ps1` でユーザーが行う。
 
 生成素材の機械チェックは自動テストではない。手順と判定は[tools/asset_check](../../tools/asset_check/README.md)。
+
+## ショップの店員と商品（2026-10-05）
+
+`tests/player_feedback.gd` は全商品との144px離隔、正面からの会話、店員と商品を同位置にした旧配置の再現で商品説明を優先することを検査する。`tests/exploration_events.gd` はseed 1/4のショップで全商品との離隔と既存の購入・再訪を検査。player_feedbackへ描画ありで `-- --capture` を渡すと `.local/feedback-merchant.png` と `.local/feedback-shop.png` に会話・説明画面を保存する。
 
 ## 戦闘テスト（2026-09-28）
 
@@ -795,3 +805,13 @@ UI・店員の1120×800描画は確認済み。音色、混戦の視認性、初
 音色の再指定ではgenerated_soundのID37期待値を、ユーザー指定に従い旧合成WAVから専用aurora_divine音源・pitch=1へ更新。machine_weapon_presentationは環砲の音量+2dBと合成層追加後のvoice位置を検査する。攻撃回数・停止/ミュートの検査は維持。review_machine_audioの現行出力はmachine-aurora-divine-mix.wav、旧録音は比較用に保持する。
 
 神々しい/重厚な音色への差し替え後：`run_tests-20261004-182658.log`、PASS 150 / FAIL 0 / NO-PASS 4 / 計154。NO-PASSはenemy_animation_review・enemy_art_preview・enemy_death_review・quillback_art（撮影用）。終了時の既存Resource/ObjectDB警告は一部残る。音響個別検査もPASS。試聴の評価は未確認。資料204 Markdown・2383リンク、欠落0。
+
+## ショップ携帯工房UI（2026-10-05）
+
+`tests/shop_workshop.gd` は実マウスイベントで展開中の購入拒否、購入成功後の重複課金防止、所持金更新、隣接マス拡張、資金不足、収納時の探索停止解除を検査。`--capture` 付き描画実行で `.local/shop-workshop-{weapon,purchase,expansion,insufficient}.png` を保存する。`player_feedback` の既存取引テストも維持。動作確認は音の試聴と区別する。
+
+## 探索HUD A案（2026-10-05）
+
+exploration_hud_aは小数HP・残数・不要な常時文字の非表示、BGM操作、バッグ中の停止メニュー分離、8武器/リロードとボス領域を確認。--captureで.local/hud-a-{normal,pause,eight-reload,boss-layout,small}.pngを出力。boss-layoutは同じ場面にボスの表示用データを渡した配置検査で、ボス戦そのものの撮影ではない。shared_combat_hudは既存のマウス切替/停止、反撃回復、8武器、丸腰、結果表示を維持して確認する。
+
+2026-10-06：exploration_hud_aは専用HUD素材の接続後も同じ撮影手順を使う。追加検査は行動ホバーの文字/入力受付とクールダウン終了時の発光・時間経過での消灯。通常・8武器/装填・ボス表示データ・840×600・停止画面を目視確認する。静止画で通電の連続した動作や混戦の操作感まで確認済みとはしない。

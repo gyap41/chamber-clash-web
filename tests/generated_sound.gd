@@ -29,8 +29,14 @@ func run() -> void:
 		audio.play_sound(kind)
 		assert(events.size() == before+2)
 	for key in audio.GENERATED:
-		assert(audio.GENERATED[key] is AudioStreamMP3)
-		assert(not audio.GENERATED[key].loop)
+		# 2026-10-05: the accepted opening is the exact auditioned PCM mix.
+		if key=="workshop_open":
+			assert(audio.GENERATED[key] is AudioStreamWAV)
+			assert(audio.GENERATED[key].format==AudioStreamWAV.FORMAT_16_BITS)
+			assert(audio.GENERATED[key].loop_mode==AudioStreamWAV.LOOP_DISABLED)
+		else:
+			assert(audio.GENERATED[key] is AudioStreamMP3)
+			assert(not audio.GENERATED[key].loop)
 	for pair in [[0,"pistol"],[20,"pistol"],[23,"heavy"],[26,"heavy"],[19,"rapid"],[27,"rapid"],[28,"rapid"],[3,"energy"],[6,"energy"],[7,"energy"],[36,"energy"]]:
 		audio.play_sound("shot",pair[0])
 		var voice = audio.voices[(audio.next_voice+15)%16]

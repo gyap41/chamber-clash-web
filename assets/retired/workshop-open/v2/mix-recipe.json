@@ -1,0 +1,23 @@
+{
+  "sources": [
+    {
+      "file": "v1\\fw_workshop_open_01.mp3",
+      "start_s": 0.0,
+      "gain_db": -12.0,
+      "sha256": "6cd421c6c8f39ffe3de82ba7580f8ff2a53047f35b53aea581f63a56e9519add"
+    },
+    {
+      "file": "v2\\fw_workshop_energy_01.mp3",
+      "start_s": 0.35,
+      "gain_db": -10.0,
+      "sha256": "70cbaaa3ed94d6b8a767b69a98be4dbcad0bf8782111cb8dd522ef5374abd6eb"
+    }
+  ],
+  "fade_in_ms": 4,
+  "fade_out_ms": 25,
+  "sample_rate": 44100,
+  "duration_s": 0.83,
+  "status": "adopted",
+  "listening_verified": false,
+  "user_accepted_on": "2026-10-05"
+}

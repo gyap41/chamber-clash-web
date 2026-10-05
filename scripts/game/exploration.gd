@@ -258,7 +258,7 @@ func move_to_room(target: String, arrival: Vector2) -> bool:
 func _input(event: InputEvent) -> void:
 	if shop_detail != null:
 		if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
-			close_shop()
+			shop_detail.request_close()
 			get_viewport().set_input_as_handled()
 		return
 	if boss_intro():
@@ -276,7 +276,7 @@ func _input(event: InputEvent) -> void:
 		return
 	if bag != null:
 		if event is InputEventKey and event.pressed and not event.echo and event.keycode in [KEY_TAB,KEY_ESCAPE]:
-			close_bag()
+			request_close_bag()
 			get_viewport().set_input_as_handled()
 		return
 	super._input(event)
@@ -292,14 +292,14 @@ func _unhandled_input(event: InputEvent) -> void:
 func refresh_hud() -> void:
 	var allowed: bool = phase == "play" and not paused and result.is_empty() and not players[0].is_cpu and not boss_intro()
 	var view := preload("res://scripts/ui/combat_hud_view.gd").capture(players[0],allowed)
-	hud.present(view,{"paused":paused,"result":result,"sound_enabled":sound.enabled,
+	hud.present(view,{"pause_menu":pause_reasons.has("menu") or pause_reasons.has("focus"),"paused":paused,"result":result,"sound_enabled":sound.enabled,
 		"boss":boss_hud(),"map_available":not floor_data.is_empty(),"map_open":floor_map != null,
 		"room_role":floor_data.rooms[exploration.room_id].role if not floor_data.is_empty() else "",
 		"reward_state":Reward.current(self).get("state",""),
 		"room_name":room_data(exploration.room_id).name,"door_hint":door_hint(),
 		"encounter_active":exploration.encounter_status == "active",
 		"encounter_cleared":exploration.encounter_status == "cleared",
-		"bag_open":bag != null,"gold":exploration.inventory.gold[0],"enemies_alive":players.slice(1).filter(func(player): return player.state.hp > 0).size()})
+		"shop_open":shop_detail != null,"bag_open":bag != null,"gold":exploration.inventory.gold[0],"enemies_alive":players.slice(1).filter(func(player): return player.state.hp > 0).size()})
 	var nearby := nearby_door()
 	for node in doors:
 		node.set_locked(exploration.encounter_status == "active" or BossFlow.blocks_exit(self))
@@ -332,7 +332,7 @@ func door_hint() -> String:
 func toggle_pause() -> void:
 	if shop_detail != null: close_shop(); return
 	if floor_map != null: close_map(); return
-	if bag != null: close_bag(); return
+	if bag != null: request_close_bag(); return
 	if phase != "play" or not result.is_empty(): return
 	if pause_reasons.has("focus"): set_pause_reason("focus",false)
 	else: set_pause_reason("menu",not pause_reasons.has("menu"))
@@ -506,7 +506,9 @@ func open_bag() -> bool:
 	set_pause_reason("inventory",true)
 	bag = preload("res://scripts/ui/exploration_bag.gd").new()
 	bag.draft = Loadout.draft(exploration.inventory)
-	bag.close_requested.connect(close_bag)
+	bag.close_requested.connect(request_close_bag)
+	bag.closed.connect(close_bag)
+	bag.sound_requested.connect(sound.play_sound)
 	bag.on_change = apply_bag_changes
 	add_child(bag)
 	refresh_hud()
@@ -524,12 +526,13 @@ func open_shop(item: Dictionary) -> bool:
 	refresh_hud()
 	return true
 func confirm_shop_purchase() -> bool:
-	if shop_detail == null or phase != "play" or exploration.status != "active" or players[0].state.hp <= 0: return false
+	if shop_detail == null or shop_detail.purchased or phase != "play" or exploration.status != "active" or players[0].state.hp <= 0: return false
 	if pause_reasons.keys().any(func(reason): return reason != "shop"): return false
 	var item: Dictionary = shop_detail.entry
 	if item not in exploration.room_state(exploration.room_id).get("shop",[]): return false
 	if Events.buy(self,item):
-		close_shop()
+		if shop_detail.animate_purchase: shop_detail.purchase_complete()
+		else: close_shop()
 		return true
 	shop_detail.refresh()
 	return false
@@ -550,6 +553,8 @@ func apply_bag_changes() -> bool:
 	bag.draft = Loadout.draft(exploration.inventory)
 	refresh_hud()
 	return success
+func request_close_bag() -> void:
+	if bag != null: bag.begin_close()
 func close_bag() -> bool:
 	if bag == null: return false
 	bag.get_parent().remove_child(bag)

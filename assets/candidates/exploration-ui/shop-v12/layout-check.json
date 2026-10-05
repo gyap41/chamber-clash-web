@@ -1,0 +1,25 @@
+{
+  "viewport": [
+    1120,
+    800
+  ],
+  "states": [
+    "weapon",
+    "relic",
+    "expansion",
+    "insufficient"
+  ],
+  "animation": {
+    "fps": 15,
+    "seconds": 7,
+    "opening": [
+      0,
+      1.3
+    ],
+    "purchasePulse": [
+      3.7,
+      5.25
+    ]
+  },
+  "status": "candidate only; no production code changes"
+}

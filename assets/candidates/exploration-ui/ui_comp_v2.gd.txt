@@ -1,0 +1,145 @@
+extends SceneTree
+const W = preload("res://scripts/catalog/weapon_catalog.gd")
+const R = preload("res://scripts/catalog/relic_catalog.gd")
+const A = preload("res://scripts/ui/hud_assets.gd")
+const S = preload("res://scripts/catalog/weapon_shapes.gd")
+var page: Control
+var game
+var ink := Color("e9eee6")
+var muted := Color("a1b9b5")
+func _initialize() -> void:
+	call_deferred("run")
+func label(text: String, rect: Rect2, size: int = 18, color: Color = Color("e9eee6")) -> Label:
+	var n := Label.new()
+	n.text = text
+	n.position = rect.position
+	n.size = rect.size
+	n.add_theme_font_size_override("font_size",size)
+	n.add_theme_color_override("font_color",color)
+	page.add_child(n)
+	return n
+func box(rect: Rect2, color: Color, border: Color = Color("4c6668")) -> void:
+	var n := Panel.new()
+	n.position = rect.position
+	n.size = rect.size
+	var style := StyleBoxFlat.new()
+	style.bg_color = color
+	style.border_color = border
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(3)
+	n.add_theme_stylebox_override("panel",style)
+	page.add_child(n)
+func art(texture: Texture2D, rect: Rect2) -> void:
+	var n := TextureRect.new()
+	n.texture = texture
+	n.position = rect.position
+	n.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	n.size = rect.size
+	n.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	page.add_child(n)
+	n.set_deferred("size",rect.size)
+func button(text: String, rect: Rect2, primary: bool = false) -> void:
+	box(rect,Color("377468") if primary else Color("1b3336"),Color("82cbb9") if primary else Color("526d6b"))
+	var n := label(text,rect,18)
+	n.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+func base(title: String) -> void:
+	page = Control.new()
+	var layer := CanvasLayer.new()
+	layer.layer = 50
+	root.add_child(layer)
+	layer.add_child(page)
+	box(Rect2(0,0,1120,800),Color(0,0,0,.78),Color.TRANSPARENT)
+	var frame := TextureRect.new()
+	frame.texture = load("res://assets/ui/exploration/workshop-case-v1.png")
+	frame.position = Vector2(80,65)
+	frame.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	frame.size = Vector2(960,680)
+	frame.stretch_mode = TextureRect.STRETCH_SCALE
+	page.add_child(frame)
+	frame.set_deferred("size",Vector2(960,680))
+	label(title,Rect2(120,108,550,38),27)
+	label("探索停止中",Rect2(750,112,160,30),16,muted)
+	label("Esc  閉じる",Rect2(750,660,215,30),15,muted)
+func footprint(pos: Vector2) -> void:
+	for cell in S.shape(7): box(Rect2(pos+Vector2(cell)*24,Vector2(22,22)),W.rarity_color(7))
+func detail() -> void:
+	var gun: Dictionary = W.definition(7)
+	label(gun.name,Rect2(750,175,210,34),25)
+	label("レア度 "+gun.rarity,Rect2(750,210,210,24),16,W.rarity_color(7))
+	art(W.pickup_art(7),Rect2(780,252,145,88))
+	label("うねる軌道で進む双子の弾。",Rect2(750,355,225,28),16)
+	var rows: Array = [["基礎威力","%.2f" % gun.damage],["弾倉 / 予備","%d / %d" % [gun.mag,gun.stock]],["装填","%.2f秒" % gun.get("reload_time",1.15)],["発射間隔","%.2f秒" % gun.rate],["同時発射","%d発" % gun.get("count",1)]]
+	for i in range(rows.size()):
+		label(rows[i][0],Rect2(750,400+i*29,105,27),16,muted)
+		label(rows[i][1],Rect2(867,400+i*29,110,27),17)
+	footprint(Vector2(750,558))
+	label("必要 %dマス" % S.shape(7).size(),Rect2(812,554,160,30),16)
+func bag() -> void:
+	base("携帯工房  /  装備の整理")
+	label("装備を選んで配置。変更はすぐに反映されます。",Rect2(120,150,570,28),16,muted)
+	label("バッグ",Rect2(130,192,160,30),21)
+	label("使用 4 / 8 マス",Rect2(435,192,240,30),17,muted)
+	var origin := Vector2(235,238)
+	for y in range(6):
+		for x in range(6):
+			var usable: bool = x < 4 and y < 2
+			box(Rect2(origin+Vector2(x,y)*49,Vector2(46,46)),Color("263f43") if usable else Color("15272a"),Color("5d797a") if usable else Color("2c4143"))
+	for pair in [[7,Vector2i(0,0)],[20,Vector2i(2,0)]]:
+		var anchor: Vector2 = origin+Vector2(pair[1])*49
+		for cell in S.shape(pair[0]): box(Rect2(anchor+Vector2(cell)*49,Vector2(46,46)),Color("305d66"),W.rarity_color(pair[0]))
+		art(W.pickup_art(pair[0]),Rect2(anchor+Vector2(8,7),Vector2(77,32)))
+	label("暗いマスは未開放  /  露店で拡張",Rect2(225,535,440,26),15,muted)
+	label("控え  3 / 8",Rect2(130,570,450,30),19)
+	for i in range(8):
+		box(Rect2(130+i*67,611,60,48),Color("193337"))
+		if i == 0: art(W.pickup_art(30),Rect2(135+i*67,619,50,32))
+		if i in [1,2]: art(A.texture("relic_%02d" % (7 if i == 1 else 22)),Rect2(140+i*67,617,40,36))
+	label("ドラッグ / クリックで配置",Rect2(130,663,550,24),15,muted)
+	detail()
+	button("控えへ戻す",Rect2(750,610,230,42))
+func shop() -> void:
+	base("露店  /  商品を確認")
+	label("購入前に効果と必要なマスを確認",Rect2(120,151,570,28),16,muted)
+	var gun: Dictionary = W.definition(7)
+	label(gun.name,Rect2(145,205,470,38),30)
+	label("レア度 "+gun.rarity,Rect2(145,251,470,30),18,W.rarity_color(7))
+	box(Rect2(145,300,520,205),Color("183537"),Color("355453"))
+	art(W.pickup_art(7),Rect2(255,338,300,125))
+	label(str(gun.desc),Rect2(145,526,520,65),19).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	footprint(Vector2(145,613))
+	label("必要 %dマス" % S.shape(7).size(),Rect2(211,608,230,30),18)
+	label("購入した装備は控えに入ります。Tabで配置して使用。",Rect2(130,660,550,30),16,muted)
+	label("基本性能",Rect2(750,194,230,32),22)
+	var rows: Array = [["威力","%.2f" % gun.damage],["弾倉 / 予備","%d / %d" % [gun.mag,gun.stock]],["装填","%.2f秒" % gun.get("reload_time",1.15)],["発射間隔","%.2f秒" % gun.rate],["同時発射","%d発" % gun.get("count",1)]]
+	for i in range(rows.size()):
+		label(rows[i][0],Rect2(750,251+i*34,108,28),16,muted)
+		label(rows[i][1],Rect2(870,251+i*34,110,28),18)
+	label("所持 32 G → 購入後 16 G",Rect2(750,455,230,32),17,muted)
+	label("価格  16 G",Rect2(750,493,230,42),27,Color("e5ca88"))
+	button("16 G で購入",Rect2(750,552,230,48),true)
+	button("戻る",Rect2(750,612,230,40))
+func capture(name: String) -> void:
+	await process_frame
+	await RenderingServer.frame_post_draw
+	assert(root.get_texture().get_image().save_png("res://assets/candidates/exploration-ui/"+name+"-v2.png") == OK)
+	page.free()
+func run() -> void:
+	root.size = Vector2i(1120,800)
+	game = load("res://scenes/game/exploration.tscn").instantiate()
+	game.random_floor = true
+	game.authored_campaign = true
+	root.add_child(game)
+	game.set_physics_process(false)
+	var shop_id: String = game.floor_data.rooms.keys().filter(func(id): return game.floor_data.rooms[id].role == "shop")[0]
+	game.move_to_room(shop_id,game.room_data(shop_id).doors[0].arrival)
+	game.exploration.inventory.gold[0] = 32
+	game.refresh_hud()
+	await process_frame
+	bag()
+	await capture("bag-comp")
+	shop()
+	await capture("shop-comp")
+	print("PASS: two UI comps rendered from live production art and catalog")
+	quit()
+
+

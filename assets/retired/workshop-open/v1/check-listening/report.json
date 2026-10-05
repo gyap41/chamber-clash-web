@@ -1,0 +1,45 @@
+{
+  "candidate": {
+    "file": "assets\\candidates\\workshop-open\\v1\\listening-preview.wav",
+    "sample_rate": 44100,
+    "channels": 2,
+    "file_duration_s": 0.68,
+    "leading_silence_ms": 0.0,
+    "attack_ms": 359.2,
+    "active_length_s": 0.479,
+    "audible_until_s": 0.459,
+    "trailing_silence_ms": 221.3,
+    "peak_dbfs": -11.44,
+    "clipped_samples": 0,
+    "rms_dbfs_active": -30.4,
+    "loudness_lufs_approx": -24.2,
+    "dc_offset": -0.0,
+    "hits": 4,
+    "hit_times_ms": [
+      0.0,
+      94.8,
+      224.5,
+      324.3
+    ],
+    "spectral_centroid_hz": 3076,
+    "rolloff85_hz": 4970,
+    "spectral_flatness": 0.002,
+    "band_energy_share": {
+      "sub_<120": 0.001,
+      "low_120-500": 0.066,
+      "mid_500-2k": 0.336,
+      "presence_2k-6k": 0.49,
+      "air_>6k": 0.106
+    },
+    "harmonicity": 0.17,
+    "pitch_hz": null,
+    "stereo_correlation": 0.857
+  },
+  "category": "system",
+  "references": [],
+  "comparison": {},
+  "hard_failures": [],
+  "warnings": [],
+  "verdict": "PASS",
+  "not_measurable": "timbre quality, fit with the visual, mix in real play, loop musicality: user listening required"
+}

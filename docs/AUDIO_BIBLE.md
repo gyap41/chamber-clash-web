@@ -1,5 +1,13 @@
 # Chamber Clash 音響設計基準
 
+## 探索バッグの開閉・操作音（2026-10-05）
+
+ユーザーが機械音＋エネルギー音の結合版を採用。通常起動では `workshop_open` として `assets/audio/se/fw_workshop_open_energy_01.wav` を開く開始時に1回再生する。機械音0ms/-12dB、エネルギー350ms/-10dB、全長0.83秒。採用後の試遊で「開き終わりのビーは不要」と指摘され、エネルギー層のみ470〜570msでsmoothstep減衰し、その後は消音した。先頭470msは採用版と同一で機械音は維持する。WAVの全長0.83秒は維持し、末尾は無音。Godotは16bit PCM・44.1kHzステレオ・無圧縮・非ループ・正規化なしで使用。既にゲイン調整済みのため、生成SE共通の追加-12dBは適用しない。既存のSE音量設定とバスを使う。
+
+従来の開く3合成音は発火を撤去し、二重再生しない。収納音 `workshop_close`（200ms）と選択/装着/解除/拒否の既存音は維持。途中収納・破棄で当該バッグの開く音を止め、ミュートは既存の全停止に従う。再構築される装備欄からは再生しない。
+
+[制作記録](planning/EXPLORATION_UI_COMP.md)。原本2件と採用WAVはmanifestへ記録。候補・検査結果・再現用mix.py・旧合成実装はretired/workshop-openに保管する。新規API生成は今回なし。ユーザーの音源採用と、BGMを含めた実機の聞こえ方の確認は区別する。
+
 ## 探索のイベント部屋SE（2026-10-01）
 
 ユーザー承認の4本を、ElevenLabsのCLIでdry-runの後に1本ずつ生成した（各1候補、再試行なし）。fw_coin_pickup_01（0.5秒要求、Godot上0.48秒、硬貨の取得、-18dB）、fw_teleport_01・fw_altar_offer_01・fw_challenge_start_01（各1.0秒、転送の到着・祭壇に捧げる・試練の開始、-12dB）。sound.gdの辞書にcoin／teleport／altar_offer／challenge_startとして登録し、仮に使っていた既存音と置き換えた。プロンプトとハッシュはmanifest。**未試聴・ユーザー未採用**。硬貨は連続して鳴るので、耳障りでないかを優先して確認する。[制作記録](art/production/event-rooms/README.md)。

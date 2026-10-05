@@ -1,5 +1,11 @@
 ## 探索の扉移動と状態持越し（2026-09-21）
 
+## 探索バッグの表示と操作（2026-10-05）
+
+`exploration_bag.gd` は持続する開閉外装と再構築される装備内容を分ける。`workshop_skin.gd` は採用アトラスの9分割枠・蓋・歯車・動力・粒子を描画、`workshop_chip.gd` は既存のドラッグ契約を引き継ぎ、`workshop_drag.gd` は実占有形と形内の絵の描画を担当する。配置規則は既存BuildGrid、ゲームへの即時反映は既存Loadoutを使用する。
+
+`request_close_bag` → `begin_close` → `closed` → `close_bag` の順でUIから閉じる。`close_bag` 自体は再挑戦等の強制破棄に使用できる。UIの操作を500msから許可し、閉じ始めにドラッグを破棄する。外側タイムラインは `refresh` で作り直さない。`selected` は詳細表示用、`placement_armed` は明示クリックによる配置待ちを表し、初期詳細表示で配置プレビューを出さない。開く音は採用した機械＋エネルギーの結合WAVを既存Soundのvoice管理で1回再生する。旧workshop_sound.gdの合成実装はretiredへ保存。音はowner付きシグナルで既存Soundへ渡す。
+
 `exploration_rooms.gd`は固定2部屋と相互接続する扉（安定ID/方向/相手扉/到着位置）を定義し、`data/fields/workshop_*.tres`が形状を持つ。到着位置は到着側の扉が所有する。`exploration_door.gd`は表示だけを行い、主人公より後ろに描画する。探索側で扉中心24pxへの接近/射線/進行状態を検証し、`switch_field`の通常移動を呼ぶ。到着点を持つ私有のFieldDefinitionを作り、元のテンプレートは変更しない。
 
 |対象|部屋移動時の扱い|
@@ -277,3 +283,11 @@ fire_pouch_lizard.gdは探索Actorの被弾・移動を共有し、構え／2発
 quillback.gdはfire_pouch_lizard.gdの接近・構え・画面内制限を継承し、spitを5方向の単発扇へ置換する。shots/windup_soundは敵定義で指定。負数の専用QUILL_ID=-2はプレイヤー武器と分離。画像と撃破スナップショットはenemy_idで専用シートを選び、organicフラグは粒子材質を決める。
 
 ボスfurnace_warden.gdは既存Actorと画面内判定を共有し、技の順序・HP半分の移行・判定を独立管理する。furnace_warden_visual.gdはスナップショットのみから仮パーツを描画。Encounterがボス室だけ専用Actorを登録し、探索画面が起動中の戦闘入力/更新を抑止する。通常部屋クリアとボス踏破を分岐し、死亡を先に確定する。結果時も描画専用撃破ノードの寿命は更新する。
+
+## 探索HUD A案（2026-10-05）
+
+exploration_hudが配置と停止メニューを所有し、exploration_hud_skinが採用shellアトラスの小枠と操作アイコンを描く。hud_weapon_panel/hud_weapon_slot/hud_actionはcompactフラグで探索用の表示へ切替。既定falseの対戦用UIは維持する。hp_barは探索だけshow_segmentsを有効にし、数値・反撃回復は既存Viewから渡す。Musicの共通トグルは探索HUD表示時に隠し、停止メニューから同じMusic.set_enabledを呼ぶ。モードからshop_openも渡して停止UIの二重表示を防ぐ。取引/装備/戦闘の権限はゲーム側のまま。
+
+### 探索HUD素材アトラス（2026-10-06）
+
+exploration_hud_skinのREGIONS/texture/draw_frameでhud-atlas.pngの6領域を共有。HP・装備・ボス筐体は角固定の9分割、小枠はStyleBoxTexture、行動と貨幣はAtlasTexture。compact時だけhud_actionにツールチップと使用可能復帰の発光、hud_weapon_panelに装填中の光を接続。既定の対戦表示は維持する。

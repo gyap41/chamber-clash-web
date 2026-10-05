@@ -18,3 +18,5 @@
 |[PURCHASE_ECONOMY_PROPOSAL.md](PURCHASE_ECONOMY_PROPOSAL.md)|購入経済の過去の設計根拠。現行数値の正本ではない|
 
 - [ゲーム画面で比較する画風3案](art-direction-comps/README.md)：キャラ寄り・中間・背景寄りの生成カンプ。未採用、本編未反映。
+
+- [バッグ・商品説明・探索HUDの制作記録](EXPLORATION_UI_COMP.md)：2026-10-05、バッグv9・ショップv13・HUD A案を本編へ接続済み。旧比較案は制作履歴。

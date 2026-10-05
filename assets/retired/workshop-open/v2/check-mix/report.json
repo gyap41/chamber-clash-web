@@ -1,0 +1,45 @@
+{
+  "candidate": {
+    "file": "assets\\candidates\\workshop-open\\v2\\workshop-open-energy-preview.wav",
+    "sample_rate": 44100,
+    "channels": 2,
+    "file_duration_s": 0.83,
+    "leading_silence_ms": 5.0,
+    "attack_ms": 354.2,
+    "active_length_s": 0.803,
+    "audible_until_s": 0.783,
+    "trailing_silence_ms": 46.8,
+    "peak_dbfs": -9.54,
+    "clipped_samples": 0,
+    "rms_dbfs_active": -29.1,
+    "loudness_lufs_approx": -21.8,
+    "dc_offset": -2e-05,
+    "hits": 4,
+    "hit_times_ms": [
+      5.0,
+      94.8,
+      224.5,
+      324.3
+    ],
+    "spectral_centroid_hz": 2921,
+    "rolloff85_hz": 5658,
+    "spectral_flatness": 0.003,
+    "band_energy_share": {
+      "sub_<120": 0.021,
+      "low_120-500": 0.181,
+      "mid_500-2k": 0.341,
+      "presence_2k-6k": 0.315,
+      "air_>6k": 0.142
+    },
+    "harmonicity": 0.17,
+    "pitch_hz": null,
+    "stereo_correlation": 0.668
+  },
+  "category": "system",
+  "references": [],
+  "comparison": {},
+  "hard_failures": [],
+  "warnings": [],
+  "verdict": "PASS",
+  "not_measurable": "timbre quality, fit with the visual, mix in real play, loop musicality: user listening required"
+}

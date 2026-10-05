@@ -1,0 +1,146 @@
+extends "res://.local/ui_comp_v3.gd"
+const OUT4 := "res://assets/candidates/exploration-ui/v4/"
+var skins: Dictionary = {}
+func texture_file(path: String) -> Texture2D:
+	var im := Image.load_from_file(path)
+	assert(im != null)
+	var lo := Vector2i(im.get_width(),im.get_height())
+	var hi := Vector2i(-1,-1)
+	# Ignore almost transparent generation residue outside the actual material.
+	for y in range(im.get_height()):
+		for x in range(im.get_width()):
+			var p: Color = im.get_pixel(x,y)
+			if p.a < .5: continue
+			lo = lo.min(Vector2i(x,y))
+			hi = hi.max(Vector2i(x,y))
+	assert(hi.x >= lo.x)
+	print("Material bounds: ",path.get_file()," ",Rect2i(lo,hi-lo+Vector2i.ONE))
+	return ImageTexture.create_from_image(im.get_region(Rect2i(lo,hi-lo+Vector2i.ONE)))
+func skin(name: String) -> Texture2D:
+	if not skins.has(name): skins[name] = texture_file(OUT4+name+".png")
+	return skins[name]
+func tile(tex: Texture2D, source: Rect2, target: Rect2, tint: Color = Color.WHITE) -> void:
+	var atlas := AtlasTexture.new()
+	atlas.atlas = tex
+	atlas.region = source
+	var n := TextureRect.new()
+	n.texture = atlas
+	n.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	n.stretch_mode = TextureRect.STRETCH_SCALE
+	n.position = target.position
+	n.modulate = tint
+	page.add_child(n)
+	n.set_deferred("size",target.size)
+func nine(name: String, target: Rect2, edge: float = 9, tint: Color = Color.WHITE) -> void:
+	var tex := skin(name)
+	var size := tex.get_size()
+	var fraction: float = .12 if name == "cell" else .10
+	var src_x: Array = [0.0,size.x*fraction,size.x*(1.0-fraction),size.x]
+	var src_y: Array = [0.0,size.y*fraction,size.y*(1.0-fraction),size.y]
+	var dst_x: Array = [target.position.x,target.position.x+edge,target.end.x-edge,target.end.x]
+	var dst_y: Array = [target.position.y,target.position.y+edge,target.end.y-edge,target.end.y]
+	for y in range(3):
+		for x in range(3):
+			tile(tex,Rect2(src_x[x],src_y[y],src_x[x+1]-src_x[x],src_y[y+1]-src_y[y]),Rect2(dst_x[x],dst_y[y],dst_x[x+1]-dst_x[x],dst_y[y+1]-dst_y[y]),tint)
+func box(rect: Rect2, color: Color, border: Color = Color("4c6668")) -> void:
+	if rect.size == Vector2(57,57):
+		nine("cell",rect,5,Color.WHITE if color.r > .1 else Color(.42,.49,.48))
+	elif rect.size == Vector2(step,step):
+		var tex := skin("cell")
+		tile(tex,Rect2(tex.get_size()*.15,tex.get_size()*.7),rect,Color(.87,.95,.9))
+	elif rect.size == Vector2(61,48):
+		nine("cell",rect,6)
+	elif rect.size == Vector2(507,240):
+		nine("detail",rect,12)
+	else: super.box(rect,color,border)
+func segment(a: Vector2,b: Vector2,color: Color,width: float = 2) -> void:
+	if width == 1:
+		super.segment(a,b,color,width)
+		return
+	var tex := skin("cell")
+	var size := tex.get_size()
+	if is_equal_approx(a.x,b.x):
+		tile(tex,Rect2(0,size.y*.15,size.x*.1,size.y*.7),Rect2(a-Vector2(2,0),Vector2(5,b.y-a.y)),Color(1.12,1.08,.94))
+	else:
+		tile(tex,Rect2(size.x*.15,0,size.x*.7,size.y*.1),Rect2(a-Vector2(0,2),Vector2(b.x-a.x,5)),Color(1.12,1.08,.94))
+	# State outline remains distinct from the cloth texture.
+	super.segment(a,b,Color(color,.65),1)
+func button_state(text: String,rect: Rect2,state: String,primary: bool = false) -> void:
+	var tint := Color.WHITE
+	if state == "hover": tint = Color(1.25,1.18,1.05)
+	if state == "disabled": tint = Color(.43,.48,.46)
+	if state == "pressed":
+		tint = Color(.73,.79,.73)
+		rect.position.y += 2
+	if primary and state == "normal": tint = Color(1.16,1.08,.86)
+	nine("button",rect,9,tint)
+	var n := label(text,rect,18,Color("ecdfc4") if state != "disabled" else Color("8e9a95"))
+	n.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	n.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+func button(text: String,rect: Rect2,primary: bool = false) -> void:
+	if rect.position.y == 641: rect.position.y = 648
+	button_state(text,rect,"normal",primary)
+func base(title: String) -> void:
+	super.base(title)
+	nine("detail",Rect2(743,172,282,473),12)
+func states() -> void:
+	page = Control.new()
+	var layer := CanvasLayer.new()
+	layer.layer = 50
+	root.add_child(layer)
+	layer.add_child(page)
+	super.box(Rect2(0,0,1120,800),Color("102426"),Color.TRANSPARENT)
+	label("携帯工房 / 素材と状態",Rect2(55,28,930,45),30)
+	label("カンプ用の部品。文字・装備・選択状態は素材と分離。",Rect2(55,80,980,32),18,muted)
+	var names: Array = ["空きマス","選択中","未開放","横2マス","L字3マス"]
+	for i in range(3):
+		nine("cell",Rect2(62+i*166,178,80,80),7,Color(.42,.49,.48) if i == 2 else Color.WHITE)
+		label(names[i],Rect2(55+i*166,132,160,30),18)
+	if true:
+		var p := Vector2(228,178)
+		for sides in [[p,p+Vector2(80,0)],[p+Vector2(80,0),p+Vector2(80,80)],[p+Vector2(0,80),p+Vector2(80,80)],[p,p+Vector2(0,80)]]:
+			super.segment(sides[0],sides[1],Color("ead3a0"),2)
+	label(names[3],Rect2(554,132,180,30),18)
+	label(names[4],Rect2(818,132,240,30),18)
+	origin = Vector2(553,178)
+	piece({"kind":"relic","id":7,"anchor":Vector2i.ZERO})
+	origin = Vector2(819,178)
+	piece({"kind":"relic","id":2,"anchor":Vector2i.ZERO})
+	label("縫い目は外周だけに接続。画像を引き伸ばさず、占有範囲内に収める。",Rect2(55,316,1020,32),18,muted)
+	nine("detail",Rect2(55,386,1010,93),11)
+	label("道具札の説明枠",Rect2(81,397,370,32),22)
+	label("革の縁と小さな留め具。本文の背面は暗く、模様を抑える。",Rect2(81,437,940,29),18,muted)
+	var states_list: Array = ["normal","hover","pressed","disabled"]
+	var labels: Array = ["通常","選択 / ホバー","押下（2px沈む）","購入不可"]
+	for i in range(4):
+		label(labels[i],Rect2(55+i*260,526,247,31),18)
+		button_state("22 G で購入",Rect2(55+i*260,574,231,50),states_list[i],true)
+	label("資金不足：あと6G必要です",Rect2(830,639,250,40),16,Color("d5b298"))
+	label("状態の見た目を並べた静止画です。購入処理・アニメーションは未接続。",Rect2(55,724,1040,33),17,muted)
+func capture4(name: String) -> void:
+	await process_frame
+	await RenderingServer.frame_post_draw
+	assert(root.get_texture().get_image().save_png(OUT4+name+".png") == OK)
+	page.free()
+func run() -> void:
+	root.size = Vector2i(1120,800)
+	game = load("res://scenes/game/exploration.tscn").instantiate()
+	game.random_floor = true
+	game.authored_campaign = true
+	root.add_child(game)
+	game.set_physics_process(false)
+	var shop_id: String = game.floor_data.rooms.keys().filter(func(id): return game.floor_data.rooms[id].role == "shop")[0]
+	game.move_to_room(shop_id,game.room_data(shop_id).doors[0].arrival)
+	game.exploration.inventory.gold[0] = 32
+	game.refresh_hud()
+	await process_frame
+	variant = 1
+	bag()
+	await capture4("bag")
+	variant = 2
+	shop()
+	await capture4("shop")
+	states()
+	await capture4("states")
+	print("PASS: textured UI comps and four button states rendered; shared inventory checks passed")
+	quit()

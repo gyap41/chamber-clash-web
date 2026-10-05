@@ -23,6 +23,18 @@ func run() -> void:
 	inventory.gold[0] = 100
 	var stock: Array = game.exploration.room_state(shop).shop
 	var item: Dictionary = stock.filter(func(value): return value.kind == "weapon")[0]
+	var shop_room: Dictionary = game.exploration.room_state(shop)
+	assert(shop_room.shop_sign != null,"Merchant has a separate location")
+	var merchant_pos: Vector2 = shop_room.shop_sign
+	for product in stock:
+		assert(merchant_pos.distance_to(product.pos) >= 144,"Merchant clears every scattered product")
+	game.players[0].state.pos = merchant_pos+Vector2(0,40)
+	assert(Events.nearby(game).kind == "merchant","Merchant remains reachable for conversation")
+	# Reproduce a pre-existing overlapping shop: merchant was selected first at equal distance.
+	shop_room.shop_sign = item.pos
+	game.players[0].state.pos = item.pos
+	assert(Events.nearby(game).kind == "shop","Overlapping merchant cannot steal product inspection")
+	shop_room.shop_sign = merchant_pos
 	game.players[0].state.pos = item.pos
 	game.players[0].sync_visual()
 	game.door_armed = true

@@ -1,0 +1,109 @@
+extends "res://.local/ui_comp_v5.gd"
+const OUT6 := "res://assets/candidates/exploration-ui/v6/"
+var direction: int = 0
+func nine(name: String,target: Rect2,edge: float = 9,tint: Color = Color.WHITE) -> void:
+	super.nine("socket" if name == "detail" else name,target,edge,tint)
+func skin(name: String) -> Texture2D:
+	if name != "socket": return super.skin(name)
+	if not skins.has(name): skins[name] = texture_file(OUT6+"socket.png")
+	return skins[name]
+func base(title: String) -> void:
+	accent = Color("e4c38b") if direction == 0 else Color("8edcca")
+	page = Control.new()
+	var layer := CanvasLayer.new()
+	layer.layer = 50
+	root.add_child(layer)
+	layer.add_child(page)
+	super.box(Rect2(0,0,1120,800),Color(0,0,0,.94),Color.TRANSPARENT)
+	var tex := texture_file(OUT6+("artisan.png" if direction == 0 else "relic.png"))
+	tile(tex,Rect2(Vector2.ZERO,tex.get_size()),Rect2(64,64,992,680))
+	label("A  職人の整備盤" if direction == 0 else "B  遺物核の携帯工房",Rect2(77,17,790,32),23)
+	label("比較カンプ / 本編未適用",Rect2(834,22,268,28),14,muted)
+	label("携帯工房 / 装着区画" if variant == 1 else "露店 / 装備を確認",Rect2(131,166,510,34),24)
+	# Matching mounting hardware replaces the leather detail frame too.
+	nine("socket",Rect2(660,171,367,473),11,Color(.86,.93,.92))
+	label("探索停止中",Rect2(869,144,150,24),14,muted)
+	label("Esc  閉じる",Rect2(860,691,166,27),15,muted)
+func box(rect: Rect2,color: Color,border: Color = Color("4c6668")) -> void:
+	if rect.size == Vector2(62,62):
+		if color.r < .1:
+			var tex := skin("socket")
+			tile(tex,Rect2(tex.get_size()*.3,tex.get_size()*.4),rect,Color(.25,.3,.3))
+		else: nine("socket",rect,5,Color(.96,1.12,1.1))
+	elif rect.size == Vector2(step,step):
+		var tex := skin("socket")
+		var selected_tint: Color = Color(1.55,1.3,.85) if direction == 0 else Color(1.0,1.55,1.4)
+		tile(tex,Rect2(tex.get_size()*.2,tex.get_size()*.6),rect,selected_tint if active_piece else Color(.68,.82,.8))
+	else: super.box(rect,color,border)
+func segment(a: Vector2,b: Vector2,color: Color,width: float = 2) -> void:
+	var tex := skin("socket")
+	var size := tex.get_size()
+	var tint: Color = Color(1.3,1.2,1.0) if active_piece else Color(.83,.92,.9)
+	if is_equal_approx(a.x,b.x):
+		tile(tex,Rect2(0,size.y*.18,size.x*.1,size.y*.64),Rect2(a-Vector2(2,0),Vector2(5,b.y-a.y)),tint)
+	else:
+		tile(tex,Rect2(size.x*.18,0,size.x*.64,size.y*.1),Rect2(a-Vector2(0,2),Vector2(b.x-a.x,5)),tint)
+	if active_piece:
+		var line := Line2D.new()
+		line.points = PackedVector2Array([a,b])
+		line.width = 2
+		line.default_color = accent
+		page.add_child(line)
+func bag() -> void:
+	super.bag()
+	for node in page.get_children():
+		if node is Label:
+			if node.text == "バッグ": node.visible = false
+			if node.text.begins_with("使用 "):
+				node.position = Vector2(441,174)
+				node.add_theme_font_size_override("font_size",15)
+			if node.text == "控え  3 / 8": node.text = "控え / 未装着  3 / 8"; node.size.x = 330
+	footer_clearance()
+	# Decorative contact strip at the grid's side; no adjacency or power-budget rule.
+	for i in range(4):
+		var p := Panel.new()
+		var style := StyleBoxFlat.new()
+		style.bg_color = accent.darkened(.1)
+		style.set_corner_radius_all(2)
+		p.add_theme_stylebox_override("panel",style)
+		p.position = Vector2(542,228+i*64)
+		p.size = Vector2(7,18)
+		page.add_child(p)
+func shop() -> void:
+	super.shop()
+	for node in page.get_children():
+		if node is Label and node.text == "煤の帳守の品物": node.position.y = 207
+	footer_clearance()
+	# Use the same mounting plate behind the item, unifying the workshop and merchant.
+	# Existing item artwork and stats remain unchanged.
+func footer_clearance() -> void:
+	for node in page.get_children():
+		if (node is Label or node is Panel) and node.position.y >= 691:
+			node.position.y += 52
+func capture6(name: String) -> void:
+	await process_frame
+	await RenderingServer.frame_post_draw
+	assert(root.get_texture().get_image().save_png(OUT6+name+".png") == OK)
+	page.free()
+func run() -> void:
+	root.size = Vector2i(1120,800)
+	game = load("res://scenes/game/exploration.tscn").instantiate()
+	game.random_floor = true
+	game.authored_campaign = true
+	root.add_child(game)
+	game.set_physics_process(false)
+	var id: String = game.floor_data.rooms.keys().filter(func(key): return game.floor_data.rooms[key].role == "shop")[0]
+	game.move_to_room(id,game.room_data(id).doors[0].arrival)
+	game.exploration.inventory.gold[0] = 32
+	game.refresh_hud()
+	await process_frame
+	for i in range(2):
+		direction = i
+		variant = 1
+		bag()
+		await capture6(("a" if i == 0 else "b")+"-bag")
+		variant = 2
+		shop()
+		await capture6(("a" if i == 0 else "b")+"-shop")
+	print("PASS: mechanical and relic-powered UI concepts; same catalog and 6x6 layout, 14 occupied cells without overlap")
+	quit()

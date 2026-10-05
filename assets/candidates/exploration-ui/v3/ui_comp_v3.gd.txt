@@ -1,0 +1,191 @@
+extends "res://.local/ui_comp_v2.gd"
+const RS = preload("res://scripts/catalog/relic_shapes.gd")
+const OUT := "res://assets/candidates/exploration-ui/v3/"
+var variant: int = 0
+var variants: Array = ["携帯工房ケース","探索者の道具鞄","煤の帳守の取引盆"]
+var accent := Color("86c5b5")
+var origin := Vector2(172,215)
+var step := 59.0
+var sample: Array = [
+	{"kind":"gun","id":7,"anchor":Vector2i(0,0)},
+	{"kind":"gun","id":30,"anchor":Vector2i(2,0)},
+	{"kind":"relic","id":4,"anchor":Vector2i(5,0)},
+	{"kind":"relic","id":2,"anchor":Vector2i(0,1)},
+	{"kind":"relic","id":7,"anchor":Vector2i(2,1)},
+	{"kind":"relic","id":21,"anchor":Vector2i(4,1)}]
+func texture_file(path: String) -> Texture2D:
+	var im := Image.load_from_file(path)
+	assert(im != null)
+	return ImageTexture.create_from_image(im.get_region(im.get_used_rect()))
+func base(title: String) -> void:
+	accent = [Color("85c9b8"),Color("c8bb92"),Color("d2ad71")][variant]
+	page = Control.new()
+	var layer := CanvasLayer.new()
+	layer.layer = 50
+	root.add_child(layer)
+	layer.add_child(page)
+	box(Rect2(0,0,1120,800),Color(0,0,0,.72),Color.TRANSPARENT)
+	var texture: Texture2D
+	if variant == 0: texture = load("res://assets/ui/exploration/workshop-case-v1.png")
+	else: texture = texture_file(OUT+(["","satchel-frame.png","tray-frame.png"][variant]))
+	var frame := TextureRect.new()
+	frame.texture = texture
+	frame.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	frame.stretch_mode = TextureRect.STRETCH_SCALE
+	frame.position = Vector2(64,64)
+	page.add_child(frame)
+	frame.set_deferred("size",Vector2(992,680))
+	if variant != 0:
+		box(Rect2(721,163,1,485),Color(accent,.3),Color.TRANSPARENT)
+	label("0%d  %s" % [variant+1,variants[variant]],Rect2(78,16,870,32),23)
+	label("比較カンプ / 未実装",Rect2(864,22,230,28),14,muted)
+	label(title,Rect2(111,133 if variant == 2 else 111,560,38),28)
+	label("探索停止中",Rect2(766,116,220,28),16,muted)
+	label("Esc  閉じる",Rect2(768,678,210,26),15,muted)
+func shape(entry: Dictionary) -> Array:
+	return S.shape(entry.id) if entry.kind == "gun" else RS.shape(entry.id)
+func item_art(entry: Dictionary) -> Texture2D:
+	if entry.kind == "gun": return W.pickup_art(entry.id)
+	var source: Texture2D = A.texture("relic_%02d" % entry.id)
+	var im: Image = source.get_image()
+	var crop := AtlasTexture.new()
+	crop.atlas = source
+	crop.region = Rect2(im.get_used_rect())
+	return crop
+func item_info(entry: Dictionary) -> Dictionary:
+	return W.definition(entry.id) if entry.kind == "gun" else R.definition(entry.id)
+func segment(a: Vector2,b: Vector2,color: Color,width: float = 2) -> void:
+	var n := Line2D.new()
+	n.points = PackedVector2Array([a,b])
+	n.width = width
+	n.default_color = color
+	page.add_child(n)
+func footprint_at(cells: Array, pos: Vector2, unit: float = 20) -> void:
+	for cell in cells: box(Rect2(pos+Vector2(cell)*unit,Vector2.ONE*(unit-2)),accent,accent)
+func piece(entry: Dictionary) -> void:
+	var cells: Array = shape(entry)
+	var selected: bool = entry.kind == "relic" and entry.id == 2
+	var tint: Color = Color(item_info(entry).color) if entry.kind == "relic" else Color("7caabd")
+	var start: Vector2 = origin+Vector2(entry.anchor)*step
+	for cell in cells:
+		box(Rect2(start+Vector2(cell)*step,Vector2.ONE*step),tint.darkened(.78),Color.TRANSPARENT)
+	# Only the outside perimeter is drawn, so one illustration belongs to one connected shape.
+	for cell in cells:
+		var p: Vector2 = start+Vector2(cell)*step
+		var c: Color = accent if selected else tint.darkened(.12)
+		if cell+Vector2i.UP not in cells: segment(p,p+Vector2(step,0),c)
+		if cell+Vector2i.DOWN not in cells: segment(p+Vector2(0,step),p+Vector2(step,step),c)
+		if cell+Vector2i.LEFT not in cells: segment(p,p+Vector2(0,step),c)
+		if cell+Vector2i.RIGHT not in cells: segment(p+Vector2(step,0),p+Vector2(step,step),c)
+	# Fit an undistorted illustration inside the largest completely occupied rectangle.
+	var best := Rect2(0,0,1,1)
+	var area := 0
+	for a in cells:
+		for w in range(1,7):
+			for h in range(1,7):
+				var fits := true
+				for yy in range(h):
+					for xx in range(w):
+						if a+Vector2i(xx,yy) not in cells: fits = false
+				if fits and w*h > area:
+					area = w*h
+					best = Rect2(Vector2(a),Vector2(w,h))
+	var target := Rect2(start+best.position*step+Vector2(7,6),best.size*step-Vector2(14,12))
+	var tex := item_art(entry)
+	# Cylindrical/magazine relics are laid sideways inside the bag, never stretched.
+	var rotate_art: bool = entry.kind == "relic" and entry.id in [7,21]
+	if rotate_art:
+		var n := TextureRect.new()
+		n.texture = tex
+		n.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		n.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		n.rotation = PI/2
+		n.position = target.position+Vector2(target.size.x,0)
+		page.add_child(n)
+		n.set_deferred("size",Vector2(target.size.y,target.size.x))
+	else: art(tex,target)
+	if selected:
+		label("3",Rect2(start+Vector2(8,step+15),Vector2(24,28)),18,accent)
+func selected_details() -> void:
+	var info: Dictionary = R.definition(2)
+	label("選択中のレリック",Rect2(765,180,220,26),15,muted)
+	label(info.name,Rect2(763,218,248,38),25)
+	label("レア度 A  /  重複効果なし",Rect2(765,261,245,30),15,Color("d2a0ff"))
+	art(A.texture("relic_02"),Rect2(824,310,124,124))
+	label(info.desc,Rect2(765,456,239,68),19).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label("通常・散弾・追尾・螺旋・\nレール弾に有効。",Rect2(765,531,241,48),15,muted)
+	footprint_at(RS.shape(2),Vector2(765,598))
+	label("必要 3マス",Rect2(821,602,180,28),17)
+func bag() -> void:
+	base("携帯工房  /  装備の整理")
+	label("バッグ",Rect2(123,167,210,30),20)
+	label("使用 14 / 24 マス",Rect2(398,171,260,28),17,muted)
+	var occupied := {}
+	var count := 0
+	for entry in sample:
+		for cell in shape(entry):
+			var p: Vector2i = cell+entry.anchor
+			assert(not occupied.has(p) and p.x < 6 and p.y < 4)
+			occupied[p] = entry
+			count += 1
+	assert(count == 14 and occupied.size() == 14)
+	for y in range(6):
+		for x in range(6):
+			box(Rect2(origin+Vector2(x,y)*step,Vector2.ONE*57),Color("233b3d") if y < 4 else Color("142326"),Color("405658") if y < 4 else Color("23373a"))
+	for entry in sample: piece(entry)
+	label("暗いマスは未開放",Rect2(548,484,156,52),14,muted).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label("控え  3 / 8",Rect2(122,578,240,28),18)
+	for i in range(8):
+		var rect := Rect2(122+i*69,617,61,48)
+		box(rect,Color("1d3031"),Color("60706a") if variant == 1 else Color("465853"))
+		if variant == 1: segment(rect.position+Vector2(4,42),rect.end-Vector2(4,6),Color("8a8066"),1)
+		if i < 3:
+			var tex: Texture2D = W.pickup_art(20) if i == 0 else A.texture("relic_%02d" % (0 if i == 1 else 22))
+			art(tex,Rect2(rect.position+Vector2(6,5),rect.size-Vector2(12,10)))
+	label("ドラッグで配置  /  変更は即時反映",Rect2(123,677,545,27),15,muted)
+	selected_details()
+	button("控えへ戻す",Rect2(763,647,240,34))
+func shop() -> void:
+	base("露店  /  商品を確認")
+	var info: Dictionary = R.definition(2)
+	label("煤の帳守の品物",Rect2(123,173,300,28),17,muted)
+	label(info.name,Rect2(144,225,500,44),29)
+	label("レア度 A  /  レリック",Rect2(145,278,500,28),17,Color("d2a0ff"))
+	box(Rect2(142,325,507,240),Color("192e2f"),Color("3d514c"))
+	art(A.texture("relic_02"),Rect2(310,351,186,186))
+	label(info.desc,Rect2(145,586,515,63),21).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label("購入品は控えへ。Tabで配置して使用。",Rect2(123,676,565,27),15,muted)
+	label("装備すると",Rect2(765,191,240,30),21)
+	label("壁での跳ね返り +1回",Rect2(765,239,244,60),22,accent).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label("通常・散弾・追尾・螺旋・\nレール弾に有効。\n分裂・往復などは対象外。",Rect2(765,318,242,90),16,muted)
+	label("重複効果なし",Rect2(765,412,236,28),16,muted)
+	footprint_at(RS.shape(2),Vector2(765,462),24)
+	label("必要 3マス",Rect2(831,470,175,32),18)
+	label("所持 32 G → 購入後 10 G",Rect2(765,536,245,27),16,muted)
+	button("22 G で購入",Rect2(763,582,240,48),true)
+	button("戻る",Rect2(763,641,240,34))
+func capture(name: String) -> void:
+	await process_frame
+	await RenderingServer.frame_post_draw
+	assert(root.get_texture().get_image().save_png(OUT+name+".png") == OK)
+	page.free()
+func run() -> void:
+	root.size = Vector2i(1120,800)
+	game = load("res://scenes/game/exploration.tscn").instantiate()
+	game.random_floor = true
+	game.authored_campaign = true
+	root.add_child(game)
+	game.set_physics_process(false)
+	var shop_id: String = game.floor_data.rooms.keys().filter(func(id): return game.floor_data.rooms[id].role == "shop")[0]
+	game.move_to_room(shop_id,game.room_data(shop_id).doors[0].arrival)
+	game.exploration.inventory.gold[0] = 32
+	game.refresh_hud()
+	await process_frame
+	for i in range(3):
+		variant = i
+		bag()
+		await capture("%02d-bag" % (i+1))
+		shop()
+		await capture("%02d-shop" % (i+1))
+	print("PASS: 3 pairs of UI concept screens, 6x6 grid, 24 open cells, 14 occupied with no overlaps; actual relic shapes and catalog art")
+	quit()

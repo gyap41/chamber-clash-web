@@ -1,0 +1,37 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>携帯工房 — 開閉演出試作</title>
+<style>body{margin:0;background:#10191a;color:#dfebe6;font:15px system-ui}main{max-width:1120px;margin:auto;padding:20px}h1{font-size:21px;margin:0 0 8px}p{color:#a9bcb5;margin:8px 0}canvas{display:block;width:100%;background:#101c1c;border:1px solid #334742;border-radius:8px}nav{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:16px 0}button{background:#28443d;color:#eef7ee;border:1px solid #72978b;padding:10px 20px;border-radius:5px;cursor:pointer}input[type=range]{width:240px}small{color:#a9bcb5}output{min-width:160px}</style>
+<main><h1>遺物核の携帯工房 — 開閉演出</h1><p>留め具の解除 → 左右の展開 → 核・導線の起動。Tabで開閉、Escで閉じる。</p>
+<canvas width="1120" height="800" aria-label="携帯工房の開閉アニメーション"></canvas>
+<nav><button id="toggle">開く</button><button id="replay">もう一度</button><label><input type="checkbox" id="slow">スロー確認</label><label><input type="checkbox" id="reduce">動きを抑える</label><output id="state" aria-live="polite">閉じた状態</output></nav>
+<nav><label>開く動きの確認 <input id="scrub" type="range" min="0" max="360" value="0"> <span id="time">0 ms</span></label></nav>
+<small>動きの試作です。装備は操作できません。既存カンプを描画領域で分けて使用し、SE・本編への接続・独立した完成パーツ素材は未実装です。</small></main>
+<script>
+const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d'),img=new Image();img.src='../v6/b-bag.png';
+const $=id=>document.getElementById(id),clamp=x=>Math.max(0,Math.min(1,x)),ease=x=>1-Math.pow(1-clamp(x),3);
+let progress=0,target=0,last=0,frame=0,loaded=false;const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;$('reduce').checked=reduced;
+function part(x,y,w,h,dx=0,dy=0,alpha=1){ctx.globalAlpha=clamp(alpha);ctx.drawImage(img,x,y,w,h,x+dx,y+dy,w,h);ctx.globalAlpha=1}
+function draw(now){ctx.clearRect(0,0,1120,800);ctx.fillStyle='#101c1c';ctx.fillRect(0,0,1120,800);
+ctx.fillStyle='#81968c';ctx.font='20px system-ui';ctx.textAlign='center';ctx.fillText('携帯工房',560,382);ctx.font='14px system-ui';ctx.fillText('Tab または「開く」',560,413);
+if(progress>0){const reveal=ease((progress-.12)/.67),content=ease((progress-.6)/.4),power=clamp((progress-.65)/.35),fade=clamp(progress/.13),shift=$('reduce').checked?0:(1-reveal)*375;
+ctx.fillStyle=`rgba(0,0,0,${fade*.88})`;ctx.fillRect(0,0,1120,800);
+// UI composition only: outer rails, content, core and latches are independently drawn.
+ctx.save();ctx.beginPath();ctx.rect(560-495*reveal,60,990*reveal,685);ctx.clip();
+part(65,65,485,90,shift,0,fade);part(570,65,485,90,-shift,0,fade);
+part(65,155,55,530,shift,0,fade);part(1000,155,55,530,-shift,0,fade);
+part(65,685,495,55,shift,0,fade);part(560,685,495,55,-shift,0,fade);
+ctx.fillStyle='#082222';ctx.fillRect(120,155,880,530);part(120,155,880,530,0,(1-content)*8,content);
+ctx.restore();
+part(490,63,140,96,0,(1-fade)*9,fade);
+// Brass catches release briefly, then settle into the side frame.
+const release=Math.sin(clamp(progress/.35)*Math.PI)*5;
+part(65,285,49,30,shift-release,0,fade);part(1006,315,48,37,-shift+release,0,fade);
+if(power>0){const pulse=progress===1?(.65+.15*Math.sin(now/1050)):power;const glow=ctx.createRadialGradient(560,111,8,560,111,57);glow.addColorStop(0,`rgba(80,240,211,${.23*pulse})`);glow.addColorStop(1,'rgba(80,240,211,0)');ctx.fillStyle=glow;ctx.fillRect(503,54,114,114);
+ctx.strokeStyle=`rgba(126,255,226,${power*.8})`;ctx.lineWidth=2;ctx.shadowColor='#73f5d3';ctx.shadowBlur=7;for(const side of [-1,1]){ctx.beginPath();ctx.moveTo(625* (side===1?1:0)+495*(side===-1?1:0),121);ctx.lineTo(560+side*(65+365*power),121);ctx.stroke()}ctx.shadowBlur=0;}
+part(120,743,900,31,0,0,content);
+}
+}
+function setTarget(value){target=value;$('toggle').textContent=value?'閉じる':'開く'}
+function tick(now){const dt=last?Math.min(now-last,40):0;last=now;if(progress!==target){const duration=$('reduce').checked?90:(target?360:180);const delta=dt/duration/($('slow').checked?4:1);progress=target?Math.min(target,progress+delta):Math.max(target,progress-delta);$('scrub').value=Math.round(progress*360);$('time').textContent=Math.round(progress*360)+' ms';$('state').textContent=progress===1?'開いた状態':progress===0?'閉じた状態':target?'展開中':'収納中'}if(loaded)draw(now);frame=requestAnimationFrame(tick)}
+$('toggle').onclick=()=>setTarget(1-target);$('replay').onclick=()=>{progress=0;setTarget(1)};$('scrub').oninput=()=>{progress=Number($('scrub').value)/360;target=progress;$('time').textContent=$('scrub').value+' ms';$('state').textContent='コマ確認';$('toggle').textContent='開く'};
+addEventListener('keydown',e=>{if(e.code==='Tab'&&e.target.tagName!=='INPUT'){e.preventDefault();setTarget(target===1?0:1)}if(e.code==='Escape')setTarget(0)});img.onload=()=>{loaded=true;requestAnimationFrame(tick)};img.onerror=()=>{$('state').textContent='参照画像を読み込めません'};
+</script></html>

@@ -1,0 +1,42 @@
+{
+  "candidate": {
+    "file": "assets\\candidates\\workshop-open\\v2\\fw_workshop_energy_01.mp3",
+    "sample_rate": 44100,
+    "channels": 2,
+    "file_duration_s": 0.48,
+    "leading_silence_ms": 0.0,
+    "attack_ms": 134.7,
+    "active_length_s": 0.479,
+    "audible_until_s": 0.479,
+    "trailing_silence_ms": 1.1,
+    "peak_dbfs": -3.53,
+    "clipped_samples": 0,
+    "rms_dbfs_active": -19.3,
+    "loudness_lufs_approx": -12.7,
+    "dc_offset": -1e-05,
+    "hits": 1,
+    "hit_times_ms": [
+      0.0
+    ],
+    "spectral_centroid_hz": 2758,
+    "rolloff85_hz": 6285,
+    "spectral_flatness": 0.001,
+    "band_energy_share": {
+      "sub_<120": 0.031,
+      "low_120-500": 0.273,
+      "mid_500-2k": 0.336,
+      "presence_2k-6k": 0.205,
+      "air_>6k": 0.155
+    },
+    "harmonicity": 0.24,
+    "pitch_hz": null,
+    "stereo_correlation": 0.545
+  },
+  "category": "system",
+  "references": [],
+  "comparison": {},
+  "hard_failures": [],
+  "warnings": [],
+  "verdict": "PASS",
+  "not_measurable": "timbre quality, fit with the visual, mix in real play, loop musicality: user listening required"
+}

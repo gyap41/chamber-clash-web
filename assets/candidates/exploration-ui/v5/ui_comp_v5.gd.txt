@@ -1,0 +1,156 @@
+extends "res://.local/ui_comp_v4.gd"
+const OUT5 := "res://assets/candidates/exploration-ui/v5/"
+var active_piece := false
+func base(title: String) -> void:
+	accent = Color("9ce3cb")
+	page = Control.new()
+	var layer := CanvasLayer.new()
+	layer.layer = 50
+	root.add_child(layer)
+	layer.add_child(page)
+	super.box(Rect2(0,0,1120,800),Color(0,0,0,.91),Color.TRANSPARENT)
+	var tex := texture_file(OUT+("satchel-frame.png" if variant == 1 else "tray-frame.png"))
+	tile(tex,Rect2(Vector2.ZERO,tex.get_size()),Rect2(64,64,992,680))
+	label("携帯工房 / UI調整案",Rect2(77,17,770,32),23)
+	label("カンプ・本編未適用",Rect2(858,22,240,28),14,muted)
+	label(title,Rect2(111,113,790,40),28)
+	nine("detail",Rect2(660,171,367,473),13)
+	label("探索停止中",Rect2(861,123,154,25),15,muted)
+	label("Esc  閉じる",Rect2(860,691,166,27),15,muted)
+func box(rect: Rect2,color: Color,border: Color = Color("4c6668")) -> void:
+	if rect.size == Vector2(62,62):
+		var locked: bool = color.r < .1
+		if locked:
+			var tex := skin("cell")
+			tile(tex,Rect2(tex.get_size()*.3,tex.get_size()*.4),rect,Color(.31,.39,.39))
+		else: nine("cell",rect,5,Color(1.45,1.6,1.55))
+	elif rect.size == Vector2(step,step):
+		var tex := skin("cell")
+		tile(tex,Rect2(tex.get_size()*.15,tex.get_size()*.7),rect,Color(1.9,1.7,1.04) if active_piece else Color(.8,.96,.93))
+	else: super.box(rect,color,border)
+func segment(a: Vector2,b: Vector2,color: Color,width: float = 2) -> void:
+	super.segment(a,b,color,width)
+	if active_piece and width != 1:
+		var n := Line2D.new()
+		n.points = PackedVector2Array([a,b])
+		n.width = 2.5
+		n.default_color = Color("ead4a0")
+		page.add_child(n)
+func piece(entry: Dictionary) -> void:
+	active_piece = entry.kind == "relic" and entry.id == 2
+	var before: Array = page.get_children()
+	super.piece(entry)
+	# Remove the old area digit: it looked like a stack count.
+	for node in page.get_children():
+		if node not in before and node is Label and node.text == "3": node.queue_free()
+	active_piece = false
+func quiet_button(text: String,rect: Rect2) -> void:
+	# Reuse only the leather center, without a competing brass rim.
+	var tex := skin("button")
+	tile(tex,Rect2(tex.get_size()*Vector2(.15,.2),tex.get_size()*Vector2(.7,.6)),rect,Color(.61,.69,.67))
+	var n := label(text,rect,18)
+	n.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	n.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+func energy(pos: Vector2) -> void:
+	# A proposed tiny power indicator, not a resource bar or new mechanic.
+	var glow := Panel.new()
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("9ce3cb")
+	style.set_corner_radius_all(4)
+	style.shadow_color = Color(.3,.85,.65,.25)
+	style.shadow_size = 5
+	glow.position = pos
+	glow.size = Vector2(8,8)
+	glow.add_theme_stylebox_override("panel",style)
+	page.add_child(glow)
+	label("装備効果 有効",Rect2(pos+Vector2(17,-9),Vector2(160,28)),14,accent)
+func selected_details() -> void:
+	label("選択中  /  レリック",Rect2(687,188,310,28),16,muted)
+	label(R.definition(2).name,Rect2(685,229,312,38),28)
+	label("A  /  重複効果なし",Rect2(687,274,312,27),16,Color("d2a0ff"))
+	art(A.texture("relic_02"),Rect2(790,316,110,110))
+	label("壁での跳ね返り ＋1回",Rect2(687,449,312,37),24)
+	label("通常・散弾・追尾・螺旋・\nレール弾に有効。\n分裂・往復などの特殊弾は対象外。",Rect2(687,501,310,65),16,muted).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	footprint_at(RS.shape(2),Vector2(690,582),22)
+	label("必要 3マス（L字）",Rect2(750,587,246,32),18)
+func bag() -> void:
+	base("携帯工房  /  装備の整理")
+	origin = Vector2(154,214)
+	step = 64
+	label("バッグ",Rect2(123,168,230,30),20)
+	label("使用 14 / 24 マス",Rect2(381,170,260,28),17,muted)
+	var occupied := {}
+	for entry in sample:
+		for cell in shape(entry):
+			var p: Vector2i = cell+entry.anchor
+			assert(not occupied.has(p) and p.x < 6 and p.y < 4)
+			occupied[p] = true
+	assert(occupied.size() == 14)
+	for y in range(6):
+		for x in range(6):
+			box(Rect2(origin+Vector2(x,y)*step,Vector2(62,62)),Color("233b3d") if y < 4 else Color("142326"))
+	for entry in sample: piece(entry)
+	label("未開放",Rect2(548,515,83,50),14,muted)
+	label("控え  3 / 8",Rect2(122,608,230,27),18)
+	for i in range(8):
+		var rect := Rect2(122+i*65,646,58,42)
+		nine("cell",rect,5)
+		if i < 3:
+			var tex: Texture2D = W.pickup_art(20) if i == 0 else A.texture("relic_%02d" % (0 if i == 1 else 22))
+			art(tex,Rect2(rect.position+Vector2(6,4),rect.size-Vector2(12,8)))
+	selected_details()
+	quiet_button("控えへ戻す",Rect2(684,653,318,34))
+	label("ドラッグで配置  /  変更は即時反映",Rect2(123,696,565,25),14,muted)
+	energy(Vector2(690,706))
+func shop() -> void:
+	base("露店  /  商品を確認")
+	label("煤の帳守の品物",Rect2(123,177,400,28),17,muted)
+	label(R.definition(2).name,Rect2(143,247,487,44),30)
+	label("A  /  レリック",Rect2(145,302,465,28),18,Color("d2a0ff"))
+	nine("detail",Rect2(142,356,469,242),11)
+	art(A.texture("relic_02"),Rect2(299,396,158,158))
+	label("装備すると",Rect2(687,200,310,30),20)
+	label("壁での跳ね返り ＋1回",Rect2(687,255,313,38),24,accent)
+	label("通常・散弾・追尾・螺旋・\nレール弾に有効。\n分裂・往復などの特殊弾は対象外。",Rect2(687,319,310,84),17,muted).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label("重複効果なし",Rect2(687,416,309,28),17,muted)
+	footprint_at(RS.shape(2),Vector2(689,471),23)
+	label("必要 3マス（L字）",Rect2(753,478,242,30),18)
+	label("所持 32 G  →  購入後 10 G",Rect2(687,551,314,29),18,muted)
+	button_state("22 G で購入",Rect2(684,590,318,47),"normal",true)
+	quiet_button("戻る",Rect2(684,653,318,34))
+	label("購入品は控えへ。Tabで配置して使用。",Rect2(143,646,477,45),17,muted).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+func button_state(text: String,rect: Rect2,state: String,primary: bool = false) -> void:
+	super.button_state(text,rect,state,primary)
+	if state == "hover":
+		var l := Line2D.new()
+		l.points = PackedVector2Array([rect.position,Vector2(rect.end.x,rect.position.y),rect.end,Vector2(rect.position.x,rect.end.y),rect.position])
+		l.default_color = Color("ffe3a1")
+		l.width = 2
+		page.add_child(l)
+func capture5(name: String) -> void:
+	await process_frame
+	await RenderingServer.frame_post_draw
+	assert(root.get_texture().get_image().save_png(OUT5+name+".png") == OK)
+	page.free()
+func run() -> void:
+	root.size = Vector2i(1120,800)
+	game = load("res://scenes/game/exploration.tscn").instantiate()
+	game.random_floor = true
+	game.authored_campaign = true
+	root.add_child(game)
+	game.set_physics_process(false)
+	var id: String = game.floor_data.rooms.keys().filter(func(key): return game.floor_data.rooms[key].role == "shop")[0]
+	game.move_to_room(id,game.room_data(id).doors[0].arrival)
+	game.exploration.inventory.gold[0] = 32
+	game.refresh_hud()
+	await process_frame
+	variant = 1
+	bag()
+	await capture5("bag")
+	variant = 2
+	shop()
+	await capture5("shop")
+	states()
+	await capture5("states")
+	print("PASS: v5 comps, occupied cells validated, no inventory count ambiguity; energy indicator is visual only")
+	quit()

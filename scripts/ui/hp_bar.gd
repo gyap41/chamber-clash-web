@@ -1,5 +1,6 @@
 extends Control
 @export var segment_color := Color("f39545")
+var show_segments: bool = false
 var opacities: Array[float] = []
 var current_hp := -1.0
 var maximum_hp := -1.0
@@ -21,3 +22,6 @@ func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO,Vector2(size.x*ratio,size.y)),segment_color)
 	if recoverable_hp > 0 and maximum_hp > 0:
 		draw_rect(Rect2(Vector2(size.x*ratio,0),Vector2(size.x*recoverable_hp/maximum_hp,size.y)),Color("ffd680"))
+	if show_segments and maximum_hp>0 and maximum_hp<=16:
+		for i in range(1,int(maximum_hp)):
+			draw_line(Vector2(size.x*i/maximum_hp,0),Vector2(size.x*i/maximum_hp,size.y),Color("253b35"),2)

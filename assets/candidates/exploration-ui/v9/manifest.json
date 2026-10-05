@@ -1,0 +1,39 @@
+{
+  "status": "candidate; not connected to game",
+  "tool": "built-in image_gen",
+  "references": [
+    "../v6/b-bag.png",
+    "assets/generated/rina-front-back-parts-v1.png"
+  ],
+  "assets": [
+    {
+      "key": "shell",
+      "file": "shell.png",
+      "prompt": "Create production 2D game UI component sprite atlas for a portable relic-powered workshop. Reference 1 is material and palette reference ONLY, not a screen to reproduce. Reference 2 is the primary illustration style: smooth strong dark outlines, broad clean cel-shaded planes, sparse wear, not pixel art, no photoreal microtexture. Worn warm brass, deep teal enamel, dark brown leather, dark iron. Strict flat front orthographic view, no perspective. True transparent background, no checker pattern, no labels/text, no arrows, no shadows outside silhouettes. Each isolated part centered within its own specified equal grid cell, generous transparent gutters. Do not connect different cells. No emissive bloom, no particles, no baked light rays. Square atlas, 2 columns by 2 rows exactly. Top left: left outer lid panel, tall rectangle aspect 456:554, rounded brass corner guards and dark teal inset, subtle central diamond engraving, NO handle or hinge or lock attached (these animate separately). Top right: matching lid inner/back face, same silhouette and size, padded dark teal leather inset and brass rim, no pockets. Bottom left: wide horizontal empty workshop BODY FRAME aspect 928:574, thin brass/iron perimeter, leather corner supports, TRANSPARENT central opening; no core, gears, pipes, text or contents. Bottom right: matching dark teal leather flat inner backing panel aspect 880:530, quiet low contrast broad surface. Exactly four isolated pieces.",
+      "original": "C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e\\exec-75c0b1ae-667a-42ad-9ddf-abe548803c66.png",
+      "correction_prompt": null,
+      "correction_source": null
+    },
+    {
+      "key": "drive",
+      "file": "drive-transparent.png",
+      "prompt": "Create production 2D game UI component sprite atlas for a portable relic-powered workshop. Reference 1 is material and palette reference ONLY, not a screen to reproduce. Reference 2 is the primary illustration style: smooth strong dark outlines, broad clean cel-shaded planes, sparse wear, not pixel art, no photoreal microtexture. Worn warm brass, deep teal enamel, dark brown leather, dark iron. Strict flat front orthographic view, no perspective. True transparent background, no checker pattern, no labels/text, no arrows, no shadows outside silhouettes. Each isolated part centered within its own specified equal grid cell, generous transparent gutters. Do not connect different cells. No emissive bloom, no particles, no baked light rays. Square atlas 3 columns by 2 rows exactly, six separate components. Row 1 left: circular brass gear with precisely TWELVE evenly spaced teeth, four spokes and central axle hole, perfectly round front view. Row1 middle: circular brass pinion with precisely EIGHT teeth, four spokes and central axle hole, same material. Row1 right: empty tall narrow dark iron gear housing plate aspect58:88 with brass corner bolts, no gears installed. Row2 left: vertical brass barrel hinge with two mounting leaves, straight shaft. Row2 middle: single broad brass clasp latch with leather base, vertically oriented. Row2 right: short L-shaped brass drive shaft linkage with circular end joints. Gears must be stand-alone rotatable circular silhouettes, no fixed backplate behind either gear.",
+      "original": "C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e\\exec-870ef7bd-276d-4a96-805f-0ae50f9282e3.png",
+      "correction_prompt": "Edit this exact sprite atlas. Preserve every object's position, size, shape, design and grid layout exactly. Remove ALL brown/black colored background and ALL surrounding light halos; empty space between objects and holes inside gears/rings MUST be alpha=0, truly transparent. No shadows outside object outlines, no glow, no replacement backdrop or checkerboard. Keep painted highlights INSIDE metal shapes. ",
+      "correction_source": "C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e\\exec-63864d2f-f150-4fa1-80d8-e9cd68d00c51.png"
+    },
+    {
+      "key": "power",
+      "file": "power-transparent.png",
+      "prompt": "Create production 2D game UI component sprite atlas for a portable relic-powered workshop. Reference 1 is material and palette reference ONLY, not a screen to reproduce. Reference 2 is the primary illustration style: smooth strong dark outlines, broad clean cel-shaded planes, sparse wear, not pixel art, no photoreal microtexture. Worn warm brass, deep teal enamel, dark brown leather, dark iron. Strict flat front orthographic view, no perspective. True transparent background, no checker pattern, no labels/text, no arrows, no shadows outside silhouettes. Each isolated part centered within its own specified equal grid cell, generous transparent gutters. Do not connect different cells. No emissive bloom, no particles, no baked light rays. Square atlas 3 columns by 2 rows exactly, six separate components. Row1 left: unlit deep teal faceted mineral crystal, round-ish octagonal outline, no holder or glow. Row1 middle: brass circular crystal holder ring with four retaining claws, central hole truly transparent, no crystal. Row1 right: tall slender glass energy tube aspect28:140, brass caps at both ends, dark teal TRANSLUCENT glass bore with faint reflection, no luminous liquid or glow. Row2 left: simple right-angle brass elbow pipe with round connection ends. Row2 middle: straight vertical brass connector pipe. Row2 right: horizontal brass mounting bracket with two screw holes and central clamp for the glass tube. Physical parts only, no emission baked in.",
+      "original": "C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e\\exec-97c7a206-4a7d-4bb9-82ec-7c30af12975e.png",
+      "correction_prompt": "Edit this exact sprite atlas. Preserve every object's position, size, shape, design and grid layout exactly. Remove ALL brown/black colored background and ALL surrounding light halos; empty space between objects and holes inside gears/rings MUST be alpha=0, truly transparent. No shadows outside object outlines, no glow, no replacement backdrop or checkerboard. Keep painted highlights INSIDE metal shapes. Darken the crystal to unlit deep teal with restrained facets, remove its emission entirely; preserve tube reflections inside its outline.",
+      "correction_source": "C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e\\exec-c6b4baf6-0d00-4315-a59a-0dea64b7bb60.png"
+    }
+  ],
+  "notes": [
+    "RGBA verified. Hidden RGB may contain backdrop colors at alpha=0; evaluate with alpha compositing.",
+    "Use regions.json for atlas sampling, not equal cells: generated shell layout differs from requested equal grid.",
+    "Final game adoption and animated integration unverified."
+  ]
+}

@@ -3,6 +3,7 @@ signal played(kind: String, id: int)
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const RATE := 44100
 const GENERATED := {
+	"workshop_open": preload("res://assets/audio/se/fw_workshop_open_energy_01.wav"),
 	"aurora_divine": preload("res://assets/audio/se/fw_aurora_divine_03.mp3"),
 	"machine_ram_launch": preload("res://assets/audio/se/fw_ash_ram_launch_02.mp3"),
 	"machine_ring_salvo": preload("res://assets/audio/se/fw_triple_ring_salvo_02.mp3"),
@@ -157,6 +158,9 @@ func set_enabled(value: bool) -> void:
 	else: play_sound("toggle")
 
 func profile(kind: String, id: int = 0) -> Dictionary:
+	# 2026-10-05: opening uses the adopted mixed asset; closing remains unchanged.
+	if kind=="workshop_close":
+		return {"duration":.20,"frequency":300.0,"end":75.0,"wave":"sine","gain":.035,"noise":.02,"cutoff":1400.0,"bandpass":false,"soft_edges":true,"metallic":true,"harmonics":false}
 	if kind in ["machine_ram_windup","machine_ring_windup","machine_vent","machine_ram_body","machine_ring_body"]:
 		var vent := kind == "machine_vent"
 		var ram := kind in ["machine_ram_windup","machine_ram_body"]
@@ -232,6 +236,10 @@ func play_chest_open(rank: int) -> void:
 	if rank >= 2: play_sound("chest_reward_tier",clampi(rank,0,3))
 
 func play_sound(kind: String, id: int = 0) -> void:
+	if kind == "workshop_stop":
+		for voice in voices:
+			if voice.get_meta("owner",-1)==id and str(voice.get_meta("kind","")).begins_with("workshop_"): voice.stop()
+		return
 	if kind == "machine_stop":
 		for voice in voices:
 			if voice.get_meta("owner",-1)==id and str(voice.get_meta("kind","")).begins_with("machine_"): voice.stop()
@@ -263,6 +271,8 @@ func play_sound(kind: String, id: int = 0) -> void:
 		generated_voice.set_meta("owner",id)
 		generated_voice.bus = bus_name
 		generated_voice.volume_db = volume_db + (-18.0 if kind.begins_with("ui_") or kind == "toggle" else -12.0)
+		# The accepted mix already contains the audition gains; do not attenuate twice.
+		if kind=="workshop_open": generated_voice.volume_db = volume_db
 		if kind == "machine_ram_launch": generated_voice.volume_db = volume_db-7.0
 		elif kind == "machine_ring_salvo": generated_voice.volume_db = volume_db+2.0
 		elif kind == "shot" and id == 37: generated_voice.volume_db = volume_db-18.0

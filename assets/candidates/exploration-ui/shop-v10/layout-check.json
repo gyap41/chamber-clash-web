@@ -1,0 +1,19 @@
+{
+  "viewport": [
+    1120,
+    800
+  ],
+  "panel": [
+    118,
+    134,
+    884,
+    550
+  ],
+  "states": [
+    "weapon",
+    "relic",
+    "expansion",
+    "insufficient"
+  ],
+  "note": "Real catalog values and art; text bounds checked. Static design comp, not implemented."
+}

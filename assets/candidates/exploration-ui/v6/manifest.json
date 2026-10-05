@@ -1,0 +1,42 @@
+{
+  "version": 6,
+  "status": "candidate-concept-only",
+  "generator": "built-in image_gen",
+  "generated_count": 3,
+  "assets": [
+    {
+      "file": "artisan.png",
+      "prompt": "Create one high-quality isolated EMPTY 2D inventory UI panel skin for an illustrated dungeon action game about travelling artisan explorers using relic technology. Reference screenshot is STYLE/PALETTE and overall readable layout reference ONLY. IMPORTANT: do NOT reproduce any text, guns, relic items, grid, buttons, or screenshot background. Smooth dark illustrated outlines, broad 3-tone shading, subdued worn dark metal, tarnished brass/copper, slate teal, leather suspension pads, very little noisy grain. Not photoreal, not pixel art, not generic blue hologram or military sci-fi dashboard. Functional portable craft apparatus from a ruin-adventure world. Transparent exterior only, opaque interior. Flat straight-on orthographic interface, no perspective. Panel fills 96% canvas, landscape 7:5 ratio. Keep center 80% of panel EMPTY very dark matte teal, suitable for readable cream typography and inventory contents added later. No internal divider. Mechanical construction should be recognizable but confined to outer 7% perimeter. No labels or lettering, no gauges suggesting a resource mechanic. Direction A: an opened travelling artisan's powered maintenance case. A rigid dark iron chassis with broad battered brass corner clamps, a leather carrying grip at top edge, two small amber-green glass power tubes housed vertically in a sturdy protective brass cage integrated into the FAR LEFT OUTER BORDER. Insulated dark copper conduits run from the tubes along the outside rim into a few utilitarian connector blocks. Narrow warm amber light in a few connector joints. Leather gaskets cushion the frame, a quiet slate backing board inside. Distinctly a working portable machine rather than a textile bag. Mechanisms broad and readable, just 4-6 main parts, no gear clutter. No large glow across interior.",
+      "source_hint": "Generated images are saved to C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e as C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e\\exec-a68dc704-747c-4d3c-a9e4-9bb8d7ce6bfc.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    {
+      "file": "relic.png",
+      "prompt": "Create one high-quality isolated EMPTY 2D inventory UI panel skin for an illustrated dungeon action game about travelling artisan explorers using relic technology. Reference screenshot is STYLE/PALETTE and overall readable layout reference ONLY. IMPORTANT: do NOT reproduce any text, guns, relic items, grid, buttons, or screenshot background. Smooth dark illustrated outlines, broad 3-tone shading, subdued worn dark metal, tarnished brass/copper, slate teal, leather suspension pads, very little noisy grain. Not photoreal, not pixel art, not generic blue hologram or military sci-fi dashboard. Functional portable craft apparatus from a ruin-adventure world. Transparent exterior only, opaque interior. Flat straight-on orthographic interface, no perspective. Panel fills 96% canvas, landscape 7:5 ratio. Keep center 80% of panel EMPTY very dark matte teal, suitable for readable cream typography and inventory contents added later. No internal divider. Mechanical construction should be recognizable but confined to outer 7% perimeter. No labels or lettering, no gauges suggesting a resource mechanic. Direction B: ancient relic-powered portable workshop reconstructed by an artisan. A small turquoise irregular mineral core encased in a circular brass retaining cradle centered IN THE TOP OUTER RIM, flanked by worn copper connectors and leather repair straps. From that core, thin turquoise conductive inlays trace the outer rim into mechanical corner clamps, glowing softly only at joints. Dark slate modular chassis with leather padding, narrow antique brass trim and a few asymmetrical repair plates. Convey mysterious recovered technology that has been made usable by hand, not a wizard spellbook or modern tablet. Only the compact core is bright; all empty interior remains dark and quiet.",
+      "source_hint": "Generated images are saved to C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e as C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e\\exec-3c21e87e-54af-4804-8a01-5ec47da9e886.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    {
+      "file": "socket.png",
+      "prompt": "Create ONE SQUARE textless 2D game UI tile sprite, on transparent outside, opaque dark interior. Style matches the attached illustrated artisan workshop UI but reinterpret a cloth cell as a recessed mechanical equipment mounting socket: flat dark slate enamel plate, thin bevelled tarnished brass border, four SMALL functional corner clamp tabs, two tiny cyan contact notches integrated into rim. Center 80% empty, smooth low contrast dark teal, no text no symbols no gears no equipment no decorative circuits. Straight-on orthographic square, occupies 96% canvas with small transparent margin. Nine-slice friendly symmetric straight edges and quiet center; readable at 64x64 game pixels. Smooth dark handdrawn outline, 3-tone shading, no pixel art or photo texture. Restrained practical salvaged relic machinery. Avoid thick gold picture-frame ornament.",
+      "source_hint": "Generated images are saved to C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e as C:\\Users\\ikare\\.codex\\generated_images\\01a0ec22-6e99-76e2-b992-ff88fcb0442e\\exec-ea3794ea-1da7-4c7f-bbe7-245ebac0944f.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    }
+  ],
+  "screens": [
+    "a-bag.png",
+    "b-bag.png",
+    "a-shop.png",
+    "b-shop.png"
+  ],
+  "validation": {
+    "resolution": "1120x800",
+    "visual_review": "all four final screens",
+    "occupied_cells": 14,
+    "open_cells": 24,
+    "overlap_assert": "passed",
+    "render_errors": 0
+  },
+  "limitations": [
+    "Static concept; no production UI change",
+    "Baked glow; animation not implemented",
+    "No energy resource, adjacency bonus or wiring rules added"
+  ]
+}

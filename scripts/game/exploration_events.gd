@@ -42,6 +42,7 @@ static func prepare(game) -> void:
 			if key == "shop":
 				for item in room.shop: taken.append(item.pos)
 			else: taken.append(room[key].pos)
+	if room.get("shop_sign") != null: taken.append(room.shop_sign)
 	if has_teleporter(game,game.exploration.room_id) and not room.has("teleporter"):
 		room.teleporter = Reward.placement(game,taken)
 
@@ -76,13 +77,23 @@ static func shop_stock(game, taken: Array) -> Array:
 		placed.append(entry)
 	return placed
 
-# The sign stands at one end of the stock row, where there is room for it.
+# 2026-10-05: scattered stock needs clearance from EVERY pedestal, not just the row ends.
 static func sign_point(game, stock: Array) -> Variant:
 	if stock.is_empty(): return null
-	var ends: Array = [stock[0].pos+Vector2(-96,0),stock[-1].pos+Vector2(96,0)]
+	var ends: Array = [stock[0].pos+Vector2(-144,0),stock[-1].pos+Vector2(144,0)]
+	var center: Vector2 = game.arena.field_rect.get_center()
+	var candidates: Array = []
+	for dy in range(-8,9):
+		for dx in range(-12,13): candidates.append(center+Vector2(dx,dy)*32)
+	candidates.sort_custom(func(a: Vector2,b: Vector2): return a.distance_squared_to(center) < b.distance_squared_to(center))
+	ends.append_array(candidates)
 	for point in ends:
 		var doors: Array = game.room_data(game.exploration.room_id).doors
 		if game.arena.solid(point,28) or doors.any(func(door): return point.distance_to(door.position) <= 112 or point.distance_to(door.arrival) <= 80): continue
+		if stock.any(func(item): return point.distance_to(item.pos) < 144): continue
+		# Reserve an unobstructed place to stand in front of the merchant.
+		var approach: Vector2 = point+Vector2(0,40)
+		if game.arena.solid(approach,20) or game.arena.line_blocked(point,approach): continue
 		return point
 	return null
 
@@ -131,13 +142,18 @@ static func nearby(game) -> Dictionary:
 	if room.get("teleporter") != null: options.append({"kind":"teleporter","entry":{},"pos":room.teleporter})
 	var player: Vector2 = game.players[0].state.pos
 	var best := {}
+	var merchant := {}
 	var nearest := RADIUS+1
 	for option in options:
 		var distance: float = player.distance_to(option.pos)
+		# Product inspection must remain available even in an already-created overlapping layout.
+		if option.kind == "merchant":
+			if distance <= RADIUS and not game.arena.line_blocked(player,option.pos): merchant = option
+			continue
 		if distance <= RADIUS and distance < nearest and not game.arena.line_blocked(player,option.pos):
 			best = option
 			nearest = distance
-	return best
+	return merchant if best.is_empty() else best
 
 static func gold(game) -> int:
 	return game.exploration.inventory.gold[0]

@@ -1,21 +1,37 @@
 extends CanvasLayer
 const Grid = preload("res://scripts/game/build_grid.gd")
-const Footprint = preload("res://scripts/ui/item_footprint.gd")
 const Widgets = preload("res://scripts/ui/hud_widgets.gd")
 const Cell = preload("res://scripts/ui/relic_grid_cell.gd")
-const Chip = preload("res://scripts/ui/relic_chip.gd")
+const Chip = preload("res://scripts/ui/workshop_chip.gd")
+const Drag = preload("res://scripts/ui/workshop_drag.gd")
 const Tray = preload("res://scripts/ui/relic_tray.gd")
+const WorkshopSkin = preload("res://scripts/ui/workshop_skin.gd")
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const Relics = preload("res://scripts/catalog/relic_catalog.gd")
 const Art = preload("res://scripts/ui/hud_assets.gd")
 signal close_requested
+signal closed
+signal sound_requested(kind: String, owner: int)
 var on_change: Callable
 var draft
 var selected = null
+var placement_armed: bool = false
 var body: Control
-var footprint
+var panel: Control
 var detail: Label
-var message := "装備を選んでマスへ配置。控えへドラッグすると解除できます。"
+var detail_art: TextureRect
+var detail_name: Label
+var shade: ColorRect
+var shield: Control
+var back
+var front
+var hover_preview
+var time: float = 0.0
+var clock: float = 0.0
+var closing: bool = false
+var finished: bool = false
+var message: String = ""
+var error_time: float = 0.0
 func _ready() -> void:
 	layer = 30
 	body = Control.new()
@@ -23,46 +39,135 @@ func _ready() -> void:
 	body.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	body.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(body)
+	shade = ColorRect.new()
+	shade.color = Color(0,0,0,.82)
+	shade.size = Vector2(1120,800)
+	body.add_child(shade)
+	back = WorkshopSkin.new()
+	body.add_child(back)
+	panel = Control.new()
+	panel.name = "Bag"
+	panel.size = Vector2(1120,800)
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	body.add_child(panel)
+	front = WorkshopSkin.new()
+	front.foreground = true
+	body.add_child(front)
+	shield = Control.new()
+	shield.size = Vector2(1120,800)
+	shield.mouse_filter = Control.MOUSE_FILTER_STOP
+	body.add_child(shield)
+	Widgets.button(body,"Close",Rect2(1058,76,36,36),"×",func(): close_requested.emit())
+	if not draft.builds[0].equipped.is_empty(): selected = draft.builds[0].equipped[0]
 	refresh()
+	_sound("workshop_open")
+	advance_animation(0)
+func can_interact() -> bool:
+	return time >= .5 and not closing and not finished
+func _sound(kind: String) -> void:
+	sound_requested.emit(kind,get_instance_id())
+func _exit_tree() -> void:
+	_sound("workshop_stop")
+func begin_close() -> void:
+	if closing or finished: return
+	closing = true
+	_sound("workshop_stop")
+	_sound("workshop_close")
+	shield.visible = true
+	# Do not let a held drag survive the inventory's lifetime.
+	get_viewport().gui_cancel_drag()
+func advance_animation(delta: float) -> void:
+	if finished: return
+	clock += delta
+	time = maxf(0,time-delta*.7/.25) if closing else minf(.7,time+delta)
+	var zoom: float = .78+.22*back.smooth_progress((time-.08)/.37)
+	for node in [back,panel,front]:
+		node.pivot_offset = Vector2(560,420)
+		node.scale = Vector2.ONE*zoom
+	panel.modulate.a = back.smooth_progress((time-.43)/.12)
+	for node in [back,front]:
+		node.time = time
+		node.clock = clock
+		node.closing = closing
+		node.queue_redraw()
+	shield.visible = not can_interact()
+	if closing and time<=0:
+		finished = true
+		closed.emit()
+func _process(delta: float) -> void:
+	advance_animation(delta)
+	if finished: return
+	if error_time>0:
+		error_time -= delta
+		if error_time<=0 and panel.has_node("Error"): panel.get_node("Error").hide()
+	update_hover()
 func info(entry) -> Dictionary:
 	return Weapons.definition(draft.gun_id(entry)) if draft.is_gun(entry) else Relics.definition(draft.relic_id(entry))
+func texture(entry) -> Texture2D:
+	return Weapons.pickup_art(draft.gun_id(entry)) if draft.is_gun(entry) else Art.texture("relic_%02d" % draft.relic_id(entry))
 func select(entry) -> void:
+	if entry not in draft.builds[0].owned: return
 	selected = entry
-	footprint.shape = draft.shape_of(entry)
-	footprint.visible = true
-	footprint.queue_redraw()
-	detail.text = preload("res://scripts/ui/item_description.gd").describe("weapon" if draft.is_gun(entry) else "relic",draft.gun_id(entry) if draft.is_gun(entry) else draft.relic_id(entry),draft,false,true)
+	var data: Dictionary = info(entry)
+	detail_name.text = str(data.name)
+	detail_art.texture = texture(entry)
+	var description: String = preload("res://scripts/ui/item_description.gd").describe("weapon" if draft.is_gun(entry) else "relic",draft.gun_id(entry) if draft.is_gun(entry) else draft.relic_id(entry),draft,false,true)
+	# The name and footprint already have visual representations.
+	detail.text = description.substr(description.find("\n")+1).split("\n必要な面積：")[0].strip_edges()
+func user_select(entry) -> void:
+	if not can_interact(): return
+	select(entry)
+	placement_armed = true
+	_sound("ui_select")
+func start_drag(entry) -> void:
+	user_select(entry)
+	placement_armed = false
+func fail(text: String) -> void:
+	message = text
+	error_time = 3
+	_sound("ui_blocked")
 func commit_layout() -> bool:
 	if on_change.is_valid() and on_change.call(): return true
-	message = "変更できません。配置と所持品を確認してください。"
+	fail("変更できません。配置と所持品を確認してください。")
 	return false
-func place(entry, cell: Vector2i) -> bool:
+func place(entry,cell: Vector2i) -> bool:
+	if closing or finished: return false
 	var success := false
-	if not draft.place(0,entry,cell):
-		message = "配置できません：形・空きマス・開放範囲を確認してください。"
+	if not draft.place(0,entry,cell): fail("ここには配置できません。")
 	else:
 		success = commit_layout()
-		if success: message = "配置を変更しました。装備に反映済みです。"
-		selected = null
+		if success:
+			selected = entry
+			placement_armed = false
+			message = ""
+			_sound("ui_place")
 	refresh()
 	return success
 func remove(entry) -> bool:
-	if entry not in draft.builds[0].equipped: return false
+	if closing or finished or entry not in draft.builds[0].equipped: return false
 	var success := false
-	if not draft.toggle(0,entry): message = "控えが満杯です。先に控えの装備をバッグへ配置してください。"
+	if not draft.toggle(0,entry): fail("収納が満杯です。")
 	else:
 		success = commit_layout()
-		if success: message = "控えへ戻しました。装備に反映済みです。"
-		selected = null
+		if success:
+			selected = entry
+			placement_armed = false
+			message = ""
+			_sound("ui_remove")
 	refresh()
 	return success
+func user_place(entry,cell: Vector2i) -> bool:
+	return place(entry,cell) if can_interact() else false
+func user_remove(entry) -> bool:
+	return remove(entry) if can_interact() else false
 func click_cell(cell: Vector2i) -> void:
-	if selected != null: place(selected,cell); return
+	if not can_interact(): return
 	var occupied: Dictionary = draft.occupied_cells(0)
-	if occupied.has(cell): select(occupied[cell])
-func add_art(parent: Control, entry, bounds: Rect2) -> void:
+	if occupied.has(cell): user_select(occupied[cell])
+	elif selected != null and placement_armed: user_place(selected,cell)
+func add_art(parent: Control,entry,bounds: Rect2) -> void:
 	var image := TextureRect.new()
-	image.texture = Weapons.art(draft.gun_id(entry)) if draft.is_gun(entry) else Art.texture("relic_%02d" % draft.relic_id(entry))
+	image.texture = texture(entry)
 	image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	image.position = bounds.position
 	image.size = bounds.size
@@ -70,119 +175,154 @@ func add_art(parent: Control, entry, bounds: Rect2) -> void:
 	image.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	parent.add_child(image)
 func refresh() -> void:
-	for child in body.get_children(): body.remove_child(child); child.queue_free()
-	var shade := ColorRect.new()
-	shade.color = Color(0,0,0,.72)
-	shade.size = Vector2(1120,800)
-	body.add_child(shade)
-	var panel := Widgets.box(body,"Bag",Rect2(80,65,960,680))
-	var background := TextureRect.new()
-	background.texture = preload("res://assets/ui/exploration/workshop-case-v1.png")
-	background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	background.stretch_mode = TextureRect.STRETCH_SCALE
-	background.size = panel.size
-	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	panel.add_child(background)
-	Widgets.label(panel,"Title",Rect2(32,43,580,34),24).text = "携帯工房 ／ 装備の整理（探索停止中）"
-	Widgets.label(panel,"Help",Rect2(32,72,580,35),15).text = message
-	Widgets.label(panel,"Equipped",Rect2(44,113,570,28),18).text = "バッグ ／ 使用 %d / %d マス" % [draft.occupied_cells(0).size(),draft.usable_cells(0).size()]
-	build_grid(panel)
-	build_reserve(panel)
-	build_details(panel)
-	Widgets.button(panel,"Unequip",Rect2(670,526,245,40),"選択した装備を控えへ",func():
-		if selected != null: remove(selected))
-	Widgets.button(panel,"Close",Rect2(670,576,245,40),"閉じる ／ Esc",func(): close_requested.emit())
-	Widgets.label(panel,"Controls",Rect2(32,605,580,22),14).text = "変更は即時反映  ・  Tab / Esc：閉じる  ・  ドラッグ／クリックで配置"
-	if selected != null: select(selected)
-
-func build_grid(panel: Control) -> void:
-	var grid := GridContainer.new()
+	for child in panel.get_children(): panel.remove_child(child); child.queue_free()
+	build_grid()
+	build_reserve()
+	build_details()
+	var error := Widgets.label(panel,"Error",Rect2(606,650,328,36),15)
+	error.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	error.modulate = Color("f4bd94")
+	error.text = message
+	error.visible = not message.is_empty() and error_time>0
+	if selected != null and selected in draft.builds[0].owned: select(selected)
+func build_grid() -> void:
+	var grid := Control.new()
 	grid.name = "Grid"
-	grid.columns = Grid.MAX_GRID_SIZE.x
-	grid.position = Vector2(150,155)
-	grid.add_theme_constant_override("h_separation",3)
-	grid.add_theme_constant_override("v_separation",3)
+	grid.position = Vector2(180,229)
+	grid.size = Vector2(360,360)
+	grid.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.add_child(grid)
 	var occupied: Dictionary = draft.occupied_cells(0)
 	var usable: Dictionary = draft.usable_cells(0)
-	for y in range(Grid.MAX_GRID_SIZE.y):
-		for x in range(Grid.MAX_GRID_SIZE.x):
+	for y in range(6):
+		for x in range(6):
 			var pos := Vector2i(x,y)
 			var cell := Cell.new()
 			cell.name = "Cell_%d_%d" % [x,y]
+			cell.position = Vector2(pos)*60
+			cell.size = Vector2(58,58)
 			cell.inventory_state = draft
 			cell.cell = pos
-			cell.custom_minimum_size = Vector2(48,48)
-			cell.on_drop = place
+			cell.on_drop = user_place
 			cell.on_click = click_cell
 			var style := StyleBoxFlat.new()
-			style.bg_color = Color("283b44") if usable.has(pos) else Color("11171a")
-			style.border_color = Color("64777c")
+			style.bg_color = Color("17393a") if usable.has(pos) else Color("091b1d")
+			style.border_color = Color("8d8058") if usable.has(pos) else Color("193331")
 			style.set_border_width_all(1)
-			if occupied.has(pos):
-				style.bg_color = Color("30758a") if draft.is_gun(occupied[pos]) else Color(info(occupied[pos]).color).darkened(.5)
-				style.border_color = style.bg_color.lightened(.4)
+			if occupied.has(pos): style.bg_color = Color("1c4845")
 			cell.add_theme_stylebox_override("panel",style)
 			grid.add_child(cell)
 			if occupied.has(pos):
 				var entry = occupied[pos]
-				var chip := Chip.new()
-				chip.entry = entry
+				var chip = make_chip(entry)
 				chip.grab_offset = pos-draft.builds[0].positions[entry]
-				chip.on_drag_start = select
-				chip.tooltip_text = str(info(entry).name)+" ／ %dマス\n" % draft.shape_of(entry).size()+str(info(entry).get("desc",""))
-				for state in ["normal","hover","pressed"]: chip.add_theme_stylebox_override(state,StyleBoxEmpty.new())
-				chip.position = Vector2(1,1)
-				chip.size = Vector2(46,46)
+				chip.size = Vector2(58,58)
+				for state in ["normal","hover","pressed","focus"]: chip.add_theme_stylebox_override(state,StyleBoxEmpty.new())
 				chip.pressed.connect(click_cell.bind(pos))
 				cell.add_child(chip)
-				if draft.builds[0].positions[entry] == pos: add_art(chip,entry,Rect2(4,4,38,38))
-				preload("res://scripts/ui/item_grid_appearance.gd").join_cells(cell,style,occupied,pos,entry,48,3,true)
-			elif not usable.has(pos): Widgets.label(cell,"Locked",Rect2(13,9,25,30),21).text = "×"
-
-func build_reserve(panel: Control) -> void:
-	Widgets.label(panel,"ReserveTitle",Rect2(32,463,580,28),18).text = "控え %d / %d" % [draft.reserve_items(0).size(),Grid.RESERVE_CAPACITY]
+				preload("res://scripts/ui/item_grid_appearance.gd").join_cells(cell,style,occupied,pos,entry,58,2)
+	for entry in draft.builds[0].equipped:
+		var rect: Rect2 = Drag.art_rect(draft.shape_of(entry),60)
+		rect.position += Vector2(draft.builds[0].positions[entry])*60
+		add_art(grid,entry,rect)
+	var mask := Control.new()
+	mask.name = "Hover"
+	mask.size = Vector2(360,360)
+	mask.clip_contents = true
+	mask.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	grid.add_child(mask)
+	hover_preview = Drag.new()
+	hover_preview.visible = false
+	mask.add_child(hover_preview)
+func make_chip(entry):
+	var chip := Chip.new()
+	chip.entry = entry
+	chip.art_texture = texture(entry)
+	chip.shape = draft.shape_of(entry)
+	chip.can_interact = can_interact
+	chip.on_drag_start = start_drag
+	return chip
+func build_reserve() -> void:
 	var tray := Tray.new()
 	tray.name = "Reserve"
-	tray.position = Vector2(30,501)
-	tray.size = Vector2(600,110)
-	tray.on_drop = remove
+	tray.position = Vector2(180,616)
+	tray.size = Vector2(384,38)
+	tray.on_drop = user_remove
+	tray.add_theme_stylebox_override("panel",StyleBoxEmpty.new())
 	panel.add_child(tray)
 	var reserve: Array = draft.reserve_items(0)
-	for i in range(reserve.size()):
+	for i in range(Grid.RESERVE_CAPACITY):
+		var slot := Panel.new()
+		slot.position = Vector2(i*48,0)
+		slot.size = Vector2(46,38)
+		slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var style := StyleBoxFlat.new()
+		style.bg_color = Color("173633")
+		style.border_color = Color("5f7565")
+		style.set_border_width_all(1)
+		slot.add_theme_stylebox_override("panel",style)
+		tray.add_child(slot)
+		if i>=reserve.size(): continue
 		var entry = reserve[i]
-		var chip := Chip.new()
-		chip.entry = entry
-		chip.position = Vector2(6+(i%4)*148,(i/4)*54+4)
-		chip.size = Vector2(142,48)
-		chip.text = "       "+str(info(entry).name)
-		chip.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		chip.add_theme_font_size_override("font_size",14)
-		chip.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		chip.tooltip_text = str(info(entry).name)+"\n"+str(info(entry).get("desc",""))
-		chip.on_drag_start = select
-		chip.on_reserve_drop = remove
-		chip.pressed.connect(select.bind(entry))
+		var chip = make_chip(entry)
+		chip.name = "Item_%d" % i
+		chip.position = slot.position
+		chip.size = slot.size
+		for state in ["normal","hover","pressed","focus"]: chip.add_theme_stylebox_override(state,StyleBoxEmpty.new())
+		chip.on_reserve_drop = user_remove
+		chip.pressed.connect(user_select.bind(entry))
 		tray.add_child(chip)
-		add_art(chip,entry,Rect2(6,3,32,32))
-
-func build_details(panel: Control) -> void:
+		add_art(chip,entry,Rect2(3,3,40,32))
+	tray.gui_input.connect(func(event: InputEvent):
+		if event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT and event.pressed and selected!=null and placement_armed: user_remove(selected))
+func build_details() -> void:
+	var box := Widgets.box(panel,"Details",Rect2(606,218,328,418))
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("0a2325")
+	style.border_color = Color("7c734f")
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(10)
+	box.add_theme_stylebox_override("panel",style)
+	detail_name = Widgets.label(box,"Name",Rect2(20,16,288,42),23)
+	detail_name.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	detail_art = TextureRect.new()
+	detail_art.position = Vector2(95,64)
+	detail_art.size = Vector2(138,120)
+	detail_art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	detail_art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	detail_art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	box.add_child(detail_art)
 	var scroll := ScrollContainer.new()
 	scroll.name = "DetailScroll"
-	scroll.position = Vector2(670,120)
-	scroll.size = Vector2(246,325)
+	scroll.position = Vector2(20,195)
+	scroll.size = Vector2(288,207)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	panel.add_child(scroll)
+	box.add_child(scroll)
 	detail = Label.new()
 	detail.name = "Detail"
-	detail.custom_minimum_size.x = 226
+	detail.custom_minimum_size.x = 266
 	detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	detail.add_theme_font_size_override("font_size",16)
-	scroll.add_child(detail)
 	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	detail.text = "装備を選ぶと詳細を表示します。\n\n控えの武器の弾薬・モード・待ち時間は保持されます。\n装備の着脱でHPは回復しません。"
-	footprint = Footprint.new()
-	footprint.position = Vector2(702,464)
-	footprint.size = Vector2(92,48)
-	footprint.visible = false
-	panel.add_child(footprint)
+	scroll.add_child(detail)
+func update_hover(grid_position: Vector2 = Vector2.INF) -> void:
+	if not is_instance_valid(hover_preview): return
+	hover_preview.visible = false
+	if not can_interact(): return
+	var data = get_viewport().gui_get_drag_data()
+	var entry = selected if placement_armed else null
+	var offset := Vector2i.ZERO
+	if data is Dictionary and data.has("entry"):
+		entry = data.entry
+		offset = data.get("grab_offset",Vector2i.ZERO)
+	if entry==null or entry not in draft.builds[0].owned: return
+	var grid: Control = panel.get_node("Grid")
+	# Explicit grid coordinates also let headless GUI tests exercise the same renderer.
+	var pos: Vector2 = grid.get_local_mouse_position() if grid_position==Vector2.INF else grid_position
+	if not Rect2(Vector2.ZERO,Vector2(360,360)).has_point(pos): return
+	var anchor := Vector2i(floori(pos.x/60),floori(pos.y/60))-offset
+	hover_preview.position = Vector2(anchor)*60
+	hover_preview.shape = draft.shape_of(entry)
+	hover_preview.tint = Color(.5,1,.85,.3) if draft.fits(0,entry,anchor,entry) else Color(1,.3,.22,.35)
+	hover_preview.visible = true
+	hover_preview.queue_redraw()

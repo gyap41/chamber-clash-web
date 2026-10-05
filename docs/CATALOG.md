@@ -4,7 +4,7 @@
 
 自動生成: `python tools/docs_index.py`。表題は本文の最初の見出しから取得。分類は役割の案内で、内容の検証完了や採用を示しません。過去計画は元のパスを維持して履歴に分類しています。
 
-対象 205 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
+対象 207 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
 
 ## 入口・運用
 
@@ -40,6 +40,7 @@
 |[docs/planning/EXPLORATION_DESIGN.md](<planning/EXPLORATION_DESIGN.md>)|探索体験・敵・ボスの設計案|
 |[docs/planning/EXPLORATION_REWARDS.md](<planning/EXPLORATION_REWARDS.md>)|探索報酬・宝箱・発見の演出案|
 |[docs/planning/EXPLORATION_ROADMAP.md](<planning/EXPLORATION_ROADMAP.md>)|探索・ストーリーモード開発ロードマップ|
+|[docs/planning/EXPLORATION_UI_COMP.md](<planning/EXPLORATION_UI_COMP.md>)|探索バッグ・商品説明のカンプ|
 |[docs/planning/FLOOR_EXPANSION_PLAN.md](<planning/FLOOR_EXPANSION_PLAN.md>)|階層構造・部屋種類・イベント部屋の拡張計画|
 |[docs/planning/ROADMAP.md](<planning/ROADMAP.md>)|現在地と残課題|
 |[docs/planning/ROOM_SHAPE_STUDIES.md](<planning/ROOM_SHAPE_STUDIES.md>)|部屋形状15案|
@@ -79,7 +80,7 @@
 |[docs/art/production/README.md](<art/production/README.md>)|必要：制作指示|
 |[docs/art/production/ashen-foundry-v2/README.md](<art/production/ashen-foundry-v2/README.md>)|旧鋳造区 v2：採用画風での描き直し|
 |[docs/art/production/ashen-foundry/README.md](<art/production/ashen-foundry/README.md>)|1面：灰積もる旧鋳造区|
-|[docs/art/production/authored-rooms/README.md](<art/production/authored-rooms/README.md>)|弾の遮蔽修正（2026-10-04）|
+|[docs/art/production/authored-rooms/README.md](<art/production/authored-rooms/README.md>)|露店の店員配置修正（2026-10-05）|
 |[docs/art/production/boss-approach/README.md](<art/production/boss-approach/README.md>)|ボス前室・南入口の制作記録|
 |[docs/art/production/collapsed-workshop/README.md](<art/production/collapsed-workshop/README.md>)|崩落した作業室：実機試作|
 |[docs/art/production/enemy-animation-v2/README.md](<art/production/enemy-animation-v2/README.md>)|通常敵アニメーション v2 制作記録|
@@ -164,6 +165,7 @@
 |[assets/first-workshop/projectiles/README.md](<../assets/first-workshop/projectiles/README.md>)|ゲーム用：弾・発射・着弾|
 |[assets/generated/README.md](<../assets/generated/README.md>)|必要：生成原画・生成履歴|
 |[assets/retired/README.md](<../assets/retired/README.md>)|不採用・旧版の素材|
+|[assets/ui/exploration/workshop/README.md](<../assets/ui/exploration/workshop/README.md>)|携帯工房の探索バッグ素材|
 |[assets/ui/hud/README.md](<../assets/ui/hud/README.md>)|対戦HUD素材の差し替え|
 |[tools/README.md](<../tools/README.md>)|画像生成（開発専用）|
 |[tools/agent/README.md](<../tools/agent/README.md>)|AIエージェントの設定（Claude Code・Codex）|
