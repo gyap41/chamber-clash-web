@@ -98,6 +98,13 @@ var rng := RandomNumberGenerator.new()
 var boss_engine: AudioStreamPlayer
 var moss_rollers: Dictionary = {}
 var moss_paused := false
+# 2026-10-07: approved heavy iron mix, unchanged from audio candidate v2.
+static var gate_streams: Dictionary = {
+	"gate_close":preload("res://assets/audio/se/fw_gate_close_heavy_02.wav"),
+	"gate_open":preload("res://assets/audio/se/fw_gate_open_heavy_02.wav")}
+var gate_voice: AudioStreamPlayer
+var gate_frame: int = -1
+var gate_kind: String = ""
 
 func _ready() -> void:
 	rng.randomize()
@@ -110,6 +117,10 @@ func _ready() -> void:
 	compressor.threshold = -18.0
 	compressor.ratio = 5.0
 	AudioServer.add_bus_effect(index,compressor)
+	gate_voice = AudioStreamPlayer.new()
+	gate_voice.bus = bus_name
+	gate_voice.playback_type = AudioServer.PLAYBACK_TYPE_STREAM
+	add_child(gate_voice)
 	boss_engine = AudioStreamPlayer.new()
 	boss_engine.stream = preload("res://assets/audio/se/fw_spinner_engine_loop_01.mp3").duplicate()
 	boss_engine.stream.loop = true
@@ -130,6 +141,7 @@ func _exit_tree() -> void:
 	if index > 0: AudioServer.remove_bus(index)
 
 func stop_all(keep_boss_death: bool = false) -> void:
+	stop_gate()
 	for owner in moss_rollers.keys(): stop_moss_roll(owner)
 	if is_instance_valid(boss_engine): boss_engine.stop()
 	for voice in voices:
@@ -146,6 +158,7 @@ func update_boss_engine(active: bool, distance: float = 0.0, intensity: float = 
 	if not boss_engine.playing: boss_engine.play()
 
 func pause_boss_audio(value: bool) -> void:
+	if is_instance_valid(gate_voice): gate_voice.stream_paused = value
 	moss_paused=value
 	for roller in moss_rollers.values(): roller.stream_paused=value
 	boss_engine.stream_paused = value
@@ -156,6 +169,30 @@ func set_enabled(value: bool) -> void:
 	enabled = value
 	if not enabled: stop_all()
 	else: play_sound("toggle")
+
+func stop_gate() -> void:
+	if is_instance_valid(gate_voice):
+		gate_voice.stop()
+		gate_voice.stream = null
+	gate_frame = -1
+	gate_kind = ""
+
+func play_gate(kind: String, remaining_seconds: float = -1.0) -> void:
+	if not enabled or not gate_streams.has(kind): return
+	# All exits animate together. One room voice avoids four overlapping slams;
+	# reversing replaces the old motion sound instead of leaving its tail running.
+	var frame: int = Engine.get_process_frames()
+	if gate_frame == frame and gate_kind == kind: return
+	gate_frame = frame
+	gate_kind = kind
+	gate_voice.stop()
+	gate_voice.stream = gate_streams[kind]
+	gate_voice.stream_paused = moss_paused
+	gate_voice.volume_db = volume_db+(-20.0 if kind == "gate_close" else -19.0)
+	var motion_length: float = .35 if kind == "gate_close" else .65
+	var seek: float = maxf(0.0,motion_length-remaining_seconds) if remaining_seconds >= 0 else 0.0
+	gate_voice.play(seek)
+	played.emit(kind,0)
 
 func profile(kind: String, id: int = 0) -> Dictionary:
 	# 2026-10-05: opening uses the adopted mixed asset; closing remains unchanged.

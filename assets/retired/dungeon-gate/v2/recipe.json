@@ -1,0 +1,48 @@
+{
+  "version": "v2",
+  "new_generation_count": 0,
+  "method": "existing textures plus world-coordinate structural drawing",
+  "gate_height": 64,
+  "travel": 70,
+  "case_bottom": 64,
+  "case_top": 80,
+  "north_mount": [
+    0,
+    24
+  ],
+  "sources": [
+    {
+      "path": "assets/generated/dungeon-gate-v1.png",
+      "sha256": "1bbc7ad63813604c000c11fbfb2ef053fc9b54b882bd815ebb5485ff4eabafb9"
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v1/north.tres",
+      "sha256": "5d5dad15f37d231d3764bc9eb79b8548bf0b3f10e9cb21fd323173ef7f1b7560"
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v1/south.tres",
+      "sha256": "f8de9fb074e71a0a7a88d832fbf6683920598543db4f1c77e595c08fa8304985"
+    },
+    {
+      "path": "assets/stages/ashen-foundry-v2/props/threshold.png",
+      "sha256": "3814d15b598701e4667b19d63bba88d581219234ffa9c1f4603637431328c06a"
+    },
+    {
+      "path": "assets/stages/ashen-foundry-v2/wall-top.png",
+      "sha256": "6225644c722246f7adf7ee13ccd9a84326c7f96d5bf1a3b65f6c71a6d178c2fe"
+    },
+    {
+      "path": "assets/stages/ashen-foundry-v2/wall-face.png",
+      "sha256": "53cf38ccb48165cc856e41d9629e032c3c587ae80860e5061533124652c40824"
+    }
+  ],
+  "renderer": "scripts/world/portcullis_structure.gd",
+  "capture": "tools/preview_dungeon_gate.gd",
+  "animation": {
+    "fps": 20,
+    "frames": 100,
+    "seconds": 5,
+    "source": ".local/gate-v2-frames/",
+    "output": "views/north-animation.gif"
+  }
+}

@@ -10,6 +10,7 @@ const Shop = preload("res://scripts/catalog/shop_catalog.gd")
 const Weapons = preload("res://scripts/catalog/weapon_catalog.gd")
 const Relics = preload("res://scripts/catalog/relic_catalog.gd")
 const Art = preload("res://scripts/ui/hud_assets.gd")
+const Authored = preload("res://scripts/world/authored_rooms.gd")
 const RADIUS := 64.0
 const SUPPLY_PRICES := {"heal":8,"ammo":6}
 const WAVES := 3
@@ -21,6 +22,9 @@ static func role(game) -> String:
 
 static func has_teleporter(game, id: String) -> bool:
 	return not game.floor_data.is_empty() and game.floor_data.rooms[id].role != "boss"
+
+static func dedicated_shop(game) -> bool:
+	return not game.floor_data.is_empty() and game.floor_data.rooms[game.exploration.room_id].get("template_id","") == "shop"
 
 # Creates this room's event state on first entry (positions are searched from the arrival point).
 static func prepare(game) -> void:
@@ -44,7 +48,7 @@ static func prepare(game) -> void:
 			else: taken.append(room[key].pos)
 	if room.get("shop_sign") != null: taken.append(room.shop_sign)
 	if has_teleporter(game,game.exploration.room_id) and not room.has("teleporter"):
-		room.teleporter = Reward.placement(game,taken)
+		room.teleporter = Authored.SHOP_TELEPORTER if dedicated_shop(game) else Reward.placement(game,taken)
 
 static func shop_stock(game, taken: Array) -> Array:
 	var progress = game.exploration
@@ -80,6 +84,7 @@ static func shop_stock(game, taken: Array) -> Array:
 # 2026-10-05: scattered stock needs clearance from EVERY pedestal, not just the row ends.
 static func sign_point(game, stock: Array) -> Variant:
 	if stock.is_empty(): return null
+	if dedicated_shop(game): return Authored.SHOP_MERCHANT
 	var ends: Array = [stock[0].pos+Vector2(-144,0),stock[-1].pos+Vector2(144,0)]
 	var center: Vector2 = game.arena.field_rect.get_center()
 	var candidates: Array = []
@@ -98,6 +103,10 @@ static func sign_point(game, stock: Array) -> Variant:
 	return null
 
 static func shop_row(game, taken: Array, count: int) -> Array:
+	if dedicated_shop(game):
+		var slots: Array = []
+		for index in range(count): slots.append(Authored.SHOP_CENTER+Vector2((index-(count-1)*.5)*104,0))
+		return slots
 	var center: Vector2 = game.arena.field_rect.get_center()
 	var doors: Array = game.room_data(game.exploration.room_id).doors
 	var free := func(point: Vector2) -> bool:

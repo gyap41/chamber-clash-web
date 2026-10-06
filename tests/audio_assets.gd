@@ -12,7 +12,8 @@ func _init() -> void:
 		return
 	for entry in manifest.assets:
 		var path: String = entry.get("file_path", "")
-		if not path.begins_with("res://assets/audio/") or not ResourceLoader.exists(path):
+		var allowed_root: bool = path.begins_with("res://assets/audio/") or path.begins_with("res://assets/candidates/")
+		if not allowed_root or not ResourceLoader.exists(path):
 			printerr("FAIL: audio resource missing")
 			quit(1)
 			return

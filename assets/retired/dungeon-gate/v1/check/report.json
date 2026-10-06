@@ -1,0 +1,63 @@
+{
+  "image": "assets\\candidates\\dungeon-gate\\v1\\sheet.png",
+  "size": [
+    1536,
+    1024
+  ],
+  "grid": [
+    1,
+    1
+  ],
+  "cell": [
+    1536,
+    1024
+  ],
+  "display_scale": 0.24,
+  "camera_zoom": 1.2,
+  "kind": "actor",
+  "directions": {
+    "dir0": {
+      "frames": [
+        {
+          "empty": false,
+          "bbox": [
+            75,
+            86,
+            1386,
+            851
+          ],
+          "feet_y": 936,
+          "touches_edge": false,
+          "magenta_ratio": 0.0,
+          "semi_transparent_ratio": 0.071,
+          "display_size": [
+            304,
+            185
+          ],
+          "luma_mean": 30.4,
+          "luma_std": 10.1,
+          "saturation_mean": 15.9,
+          "detail": 2.62,
+          "edge_contrast": 12.4
+        }
+      ],
+      "groups": {
+        "all": {
+          "height_variation": 0.0
+        }
+      }
+    }
+  },
+  "thresholds_note": "provisional 2026-10-04; colour metrics use a floor composite without lighting/shadows, so compare them with a baseline measured by this tool, not with the absolute VISUAL_STYLE_GUIDE 3.5 numbers",
+  "summary_median": {
+    "luma_mean": 30.4,
+    "luma_std": 10.1,
+    "saturation_mean": 15.9,
+    "detail": 2.6,
+    "edge_contrast": 12.4,
+    "display_height_px_max": 185
+  },
+  "hard_failures": [],
+  "warnings": [],
+  "verdict": "PASS"
+}

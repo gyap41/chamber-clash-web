@@ -1,0 +1,36 @@
+{
+  "method": "Decoded PCM. Prefix closing impact with opening chain sample, 20ms edge fades, chain -3dB; align original maximum amplitude to gate touchdown at 0.35s; 10ms tail fade. Originals unchanged.",
+  "sample_rate": 44100,
+  "original_close_peak_seconds": 0.0674829931972789,
+  "impact_start_seconds": 0.28251700680272107,
+  "duration": 0.762517006802721,
+  "runtime_gain_db": {
+    "gate_close": -20,
+    "gate_open": -19
+  },
+  "sources": [
+    {
+      "path": "fw_gate_close_01.mp3",
+      "sha256": "6ee4f75c5895bfc5e7decf78634b4c4b5357cf85a6dcbc8bb53d4ce575804112"
+    },
+    {
+      "path": "fw_gate_open_01.mp3",
+      "sha256": "89d6581f1d727be0b0cbbbfc745cf0c6d458f781d963827f801fb5db461a172f"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "fw_gate_close_aligned_01.wav",
+      "sha256": "af37b24e7dce0b40e4242563c40aac3161a9078ce7902d656291dc7785fe73e5"
+    },
+    {
+      "path": "gate-close-preview.wav",
+      "sha256": "a4634b844b0a952c620514f0fa01348a2458c4cc7679d7a5c83c4bab54cccbf9"
+    },
+    {
+      "path": "gate-open-preview.wav",
+      "sha256": "3840a3a7ec18f0e724329a5f77661514d4cdba77e93daef876aad77263fac924"
+    }
+  ],
+  "listened": false
+}

@@ -60,6 +60,33 @@ static func apply_folder(folder: String) -> void:
 		_fail("preview.jsonに replaces の辞書がありません: " + manifest_path)
 		return
 	var replaces: Dictionary = parsed.replaces
+	var door_sounds: Dictionary = parsed.get("door_sounds",{})
+	for kind in door_sounds:
+		if kind not in ["gate_close","gate_open"]:
+			_fail("Unknown gate sound")
+			continue
+		var stream: AudioStream = load(folder.path_join(str(door_sounds[kind]))) as AudioStream
+		if stream == null:
+			_fail("Missing gate sound")
+			continue
+		preload("res://scripts/audio/sound.gd").gate_streams[kind] = stream
+		_keep.append(stream)
+		replaced.append("sound:"+str(kind))
+	if parsed.get("door_style","") in ["recessed","integrated"]:
+		preload("res://scripts/world/exploration_door.gd").gate_style = str(parsed.door_style)
+	# Four-direction stage gates are new artwork, with no adopted texture to replace.
+	var gates: Dictionary = parsed.get("door_textures",{})
+	for id in gates:
+		if id not in ["north","south","east","west"]:
+			_fail("Unknown door direction")
+			continue
+		var gate_path: String = folder.path_join(str(gates[id]))
+		var gate: Texture2D = load(gate_path) as Texture2D if ResourceLoader.exists(gate_path) else null
+		if gate == null:
+			_fail("Missing door texture")
+			continue
+		preload("res://scripts/world/exploration_door.gd").gate_textures[id] = gate
+		replaced.append("door:"+str(id))
 	for original in replaces:
 		var source: String = str(replaces[original])
 		var candidate_path: String = source if source.begins_with("res://") else folder.path_join(source)

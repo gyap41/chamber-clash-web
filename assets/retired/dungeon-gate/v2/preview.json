@@ -1,0 +1,13 @@
+{
+  "asset_id": "dungeon-gate",
+  "version": "v2",
+  "status": "replaced",
+  "replaces": {},
+  "door_style": "recessed",
+  "door_textures": {
+    "north": "../v1/north.tres",
+    "south": "../v1/south.tres",
+    "west": "../v1/north.tres",
+    "east": "../v1/north.tres"
+  }
+}

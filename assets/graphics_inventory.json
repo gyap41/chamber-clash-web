@@ -15,13 +15,13 @@
     "web-build"
   ],
   "counts": {
-    "dynamic_candidate": 275,
-    "runtime_reference": 211,
-    "unresolved": 58,
-    "development_reference": 228,
-    "generated_original": 132,
+    "dynamic_candidate": 363,
+    "runtime_reference": 216,
+    "unresolved": 112,
+    "development_reference": 230,
+    "generated_original": 133,
     "archive": 642,
-    "documentation": 542,
+    "documentation": 554,
     "legacy_web": 7
   },
   "duplicate_groups": [
@@ -29,6 +29,45 @@
       "assets/candidates/ash-ram/v1/ash-ram-parts-v1.png",
       "assets/first-workshop/enemies/elite-machines/ash-ram-parts-v1.png",
       "assets/generated/elite-machines/ash-ram-parts-v1.png"
+    ],
+    [
+      "assets/candidates/exploration-ui/hud-v1/weapon-23.png",
+      "assets/candidates/exploration-ui/shop-v10/weapon-art.png",
+      "assets/candidates/exploration-ui/shop-v11/weapon-art.png",
+      "assets/candidates/exploration-ui/shop-v12/weapon-art.png",
+      "assets/candidates/exploration-ui/shop-v13/weapon-art.png"
+    ],
+    [
+      "assets/candidates/exploration-ui/hud-v2/source.png",
+      "assets/ui/exploration/workshop/hud-atlas.png"
+    ],
+    [
+      "assets/candidates/exploration-ui/shop-v10/background.png",
+      "assets/candidates/exploration-ui/shop-v11/background.png",
+      "assets/candidates/exploration-ui/shop-v12/background.png",
+      "assets/candidates/exploration-ui/shop-v13/background.png"
+    ],
+    [
+      "assets/candidates/exploration-ui/shop-v10/relic-art.png",
+      "assets/candidates/exploration-ui/shop-v11/relic-art.png",
+      "assets/candidates/exploration-ui/shop-v12/relic-art.png",
+      "assets/candidates/exploration-ui/shop-v13/relic-art.png"
+    ],
+    [
+      "assets/candidates/exploration-ui/shop-v13/accessories-source.png",
+      "assets/ui/exploration/workshop/shop-accessories.png"
+    ],
+    [
+      "assets/candidates/exploration-ui/v9/drive-transparent.png",
+      "assets/ui/exploration/workshop/drive.png"
+    ],
+    [
+      "assets/candidates/exploration-ui/v9/power-transparent.png",
+      "assets/ui/exploration/workshop/power.png"
+    ],
+    [
+      "assets/candidates/exploration-ui/v9/shell.png",
+      "assets/ui/exploration/workshop/shell.png"
     ],
     [
       "assets/candidates/triple-ring/v1/triple-ring-parts-v1.png",
@@ -92,6 +131,11 @@
       "assets/stages/ashen-foundry-v2/exploration-kit/archive-storage-v1.png"
     ],
     [
+      "assets/generated/dungeon-gate-v1.png",
+      "assets/retired/dungeon-gate/v1/sheet.png",
+      "assets/stages/ashen-foundry-v2/dungeon-gate/sheet.png"
+    ],
+    [
       "assets/generated/foundry-spinner-v1/body.png",
       "assets/sprites/boss/foundry-spinner/body.png"
     ],
@@ -150,6 +194,10 @@
     [
       "assets/reference/portraits.png",
       "legacy-web/dist/assets/portraits.png"
+    ],
+    [
+      "assets/retired/dungeon-gate/v3/views/south/open.png",
+      "assets/retired/dungeon-gate/v3/views/south/opening.png"
     ],
     [
       "assets/weapons/weapons-extra.png",
@@ -318,6 +366,10 @@
       "docs/archive/2026-09-12/rina-twohead/idle-up.png"
     ],
     [
+      "docs/art/production/ashen-foundry-v2/gate-adopted/production/south/open.png",
+      "docs/art/production/ashen-foundry-v2/gate-adopted/production/south/opening.png"
+    ],
+    [
       "docs/art/production/ashen-foundry-v2/views/07-floor-start.png",
       "docs/art/production/ashen-foundry-v2/views/08-floor-start.png"
     ],
@@ -373,7 +425,10 @@
       "dynamic_candidates": [
         "scripts/dev/candidate_preview.gd"
       ],
-      "development_dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
       "web_excluded": true,
       "godot_ignored": false
     },
@@ -387,7 +442,10 @@
       "dynamic_candidates": [
         "scripts/dev/candidate_preview.gd"
       ],
-      "development_dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
       "web_excluded": true,
       "godot_ignored": false
     },
@@ -403,7 +461,10 @@
       "dynamic_candidates": [
         "scripts/dev/candidate_preview.gd"
       ],
-      "development_dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
       "web_excluded": true,
       "godot_ignored": false
     },
@@ -417,7 +478,10 @@
       "dynamic_candidates": [
         "scripts/dev/candidate_preview.gd"
       ],
-      "development_dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
       "web_excluded": true,
       "godot_ignored": false
     },
@@ -431,7 +495,10 @@
       "dynamic_candidates": [
         "scripts/dev/candidate_preview.gd"
       ],
-      "development_dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
       "web_excluded": true,
       "godot_ignored": false
     },
@@ -445,9 +512,1645 @@
       "dynamic_candidates": [
         "scripts/dev/candidate_preview.gd"
       ],
-      "development_dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
       "web_excluded": true,
       "godot_ignored": false
+    },
+    {
+      "path": "assets/candidates/exploration-ui/bag-comp-v2.png",
+      "category": "dynamic_candidate",
+      "bytes": 1037824,
+      "sha256": "42bc78bff6fcb89ff35802f66340a5ddd9d31f29b01b589078ee3ad3b6e24c15",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/bag-shop-comp-v1.png",
+      "category": "dynamic_candidate",
+      "bytes": 2209185,
+      "sha256": "2cfc1152607eea8d7607109493bc3363b9f59fec444c8e1828f3debd023259ee",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/hud-v1/a.png",
+      "category": "dynamic_candidate",
+      "bytes": 1105976,
+      "sha256": "4a03a189975a5f80cad82bbf4e1c7309d93393c5b66df930dc47f95c097f7a57",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/hud-v1/b.png",
+      "category": "dynamic_candidate",
+      "bytes": 1091714,
+      "sha256": "c1902a77a17f37fdce1237b3419633435fde5b473990dc3f666d868f874ac4ac",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/hud-v1/background.png",
+      "category": "dynamic_candidate",
+      "bytes": 1113448,
+      "sha256": "bdf420dad66f70ae34ea55d3db07b8a569a87584e7c0b911e6a3a02fa0a1ac35",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/hud-v1/comparison.png",
+      "category": "dynamic_candidate",
+      "bytes": 614543,
+      "sha256": "543749cd376275a96650e9a0727314ac67d7339b22cbe380fd10861690f0f4ab",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/hud-v1/current.png",
+      "category": "dynamic_candidate",
+      "bytes": 933207,
+      "sha256": "75de8cabb2e4005366fd576f103a9c95266a6cae273e5adb4c4cb000b0058a14",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/hud-v1/weapon-20.png",
+      "category": "dynamic_candidate",
+      "bytes": 21928,
+      "sha256": "0fc4f5f5e4703dd03876776aa60ba827cc1397a8636167024b3fbd7c7f317e91",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/hud-v1/weapon-23.png",
+      "category": "dynamic_candidate",
+      "bytes": 51994,
+      "sha256": "eabbb2d946d6a7f0b375db33652a946925a7c20e54eca6c3412945b9eb0b366c",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/hud-v1/weapon-28.png",
+      "category": "dynamic_candidate",
+      "bytes": 63149,
+      "sha256": "de64a97f65bc5850ef28d3f6cd02e075faaed1c849dfa2abde6ccb537f7a18b5",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/hud-v2/eight-reload.png",
+      "category": "dynamic_candidate",
+      "bytes": 1062385,
+      "sha256": "929128a2744c322a1a01ec2286fdf8eb70f4f0da6843be8fd9b35b63177db5f0",
+      "references": [
+        "assets/candidates/exploration-ui/hud-v2/manifest.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/hud-v2/hover.png",
+      "category": "dynamic_candidate",
+      "bytes": 1052619,
+      "sha256": "dd2463e16a894e3005d213195adc6a21f9a9ba2207acf0b200ec23fcd8ce7d7a",
+      "references": [
+        "assets/candidates/exploration-ui/hud-v2/manifest.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/hud-v2/in-game.png",
+      "category": "dynamic_candidate",
+      "bytes": 1049872,
+      "sha256": "2f6b503df0657811a55098073bb62e075579229237565a232c2b6d9e245a8ee0",
+      "references": [
+        "assets/candidates/exploration-ui/hud-v2/manifest.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/hud-v2/small.png",
+      "category": "dynamic_candidate",
+      "bytes": 632254,
+      "sha256": "1535866b4feadf8f73b9d7723d8d91f9741bec2470a43f74af92dfa56072b870",
+      "references": [
+        "assets/candidates/exploration-ui/hud-v2/manifest.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/hud-v2/source.png",
+      "category": "dynamic_candidate",
+      "bytes": 1526581,
+      "sha256": "6a16d61aaa366c8a8fc9c43a34e08bb362fb15955f868d76118a802b156ca34d",
+      "references": [
+        "assets/candidates/exploration-ui/hud-v2/manifest.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-comp-v2.png",
+      "category": "dynamic_candidate",
+      "bytes": 1018172,
+      "sha256": "0292ead2b05db58352640b48c632d7246407114859970c50d9b35ad36112454d",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v10/background.png",
+      "category": "dynamic_candidate",
+      "bytes": 1038696,
+      "sha256": "a5d7b68d96a4fdd2b22657070ef7210a2c4ee0dce0948cb2b05a30f52f6a02f4",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v10/comparison.png",
+      "category": "dynamic_candidate",
+      "bytes": 554450,
+      "sha256": "254097ae3ecfeac7d37f1371c698daa218a132b69bad371634bc6597f1c48850",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v10/expansion.png",
+      "category": "dynamic_candidate",
+      "bytes": 727016,
+      "sha256": "96394c5280439a7c1ef86de22b09a67f53f8cae8d697c5c03a29baedb810656d",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v10/insufficient.png",
+      "category": "dynamic_candidate",
+      "bytes": 780788,
+      "sha256": "c7aa329f055a1546edbc61f7c9b0874b603c3fd32f08a1b08acd96888b73d7f3",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v10/relic-art.png",
+      "category": "dynamic_candidate",
+      "bytes": 12051,
+      "sha256": "ceb71b252714f0134706c0a9fdbf24794207ce7621784c2ba2fb153caaa1158c",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v10/relic.png",
+      "category": "dynamic_candidate",
+      "bytes": 780687,
+      "sha256": "e2f81b3cd8db8790c4d675fe3a25be479601a39c6d08832088a1ee5a85f5842f",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v10/weapon-art.png",
+      "category": "dynamic_candidate",
+      "bytes": 51994,
+      "sha256": "eabbb2d946d6a7f0b375db33652a946925a7c20e54eca6c3412945b9eb0b366c",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v10/weapon.png",
+      "category": "dynamic_candidate",
+      "bytes": 831710,
+      "sha256": "b283ea584a18aeed34ff0cdc16f146cf22ae25725b0d78ccfb9f01536638fe4d",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v11/background.png",
+      "category": "dynamic_candidate",
+      "bytes": 1038696,
+      "sha256": "a5d7b68d96a4fdd2b22657070ef7210a2c4ee0dce0948cb2b05a30f52f6a02f4",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v11/comparison.png",
+      "category": "dynamic_candidate",
+      "bytes": 567040,
+      "sha256": "3c4e35b3c89c35a085874d6281249599a5f5388c403bbd3fa5a7d70a0a3b82ea",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v11/expansion.png",
+      "category": "dynamic_candidate",
+      "bytes": 741441,
+      "sha256": "12fbd6b4d26c04ba736a2782a52a88297f10cbd108bb093ec086cd312fda5f88",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v11/insufficient.png",
+      "category": "dynamic_candidate",
+      "bytes": 796441,
+      "sha256": "a99900ca9d3c3dbe0c6e4a752d01d92142db1fc6ab2b60cea23b9fb57c224ee2",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v11/motion.webp",
+      "category": "dynamic_candidate",
+      "bytes": 1852102,
+      "sha256": "99afe5e258ac4243045e06fab33607f2ea9b897569ddfdb1d71c68b4b5bf7ece",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v11/relic-art.png",
+      "category": "dynamic_candidate",
+      "bytes": 12051,
+      "sha256": "ceb71b252714f0134706c0a9fdbf24794207ce7621784c2ba2fb153caaa1158c",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v11/relic.png",
+      "category": "dynamic_candidate",
+      "bytes": 797727,
+      "sha256": "3db60e1a7e4568b16a3d946694a505f3a35d135c642f1f45452a5e8ac9b0a140",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v11/weapon-art.png",
+      "category": "dynamic_candidate",
+      "bytes": 51994,
+      "sha256": "eabbb2d946d6a7f0b375db33652a946925a7c20e54eca6c3412945b9eb0b366c",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v11/weapon.png",
+      "category": "dynamic_candidate",
+      "bytes": 847408,
+      "sha256": "0700ca4435b68757abc984d06b33b9edded1b88380c473cf2fd21cb83aa0e478",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v12/background.png",
+      "category": "dynamic_candidate",
+      "bytes": 1038696,
+      "sha256": "a5d7b68d96a4fdd2b22657070ef7210a2c4ee0dce0948cb2b05a30f52f6a02f4",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v12/comparison.png",
+      "category": "dynamic_candidate",
+      "bytes": 555234,
+      "sha256": "ec7e9ea8b2003fabf0305914cb30bd1a337a65b480af376dac042247e68c7e54",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v12/expansion.png",
+      "category": "dynamic_candidate",
+      "bytes": 719522,
+      "sha256": "be07b89bfd6947e103abdadfbe5b9acef69d048f3b315c4de92207dd0d4fd75f",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v12/insufficient.png",
+      "category": "dynamic_candidate",
+      "bytes": 772394,
+      "sha256": "c8dc0eb05f7427a7b41c378bf08892d3cbd650e5d8c72093344a6805cb5bcd42",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v12/motion.webp",
+      "category": "dynamic_candidate",
+      "bytes": 2000278,
+      "sha256": "55a4ad9498968479ecaa3cefc066877048ccb3b67175e435ea5f54f11b5351de",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v12/relic-art.png",
+      "category": "dynamic_candidate",
+      "bytes": 12051,
+      "sha256": "ceb71b252714f0134706c0a9fdbf24794207ce7621784c2ba2fb153caaa1158c",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v12/relic.png",
+      "category": "dynamic_candidate",
+      "bytes": 773644,
+      "sha256": "ecd0ffea3108f9a8946dc3ad4f02bc80e262532efc1868f4ff9315aa213f1890",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v12/weapon-art.png",
+      "category": "dynamic_candidate",
+      "bytes": 51994,
+      "sha256": "eabbb2d946d6a7f0b375db33652a946925a7c20e54eca6c3412945b9eb0b366c",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v12/weapon.png",
+      "category": "dynamic_candidate",
+      "bytes": 823099,
+      "sha256": "dbc2ad6cac65a8cfcf45a68fcfe268f2b7b9e55c8a20581fd0ce927ceed02293",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v13/accessories-source.png",
+      "category": "dynamic_candidate",
+      "bytes": 1966997,
+      "sha256": "cb4007f0c33f5d55ddeda751299cffa0e2599a7dbbed6e94a20fc485afcede69",
+      "references": [
+        "assets/candidates/exploration-ui/shop-v13/manifest.json",
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v13/background.png",
+      "category": "dynamic_candidate",
+      "bytes": 1038696,
+      "sha256": "a5d7b68d96a4fdd2b22657070ef7210a2c4ee0dce0948cb2b05a30f52f6a02f4",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v13/comparison.png",
+      "category": "dynamic_candidate",
+      "bytes": 572435,
+      "sha256": "4a440fcc07b8848966767ab2c141947c85d1db51176780ee345ba4b610cb3e79",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v13/expansion.png",
+      "category": "dynamic_candidate",
+      "bytes": 739114,
+      "sha256": "739bc7ef73db8e34fe943cf331235ab23c4165af9aa35f64a3a80ae81a837c0c",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v13/insufficient.png",
+      "category": "dynamic_candidate",
+      "bytes": 807369,
+      "sha256": "cc3ab9646326fbaf1cce0fa1fd2f6aaf4f67627b684dfab2ad1889e10286cd25",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v13/motion.webp",
+      "category": "dynamic_candidate",
+      "bytes": 2247422,
+      "sha256": "c5b52b33e171bb638b54b3fdd30da73d0be0de813371c073f4e2e62133e27f6b",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v13/relic-art.png",
+      "category": "dynamic_candidate",
+      "bytes": 12051,
+      "sha256": "ceb71b252714f0134706c0a9fdbf24794207ce7621784c2ba2fb153caaa1158c",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v13/relic.png",
+      "category": "dynamic_candidate",
+      "bytes": 808556,
+      "sha256": "7720c749ef93512a0bcec1bde571e08b529cd953c78e45a17b8ace2d48d8b317",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v13/weapon-art.png",
+      "category": "dynamic_candidate",
+      "bytes": 51994,
+      "sha256": "eabbb2d946d6a7f0b375db33652a946925a7c20e54eca6c3412945b9eb0b366c",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/shop-v13/weapon.png",
+      "category": "dynamic_candidate",
+      "bytes": 857621,
+      "sha256": "bcb0244575b11a7f9c8aad54be30b06849fe24f69c6391f5daf752307f572ef2",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v3/01-bag.png",
+      "category": "dynamic_candidate",
+      "bytes": 1032400,
+      "sha256": "6115ec4fa42bb3f1a6e29bc1b0fe41eadc3d766bacd4698829b3ee7b9e3f89b8",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v3/01-shop.png",
+      "category": "dynamic_candidate",
+      "bytes": 1031284,
+      "sha256": "b0c568a6d09e2a5b73b717e1cd0b295112582bda4bd6bd23aaadae9e5db7ccd4",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v3/02-bag.png",
+      "category": "dynamic_candidate",
+      "bytes": 1060166,
+      "sha256": "4ebca4079eb4ec1f798374902d73e4765978accc8804ef1b5c830c27ed6a79a8",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v3/02-shop.png",
+      "category": "dynamic_candidate",
+      "bytes": 1059723,
+      "sha256": "b2b64a0ae994574c9e0b6c506b1459bd63be80e988d7b36bb8670abcaaf27cf4",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v3/03-bag.png",
+      "category": "dynamic_candidate",
+      "bytes": 981185,
+      "sha256": "141a1f7cec3782ea983fe1bbce4308e3a6372ef5cec831018b36c28a1e0a9705",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v3/03-shop.png",
+      "category": "dynamic_candidate",
+      "bytes": 984776,
+      "sha256": "d9b1d7e9af3e2cc3c4d33549190723d147cd51ff490583974b56f2f346307bf8",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v3/satchel-frame.png",
+      "category": "dynamic_candidate",
+      "bytes": 2609241,
+      "sha256": "e5cdb9bb099ddee3ec25b37652650dcac850c8a9989836751378e8fc2416e8a3",
+      "references": [
+        "assets/candidates/exploration-ui/v3/manifest.json",
+        "assets/candidates/exploration-ui/v4/manifest.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v3/tray-frame.png",
+      "category": "dynamic_candidate",
+      "bytes": 2258633,
+      "sha256": "7a6dc478a9d73dda7c9002b1e07fa20e7c7b25aaa03879abd873c92757822e68",
+      "references": [
+        "assets/candidates/exploration-ui/v3/manifest.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v4/bag.png",
+      "category": "dynamic_candidate",
+      "bytes": 1238517,
+      "sha256": "3fb9c48dc736aafad617f52e9044f313a227a945509fbe6836014bdd167305a4",
+      "references": [
+        "assets/candidates/exploration-ui/v4/manifest.json",
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v4/button.png",
+      "category": "dynamic_candidate",
+      "bytes": 1635860,
+      "sha256": "f5ee7b8286dcf58c7193ef607601a3042b7c8ffbeba3de0aa2f2150e37560657",
+      "references": [
+        "assets/candidates/exploration-ui/v4/manifest.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v4/cell.png",
+      "category": "dynamic_candidate",
+      "bytes": 2782657,
+      "sha256": "f6c904327ec79d03d37828923f0b070751bf09b58543d111b2fad664786307bb",
+      "references": [
+        "assets/candidates/exploration-ui/v4/manifest.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v4/detail.png",
+      "category": "dynamic_candidate",
+      "bytes": 2465959,
+      "sha256": "e3a7613aefb3d30b53f23386bbbd3cd7bd76c89b0906433301bd0b0400df9647",
+      "references": [
+        "assets/candidates/exploration-ui/v4/manifest.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v4/shop.png",
+      "category": "dynamic_candidate",
+      "bytes": 1294578,
+      "sha256": "c9df682055114f70846c87fea06d1bba74d3ef7c565d0fa0231729b1d08e9973",
+      "references": [
+        "assets/candidates/exploration-ui/v4/manifest.json",
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v4/states.png",
+      "category": "dynamic_candidate",
+      "bytes": 375341,
+      "sha256": "700c21f60dba2f1b03ef03b454c1b048d1efc78abb156e27f33ea07bd6344cbd",
+      "references": [
+        "assets/candidates/exploration-ui/v4/manifest.json",
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v5/bag.png",
+      "category": "dynamic_candidate",
+      "bytes": 1197815,
+      "sha256": "b4fd4fe35f5f1b05f09278d8156310a939b3ab976acdfdc16e9aeedbfa8383a2",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v5/shop.png",
+      "category": "dynamic_candidate",
+      "bytes": 1246290,
+      "sha256": "d7751b308b5e7039343cfde60e90b3d8be2d2ca44d0e883d70a8ae8a2c62e534",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v5/states.png",
+      "category": "dynamic_candidate",
+      "bytes": 386969,
+      "sha256": "8e15b7c0cd47b5422d38b84b8ebdfd3114e6eb408f9f10f442e876e429ef3bab",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v6/a-bag.png",
+      "category": "dynamic_candidate",
+      "bytes": 1034654,
+      "sha256": "f6a1e1512b5a72f58aafe073dd9019a7fe92df38a5fb4740cbe9be9e548f430e",
+      "references": [
+        "assets/candidates/exploration-ui/v6/manifest.json",
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v6/a-shop.png",
+      "category": "dynamic_candidate",
+      "bytes": 1156720,
+      "sha256": "0e7b18b6fd3f5e3d871c02839aa21ae8a5f142411ae9642b1e209f7cb6325792",
+      "references": [
+        "assets/candidates/exploration-ui/v6/manifest.json",
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v6/artisan.png",
+      "category": "dynamic_candidate",
+      "bytes": 2255039,
+      "sha256": "4fc6c35056735c45b0925e99e1cc01b74fc90b69927534d2f9da7f230e828401",
+      "references": [
+        "assets/candidates/exploration-ui/v6/manifest.json",
+        "assets/candidates/exploration-ui/v6/ui_comp_v6.gd.txt"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v6/b-bag.png",
+      "category": "dynamic_candidate",
+      "bytes": 1018274,
+      "sha256": "19eda2dc2bb0dbc1d323e0d132b709b1a35989b5d3b00365516ea8810e901bb1",
+      "references": [
+        "assets/candidates/exploration-ui/v6/manifest.json",
+        "assets/candidates/exploration-ui/v7/preview.html",
+        "assets/candidates/exploration-ui/v8/preview.html",
+        "assets/candidates/exploration-ui/v9/manifest.json",
+        "assets/candidates/exploration-ui/v9/preview.html",
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v6/b-shop.png",
+      "category": "dynamic_candidate",
+      "bytes": 1132664,
+      "sha256": "b6e51dea62b4ff874a7401f2f4550cdb49eeac6022b50ecdd1d2e731161daf68",
+      "references": [
+        "assets/candidates/exploration-ui/v6/manifest.json",
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v6/relic.png",
+      "category": "dynamic_candidate",
+      "bytes": 2070785,
+      "sha256": "e121f693fff93f9e4daa31d87cb9fd8fb444fb53e2a728071dbc081c7135a24a",
+      "references": [
+        "assets/candidates/exploration-ui/v6/manifest.json",
+        "assets/candidates/exploration-ui/v6/ui_comp_v6.gd.txt"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v6/socket.png",
+      "category": "dynamic_candidate",
+      "bytes": 1900626,
+      "sha256": "dce057f420dc8c8673a3a3ade470e41217fb511f91a3dddd4c7976f11ea3395a",
+      "references": [
+        "assets/candidates/exploration-ui/v6/manifest.json",
+        "assets/candidates/exploration-ui/v6/ui_comp_v6.gd.txt"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v8/lid.svg",
+      "category": "dynamic_candidate",
+      "bytes": 1910,
+      "sha256": "823cac2433e6e1743cb88f05eb3f0f2efd644c8f44b878946ec713a561c4e09d",
+      "references": [
+        "assets/candidates/exploration-ui/v8/preview.html",
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v9/drive-transparent.png",
+      "category": "dynamic_candidate",
+      "bytes": 1973409,
+      "sha256": "67df2ae38a23f20ac5145431efb57a3a7ad6027efba73c9f37be8c6f72faec08",
+      "references": [
+        "assets/candidates/exploration-ui/v9/manifest.json",
+        "assets/candidates/exploration-ui/v9/preview.html",
+        "assets/candidates/exploration-ui/v9/regions.js",
+        "assets/candidates/exploration-ui/v9/regions.json",
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v9/drive.png",
+      "category": "dynamic_candidate",
+      "bytes": 2029850,
+      "sha256": "b831ec4fd507e52a52c586bfe03f34d0ddac92718c0e63915534b75efc9158a7",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v9/opening-review.webp",
+      "category": "dynamic_candidate",
+      "bytes": 529556,
+      "sha256": "8af6148712ed4cd37c5e52179dc0fba59cdb9c401956f9224be90dd2e37ba5f7",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v9/power-transparent.png",
+      "category": "dynamic_candidate",
+      "bytes": 1604309,
+      "sha256": "6f5111a276ce1be4adbccfed2ccfc2ef075a318d79a5a0e89e33b2439d8e2ded",
+      "references": [
+        "assets/candidates/exploration-ui/v9/manifest.json",
+        "assets/candidates/exploration-ui/v9/preview.html",
+        "assets/candidates/exploration-ui/v9/regions.js",
+        "assets/candidates/exploration-ui/v9/regions.json",
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v9/power.png",
+      "category": "dynamic_candidate",
+      "bytes": 1616902,
+      "sha256": "4938ccee893e645d482d05b143f5227a89c3d7ed0155130423170727ba0c432a",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v9/review-0.png",
+      "category": "dynamic_candidate",
+      "bytes": 589013,
+      "sha256": "12ceefaa0f240817dfefb40385d5795ac47f34cdff1c2dc6405ba379a258ac34",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v9/review-250.png",
+      "category": "dynamic_candidate",
+      "bytes": 699151,
+      "sha256": "a0e687426f8825348202b2815c1253151ec554fbe88adcf9f6b5e9cadf108730",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v9/review-450.png",
+      "category": "dynamic_candidate",
+      "bytes": 717293,
+      "sha256": "88b40841c19e16bdde2ba96b93f222c8ab84d5c83cc1d504b7b44c9656f54cfb",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v9/review-700.png",
+      "category": "dynamic_candidate",
+      "bytes": 650239,
+      "sha256": "4d9f6e83f664fe4aa873b84b7c00b8c5ff039ed18c744e9a4ce75df3ac7402b0",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v9/review-sequence.png",
+      "category": "dynamic_candidate",
+      "bytes": 651951,
+      "sha256": "48acb01d8014d77cd3df90424d20e68bcd2aff19fa48a951202ef22f16863939",
+      "references": [
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/candidates/exploration-ui/v9/shell.png",
+      "category": "dynamic_candidate",
+      "bytes": 1344791,
+      "sha256": "21b2ca4ff1754749d7c54a02a754eba0d13d3bdbbce3bb1eab54504b6432a091",
+      "references": [
+        "assets/candidates/exploration-ui/v9/manifest.json",
+        "assets/candidates/exploration-ui/v9/preview.html",
+        "assets/candidates/exploration-ui/v9/regions.js",
+        "assets/candidates/exploration-ui/v9/regions.json",
+        "docs/planning/EXPLORATION_UI_COMP.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [
+        "scripts/dev/candidate_preview.gd"
+      ],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
     },
     {
       "path": "assets/candidates/triple-ring-salvo/v1/check/waveform_spectrogram.png",
@@ -459,7 +2162,10 @@
       "dynamic_candidates": [
         "scripts/dev/candidate_preview.gd"
       ],
-      "development_dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
       "web_excluded": true,
       "godot_ignored": false
     },
@@ -473,7 +2179,10 @@
       "dynamic_candidates": [
         "scripts/dev/candidate_preview.gd"
       ],
-      "development_dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
       "web_excluded": true,
       "godot_ignored": false
     },
@@ -487,7 +2196,10 @@
       "dynamic_candidates": [
         "scripts/dev/candidate_preview.gd"
       ],
-      "development_dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
       "web_excluded": true,
       "godot_ignored": false
     },
@@ -501,7 +2213,10 @@
       "dynamic_candidates": [
         "scripts/dev/candidate_preview.gd"
       ],
-      "development_dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
       "web_excluded": true,
       "godot_ignored": false
     },
@@ -517,7 +2232,10 @@
       "dynamic_candidates": [
         "scripts/dev/candidate_preview.gd"
       ],
-      "development_dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tests/audio_assets.gd",
+        "tools/preview_dungeon_gate.gd"
+      ],
       "web_excluded": true,
       "godot_ignored": false
     },
@@ -578,12 +2296,14 @@
       "sha256": "58cd7993515fbb1dd50311f51257162a98e82e6333686b57e0873050172bc68d",
       "references": [
         "assets/first-workshop/manifest.json",
+        "scripts/ui/exploration_shop.gd",
         "scripts/world/exploration_supply.gd",
         "scripts/world/pickup.gd",
         "tests/candidate_preview.gd",
         "tests/fixtures/candidate_preview/v1/preview.json"
       ],
       "runtime_references": [
+        "scripts/ui/exploration_shop.gd",
         "scripts/world/exploration_supply.gd",
         "scripts/world/pickup.gd"
       ],
@@ -4412,6 +6132,7 @@
       "bytes": 14259,
       "sha256": "81e2fc7c5a2f03ebd64ca40e1b6349b7093727fca318ca64e90a0ece1de6489d",
       "references": [
+        "assets/candidates/exploration-ui/v9/preview.html",
         "assets/ui/hud/skin.json"
       ],
       "runtime_references": [
@@ -7933,6 +9654,23 @@
       "godot_ignored": true
     },
     {
+      "path": "assets/generated/dungeon-gate-v1.png",
+      "category": "generated_original",
+      "bytes": 1343402,
+      "sha256": "1bbc7ad63813604c000c11fbfb2ef053fc9b54b882bd815ebb5485ff4eabafb9",
+      "references": [
+        "assets/retired/dungeon-gate/v2/recipe.json",
+        "assets/retired/dungeon-gate/v3/recipe.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tools/visual_hub/asset_index.gd"
+      ],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
       "path": "assets/generated/elite-machines/ash-ram-parts-v1.png",
       "category": "generated_original",
       "bytes": 1085905,
@@ -9659,7 +11397,9 @@
       "category": "generated_original",
       "bytes": 962704,
       "sha256": "482e3a3a3e7b8cc39f7b3eb2e5054311438dd7673ce98a2e4054d097bd4d6fed",
-      "references": [],
+      "references": [
+        "assets/candidates/exploration-ui/v9/manifest.json"
+      ],
       "runtime_references": [],
       "dynamic_candidates": [],
       "development_dynamic_candidates": [
@@ -10014,6 +11754,619 @@
       "godot_ignored": true
     },
     {
+      "path": "assets/retired/dungeon-gate-audio/v1/check-aligned/waveform_spectrogram.png",
+      "category": "unresolved",
+      "bytes": 98211,
+      "sha256": "caf401afd39ee168f1d2cb19ab8f00eb02b1e1c9dd14371951d9f47abbbbe1ec",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate-audio/v1/check-close/waveform_spectrogram.png",
+      "category": "unresolved",
+      "bytes": 148954,
+      "sha256": "b4e46b4bce6df95f775670f70814b84e20413331664ee78c1d7ac48217631987",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate-audio/v1/check-open/waveform_spectrogram.png",
+      "category": "unresolved",
+      "bytes": 169526,
+      "sha256": "e1f317f80cae3a13c7581c522103bcd9bdd29fb97f5e5d3eb56d691c191f6a32",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate-audio/v2/check-close-heavy/waveform_spectrogram.png",
+      "category": "unresolved",
+      "bytes": 75934,
+      "sha256": "c7d5380a769ab793ba8a126d82e01716ed4f873fd2d8a139d6c70d99e4c9bb1b",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate-audio/v2/check-close/waveform_spectrogram.png",
+      "category": "unresolved",
+      "bytes": 155882,
+      "sha256": "7fcc243c0f61fb48629fcfbc5b36e559ddf2e4b4c1639816f81195d284445e50",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate-audio/v2/check-open-heavy/waveform_spectrogram.png",
+      "category": "unresolved",
+      "bytes": 76711,
+      "sha256": "1881da47e73ee9c0845cc0cd63f016deaf6747ef6ad416ec922d86bcedc0011e",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate-audio/v2/check-open/waveform_spectrogram.png",
+      "category": "unresolved",
+      "bytes": 161316,
+      "sha256": "1c49d9a04bdb179497c61c61a09d052a123c1d8a2eaf5eee4d187a500876ff51",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v1/check/contact_display.png",
+      "category": "unresolved",
+      "bytes": 117996,
+      "sha256": "b541cb65b6cad89ffa71803c6a68f5761007409bbf8472d6d0ff03bb27281fad",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v1/check/contact_zoom3.png",
+      "category": "unresolved",
+      "bytes": 173928,
+      "sha256": "f10b96b991fda7eba9da96f8e12b0bc1108abf4b89fcc64e6deced1ff3b32f84",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v1/sheet.png",
+      "category": "unresolved",
+      "bytes": 1343402,
+      "sha256": "1bbc7ad63813604c000c11fbfb2ef053fc9b54b882bd815ebb5485ff4eabafb9",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v1/views/closed.png",
+      "category": "unresolved",
+      "bytes": 358495,
+      "sha256": "65ced5ef4f962fd6e7a206d5b466c810a9ef9aa8e2879a8a930704989bc3bd28",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v1/views/open.png",
+      "category": "unresolved",
+      "bytes": 337093,
+      "sha256": "a64b123702cd7eb85db0979e534d53f80cea1c16c2c312116478f2b30302df89",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v1/views/opening.png",
+      "category": "unresolved",
+      "bytes": 343344,
+      "sha256": "743013d7e94c8206dfaa4f3d65cefe8db565cc2617515b02bf5d204564b1c7da",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v2/views/closed.png",
+      "category": "unresolved",
+      "bytes": 360336,
+      "sha256": "fb9fb030c26258319ab801af348480b4df53e938ff0f6447a0aecf3c9ba42a97",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v2/views/east/closed.png",
+      "category": "unresolved",
+      "bytes": 715583,
+      "sha256": "91fae16f09cc43687fbc6fedfd96ddbbf37a0d9f7435be7a676f571aa54ff73a",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v2/views/east/open.png",
+      "category": "unresolved",
+      "bytes": 694942,
+      "sha256": "f45573d68019a4819b256baf310e2e48a587c999d4af2d4e8ee417f44c74231c",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v2/views/east/opening.png",
+      "category": "unresolved",
+      "bytes": 697273,
+      "sha256": "210c93c5f9317a2a6f0ee510ac946f1cd068748fd78aee3693ece471629ff641",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v2/views/north-animation.gif",
+      "category": "unresolved",
+      "bytes": 371349,
+      "sha256": "28aa8120618f3f18d6048d4e3014e5fb66ed23272e67844647ca1644b0b19deb",
+      "references": [
+        "assets/retired/dungeon-gate/v2/recipe.json",
+        "assets/retired/dungeon-gate/v2/review.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v2/views/north/closed.png",
+      "category": "unresolved",
+      "bytes": 625826,
+      "sha256": "7c1f5472780442277c22370c8fb46a61735fac7664d901d435fa937a473880f7",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v2/views/north/open.png",
+      "category": "unresolved",
+      "bytes": 614026,
+      "sha256": "76d2a2942df13e021be1cb0977e5c5f9c2f4b4aecad26f77bcf668b36472d63b",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v2/views/north/opening.png",
+      "category": "unresolved",
+      "bytes": 615958,
+      "sha256": "195cb45ee403f1105d4f2703a5b3680a34dd51ca7c16b775c1a95b80709aea20",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v2/views/open.png",
+      "category": "unresolved",
+      "bytes": 351108,
+      "sha256": "277585ca3863a64589765f524f4e142714bd4470bebc139a21a14909a9462def",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v2/views/opening.png",
+      "category": "unresolved",
+      "bytes": 352038,
+      "sha256": "1c6e461246e86a2e54d0d2041ef5738287800c8f3f2c48005bdc38a9945a2705",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v2/views/south/closed.png",
+      "category": "unresolved",
+      "bytes": 581532,
+      "sha256": "9e0fa3b1f529c2d59b1b952899b169c209f67e1e8d30d5887cdb3c6636118e50",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v2/views/south/open.png",
+      "category": "unresolved",
+      "bytes": 566170,
+      "sha256": "2542e5639071b22162d5954fe4820863bc18a34e562b27d723b7b6f02c4a4577",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v2/views/south/opening.png",
+      "category": "unresolved",
+      "bytes": 567336,
+      "sha256": "f6d1b9f1eeff1415ce7c3d9120f6f580cb4baf0e688c0cbd5cf288fbf4dc184d",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v2/views/west/closed.png",
+      "category": "unresolved",
+      "bytes": 775263,
+      "sha256": "e3afbed91b72ccc83ec7d1d3bb3dd99e12b8af04712bf93841b23e2f8f74b7c5",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v2/views/west/open.png",
+      "category": "unresolved",
+      "bytes": 755755,
+      "sha256": "eb10a2fec377cd33cb8ddeb7522df884f9edab2f9e7b41a5b2249c857c549538",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v2/views/west/opening.png",
+      "category": "unresolved",
+      "bytes": 757584,
+      "sha256": "67df6c3fe89d3990c3f46a5aae260a17cf7f697d7f478862956d3019d3ff67b9",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/east/closed.png",
+      "category": "unresolved",
+      "bytes": 710750,
+      "sha256": "c24ba0f51d457492c3bddd80e42294daef7a3dfe6397cde47644ef95233ef1da",
+      "references": [
+        "assets/retired/dungeon-gate/v3/review.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/east/open.png",
+      "category": "unresolved",
+      "bytes": 700251,
+      "sha256": "83f71e5f0e4da865a2a5344b9e4b09b1a0f793fc64eb3e4a98ca80bcb567c7fb",
+      "references": [
+        "assets/retired/dungeon-gate/v3/review.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/east/opening.png",
+      "category": "unresolved",
+      "bytes": 698346,
+      "sha256": "6cc861c5af9dfdb99d81bfbbd2a18a34b65d2865e0d1bc21960861e44f39ffde",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/north/closed.png",
+      "category": "unresolved",
+      "bytes": 609059,
+      "sha256": "213f64fcd3d7f99a04d0d4f00f71839ebdef4325fb1de254d39deff0fef00414",
+      "references": [
+        "assets/retired/dungeon-gate/v3/review.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/north/open.png",
+      "category": "unresolved",
+      "bytes": 602638,
+      "sha256": "693da83b71f454bcfa20b9d1e7326832b4a8b0a859a17635719594f514cc9ba7",
+      "references": [
+        "assets/retired/dungeon-gate/v3/review.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/north/opening.png",
+      "category": "unresolved",
+      "bytes": 602652,
+      "sha256": "22967f60340ee892676fff3516a84c3ab8bec64c4d995b856090185b885cc510",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/production/east-animation.webp",
+      "category": "unresolved",
+      "bytes": 290478,
+      "sha256": "40a70919f3fa5a6e9178d9f812640eb1429245ec14ddfa34c771206e44eddc3b",
+      "references": [
+        "assets/retired/dungeon-gate/v3/recipe.json",
+        "assets/retired/dungeon-gate/v3/review.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/production/east/closed.png",
+      "category": "unresolved",
+      "bytes": 1082981,
+      "sha256": "59dfef49125b6c3e213313de5de4680d1550cf5b4895e023cbfc13c3cf9708a6",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/production/east/open.png",
+      "category": "unresolved",
+      "bytes": 1085400,
+      "sha256": "453faeaf67fd2707d4371547e12671790f6e5004e8f2a393c9ad0638f10d4ab8",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/production/east/opening.png",
+      "category": "unresolved",
+      "bytes": 1083939,
+      "sha256": "9c4428fe8a83baa6bbc557ef493590470faf7e89985a34fa686015a46acc9b5a",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/production/north-animation.webp",
+      "category": "unresolved",
+      "bytes": 1808830,
+      "sha256": "9e9b5fe7ba730b8dc7972a973f2e4c95709e32d3aee29e23552d6a795bb262a3",
+      "references": [
+        "assets/retired/dungeon-gate/v3/recipe.json",
+        "assets/retired/dungeon-gate/v3/review.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/production/north/closed.png",
+      "category": "unresolved",
+      "bytes": 1068889,
+      "sha256": "43e5309ce764165a6468e71bdc5558c26bc7599beff86c0f12c27ed22161a9c5",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/production/north/open.png",
+      "category": "unresolved",
+      "bytes": 1061884,
+      "sha256": "aab67e9c5d473d9b8bfc0bcce4bf0f33b75c2a93f070bc7c7ca2b1de5bdcc0f2",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/production/north/opening.png",
+      "category": "unresolved",
+      "bytes": 1064428,
+      "sha256": "7efe90021e694e493b2f04559e7607d5c9d0f63af465c276b24cd2e3a312dad0",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/south/closed.png",
+      "category": "unresolved",
+      "bytes": 576395,
+      "sha256": "159b827091a02d5ac3a783abdc20d02992ed38ebf719fe8db00452bc6a3db967",
+      "references": [
+        "assets/retired/dungeon-gate/v3/review.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/south/open.png",
+      "category": "unresolved",
+      "bytes": 568850,
+      "sha256": "f67f63018f9151c5654fdee47579e31683f7d92a4df7599b66fce500cd9537a9",
+      "references": [
+        "assets/retired/dungeon-gate/v3/review.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/south/opening.png",
+      "category": "unresolved",
+      "bytes": 568850,
+      "sha256": "f67f63018f9151c5654fdee47579e31683f7d92a4df7599b66fce500cd9537a9",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/west/closed.png",
+      "category": "unresolved",
+      "bytes": 778895,
+      "sha256": "950869a2524a22f7a77f1fb71bf77c9749baa919fa4ad09a8ef29b72604c1865",
+      "references": [
+        "assets/retired/dungeon-gate/v3/review.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/west/open.png",
+      "category": "unresolved",
+      "bytes": 768805,
+      "sha256": "c2a0c86ec06f7960186f0523e01f22fd80f29596fd9c56f7771e6a86025dbdb0",
+      "references": [
+        "assets/retired/dungeon-gate/v3/review.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v3/views/west/opening.png",
+      "category": "unresolved",
+      "bytes": 767057,
+      "sha256": "b3509eb2b29b3d4fa2719e8037ae09e5613914c2f5e8194e763c3cd431585737",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
       "path": "assets/retired/ram_sentry/v1/check/contact_display.png",
       "category": "unresolved",
       "bytes": 49465,
@@ -10163,6 +12516,54 @@
         "assets/retired/remaining-machines/v1/preview.json",
         "assets/retired/scatter_drone/v1/preview.json"
       ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/workshop-open/v1/check-listening/waveform_spectrogram.png",
+      "category": "unresolved",
+      "bytes": 89082,
+      "sha256": "37fa7921e357613b4fd6643a87527e0818c88b17cac9286fb2f8ab0d48626240",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/workshop-open/v1/check/waveform_spectrogram.png",
+      "category": "unresolved",
+      "bytes": 89243,
+      "sha256": "34ae4b681fe7398375a47867912557d8625ad38f373382a907ff977108da31ec",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/workshop-open/v2/check-energy/waveform_spectrogram.png",
+      "category": "unresolved",
+      "bytes": 84759,
+      "sha256": "08fd9305e46d4097bd016e215af2893f81c1f52ede3f48f74ed9bb7c2b2ee616",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "assets/retired/workshop-open/v2/check-mix/waveform_spectrogram.png",
+      "category": "unresolved",
+      "bytes": 109038,
+      "sha256": "fed4d464203d3755272aa58d4c491fbca2c2ec8d9ebfec059856f3ca0cbd9769",
+      "references": [],
       "runtime_references": [],
       "dynamic_candidates": [],
       "development_dynamic_candidates": [],
@@ -10396,6 +12797,27 @@
       "dynamic_candidates": [],
       "development_dynamic_candidates": [
         "tools/chest_atlas.gd"
+      ],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/stages/ashen-foundry-v2/dungeon-gate/sheet.png",
+      "category": "runtime_reference",
+      "bytes": 1343402,
+      "sha256": "1bbc7ad63813604c000c11fbfb2ef053fc9b54b882bd815ebb5485ff4eabafb9",
+      "references": [
+        "assets/stages/ashen-foundry-v2/dungeon-gate/north.tres",
+        "assets/stages/ashen-foundry-v2/dungeon-gate/south.tres"
+      ],
+      "runtime_references": [
+        "assets/stages/ashen-foundry-v2/dungeon-gate/north.tres",
+        "assets/stages/ashen-foundry-v2/dungeon-gate/south.tres"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [
+        "tests/door_animation.gd",
+        "tools/build_stage_v2_materials.gd"
       ],
       "web_excluded": false,
       "godot_ignored": false
@@ -11521,10 +13943,14 @@
       "bytes": 61444,
       "sha256": "3814d15b598701e4667b19d63bba88d581219234ffa9c1f4603637431328c06a",
       "references": [
-        "scripts/world/exploration_door.gd"
+        "assets/retired/dungeon-gate/v2/recipe.json",
+        "assets/retired/dungeon-gate/v3/recipe.json",
+        "scripts/world/exploration_door.gd",
+        "scripts/world/portcullis_structure.gd"
       ],
       "runtime_references": [
-        "scripts/world/exploration_door.gd"
+        "scripts/world/exploration_door.gd",
+        "scripts/world/portcullis_structure.gd"
       ],
       "dynamic_candidates": [
         "scripts/world/ashen_foundry_dressing.gd"
@@ -11728,6 +14154,8 @@
         "assets/generated/authored-wall-segments-v1.json",
         "assets/generated/authored-walls-v1.json",
         "assets/generated/first-workshop-usage.json",
+        "assets/retired/dungeon-gate/v2/recipe.json",
+        "assets/retired/dungeon-gate/v3/recipe.json",
         "data/stage_themes/ashen_foundry_v2.tres"
       ],
       "runtime_references": [
@@ -11748,6 +14176,8 @@
       "references": [
         "assets/generated/authored-exterior-rock-v1.json",
         "assets/generated/first-workshop-usage.json",
+        "assets/retired/dungeon-gate/v2/recipe.json",
+        "assets/retired/dungeon-gate/v3/recipe.json",
         "data/stage_themes/ashen_foundry_v2.tres"
       ],
       "runtime_references": [
@@ -11918,15 +14348,104 @@
     },
     {
       "path": "assets/ui/exploration/workshop-case-v1.png",
-      "category": "runtime_reference",
+      "category": "unresolved",
       "bytes": 2201490,
       "sha256": "c50769922a031e6c57c891435bdf7a8ff332f0b7893500a48a435a375bc2edf7",
       "references": [
-        "assets/ui/exploration/manifest.json",
-        "scripts/ui/exploration_bag.gd"
+        "assets/candidates/exploration-ui/ui_comp_v2.gd.txt",
+        "assets/candidates/exploration-ui/v3/manifest.json",
+        "assets/candidates/exploration-ui/v3/ui_comp_v3.gd.txt",
+        "assets/ui/exploration/manifest.json"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/ui/exploration/workshop/drive.png",
+      "category": "runtime_reference",
+      "bytes": 1973409,
+      "sha256": "67df2ae38a23f20ac5145431efb57a3a7ad6027efba73c9f37be8c6f72faec08",
+      "references": [
+        "assets/ui/exploration/workshop/regions.json",
+        "scripts/ui/workshop_skin.gd"
       ],
       "runtime_references": [
-        "scripts/ui/exploration_bag.gd"
+        "assets/ui/exploration/workshop/regions.json",
+        "scripts/ui/workshop_skin.gd"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/ui/exploration/workshop/hud-atlas.png",
+      "category": "runtime_reference",
+      "bytes": 1526581,
+      "sha256": "6a16d61aaa366c8a8fc9c43a34e08bb362fb15955f868d76118a802b156ca34d",
+      "references": [
+        "scripts/ui/exploration_hud_skin.gd"
+      ],
+      "runtime_references": [
+        "scripts/ui/exploration_hud_skin.gd"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/ui/exploration/workshop/power.png",
+      "category": "runtime_reference",
+      "bytes": 1604309,
+      "sha256": "6f5111a276ce1be4adbccfed2ccfc2ef075a318d79a5a0e89e33b2439d8e2ded",
+      "references": [
+        "assets/ui/exploration/workshop/regions.json",
+        "scripts/ui/workshop_skin.gd"
+      ],
+      "runtime_references": [
+        "assets/ui/exploration/workshop/regions.json",
+        "scripts/ui/workshop_skin.gd"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/ui/exploration/workshop/shell.png",
+      "category": "runtime_reference",
+      "bytes": 1344791,
+      "sha256": "21b2ca4ff1754749d7c54a02a754eba0d13d3bdbbce3bb1eab54504b6432a091",
+      "references": [
+        "assets/candidates/exploration-ui/hud-v2/manifest.json",
+        "assets/ui/exploration/workshop/regions.json",
+        "scripts/ui/exploration_hud_skin.gd",
+        "scripts/ui/workshop_skin.gd"
+      ],
+      "runtime_references": [
+        "assets/ui/exploration/workshop/regions.json",
+        "scripts/ui/exploration_hud_skin.gd",
+        "scripts/ui/workshop_skin.gd"
+      ],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": false,
+      "godot_ignored": false
+    },
+    {
+      "path": "assets/ui/exploration/workshop/shop-accessories.png",
+      "category": "runtime_reference",
+      "bytes": 1966997,
+      "sha256": "cb4007f0c33f5d55ddeda751299cffa0e2599a7dbbed6e94a20fc485afcede69",
+      "references": [
+        "scripts/ui/shop_skin.gd"
+      ],
+      "runtime_references": [
+        "scripts/ui/shop_skin.gd"
       ],
       "dynamic_candidates": [],
       "development_dynamic_candidates": [],
@@ -20921,6 +23440,158 @@
       "godot_ignored": true
     },
     {
+      "path": "docs/art/production/ashen-foundry-v2/gate-adopted/production/east/closed.png",
+      "category": "documentation",
+      "bytes": 1076562,
+      "sha256": "7159002ad034aa43c85dd5aec03c4ebdfeb5e0d2298951c49df0675886c0575c",
+      "references": [
+        "docs/art/production/ashen-foundry-v2/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/ashen-foundry-v2/gate-adopted/production/east/open.png",
+      "category": "documentation",
+      "bytes": 1078955,
+      "sha256": "64fd8465b8069c17cbc56cd1e72109889bce83e81fe2c9331236b6e8b6999ec8",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/ashen-foundry-v2/gate-adopted/production/east/opening.png",
+      "category": "documentation",
+      "bytes": 1077354,
+      "sha256": "beeab87033a7bcf10dfe2095821d2d04753af56b56c6892dca49a695b7b25db1",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/ashen-foundry-v2/gate-adopted/production/north/closed.png",
+      "category": "documentation",
+      "bytes": 1060200,
+      "sha256": "4254062bced27b44bd648ed01dd247bdb72dd64f82fc863a4725bd29d760e790",
+      "references": [
+        "docs/art/production/ashen-foundry-v2/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/ashen-foundry-v2/gate-adopted/production/north/open.png",
+      "category": "documentation",
+      "bytes": 1054036,
+      "sha256": "c74a9c59872c52ca20f5dbe99340df6a499940a6be8bc8c2f94fe472e89d017d",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/ashen-foundry-v2/gate-adopted/production/north/opening.png",
+      "category": "documentation",
+      "bytes": 1058674,
+      "sha256": "f227114bbf9ecf2c51b112995d7671a5730fed8b9b3d9d5e91689e3752c7cef8",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/ashen-foundry-v2/gate-adopted/production/south/closed.png",
+      "category": "documentation",
+      "bytes": 1015668,
+      "sha256": "a2df5d8b2d26cefc3f78b2e9ca162022b6d1c4bbffab5c8fa4ab9dc52b142c71",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/ashen-foundry-v2/gate-adopted/production/south/open.png",
+      "category": "documentation",
+      "bytes": 1012367,
+      "sha256": "1c53dce8098423e041ab41f61ff88f63a274fc886f97ef98d1ee65a6c17eefc1",
+      "references": [
+        "docs/art/production/ashen-foundry-v2/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/ashen-foundry-v2/gate-adopted/production/south/opening.png",
+      "category": "documentation",
+      "bytes": 1012367,
+      "sha256": "1c53dce8098423e041ab41f61ff88f63a274fc886f97ef98d1ee65a6c17eefc1",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/ashen-foundry-v2/gate-adopted/production/west/closed.png",
+      "category": "documentation",
+      "bytes": 1157211,
+      "sha256": "8fe1468929c261402e30360f57546c166eb20608bb7db36e087c8efc6da5816d",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/ashen-foundry-v2/gate-adopted/production/west/open.png",
+      "category": "documentation",
+      "bytes": 1159227,
+      "sha256": "4531aac857b9e37a0260429437ea94bdc62720cbb5420f9a8350b9fee40bab85",
+      "references": [
+        "docs/art/production/ashen-foundry-v2/README.md"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/ashen-foundry-v2/gate-adopted/production/west/opening.png",
+      "category": "documentation",
+      "bytes": 1157515,
+      "sha256": "3f7545562f2675f4b22041b92baf748ea8e84d626d9b9bb58d21a950ae9f522e",
+      "references": [],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
       "path": "docs/art/production/ashen-foundry-v2/ref-lizard-v3.png",
       "category": "documentation",
       "bytes": 112387,
@@ -23806,6 +26477,36 @@
       "godot_ignored": true
     },
     {
+      "path": "docs/art/production/event-rooms/shop-dedicated.png",
+      "category": "development_reference",
+      "bytes": 1059721,
+      "sha256": "7108c7eb1021f0473272036273248785b69d695a3f54a38ed8b4afe50d3b0adf",
+      "references": [
+        "docs/art/production/event-rooms/README.md",
+        "tests/shop_room.gd"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
+      "path": "docs/art/production/event-rooms/shop-overview.png",
+      "category": "development_reference",
+      "bytes": 975935,
+      "sha256": "b9bf866435bf3edf634f59869effea425d264b61a1d78ebb3772f69c3f279144",
+      "references": [
+        "docs/art/production/event-rooms/README.md",
+        "tests/shop_room.gd"
+      ],
+      "runtime_references": [],
+      "dynamic_candidates": [],
+      "development_dynamic_candidates": [],
+      "web_excluded": true,
+      "godot_ignored": true
+    },
+    {
       "path": "docs/art/production/event-rooms/shop.png",
       "category": "documentation",
       "bytes": 924316,
@@ -25452,6 +28153,7 @@
       "bytes": 69114,
       "sha256": "55bd4a8299def054df8c01ff39e9390e8e144d787286f330388e5248dffcf7f4",
       "references": [
+        "assets/generated/dungeon-gate-v1.json",
         "assets/generated/event-props-v1.json",
         "assets/generated/first-workshop-usage.json",
         "assets/generated/lizard-v3-sheet-a.json",

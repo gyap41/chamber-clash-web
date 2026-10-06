@@ -9,7 +9,14 @@ func clear_room():
 		enemy.state.inv = 0
 		enemy.hurt(1000)
 	game._physics_process(.016)
+func wait_for_gate_open():
+	game.refresh_hud()
+	for gate in game.doors:
+		assert(not gate.locked)
+		gate.step(gate.OPEN_SECONDS)
+		assert(gate.passage_ready())
 func cross(door):
+	wait_for_gate_open()
 	game.players[0].state.pos = door.position
 	game.players[0].sync_visual()
 	game.door_armed = true
@@ -61,6 +68,7 @@ func run():
 	assert(game.try_chest())
 	game._physics_process(1)
 	assert(game.BossFlow.claim(game))
+	wait_for_gate_open()
 	game.players[0].state.pos = back.position
 	game.door_armed = true
 	assert(game.try_enter_door())

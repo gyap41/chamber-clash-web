@@ -109,6 +109,14 @@ func check_attack(game) -> void:
 	player.state.pos = saved
 	player.sync_visual()
 
+func wait_for_open_gate(game) -> void:
+	# 2026-10-07: the adopted portcullis must finish opening before a traversal.
+	game.refresh_hud()
+	for gate in game.doors:
+		assert(not gate.locked)
+		gate.step(gate.OPEN_SECONDS)
+		assert(gate.passage_ready())
+
 func visit(game, id: String) -> void:
 	visited[id] = true
 	var normal: bool = game.floor_data.rooms[id].role == "normal"
@@ -148,12 +156,14 @@ func visit(game, id: String) -> void:
 	for door in game.room_data(id).doors:
 		if visited.has(door.target_room) or game.floor_data.rooms[door.target_room].role == "boss": continue
 		var before := snapshot(game.players[0],game.exploration.inventory)
+		wait_for_open_gate(game)
 		game.players[0].state.pos = door.position
 		key(game,false); key(game,true); key(game,false)
 		assert(game.exploration.room_id == door.target_room)
 		assert(snapshot(game.players[0],game.exploration.inventory) == before)
 		await visit(game,door.target_room)
 		var back: Dictionary = game.door_data(door.target_room,door.target_door)
+		wait_for_open_gate(game)
 		game.players[0].state.pos = back.position
 		key(game,false); key(game,true); key(game,false)
 		assert(game.exploration.room_id == id and game.players.size() == 1)

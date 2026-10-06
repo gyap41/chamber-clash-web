@@ -84,3 +84,5 @@ powershell -ExecutionPolicy Bypass -File tools/preview_candidate.ps1 lizard/v2
 いずれも本編接続済み、ユーザー試聴採用待ち。旧版は比較用に保持。
 
 - `exploration-ui/hud-v2/`：2026-10-06、A案HUD専用の6部品アトラス1枚。source.pngが内蔵生成原本、prompt.txtに全指示、manifest.jsonに領域とSHA-256。本編適用依頼に従いassets/ui/exploration/workshop/hud-atlas.pngへ同一コピー済み。最終見た目の採用はユーザー確認待ち。
+
+鉄格子の門v3・開閉SE v2は2026-10-07にユーザー採用され、通常起動へ適用済み。制作記録・旧候補は[門v3](../retired/dungeon-gate/v3/review.md)・[SE v2](../retired/dungeon-gate-audio/v2/review.md)へ保存。

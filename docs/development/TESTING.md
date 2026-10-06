@@ -815,3 +815,19 @@ UI・店員の1120×800描画は確認済み。音色、混戦の視認性、初
 exploration_hud_aは小数HP・残数・不要な常時文字の非表示、BGM操作、バッグ中の停止メニュー分離、8武器/リロードとボス領域を確認。--captureで.local/hud-a-{normal,pause,eight-reload,boss-layout,small}.pngを出力。boss-layoutは同じ場面にボスの表示用データを渡した配置検査で、ボス戦そのものの撮影ではない。shared_combat_hudは既存のマウス切替/停止、反撃回復、8武器、丸腰、結果表示を維持して確認する。
 
 2026-10-06：exploration_hud_aは専用HUD素材の接続後も同じ撮影手順を使う。追加検査は行動ホバーの文字/入力受付とクールダウン終了時の発光・時間経過での消灯。通常・8武器/装填・ボス表示データ・840×600・停止画面を目視確認する。静止画で通電の連続した動作や混戦の操作感まで確認済みとはしない。
+
+## 採用済みの鉄格子・専用ショップの確認（2026-10-07）
+
+通常起動で鉄格子v3・開閉SE v2を使う。候補用の起動引数は不要。正式素材はassets/stages/ashen-foundry-v2/dungeon-gateとassets/audio/seのheavy_02 WAV。原本・旧版・加工レシピはassets/retired/dungeon-gateおよびdungeon-gate-audioへ保存。
+
+`powershell -ExecutionPolicy Bypass -File tools/preview_dungeon_gate.ps1`で採用済みの北門を通常倍率で自動開閉する。`-View south/east/west/all`で方向または全景を選ぶ（上限120秒）。旧候補のVersion指定は廃止。
+
+`tools/preview_dungeon_gate.gd`へ`--capture-gate --gate-view=north`を渡すと、閉／途中／開を`docs/art/production/ashen-foundry-v2/gate-adopted/north/`へ保存して終了。`--gate-production`を加えると本編seed 1から対象方向の出口を持つ部屋を選び、`gate-adopted/production/<方向>/`へ保存する。方向省略は全景0.85倍、指定時は現行通常倍率。`--record-gate`は0.05秒刻みの100コマを`.local/gate-frames/`以下へ記録する。Godotに`--quit-after 600`、起動側に待機上限120秒を付ける。
+
+`tests/door_animation.gd`は正式素材が既定であることと、閉鎖・開放・反転・開放待ち・四方向×3種類の幅・固定昇降量を検査。`tests/door_audio.gd`は正式SEの既定参照、初期無音、複数門の1音化、反転、ポーズ、ミュート、停止を確認する。`tests/production_doors.gd`は通行前とボス報酬取得後にOPEN_SECONDS分だけ門を進め、非封鎖・passage_readyを確認して通行を検査する。採用された開放完了待ちに合わせた手順で、元の遷移先・衝突・報酬・帰還のassertを維持する。
+
+`tests/exploration_encounter.gd`も戦闘後と再訪時の横断前に同じ開放待ちを入れる。移動先・在庫・遭遇状態のassertは維持し、非封鎖・通行可能のassertを追加する。
+
+`tests/audio_assets.gd`はmanifestの正式素材と候補をResourceと長さで検査。閉鎖・開放の採用WAVは非圧縮PCM、トリム・正規化・ループなし。`assets/retired/dungeon-gate-audio/v2/mix.py`でAPI通信なしにPCMを再構成し、原本・出力のハッシュを照合できる。
+
+専用ショップの回帰検査は`tests/shop_room.gd`。四方向の入口、商品6台・店員・転送装置と家具の描画矩形の離隔、操作位置までの経路を確認する。描画ありで`-- --capture-shop`を渡すと`docs/art/production/event-rooms/`へ通常倍率と全景を保存する。Godotは`--quit-after 120`、起動側は待機上限60秒。購入・売切れ・再訪は既存のexploration_eventsとshop_workshopが検査する。

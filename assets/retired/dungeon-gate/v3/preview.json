@@ -1,0 +1,17 @@
+{
+  "asset_id": "dungeon-gate",
+  "version": "v3",
+  "status": "adopted",
+  "replaces": {},
+  "door_style": "integrated",
+  "door_sounds": {
+    "gate_close": "../../dungeon-gate-audio/v2/fw_gate_close_heavy_02.wav",
+    "gate_open": "../../dungeon-gate-audio/v2/fw_gate_open_heavy_02.wav"
+  },
+  "door_textures": {
+    "north": "../v1/north.tres",
+    "south": "../v1/south.tres",
+    "west": "../v1/north.tres",
+    "east": "../v1/north.tres"
+  }
+}

@@ -89,3 +89,7 @@ python tools/generate_image.py --plan 4
 `python tools/graphics_inventory.py` は画像のパス・参照元・動的読込候補・Web除外・同一内容コピーを調べ、[画像一覧](../assets/graphics_inventory.html)と[JSON台帳](../assets/graphics_inventory.json)を再生成する。`--check`で更新漏れを検査する。詳細と限界は[素材の分類](../assets/README.md)。画像の変更・削除・API通信は行わない。
 
 回帰確認は `python tests/test_graphics_inventory.py`。書式付きAtlasTexture、JSON経由、動的フォルダー、原画保管、重複、キャッシュ除外を確認する。
+
+## 鉄格子の開閉確認
+
+`powershell -ExecutionPolicy Bypass -File tools/preview_dungeon_gate.ps1`で本編採用済みの北門と開閉SEを通常倍率で自動再生する。`-View south/east/west/all`で方向または全景を選ぶ。120秒で終了。旧候補のVersion指定は廃止。[制作記録](../docs/art/production/ashen-foundry-v2/README.md)・[撮影と検証手順](../docs/development/TESTING.md)。

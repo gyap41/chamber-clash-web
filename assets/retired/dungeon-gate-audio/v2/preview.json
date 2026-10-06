@@ -1,0 +1,10 @@
+{
+  "asset_id": "dungeon-gate-audio",
+  "version": "v2",
+  "status": "adopted",
+  "replaces": {},
+  "door_sounds": {
+    "gate_close": "fw_gate_close_heavy_02.wav",
+    "gate_open": "fw_gate_open_heavy_02.wav"
+  }
+}

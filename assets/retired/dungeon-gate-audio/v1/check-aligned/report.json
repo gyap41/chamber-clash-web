@@ -1,0 +1,43 @@
+{
+  "candidate": {
+    "file": "assets\\candidates\\dungeon-gate-audio\\v1\\fw_gate_close_aligned_01.wav",
+    "sample_rate": 44100,
+    "channels": 2,
+    "file_duration_s": 0.763,
+    "leading_silence_ms": 5.0,
+    "attack_ms": 344.2,
+    "active_length_s": 0.649,
+    "audible_until_s": 0.654,
+    "trailing_silence_ms": 109.0,
+    "peak_dbfs": -1.47,
+    "clipped_samples": 0,
+    "rms_dbfs_active": -21.5,
+    "loudness_lufs_approx": -14.0,
+    "dc_offset": 8e-05,
+    "hits": 2,
+    "hit_times_ms": [
+      20.0,
+      254.4
+    ],
+    "spectral_centroid_hz": 2811,
+    "rolloff85_hz": 4903,
+    "spectral_flatness": 0.006,
+    "band_energy_share": {
+      "sub_<120": 0.012,
+      "low_120-500": 0.016,
+      "mid_500-2k": 0.562,
+      "presence_2k-6k": 0.339,
+      "air_>6k": 0.071
+    },
+    "harmonicity": 0.44,
+    "pitch_hz": null,
+    "stereo_correlation": 0.864
+  },
+  "category": "system",
+  "references": [],
+  "comparison": {},
+  "hard_failures": [],
+  "warnings": [],
+  "verdict": "PASS",
+  "not_measurable": "timbre quality, fit with the visual, mix in real play, loop musicality: user listening required"
+}

@@ -4,7 +4,7 @@
 
 自動生成: `python tools/docs_index.py`。表題は本文の最初の見出しから取得。分類は役割の案内で、内容の検証完了や採用を示しません。過去計画は元のパスを維持して履歴に分類しています。
 
-対象 207 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
+対象 212 件。キャッシュ・依存パッケージ・配布生成物は除外。依頼ごとの正本は総合索引と各分野のREADMEを参照してください。
 
 ## 入口・運用
 
@@ -165,6 +165,11 @@
 |[assets/first-workshop/projectiles/README.md](<../assets/first-workshop/projectiles/README.md>)|ゲーム用：弾・発射・着弾|
 |[assets/generated/README.md](<../assets/generated/README.md>)|必要：生成原画・生成履歴|
 |[assets/retired/README.md](<../assets/retired/README.md>)|不採用・旧版の素材|
+|[assets/retired/dungeon-gate-audio/v1/review.md](<../assets/retired/dungeon-gate-audio/v1/review.md>)|鉄格子の開閉SE v1|
+|[assets/retired/dungeon-gate-audio/v2/review.md](<../assets/retired/dungeon-gate-audio/v2/review.md>)|鉄格子の開閉SE v2|
+|[assets/retired/dungeon-gate/v1/review.md](<../assets/retired/dungeon-gate/v1/review.md>)|レビュー：鉄格子の門 v1（2026-10-06）|
+|[assets/retired/dungeon-gate/v2/review.md](<../assets/retired/dungeon-gate/v2/review.md>)|レビュー：壁に組み込む鉄格子 v2（2026-10-06）|
+|[assets/retired/dungeon-gate/v3/review.md](<../assets/retired/dungeon-gate/v3/review.md>)|鉄格子の門 v3：開口・通路との接続|
 |[assets/ui/exploration/workshop/README.md](<../assets/ui/exploration/workshop/README.md>)|携帯工房の探索バッグ素材|
 |[assets/ui/hud/README.md](<../assets/ui/hud/README.md>)|対戦HUD素材の差し替え|
 |[tools/README.md](<../tools/README.md>)|画像生成（開発専用）|

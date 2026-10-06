@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/candidates/dungeon-gate/v1/sheet.png" id="1"]
+
+[resource]
+atlas = ExtResource("1")
+region = Rect2(1090, 498, 86, 443)

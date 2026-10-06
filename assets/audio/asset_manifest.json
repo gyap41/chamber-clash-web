@@ -2777,6 +2777,183 @@
         }
       },
       "integration_status": "User-requested tail removal applied 2026-10-05; subjective listening unverified"
+    },
+    {
+      "asset_id": "se:fw_gate_close_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_gate_close_01.mp3",
+      "purpose": "Dungeon gate close; slide then contact at 0.35s; one candidate; unlistened",
+      "prompt": "A heavy iron portcullis dropping into stone guides. Immediate brief gritty metal slide and chain rattle, one weighty iron slam at 0.35 seconds, then a short muted metallic ring. Dry close mechanical game sound, no voice, music, magic, explosion or long reverb.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-10-06T14:00:03.611167+00:00",
+      "fingerprint": "801df911894f1f99b58394f8ac73c9a7fea7c3e1c0d02cbd2a19e0bab6968d7a",
+      "sha256": "6ee4f75c5895bfc5e7decf78634b4c4b5357cf85a6dcbc8bb53d4ce575804112",
+      "loop_verified": false,
+      "source_archive": "res://assets/retired/dungeon-gate-audio/v1/fw_gate_close_01.mp3",
+      "integration_status": "Source/comparison only; not played separately"
+    },
+    {
+      "asset_id": "se:fw_gate_open_01",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_gate_open_01.mp3",
+      "purpose": "Dungeon gate open; chain winch for 0.65s; one candidate; unlistened",
+      "prompt": "A heavy iron portcullis lifting on a chain winch. Immediate low metal friction and compact chain rattling for 0.6 seconds, ending with one soft mechanical catch. Restrained weighty machinery, gentler than a gate slam. Dry isolated game sound, no voice, music, magic or long reverb.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.7,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.7314285714285714,
+      "duration_source": "audio_header",
+      "generated_at": "2026-10-06T14:00:31.579758+00:00",
+      "fingerprint": "1fdbdbe95033cc0992dd52297ea3d909942e3bb6621cc3a7d6550378497d7088",
+      "sha256": "89d6581f1d727be0b0cbbbfc745cf0c6d458f781d963827f801fb5db461a172f",
+      "loop_verified": false,
+      "source_archive": "res://assets/retired/dungeon-gate-audio/v1/fw_gate_open_01.mp3",
+      "integration_status": "Source/comparison only; not played separately"
+    },
+    {
+      "asset_id": "se:fw_gate_close_aligned_01",
+      "type": "se",
+      "provider": "local_mix",
+      "file_path": "res://assets/audio/se/fw_gate_close_aligned_01.wav",
+      "purpose": "Gate close chain plus impact aligned to touchdown at 0.35s; candidate; unlistened",
+      "duration": 0.762517006802721,
+      "loop": false,
+      "loop_verified": false,
+      "sources": [
+        "se:fw_gate_close_01",
+        "se:fw_gate_open_01"
+      ],
+      "recipe": "assets/retired/dungeon-gate-audio/v1/recipe.json",
+      "sha256": "af37b24e7dce0b40e4242563c40aac3161a9078ce7902d656291dc7785fe73e5",
+      "generated_at": "2026-10-06T14:14:55.537983+00:00",
+      "generation_parameters": {
+        "method": "local PCM mix.py; no API request",
+        "sample_rate": 44100,
+        "channels": 2,
+        "subtype": "PCM_16",
+        "impact_peak_seconds": 0.35,
+        "prefix_gain_db": -3,
+        "prefix_fade_ms": 20,
+        "tail_fade_ms": 10
+      },
+      "source_archive": "res://assets/retired/dungeon-gate-audio/v1/fw_gate_close_aligned_01.wav",
+      "integration_status": "Source/comparison only; not played separately"
+    },
+    {
+      "asset_id": "se:fw_gate_close_02",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_gate_close_02.mp3",
+      "purpose": "鉄格子閉鎖の重厚感改訂、v2候補",
+      "prompt": "One massive dungeon iron portcullis dropping into stone. Thick heavy chain drag then a deep blunt iron impact with strong low-mid body and short dark metallic resonance. Weighty mechanical clunk, not an explosion. Impact at 0.35 seconds, fast decay. No bright jingles, no glass, no high pitched ringing, no voices, no music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.5224489795918368,
+      "duration_source": "audio_header",
+      "generated_at": "2026-10-06T14:38:19.960518+00:00",
+      "fingerprint": "935b6228d8237d640c3a12127f8824cf0a60f0896abd9c238b37292d42094f6f",
+      "sha256": "8bffc3fd1e79f3885bcbac12571fd6a25c0c3e24052afd2ed0a8f2af6864a8ec",
+      "loop_verified": false,
+      "source_archive": "res://assets/retired/dungeon-gate-audio/v2/fw_gate_close_02.mp3",
+      "integration_status": "Source/comparison only; not played separately"
+    },
+    {
+      "asset_id": "se:fw_gate_open_02",
+      "type": "se",
+      "provider": "elevenlabs",
+      "file_path": "res://assets/audio/se/fw_gate_open_02.mp3",
+      "purpose": "鉄格子開放の重厚感改訂、v2候補",
+      "prompt": "One massive dungeon iron portcullis hauled upward by thick iron chains. Deep strained mechanical scrape and slow heavy chain links, strong low-mid iron body, short dull stop clunk at the end. Dense grounded weight, dark restrained resonance. No bright rattles, no high pitched jingles, no voices, no music.",
+      "loop": false,
+      "generation_parameters": {
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.7,
+        "prompt_influence": 0.3,
+        "loop": false,
+        "output_format": "mp3_44100_128"
+      },
+      "duration": 0.7314285714285714,
+      "duration_source": "audio_header",
+      "generated_at": "2026-10-06T14:38:41.510101+00:00",
+      "fingerprint": "d1258f33ea673c2a46ee1831126f92b56c678d1d44c90c4dd360cdb7a32306ff",
+      "sha256": "7ff8699f92b73006fd1a7a5b3c40beae31b8eb5fa6216d4a2e3d5c2834d5bf7f",
+      "loop_verified": false,
+      "source_archive": "res://assets/retired/dungeon-gate-audio/v2/fw_gate_open_02.mp3",
+      "integration_status": "Source/comparison only; not played separately"
+    },
+    {
+      "asset_id": "se:fw_gate_close_heavy_02",
+      "type": "se",
+      "provider": "local_mix",
+      "file_path": "res://assets/audio/se/fw_gate_close_heavy_02.wav",
+      "purpose": "重厚な鉄格子SE v2 候補用PCM派生",
+      "duration": 0.8061451247165533,
+      "duration_source": "decoded_pcm",
+      "loop": false,
+      "loop_verified": false,
+      "sources": [
+        "se:fw_gate_close_02",
+        "se:fw_gate_open_02"
+      ],
+      "recipe": "assets/retired/dungeon-gate-audio/v2/recipe.json",
+      "sha256": "919a44c1f7c123c16bdf0aafcfa109a307e1e00dc781139b3bc073220c0c366f",
+      "generated_at": "2026-10-06T14:43:20.790872+00:00",
+      "generation_parameters": {
+        "method": "mix.py: DC removal; zero-phase low-pass close 1500Hz / open 2400Hz; close damped 95/173/271/437Hz body; opening prefix -12dB with 20ms fades; align close maximum to 0.35s; edge fades; normalize close -1.5dBFS / open -4dBFS.",
+        "sample_rate": 44100,
+        "channels": 2,
+        "subtype": "PCM_16"
+      },
+      "source_archive": "res://assets/retired/dungeon-gate-audio/v2/fw_gate_close_heavy_02.wav",
+      "integration_status": "adopted 2026-10-07"
+    },
+    {
+      "asset_id": "se:fw_gate_open_heavy_02",
+      "type": "se",
+      "provider": "local_mix",
+      "file_path": "res://assets/audio/se/fw_gate_open_heavy_02.wav",
+      "purpose": "重厚な鉄格子SE v2 候補用PCM派生",
+      "duration": 0.6802494331065759,
+      "duration_source": "decoded_pcm",
+      "loop": false,
+      "loop_verified": false,
+      "sources": [
+        "se:fw_gate_close_02",
+        "se:fw_gate_open_02"
+      ],
+      "recipe": "assets/retired/dungeon-gate-audio/v2/recipe.json",
+      "sha256": "38e3dd10a47706d61d8cb018b09eee025dcbdf7edcb576809da5174e74f7f031",
+      "generated_at": "2026-10-06T14:43:20.790872+00:00",
+      "generation_parameters": {
+        "method": "mix.py: DC removal; zero-phase low-pass close 1500Hz / open 2400Hz; close damped 95/173/271/437Hz body; opening prefix -12dB with 20ms fades; align close maximum to 0.35s; edge fades; normalize close -1.5dBFS / open -4dBFS.",
+        "sample_rate": 44100,
+        "channels": 2,
+        "subtype": "PCM_16"
+      },
+      "source_archive": "res://assets/retired/dungeon-gate-audio/v2/fw_gate_open_heavy_02.wav",
+      "integration_status": "adopted 2026-10-07"
     }
   ]
 }

@@ -183,6 +183,7 @@ func prepare_room_catalog(seed_value: int) -> bool:
 		room_catalog = dressed_catalog
 	return true
 func rebuild_doors() -> void:
+	sound.stop_gate()
 	clear_fx()
 	Reward.ensure_treasure(self)
 	Events.prepare(self)
@@ -198,6 +199,7 @@ func rebuild_doors() -> void:
 	for entry in room_data(exploration.room_id).doors:
 		var node := Door.new()
 		node.configure(entry,room_data(entry.target_room).name,arena.runtime_definition.theme)
+		node.motion_started.connect(sound.play_gate)
 		arena.add_child(node)
 		arena.move_child(node,arena.get_node("Players").get_index())
 		doors.append(node)
@@ -221,6 +223,8 @@ func try_enter_door(automatic: bool = false) -> bool:
 	if exploration.status != "active" or exploration.encounter_status == "active": return false
 	var entry := nearby_door()
 	if entry.is_empty(): return false
+	for door in doors:
+		if door.door_id == entry.id and Door.gate_textures.has(entry.id) and not door.passage_ready(): return false
 	if BossFlow.blocks_exit(self): return false
 	# Leaving the boss room completes the run only after the boss is defeated. Without an
 	# encounter (debug launches with encounters disabled) it stays an ordinary door.
@@ -376,6 +380,7 @@ func _physics_process(dt: float) -> void:
 	if phase == "play" and not paused and result.is_empty():
 		step_enemy_deaths(dt)
 		if is_instance_valid(chest_node): chest_node.step(dt)
+		for door in doors: door.step(dt)
 		BossFlow.step_reward(self,dt)
 		combat_visuals.step(dt)
 		fx.step(dt)

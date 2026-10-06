@@ -1,0 +1,42 @@
+{
+  "method": "mix.py: DC removal; zero-phase low-pass close 1500Hz / open 2400Hz; close damped 95/173/271/437Hz body; opening prefix -12dB with 20ms fades; align close maximum to 0.35s; edge fades; normalize close -1.5dBFS / open -4dBFS.",
+  "sample_rate": 44100,
+  "impact_offset_seconds": 0.32614512471655327,
+  "runtime_gain_db": {
+    "gate_close": -20,
+    "gate_open": -19
+  },
+  "sources": [
+    {
+      "path": "fw_gate_close_02.mp3",
+      "sha256": "8bffc3fd1e79f3885bcbac12571fd6a25c0c3e24052afd2ed0a8f2af6864a8ec"
+    },
+    {
+      "path": "fw_gate_open_02.mp3",
+      "sha256": "7ff8699f92b73006fd1a7a5b3c40beae31b8eb5fa6216d4a2e3d5c2834d5bf7f"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "fw_gate_close_heavy_02.wav",
+      "sha256": "919a44c1f7c123c16bdf0aafcfa109a307e1e00dc781139b3bc073220c0c366f",
+      "duration": 0.8061451247165533
+    },
+    {
+      "path": "fw_gate_open_heavy_02.wav",
+      "sha256": "38e3dd10a47706d61d8cb018b09eee025dcbdf7edcb576809da5174e74f7f031",
+      "duration": 0.6802494331065759
+    },
+    {
+      "path": "gate-close-preview.wav",
+      "sha256": "2ed1e61d62fa7270dacfe81389ceec5142112772605ea7433331573a72118f38",
+      "duration": 0.8061451247165533
+    },
+    {
+      "path": "gate-open-preview.wav",
+      "sha256": "d2b300cb77fe88522ccd092a19428debc3cdb590fc880b046ad71e8e171bfd36",
+      "duration": 0.6802494331065759
+    }
+  ],
+  "listened": false
+}

@@ -1,0 +1,8 @@
+{
+  "replaces": {},
+  "door_sounds": {
+    "gate_close": "fw_gate_close_aligned_01.wav",
+    "gate_open": "fw_gate_open_01.mp3"
+  },
+  "status": "replaced"
+}

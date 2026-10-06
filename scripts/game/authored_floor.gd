@@ -7,7 +7,7 @@ const A = preload("res://scripts/world/authored_rooms.gd")
 const Shell = A.Shell
 const ExistingFloor = preload("res://scripts/game/exploration_floor.gd")
 const Reach = preload("res://scripts/world/room_reachability.gd")
-const VERSION := 5
+const VERSION := 6
 const ROOMS := Vector2i(15,18)
 const MAIN_ROOMS := Vector2i(6,8) # Entrance and ordinary rooms before the antechamber.
 const JUNCTIONS := Vector2i(4,6)
@@ -170,7 +170,10 @@ static func loop_count(nodes: Array) -> int:
 static func assign_templates(nodes: Array, rng: RandomNumberGenerator) -> void:
 	var counts := {}
 	for node in nodes:
-		if node.role in ["normal","discovery","challenge"] or node.role in TERMINAL_EVENTS:
+		if node.role == "shop":
+			node.art = "shop"
+			counts[node.art] = counts.get(node.art,0)+1
+		elif node.role in ["normal","discovery","challenge"] or node.role in TERMINAL_EVENTS:
 			node.art = ""
 		else:
 			counts[node.art] = counts.get(node.art,0)+1
@@ -222,6 +225,7 @@ static func validation_errors(floor: Dictionary) -> PackedStringArray:
 	for id in floor.catalog:
 		var room = floor.catalog[id]
 		var meta: Dictionary = floor.rooms[id]
+		if (meta.role == "shop") != (meta.template_id == "shop"): errors.append("Shop requires its dedicated template: "+id)
 		var sides := A.canonical_sides(room.doors.map(func(d): return d.id))
 		if sides not in A.connection_sets(meta.template_id): errors.append("Unsupported openings: "+id)
 		if not Reach.reachable(room): errors.append("Unreachable: "+id)

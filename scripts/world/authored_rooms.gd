@@ -15,7 +15,11 @@ const NAMES := {"collapsed_gallery":"崩れた回廊","casting_line":"鋳造の�
 	"loading_bay":"荷捌き場","cistern":"貯水槽のある部屋","guard_post":"見張り詰所","fallen_gate":"崩れた大門の間",
 	"vault":"収蔵庫","chapel":"礼拝室","storage_cells":"小室が並ぶ保管区画","beast_nest":"生き物の巣",
 	"archive":"埋もれた記録室","repair_room":"補修された小部屋","secret_room":"隠された脇室",
-	"overlook":"地底を望む展望室","antechamber":"主の痕跡が残る前室"}
+	"overlook":"地底を望む展望室","antechamber":"主の痕跡が残る前室","shop":"工房の露店"}
+# 2026-10-06: reserve the whole shop layout before placing event stock; combat ruins hid the merchandise.
+const SHOP_CENTER := Vector2(608,352)
+const SHOP_MERCHANT := Vector2(204,320)
+const SHOP_TELEPORTER := Vector2(352,560)
 const SIZES := {"collapsed_gallery":Vector2(1120,800),"casting_line":Vector2(1440,960),
 	"camp_remains":Vector2(1120,800),"root_hall":Vector2(1440,960),
 	"twin_halls":Vector2(1440,960),"loading_bay":Vector2(1440,960),"storage_cells":Vector2(1440,800),"overlook":Vector2(1440,960),"secret_room":Vector2(1440,800)}
@@ -56,6 +60,7 @@ const OPEN_SIDES := {"twin_halls":["south","west","east"],"repair_room":["south"
 static func open_sides(id: String) -> Array:
 	return OPEN_SIDES.get(id,Shell.DIRECTIONS.keys())
 static func connection_sets(id: String) -> Array:
+	if id == "shop": return [["north"],["south"],["west"],["east"]]
 	if id not in ORDER: return []
 	if id == "antechamber": return [["west"],["east"],["west","east"],["north","west"],["north","east"],["north","south"]]
 	var allowed := open_sides(id)
@@ -91,13 +96,14 @@ static func build_room(id: String, sides: Array):
 	# These rooms keep their entrances at y560, below the northern discovery alcoves.
 	var room = Shell.make_room(id,sides,Vector2(dimensions.x,1120) if id in ["storage_cells","secret_room"] else dimensions)
 	if id in ["storage_cells","secret_room"]: compact_south(room,dimensions.y)
-	room.display_name = "%02d　%s" % [ORDER.find(id)+1,NAMES[id]]
+	room.display_name = NAMES[id] if id == "shop" else "%02d　%s" % [ORDER.find(id)+1,NAMES[id]]
 	room.field.theme = Dressing.THEME.duplicate(true)
 	room.field.theme.ambient = AMBIENT
 	# Quiet the floor joints so the room's objects, light and routes carry the composition.
 	room.field.theme.floor_wash = Color(.24,.225,.19,.12)
 	room.field.spawns = PackedVector2Array([Vector2(170,dimensions.y*.5)])
 	match id:
+		"shop": shop(room)
 		"collapsed_gallery": collapsed_gallery(room)
 		"casting_line": casting_line(room)
 		"camp_remains": camp_remains(room)
@@ -107,6 +113,14 @@ static func build_room(id: String, sides: Array):
 	# A one-ended room must spawn at its actual opening, including east-only variants.
 	room.field.spawns = PackedVector2Array([room.doors[0].arrival])
 	return room
+
+static func shop(room) -> void:
+	exterior(room)
+	# Storage stays against the north wall, leaving its central doorway and the entire sales floor clear.
+	for x in [300,820]:
+		var shelf = put(room,"shop_shelf_%d" % x,Expansion.KIT % "archive_shelf",Vector2(x,204),150,24)
+		shelf.wall_shadow = true
+		lamp(room,x)
 
 # Shorten unused southern floor without moving side entrances or scaling furniture.
 static func compact_south(room, height: float) -> void:

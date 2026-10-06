@@ -1,5 +1,7 @@
 # 不採用・旧版の素材
 
+鉄格子：[門v3](dungeon-gate/v3/review.md)と[開閉SE v2](dungeon-gate-audio/v2/review.md)は2026-10-07にユーザー採用・本編接続。候補一式は原本・加工レシピ・比較記録としてここへ保存。正式素材はassets/stages/ashen-foundry-v2/dungeon-gateとassets/audio/se。門v1/v2と音響v1は旧版。
+
 携帯工房の開くSE：[採用までの制作記録](../../docs/planning/EXPLORATION_UI_COMP.md)。workshop-open/v1・v2は2026-10-05に採用された結合音の原本と再現レシピ、legacy-synthは置換前の合成実装。採用音はassets/audio/se/fw_workshop_open_energy_01.wav。
 
 区分: 素材の置き場所。状態: 運用中（2026-10-04開始）。定義する範囲: ユーザーの最終確認で不採用になった候補と、新しい素材の採用で使われなくなった旧版。関連する正本: [候補素材の運用](../candidates/README.md)

@@ -1,0 +1,43 @@
+{
+  "candidate": {
+    "file": "assets\\candidates\\dungeon-gate-audio\\v2\\fw_gate_close_heavy_02.wav",
+    "sample_rate": 44100,
+    "channels": 2,
+    "file_duration_s": 0.806,
+    "leading_silence_ms": 10.0,
+    "attack_ms": 324.3,
+    "active_length_s": 0.728,
+    "audible_until_s": 0.788,
+    "trailing_silence_ms": 17.9,
+    "peak_dbfs": -1.5,
+    "clipped_samples": 0,
+    "rms_dbfs_active": -18.8,
+    "loudness_lufs_approx": -15.0,
+    "dc_offset": -0.00015,
+    "hits": 2,
+    "hit_times_ms": [
+      10.0,
+      279.4
+    ],
+    "spectral_centroid_hz": 435,
+    "rolloff85_hz": 1026,
+    "spectral_flatness": 0.0,
+    "band_energy_share": {
+      "sub_<120": 0.387,
+      "low_120-500": 0.304,
+      "mid_500-2k": 0.303,
+      "presence_2k-6k": 0.006,
+      "air_>6k": 0.0
+    },
+    "harmonicity": 0.58,
+    "pitch_hz": 89.8,
+    "stereo_correlation": 0.985
+  },
+  "category": "system",
+  "references": [],
+  "comparison": {},
+  "hard_failures": [],
+  "warnings": [],
+  "verdict": "PASS",
+  "not_measurable": "timbre quality, fit with the visual, mix in real play, loop musicality: user listening required"
+}

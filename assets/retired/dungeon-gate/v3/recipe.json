@@ -1,0 +1,71 @@
+{
+  "version": "v3",
+  "new_generation_count": 0,
+  "method": "existing world-aligned floor/stone plus directional cutaway gate; no new image generation",
+  "gate_height": 64,
+  "travel": 70,
+  "case_bottom": 64,
+  "case_top": 80,
+  "north_mount": [
+    0,
+    24
+  ],
+  "sources": [
+    {
+      "path": "assets/generated/dungeon-gate-v1.png",
+      "sha256": "1bbc7ad63813604c000c11fbfb2ef053fc9b54b882bd815ebb5485ff4eabafb9"
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v1/north.tres",
+      "sha256": "5d5dad15f37d231d3764bc9eb79b8548bf0b3f10e9cb21fd323173ef7f1b7560"
+    },
+    {
+      "path": "assets/retired/dungeon-gate/v1/south.tres",
+      "sha256": "f8de9fb074e71a0a7a88d832fbf6683920598543db4f1c77e595c08fa8304985"
+    },
+    {
+      "path": "assets/stages/ashen-foundry-v2/props/threshold.png",
+      "sha256": "3814d15b598701e4667b19d63bba88d581219234ffa9c1f4603637431328c06a"
+    },
+    {
+      "path": "assets/stages/ashen-foundry-v2/wall-top.png",
+      "sha256": "6225644c722246f7adf7ee13ccd9a84326c7f96d5bf1a3b65f6c71a6d178c2fe"
+    },
+    {
+      "path": "assets/stages/ashen-foundry-v2/wall-face.png",
+      "sha256": "53cf38ccb48165cc856e41d9629e032c3c587ae80860e5061533124652c40824"
+    }
+  ],
+  "renderer": "scripts/world/portcullis_structure.gd",
+  "capture": "tools/preview_dungeon_gate.gd",
+  "animation": {
+    "fps": 20,
+    "frames": 100,
+    "seconds": 5,
+    "source": ".local/gate-frames/dungeon-gate/v3/views/production/{north,east}/",
+    "outputs": [
+      "views/production/north-animation.webp",
+      "views/production/east-animation.webp"
+    ],
+    "room_seed": 1,
+    "rooms": {
+      "north": "authored_0",
+      "east": "authored_2"
+    },
+    "encoding": {
+      "format": "animated WebP",
+      "quality": 85,
+      "method": 4,
+      "size": [
+        1120,
+        800
+      ]
+    }
+  },
+  "north_passage_depth": 86,
+  "other_passage_depth": 60,
+  "south_cut_height": 32,
+  "side_grate_thickness": 18,
+  "renderer_sha256": "e60a4d7f27f80f49ceb4e43434f85b856adffb55fc417e2143a2a8d4ca791223",
+  "capture_sha256": "07db88750c8512e67d5ba24b1869d7206c0ee10e4490eb5c88b8970fbace9847"
+}
